@@ -1,6 +1,15 @@
 [build]
   publish = "."
 
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Content-Security-Policy = "default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' https://fonts.googleapis.com; connect-src 'self' https://utilbunuziotzumuiayu.supabase.co wss://utilbunuziotzumuiayu.supabase.co; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
 [[redirects]]
   from = "/*"
   to = "/index.html"

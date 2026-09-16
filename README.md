@@ -24,10 +24,15 @@ js/main.js            Lógica del sitio
 assets/                Imágenes, íconos
 ```
 
-## Configuración pendiente
-`js/supabase-client.js` tiene placeholders para la URL del proyecto y la
-anon key. Se completan una vez que el schema `ladra` y sus tablas estén
-creadas.
+## Conexión de datos
+El cliente usa la URL pública y la publishable key de Supabase. Estas
+credenciales identifican el proyecto, pero no conceden privilegios por sí
+solas: el acceso efectivo se limita mediante grants y RLS.
+
+Las migraciones en `supabase/migrations/` crean dos superficies públicas de
+solo lectura: `ladra.estado_sistema` verifica la conexión del frontend y
+`ladra.lugares_publicos` entrega ubicaciones comunitarias publicadas. El schema
+`ladra` debe estar incluido en Data API > Exposed schemas.
 
 ## Fuera del MVP (decisión ya tomada)
 Red social, chat, marketplace, Aura Coin, reputación, gamificación, GPS en
