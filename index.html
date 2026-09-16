@@ -3,21 +3,213 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AuraLadra — Leia te da la bienvenida</title>
+  <meta name="description" content="AuraLadra es un piloto comunitario para cuidar mascotas, conectar vecinos y mejorar la convivencia en el canil Parque 3 Poniente de Maipú.">
+  <meta name="theme-color" content="#102a43">
+  <title>AuraLadra — Comunidad que cuida</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,650;9..144,750&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23f2a93b'/%3E%3Cpath d='M20 30c-5-1-7 5-4 8 3 3 7 0 7-3 0-2-1-4-3-5Zm24 0c5-1 7 5 4 8-3 3-7 0-7-3 0-2 1-4 3-5ZM27 21c-4-3-8 2-6 6 2 4 7 2 8-1 1-2 0-4-2-5Zm10 0c4-3 8 2 6 6-2 4-7 2-8-1-1-2 0-4 2-5Zm-5 9c-7 0-13 8-10 14 2 5 8 3 10 1 2 2 8 4 10-1 3-6-3-14-10-14Z' fill='%23102a43'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <nav class="cinta-navegacion">
-    <a href="#inicio">Inicio</a>
-    <a href="#canil">El canil</a>
-    <a href="#mascotas">Mascotas</a>
-    <a href="#servicios">Servicios</a>
-  </nav>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
 
-  <main id="inicio">
-    <h1>Hola, soy Leia 🐾</h1>
-    <p>Esta es mi casa en internet, y la de todos mis amigos del canil de Parque 3 Poniente.</p>
+  <header class="site-header" data-header>
+    <div class="shell nav-shell">
+      <a class="brand" href="#inicio" aria-label="AuraLadra, inicio">
+        <span class="brand-mark" aria-hidden="true">🐾</span>
+        <span>Aura<span>Ladra</span></span>
+      </a>
+
+      <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav" data-menu-button>
+        <span class="sr-only">Abrir menú</span>
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="site-nav" id="site-nav" aria-label="Navegación principal" data-nav>
+        <a href="#acciones">Ayuda rápida</a>
+        <a href="#canil">El piloto</a>
+        <a href="#como-funciona">Cómo funciona</a>
+        <a href="#principios">Principios</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido">
+    <section class="hero" id="inicio">
+      <div class="hero-image" role="img" aria-label="Ilustración de una comunidad compartiendo responsablemente un parque para perros en Maipú"></div>
+      <div class="hero-shade"></div>
+      <div class="shell hero-content">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="pulse" aria-hidden="true"></span> Piloto comunitario · Maipú</p>
+          <h1>Hola, soy Leia.<br><em>Esta plaza también es nuestra.</em></h1>
+          <p class="hero-lead">AuraLadra conecta mascotas, personas y lugares para cuidarnos mejor en el barrio. Partimos en el canil Parque 3 Poniente.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#acciones">Necesito ayuda <span aria-hidden="true">→</span></a>
+            <a class="button button-ghost" href="#canil">Conocer el piloto</a>
+          </div>
+        </div>
+        <aside class="hero-note" aria-label="Estado del piloto">
+          <span class="note-label">Primera huella</span>
+          <strong>Canil Parque 3 Poniente</strong>
+          <span>Av. 3 Pte. 108, Maipú</span>
+          <span class="system-status" data-system-status><i></i> Comprobando conexión</span>
+        </aside>
+      </div>
+    </section>
+
+    <section class="quick-actions section" id="acciones">
+      <div class="shell">
+        <div class="section-heading split-heading">
+          <div>
+            <p class="kicker">Ayuda rápida</p>
+            <h2>¿Qué necesitas hacer?</h2>
+          </div>
+          <p>Elige una situación. Te mostraremos el primer paso seguro, sin publicar datos personales.</p>
+        </div>
+
+        <div class="action-layout">
+          <div class="action-tabs" role="tablist" aria-label="Situaciones frecuentes">
+            <button class="action-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="action-panel" data-action="perdida">
+              <span class="action-icon" aria-hidden="true">!</span>
+              <span><strong>Perdí a mi mascota</strong><small>Ordena la búsqueda y el aviso</small></span>
+            </button>
+            <button class="action-tab" type="button" role="tab" aria-selected="false" aria-controls="action-panel" data-action="encontrada">
+              <span class="action-icon" aria-hidden="true">⌖</span>
+              <span><strong>Encontré una mascota</strong><small>Ayuda sin exponerte ni asustarla</small></span>
+            </button>
+            <button class="action-tab" type="button" role="tab" aria-selected="false" aria-controls="action-panel" data-action="qr">
+              <span class="action-icon" aria-hidden="true">⌗</span>
+              <span><strong>Escaneé un QR</strong><small>Contacta sin ver datos privados</small></span>
+            </button>
+          </div>
+
+          <article class="action-panel" id="action-panel" role="tabpanel" aria-live="polite">
+            <p class="panel-number" data-panel-number>01</p>
+            <div>
+              <p class="kicker" data-panel-kicker>Actúa con calma</p>
+              <h3 data-panel-title>Tu red cercana es el primer círculo de búsqueda.</h3>
+              <ol data-panel-steps>
+                <li>Confirma el último lugar y hora en que fue vista.</li>
+                <li>Prepara una foto reciente y una descripción breve.</li>
+                <li>Avisa primero a vecinos y redes locales verificables.</li>
+              </ol>
+              <p class="panel-disclaimer" data-panel-note>AuraLadra está preparando su canal de reportes. Si existe riesgo inmediato, utiliza los servicios municipales o de emergencia correspondientes.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="pilot section" id="canil">
+      <div class="shell pilot-grid">
+        <div class="pilot-intro">
+          <p class="kicker">El piloto</p>
+          <h2>Un canil como punto de encuentro, no solo como infraestructura.</h2>
+          <p>Parque 3 Poniente es nuestro primer lugar de observación y colaboración. Queremos entender necesidades reales antes de construir herramientas más grandes.</p>
+        </div>
+        <div class="pilot-stats" aria-label="Alcance inicial del piloto">
+          <div><strong>01</strong><span>territorio inicial</span></div>
+          <div><strong>03</strong><span>problemas a observar</span></div>
+          <div><strong>00</strong><span>datos personales públicos</span></div>
+        </div>
+        <div class="pilot-list">
+          <article>
+            <span>01</span>
+            <div><h3>Escuchar</h3><p>Registrar problemas de convivencia, seguridad y cuidado desde la experiencia de quienes usan el lugar.</p></div>
+          </article>
+          <article>
+            <span>02</span>
+            <div><h3>Conectar</h3><p>Acercar vecinos, responsables, servicios y organizaciones sin convertir datos privados en un directorio abierto.</p></div>
+          </article>
+          <article>
+            <span>03</span>
+            <div><h3>Probar</h3><p>Validar soluciones pequeñas —como QR revocables y mapas útiles— antes de extenderlas a otros barrios.</p></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="how section" id="como-funciona">
+      <div class="shell">
+        <div class="section-heading center-heading">
+          <p class="kicker">Diseñado para cuidar</p>
+          <h2>Un QR puede conectar sin revelar.</h2>
+          <p>La identificación sirve para acercar ayuda, no para publicar teléfonos, correos o domicilios.</p>
+        </div>
+        <div class="steps-grid">
+          <article>
+            <span class="step-mark">1</span>
+            <h3>Escaneas</h3>
+            <p>El código identifica a la mascota con un token revocable, no con datos personales en la URL.</p>
+          </article>
+          <article>
+            <span class="step-mark">2</span>
+            <h3>Dejas un aviso</h3>
+            <p>La interacción puede ser anónima. Identificarte es una decisión voluntaria.</p>
+          </article>
+          <article>
+            <span class="step-mark">3</span>
+            <h3>AuraLadra conecta</h3>
+            <p>El responsable recibe el aviso y decide cómo responder sin exponer su contacto públicamente.</p>
+          </article>
+        </div>
+        <div class="build-note">
+          <span aria-hidden="true">↗</span>
+          <div><strong>Función en construcción</strong><p>Estamos preparando este flujo sobre una base segura y con consentimiento por mascota.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="network section" id="red">
+      <div class="shell network-grid">
+        <div>
+          <p class="kicker">La red que viene</p>
+          <h2>Recursos útiles, ubicados y verificables.</h2>
+          <p>AuraLadra reunirá información pública para tomar mejores decisiones en el barrio. Sin inventar recomendaciones ni confundir un dato comunitario con una verificación profesional.</p>
+        </div>
+        <div class="network-cards">
+          <article><span aria-hidden="true">＋</span><h3>Servicios y profesionales</h3><p>Veterinarias, paseadores, organizaciones y apoyo comunitario.</p><small>Próxima etapa</small></article>
+          <article><span aria-hidden="true">⌖</span><h3>Mapa pet-friendly</h3><p>Espacios, categorías, condiciones de uso y estado de verificación.</p><small>Próxima etapa</small></article>
+          <article><span aria-hidden="true">◇</span><h3>Contenido para cuidar</h3><p>Guías breves con fuentes, fecha y enlaces para profundizar.</p><small>Próxima etapa</small></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="principles section" id="principios">
+      <div class="shell principles-grid">
+        <div class="principles-title">
+          <p class="kicker">Nuestros principios</p>
+          <h2>La comunidad funciona cuando el cuidado también protege la autonomía.</h2>
+        </div>
+        <div class="principle-list">
+          <article><span>01</span><div><h3>Privacidad por defecto</h3><p>Los datos personales no son contenido público.</p></div></article>
+          <article><span>02</span><div><h3>Consentimiento revocable</h3><p>Cada responsable puede decidir, revisar y retirar permisos.</p></div></article>
+          <article><span>03</span><div><h3>Hechos separados de la voz</h3><p>La identidad verificable de una mascota se distingue de su relato de marca.</p></div></article>
+          <article><span>04</span><div><h3>Primero el territorio</h3><p>Construimos desde problemas observados, no desde funciones imaginadas.</p></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="closing">
+      <div class="shell closing-inner">
+        <div>
+          <p class="kicker">Una huella a la vez</p>
+          <h2>Partimos pequeños para cuidar mejor.</h2>
+        </div>
+        <a class="button button-dark" href="https://www.instagram.com/aura.ladra/" target="_blank" rel="noopener noreferrer">Seguir @aura.ladra <span aria-hidden="true">↗</span></a>
+      </div>
+    </section>
   </main>
+
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <a class="brand footer-brand" href="#inicio"><span class="brand-mark" aria-hidden="true">🐾</span><span>Aura<span>Ladra</span></span></a>
+      <p>Un proyecto de Convergencia Aura · Maipú, Chile</p>
+      <p>© <span data-year></span> AuraLadra</p>
+    </div>
+  </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/supabase-client.js"></script>
