@@ -173,7 +173,44 @@
       approximate.textContent = 'Ubicación aproximada';
       tags.append(approximate);
     }
-    article.append(top, description, address, tags);
+    const details = document.createElement('div');
+    details.className = 'place-details';
+    if (place.horario_publico) {
+      const hours = document.createElement('p');
+      hours.textContent = `Horario publicado: ${place.horario_publico}`;
+      details.append(hours);
+    }
+    if (place.telefono_publico) {
+      const phone = document.createElement('a');
+      phone.className = 'place-link';
+      phone.href = `tel:${place.telefono_publico.replace(/[^+\d]/g, '')}`;
+      phone.textContent = `Llamar: ${place.telefono_publico}`;
+      details.append(phone);
+    }
+    const publicWebsite = cleanUrl(place.sitio_web);
+    if (publicWebsite) {
+      const website = document.createElement('a');
+      website.className = 'place-link';
+      website.href = publicWebsite;
+      website.target = '_blank';
+      website.rel = 'noopener noreferrer';
+      website.textContent = 'Sitio oficial';
+      details.append(website);
+    }
+    const sourceUrl = cleanUrl(place.fuente_url);
+    if (sourceUrl && place.fuente_nombre) {
+      const source = document.createElement('a');
+      source.className = 'place-source';
+      source.href = sourceUrl;
+      source.target = '_blank';
+      source.rel = 'noopener noreferrer';
+      const consulted = place.fuente_consultada_en
+        ? ` · consultado ${new Intl.DateTimeFormat('es-CL', { dateStyle: 'medium' }).format(new Date(`${place.fuente_consultada_en}T12:00:00`))}`
+        : '';
+      source.textContent = `Fuente pública: ${place.fuente_nombre}${consulted}`;
+      details.append(source);
+    }
+    article.append(top, description, address, tags, details);
     if (marker) {
       const focusMarker = () => {
         communityMap.setView(marker.getLatLng(), Math.max(communityMap.getZoom(), 16));
@@ -187,9 +224,11 @@
 
   const renderPlaces = () => {
     const container = document.querySelector('[data-place-list]');
+    const summary = document.querySelector('[data-map-summary]');
     if (!container || !communityMap || !markerLayer) return;
     markerLayer.clearLayers();
     const filtered = publicPlaces.filter(placeMatchesFilter);
+    const visibleCoordinates = [];
     const cards = filtered.map((place) => {
       let marker = null;
       if (place.latitud !== null && place.longitud !== null) {
@@ -206,6 +245,7 @@
         marker = window.L.marker([Number(place.latitud), Number(place.longitud)], { icon: pin })
           .bindPopup(popup)
           .addTo(markerLayer);
+        visibleCoordinates.push([Number(place.latitud), Number(place.longitud)]);
       }
       return createPlaceCard(place, marker);
     });
@@ -216,6 +256,13 @@
       container.replaceChildren(empty);
     } else {
       container.replaceChildren(...cards);
+    }
+    if (summary) {
+      summary.textContent = `${filtered.length} ${filtered.length === 1 ? 'lugar público visible' : 'lugares públicos visibles'} · solo comuna de Maipú`;
+    }
+    communityMap.invalidateSize();
+    if (visibleCoordinates.length) {
+      communityMap.fitBounds(visibleCoordinates, { padding: [32, 32], maxZoom: 14 });
     }
   };
 
@@ -237,8 +284,8 @@
 
   async function loadPlaces() {
     const { data, error } = await db.from('lugares_publicos')
-      .select('id,slug,nombre,descripcion,direccion_publica,comuna,categoria,estado_verificacion,latitud,longitud,publicado,servicio_urgencia,urgencia_24h,horario_publico,telefono_publico,sitio_web,precision_ubicacion')
-      .eq('publicado', true).order('nombre');
+      .select('id,slug,nombre,descripcion,direccion_publica,comuna,categoria,estado_verificacion,latitud,longitud,publicado,servicio_urgencia,urgencia_24h,horario_publico,telefono_publico,sitio_web,precision_ubicacion,fuente_nombre,fuente_url,fuente_consultada_en')
+      .eq('publicado', true).eq('comuna', 'Maipú').order('nombre');
     publicPlaces = error ? [] : (data || []);
     renderPlaces();
   }

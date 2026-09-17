@@ -150,7 +150,8 @@ img { max-width: 100%; }
 .moderation-actions button:hover, .moderation-actions button:focus-visible { border-color: var(--amber); background: var(--cream); }
 
 .map-section { background: #eef4f7; }
-.map-filters { display: flex; flex-wrap: wrap; gap: 9px; margin: -20px 0 24px; }
+.map-summary { margin: -24px 0 16px; color: var(--muted); font-size: .9rem; font-weight: 750; }
+.map-filters { display: flex; flex-wrap: wrap; gap: 9px; margin: 0 0 24px; }
 .map-filter { border: 1px solid var(--line); border-radius: 999px; background: var(--white); color: var(--navy); padding: 9px 14px; font-weight: 700; font-size: .82rem; cursor: pointer; }
 .map-filter:hover, .map-filter:focus-visible, .map-filter.is-active { border-color: var(--navy); background: var(--navy); color: var(--white); }
 .map-layout { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(300px, .55fr); min-height: 590px; overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius); background: var(--white); box-shadow: var(--shadow); }
@@ -161,6 +162,10 @@ img { max-width: 100%; }
 .place-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
 .place-card h3 { margin: 0; color: var(--navy); font-size: 1rem; }
 .place-card p { margin: 7px 0 0; color: var(--muted); font-size: .84rem; line-height: 1.48; }
+.place-details { display: grid; gap: 5px; margin-top: 12px; padding-top: 11px; border-top: 1px solid var(--line); }
+.place-details p { margin: 0; }
+.place-link, .place-source { color: var(--navy); font-size: .81rem; font-weight: 800; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.place-source { color: var(--muted); font-weight: 650; }
 .place-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
 .place-tag { display: inline-flex; align-items: center; min-height: 25px; border-radius: 999px; padding: 3px 9px; background: #e7eef2; color: var(--navy); font-size: .66rem; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; }
 .place-tag.is-emergency { background: #fee0da; color: #9d2f20; }
