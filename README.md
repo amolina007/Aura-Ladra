@@ -38,6 +38,9 @@ schema `ladra` se agrega a Data API sin reemplazar los schemas ya expuestos.
 ## Mapa comunitario
 
 - La primera cobertura pública se limita a la comuna de Maipú.
+- “Perdí a mi mascota” busca direcciones con OpenStreetMap, exige elegir una
+  coincidencia geográfica y publica una alerta activa en el mapa sin datos de
+  contacto ni identidad del reportante.
 - Indexa caniles, veterinarias, urgencias veterinarias, tiendas de mascotas,
   alimento, juguetes y accesorios, además de puntos de animales comunitarios.
 - Cada ficha importada registra su fuente y fecha de consulta; los datos abiertos

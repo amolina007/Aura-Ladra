@@ -4,3 +4,4 @@
 *.log
 .netlify/
 node_modules/
+supabase/.temp/

@@ -8,9 +8,9 @@
   const placeCategoryLabels = {
     canil: 'Canil', parque: 'Parque', veterinaria: 'Veterinaria', tienda_mascotas: 'Tienda de mascotas',
     alimento: 'Comida', juguetes_accesorios: 'Juguetes y accesorios', animal_comunitario: 'Animal comunitario',
-    servicio: 'Servicio', comercio: 'Comercio', otro: 'Otro',
+    mascota_perdida: 'Mascota perdida', servicio: 'Servicio', comercio: 'Comercio', otro: 'Otro',
   };
-  const placeIcons = { canil: '🐾', parque: '🌳', veterinaria: '✚', tienda_mascotas: '◆', alimento: '●', juguetes_accesorios: '◈', animal_comunitario: '♥', servicio: '＋', comercio: '◇', otro: '⌖' };
+  const placeIcons = { canil: '🐾', parque: '🌳', veterinaria: '✚', tienda_mascotas: '◆', alimento: '●', juguetes_accesorios: '◈', animal_comunitario: '♥', mascota_perdida: '!', servicio: '＋', comercio: '◇', otro: '⌖' };
   let currentSession = null;
   let currentUserIsModerator = false;
   let communityMap = null;
@@ -20,6 +20,7 @@
   let publicAnimals = [];
   let ownAnimals = [];
   let ownPublicProfile = null;
+  let locationPickerMap = null;
 
   const actionContent = {
     perdida: {
@@ -27,8 +28,8 @@
       steps: ['Confirma el último lugar y hora en que fue vista.', 'Prepara una foto reciente y una descripción breve.', 'Avisa primero a vecinos y redes locales verificables.'],
       note: 'No publiques tu domicilio, teléfono ni documentos. Si existe riesgo inmediato, utiliza los servicios municipales o de emergencia correspondientes.',
       actions: [
-        { id: 'preparar-perdida', label: 'Preparar aviso de búsqueda', style: 'primary' },
-        { id: 'mapa-todos', label: 'Ver mapa del barrio', style: 'secondary' },
+        { id: 'preparar-perdida', label: 'Reportar pérdida en el mapa', style: 'primary' },
+        { id: 'mapa-perdidas', label: 'Ver mascotas perdidas', style: 'secondary' },
       ],
     },
     encontrada: {
@@ -120,6 +121,8 @@
       return button;
     }));
     const workspace = document.querySelector('[data-action-workspace]');
+    locationPickerMap?.remove();
+    locationPickerMap = null;
     workspace.hidden = true;
     workspace.replaceChildren();
     setMessage(document.querySelector('[data-action-feedback]'));
@@ -171,42 +174,184 @@
     }
   };
 
+  const isInsideMaipu = (lat, lon) => lat >= -33.60 && lat <= -33.42 && lon >= -70.86 && lon <= -70.64;
+
+  const initializeLocationSearch = (form, feedback) => {
+    const input = form.elements.lugar;
+    const results = form.querySelector('[data-location-results]');
+    const selection = form.querySelector('[data-location-selection]');
+    const mapElement = form.querySelector('[data-location-map]');
+    let searchTimer = null;
+    let searchController = null;
+    let selectedMarker = null;
+
+    locationPickerMap?.remove();
+    locationPickerMap = window.L.map(mapElement, { scrollWheelZoom: false, zoomControl: true }).setView([-33.51, -70.76], 13);
+    window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    }).addTo(locationPickerMap);
+    setTimeout(() => locationPickerMap?.invalidateSize(), 0);
+
+    const clearSelection = () => {
+      form.elements.latitud.value = '';
+      form.elements.longitud.value = '';
+      selection.textContent = 'Escribe una dirección y elige una coincidencia del buscador.';
+      selection.classList.remove('is-selected');
+      if (selectedMarker) locationPickerMap.removeLayer(selectedMarker);
+      selectedMarker = null;
+    };
+
+    const chooseLocation = (place) => {
+      const lat = Number(place.lat);
+      const lon = Number(place.lon);
+      if (!isInsideMaipu(lat, lon)) {
+        setMessage(feedback, 'La ubicación seleccionada queda fuera del área admitida de Maipú.', 'error');
+        return;
+      }
+      input.value = place.display_name;
+      form.elements.latitud.value = String(lat);
+      form.elements.longitud.value = String(lon);
+      selection.textContent = `Punto reconocido: ${place.display_name}`;
+      selection.classList.add('is-selected');
+      results.replaceChildren();
+      selectedMarker = window.L.marker([lat, lon]).addTo(locationPickerMap);
+      locationPickerMap.setView([lat, lon], 17);
+      setMessage(feedback);
+    };
+
+    const renderResults = (places) => {
+      if (!places.length) {
+        const empty = document.createElement('p');
+        empty.className = 'location-empty';
+        empty.textContent = 'No encontramos esa dirección en Maipú. Prueba con calle y número o una intersección.';
+        results.replaceChildren(empty);
+        return;
+      }
+      results.replaceChildren(...places.map((place) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'location-result';
+        button.textContent = place.display_name;
+        button.addEventListener('click', () => chooseLocation(place));
+        return button;
+      }));
+    };
+
+    input.addEventListener('input', () => {
+      clearSelection();
+      clearTimeout(searchTimer);
+      searchController?.abort();
+      const query = input.value.trim();
+      if (query.length < 4) {
+        results.replaceChildren();
+        return;
+      }
+      searchTimer = setTimeout(async () => {
+        searchController = new AbortController();
+        const params = new URLSearchParams({
+          q: `${query}, Maipú, Región Metropolitana, Chile`,
+          format: 'jsonv2', addressdetails: '1', limit: '5', countrycodes: 'cl',
+          viewbox: '-70.86,-33.42,-70.64,-33.60', bounded: '1',
+        });
+        results.innerHTML = '<p class="location-empty">Buscando dirección…</p>';
+        try {
+          const response = await fetch(`https://nominatim.openstreetmap.org/search?${params}`, {
+            headers: { 'Accept-Language': 'es-CL,es;q=0.9' },
+            signal: searchController.signal,
+          });
+          if (!response.ok) throw new Error('Geocodificador no disponible');
+          const places = (await response.json()).filter((place) => isInsideMaipu(Number(place.lat), Number(place.lon)));
+          renderResults(places);
+        } catch (error) {
+          if (error.name === 'AbortError') return;
+          const empty = document.createElement('p');
+          empty.className = 'location-empty';
+          empty.textContent = 'El buscador no respondió. Espera un momento e inténtalo nuevamente.';
+          results.replaceChildren(empty);
+        }
+      }, 1000);
+    });
+  };
+
   const showNoticeBuilder = (kind) => {
     const workspace = document.querySelector('[data-action-workspace]');
     const feedback = document.querySelector('[data-action-feedback]');
     workspace.hidden = false;
+    const isLost = kind === 'perdida';
     workspace.innerHTML = `
       <form class="quick-form" data-quick-notice-form>
         <div class="quick-form-grid">
-          <label><span>${kind === 'perdida' ? 'Nombre de la mascota' : 'Identificación visible (opcional)'}</span><input name="nombre" maxlength="60"></label>
-          <label><span>${kind === 'perdida' ? 'Último lugar visto' : 'Lugar del hallazgo'}</span><input name="lugar" required maxlength="120" placeholder="Sector o intersección, sin domicilio particular"></label>
-          <label><span>Fecha y hora aproximadas</span><input name="momento" type="datetime-local"></label>
+          <label><span>${isLost ? 'Nombre de la mascota' : 'Identificación visible (opcional)'}</span><input name="nombre" ${isLost ? 'required' : ''} maxlength="60"></label>
+          ${isLost ? '<label><span>Especie</span><select name="especie" required><option value="perro">Perro</option><option value="gato">Gato</option><option value="ave">Ave</option><option value="otro">Otro</option></select></label>' : ''}
+          <label class="is-wide location-search"><span>${isLost ? 'Último lugar visto' : 'Lugar del hallazgo'}</span><input name="lugar" type="search" required maxlength="180" autocomplete="off" placeholder="Escribe calle y número o una intersección en Maipú"></label>
+          ${isLost ? '<div class="location-results is-wide" data-location-results aria-live="polite"></div><p class="location-selection is-wide" data-location-selection>Escribe una dirección y elige una coincidencia del buscador.</p><div class="location-picker-map is-wide" data-location-map aria-label="Mapa del último lugar donde fue vista la mascota"></div><p class="location-credit is-wide">Búsqueda de direcciones por <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>.</p><input name="latitud" type="hidden"><input name="longitud" type="hidden">' : ''}
+          <label><span>Fecha y hora aproximadas</span><input name="momento" type="datetime-local" required></label>
           <label class="is-wide"><span>Descripción útil</span><textarea name="detalles" required minlength="10" maxlength="350" rows="3" placeholder="Especie, color, tamaño, señas y dirección de desplazamiento"></textarea></label>
+          <label class="trap-field" aria-hidden="true"><span>Sitio web</span><input name="sitio_web" tabindex="-1" autocomplete="off"></label>
         </div>
         <div class="quick-form-actions">
-          <button class="panel-action is-primary" type="submit">Generar aviso</button>
+          <button class="panel-action is-primary" type="submit" data-lost-submit>${isLost ? 'Publicar en el mapa' : 'Generar aviso'}</button>
           <button class="panel-action" type="button" data-close-workspace>Cancelar</button>
         </div>
         <div class="notice-result" data-notice-result hidden>
           <label><span>Aviso listo para compartir</span><textarea readonly rows="8" data-notice-text></textarea></label>
-          <button class="panel-action is-primary" type="button" data-share-notice>Copiar o compartir</button>
+          <div class="quick-form-actions"><button class="panel-action is-primary" type="button" data-share-notice>Copiar o compartir</button>${isLost ? '<button class="panel-action" type="button" data-view-lost-marker>Ver marcador en el mapa</button>' : ''}</div>
         </div>
       </form>`;
     setMessage(feedback);
+    const form = workspace.querySelector('[data-quick-notice-form]');
+    form.elements.momento.value = toLocalDateTimeValue();
+    form.elements.momento.max = toLocalDateTimeValue(new Date(Date.now() + 15 * 60 * 1000));
+    form.elements.momento.min = toLocalDateTimeValue(new Date(Date.now() - 30 * 24 * 60 * 60 * 1000));
+    if (isLost) initializeLocationSearch(form, feedback);
     workspace.querySelector('input')?.focus();
 
-    const form = workspace.querySelector('[data-quick-notice-form]');
-    form.addEventListener('submit', (event) => {
+    form.addEventListener('submit', async (event) => {
       event.preventDefault();
       if (!form.reportValidity()) return;
-      const notice = buildNotice(kind, new FormData(form));
+      const formData = new FormData(form);
+      if (isLost && (!formData.get('latitud') || !formData.get('longitud'))) {
+        setMessage(feedback, 'Selecciona una coincidencia del buscador para ubicar el marcador.', 'error');
+        form.elements.lugar.focus();
+        return;
+      }
+      const submit = form.querySelector('[data-lost-submit]');
+      submit.disabled = true;
+      if (isLost) {
+        submit.textContent = 'Publicando…';
+        const { error } = await db.rpc('crear_alerta_mascota', {
+          p_nombre: String(formData.get('nombre')).trim(),
+          p_especie: String(formData.get('especie')),
+          p_descripcion: String(formData.get('detalles')).trim(),
+          p_direccion_publica: String(formData.get('lugar')).trim(),
+          p_latitud: Number(formData.get('latitud')),
+          p_longitud: Number(formData.get('longitud')),
+          p_perdida_en: new Date(String(formData.get('momento'))).toISOString(),
+          p_sitio_web: String(formData.get('sitio_web') || ''),
+        });
+        if (error) {
+          submit.disabled = false;
+          submit.textContent = 'Publicar en el mapa';
+          setMessage(feedback, 'No pudimos publicar el marcador. Revisa la información e inténtalo nuevamente.', 'error');
+          return;
+        }
+        await loadPlaces();
+        setMessage(feedback, 'Alerta publicada. El último lugar visto ya aparece en el mapa.', 'success');
+      }
+      const notice = buildNotice(kind, formData);
       const result = form.querySelector('[data-notice-result]');
       result.hidden = false;
       result.querySelector('[data-notice-text]').value = notice;
       result.querySelector('[data-share-notice]').onclick = () => copyOrShareNotice(notice, feedback);
+      result.querySelector('[data-view-lost-marker]')?.addEventListener('click', () => scrollToMapWithFilter('mascota_perdida'));
+      submit.disabled = isLost;
+      if (!isLost) submit.textContent = 'Generar aviso';
       result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     });
     workspace.querySelector('[data-close-workspace]').addEventListener('click', () => {
+      locationPickerMap?.remove();
+      locationPickerMap = null;
       workspace.hidden = true;
       workspace.replaceChildren();
       setMessage(feedback);
@@ -260,6 +405,7 @@
     if (action === 'preparar-encontrada') showNoticeBuilder('encontrada');
     if (action === 'ingresar-qr') showQrEntry();
     if (action === 'mapa-todos') scrollToMapWithFilter('todos');
+    if (action === 'mapa-perdidas') scrollToMapWithFilter('mascota_perdida');
     if (action === 'mapa-urgencia') scrollToMapWithFilter('urgencia');
     if (action === 'mapa-veterinarias') scrollToMapWithFilter('veterinaria');
   });
@@ -334,7 +480,9 @@
     details.className = 'place-details';
     if (place.horario_publico) {
       const hours = document.createElement('p');
-      hours.textContent = `Horario publicado: ${place.horario_publico}`;
+      hours.textContent = place.categoria === 'mascota_perdida'
+        ? place.horario_publico
+        : `Horario publicado: ${place.horario_publico}`;
       details.append(hours);
     }
     if (place.telefono_publico) {
@@ -390,7 +538,7 @@
       let marker = null;
       if (place.latitud !== null && place.longitud !== null) {
         const pin = window.L.divIcon({
-          className: '', html: `<div class="map-pin"><span>${placeIcons[place.categoria] || '⌖'}</span></div>`,
+          className: '', html: `<div class="map-pin ${place.categoria === 'mascota_perdida' ? 'is-lost' : ''}"><span>${placeIcons[place.categoria] || '⌖'}</span></div>`,
           iconSize: [36, 36], iconAnchor: [18, 34], popupAnchor: [0, -32],
         });
         const popup = document.createElement('div');
@@ -409,13 +557,15 @@
     if (!cards.length) {
       const empty = document.createElement('p');
       empty.className = 'empty-state';
-      empty.textContent = 'Todavía no hay lugares publicados en esta categoría.';
+      empty.textContent = activePlaceFilter === 'mascota_perdida'
+        ? 'No hay alertas activas de mascotas perdidas en el mapa.'
+        : 'Todavía no hay lugares publicados en esta categoría.';
       container.replaceChildren(empty);
     } else {
       container.replaceChildren(...cards);
     }
     if (summary) {
-      summary.textContent = `${filtered.length} ${filtered.length === 1 ? 'lugar público visible' : 'lugares públicos visibles'} · solo comuna de Maipú`;
+      summary.textContent = `${filtered.length} ${filtered.length === 1 ? 'punto visible' : 'puntos visibles'} · solo comuna de Maipú`;
     }
     communityMap.invalidateSize();
     if (visibleCoordinates.length) {
@@ -440,10 +590,33 @@
   };
 
   async function loadPlaces() {
-    const { data, error } = await db.from('lugares_publicos')
-      .select('id,slug,nombre,descripcion,direccion_publica,comuna,categoria,estado_verificacion,latitud,longitud,publicado,servicio_urgencia,urgencia_24h,horario_publico,telefono_publico,sitio_web,precision_ubicacion,fuente_nombre,fuente_url,fuente_consultada_en')
-      .eq('publicado', true).eq('comuna', 'Maipú').order('nombre');
-    publicPlaces = error ? [] : (data || []);
+    const [placesResult, alertsResult] = await Promise.all([
+      db.from('lugares_publicos')
+        .select('id,slug,nombre,descripcion,direccion_publica,comuna,categoria,estado_verificacion,latitud,longitud,publicado,servicio_urgencia,urgencia_24h,horario_publico,telefono_publico,sitio_web,precision_ubicacion,fuente_nombre,fuente_url,fuente_consultada_en')
+        .eq('publicado', true).eq('comuna', 'Maipú').order('nombre'),
+      db.from('alertas_mascotas')
+        .select('id,nombre,especie,descripcion,direccion_publica,latitud,longitud,perdida_en,estado,creado_en')
+        .eq('estado', 'activa').order('perdida_en', { ascending: false }),
+    ]);
+    const places = placesResult.error ? [] : (placesResult.data || []);
+    const alerts = alertsResult.error ? [] : (alertsResult.data || []).map((alert) => ({
+      id: alert.id,
+      slug: `mascota-perdida-${alert.id}`,
+      nombre: `Se busca: ${alert.nombre}`,
+      descripcion: alert.descripcion,
+      direccion_publica: alert.direccion_publica,
+      comuna: 'Maipú',
+      categoria: 'mascota_perdida',
+      estado_verificacion: 'comunitario',
+      latitud: alert.latitud,
+      longitud: alert.longitud,
+      publicado: true,
+      servicio_urgencia: false,
+      urgencia_24h: false,
+      horario_publico: `Vista por última vez: ${dateFormatter.format(new Date(alert.perdida_en))}`,
+      precision_ubicacion: 'exacta',
+    }));
+    publicPlaces = [...alerts, ...places];
     renderPlaces();
   }
 
