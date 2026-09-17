@@ -1108,8 +1108,23 @@
       form.reset();
       setMessage(message, 'Revisa tu correo: te enviamos un enlace de acceso.', 'success');
     } catch (error) {
-      setMessage(message, 'No pudimos enviar el enlace. Verifica el correo e inténtalo nuevamente.', 'error');
-      console.warn('AuraLadra: error al solicitar Magic Link.', { code: error?.code });
+      const code = error?.code || '';
+      const status = Number(error?.status || 0);
+      const detail = String(error?.message || '').toLowerCase();
+      let userMessage = 'No pudimos enviar el enlace. Verifica el correo e inténtalo nuevamente.';
+
+      if (code === 'over_email_send_rate_limit' || detail.includes('email rate limit')) {
+        userMessage = 'El servicio de correo alcanzó su límite horario. Inténtalo nuevamente más tarde.';
+      } else if (code === 'over_request_rate_limit' || status === 429) {
+        userMessage = 'Hay demasiados intentos recientes. Espera unos minutos antes de solicitar otro enlace.';
+      } else if (code === 'email_address_invalid' || detail.includes('invalid email')) {
+        userMessage = 'El correo no parece válido. Revisa la dirección e inténtalo nuevamente.';
+      } else if (code) {
+        userMessage = `No pudimos enviar el enlace. Código: ${code}.`;
+      }
+
+      setMessage(message, userMessage, 'error');
+      console.warn('AuraLadra: error al solicitar Magic Link.', { code, status });
     } finally {
       button.disabled = false;
     }
