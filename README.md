@@ -29,10 +29,25 @@ El cliente usa la URL pública y la publishable key de Supabase. Estas
 credenciales identifican el proyecto, pero no conceden privilegios por sí
 solas: el acceso efectivo se limita mediante grants y RLS.
 
-Las migraciones en `supabase/migrations/` crean dos superficies públicas de
-solo lectura: `ladra.estado_sistema` verifica la conexión del frontend y
-`ladra.lugares_publicos` entrega ubicaciones comunitarias publicadas. El schema
-`ladra` debe estar incluido en Data API > Exposed schemas.
+Las migraciones en `supabase/migrations/` crean superficies aisladas dentro de
+`ladra`: `estado_sistema` verifica la conexión, `lugares_publicos` entrega
+ubicaciones publicadas y `reportes_canil` sostiene el piloto comunitario. El
+schema `ladra` debe estar incluido en Data API > Exposed schemas.
+
+## Piloto de reportes
+
+- Cualquier persona puede reportar agua, limpieza, seguridad o infraestructura
+  sin iniciar sesión.
+- Todos los reportes nacen como `pendiente`; pendientes y rechazados son
+  privados.
+- Solo reportes `verificado` o `cerrado` aparecen en el listado comunitario y
+  nunca exponen la identidad del reportante.
+- Magic Link es opcional y permite seguir los reportes enviados durante una
+  sesión autenticada.
+- La moderación se habilita por UUID de Auth en `ladra.moderadores`. No se
+  codifican correos ni identidades administrativas en el repositorio.
+- El frontend no recibe privilegio de inserción directa: usa la función validada
+  `ladra.crear_reporte_canil`, con límites de longitud, fecha y campo honeypot.
 
 ## Fuera del MVP (decisión ya tomada)
 Red social, chat, marketplace, Aura Coin, reputación, gamificación, GPS en

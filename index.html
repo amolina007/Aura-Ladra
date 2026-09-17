@@ -29,9 +29,9 @@
 
       <nav class="site-nav" id="site-nav" aria-label="Navegación principal" data-nav>
         <a href="#acciones">Ayuda rápida</a>
+        <a href="#reportes">Reportar</a>
         <a href="#canil">El piloto</a>
-        <a href="#como-funciona">Cómo funciona</a>
-        <a href="#principios">Principios</a>
+        <a href="#cuenta">Mi cuenta</a>
       </nav>
     </div>
   </header>
@@ -46,7 +46,7 @@
           <h1>Hola, soy Leia.<br><em>Esta plaza también es nuestra.</em></h1>
           <p class="hero-lead">AuraLadra conecta mascotas, personas y lugares para cuidarnos mejor en el barrio. Partimos en el canil Parque 3 Poniente.</p>
           <div class="hero-actions">
-            <a class="button button-primary" href="#acciones">Necesito ayuda <span aria-hidden="true">→</span></a>
+            <a class="button button-primary" href="#reportes">Hacer un reporte <span aria-hidden="true">→</span></a>
             <a class="button button-ghost" href="#canil">Conocer el piloto</a>
           </div>
         </div>
@@ -102,6 +102,112 @@
       </div>
     </section>
 
+    <section class="reports section" id="reportes">
+      <div class="shell">
+        <div class="section-heading split-heading">
+          <div>
+            <p class="kicker">Canil Parque 3 Poniente</p>
+            <h2>Reporta lo que necesita atención.</h2>
+          </div>
+          <p>Agua, limpieza, seguridad o infraestructura. Puedes reportar sin iniciar sesión; nada se publica antes de ser revisado.</p>
+        </div>
+
+        <div class="report-grid">
+          <form class="report-form card" data-report-form novalidate>
+            <div class="card-heading">
+              <span class="card-mark" aria-hidden="true">＋</span>
+              <div><p class="kicker">Nuevo reporte</p><h3>Cuéntanos qué observaste</h3></div>
+            </div>
+
+            <label class="field">
+              <span>Categoría</span>
+              <select name="categoria" required>
+                <option value="">Selecciona una opción</option>
+                <option value="agua">Agua</option>
+                <option value="limpieza">Limpieza</option>
+                <option value="seguridad">Seguridad</option>
+                <option value="infraestructura">Infraestructura</option>
+              </select>
+            </label>
+
+            <label class="field">
+              <span>Descripción breve</span>
+              <textarea name="descripcion" minlength="20" maxlength="600" rows="5" required placeholder="Ej.: El bebedero no tiene agua desde esta mañana." aria-describedby="description-help"></textarea>
+              <small id="description-help"><span data-description-count>0</span>/600 caracteres · mínimo 20</small>
+            </label>
+
+            <label class="field">
+              <span>Fecha y hora aproximadas</span>
+              <input type="datetime-local" name="observado_en" required>
+            </label>
+
+            <label class="trap-field" aria-hidden="true">
+              <span>Sitio web</span>
+              <input type="text" name="sitio_web" tabindex="-1" autocomplete="off">
+            </label>
+
+            <div class="privacy-note">
+              <span aria-hidden="true">◇</span>
+              <p><strong>Privado hasta verificar.</strong> Tu reporte parte como pendiente. Si se publica, nunca incluirá tu identidad.</p>
+            </div>
+
+            <button class="button button-primary form-submit" type="submit" data-report-submit>Enviar reporte <span aria-hidden="true">→</span></button>
+            <p class="form-message" data-report-message aria-live="polite"></p>
+            <p class="emergency-note">Si existe peligro inmediato para personas o animales, contacta a los servicios de emergencia correspondientes.</p>
+          </form>
+
+          <div class="report-side">
+            <section class="account-card card" id="cuenta" aria-labelledby="account-title">
+              <div class="card-heading compact">
+                <span class="card-mark" aria-hidden="true">↗</span>
+                <div><p class="kicker">Opcional</p><h3 id="account-title">Sigue tus reportes</h3></div>
+              </div>
+              <div data-signed-out>
+                <p class="card-copy">Recibe un enlace mágico por correo. No necesitas contraseña y podrás revisar el estado de los reportes que envíes con tu sesión iniciada.</p>
+                <form class="magic-form" data-magic-form>
+                  <label class="field">
+                    <span>Correo electrónico</span>
+                    <input type="email" name="email" autocomplete="email" required placeholder="tu@correo.cl">
+                  </label>
+                  <button class="button button-dark" type="submit" data-magic-submit>Enviar enlace mágico</button>
+                </form>
+              </div>
+              <div class="session-panel" data-signed-in hidden>
+                <p>Sesión iniciada como <strong data-session-email></strong>.</p>
+                <button class="text-button" type="button" data-sign-out>Cerrar sesión</button>
+              </div>
+              <p class="form-message" data-auth-message aria-live="polite"></p>
+            </section>
+
+            <section class="my-reports card" data-my-reports-section hidden aria-labelledby="my-reports-title">
+              <div class="list-heading"><div><p class="kicker">Seguimiento</p><h3 id="my-reports-title">Mis reportes</h3></div><span class="count-badge" data-my-count>0</span></div>
+              <div class="report-list" data-my-reports></div>
+            </section>
+          </div>
+        </div>
+
+        <section class="public-reports" aria-labelledby="public-reports-title">
+          <div class="list-heading public-heading">
+            <div><p class="kicker">Información comunitaria</p><h3 id="public-reports-title">Reportes verificados</h3></div>
+            <p>Solo aparecen casos revisados o cerrados. La identidad de quien reportó nunca se muestra.</p>
+          </div>
+          <div class="report-list public-list" data-public-reports>
+            <p class="empty-state">Cargando reportes verificados…</p>
+          </div>
+        </section>
+
+        <section class="moderator-panel card" data-moderator-panel hidden aria-labelledby="moderator-title">
+          <div class="list-heading">
+            <div><p class="kicker">Moderación</p><h3 id="moderator-title">Bandeja del piloto</h3></div>
+            <span class="count-badge" data-moderator-count>0</span>
+          </div>
+          <p class="card-copy">Revisa cada reporte y cambia su estado. Solo los verificados y cerrados serán visibles para la comunidad.</p>
+          <div class="report-list" data-moderator-reports></div>
+          <p class="form-message" data-moderator-message aria-live="polite"></p>
+        </section>
+      </div>
+    </section>
+
     <section class="pilot section" id="canil">
       <div class="shell pilot-grid">
         <div class="pilot-intro">
@@ -109,7 +215,7 @@
           <h2>Un canil como punto de encuentro, no solo como infraestructura.</h2>
           <p>Parque 3 Poniente es nuestro primer lugar de observación y colaboración. Queremos entender necesidades reales antes de construir herramientas más grandes.</p>
         </div>
-        <div class="pilot-stats" aria-label="Alcance inicial del piloto">
+        <div class="pilot-stats" role="group" aria-label="Alcance inicial del piloto">
           <div><strong>01</strong><span>territorio inicial</span></div>
           <div><strong>03</strong><span>problemas a observar</span></div>
           <div><strong>00</strong><span>datos personales públicos</span></div>
