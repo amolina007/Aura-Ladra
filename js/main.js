@@ -68,6 +68,13 @@
     element.classList.toggle('is-error', type === 'error');
   };
 
+  const completeMagicLinkReturn = (session) => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('auth') !== 'magic' || !session?.user) return;
+    setMessage(document.querySelector('[data-auth-message]'), 'Sesión iniciada correctamente.', 'success');
+    window.history.replaceState(null, '', `${window.location.pathname}#cuenta`);
+  };
+
   const toLocalDateTimeValue = (date = new Date()) => {
     const local = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
     return local.toISOString().slice(0, 16);
@@ -1100,9 +1107,11 @@
     if (!form.reportValidity()) return;
     button.disabled = true;
     try {
+      const redirectUrl = new URL(window.location.pathname, window.location.origin);
+      redirectUrl.searchParams.set('auth', 'magic');
       const { error } = await db.auth.signInWithOtp({
         email: form.elements.email.value.trim(),
-        options: { emailRedirectTo: `${window.location.origin}${window.location.pathname}#cuenta`, shouldCreateUser: true },
+        options: { emailRedirectTo: redirectUrl.href, shouldCreateUser: true },
       });
       if (error) throw error;
       form.reset();
@@ -1180,7 +1189,11 @@
     }
     const [{ data }] = await Promise.all([db.auth.getSession(), verifyBackend(), loadPlaces(), loadAnimalNetwork()]);
     await syncSession(data.session);
-    db.auth.onAuthStateChange((_event, session) => window.setTimeout(() => syncSession(session), 0));
+    completeMagicLinkReturn(data.session);
+    db.auth.onAuthStateChange((_event, session) => window.setTimeout(async () => {
+      await syncSession(session);
+      completeMagicLinkReturn(session);
+    }, 0));
   }
 
   initialize();
