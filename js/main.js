@@ -25,7 +25,7 @@
   const actionContent = {
     perdida: {
       number: '01', kicker: 'Actúa con calma', title: 'Tu red cercana es el primer círculo de búsqueda.',
-      steps: ['Confirma el último lugar y hora en que fue vista.', 'Prepara una foto reciente y una descripción breve.', 'Avisa primero a vecinos y redes locales verificables.'],
+      steps: ['Selecciona la ficha de tu mascota en Red animal.', 'Marca el último lugar y hora en que fue vista.', 'Publica la alerta y compártela con redes locales verificables.'],
       note: 'No publiques tu domicilio, teléfono ni documentos. Si existe riesgo inmediato, utiliza los servicios municipales o de emergencia correspondientes.',
       actions: [
         { id: 'preparar-perdida', label: 'Reportar pérdida en el mapa', style: 'primary' },
@@ -281,16 +281,30 @@
     });
   };
 
-  const showNoticeBuilder = (kind) => {
+  const showNoticeBuilder = async (kind, preferredAnimalId = '') => {
     const workspace = document.querySelector('[data-action-workspace]');
     const feedback = document.querySelector('[data-action-feedback]');
     workspace.hidden = false;
     const isLost = kind === 'perdida';
+    if (isLost && !currentSession?.user) {
+      workspace.innerHTML = '<div class="quick-gate"><strong>Inicia sesión para administrar el estado de tu mascota.</strong><p>La alerta debe quedar vinculada a una ficha de Red animal.</p><a class="panel-action is-primary" href="#cuenta">Ir a Mi cuenta</a></div>';
+      setMessage(feedback);
+      return;
+    }
+    if (isLost && !ownAnimals.length) await loadCreatorWorkspace();
+    const eligibleAnimals = ownAnimals.filter((animal) => ['pendiente', 'publicado'].includes(animal.estado) && animal.estado_seguridad === 'segura');
+    if (isLost && !eligibleAnimals.length) {
+      const hasAnimals = ownAnimals.some((animal) => ['pendiente', 'publicado'].includes(animal.estado));
+      workspace.innerHTML = hasAnimals
+        ? '<div class="quick-gate"><strong>No tienes mascotas seguras disponibles.</strong><p>Si una ya figura como extraviada, puedes devolverla a “Segura” desde Mi cuenta.</p><a class="panel-action is-primary" href="#cuenta">Revisar mis mascotas</a></div>'
+        : '<div class="quick-gate"><strong>Primero crea la ficha del animal.</strong><p>Solo una mascota registrada en Red animal puede marcarse como extraviada.</p><a class="panel-action is-primary" href="#red">Crear ficha en Red animal</a></div>';
+      setMessage(feedback);
+      return;
+    }
     workspace.innerHTML = `
       <form class="quick-form" data-quick-notice-form>
         <div class="quick-form-grid">
-          <label><span>${isLost ? 'Nombre de la mascota' : 'Identificación visible (opcional)'}</span><input name="nombre" ${isLost ? 'required' : ''} maxlength="60"></label>
-          ${isLost ? '<label><span>Especie</span><select name="especie" required><option value="perro">Perro</option><option value="gato">Gato</option><option value="ave">Ave</option><option value="otro">Otro</option></select></label>' : ''}
+          ${isLost ? '<label class="is-wide"><span>Mascota registrada</span><select name="animal_id" required data-lost-animal-select></select></label>' : '<label><span>Identificación visible (opcional)</span><input name="nombre" maxlength="60"></label>'}
           <label class="is-wide location-search"><span>${isLost ? 'Último lugar visto' : 'Lugar del hallazgo'}</span><input name="lugar" type="search" required maxlength="180" autocomplete="off" placeholder="Escribe calle y número o una intersección en Maipú"></label>
           ${isLost ? '<div class="location-results is-wide" data-location-results aria-live="polite"></div><p class="location-selection is-wide" data-location-selection>Escribe una dirección y elige una coincidencia del buscador.</p><div class="location-picker-map is-wide" data-location-map aria-label="Mapa del último lugar donde fue vista la mascota"></div><p class="location-credit is-wide">Búsqueda de direcciones por <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>.</p><input name="latitud" type="hidden"><input name="longitud" type="hidden">' : ''}
           <label><span>Fecha y hora aproximadas</span><input name="momento" type="datetime-local" required></label>
@@ -308,6 +322,11 @@
       </form>`;
     setMessage(feedback);
     const form = workspace.querySelector('[data-quick-notice-form]');
+    if (isLost) {
+      const animalSelect = form.querySelector('[data-lost-animal-select]');
+      fillSelect(animalSelect, eligibleAnimals, 'Selecciona una de tus mascotas');
+      if (preferredAnimalId && eligibleAnimals.some((animal) => animal.id === preferredAnimalId)) animalSelect.value = preferredAnimalId;
+    }
     form.elements.momento.value = toLocalDateTimeValue();
     form.elements.momento.max = toLocalDateTimeValue(new Date(Date.now() + 15 * 60 * 1000));
     form.elements.momento.min = toLocalDateTimeValue(new Date(Date.now() - 30 * 24 * 60 * 60 * 1000));
@@ -326,10 +345,17 @@
       const submit = form.querySelector('[data-lost-submit]');
       submit.disabled = true;
       if (isLost) {
+        const selectedAnimal = eligibleAnimals.find((animal) => animal.id === formData.get('animal_id'));
+        if (!selectedAnimal) {
+          submit.disabled = false;
+          setMessage(feedback, 'Selecciona una mascota registrada.', 'error');
+          return;
+        }
+        formData.set('nombre', selectedAnimal.nombre);
         submit.textContent = 'Publicando…';
-        const { error } = await db.rpc('crear_alerta_mascota', {
-          p_nombre: String(formData.get('nombre')).trim(),
-          p_especie: String(formData.get('especie')),
+        const { error } = await db.rpc('cambiar_estado_seguridad_mascota', {
+          p_animal_id: selectedAnimal.id,
+          p_estado_seguridad: 'extraviada',
           p_descripcion: String(formData.get('detalles')).trim(),
           p_direccion_publica: String(formData.get('lugar')).trim(),
           p_latitud: Number(formData.get('latitud')),
@@ -343,8 +369,8 @@
           setMessage(feedback, 'No pudimos publicar el marcador. Revisa la información e inténtalo nuevamente.', 'error');
           return;
         }
-        await loadPlaces();
-        setMessage(feedback, 'Alerta publicada. El último lugar visto ya aparece en el mapa.', 'success');
+        await Promise.all([loadPlaces(), loadCreatorWorkspace(), loadAnimalNetwork()]);
+        setMessage(feedback, `${selectedAnimal.nombre} ahora figura como extraviada y aparece en el mapa.`, 'success');
       }
       const notice = buildNotice(kind, formData);
       const result = form.querySelector('[data-notice-result]');
@@ -602,12 +628,13 @@
         .select('id,slug,nombre,descripcion,direccion_publica,comuna,categoria,estado_verificacion,latitud,longitud,publicado,servicio_urgencia,urgencia_24h,horario_publico,telefono_publico,sitio_web,precision_ubicacion,fuente_nombre,fuente_url,fuente_consultada_en')
         .eq('publicado', true).eq('comuna', 'Maipú').order('nombre'),
       db.from('alertas_mascotas')
-        .select('id,nombre,especie,descripcion,direccion_publica,latitud,longitud,perdida_en,estado,creado_en')
+        .select('id,animal_id,nombre,especie,descripcion,direccion_publica,latitud,longitud,perdida_en,estado,creado_en')
         .eq('estado', 'activa').order('perdida_en', { ascending: false }),
     ]);
     const places = placesResult.error ? [] : (placesResult.data || []);
     const alerts = alertsResult.error ? [] : (alertsResult.data || []).map((alert) => ({
       id: alert.id,
+      animal_id: alert.animal_id,
       slug: `mascota-perdida-${alert.id}`,
       nombre: `Se busca: ${alert.nombre}`,
       descripcion: alert.descripcion,
@@ -664,6 +691,12 @@
       tag.textContent = value;
       meta.append(tag);
     });
+    if (animal.estado_seguridad === 'extraviada') {
+      const lostTag = document.createElement('span');
+      lostTag.className = 'is-lost';
+      lostTag.textContent = 'Extraviada';
+      meta.append(lostTag);
+    }
     const connections = [];
     humanLinks.filter((link) => link.animal_id === animal.id).forEach((link) => {
       const profile = profilesById.get(link.perfil_publico_id);
@@ -687,7 +720,7 @@
   async function loadAnimalNetwork() {
     const container = document.querySelector('[data-animal-grid]');
     const [animalsResult, profilesResult, humanResult, animalLinksResult] = await Promise.all([
-      db.from('animales').select('id,slug,nombre,especie,biografia,foto_url,zona_publica,es_comunitario,estado').eq('estado', 'publicado').order('nombre'),
+      db.from('animales').select('id,slug,nombre,especie,biografia,foto_url,zona_publica,es_comunitario,estado,estado_seguridad').eq('estado', 'publicado').order('nombre'),
       db.from('perfiles_publicos').select('id,alias,biografia,estado').eq('estado', 'publicado'),
       db.from('vinculos_animal_humano').select('id,animal_id,perfil_publico_id,tipo,visible_publicamente,estado').eq('estado', 'confirmado').eq('visible_publicamente', true),
       db.from('vinculos_animales').select('id,animal_a_id,animal_b_id,tipo,descripcion,estado').eq('estado', 'confirmado'),
@@ -710,6 +743,53 @@
     document.querySelectorAll('[data-public-animal-options]').forEach((select) => fillSelect(select, publicAnimals, 'Selecciona un animal'));
   }
 
+  const renderAccountAnimals = () => {
+    const section = document.querySelector('[data-account-animals]');
+    const container = document.querySelector('[data-account-animal-list]');
+    if (!section || !container) return;
+    const hasUser = Boolean(currentSession?.user);
+    section.hidden = !hasUser;
+    if (!hasUser) {
+      container.replaceChildren();
+      return;
+    }
+    if (!ownAnimals.length) {
+      const empty = document.createElement('p');
+      empty.className = 'empty-state';
+      empty.textContent = 'Aún no tienes fichas propias. Créala primero en Red animal.';
+      container.replaceChildren(empty);
+      return;
+    }
+    container.replaceChildren(...ownAnimals.map((animal) => {
+      const article = document.createElement('article');
+      article.className = 'account-animal';
+      const identity = document.createElement('div');
+      const name = document.createElement('strong');
+      name.textContent = animal.nombre;
+      const meta = document.createElement('small');
+      meta.textContent = `${animal.especie} · ficha ${animal.estado}`;
+      identity.append(name, meta);
+      const state = document.createElement('span');
+      state.className = `pet-state is-${animal.estado_seguridad}`;
+      state.textContent = animal.estado_seguridad === 'extraviada' ? 'Extraviada' : 'Segura';
+      const action = document.createElement('button');
+      action.type = 'button';
+      action.className = 'pet-state-action';
+      if (!['pendiente', 'publicado'].includes(animal.estado)) {
+        action.disabled = true;
+        action.textContent = 'Ficha no disponible';
+      } else if (animal.estado_seguridad === 'extraviada') {
+        action.dataset.markPetSafe = animal.id;
+        action.textContent = 'Marcar como segura';
+      } else {
+        action.dataset.markPetLost = animal.id;
+        action.textContent = 'Marcar como extraviada';
+      }
+      article.append(identity, state, action);
+      return article;
+    }));
+  };
+
   async function loadCreatorWorkspace() {
     const signedIn = document.querySelector('[data-network-signed-in]');
     const signedOut = document.querySelector('[data-network-signed-out]');
@@ -719,11 +799,13 @@
     if (!hasUser) {
       ownAnimals = [];
       ownPublicProfile = null;
+      renderAccountAnimals();
       return;
     }
     const [animalsResult, profileResult] = await Promise.all([db.rpc('mis_animales'), db.rpc('mi_perfil_publico')]);
     ownAnimals = animalsResult.error ? [] : (animalsResult.data || []);
     ownPublicProfile = profileResult.error ? null : (profileResult.data?.[0] || null);
+    renderAccountAnimals();
     document.querySelectorAll('[data-own-animal-options]').forEach((select) => fillSelect(select, ownAnimals, ownAnimals.length ? 'Selecciona uno de tus animales' : 'Primero agrega un animal'));
     const profileForm = document.querySelector('[data-profile-form]');
     if (profileForm && ownPublicProfile) {
@@ -1096,6 +1178,38 @@
     }
     setMessage(message, 'Solicitud actualizada.', 'success');
     await Promise.all([loadNetworkModeration(), loadAnimalNetwork(), loadCreatorWorkspace()]);
+  });
+
+  document.querySelector('[data-account-animal-list]')?.addEventListener('click', async (event) => {
+    const lostButton = event.target.closest('[data-mark-pet-lost]');
+    const safeButton = event.target.closest('[data-mark-pet-safe]');
+    if ((!lostButton && !safeButton) || !currentSession?.user) return;
+    const animalId = (lostButton || safeButton).dataset.markPetLost || (lostButton || safeButton).dataset.markPetSafe;
+    const animal = ownAnimals.find((item) => item.id === animalId);
+    if (!animal) return;
+
+    if (lostButton) {
+      document.querySelector('[data-action="perdida"]')?.click();
+      await showNoticeBuilder('perdida', animal.id);
+      document.querySelector('#acciones')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      return;
+    }
+
+    if (!window.confirm(`¿Confirmas que ${animal.nombre} está segura? Se retirará su alerta activa del mapa.`)) return;
+    const message = document.querySelector('[data-account-animal-message]');
+    safeButton.disabled = true;
+    setMessage(message, `Actualizando el estado de ${animal.nombre}…`);
+    const { error } = await db.rpc('cambiar_estado_seguridad_mascota', {
+      p_animal_id: animal.id,
+      p_estado_seguridad: 'segura',
+    });
+    if (error) {
+      safeButton.disabled = false;
+      setMessage(message, 'No pudimos actualizar el estado de la mascota.', 'error');
+      return;
+    }
+    await Promise.all([loadPlaces(), loadCreatorWorkspace(), loadAnimalNetwork()]);
+    setMessage(message, `${animal.nombre} ahora figura como segura y su alerta fue cerrada.`, 'success');
   });
 
   document.querySelector('[data-magic-form]')?.addEventListener('submit', async (event) => {

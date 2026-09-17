@@ -289,7 +289,7 @@
             <section class="account-card card" id="cuenta" aria-labelledby="account-title">
               <div class="card-heading compact">
                 <span class="card-mark" aria-hidden="true">↗</span>
-                <div><p class="kicker">Opcional</p><h3 id="account-title">Sigue tus reportes</h3></div>
+                <div><p class="kicker">Cuenta personal</p><h3 id="account-title">Mi cuenta</h3></div>
               </div>
               <div data-signed-out>
                 <p class="card-copy">Recibe un enlace mágico por correo. No necesitas contraseña y podrás revisar el estado de los reportes que envíes con tu sesión iniciada.</p>
@@ -306,6 +306,14 @@
                 <button class="text-button" type="button" data-sign-out>Cerrar sesión</button>
               </div>
               <p class="form-message" data-auth-message aria-live="polite"></p>
+              <section class="account-animals" data-account-animals hidden aria-labelledby="account-animals-title">
+                <div class="account-animals-heading">
+                  <div><p class="kicker">Red animal</p><h4 id="account-animals-title">Estado de mis mascotas</h4></div>
+                  <a href="#red">Administrar fichas</a>
+                </div>
+                <div class="account-animal-list" data-account-animal-list></div>
+                <p class="form-message" data-account-animal-message aria-live="polite"></p>
+              </section>
             </section>
 
             <section class="my-reports card" data-my-reports-section hidden aria-labelledby="my-reports-title">
