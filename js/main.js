@@ -25,17 +25,29 @@
     perdida: {
       number: '01', kicker: 'Actúa con calma', title: 'Tu red cercana es el primer círculo de búsqueda.',
       steps: ['Confirma el último lugar y hora en que fue vista.', 'Prepara una foto reciente y una descripción breve.', 'Avisa primero a vecinos y redes locales verificables.'],
-      note: 'AuraLadra está preparando su canal de reportes. Si existe riesgo inmediato, utiliza los servicios municipales o de emergencia correspondientes.',
+      note: 'No publiques tu domicilio, teléfono ni documentos. Si existe riesgo inmediato, utiliza los servicios municipales o de emergencia correspondientes.',
+      actions: [
+        { id: 'preparar-perdida', label: 'Preparar aviso de búsqueda', style: 'primary' },
+        { id: 'mapa-todos', label: 'Ver mapa del barrio', style: 'secondary' },
+      ],
     },
     encontrada: {
       number: '02', kicker: 'Prioriza la seguridad', title: 'Ayudar no siempre significa acercarse de inmediato.',
       steps: ['Observa desde una distancia segura y evita perseguirla.', 'Registra ubicación, hora, dirección de desplazamiento y una foto si es posible.', 'Busca una identificación visible o pide apoyo local para contenerla con seguridad.'],
       note: 'No arriesgues una mordedura ni lleves la mascota a un lugar inseguro. Una emergencia veterinaria requiere atención profesional.',
+      actions: [
+        { id: 'preparar-encontrada', label: 'Preparar aviso de hallazgo', style: 'primary' },
+        { id: 'mapa-urgencia', label: 'Buscar urgencias veterinarias', style: 'secondary' },
+      ],
     },
     qr: {
       number: '03', kicker: 'Contacto protegido', title: 'El código conecta; no publica a la persona responsable.',
       steps: ['Escanea el código y confirma que corresponde a AuraLadra.', 'Envía el aviso sin necesidad de revelar tu identidad.', 'El responsable recibe el mensaje y decide cómo continuar el contacto.'],
-      note: 'Los QR revocables y el contacto protegido están en construcción. Nunca compartas públicamente domicilios, teléfonos o documentos encontrados.',
+      note: 'Nunca compartas públicamente domicilios, teléfonos o documentos encontrados. Verifica el dominio antes de continuar.',
+      actions: [
+        { id: 'ingresar-qr', label: 'Abrir enlace del QR', style: 'primary' },
+        { id: 'mapa-veterinarias', label: 'Ver veterinarias cercanas', style: 'secondary' },
+      ],
     },
   };
 
@@ -98,6 +110,19 @@
       item.textContent = step;
       return item;
     }));
+    const actions = document.querySelector('[data-panel-actions]');
+    actions.replaceChildren(...content.actions.map((action) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = `panel-action ${action.style === 'primary' ? 'is-primary' : ''}`;
+      button.dataset.quickAction = action.id;
+      button.textContent = action.label;
+      return button;
+    }));
+    const workspace = document.querySelector('[data-action-workspace]');
+    workspace.hidden = true;
+    workspace.replaceChildren();
+    setMessage(document.querySelector('[data-action-feedback]'));
   };
 
   document.querySelectorAll('[data-action]').forEach((tab) => tab.addEventListener('click', () => {
@@ -108,6 +133,138 @@
     });
     renderAction(tab.dataset.action);
   }));
+
+  const scrollToMapWithFilter = (filter) => {
+    const filterButton = document.querySelector(`[data-place-filter="${filter}"]`);
+    filterButton?.click();
+    document.querySelector('#mapa')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  const buildNotice = (kind, formData) => {
+    const isLost = kind === 'perdida';
+    const heading = isLost ? 'BUSCAMOS A UNA MASCOTA' : 'MASCOTA ENCONTRADA';
+    const name = String(formData.get('nombre') || '').trim();
+    const place = String(formData.get('lugar') || '').trim();
+    const when = String(formData.get('momento') || '').trim();
+    const details = String(formData.get('detalles') || '').trim();
+    const lines = [heading];
+    if (name) lines.push(`${isLost ? 'Nombre' : 'Identificación'}: ${name}`);
+    lines.push(`${isLost ? 'Último lugar visto' : 'Lugar del hallazgo'}: ${place}`);
+    if (when) lines.push(`Fecha y hora aproximadas: ${when.replace('T', ' ')}`);
+    lines.push(`Descripción: ${details}`);
+    lines.push('Comparte solo por canales confiables. No publiques datos personales.');
+    return lines.join('\n');
+  };
+
+  const copyOrShareNotice = async (notice, feedback) => {
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: 'Aviso AuraLadra', text: notice });
+        setMessage(feedback, 'Aviso compartido.', 'success');
+        return;
+      }
+      await navigator.clipboard.writeText(notice);
+      setMessage(feedback, 'Aviso copiado. Ya puedes pegarlo en el canal que elijas.', 'success');
+    } catch (error) {
+      if (error?.name === 'AbortError') return;
+      setMessage(feedback, 'No pudimos copiar automáticamente. Selecciona el texto y cópialo manualmente.', 'error');
+    }
+  };
+
+  const showNoticeBuilder = (kind) => {
+    const workspace = document.querySelector('[data-action-workspace]');
+    const feedback = document.querySelector('[data-action-feedback]');
+    workspace.hidden = false;
+    workspace.innerHTML = `
+      <form class="quick-form" data-quick-notice-form>
+        <div class="quick-form-grid">
+          <label><span>${kind === 'perdida' ? 'Nombre de la mascota' : 'Identificación visible (opcional)'}</span><input name="nombre" maxlength="60"></label>
+          <label><span>${kind === 'perdida' ? 'Último lugar visto' : 'Lugar del hallazgo'}</span><input name="lugar" required maxlength="120" placeholder="Sector o intersección, sin domicilio particular"></label>
+          <label><span>Fecha y hora aproximadas</span><input name="momento" type="datetime-local"></label>
+          <label class="is-wide"><span>Descripción útil</span><textarea name="detalles" required minlength="10" maxlength="350" rows="3" placeholder="Especie, color, tamaño, señas y dirección de desplazamiento"></textarea></label>
+        </div>
+        <div class="quick-form-actions">
+          <button class="panel-action is-primary" type="submit">Generar aviso</button>
+          <button class="panel-action" type="button" data-close-workspace>Cancelar</button>
+        </div>
+        <div class="notice-result" data-notice-result hidden>
+          <label><span>Aviso listo para compartir</span><textarea readonly rows="8" data-notice-text></textarea></label>
+          <button class="panel-action is-primary" type="button" data-share-notice>Copiar o compartir</button>
+        </div>
+      </form>`;
+    setMessage(feedback);
+    workspace.querySelector('input')?.focus();
+
+    const form = workspace.querySelector('[data-quick-notice-form]');
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      if (!form.reportValidity()) return;
+      const notice = buildNotice(kind, new FormData(form));
+      const result = form.querySelector('[data-notice-result]');
+      result.hidden = false;
+      result.querySelector('[data-notice-text]').value = notice;
+      result.querySelector('[data-share-notice]').onclick = () => copyOrShareNotice(notice, feedback);
+      result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+    workspace.querySelector('[data-close-workspace]').addEventListener('click', () => {
+      workspace.hidden = true;
+      workspace.replaceChildren();
+      setMessage(feedback);
+    });
+  };
+
+  const showQrEntry = () => {
+    const workspace = document.querySelector('[data-action-workspace]');
+    const feedback = document.querySelector('[data-action-feedback]');
+    workspace.hidden = false;
+    workspace.innerHTML = `
+      <form class="quick-form" data-qr-entry-form>
+        <label><span>Enlace que abrió el QR</span><input name="qr" required maxlength="500" inputmode="url" autocomplete="off" placeholder="Pega aquí el enlace completo"></label>
+        <p class="quick-help">Solo abriremos enlaces HTTPS de AuraLadra. Si el QR muestra otro dominio, no ingreses información personal.</p>
+        <div class="quick-form-actions">
+          <button class="panel-action is-primary" type="submit">Verificar y continuar</button>
+          <button class="panel-action" type="button" data-close-workspace>Cancelar</button>
+        </div>
+      </form>`;
+    setMessage(feedback);
+    workspace.querySelector('input')?.focus();
+    const form = workspace.querySelector('[data-qr-entry-form]');
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const value = String(new FormData(form).get('qr') || '').trim();
+      let target = null;
+      try {
+        const candidate = new URL(value);
+        const trustedHosts = new Set([window.location.hostname, 'auraladra-convergencia-aura.netlify.app']);
+        if (candidate.protocol === 'https:' && trustedHosts.has(candidate.hostname)) target = candidate.href;
+      } catch (_) {}
+      if (!target) {
+        setMessage(feedback, 'Ese código o enlace no parece pertenecer a AuraLadra. No ingreses datos personales.', 'error');
+        return;
+      }
+      setMessage(feedback, 'Enlace seguro confirmado. Abriendo AuraLadra…', 'success');
+      window.location.assign(target);
+    });
+    workspace.querySelector('[data-close-workspace]').addEventListener('click', () => {
+      workspace.hidden = true;
+      workspace.replaceChildren();
+      setMessage(feedback);
+    });
+  };
+
+  document.querySelector('[data-panel-actions]')?.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-quick-action]');
+    if (!button) return;
+    const action = button.dataset.quickAction;
+    if (action === 'preparar-perdida') showNoticeBuilder('perdida');
+    if (action === 'preparar-encontrada') showNoticeBuilder('encontrada');
+    if (action === 'ingresar-qr') showQrEntry();
+    if (action === 'mapa-todos') scrollToMapWithFilter('todos');
+    if (action === 'mapa-urgencia') scrollToMapWithFilter('urgencia');
+    if (action === 'mapa-veterinarias') scrollToMapWithFilter('veterinaria');
+  });
+
+  renderAction('perdida');
 
   const slugify = (value) => {
     const base = value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
