@@ -5,8 +5,21 @@
   const dateFormatter = new Intl.DateTimeFormat('es-CL', { dateStyle: 'medium', timeStyle: 'short' });
   const statusLabels = { pendiente: 'Pendiente', verificado: 'Verificado', cerrado: 'Cerrado', rechazado: 'Rechazado' };
   const categoryLabels = { agua: 'Agua', limpieza: 'Limpieza', seguridad: 'Seguridad', infraestructura: 'Infraestructura' };
+  const placeCategoryLabels = {
+    canil: 'Canil', parque: 'Parque', veterinaria: 'Veterinaria', tienda_mascotas: 'Tienda de mascotas',
+    alimento: 'Comida', juguetes_accesorios: 'Juguetes y accesorios', animal_comunitario: 'Animal comunitario',
+    servicio: 'Servicio', comercio: 'Comercio', otro: 'Otro',
+  };
+  const placeIcons = { canil: '🐾', parque: '🌳', veterinaria: '✚', tienda_mascotas: '◆', alimento: '●', juguetes_accesorios: '◈', animal_comunitario: '♥', servicio: '＋', comercio: '◇', otro: '⌖' };
   let currentSession = null;
   let currentUserIsModerator = false;
+  let communityMap = null;
+  let markerLayer = null;
+  let publicPlaces = [];
+  let activePlaceFilter = 'todos';
+  let publicAnimals = [];
+  let ownAnimals = [];
+  let ownPublicProfile = null;
 
   const actionContent = {
     perdida: {
@@ -95,6 +108,300 @@
     });
     renderAction(tab.dataset.action);
   }));
+
+  const slugify = (value) => {
+    const base = value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 48) || 'registro';
+    const suffix = globalThis.crypto?.randomUUID?.().slice(0, 8) || Date.now().toString(36);
+    return `${base}-${suffix}`;
+  };
+
+  const cleanUrl = (value) => {
+    if (!value) return null;
+    try {
+      const url = new URL(value);
+      return ['http:', 'https:'].includes(url.protocol) ? url.href : null;
+    } catch (_) {
+      return null;
+    }
+  };
+
+  const placeMatchesFilter = (place) => {
+    if (activePlaceFilter === 'todos') return true;
+    if (activePlaceFilter === 'urgencia') return place.categoria === 'veterinaria' && place.servicio_urgencia;
+    if (activePlaceFilter === 'tienda') return ['tienda_mascotas', 'alimento', 'juguetes_accesorios', 'comercio'].includes(place.categoria);
+    return place.categoria === activePlaceFilter;
+  };
+
+  const createPlaceCard = (place, marker) => {
+    const article = document.createElement('article');
+    article.className = 'place-card';
+    article.tabIndex = 0;
+    const top = document.createElement('div');
+    top.className = 'place-card-top';
+    const title = document.createElement('h3');
+    title.textContent = place.nombre;
+    const icon = document.createElement('span');
+    icon.setAttribute('aria-hidden', 'true');
+    icon.textContent = placeIcons[place.categoria] || '⌖';
+    top.append(title, icon);
+    const description = document.createElement('p');
+    description.textContent = place.descripcion;
+    const address = document.createElement('p');
+    address.textContent = place.direccion_publica || `${place.comuna} · ubicación aún sin coordenadas`;
+    const tags = document.createElement('div');
+    tags.className = 'place-tags';
+    const category = document.createElement('span');
+    category.className = 'place-tag';
+    category.textContent = placeCategoryLabels[place.categoria] || place.categoria;
+    tags.append(category);
+    if (place.servicio_urgencia) {
+      const emergency = document.createElement('span');
+      emergency.className = 'place-tag is-emergency';
+      emergency.textContent = place.urgencia_24h ? 'Urgencia 24 h' : 'Atiende urgencias';
+      tags.append(emergency);
+    }
+    if (place.estado_verificacion === 'verificado') {
+      const verified = document.createElement('span');
+      verified.className = 'place-tag is-verified';
+      verified.textContent = 'Verificado';
+      tags.append(verified);
+    }
+    if (place.precision_ubicacion === 'aproximada') {
+      const approximate = document.createElement('span');
+      approximate.className = 'place-tag';
+      approximate.textContent = 'Ubicación aproximada';
+      tags.append(approximate);
+    }
+    article.append(top, description, address, tags);
+    if (marker) {
+      const focusMarker = () => {
+        communityMap.setView(marker.getLatLng(), Math.max(communityMap.getZoom(), 16));
+        marker.openPopup();
+      };
+      article.addEventListener('click', focusMarker);
+      article.addEventListener('keydown', (event) => { if (event.key === 'Enter' || event.key === ' ') focusMarker(); });
+    }
+    return article;
+  };
+
+  const renderPlaces = () => {
+    const container = document.querySelector('[data-place-list]');
+    if (!container || !communityMap || !markerLayer) return;
+    markerLayer.clearLayers();
+    const filtered = publicPlaces.filter(placeMatchesFilter);
+    const cards = filtered.map((place) => {
+      let marker = null;
+      if (place.latitud !== null && place.longitud !== null) {
+        const pin = window.L.divIcon({
+          className: '', html: `<div class="map-pin"><span>${placeIcons[place.categoria] || '⌖'}</span></div>`,
+          iconSize: [36, 36], iconAnchor: [18, 34], popupAnchor: [0, -32],
+        });
+        const popup = document.createElement('div');
+        const popupTitle = document.createElement('strong');
+        popupTitle.textContent = place.nombre;
+        const popupMeta = document.createElement('small');
+        popupMeta.textContent = `${placeCategoryLabels[place.categoria] || place.categoria}${place.servicio_urgencia ? ' · Urgencias' : ''}`;
+        popup.append(popupTitle, popupMeta);
+        marker = window.L.marker([Number(place.latitud), Number(place.longitud)], { icon: pin })
+          .bindPopup(popup)
+          .addTo(markerLayer);
+      }
+      return createPlaceCard(place, marker);
+    });
+    if (!cards.length) {
+      const empty = document.createElement('p');
+      empty.className = 'empty-state';
+      empty.textContent = 'Todavía no hay lugares publicados en esta categoría.';
+      container.replaceChildren(empty);
+    } else {
+      container.replaceChildren(...cards);
+    }
+  };
+
+  const initializeMap = () => {
+    if (!window.L || communityMap || !document.querySelector('#community-map')) return;
+    communityMap = window.L.map('community-map', { scrollWheelZoom: false }).setView([-33.51, -70.76], 13);
+    window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    }).addTo(communityMap);
+    markerLayer = window.L.layerGroup().addTo(communityMap);
+    communityMap.on('click', (event) => {
+      const form = document.querySelector('[data-place-form]');
+      if (!currentUserIsModerator || !form) return;
+      form.elements.latitud.value = event.latlng.lat.toFixed(6);
+      form.elements.longitud.value = event.latlng.lng.toFixed(6);
+    });
+  };
+
+  async function loadPlaces() {
+    const { data, error } = await db.from('lugares_publicos')
+      .select('id,slug,nombre,descripcion,direccion_publica,comuna,categoria,estado_verificacion,latitud,longitud,publicado,servicio_urgencia,urgencia_24h,horario_publico,telefono_publico,sitio_web,precision_ubicacion')
+      .eq('publicado', true).order('nombre');
+    publicPlaces = error ? [] : (data || []);
+    renderPlaces();
+  }
+
+  document.querySelectorAll('[data-place-filter]').forEach((button) => button.addEventListener('click', () => {
+    activePlaceFilter = button.dataset.placeFilter;
+    document.querySelectorAll('[data-place-filter]').forEach((item) => item.classList.toggle('is-active', item === button));
+    renderPlaces();
+  }));
+
+  const fillSelect = (select, rows, placeholder) => {
+    if (!select) return;
+    const first = document.createElement('option');
+    first.value = '';
+    first.textContent = placeholder;
+    const options = rows.map((row) => {
+      const option = document.createElement('option');
+      option.value = row.id;
+      option.textContent = `${row.nombre}${row.estado && row.estado !== 'publicado' ? ` · ${row.estado}` : ''}`;
+      return option;
+    });
+    select.replaceChildren(first, ...options);
+  };
+
+  const createAnimalCard = (animal, animalLinks, humanLinks, profilesById, animalsById) => {
+    const article = document.createElement('article');
+    article.className = 'animal-card';
+    const avatar = document.createElement('div');
+    avatar.className = 'animal-avatar';
+    avatar.textContent = animal.nombre.slice(0, 1).toUpperCase();
+    const title = document.createElement('h3');
+    title.textContent = animal.nombre;
+    const bio = document.createElement('p');
+    bio.textContent = animal.biografia || 'Perfil comunitario en construcción.';
+    const meta = document.createElement('div');
+    meta.className = 'animal-meta';
+    [animal.especie, animal.zona_publica, animal.es_comunitario ? 'comunitario' : null].filter(Boolean).forEach((value) => {
+      const tag = document.createElement('span');
+      tag.textContent = value;
+      meta.append(tag);
+    });
+    const connections = [];
+    humanLinks.filter((link) => link.animal_id === animal.id).forEach((link) => {
+      const profile = profilesById.get(link.perfil_publico_id);
+      if (profile) connections.push(`${profile.alias} · ${link.tipo}`);
+    });
+    animalLinks.filter((link) => link.animal_a_id === animal.id || link.animal_b_id === animal.id).forEach((link) => {
+      const otherId = link.animal_a_id === animal.id ? link.animal_b_id : link.animal_a_id;
+      const other = animalsById.get(otherId);
+      if (other) connections.push(`${other.nombre} · ${link.tipo}`);
+    });
+    article.append(avatar, title, bio, meta);
+    if (connections.length) {
+      const links = document.createElement('div');
+      links.className = 'animal-links';
+      links.textContent = `Red: ${connections.join(' · ')}`;
+      article.append(links);
+    }
+    return article;
+  };
+
+  async function loadAnimalNetwork() {
+    const container = document.querySelector('[data-animal-grid]');
+    const [animalsResult, profilesResult, humanResult, animalLinksResult] = await Promise.all([
+      db.from('animales').select('id,slug,nombre,especie,biografia,foto_url,zona_publica,es_comunitario,estado').eq('estado', 'publicado').order('nombre'),
+      db.from('perfiles_publicos').select('id,alias,biografia,estado').eq('estado', 'publicado'),
+      db.from('vinculos_animal_humano').select('id,animal_id,perfil_publico_id,tipo,visible_publicamente,estado').eq('estado', 'confirmado').eq('visible_publicamente', true),
+      db.from('vinculos_animales').select('id,animal_a_id,animal_b_id,tipo,descripcion,estado').eq('estado', 'confirmado'),
+    ]);
+    publicAnimals = animalsResult.error ? [] : (animalsResult.data || []);
+    const profiles = profilesResult.error ? [] : (profilesResult.data || []);
+    const humanLinks = humanResult.error ? [] : (humanResult.data || []);
+    const animalLinks = animalLinksResult.error ? [] : (animalLinksResult.data || []);
+    const profilesById = new Map(profiles.map((profile) => [profile.id, profile]));
+    const animalsById = new Map(publicAnimals.map((animal) => [animal.id, animal]));
+    if (!container) return;
+    if (!publicAnimals.length) {
+      const empty = document.createElement('p');
+      empty.className = 'empty-state';
+      empty.textContent = 'La primera red de animales está en preparación.';
+      container.replaceChildren(empty);
+    } else {
+      container.replaceChildren(...publicAnimals.map((animal) => createAnimalCard(animal, animalLinks, humanLinks, profilesById, animalsById)));
+    }
+    document.querySelectorAll('[data-public-animal-options]').forEach((select) => fillSelect(select, publicAnimals, 'Selecciona un animal'));
+  }
+
+  async function loadCreatorWorkspace() {
+    const signedIn = document.querySelector('[data-network-signed-in]');
+    const signedOut = document.querySelector('[data-network-signed-out]');
+    const hasUser = Boolean(currentSession?.user);
+    if (signedIn) signedIn.hidden = !hasUser;
+    if (signedOut) signedOut.hidden = hasUser;
+    if (!hasUser) {
+      ownAnimals = [];
+      ownPublicProfile = null;
+      return;
+    }
+    const [animalsResult, profileResult] = await Promise.all([db.rpc('mis_animales'), db.rpc('mi_perfil_publico')]);
+    ownAnimals = animalsResult.error ? [] : (animalsResult.data || []);
+    ownPublicProfile = profileResult.error ? null : (profileResult.data?.[0] || null);
+    document.querySelectorAll('[data-own-animal-options]').forEach((select) => fillSelect(select, ownAnimals, ownAnimals.length ? 'Selecciona uno de tus animales' : 'Primero agrega un animal'));
+    const profileForm = document.querySelector('[data-profile-form]');
+    if (profileForm && ownPublicProfile) {
+      profileForm.elements.alias.value = ownPublicProfile.alias;
+      profileForm.querySelector('button[type="submit"]').disabled = true;
+      setMessage(document.querySelector('[data-profile-message]'), `Alias enviado · estado: ${ownPublicProfile.estado}.`, ownPublicProfile.estado === 'publicado' ? 'success' : '');
+    }
+  }
+
+  const moderationItem = (kind, row, description) => {
+    const article = document.createElement('article');
+    article.className = 'moderation-item';
+    const title = document.createElement('strong');
+    title.textContent = row.alias || row.nombre || `${kind} pendiente`;
+    const detail = document.createElement('p');
+    detail.textContent = description;
+    const actions = document.createElement('div');
+    actions.className = 'moderation-actions';
+    const approve = document.createElement('button');
+    approve.type = 'button';
+    approve.textContent = 'Aprobar';
+    approve.dataset.networkTable = kind;
+    approve.dataset.networkId = row.id;
+    approve.dataset.networkStatus = ['perfiles_publicos', 'animales'].includes(kind) ? 'publicado' : 'confirmado';
+    const reject = document.createElement('button');
+    reject.type = 'button';
+    reject.textContent = 'Rechazar';
+    reject.dataset.networkTable = kind;
+    reject.dataset.networkId = row.id;
+    reject.dataset.networkStatus = 'rechazado';
+    actions.append(approve, reject);
+    article.append(title, detail, actions);
+    return article;
+  };
+
+  async function loadNetworkModeration() {
+    const panel = document.querySelector('[data-moderator-network]');
+    if (!panel) return;
+    panel.hidden = !currentUserIsModerator;
+    if (!currentUserIsModerator) return;
+    const [profilesResult, animalsResult, humanResult, animalResult] = await Promise.all([
+      db.from('perfiles_publicos').select('id,alias,biografia,estado').eq('estado', 'pendiente').order('creado_en'),
+      db.from('animales').select('id,nombre,especie,zona_publica,estado').eq('estado', 'pendiente').order('creado_en'),
+      db.from('vinculos_animal_humano').select('id,animal_id,perfil_publico_id,tipo,estado').eq('estado', 'pendiente').order('creado_en'),
+      db.from('vinculos_animales').select('id,animal_a_id,animal_b_id,tipo,descripcion,estado').eq('estado', 'pendiente').order('creado_en'),
+    ]);
+    const rows = [
+      ...(profilesResult.data || []).map((row) => moderationItem('perfiles_publicos', row, 'Alias público de una persona')),
+      ...(animalsResult.data || []).map((row) => moderationItem('animales', row, `${row.especie}${row.zona_publica ? ` · ${row.zona_publica}` : ''}`)),
+      ...(humanResult.data || []).map((row) => moderationItem('vinculos_animal_humano', row, `Vínculo humano · ${row.tipo}`)),
+      ...(animalResult.data || []).map((row) => moderationItem('vinculos_animales', row, `Vínculo entre animales · ${row.tipo}`)),
+    ];
+    document.querySelector('[data-network-moderator-count]').textContent = String(rows.length);
+    const container = document.querySelector('[data-network-moderation]');
+    if (rows.length) container.replaceChildren(...rows);
+    else {
+      const empty = document.createElement('p');
+      empty.className = 'empty-state';
+      empty.textContent = 'No hay solicitudes pendientes.';
+      container.replaceChildren(empty);
+    }
+  }
 
   const createReportCard = (report, moderation = false) => {
     const article = document.createElement('article');
@@ -192,7 +499,9 @@
     if (!session?.user) {
       signedOut.hidden = false;
       signedIn.hidden = true;
-      await Promise.all([loadMyReports(), loadModeratorReports(), loadPublicReports()]);
+      const placePanel = document.querySelector('[data-moderator-place]');
+      if (placePanel) placePanel.hidden = true;
+      await Promise.all([loadMyReports(), loadModeratorReports(), loadPublicReports(), loadCreatorWorkspace(), loadNetworkModeration()]);
       return;
     }
     signedOut.hidden = true;
@@ -200,7 +509,9 @@
     document.querySelector('[data-session-email]').textContent = session.user.email || 'cuenta activa';
     const { data, error } = await db.from('moderadores').select('usuario_id').eq('usuario_id', session.user.id).maybeSingle();
     currentUserIsModerator = !error && Boolean(data);
-    await Promise.all([loadMyReports(), loadModeratorReports(), loadPublicReports()]);
+    const placePanel = document.querySelector('[data-moderator-place]');
+    if (placePanel) placePanel.hidden = !currentUserIsModerator;
+    await Promise.all([loadMyReports(), loadModeratorReports(), loadPublicReports(), loadCreatorWorkspace(), loadNetworkModeration()]);
   }
 
   reportForm?.addEventListener('submit', async (event) => {
@@ -235,6 +546,172 @@
 
   descriptionInput?.addEventListener('input', () => {
     document.querySelector('[data-description-count]').textContent = String(descriptionInput.value.length);
+  });
+
+  document.querySelector('[data-place-form]')?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const message = document.querySelector('[data-place-message]');
+    setMessage(message);
+    if (!form.reportValidity() || !currentSession?.user || !currentUserIsModerator) return;
+    const latitude = form.elements.latitud.value;
+    const longitude = form.elements.longitud.value;
+    if ((latitude && !longitude) || (!latitude && longitude)) {
+      setMessage(message, 'Completa ambas coordenadas o deja ambas vacías.', 'error');
+      return;
+    }
+    if (form.elements.servicio_urgencia.checked && form.elements.categoria.value !== 'veterinaria') {
+      setMessage(message, 'Solo una veterinaria puede marcarse como servicio de urgencia.', 'error');
+      return;
+    }
+    if (form.elements.urgencia_24h.checked && !form.elements.servicio_urgencia.checked) {
+      setMessage(message, 'Para indicar 24 horas, primero marca que atiende urgencias.', 'error');
+      return;
+    }
+    const payload = {
+      slug: slugify(form.elements.nombre.value),
+      nombre: form.elements.nombre.value.trim(),
+      descripcion: form.elements.descripcion.value.trim(),
+      direccion_publica: form.elements.direccion_publica.value.trim() || null,
+      comuna: form.elements.comuna.value.trim(),
+      categoria: form.elements.categoria.value,
+      estado_verificacion: 'verificado',
+      latitud: latitude ? Number(latitude) : null,
+      longitud: longitude ? Number(longitude) : null,
+      precision_ubicacion: form.elements.precision_ubicacion.value,
+      horario_publico: form.elements.horario_publico.value.trim() || null,
+      telefono_publico: form.elements.telefono_publico.value.trim() || null,
+      sitio_web: cleanUrl(form.elements.sitio_web.value),
+      servicio_urgencia: form.elements.servicio_urgencia.checked,
+      urgencia_24h: form.elements.urgencia_24h.checked,
+      publicado: true,
+      creado_por: currentSession.user.id,
+    };
+    const button = form.querySelector('button[type="submit"]');
+    button.disabled = true;
+    const { error } = await db.from('lugares_publicos').insert(payload);
+    button.disabled = false;
+    if (error) {
+      setMessage(message, 'No pudimos publicar el lugar. Revisa los datos.', 'error');
+      console.warn('AuraLadra: error al crear lugar.', { code: error.code });
+      return;
+    }
+    form.reset();
+    form.elements.comuna.value = 'Maipú';
+    setMessage(message, 'Lugar publicado en el mapa.', 'success');
+    await loadPlaces();
+  });
+
+  document.querySelector('[data-profile-form]')?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const message = document.querySelector('[data-profile-message]');
+    if (!form.reportValidity() || !currentSession?.user) return;
+    const { error } = await db.from('perfiles_publicos').insert({
+      usuario_id: currentSession.user.id,
+      alias: form.elements.alias.value.trim(),
+      biografia: form.elements.biografia.value.trim() || null,
+      estado: 'pendiente',
+    });
+    if (error) {
+      setMessage(message, error.code === '23505' ? 'Ya tienes un alias enviado.' : 'No pudimos guardar el alias.', 'error');
+      return;
+    }
+    setMessage(message, 'Alias enviado a moderación.', 'success');
+    await Promise.all([loadCreatorWorkspace(), loadNetworkModeration()]);
+  });
+
+  document.querySelector('[data-animal-form]')?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const message = document.querySelector('[data-animal-message]');
+    if (!form.reportValidity() || !currentSession?.user) return;
+    const { error } = await db.from('animales').insert({
+      slug: slugify(form.elements.nombre.value),
+      nombre: form.elements.nombre.value.trim(),
+      especie: form.elements.especie.value,
+      biografia: form.elements.biografia.value.trim() || null,
+      zona_publica: form.elements.zona_publica.value.trim() || null,
+      es_comunitario: form.elements.es_comunitario.checked,
+      creado_por: currentSession.user.id,
+      estado: 'pendiente',
+    });
+    if (error) {
+      setMessage(message, 'No pudimos guardar el perfil animal.', 'error');
+      console.warn('AuraLadra: error al crear animal.', { code: error.code });
+      return;
+    }
+    form.reset();
+    setMessage(message, 'Perfil animal enviado a moderación.', 'success');
+    await Promise.all([loadCreatorWorkspace(), loadNetworkModeration()]);
+  });
+
+  document.querySelector('[data-human-link-form]')?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const message = document.querySelector('[data-human-link-message]');
+    if (!currentSession?.user || !form.reportValidity()) return;
+    if (!ownPublicProfile) {
+      setMessage(message, 'Primero crea tu alias público.', 'error');
+      return;
+    }
+    const { error } = await db.from('vinculos_animal_humano').insert({
+      animal_id: form.elements.animal_id.value,
+      perfil_publico_id: ownPublicProfile.id,
+      tipo: form.elements.tipo.value,
+      visible_publicamente: form.elements.visible_publicamente.checked,
+      estado: 'pendiente',
+      creado_por: currentSession.user.id,
+    });
+    if (error) {
+      setMessage(message, error.code === '23505' ? 'Ese vínculo ya fue solicitado.' : 'No pudimos solicitar el vínculo.', 'error');
+      return;
+    }
+    setMessage(message, 'Vínculo enviado a moderación.', 'success');
+    await loadNetworkModeration();
+  });
+
+  document.querySelector('[data-animal-link-form]')?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const message = document.querySelector('[data-animal-link-message]');
+    if (!currentSession?.user || !form.reportValidity()) return;
+    if (form.elements.animal_a_id.value === form.elements.animal_b_id.value) {
+      setMessage(message, 'Selecciona dos animales diferentes.', 'error');
+      return;
+    }
+    const { error } = await db.from('vinculos_animales').insert({
+      animal_a_id: form.elements.animal_a_id.value,
+      animal_b_id: form.elements.animal_b_id.value,
+      tipo: form.elements.tipo.value,
+      descripcion: form.elements.descripcion.value.trim() || null,
+      estado: 'pendiente',
+      creado_por: currentSession.user.id,
+    });
+    if (error) {
+      setMessage(message, error.code === '23505' ? 'Ese vínculo ya fue solicitado.' : 'No pudimos solicitar el vínculo.', 'error');
+      return;
+    }
+    form.reset();
+    setMessage(message, 'Vínculo animal enviado a moderación.', 'success');
+    await loadNetworkModeration();
+  });
+
+  document.querySelector('[data-network-moderation]')?.addEventListener('click', async (event) => {
+    const button = event.target.closest('[data-network-table][data-network-id][data-network-status]');
+    if (!button || !currentUserIsModerator) return;
+    const message = document.querySelector('[data-network-moderator-message]');
+    button.disabled = true;
+    const { error } = await db.from(button.dataset.networkTable)
+      .update({ estado: button.dataset.networkStatus })
+      .eq('id', button.dataset.networkId);
+    if (error) {
+      button.disabled = false;
+      setMessage(message, 'No pudimos actualizar esta solicitud.', 'error');
+      return;
+    }
+    setMessage(message, 'Solicitud actualizada.', 'success');
+    await Promise.all([loadNetworkModeration(), loadAnimalNetwork(), loadCreatorWorkspace()]);
   });
 
   document.querySelector('[data-magic-form]')?.addEventListener('submit', async (event) => {
@@ -304,11 +781,12 @@
   async function initialize() {
     document.querySelector('[data-year]').textContent = new Date().getFullYear();
     setDefaultObservedDate();
+    initializeMap();
     if (!db) {
       setMessage(reportMessage, 'El sistema de reportes no está disponible temporalmente.', 'error');
       return;
     }
-    const [{ data }] = await Promise.all([db.auth.getSession(), verifyBackend()]);
+    const [{ data }] = await Promise.all([db.auth.getSession(), verifyBackend(), loadPlaces(), loadAnimalNetwork()]);
     await syncSession(data.session);
     db.auth.onAuthStateChange((_event, session) => window.setTimeout(() => syncSession(session), 0));
   }

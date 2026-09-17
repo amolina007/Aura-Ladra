@@ -30,9 +30,30 @@ credenciales identifican el proyecto, pero no conceden privilegios por sí
 solas: el acceso efectivo se limita mediante grants y RLS.
 
 Las migraciones en `supabase/migrations/` crean superficies aisladas dentro de
-`ladra`: `estado_sistema` verifica la conexión, `lugares_publicos` entrega
-ubicaciones publicadas y `reportes_canil` sostiene el piloto comunitario. El
-schema `ladra` debe estar incluido en Data API > Exposed schemas.
+`ladra`: `estado_sistema` verifica la conexión, `lugares_publicos` entrega el
+mapa comunitario, `reportes_canil` sostiene el piloto y las tablas de animales,
+perfiles públicos y vínculos forman la primera versión de la red animal. El
+schema `ladra` se agrega a Data API sin reemplazar los schemas ya expuestos.
+
+## Mapa comunitario
+
+- Indexa caniles, veterinarias, urgencias veterinarias, tiendas de mascotas,
+  alimento, juguetes y accesorios, además de puntos de animales comunitarios.
+- Los lugares propuestos quedan pendientes hasta que una persona moderadora los
+  apruebe.
+- La ubicación de animales vulnerables puede publicarse de forma aproximada.
+- Las urgencias veterinarias se distinguen explícitamente de una veterinaria
+  general.
+
+## Red animal
+
+- Cada animal tiene un perfil independiente y puede estar asociado a cero, una
+  o varias personas.
+- Los animales también pueden relacionarse entre sí (familia, convivencia,
+  amistad, colonia o manada).
+- Los perfiles, alias y vínculos propuestos requieren moderación antes de ser
+  públicos.
+- El MVP no incluye publicaciones, comentarios, seguidores ni mensajería.
 
 ## Piloto de reportes
 
@@ -50,5 +71,7 @@ schema `ladra` debe estar incluido en Data API > Exposed schemas.
   `ladra.crear_reporte_canil`, con límites de longitud, fecha y campo honeypot.
 
 ## Fuera del MVP (decisión ya tomada)
-Red social, chat, marketplace, Aura Coin, reputación, gamificación, GPS en
-tiempo real público, integración oficial obligatoria con terceros.
+
+Publicaciones sociales, comentarios, seguidores, chat, marketplace, Aura Coin,
+reputación, gamificación, GPS en tiempo real público e integración oficial
+obligatoria con terceros.

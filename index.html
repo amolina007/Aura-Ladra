@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,650;9..144,750&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23f2a93b'/%3E%3Cpath d='M20 30c-5-1-7 5-4 8 3 3 7 0 7-3 0-2-1-4-3-5Zm24 0c5-1 7 5 4 8-3 3-7 0-7-3 0-2 1-4 3-5ZM27 21c-4-3-8 2-6 6 2 4 7 2 8-1 1-2 0-4-2-5Zm10 0c4-3 8 2 6 6-2 4-7 2-8-1-1-2 0-4 2-5Zm-5 9c-7 0-13 8-10 14 2 5 8 3 10 1 2 2 8 4 10-1 3-6-3-14-10-14Z' fill='%23102a43'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="css/styles.css">
 </head>
@@ -29,8 +30,9 @@
 
       <nav class="site-nav" id="site-nav" aria-label="Navegación principal" data-nav>
         <a href="#acciones">Ayuda rápida</a>
+        <a href="#mapa">Mapa</a>
+        <a href="#red">Red animal</a>
         <a href="#reportes">Reportar</a>
-        <a href="#canil">El piloto</a>
         <a href="#cuenta">Mi cuenta</a>
       </nav>
     </div>
@@ -99,6 +101,127 @@
             </div>
           </article>
         </div>
+      </div>
+    </section>
+
+    <section class="map-section section" id="mapa">
+      <div class="shell">
+        <div class="section-heading split-heading">
+          <div>
+            <p class="kicker">Mapa comunitario</p>
+            <h2>Lugares útiles para cuidar mejor.</h2>
+          </div>
+          <p>Explora caniles, veterinarias, urgencias, tiendas y puntos comunitarios. La ubicación de animales vulnerables puede mostrarse de forma aproximada.</p>
+        </div>
+
+        <div class="map-filters" role="group" aria-label="Filtrar lugares">
+          <button class="map-filter is-active" type="button" data-place-filter="todos">Todos</button>
+          <button class="map-filter" type="button" data-place-filter="canil">Caniles</button>
+          <button class="map-filter" type="button" data-place-filter="veterinaria">Veterinarias</button>
+          <button class="map-filter" type="button" data-place-filter="urgencia">Urgencias</button>
+          <button class="map-filter" type="button" data-place-filter="tienda">Tiendas</button>
+          <button class="map-filter" type="button" data-place-filter="animal_comunitario">Animales comunitarios</button>
+        </div>
+
+        <div class="map-layout">
+          <div class="community-map" id="community-map" aria-label="Mapa de lugares de AuraLadra"></div>
+          <div class="place-list" data-place-list aria-live="polite">
+            <p class="empty-state">Cargando lugares…</p>
+          </div>
+        </div>
+
+        <section class="moderator-place card" data-moderator-place hidden aria-labelledby="moderator-place-title">
+          <div class="list-heading">
+            <div><p class="kicker">Moderación del mapa</p><h3 id="moderator-place-title">Agregar un lugar verificado</h3></div>
+          </div>
+          <p class="card-copy">Haz clic en el mapa para copiar coordenadas o escríbelas manualmente. Los puntos de animales comunitarios pueden marcarse como aproximados.</p>
+          <form class="place-form form-grid" data-place-form>
+            <label class="field"><span>Nombre</span><input name="nombre" required maxlength="100"></label>
+            <label class="field"><span>Categoría</span><select name="categoria" required>
+              <option value="canil">Canil</option><option value="parque">Parque</option>
+              <option value="veterinaria">Veterinaria</option><option value="tienda_mascotas">Tienda de mascotas</option>
+              <option value="alimento">Comida para mascotas</option><option value="juguetes_accesorios">Juguetes y accesorios</option>
+              <option value="animal_comunitario">Animal comunitario</option><option value="otro">Otro</option>
+            </select></label>
+            <label class="field field-wide"><span>Descripción</span><textarea name="descripcion" required maxlength="500" rows="3"></textarea></label>
+            <label class="field"><span>Dirección pública</span><input name="direccion_publica" maxlength="180"></label>
+            <label class="field"><span>Comuna</span><input name="comuna" value="Maipú" required maxlength="80"></label>
+            <label class="field"><span>Latitud</span><input name="latitud" type="number" step="0.000001" min="-90" max="90"></label>
+            <label class="field"><span>Longitud</span><input name="longitud" type="number" step="0.000001" min="-180" max="180"></label>
+            <label class="field"><span>Precisión</span><select name="precision_ubicacion"><option value="exacta">Exacta</option><option value="aproximada">Aproximada</option></select></label>
+            <label class="field"><span>Horario</span><input name="horario_publico" maxlength="180"></label>
+            <label class="field"><span>Teléfono público</span><input name="telefono_publico" maxlength="40"></label>
+            <label class="field"><span>Sitio web</span><input name="sitio_web" type="url" maxlength="300"></label>
+            <label class="check-field"><input name="servicio_urgencia" type="checkbox"><span>Atiende urgencias veterinarias</span></label>
+            <label class="check-field"><input name="urgencia_24h" type="checkbox"><span>Urgencia 24 horas verificada</span></label>
+            <button class="button button-primary field-wide" type="submit">Publicar lugar</button>
+          </form>
+          <p class="form-message" data-place-message aria-live="polite"></p>
+        </section>
+      </div>
+    </section>
+
+    <section class="animal-network section" id="red">
+      <div class="shell">
+        <div class="section-heading split-heading">
+          <div><p class="kicker">Red animal</p><h2>Cada animal puede tener su propia red.</h2></div>
+          <p>Un animal puede existir sin humanos asociados, tener varias personas cuidadoras y relacionarse con otros animales. Los vínculos se publican solo después de revisión.</p>
+        </div>
+
+        <div class="animal-grid" data-animal-grid>
+          <p class="empty-state">Cargando animales…</p>
+        </div>
+
+        <div class="network-access card" data-network-signed-out>
+          <div><p class="kicker">Participa</p><h3>Inicia sesión con enlace mágico</h3><p>Desde “Mi cuenta” podrás proponer un perfil animal y sus vínculos. Todo queda pendiente hasta la moderación.</p></div>
+          <a class="button button-dark" href="#cuenta">Ir a mi cuenta</a>
+        </div>
+
+        <div class="creator-workspace" data-network-signed-in hidden>
+          <form class="card network-form" data-profile-form>
+            <div class="card-heading compact"><span class="card-mark" aria-hidden="true">◎</span><div><p class="kicker">Identidad pública</p><h3>Mi alias en la red</h3></div></div>
+            <label class="field"><span>Alias público</span><input name="alias" required minlength="2" maxlength="50"></label>
+            <label class="field"><span>Presentación opcional</span><textarea name="biografia" maxlength="300" rows="3"></textarea></label>
+            <button class="button button-primary" type="submit">Guardar alias para revisión</button>
+            <p class="form-message" data-profile-message aria-live="polite"></p>
+          </form>
+
+          <form class="card network-form" data-animal-form>
+            <div class="card-heading compact"><span class="card-mark" aria-hidden="true">🐾</span><div><p class="kicker">Nuevo perfil</p><h3>Agregar un animal</h3></div></div>
+            <label class="field"><span>Nombre</span><input name="nombre" required maxlength="60"></label>
+            <label class="field"><span>Especie</span><select name="especie"><option value="perro">Perro</option><option value="gato">Gato</option><option value="ave">Ave</option><option value="otro">Otro</option></select></label>
+            <label class="field"><span>Zona pública</span><input name="zona_publica" maxlength="100" placeholder="Ej.: Maipú"></label>
+            <label class="field"><span>Su historia</span><textarea name="biografia" maxlength="600" rows="4"></textarea></label>
+            <label class="check-field"><input name="es_comunitario" type="checkbox"><span>Es un animal comunitario</span></label>
+            <button class="button button-primary" type="submit">Enviar perfil a revisión</button>
+            <p class="form-message" data-animal-message aria-live="polite"></p>
+          </form>
+
+          <form class="card network-form" data-human-link-form>
+            <div class="card-heading compact"><span class="card-mark" aria-hidden="true">↔</span><div><p class="kicker">Vínculo humano</p><h3>Asociarme a un animal</h3></div></div>
+            <label class="field"><span>Animal</span><select name="animal_id" required data-own-animal-options></select></label>
+            <label class="field"><span>Mi relación</span><select name="tipo"><option value="responsable">Responsable</option><option value="cuidador">Cuidador/a</option><option value="rescatista">Rescatista</option><option value="colaborador">Colaborador/a</option></select></label>
+            <label class="check-field"><input name="visible_publicamente" type="checkbox" checked><span>Mostrar mi alias cuando el vínculo sea aprobado</span></label>
+            <button class="button button-dark" type="submit">Solicitar vínculo</button>
+            <p class="form-message" data-human-link-message aria-live="polite"></p>
+          </form>
+
+          <form class="card network-form" data-animal-link-form>
+            <div class="card-heading compact"><span class="card-mark" aria-hidden="true">∞</span><div><p class="kicker">Vínculo animal</p><h3>Relacionar dos animales</h3></div></div>
+            <label class="field"><span>Desde mi animal</span><select name="animal_a_id" required data-own-animal-options></select></label>
+            <label class="field"><span>Con</span><select name="animal_b_id" required data-public-animal-options></select></label>
+            <label class="field"><span>Tipo</span><select name="tipo"><option value="familia">Familia</option><option value="convivencia">Convivencia</option><option value="amistad">Amistad</option><option value="colonia">Colonia</option><option value="manada">Manada</option><option value="otro">Otro</option></select></label>
+            <label class="field"><span>Descripción opcional</span><input name="descripcion" maxlength="240"></label>
+            <button class="button button-dark" type="submit">Solicitar vínculo</button>
+            <p class="form-message" data-animal-link-message aria-live="polite"></p>
+          </form>
+        </div>
+
+        <section class="moderator-network card" data-moderator-network hidden aria-labelledby="moderator-network-title">
+          <div class="list-heading"><div><p class="kicker">Moderación</p><h3 id="moderator-network-title">Solicitudes de la red</h3></div><span class="count-badge" data-network-moderator-count>0</span></div>
+          <div class="moderation-columns" data-network-moderation></div>
+          <p class="form-message" data-network-moderator-message aria-live="polite"></p>
+        </section>
       </div>
     </section>
 
@@ -268,16 +391,16 @@
       </div>
     </section>
 
-    <section class="network section" id="red">
+    <section class="network section" id="recursos">
       <div class="shell network-grid">
         <div>
           <p class="kicker">La red que viene</p>
-          <h2>Recursos útiles, ubicados y verificables.</h2>
-          <p>AuraLadra reunirá información pública para tomar mejores decisiones en el barrio. Sin inventar recomendaciones ni confundir un dato comunitario con una verificación profesional.</p>
+          <h2>Datos comunitarios con contexto.</h2>
+          <p>El mapa distingue aportes comunitarios de lugares verificados y señala las urgencias veterinarias de forma explícita.</p>
         </div>
         <div class="network-cards">
-          <article><span aria-hidden="true">＋</span><h3>Servicios y profesionales</h3><p>Veterinarias, paseadores, organizaciones y apoyo comunitario.</p><small>Próxima etapa</small></article>
-          <article><span aria-hidden="true">⌖</span><h3>Mapa pet-friendly</h3><p>Espacios, categorías, condiciones de uso y estado de verificación.</p><small>Próxima etapa</small></article>
+          <article><span aria-hidden="true">＋</span><h3>Servicios y comercios</h3><p>Veterinarias, urgencias, alimento, juguetes y accesorios.</p><small>Activo</small></article>
+          <article><span aria-hidden="true">⌖</span><h3>Mapa comunitario</h3><p>Caniles, espacios y lugares donde se conocen animales comunitarios.</p><small>Activo</small></article>
           <article><span aria-hidden="true">◇</span><h3>Contenido para cuidar</h3><p>Guías breves con fuentes, fecha y enlaces para profundizar.</p><small>Próxima etapa</small></article>
         </div>
       </div>
@@ -318,6 +441,7 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="js/supabase-client.js"></script>
   <script src="js/main.js"></script>
 </body>
