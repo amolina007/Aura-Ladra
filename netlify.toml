@@ -16,6 +16,7 @@
   status = 404
 
 [dev]
+  targetPort = 3991
   framework = "#static"
   publish = "."
   autoLaunch = false
