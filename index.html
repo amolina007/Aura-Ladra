@@ -174,6 +174,7 @@
           <p>Un animal puede existir sin humanos asociados, tener varias personas cuidadoras y relacionarse con otros animales. Los vínculos se publican solo después de revisión.</p>
         </div>
 
+        <p class="animal-network-summary" data-animal-network-summary aria-live="polite">Consultando la red animal…</p>
         <div class="animal-grid" data-animal-grid>
           <p class="empty-state">Cargando animales…</p>
         </div>
@@ -354,6 +355,7 @@
                       <label class="field"><span>N.º de registro</span><input name="numero_registro" maxlength="80" autocomplete="off"></label>
                       <label class="field pet-profile-wide"><span>Descripción</span><textarea name="biografia" maxlength="600" rows="4" placeholder="Personalidad, hábitos y lo que ayuda a reconocerla."></textarea></label>
                       <label class="field pet-profile-wide"><span>Señas particulares</span><textarea name="senas_particulares" maxlength="400" rows="3" placeholder="Marcas, cicatrices, collar habitual u otros rasgos identificables."></textarea></label>
+                      <label class="check-field pet-profile-wide pet-network-visibility"><input name="mostrar_en_red" type="checkbox"><span><strong>Mostrar en Red animal</strong><small>Si la desmarcas, la mascota seguirá contabilizada, pero su perfil no será visible públicamente.</small></span></label>
                     </div>
                     <p class="form-message" data-pet-profile-message aria-live="polite"></p>
                     <button class="button button-primary" type="submit" data-pet-profile-save>Guardar cambios</button>
