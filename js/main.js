@@ -749,6 +749,11 @@
       container.replaceChildren(...publicAnimals.map((animal) => createAnimalCard(animal, animalLinks, humanLinks, profilesById, animalsById)));
     }
     document.querySelectorAll('[data-public-animal-options]').forEach((select) => fillSelect(select, publicAnimals, 'Selecciona un animal'));
+    document.querySelectorAll('[data-connect-animal-options]').forEach((select) => {
+      const candidates = publicAnimals.filter((animal) => !ownAnimals.some((own) => own.id === animal.id));
+      fillSelect(select, candidates, candidates.length ? 'Selecciona una mascota' : 'No hay otras fichas disponibles');
+      select.disabled = !candidates.length;
+    });
   }
 
   const renderAccountAnimals = () => {
@@ -900,6 +905,11 @@
     ownPublicProfile = profileResult.error ? null : (profileResult.data?.[0] || null);
     renderAccountAnimals();
     document.querySelectorAll('[data-own-animal-options]').forEach((select) => fillSelect(select, ownAnimals, ownAnimals.length ? 'Selecciona uno de tus animales' : 'Primero agrega un animal'));
+    document.querySelectorAll('[data-connect-animal-options]').forEach((select) => {
+      const candidates = publicAnimals.filter((animal) => !ownAnimals.some((own) => own.id === animal.id));
+      fillSelect(select, candidates, candidates.length ? 'Selecciona una mascota' : 'No hay otras fichas disponibles');
+      select.disabled = !candidates.length;
+    });
     const profileForm = document.querySelector('[data-profile-form]');
     if (profileForm && ownPublicProfile) {
       profileForm.elements.alias.value = ownPublicProfile.alias;
@@ -1325,6 +1335,41 @@
     if (event.target === dialog || event.target.closest('[data-pet-profile-close]')) dialog.close();
     if (event.target.closest('[data-edit-pet-profile]')) startPetProfileEdit();
     if (event.target.closest('[data-pet-profile-cancel]') && activePetProfile) showPetProfile(activePetProfile);
+  });
+
+  document.querySelector('[data-open-pet-connect]')?.addEventListener('click', () => {
+    const dialog = document.querySelector('[data-pet-connect-dialog]');
+    setMessage(document.querySelector('[data-connect-pet-message]'));
+    if (dialog && !dialog.open) dialog.showModal();
+  });
+
+  document.querySelector('[data-pet-connect-dialog]')?.addEventListener('click', (event) => {
+    const dialog = event.currentTarget;
+    if (event.target === dialog || event.target.closest('[data-pet-connect-close]')) dialog.close();
+    if (event.target.closest('[data-create-new-pet]')) {
+      dialog.close();
+      document.querySelector('[data-animal-form]')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      document.querySelector('[data-animal-form] input[name="nombre"]')?.focus({ preventScroll: true });
+    }
+  });
+
+  document.querySelector('[data-connect-existing-pet]')?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const message = document.querySelector('[data-connect-pet-message]');
+    const button = form.querySelector('button[type="submit"]');
+    if (!currentSession?.user || !form.reportValidity()) return;
+    button.disabled = true;
+    setMessage(message, 'Conectando la ficha…');
+    const { error } = await db.rpc('conectar_mascota_sin_responsable', { p_animal_id: form.elements.animal_id.value });
+    button.disabled = false;
+    if (error) {
+      setMessage(message, error.message?.includes('responsable') ? 'Esta ficha ya tiene responsable. La conexión deberá solicitarse a esa persona.' : 'No pudimos conectar esta ficha.', 'error');
+      return;
+    }
+    await Promise.all([loadCreatorWorkspace(), loadAnimalNetwork()]);
+    document.querySelector('[data-pet-connect-dialog]')?.close();
+    setMessage(document.querySelector('[data-account-animal-message]'), 'Mascota conectada a tu cuenta.', 'success');
   });
 
   document.querySelector('[data-pet-profile-form]')?.elements.fotos.addEventListener('change', (event) => {
