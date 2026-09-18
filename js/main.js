@@ -910,6 +910,7 @@
     if (!choices) return;
     clearAvatarObjectUrls();
     const existing = Array.isArray(animal._photo_view_urls) ? animal._photo_view_urls.filter(Boolean) : [];
+    if (animal.foto_url && !existing.includes(animal.foto_url)) existing.unshift(animal.foto_url);
     const added = addedFiles.map((file) => {
       const url = URL.createObjectURL(file);
       avatarObjectUrls.push(url);
