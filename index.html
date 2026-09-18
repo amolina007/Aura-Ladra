@@ -81,6 +81,10 @@
               <span class="action-icon" aria-hidden="true">⌖</span>
               <span><strong>Encontré una mascota</strong><small>Ayuda sin exponerte ni asustarla</small></span>
             </button>
+            <button class="action-tab" type="button" role="tab" aria-selected="false" aria-controls="action-panel" data-action="lugar">
+              <span class="action-icon" aria-hidden="true">＋</span>
+              <span><strong>Conozco un lugar</strong><small>Agrega o corrige información del mapa</small></span>
+            </button>
           </div>
 
           <article class="action-panel" id="action-panel" role="tabpanel" aria-live="polite">
@@ -136,31 +140,12 @@
 
         <section class="moderator-place card" data-moderator-place hidden aria-labelledby="moderator-place-title">
           <div class="list-heading">
-            <div><p class="kicker">Moderación del mapa</p><h3 id="moderator-place-title">Agregar un lugar verificado</h3></div>
+            <div><p class="kicker">Capitán #00</p><h3 id="moderator-place-title">Propuestas de lugares</h3></div>
+            <span class="count-badge" data-place-proposal-count>0</span>
           </div>
-          <p class="card-copy">Haz clic en el mapa para copiar coordenadas o escríbelas manualmente. Los puntos de animales comunitarios pueden marcarse como aproximados.</p>
-          <form class="place-form form-grid" data-place-form>
-            <label class="field"><span>Nombre</span><input name="nombre" required maxlength="100"></label>
-            <label class="field"><span>Categoría</span><select name="categoria" required>
-              <option value="canil">Canil</option><option value="parque">Parque</option>
-              <option value="veterinaria">Veterinaria</option><option value="refugio">Refugio</option><option value="casa_acogida">Casa de acogida</option><option value="tienda_mascotas">Tienda de mascotas</option>
-              <option value="alimento">Comida para mascotas</option><option value="juguetes_accesorios">Juguetes y accesorios</option>
-              <option value="animal_comunitario">Animal comunitario</option><option value="otro">Otro</option>
-            </select></label>
-            <label class="field field-wide"><span>Descripción</span><textarea name="descripcion" required maxlength="500" rows="3"></textarea></label>
-            <label class="field"><span>Dirección pública</span><input name="direccion_publica" maxlength="180"></label>
-            <label class="field"><span>Comuna</span><input name="comuna" value="Maipú" required maxlength="80"></label>
-            <label class="field"><span>Latitud</span><input name="latitud" type="number" step="0.000001" min="-90" max="90"></label>
-            <label class="field"><span>Longitud</span><input name="longitud" type="number" step="0.000001" min="-180" max="180"></label>
-            <label class="field"><span>Precisión</span><select name="precision_ubicacion"><option value="exacta">Exacta</option><option value="aproximada">Aproximada</option></select></label>
-            <label class="field"><span>Horario</span><input name="horario_publico" maxlength="180"></label>
-            <label class="field"><span>Teléfono público</span><input name="telefono_publico" maxlength="40"></label>
-            <label class="field"><span>Sitio web</span><input name="sitio_web" type="url" maxlength="300"></label>
-            <label class="check-field"><input name="servicio_urgencia" type="checkbox"><span>Atiende urgencias veterinarias</span></label>
-            <label class="check-field"><input name="urgencia_24h" type="checkbox"><span>Urgencia 24 horas verificada</span></label>
-            <button class="button button-primary field-wide" type="submit">Publicar lugar</button>
-          </form>
-          <p class="form-message" data-place-message aria-live="polite"></p>
+          <p class="card-copy">Las propuestas no alteran el mapa hasta ser aprobadas.</p>
+          <div class="place-proposal-list" data-place-proposal-list></div>
+          <p class="form-message" data-place-proposal-message aria-live="polite"></p>
         </section>
       </div>
     </section>
