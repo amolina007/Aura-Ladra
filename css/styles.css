@@ -204,6 +204,10 @@ img { max-width: 100%; }
 .pet-photo-editor { display: grid; grid-template-columns: minmax(190px, .75fr) 1.25fr; gap: 20px; align-items: center; margin-bottom: 24px; }
 .pet-photo-preview p { grid-column: 1 / -1; margin: 0; color: var(--muted); font-size: .82rem; }
 .pet-profile-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 0 18px; }
+.pet-birth-field { min-width: 0; padding: 0; border: 0; }
+.pet-birth-field legend { margin-bottom: 8px; }
+.pet-birth-selects { display: grid; grid-template-columns: .7fr 1.35fr 1fr; gap: 6px; }
+.pet-birth-selects select { min-width: 0; }
 .pet-profile-wide { grid-column: 1 / -1; }
 .pet-profile-edit > .button { width: 100%; border: 0; cursor: pointer; }
 .pet-connect-heading { clear: both; margin-bottom: 24px; }
