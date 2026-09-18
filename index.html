@@ -309,7 +309,7 @@
               <section class="account-animals" data-account-animals hidden aria-labelledby="account-animals-title">
                 <div class="account-animals-heading">
                   <div><p class="kicker">Red animal</p><h4 id="account-animals-title">Estado de mis mascotas</h4></div>
-                  <a href="#red">Administrar fichas</a>
+                  <button class="account-add-pet" type="button" data-open-pet-connect>＋ Añadir o conectar mascota</button>
                 </div>
                 <div class="account-animal-list" data-account-animal-list></div>
                 <p class="form-message" data-account-animal-message aria-live="polite"></p>
@@ -345,6 +345,23 @@
                     <p class="form-message" data-pet-profile-message aria-live="polite"></p>
                     <button class="button button-primary" type="submit" data-pet-profile-save>Guardar cambios</button>
                   </form>
+                </div>
+              </dialog>
+
+              <dialog class="pet-connect-dialog" data-pet-connect-dialog aria-labelledby="pet-connect-title">
+                <div class="pet-profile-shell">
+                  <button class="pet-profile-close" type="button" data-pet-connect-close aria-label="Cerrar">×</button>
+                  <div class="pet-connect-heading"><p class="kicker">Red animal</p><h3 id="pet-connect-title">Añadir o conectar mascota</h3><p>Elige si crearás una ficha nueva o si conectarás una mascota que ya aparece en la red.</p></div>
+                  <div class="pet-connect-options">
+                    <button class="pet-connect-option" type="button" data-create-new-pet><strong>Crear una ficha nueva</strong><span>Para una mascota que todavía no aparece en Red animal.</span></button>
+                    <form class="pet-connect-option" data-connect-existing-pet>
+                      <strong>Conectar ficha existente</strong>
+                      <span>Solo se puede conectar directamente una ficha que aún no tenga responsable.</span>
+                      <label class="field"><span>Mascota en la red</span><select name="animal_id" required data-connect-animal-options></select></label>
+                      <button class="button button-dark" type="submit">Conectar a mi cuenta</button>
+                      <p class="form-message" data-connect-pet-message aria-live="polite"></p>
+                    </form>
+                  </div>
                 </div>
               </dialog>
             </section>
