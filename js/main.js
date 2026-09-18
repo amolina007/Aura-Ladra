@@ -44,6 +44,12 @@
         { id: 'mapa-urgencia', label: 'Buscar urgencias veterinarias', style: 'secondary' },
       ],
     },
+    lugar: {
+      number: '03', kicker: 'Mapa colaborativo', title: 'Ayúdanos a mantener actualizado el ecosistema animal.',
+      steps: ['Agrega un lugar nuevo o selecciona uno existente.', 'Propón una modificación o rectificación con información verificable.', 'El capitán #00 revisará la propuesta antes de cambiar el mapa.'],
+      note: 'Ningún cambio se publica automáticamente. Evita domicilios particulares salvo que sean datos públicos de una organización.',
+      actions: [{ id: 'proponer-lugar', label: 'Crear propuesta', style: 'primary' }],
+    },
   };
 
   const header = document.querySelector('[data-header]');
@@ -392,12 +398,81 @@
     });
   };
 
+  const showPlaceProposal = () => {
+    const workspace = document.querySelector('[data-action-workspace]');
+    const feedback = document.querySelector('[data-action-feedback]');
+    const places = publicPlaces.filter((place) => place.categoria !== 'mascota_perdida');
+    workspace.hidden = false;
+    workspace.innerHTML = `
+      <form class="quick-form" data-place-proposal-form>
+        <div class="quick-form-grid">
+          <label><span>Qué quieres hacer</span><select name="tipo" required><option value="nuevo">Agregar un lugar nuevo</option><option value="modificar">Modificar un lugar existente</option><option value="rectificar">Rectificar información incorrecta</option></select></label>
+          <label data-proposal-target hidden><span>Lugar existente</span><select name="lugar_id"><option value="">Selecciona un lugar</option>${places.map((place) => `<option value="${escapeHtml(place.id)}">${escapeHtml(place.nombre)}</option>`).join('')}</select></label>
+          <label><span>Nombre</span><input name="nombre" required maxlength="100"></label>
+          <label><span>Categoría</span><select name="categoria" required><option value="canil">Canil</option><option value="parque">Parque</option><option value="veterinaria">Veterinaria</option><option value="refugio">Refugio</option><option value="casa_acogida">Casa de acogida</option><option value="tienda_mascotas">Tienda de mascotas</option><option value="alimento">Comida para mascotas</option><option value="juguetes_accesorios">Juguetes y accesorios</option><option value="animal_comunitario">Animal comunitario</option><option value="servicio">Servicio</option><option value="comercio">Comercio</option><option value="otro">Otro</option></select></label>
+          <label class="is-wide"><span>Descripción</span><textarea name="descripcion" required maxlength="500" rows="3"></textarea></label>
+          <label><span>Dirección pública</span><input name="direccion_publica" maxlength="180"></label>
+          <label><span>Comuna</span><input name="comuna" value="Maipú" required maxlength="80"></label>
+          <label><span>Latitud</span><input name="latitud" type="number" step="0.000001" min="-90" max="90"></label>
+          <label><span>Longitud</span><input name="longitud" type="number" step="0.000001" min="-180" max="180"></label>
+          <label><span>Horario</span><input name="horario_publico" maxlength="180"></label>
+          <label><span>Teléfono público</span><input name="telefono_publico" maxlength="40"></label>
+          <label class="is-wide"><span>Sitio web</span><input name="sitio_web" type="url" maxlength="300"></label>
+          <label class="is-wide"><span>Motivo o fuente de la propuesta</span><textarea name="motivo" required minlength="10" maxlength="500" rows="3" placeholder="Explica qué conoces, qué debe corregirse o dónde puede verificarse."></textarea></label>
+          <label class="check-field"><input name="servicio_urgencia" type="checkbox"><span>Atiende urgencias veterinarias</span></label>
+          <label class="check-field"><input name="urgencia_24h" type="checkbox"><span>Urgencia 24 horas</span></label>
+        </div>
+        <div class="quick-form-actions"><button class="panel-action is-primary" type="submit">Enviar a moderación</button><button class="panel-action" type="button" data-close-workspace>Cancelar</button></div>
+      </form>`;
+    setMessage(feedback);
+    const form = workspace.querySelector('[data-place-proposal-form]');
+    const targetWrap = form.querySelector('[data-proposal-target]');
+    const syncType = () => {
+      const needsTarget = form.elements.tipo.value !== 'nuevo';
+      targetWrap.hidden = !needsTarget;
+      form.elements.lugar_id.required = needsTarget;
+    };
+    form.elements.tipo.addEventListener('change', syncType);
+    form.elements.lugar_id.addEventListener('change', () => {
+      const place = places.find((item) => item.id === form.elements.lugar_id.value);
+      if (!place) return;
+      ['nombre','categoria','descripcion','direccion_publica','comuna','latitud','longitud','horario_publico','telefono_publico','sitio_web'].forEach((field) => { if (form.elements[field]) form.elements[field].value = place[field] ?? ''; });
+      form.elements.servicio_urgencia.checked = Boolean(place.servicio_urgencia);
+      form.elements.urgencia_24h.checked = Boolean(place.urgencia_24h);
+    });
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (!form.reportValidity()) return;
+      const latitude = form.elements.latitud.value;
+      const longitude = form.elements.longitud.value;
+      if ((latitude && !longitude) || (!latitude && longitude)) return setMessage(feedback, 'Completa ambas coordenadas o deja ambas vacías.', 'error');
+      const data = {
+        slug: slugify(form.elements.nombre.value), nombre: form.elements.nombre.value.trim(), categoria: form.elements.categoria.value,
+        descripcion: form.elements.descripcion.value.trim(), direccion_publica: form.elements.direccion_publica.value.trim() || null,
+        comuna: form.elements.comuna.value.trim(), latitud: latitude ? Number(latitude) : null, longitud: longitude ? Number(longitude) : null,
+        precision_ubicacion: 'exacta', horario_publico: form.elements.horario_publico.value.trim() || null,
+        telefono_publico: form.elements.telefono_publico.value.trim() || null, sitio_web: cleanUrl(form.elements.sitio_web.value),
+        servicio_urgencia: form.elements.servicio_urgencia.checked, urgencia_24h: form.elements.urgencia_24h.checked,
+      };
+      const button = form.querySelector('button[type="submit"]');
+      button.disabled = true;
+      const { error } = await db.from('propuestas_lugares').insert({ tipo: form.elements.tipo.value, lugar_id: form.elements.lugar_id.value || null, datos_propuestos: data, motivo: form.elements.motivo.value.trim(), creado_por: currentSession?.user?.id || null });
+      button.disabled = false;
+      if (error) return setMessage(feedback, `No pudimos enviar la propuesta${error.message ? `: ${error.message}` : '.'}`, 'error');
+      form.reset(); syncType(); setMessage(feedback, 'Propuesta enviada. El capitán #00 debe aprobarla antes de que cambie el mapa.', 'success');
+      if (currentUserIsModerator) await loadPlaceProposals();
+    });
+    workspace.querySelector('[data-close-workspace]').addEventListener('click', () => { workspace.hidden = true; workspace.replaceChildren(); setMessage(feedback); });
+    syncType();
+  };
+
   document.querySelector('[data-panel-actions]')?.addEventListener('click', (event) => {
     const button = event.target.closest('[data-quick-action]');
     if (!button) return;
     const action = button.dataset.quickAction;
     if (action === 'preparar-perdida') showNoticeBuilder('perdida');
     if (action === 'preparar-encontrada') showNoticeBuilder('encontrada');
+    if (action === 'proponer-lugar') showPlaceProposal();
     if (action === 'mapa-todos') scrollToMapWithFilter('todos');
     if (action === 'mapa-perdidas') scrollToMapWithFilter('mascota_perdida');
     if (action === 'mapa-urgencia') scrollToMapWithFilter('urgencia');
@@ -1069,6 +1144,28 @@
     }
   }
 
+  async function loadPlaceProposals() {
+    const panel = document.querySelector('[data-moderator-place]');
+    const container = document.querySelector('[data-place-proposal-list]');
+    if (!panel || !container) return;
+    panel.hidden = !currentUserIsModerator;
+    if (!currentUserIsModerator) return;
+    const { data, error } = await db.from('propuestas_lugares').select('id,tipo,lugar_id,datos_propuestos,motivo,creado_en').eq('estado', 'pendiente').order('creado_en');
+    const rows = error ? [] : (data || []);
+    document.querySelector('[data-place-proposal-count]').textContent = String(rows.length);
+    if (!rows.length) {
+      const empty = document.createElement('p'); empty.className = 'empty-state'; empty.textContent = error ? 'No pudimos cargar las propuestas.' : 'No hay propuestas pendientes.'; container.replaceChildren(empty); return;
+    }
+    container.replaceChildren(...rows.map((row) => {
+      const article = document.createElement('article'); article.className = 'moderation-item';
+      const title = document.createElement('strong'); title.textContent = row.datos_propuestos?.nombre || 'Lugar sin nombre';
+      const detail = document.createElement('p'); detail.textContent = `${row.tipo} · ${placeCategoryLabels[row.datos_propuestos?.categoria] || row.datos_propuestos?.categoria || 'sin categoría'} · ${row.motivo}`;
+      const actions = document.createElement('div'); actions.className = 'moderation-actions';
+      ['aprobar','rechazar'].forEach((decision) => { const button = document.createElement('button'); button.type = 'button'; button.textContent = decision === 'aprobar' ? 'Aprobar y publicar' : 'Rechazar'; button.dataset.placeProposalId = row.id; button.dataset.placeProposalDecision = decision; actions.append(button); });
+      article.append(title, detail, actions); return article;
+    }));
+  }
+
   const createReportCard = (report, moderation = false) => {
     const article = document.createElement('article');
     article.className = 'report-item';
@@ -1167,7 +1264,7 @@
       signedIn.hidden = true;
       const placePanel = document.querySelector('[data-moderator-place]');
       if (placePanel) placePanel.hidden = true;
-      await Promise.all([loadMyReports(), loadModeratorReports(), loadPublicReports(), loadCreatorWorkspace(), loadNetworkModeration()]);
+      await Promise.all([loadMyReports(), loadModeratorReports(), loadPublicReports(), loadCreatorWorkspace(), loadNetworkModeration(), loadPlaceProposals()]);
       return;
     }
     signedOut.hidden = true;
@@ -1177,7 +1274,7 @@
     currentUserIsModerator = !error && Boolean(data);
     const placePanel = document.querySelector('[data-moderator-place]');
     if (placePanel) placePanel.hidden = !currentUserIsModerator;
-    await Promise.all([loadMyReports(), loadModeratorReports(), loadPublicReports(), loadCreatorWorkspace(), loadNetworkModeration()]);
+    await Promise.all([loadMyReports(), loadModeratorReports(), loadPublicReports(), loadCreatorWorkspace(), loadNetworkModeration(), loadPlaceProposals()]);
   }
 
   reportForm?.addEventListener('submit', async (event) => {
@@ -1212,60 +1309,6 @@
 
   descriptionInput?.addEventListener('input', () => {
     document.querySelector('[data-description-count]').textContent = String(descriptionInput.value.length);
-  });
-
-  document.querySelector('[data-place-form]')?.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    const form = event.currentTarget;
-    const message = document.querySelector('[data-place-message]');
-    setMessage(message);
-    if (!form.reportValidity() || !currentSession?.user || !currentUserIsModerator) return;
-    const latitude = form.elements.latitud.value;
-    const longitude = form.elements.longitud.value;
-    if ((latitude && !longitude) || (!latitude && longitude)) {
-      setMessage(message, 'Completa ambas coordenadas o deja ambas vacías.', 'error');
-      return;
-    }
-    if (form.elements.servicio_urgencia.checked && form.elements.categoria.value !== 'veterinaria') {
-      setMessage(message, 'Solo una veterinaria puede marcarse como servicio de urgencia.', 'error');
-      return;
-    }
-    if (form.elements.urgencia_24h.checked && !form.elements.servicio_urgencia.checked) {
-      setMessage(message, 'Para indicar 24 horas, primero marca que atiende urgencias.', 'error');
-      return;
-    }
-    const payload = {
-      slug: slugify(form.elements.nombre.value),
-      nombre: form.elements.nombre.value.trim(),
-      descripcion: form.elements.descripcion.value.trim(),
-      direccion_publica: form.elements.direccion_publica.value.trim() || null,
-      comuna: form.elements.comuna.value.trim(),
-      categoria: form.elements.categoria.value,
-      estado_verificacion: 'verificado',
-      latitud: latitude ? Number(latitude) : null,
-      longitud: longitude ? Number(longitude) : null,
-      precision_ubicacion: form.elements.precision_ubicacion.value,
-      horario_publico: form.elements.horario_publico.value.trim() || null,
-      telefono_publico: form.elements.telefono_publico.value.trim() || null,
-      sitio_web: cleanUrl(form.elements.sitio_web.value),
-      servicio_urgencia: form.elements.servicio_urgencia.checked,
-      urgencia_24h: form.elements.urgencia_24h.checked,
-      publicado: true,
-      creado_por: currentSession.user.id,
-    };
-    const button = form.querySelector('button[type="submit"]');
-    button.disabled = true;
-    const { error } = await db.from('lugares_publicos').insert(payload);
-    button.disabled = false;
-    if (error) {
-      setMessage(message, 'No pudimos publicar el lugar. Revisa los datos.', 'error');
-      console.warn('AuraLadra: error al crear lugar.', { code: error.code });
-      return;
-    }
-    form.reset();
-    form.elements.comuna.value = 'Maipú';
-    setMessage(message, 'Lugar publicado en el mapa.', 'success');
-    await loadPlaces();
   });
 
   document.querySelector('[data-profile-form]')?.addEventListener('submit', async (event) => {
@@ -1378,6 +1421,21 @@
     }
     setMessage(message, 'Solicitud actualizada.', 'success');
     await Promise.all([loadNetworkModeration(), loadAnimalNetwork(), loadCreatorWorkspace()]);
+  });
+
+  document.querySelector('[data-place-proposal-list]')?.addEventListener('click', async (event) => {
+    const button = event.target.closest('[data-place-proposal-id][data-place-proposal-decision]');
+    if (!button || !currentUserIsModerator) return;
+    const message = document.querySelector('[data-place-proposal-message]');
+    button.disabled = true;
+    const { error } = await db.rpc('moderar_propuesta_lugar', { p_propuesta_id: button.dataset.placeProposalId, p_decision: button.dataset.placeProposalDecision });
+    if (error) {
+      button.disabled = false;
+      setMessage(message, `No pudimos moderar la propuesta${error.message ? `: ${error.message}` : '.'}`, 'error');
+      return;
+    }
+    setMessage(message, button.dataset.placeProposalDecision === 'aprobar' ? 'Propuesta aprobada y mapa actualizado.' : 'Propuesta rechazada.', 'success');
+    await Promise.all([loadPlaceProposals(), loadPlaces()]);
   });
 
   document.querySelector('[data-account-animal-list]')?.addEventListener('click', async (event) => {
