@@ -11,6 +11,11 @@
     mascota_perdida: 'Mascota perdida', servicio: 'Servicio', comercio: 'Comercio', otro: 'Otro',
   };
   const placeIcons = { canil: '🐾', parque: '🌳', veterinaria: '✚', refugio: '⌂', casa_acogida: '♡', tienda_mascotas: '◆', alimento: '●', juguetes_accesorios: '◈', animal_comunitario: '♥', mascota_perdida: '!', servicio: '＋', comercio: '◇', otro: '⌖' };
+  const petSkillLabels = {
+    reconoce_nombre: 'Reconoce su nombre', contacto_visual: 'Hace contacto visual', sentarse: 'Se sienta', dar_patita: 'Da la patita', echarse: 'Se echa',
+    esperar: 'Espera', venir_llamado: 'Acude al llamado', soltar: 'Suelta objetos', paseo_correa: 'Pasea con correa', higiene: 'Hace sus necesidades en lugar indicado', socializa: 'Socializa con otros animales',
+  };
+  const characterKeys = ['personas', 'animales', 'manipulacion', 'recursos', 'entorno'];
   let currentSession = null;
   let currentUserIsModerator = false;
   let communityMap = null;
@@ -769,7 +774,7 @@
   async function loadAnimalNetwork() {
     const container = document.querySelector('[data-animal-grid]');
     const [animalsResult, profilesResult, humanResult, animalLinksResult, countResult] = await Promise.all([
-      db.from('animales').select('id,slug,nombre,especie,biografia,foto_url,zona_publica,es_comunitario,estado,estado_seguridad,raza,tamano,peso_kg,fecha_nacimiento,sexo,color_pelaje,estado_registro').eq('estado', 'publicado').eq('mostrar_en_red', true).order('nombre'),
+      db.from('animales').select('id,slug,nombre,especie,biografia,foto_url,zona_publica,es_comunitario,estado,estado_seguridad,raza,tamano,peso_kg,fecha_nacimiento,sexo,color_pelaje,estado_registro,habilidades,caracter_puntaje').eq('estado', 'publicado').eq('mostrar_en_red', true).order('nombre'),
       db.from('perfiles_publicos').select('id,alias,biografia,estado').eq('estado', 'publicado'),
       db.from('vinculos_animal_humano').select('id,animal_id,perfil_publico_id,tipo,visible_publicamente,estado').eq('estado', 'confirmado').eq('visible_publicamente', true),
       db.from('vinculos_animales').select('id,animal_a_id,animal_b_id,tipo,descripcion,estado').eq('estado', 'confirmado'),
@@ -1013,6 +1018,10 @@
     view.hidden = false;
     const age = animal.fecha_nacimiento ? new Intl.DateTimeFormat('es-CL', { dateStyle: 'long' }).format(new Date(`${animal.fecha_nacimiento}T12:00:00`)) : 'Sin informar';
     const isOwned = ownAnimals.some((item) => item.id === animal.id);
+    const health = animal.salud && typeof animal.salud === 'object' ? animal.salud : {};
+    const skills = Array.isArray(animal.habilidades) ? animal.habilidades.filter((skill) => petSkillLabels[skill]) : [];
+    const characterScore = Number.isFinite(Number(animal.caracter_puntaje)) ? Number(animal.caracter_puntaje) : null;
+    const characterLabel = characterScore === null ? 'Sin evaluar' : characterScore < 25 ? 'Bravo / muy reactivo' : characterScore < 50 ? 'Cauteloso' : characterScore < 75 ? 'Equilibrado' : 'Manso / confiado';
     view.innerHTML = `
       <div class="pet-profile-hero">
         <div class="pet-profile-gallery" data-pet-profile-gallery></div>
@@ -1030,9 +1039,45 @@
       </dl>
       ${isOwned && animal.numero_registro ? `<p class="pet-private-detail"><strong>N.º de registro:</strong> ${escapeHtml(animal.numero_registro)}</p>` : ''}
       ${animal.senas_particulares ? `<div class="pet-profile-notes"><strong>Señas particulares</strong><p>${escapeHtml(animal.senas_particulares)}</p></div>` : ''}
+      <div class="pet-profile-sections">
+        ${isOwned ? `<section class="pet-profile-section is-private"><div class="pet-section-heading"><h4>Ficha de salud</h4><span class="privacy-badge">Privada</span></div><dl class="pet-health-summary">
+          <div><dt>Antropometría</dt><dd>${animal.peso_kg ? `${Number(animal.peso_kg).toLocaleString('es-CL')} kg` : 'Peso sin registrar'}${health.altura_cm ? ` · ${escapeHtml(health.altura_cm)} cm` : ''}${health.condicion_corporal ? ` · condición corporal ${escapeHtml(health.condicion_corporal)}/9` : ''}</dd></div>
+          <div><dt>Vacunación</dt><dd>${escapeHtml(health.vacunacion || 'Sin antecedentes registrados')}</dd></div>
+          <div><dt>Antecedentes mórbidos</dt><dd>${escapeHtml(health.antecedentes_morbidos || 'Sin antecedentes registrados')}</dd></div>
+          <div><dt>Antecedentes familiares</dt><dd>${escapeHtml(health.antecedentes_familiares || 'Sin antecedentes registrados')}</dd></div>
+          <div><dt>Antecedentes quirúrgicos</dt><dd>${escapeHtml(health.antecedentes_quirurgicos || 'Sin antecedentes registrados')}</dd></div>
+          <div><dt>Alergias</dt><dd>${escapeHtml(health.alergias || 'Sin alergias registradas')}</dd></div>
+        </dl><p class="pet-health-note">Información orientativa; no reemplaza la ficha veterinaria.</p></section>` : ''}
+        <section class="pet-profile-section"><div class="pet-section-heading"><h4>Vínculos</h4></div><div class="pet-connections" data-pet-connections><p class="empty-state">Consultando vínculos confirmados…</p></div></section>
+        <section class="pet-profile-section"><div class="pet-section-heading"><h4>Árbol de habilidades</h4><span>${skills.length} logradas</span></div>${skills.length ? `<div class="pet-skill-display">${skills.map((skill) => `<span>${escapeHtml(petSkillLabels[skill])}</span>`).join('')}</div>` : '<p class="empty-state">Todavía no tiene habilidades registradas.</p>'}</section>
+        <section class="pet-profile-section"><div class="pet-section-heading"><h4>Carácter</h4><strong>${escapeHtml(characterLabel)}</strong></div><div class="pet-character-meter" style="--character-score:${characterScore ?? 50}%"><span></span></div><div class="pet-character-scale"><small>Bravo / reactivo</small><b>${characterScore === null ? 'Sin cuestionario' : `${characterScore}%`}</b><small>Manso / confiado</small></div><p class="pet-health-note">Indicador orientativo basado en conducta habitual; no garantiza cómo reaccionará en una situación nueva.</p></section>
+      </div>
       ${isOwned ? '<button class="button button-primary" type="button" data-edit-pet-profile>Editar perfil</button>' : ''}`;
     renderPetPhotos(view.querySelector('[data-pet-profile-gallery]'), animal);
+    loadPetConnections(animal.id, view.querySelector('[data-pet-connections]'));
     if (!dialog.open) dialog.showModal();
+  };
+
+  const loadPetConnections = async (animalId, container) => {
+    if (!container) return;
+    const [animalLinksResult, humanLinksResult, animalsResult, profilesResult] = await Promise.all([
+      db.from('vinculos_animales').select('animal_a_id,animal_b_id,tipo,descripcion').eq('estado', 'confirmado').or(`animal_a_id.eq.${animalId},animal_b_id.eq.${animalId}`),
+      db.from('vinculos_animal_humano').select('perfil_publico_id,tipo').eq('animal_id', animalId).eq('estado', 'confirmado').eq('visible_publicamente', true),
+      db.from('animales').select('id,nombre,es_comunitario').eq('estado', 'publicado'),
+      db.from('perfiles_publicos').select('id,alias').eq('estado', 'publicado'),
+    ]);
+    const animals = new Map((animalsResult.data || []).map((item) => [item.id, item]));
+    const profiles = new Map((profilesResult.data || []).map((item) => [item.id, item]));
+    const links = [];
+    (animalLinksResult.data || []).forEach((link) => {
+      const other = animals.get(link.animal_a_id === animalId ? link.animal_b_id : link.animal_a_id);
+      if (other) links.push(`<article><span>${other.es_comunitario ? 'Animal comunitario' : 'Mascota'}</span><strong>${escapeHtml(other.nombre)}</strong><small>${escapeHtml(link.tipo)}${link.descripcion ? ` · ${escapeHtml(link.descripcion)}` : ''}</small></article>`);
+    });
+    (humanLinksResult.data || []).forEach((link) => {
+      const profile = profiles.get(link.perfil_publico_id);
+      if (profile) links.push(`<article><span>Persona</span><strong>${escapeHtml(profile.alias)}</strong><small>${escapeHtml(link.tipo)}</small></article>`);
+    });
+    container.innerHTML = links.length ? links.join('') : '<p class="empty-state">Todavía no tiene vínculos públicos confirmados.</p>';
   };
 
   const startPetProfileEdit = () => {
@@ -1051,6 +1096,13 @@
     form.elements.nacimiento_dia.value = birthParts[2] || '';
     form.elements.peso_kg.value = animal.peso_kg || '';
     form.elements.mostrar_en_red.checked = animal.mostrar_en_red !== false;
+    const health = animal.salud && typeof animal.salud === 'object' ? animal.salud : {};
+    ['altura_cm', 'condicion_corporal', 'vacunacion', 'antecedentes_morbidos', 'antecedentes_familiares', 'antecedentes_quirurgicos', 'alergias'].forEach((field) => { form.elements[field].value = health[field] || ''; });
+    const skills = new Set(Array.isArray(animal.habilidades) ? animal.habilidades : []);
+    form.querySelectorAll('input[name="habilidades"]').forEach((input) => { input.checked = skills.has(input.value); });
+    const answers = animal.caracter_respuestas && typeof animal.caracter_respuestas === 'object' ? animal.caracter_respuestas : {};
+    characterKeys.forEach((key) => { form.elements[`caracter_${key}`].value = answers[key] || ''; });
+    updateCharacterPreview();
     form.elements.fotos.value = '';
     renderPetPhotos(document.querySelector('[data-pet-photo-preview]'), animal, true);
     form.elements.avatar_zoom.value = '1';
@@ -1566,6 +1618,22 @@
     updateAvatarCropPreview();
   });
 
+  const getCharacterData = (form) => {
+    const answers = Object.fromEntries(characterKeys.map((key) => [key, Number(form.elements[`caracter_${key}`].value)]));
+    const values = Object.values(answers).filter((value) => Number.isFinite(value) && value >= 1 && value <= 5);
+    return { answers, score: values.length === characterKeys.length ? Math.round(((values.reduce((sum, value) => sum + value, 0) / values.length) - 1) * 25) : null };
+  };
+
+  const updateCharacterPreview = () => {
+    const form = document.querySelector('[data-pet-profile-form]');
+    const output = form?.querySelector('[data-character-preview]');
+    if (!form || !output) return;
+    const { score } = getCharacterData(form);
+    output.textContent = score === null ? 'Completa las 5 respuestas' : `${score}% · ${score < 25 ? 'Bravo / muy reactivo' : score < 50 ? 'Cauteloso' : score < 75 ? 'Equilibrado' : 'Manso / confiado'}`;
+  };
+
+  characterKeys.forEach((key) => document.querySelector('[data-pet-profile-form]')?.elements[`caracter_${key}`]?.addEventListener('change', updateCharacterPreview));
+
   document.querySelector('[data-pet-profile-form]')?.addEventListener('submit', async (event) => {
     event.preventDefault();
     const form = event.currentTarget;
@@ -1592,6 +1660,11 @@
     const birthDate = hasSomeBirthPart ? `${birthYear}-${birthMonth}-${birthDay}` : null;
     if (birthDate && Number.isNaN(new Date(`${birthDate}T12:00:00`).getTime())) {
       setMessage(message, 'La fecha de nacimiento no es válida.', 'error');
+      return;
+    }
+    const character = getCharacterData(form);
+    if (character.score === null) {
+      setMessage(message, 'Completa las cinco preguntas de carácter.', 'error');
       return;
     }
     saveButton.disabled = true;
@@ -1637,6 +1710,18 @@
         p_foto_urls: photoUrls,
         p_foto_url: profilePhotoUrl,
         p_mostrar_en_red: form.elements.mostrar_en_red.checked,
+        p_salud: {
+          altura_cm: form.elements.altura_cm.value ? Number(form.elements.altura_cm.value) : null,
+          condicion_corporal: form.elements.condicion_corporal.value ? Number(form.elements.condicion_corporal.value) : null,
+          vacunacion: form.elements.vacunacion.value.trim() || null,
+          antecedentes_morbidos: form.elements.antecedentes_morbidos.value.trim() || null,
+          antecedentes_familiares: form.elements.antecedentes_familiares.value.trim() || null,
+          antecedentes_quirurgicos: form.elements.antecedentes_quirurgicos.value.trim() || null,
+          alergias: form.elements.alergias.value.trim() || null,
+        },
+        p_habilidades: [...form.querySelectorAll('input[name="habilidades"]:checked')].map((input) => input.value),
+        p_caracter_respuestas: character.answers,
+        p_caracter_puntaje: character.score,
       });
       if (error) throw error;
       await Promise.all([loadCreatorWorkspace(), loadAnimalNetwork()]);
