@@ -20,6 +20,7 @@
   let publicAnimals = [];
   let ownAnimals = [];
   let ownPublicProfile = null;
+  let activePetProfile = null;
   let locationPickerMap = null;
 
   const actionContent = {
@@ -67,6 +68,13 @@
     element.classList.toggle('is-success', type === 'success');
     element.classList.toggle('is-error', type === 'error');
   };
+
+  const escapeHtml = (value) => String(value)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
 
   const completeMagicLinkReturn = (session) => {
     const params = new URLSearchParams(window.location.search);
@@ -763,6 +771,10 @@
     container.replaceChildren(...ownAnimals.map((animal) => {
       const article = document.createElement('article');
       article.className = 'account-animal';
+      article.tabIndex = 0;
+      article.setAttribute('role', 'button');
+      article.setAttribute('aria-label', `Abrir ficha de ${animal.nombre}`);
+      article.dataset.openPetProfile = animal.id;
       const identity = document.createElement('div');
       const name = document.createElement('strong');
       name.textContent = animal.nombre;
@@ -785,9 +797,90 @@
         action.dataset.markPetLost = animal.id;
         action.textContent = 'Marcar como extraviada';
       }
-      article.append(identity, state, action);
+      const hint = document.createElement('small');
+      hint.className = 'account-animal-hint';
+      hint.textContent = 'Ver ficha y editar perfil';
+      article.append(identity, state, hint, action);
       return article;
     }));
+  };
+
+  const petValue = (value, fallback = 'Sin informar') => value === null || value === undefined || value === '' ? fallback : value;
+  const petSizeLabels = { pequeno: 'Pequeño', mediano: 'Mediano', grande: 'Grande', gigante: 'Gigante' };
+  const petRegistryLabels = { registrada: 'Registrada', en_tramite: 'En trámite', no_registrada: 'No registrada', no_informado: 'Sin informar' };
+
+  const renderPetPhotos = (container, animal, editable = false) => {
+    if (!container) return;
+    const photos = Array.isArray(animal._photo_view_urls) ? animal._photo_view_urls.filter(Boolean) : [];
+    if (animal.foto_url && !photos.includes(animal.foto_url)) photos.unshift(animal.foto_url);
+    if (!photos.length) {
+      container.innerHTML = `<div class="pet-photo-placeholder" aria-hidden="true">🐾</div>${editable ? '<p>Aún no hay fotos. Puedes agregar hasta seis.</p>' : ''}`;
+      return;
+    }
+    container.replaceChildren(...photos.slice(0, 6).map((url, index) => {
+      const image = document.createElement('img');
+      image.src = url;
+      image.alt = `${animal.nombre}, foto ${index + 1}`;
+      image.loading = 'lazy';
+      return image;
+    }));
+  };
+
+  const prepareOwnAnimalPhotos = async (animals) => Promise.all(animals.map(async (animal) => {
+    const paths = Array.isArray(animal.foto_urls) ? animal.foto_urls.filter(Boolean) : [];
+    const urls = await Promise.all(paths.map(async (path) => {
+      if (/^https?:\/\//i.test(path)) return path;
+      const { data, error } = await db.storage.from('mascotas').createSignedUrl(path, 3600);
+      return error ? null : data.signedUrl;
+    }));
+    return { ...animal, _photo_view_urls: urls.filter(Boolean) };
+  }));
+
+  const showPetProfile = (animal) => {
+    const dialog = document.querySelector('[data-pet-profile-dialog]');
+    const view = document.querySelector('[data-pet-profile-view]');
+    const form = document.querySelector('[data-pet-profile-form]');
+    if (!dialog || !view || !form) return;
+    activePetProfile = animal;
+    form.hidden = true;
+    view.hidden = false;
+    const age = animal.fecha_nacimiento ? new Intl.DateTimeFormat('es-CL', { dateStyle: 'long' }).format(new Date(`${animal.fecha_nacimiento}T12:00:00`)) : 'Sin informar';
+    view.innerHTML = `
+      <div class="pet-profile-hero">
+        <div class="pet-profile-gallery" data-pet-profile-gallery></div>
+        <div><p class="kicker">Ficha de mascota</p><h3 id="pet-profile-title">${escapeHtml(animal.nombre)}</h3><p>${escapeHtml(animal.biografia || 'Aún no tiene una descripción.')}</p></div>
+      </div>
+      <dl class="pet-profile-facts">
+        <div><dt>Especie</dt><dd>${escapeHtml(petValue(animal.especie))}</dd></div>
+        <div><dt>Raza</dt><dd>${escapeHtml(petValue(animal.raza))}</dd></div>
+        <div><dt>Tamaño</dt><dd>${escapeHtml(petSizeLabels[animal.tamano] || 'Sin informar')}</dd></div>
+        <div><dt>Peso</dt><dd>${animal.peso_kg ? `${Number(animal.peso_kg).toLocaleString('es-CL')} kg` : 'Sin informar'}</dd></div>
+        <div><dt>Sexo</dt><dd>${escapeHtml(petValue(animal.sexo))}</dd></div>
+        <div><dt>Nacimiento</dt><dd>${escapeHtml(age)}</dd></div>
+        <div><dt>Color o pelaje</dt><dd>${escapeHtml(petValue(animal.color_pelaje))}</dd></div>
+        <div><dt>Registro</dt><dd>${escapeHtml(petRegistryLabels[animal.estado_registro] || 'Sin informar')}</dd></div>
+      </dl>
+      ${animal.numero_registro ? `<p class="pet-private-detail"><strong>N.º de registro:</strong> ${escapeHtml(animal.numero_registro)}</p>` : ''}
+      ${animal.senas_particulares ? `<div class="pet-profile-notes"><strong>Señas particulares</strong><p>${escapeHtml(animal.senas_particulares)}</p></div>` : ''}
+      <button class="button button-primary" type="button" data-edit-pet-profile>Editar perfil</button>`;
+    renderPetPhotos(view.querySelector('[data-pet-profile-gallery]'), animal);
+    if (!dialog.open) dialog.showModal();
+  };
+
+  const startPetProfileEdit = () => {
+    const animal = activePetProfile;
+    const view = document.querySelector('[data-pet-profile-view]');
+    const form = document.querySelector('[data-pet-profile-form]');
+    if (!animal || !form) return;
+    view.hidden = true;
+    form.hidden = false;
+    ['nombre', 'especie', 'raza', 'tamano', 'fecha_nacimiento', 'sexo', 'color_pelaje', 'estado_registro', 'numero_registro', 'biografia', 'senas_particulares'].forEach((field) => {
+      if (form.elements[field]) form.elements[field].value = animal[field] || (field === 'estado_registro' ? 'no_informado' : '');
+    });
+    form.elements.peso_kg.value = animal.peso_kg || '';
+    form.elements.fotos.value = '';
+    renderPetPhotos(document.querySelector('[data-pet-photo-preview]'), animal, true);
+    setMessage(document.querySelector('[data-pet-profile-message]'));
   };
 
   async function loadCreatorWorkspace() {
@@ -803,7 +896,7 @@
       return;
     }
     const [animalsResult, profileResult] = await Promise.all([db.rpc('mis_animales'), db.rpc('mi_perfil_publico')]);
-    ownAnimals = animalsResult.error ? [] : (animalsResult.data || []);
+    ownAnimals = animalsResult.error ? [] : await prepareOwnAnimalPhotos(animalsResult.data || []);
     ownPublicProfile = profileResult.error ? null : (profileResult.data?.[0] || null);
     renderAccountAnimals();
     document.querySelectorAll('[data-own-animal-options]').forEach((select) => fillSelect(select, ownAnimals, ownAnimals.length ? 'Selecciona uno de tus animales' : 'Primero agrega un animal'));
@@ -1183,7 +1276,13 @@
   document.querySelector('[data-account-animal-list]')?.addEventListener('click', async (event) => {
     const lostButton = event.target.closest('[data-mark-pet-lost]');
     const safeButton = event.target.closest('[data-mark-pet-safe]');
-    if ((!lostButton && !safeButton) || !currentSession?.user) return;
+    const profileCard = event.target.closest('[data-open-pet-profile]');
+    if (!currentSession?.user) return;
+    if (!lostButton && !safeButton) {
+      const animal = ownAnimals.find((item) => item.id === profileCard?.dataset.openPetProfile);
+      if (animal) showPetProfile(animal);
+      return;
+    }
     const animalId = (lostButton || safeButton).dataset.markPetLost || (lostButton || safeButton).dataset.markPetSafe;
     const animal = ownAnimals.find((item) => item.id === animalId);
     if (!animal) return;
@@ -1210,6 +1309,91 @@
     }
     await Promise.all([loadPlaces(), loadCreatorWorkspace(), loadAnimalNetwork()]);
     setMessage(message, `${animal.nombre} ahora figura como segura y su alerta fue cerrada.`, 'success');
+  });
+
+  document.querySelector('[data-account-animal-list]')?.addEventListener('keydown', (event) => {
+    if (!['Enter', ' '].includes(event.key) || event.target.closest('button')) return;
+    const card = event.target.closest('[data-open-pet-profile]');
+    const animal = ownAnimals.find((item) => item.id === card?.dataset.openPetProfile);
+    if (!animal) return;
+    event.preventDefault();
+    showPetProfile(animal);
+  });
+
+  document.querySelector('[data-pet-profile-dialog]')?.addEventListener('click', (event) => {
+    const dialog = event.currentTarget;
+    if (event.target === dialog || event.target.closest('[data-pet-profile-close]')) dialog.close();
+    if (event.target.closest('[data-edit-pet-profile]')) startPetProfileEdit();
+    if (event.target.closest('[data-pet-profile-cancel]') && activePetProfile) showPetProfile(activePetProfile);
+  });
+
+  document.querySelector('[data-pet-profile-form]')?.elements.fotos.addEventListener('change', (event) => {
+    const preview = document.querySelector('[data-pet-photo-preview]');
+    const files = [...event.target.files].slice(0, 6);
+    if (!files.length) {
+      if (activePetProfile) renderPetPhotos(preview, activePetProfile, true);
+      return;
+    }
+    preview.replaceChildren(...files.map((file, index) => {
+      const image = document.createElement('img');
+      image.src = URL.createObjectURL(file);
+      image.alt = `Nueva foto ${index + 1}`;
+      image.onload = () => URL.revokeObjectURL(image.src);
+      return image;
+    }));
+  });
+
+  document.querySelector('[data-pet-profile-form]')?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const message = document.querySelector('[data-pet-profile-message]');
+    const saveButton = document.querySelector('[data-pet-profile-save]');
+    if (!activePetProfile || !currentSession?.user || !form.reportValidity()) return;
+    const files = [...form.elements.fotos.files];
+    if (files.length > 6 || files.some((file) => file.size > 5 * 1024 * 1024)) {
+      setMessage(message, 'Puedes subir hasta 6 fotos de máximo 5 MB cada una.', 'error');
+      return;
+    }
+    saveButton.disabled = true;
+    setMessage(message, 'Guardando la ficha…');
+    try {
+      const existingPhotos = Array.isArray(activePetProfile.foto_urls) ? activePetProfile.foto_urls.filter(Boolean) : [];
+      const uploadedPhotos = [];
+      for (const [index, file] of files.entries()) {
+        const extension = (file.name.split('.').pop() || 'jpg').toLowerCase().replace(/[^a-z0-9]/g, '');
+        const path = `${currentSession.user.id}/${activePetProfile.id}/${Date.now()}-${index}.${extension}`;
+        const { error: uploadError } = await db.storage.from('mascotas').upload(path, file, { contentType: file.type, upsert: false });
+        if (uploadError) throw uploadError;
+        uploadedPhotos.push(path);
+      }
+      const photoUrls = [...existingPhotos, ...uploadedPhotos].slice(0, 6);
+      const { error } = await db.rpc('actualizar_mi_animal', {
+        p_animal_id: activePetProfile.id,
+        p_nombre: form.elements.nombre.value.trim(),
+        p_especie: form.elements.especie.value,
+        p_biografia: form.elements.biografia.value.trim() || null,
+        p_raza: form.elements.raza.value.trim() || null,
+        p_tamano: form.elements.tamano.value || null,
+        p_peso_kg: form.elements.peso_kg.value ? Number(form.elements.peso_kg.value) : null,
+        p_fecha_nacimiento: form.elements.fecha_nacimiento.value || null,
+        p_sexo: form.elements.sexo.value || null,
+        p_color_pelaje: form.elements.color_pelaje.value.trim() || null,
+        p_estado_registro: form.elements.estado_registro.value,
+        p_numero_registro: form.elements.numero_registro.value.trim() || null,
+        p_senas_particulares: form.elements.senas_particulares.value.trim() || null,
+        p_foto_urls: photoUrls,
+      });
+      if (error) throw error;
+      await Promise.all([loadCreatorWorkspace(), loadAnimalNetwork()]);
+      const updated = ownAnimals.find((item) => item.id === activePetProfile.id);
+      if (updated) showPetProfile(updated);
+      setMessage(document.querySelector('[data-account-animal-message]'), `Ficha de ${form.elements.nombre.value.trim()} actualizada.`, 'success');
+    } catch (error) {
+      setMessage(message, 'No pudimos guardar los cambios. Revisa las fotos y vuelve a intentarlo.', 'error');
+      console.warn('AuraLadra: error al actualizar la ficha animal.', { code: error?.code });
+    } finally {
+      saveButton.disabled = false;
+    }
   });
 
   document.querySelector('[data-magic-form]')?.addEventListener('submit', async (event) => {
