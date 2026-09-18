@@ -400,7 +400,7 @@ button.pet-connect-option:hover, button.pet-connect-option:focus-visible { borde
   .creator-workspace { grid-template-columns: 1fr; }
   .public-list { grid-template-columns: 1fr 1fr; }
   .action-layout { grid-template-columns: 1fr; }
-  .action-tabs { grid-template-columns: repeat(3, 1fr); }
+  .action-tabs { grid-template-columns: repeat(2, 1fr); }
   .action-tab { grid-template-columns: 1fr; }
   .action-icon { width: 40px; height: 40px; }
   .pilot-list { grid-template-columns: 1fr; }
