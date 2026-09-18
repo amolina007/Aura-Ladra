@@ -312,7 +312,11 @@ button.pet-connect-option:hover, button.pet-connect-option:focus-visible { borde
 .pet-profile-section.is-private, .pet-health-editor { background: #f4f8fa; border-color: rgba(30,85,105,.2); }
 .pet-section-heading { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 12px; }
 .pet-section-heading h4, .pet-section-heading h5 { margin: 0; color: var(--navy); font: 650 1.2rem "Fraunces", serif; }
+.pet-section-heading > div > span { display: inline-block; margin-top: 5px; }
 .pet-section-heading > span, .pet-section-heading > strong { color: var(--coral); font-size: .75rem; }
+.pet-summary-heading { margin: 22px 0 10px; }
+.section-edit-button { flex: 0 0 auto; padding: 7px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--white); color: var(--navy); font: inherit; font-size: .75rem; font-weight: 800; cursor: pointer; }
+.section-edit-button:hover, .section-edit-button:focus-visible { border-color: var(--coral); color: var(--coral); outline: none; }
 .privacy-badge { padding: 5px 9px; border-radius: 999px; background: var(--navy); color: var(--white) !important; font-weight: 800; }
 .pet-section-help, .pet-health-note { color: var(--muted); font-size: .82rem; margin: 0 0 18px; }
 .pet-health-note { margin: 14px 0 0; }
@@ -339,6 +343,12 @@ button.pet-connect-option:hover, button.pet-connect-option:focus-visible { borde
 .pet-connections article { padding: 12px; border-radius: 12px; background: var(--cream); }
 .pet-connections article span, .pet-connections article small { display: block; color: var(--muted); font-size: .7rem; }
 .pet-connections article strong { display: block; color: var(--navy); margin: 2px 0; }
+.pet-summary-editor { margin: 8px 0 20px; padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--cream); }
+.pet-summary-editor legend { padding: 0 6px; color: var(--navy); font-weight: 800; }
+.pet-summary-editor > p { margin: 0 0 12px; color: var(--muted); font-size: .8rem; }
+.pet-summary-slots { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+.pet-summary-slots label span { display: block; margin-bottom: 4px; color: var(--muted); font-size: .7rem; font-weight: 800; }
+.pet-summary-slots select { width: 100%; min-width: 0; }
 .network-access { margin-top: 26px; padding: 28px 30px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
 .network-access h3 { margin: 0 0 5px; color: var(--navy); font: 650 1.55rem "Fraunces", serif; }
 .network-access p:not(.kicker) { margin: 0; color: var(--muted); }
@@ -466,6 +476,7 @@ button.pet-connect-option:hover, button.pet-connect-option:focus-visible { borde
   .pet-profile-shell { padding: 20px; }
   .pet-profile-hero, .pet-photo-editor, .pet-avatar-workspace, .pet-profile-fields { grid-template-columns: 1fr; }
   .pet-skill-tree, .pet-character-questions, .pet-connections { grid-template-columns: 1fr; }
+  .pet-summary-slots { grid-template-columns: 1fr; }
   .pet-skill-tree fieldset + fieldset::before { content: '↓'; left: 50%; top: -14px; }
   .pet-avatar-crop { width: min(220px, 100%); margin-inline: auto; }
   .pet-profile-wide { grid-column: auto; }
