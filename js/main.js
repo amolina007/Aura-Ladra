@@ -813,6 +813,14 @@
   const petValue = (value, fallback = 'Sin informar') => value === null || value === undefined || value === '' ? fallback : value;
   const petSizeLabels = { pequeno: 'Pequeño', mediano: 'Mediano', grande: 'Grande', gigante: 'Gigante' };
   const petRegistryLabels = { registrada: 'Registrada', en_tramite: 'En trámite', no_registrada: 'No registrada', no_informado: 'Sin informar' };
+  const uploadMimeByExtension = { jpg: 'image/jpeg', jpeg: 'image/jpeg', jfif: 'image/jpeg', png: 'image/png', webp: 'image/webp' };
+
+  const getUploadImageType = (file) => {
+    const extension = (file.name.split('.').pop() || '').toLowerCase();
+    if (file.type === 'image/jpg') return 'image/jpeg';
+    if (['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) return file.type;
+    return uploadMimeByExtension[extension] || '';
+  };
 
   const initializeBirthSelectors = () => {
     const form = document.querySelector('[data-pet-profile-form]');
@@ -1418,6 +1426,10 @@
       setMessage(message, 'Puedes subir hasta 6 fotos de máximo 5 MB cada una.', 'error');
       return;
     }
+    if (files.some((file) => !getUploadImageType(file))) {
+      setMessage(message, 'Una foto no tiene formato compatible. Usa archivos JPG, PNG o WebP.', 'error');
+      return;
+    }
     const birthYear = form.elements.nacimiento_ano.value;
     const birthMonth = form.elements.nacimiento_mes.value;
     const birthDay = form.elements.nacimiento_dia.value;
@@ -1435,12 +1447,14 @@
     setMessage(message, 'Guardando la ficha…');
     let savePhase = 'upload';
     try {
+      const { data: authData, error: authError } = await db.auth.getUser();
+      if (authError || authData.user?.id !== currentSession.user.id) throw new Error('La sesión venció. Cierra sesión y vuelve a ingresar.');
       const existingPhotos = Array.isArray(activePetProfile.foto_urls) ? activePetProfile.foto_urls.filter(Boolean) : [];
       const uploadedPhotos = [];
       for (const [index, file] of files.entries()) {
         const extension = (file.name.split('.').pop() || 'jpg').toLowerCase().replace(/[^a-z0-9]/g, '');
         const path = `${currentSession.user.id}/${activePetProfile.id}/${Date.now()}-${index}.${extension}`;
-        const { error: uploadError } = await db.storage.from('mascotas').upload(path, file, { contentType: file.type, upsert: false });
+        const { error: uploadError } = await db.storage.from('mascotas').upload(path, file, { contentType: getUploadImageType(file), cacheControl: '3600', upsert: false });
         if (uploadError) throw uploadError;
         uploadedPhotos.push(path);
       }
@@ -1468,7 +1482,8 @@
       if (updated) showPetProfile(updated);
       setMessage(document.querySelector('[data-account-animal-message]'), `Ficha de ${form.elements.nombre.value.trim()} actualizada.`, 'success');
     } catch (error) {
-      setMessage(message, savePhase === 'upload' ? 'No pudimos subir una de las fotos. Usa JPG, PNG o WebP de hasta 5 MB.' : 'Las fotos se subieron, pero no pudimos guardar los datos del perfil. Inténtalo nuevamente.', 'error');
+      const detail = String(error?.message || error?.error || '').replace(/\s+/g, ' ').trim().slice(0, 180);
+      setMessage(message, savePhase === 'upload' ? `No pudimos subir una foto${detail ? `: ${detail}` : '.'}` : `Las fotos se subieron, pero no pudimos guardar el perfil${detail ? `: ${detail}` : '.'}`, 'error');
       console.warn('AuraLadra: error al actualizar la ficha animal.', { code: error?.code });
     } finally {
       saveButton.disabled = false;
