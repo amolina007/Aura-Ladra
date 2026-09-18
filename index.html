@@ -328,6 +328,19 @@
                       <div class="pet-photo-preview" data-pet-photo-preview aria-live="polite"></div>
                       <label class="field"><span>Fotos (máximo 6)</span><input name="fotos" type="file" accept="image/jpeg,image/png,image/webp" multiple><small>JPG, PNG o WebP. Hasta 5 MB por foto.</small></label>
                     </div>
+                    <section class="pet-avatar-editor" data-pet-avatar-editor>
+                      <div class="pet-avatar-copy"><p class="kicker">Foto de perfil</p><h5>Elige y encuadra su rostro</h5><p>Esta miniatura será pública y aparecerá en Red animal. Las demás fotos siguen privadas.</p></div>
+                      <div class="pet-avatar-choices" data-pet-avatar-choices aria-label="Elegir foto de perfil"></div>
+                      <div class="pet-avatar-workspace" data-pet-avatar-workspace hidden>
+                        <div class="pet-avatar-crop" data-pet-avatar-crop><img data-pet-avatar-image alt="Vista previa de la foto de perfil"></div>
+                        <div class="pet-avatar-controls">
+                          <label><span>Zoom</span><input type="range" name="avatar_zoom" min="1" max="3" value="1" step="0.01"></label>
+                          <label><span>Horizontal</span><input type="range" name="avatar_x" min="-100" max="100" value="0" step="1"></label>
+                          <label><span>Vertical</span><input type="range" name="avatar_y" min="-100" max="100" value="0" step="1"></label>
+                          <button class="text-button" type="button" data-reset-avatar-crop>Restablecer encuadre</button>
+                        </div>
+                      </div>
+                    </section>
                     <div class="pet-profile-fields">
                       <label class="field"><span>Nombre</span><input name="nombre" required maxlength="60"></label>
                       <label class="field"><span>Especie</span><select name="especie"><option value="perro">Perro</option><option value="gato">Gato</option><option value="ave">Ave</option><option value="otro">Otro</option></select></label>
