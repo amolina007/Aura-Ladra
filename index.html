@@ -340,6 +340,41 @@
                       <label class="field pet-profile-wide"><span>Señas particulares</span><textarea name="senas_particulares" maxlength="400" rows="3" placeholder="Marcas, cicatrices, collar habitual u otros rasgos identificables."></textarea></label>
                       <label class="check-field pet-profile-wide pet-network-visibility"><input name="mostrar_en_red" type="checkbox"><span><strong>Mostrar en Red animal</strong><small>Si la desmarcas, la mascota seguirá contabilizada, pero su perfil no será visible públicamente.</small></span></label>
                     </div>
+                    <section class="pet-edit-section pet-health-editor" aria-labelledby="pet-health-edit-title">
+                      <div class="pet-section-heading"><div><p class="kicker">Privado</p><h5 id="pet-health-edit-title">Ficha de salud</h5></div><span class="privacy-badge">Solo responsables</span></div>
+                      <p class="pet-section-help">Registro orientativo para ordenar antecedentes. No reemplaza la ficha ni la evaluación veterinaria.</p>
+                      <div class="pet-profile-fields">
+                        <label class="field"><span>Altura a la cruz (cm)</span><input name="altura_cm" type="number" min="1" max="250" step="0.1" inputmode="decimal"></label>
+                        <label class="field"><span>Condición corporal</span><select name="condicion_corporal"><option value="">Sin evaluar</option><option value="1">1 · Muy delgada</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5 · Ideal</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9 · Obesidad marcada</option></select></label>
+                        <label class="field pet-profile-wide"><span>Vacunación</span><textarea name="vacunacion" maxlength="1200" rows="3" placeholder="Vacuna, fecha, próxima dosis y centro veterinario."></textarea></label>
+                        <label class="field pet-profile-wide"><span>Antecedentes mórbidos</span><textarea name="antecedentes_morbidos" maxlength="1200" rows="3" placeholder="Diagnósticos, tratamientos o condiciones relevantes."></textarea></label>
+                        <label class="field pet-profile-wide"><span>Antecedentes familiares</span><textarea name="antecedentes_familiares" maxlength="1200" rows="3" placeholder="Enfermedades conocidas en madre, padre o camada."></textarea></label>
+                        <label class="field pet-profile-wide"><span>Antecedentes quirúrgicos</span><textarea name="antecedentes_quirurgicos" maxlength="1200" rows="3" placeholder="Cirugía, fecha y observaciones."></textarea></label>
+                        <label class="field pet-profile-wide"><span>Alergias</span><textarea name="alergias" maxlength="800" rows="2" placeholder="Alimentos, medicamentos u otras alergias conocidas."></textarea></label>
+                      </div>
+                    </section>
+                    <section class="pet-edit-section" aria-labelledby="pet-skills-edit-title">
+                      <div class="pet-section-heading"><div><p class="kicker">Aprendizaje</p><h5 id="pet-skills-edit-title">Árbol de habilidades</h5></div></div>
+                      <p class="pet-section-help">Marca lo que realiza de forma reconocible. Las ramas avanzadas se muestran conectadas a sus habilidades base.</p>
+                      <div class="pet-skill-tree" data-pet-skill-editor>
+                        <fieldset><legend>Base</legend><label><input type="checkbox" name="habilidades" value="reconoce_nombre"> Reconoce su nombre</label><label><input type="checkbox" name="habilidades" value="contacto_visual"> Hace contacto visual</label></fieldset>
+                        <fieldset><legend>Comunicación</legend><label><input type="checkbox" name="habilidades" value="sentarse"> Se sienta</label><label><input type="checkbox" name="habilidades" value="dar_patita"> Da la patita</label><label><input type="checkbox" name="habilidades" value="echarse"> Se echa</label></fieldset>
+                        <fieldset><legend>Autocontrol</legend><label><input type="checkbox" name="habilidades" value="esperar"> Espera</label><label><input type="checkbox" name="habilidades" value="venir_llamado"> Acude al llamado</label><label><input type="checkbox" name="habilidades" value="soltar"> Suelta objetos</label></fieldset>
+                        <fieldset><legend>Convivencia</legend><label><input type="checkbox" name="habilidades" value="paseo_correa"> Pasea con correa</label><label><input type="checkbox" name="habilidades" value="higiene"> Hace sus necesidades en lugar indicado</label><label><input type="checkbox" name="habilidades" value="socializa"> Socializa con otros animales</label></fieldset>
+                      </div>
+                    </section>
+                    <section class="pet-edit-section" aria-labelledby="pet-character-edit-title">
+                      <div class="pet-section-heading"><div><p class="kicker">Cuestionario</p><h5 id="pet-character-edit-title">Indicador de carácter</h5></div></div>
+                      <p class="pet-section-help">Responde según su conducta habitual: 1 significa muy reactiva o temerosa y 5 muy tranquila y confiada. No predice por sí solo el riesgo de mordedura.</p>
+                      <div class="pet-character-questions">
+                        <label class="field"><span>Con personas desconocidas</span><select name="caracter_personas" required><option value="">Selecciona</option><option value="1">1 · Muy reactiva</option><option value="2">2</option><option value="3">3 · Variable</option><option value="4">4</option><option value="5">5 · Muy tranquila</option></select></label>
+                        <label class="field"><span>Con otros animales</span><select name="caracter_animales" required><option value="">Selecciona</option><option value="1">1 · Muy reactiva</option><option value="2">2</option><option value="3">3 · Variable</option><option value="4">4</option><option value="5">5 · Muy tranquila</option></select></label>
+                        <label class="field"><span>Al tocarla o revisarla</span><select name="caracter_manipulacion" required><option value="">Selecciona</option><option value="1">1 · No lo tolera</option><option value="2">2</option><option value="3">3 · Variable</option><option value="4">4</option><option value="5">5 · Lo tolera bien</option></select></label>
+                        <label class="field"><span>Cerca de comida o juguetes</span><select name="caracter_recursos" required><option value="">Selecciona</option><option value="1">1 · Protege intensamente</option><option value="2">2</option><option value="3">3 · Variable</option><option value="4">4</option><option value="5">5 · Comparte sin tensión</option></select></label>
+                        <label class="field"><span>Ante ruidos o situaciones nuevas</span><select name="caracter_entorno" required><option value="">Selecciona</option><option value="1">1 · Reacción intensa</option><option value="2">2</option><option value="3">3 · Variable</option><option value="4">4</option><option value="5">5 · Se regula con facilidad</option></select></label>
+                      </div>
+                      <div class="pet-character-live"><span>Bravo / reactivo</span><output data-character-preview>Sin responder</output><span>Manso / confiado</span></div>
+                    </section>
                     <p class="form-message" data-pet-profile-message aria-live="polite"></p>
                     <button class="button button-primary" type="submit" data-pet-profile-save>Guardar cambios</button>
                   </form>
