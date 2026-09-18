@@ -814,6 +814,21 @@
   const petSizeLabels = { pequeno: 'Pequeño', mediano: 'Mediano', grande: 'Grande', gigante: 'Gigante' };
   const petRegistryLabels = { registrada: 'Registrada', en_tramite: 'En trámite', no_registrada: 'No registrada', no_informado: 'Sin informar' };
 
+  const initializeBirthSelectors = () => {
+    const form = document.querySelector('[data-pet-profile-form]');
+    if (!form) return;
+    const day = form.elements.nacimiento_dia;
+    const year = form.elements.nacimiento_ano;
+    if (day.options.length === 1) {
+      for (let value = 1; value <= 31; value += 1) day.add(new Option(String(value), String(value).padStart(2, '0')));
+    }
+    if (year.options.length === 1) {
+      const currentYear = new Date().getFullYear();
+      for (let value = currentYear; value >= currentYear - 40; value -= 1) year.add(new Option(String(value), String(value)));
+    }
+  };
+  initializeBirthSelectors();
+
   const renderPetPhotos = (container, animal, editable = false) => {
     if (!container) return;
     const photos = Array.isArray(animal._photo_view_urls) ? animal._photo_view_urls.filter(Boolean) : [];
@@ -879,9 +894,13 @@
     if (!animal || !form) return;
     view.hidden = true;
     form.hidden = false;
-    ['nombre', 'especie', 'raza', 'tamano', 'fecha_nacimiento', 'sexo', 'color_pelaje', 'estado_registro', 'numero_registro', 'biografia', 'senas_particulares'].forEach((field) => {
+    ['nombre', 'especie', 'raza', 'tamano', 'sexo', 'color_pelaje', 'estado_registro', 'numero_registro', 'biografia', 'senas_particulares'].forEach((field) => {
       if (form.elements[field]) form.elements[field].value = animal[field] || (field === 'estado_registro' ? 'no_informado' : '');
     });
+    const birthParts = animal.fecha_nacimiento?.split('-') || [];
+    form.elements.nacimiento_ano.value = birthParts[0] || '';
+    form.elements.nacimiento_mes.value = birthParts[1] || '';
+    form.elements.nacimiento_dia.value = birthParts[2] || '';
     form.elements.peso_kg.value = animal.peso_kg || '';
     form.elements.fotos.value = '';
     renderPetPhotos(document.querySelector('[data-pet-photo-preview]'), animal, true);
@@ -1399,8 +1418,22 @@
       setMessage(message, 'Puedes subir hasta 6 fotos de máximo 5 MB cada una.', 'error');
       return;
     }
+    const birthYear = form.elements.nacimiento_ano.value;
+    const birthMonth = form.elements.nacimiento_mes.value;
+    const birthDay = form.elements.nacimiento_dia.value;
+    const hasSomeBirthPart = birthYear || birthMonth || birthDay;
+    if (hasSomeBirthPart && !(birthYear && birthMonth && birthDay)) {
+      setMessage(message, 'Completa día, mes y año, o deja la fecha completa sin indicar.', 'error');
+      return;
+    }
+    const birthDate = hasSomeBirthPart ? `${birthYear}-${birthMonth}-${birthDay}` : null;
+    if (birthDate && Number.isNaN(new Date(`${birthDate}T12:00:00`).getTime())) {
+      setMessage(message, 'La fecha de nacimiento no es válida.', 'error');
+      return;
+    }
     saveButton.disabled = true;
     setMessage(message, 'Guardando la ficha…');
+    let savePhase = 'upload';
     try {
       const existingPhotos = Array.isArray(activePetProfile.foto_urls) ? activePetProfile.foto_urls.filter(Boolean) : [];
       const uploadedPhotos = [];
@@ -1412,6 +1445,7 @@
         uploadedPhotos.push(path);
       }
       const photoUrls = [...existingPhotos, ...uploadedPhotos].slice(0, 6);
+      savePhase = 'profile';
       const { error } = await db.rpc('actualizar_mi_animal', {
         p_animal_id: activePetProfile.id,
         p_nombre: form.elements.nombre.value.trim(),
@@ -1420,7 +1454,7 @@
         p_raza: form.elements.raza.value.trim() || null,
         p_tamano: form.elements.tamano.value || null,
         p_peso_kg: form.elements.peso_kg.value ? Number(form.elements.peso_kg.value) : null,
-        p_fecha_nacimiento: form.elements.fecha_nacimiento.value || null,
+        p_fecha_nacimiento: birthDate,
         p_sexo: form.elements.sexo.value || null,
         p_color_pelaje: form.elements.color_pelaje.value.trim() || null,
         p_estado_registro: form.elements.estado_registro.value,
@@ -1434,7 +1468,7 @@
       if (updated) showPetProfile(updated);
       setMessage(document.querySelector('[data-account-animal-message]'), `Ficha de ${form.elements.nombre.value.trim()} actualizada.`, 'success');
     } catch (error) {
-      setMessage(message, 'No pudimos guardar los cambios. Revisa las fotos y vuelve a intentarlo.', 'error');
+      setMessage(message, savePhase === 'upload' ? 'No pudimos subir una de las fotos. Usa JPG, PNG o WebP de hasta 5 MB.' : 'Las fotos se subieron, pero no pudimos guardar los datos del perfil. Inténtalo nuevamente.', 'error');
       console.warn('AuraLadra: error al actualizar la ficha animal.', { code: error?.code });
     } finally {
       saveButton.disabled = false;
