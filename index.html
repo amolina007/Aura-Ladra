@@ -314,6 +314,39 @@
                 <div class="account-animal-list" data-account-animal-list></div>
                 <p class="form-message" data-account-animal-message aria-live="polite"></p>
               </section>
+
+              <dialog class="pet-profile-dialog" data-pet-profile-dialog aria-labelledby="pet-profile-title">
+                <div class="pet-profile-shell">
+                  <button class="pet-profile-close" type="button" data-pet-profile-close aria-label="Cerrar ficha">×</button>
+                  <div class="pet-profile-view" data-pet-profile-view></div>
+                  <form class="pet-profile-edit" data-pet-profile-form hidden>
+                    <div class="pet-profile-edit-heading">
+                      <div><p class="kicker">Editar perfil</p><h4>Datos de la mascota</h4></div>
+                      <button class="text-button" type="button" data-pet-profile-cancel>Cancelar</button>
+                    </div>
+                    <div class="pet-photo-editor">
+                      <div class="pet-photo-preview" data-pet-photo-preview aria-live="polite"></div>
+                      <label class="field"><span>Fotos (máximo 6)</span><input name="fotos" type="file" accept="image/jpeg,image/png,image/webp" multiple><small>JPG, PNG o WebP. Hasta 5 MB por foto.</small></label>
+                    </div>
+                    <div class="pet-profile-fields">
+                      <label class="field"><span>Nombre</span><input name="nombre" required maxlength="60"></label>
+                      <label class="field"><span>Especie</span><select name="especie"><option value="perro">Perro</option><option value="gato">Gato</option><option value="ave">Ave</option><option value="otro">Otro</option></select></label>
+                      <label class="field"><span>Raza</span><input name="raza" maxlength="80" placeholder="Ej.: mestiza"></label>
+                      <label class="field"><span>Tamaño</span><select name="tamano"><option value="">Sin indicar</option><option value="pequeno">Pequeño</option><option value="mediano">Mediano</option><option value="grande">Grande</option><option value="gigante">Gigante</option></select></label>
+                      <label class="field"><span>Peso (kg)</span><input name="peso_kg" type="number" min="0.1" max="200" step="0.1" inputmode="decimal"></label>
+                      <label class="field"><span>Fecha de nacimiento</span><input name="fecha_nacimiento" type="date"></label>
+                      <label class="field"><span>Sexo</span><select name="sexo"><option value="">Sin indicar</option><option value="hembra">Hembra</option><option value="macho">Macho</option><option value="desconocido">Desconocido</option></select></label>
+                      <label class="field"><span>Color o pelaje</span><input name="color_pelaje" maxlength="100"></label>
+                      <label class="field"><span>Registro de mascota</span><select name="estado_registro"><option value="no_informado">Sin informar</option><option value="registrada">Registrada</option><option value="en_tramite">En trámite</option><option value="no_registrada">No registrada</option></select></label>
+                      <label class="field"><span>N.º de registro</span><input name="numero_registro" maxlength="80" autocomplete="off"></label>
+                      <label class="field pet-profile-wide"><span>Descripción</span><textarea name="biografia" maxlength="600" rows="4" placeholder="Personalidad, hábitos y lo que ayuda a reconocerla."></textarea></label>
+                      <label class="field pet-profile-wide"><span>Señas particulares</span><textarea name="senas_particulares" maxlength="400" rows="3" placeholder="Marcas, cicatrices, collar habitual u otros rasgos identificables."></textarea></label>
+                    </div>
+                    <p class="form-message" data-pet-profile-message aria-live="polite"></p>
+                    <button class="button button-primary" type="submit" data-pet-profile-save>Guardar cambios</button>
+                  </form>
+                </div>
+              </dialog>
             </section>
 
             <section class="my-reports card" data-my-reports-section hidden aria-labelledby="my-reports-title">
