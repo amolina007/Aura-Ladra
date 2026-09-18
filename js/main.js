@@ -16,6 +16,11 @@
     esperar: 'Espera', venir_llamado: 'Acude al llamado', soltar: 'Suelta objetos', paseo_correa: 'Pasea con correa', higiene: 'Hace sus necesidades en lugar indicado', socializa: 'Socializa con otros animales',
   };
   const characterKeys = ['personas', 'animales', 'manipulacion', 'recursos', 'entorno'];
+  const defaultPetSummaryBlocks = ['especie', 'raza', 'tamano', 'peso', 'sexo', 'nacimiento', 'color', 'registro'];
+  const petSummaryLabels = {
+    especie: 'Especie', raza: 'Raza', tamano: 'Tamaño', peso: 'Peso', sexo: 'Sexo', nacimiento: 'Nacimiento', color: 'Color o pelaje', registro: 'Registro',
+    caracter: 'Carácter', diagnostico_nutricional: 'Diagnóstico nutricional', habilidades: 'Habilidades', estado_seguridad: 'Estado de seguridad',
+  };
   let currentSession = null;
   let currentUserIsModerator = false;
   let communityMap = null;
@@ -26,6 +31,7 @@
   let ownAnimals = [];
   let ownPublicProfile = null;
   let activePetProfile = null;
+  let activePetEditSection = 'perfil';
   let avatarCropSource = '';
   let avatarObjectUrls = [];
   let locationPickerMap = null;
@@ -774,7 +780,7 @@
   async function loadAnimalNetwork() {
     const container = document.querySelector('[data-animal-grid]');
     const [animalsResult, profilesResult, humanResult, animalLinksResult, countResult] = await Promise.all([
-      db.from('animales').select('id,slug,nombre,especie,biografia,foto_url,zona_publica,es_comunitario,estado,estado_seguridad,raza,tamano,peso_kg,fecha_nacimiento,sexo,color_pelaje,estado_registro,habilidades,caracter_puntaje').eq('estado', 'publicado').eq('mostrar_en_red', true).order('nombre'),
+      db.from('animales').select('id,slug,nombre,especie,biografia,foto_url,zona_publica,es_comunitario,estado,estado_seguridad,raza,tamano,peso_kg,fecha_nacimiento,sexo,color_pelaje,estado_registro,habilidades,caracter_puntaje,diagnostico_nutricional,bloques_resumen').eq('estado', 'publicado').eq('mostrar_en_red', true).order('nombre'),
       db.from('perfiles_publicos').select('id,alias,biografia,estado').eq('estado', 'publicado'),
       db.from('vinculos_animal_humano').select('id,animal_id,perfil_publico_id,tipo,visible_publicamente,estado').eq('estado', 'confirmado').eq('visible_publicamente', true),
       db.from('vinculos_animales').select('id,animal_a_id,animal_b_id,tipo,descripcion,estado').eq('estado', 'confirmado'),
@@ -1008,6 +1014,30 @@
     return { ...animal, _photo_view_urls: urls.filter(Boolean) };
   }));
 
+  const characterSummary = (score) => {
+    if (score === null || score === undefined || score === '' || !Number.isFinite(Number(score))) return 'Sin evaluar';
+    const value = Number(score);
+    return value < 25 ? 'Bravo / muy reactivo' : value < 50 ? 'Cauteloso' : value < 75 ? 'Equilibrado' : 'Manso / confiado';
+  };
+
+  const petSummaryValue = (animal, key) => ({
+    especie: petValue(animal.especie), raza: petValue(animal.raza), tamano: petSizeLabels[animal.tamano] || 'Sin informar',
+    peso: animal.peso_kg ? `${Number(animal.peso_kg).toLocaleString('es-CL')} kg` : 'Sin informar', sexo: petValue(animal.sexo),
+    nacimiento: animal.fecha_nacimiento ? new Intl.DateTimeFormat('es-CL', { dateStyle: 'long' }).format(new Date(`${animal.fecha_nacimiento}T12:00:00`)) : 'Sin informar',
+    color: petValue(animal.color_pelaje), registro: petRegistryLabels[animal.estado_registro] || 'Sin informar',
+    caracter: characterSummary(animal.caracter_puntaje), diagnostico_nutricional: animal.diagnostico_nutricional || 'Sin informar',
+    habilidades: `${Array.isArray(animal.habilidades) ? animal.habilidades.length : 0} registradas`,
+    estado_seguridad: animal.estado_seguridad === 'extraviada' ? 'Extraviada' : 'Segura',
+  }[key] || 'Sin informar');
+
+  const renderPetSummarySlots = (form, selected = defaultPetSummaryBlocks) => {
+    const container = form.querySelector('[data-pet-summary-slots]');
+    if (!container) return;
+    const values = [...new Set(Array.isArray(selected) ? selected.filter((key) => petSummaryLabels[key]) : [])].slice(0, 8);
+    while (values.length < 8) values.push(defaultPetSummaryBlocks.find((key) => !values.includes(key)) || '');
+    container.innerHTML = values.map((value, index) => `<label><span>Bloque ${index + 1}</span><select name="bloque_resumen_${index + 1}">${Object.entries(petSummaryLabels).map(([key, label]) => `<option value="${key}"${key === value ? ' selected' : ''}>${escapeHtml(label)}</option>`).join('')}</select></label>`).join('');
+  };
+
   const showPetProfile = (animal) => {
     const dialog = document.querySelector('[data-pet-profile-dialog]');
     const view = document.querySelector('[data-pet-profile-view]');
@@ -1016,43 +1046,36 @@
     activePetProfile = animal;
     form.hidden = true;
     view.hidden = false;
-    const age = animal.fecha_nacimiento ? new Intl.DateTimeFormat('es-CL', { dateStyle: 'long' }).format(new Date(`${animal.fecha_nacimiento}T12:00:00`)) : 'Sin informar';
     const isOwned = ownAnimals.some((item) => item.id === animal.id);
     const health = animal.salud && typeof animal.salud === 'object' ? animal.salud : {};
     const skills = Array.isArray(animal.habilidades) ? animal.habilidades.filter((skill) => petSkillLabels[skill]) : [];
-    const characterScore = Number.isFinite(Number(animal.caracter_puntaje)) ? Number(animal.caracter_puntaje) : null;
-    const characterLabel = characterScore === null ? 'Sin evaluar' : characterScore < 25 ? 'Bravo / muy reactivo' : characterScore < 50 ? 'Cauteloso' : characterScore < 75 ? 'Equilibrado' : 'Manso / confiado';
+    const characterScore = animal.caracter_puntaje === null || animal.caracter_puntaje === undefined || animal.caracter_puntaje === '' ? null : Number(animal.caracter_puntaje);
+    const characterLabel = characterSummary(characterScore);
+    const summaryBlocks = [...new Set(Array.isArray(animal.bloques_resumen) ? animal.bloques_resumen.filter((key) => petSummaryLabels[key]) : defaultPetSummaryBlocks)].slice(0, 8);
     view.innerHTML = `
       <div class="pet-profile-hero">
         <div class="pet-profile-gallery" data-pet-profile-gallery></div>
         <div><p class="kicker">Ficha de mascota</p><h3 id="pet-profile-title">${escapeHtml(animal.nombre)}</h3><p>${escapeHtml(animal.biografia || 'Aún no tiene una descripción.')}</p></div>
       </div>
-      <dl class="pet-profile-facts">
-        <div><dt>Especie</dt><dd>${escapeHtml(petValue(animal.especie))}</dd></div>
-        <div><dt>Raza</dt><dd>${escapeHtml(petValue(animal.raza))}</dd></div>
-        <div><dt>Tamaño</dt><dd>${escapeHtml(petSizeLabels[animal.tamano] || 'Sin informar')}</dd></div>
-        <div><dt>Peso</dt><dd>${animal.peso_kg ? `${Number(animal.peso_kg).toLocaleString('es-CL')} kg` : 'Sin informar'}</dd></div>
-        <div><dt>Sexo</dt><dd>${escapeHtml(petValue(animal.sexo))}</dd></div>
-        <div><dt>Nacimiento</dt><dd>${escapeHtml(age)}</dd></div>
-        <div><dt>Color o pelaje</dt><dd>${escapeHtml(petValue(animal.color_pelaje))}</dd></div>
-        <div><dt>Registro</dt><dd>${escapeHtml(petRegistryLabels[animal.estado_registro] || 'Sin informar')}</dd></div>
-      </dl>
+      <div class="pet-section-heading pet-summary-heading"><h4>Resumen</h4>${isOwned ? '<button class="section-edit-button" type="button" data-edit-pet-section="perfil">Editar</button>' : ''}</div>
+      <dl class="pet-profile-facts">${summaryBlocks.map((key) => `<div><dt>${escapeHtml(petSummaryLabels[key])}</dt><dd>${escapeHtml(petSummaryValue(animal, key))}</dd></div>`).join('')}</dl>
       ${isOwned && animal.numero_registro ? `<p class="pet-private-detail"><strong>N.º de registro:</strong> ${escapeHtml(animal.numero_registro)}</p>` : ''}
       ${animal.senas_particulares ? `<div class="pet-profile-notes"><strong>Señas particulares</strong><p>${escapeHtml(animal.senas_particulares)}</p></div>` : ''}
       <div class="pet-profile-sections">
-        ${isOwned ? `<section class="pet-profile-section is-private"><div class="pet-section-heading"><h4>Ficha de salud</h4><span class="privacy-badge">Privada</span></div><dl class="pet-health-summary">
+        ${isOwned ? `<section class="pet-profile-section is-private"><div class="pet-section-heading"><div><h4>Ficha de salud</h4><span class="privacy-badge">Privada</span></div><button class="section-edit-button" type="button" data-edit-pet-section="salud">Editar</button></div><dl class="pet-health-summary">
           <div><dt>Antropometría</dt><dd>${animal.peso_kg ? `${Number(animal.peso_kg).toLocaleString('es-CL')} kg` : 'Peso sin registrar'}${health.altura_cm ? ` · ${escapeHtml(health.altura_cm)} cm` : ''}${health.condicion_corporal ? ` · condición corporal ${escapeHtml(health.condicion_corporal)}/9` : ''}</dd></div>
+          <div><dt>Diagnóstico nutricional</dt><dd>${escapeHtml(animal.diagnostico_nutricional || 'Sin diagnóstico registrado')}</dd></div>
           <div><dt>Vacunación</dt><dd>${escapeHtml(health.vacunacion || 'Sin antecedentes registrados')}</dd></div>
           <div><dt>Antecedentes mórbidos</dt><dd>${escapeHtml(health.antecedentes_morbidos || 'Sin antecedentes registrados')}</dd></div>
           <div><dt>Antecedentes familiares</dt><dd>${escapeHtml(health.antecedentes_familiares || 'Sin antecedentes registrados')}</dd></div>
           <div><dt>Antecedentes quirúrgicos</dt><dd>${escapeHtml(health.antecedentes_quirurgicos || 'Sin antecedentes registrados')}</dd></div>
           <div><dt>Alergias</dt><dd>${escapeHtml(health.alergias || 'Sin alergias registradas')}</dd></div>
         </dl><p class="pet-health-note">Información orientativa; no reemplaza la ficha veterinaria.</p></section>` : ''}
-        <section class="pet-profile-section"><div class="pet-section-heading"><h4>Vínculos</h4></div><div class="pet-connections" data-pet-connections><p class="empty-state">Consultando vínculos confirmados…</p></div></section>
-        <section class="pet-profile-section"><div class="pet-section-heading"><h4>Árbol de habilidades</h4><span>${skills.length} logradas</span></div>${skills.length ? `<div class="pet-skill-display">${skills.map((skill) => `<span>${escapeHtml(petSkillLabels[skill])}</span>`).join('')}</div>` : '<p class="empty-state">Todavía no tiene habilidades registradas.</p>'}</section>
-        <section class="pet-profile-section"><div class="pet-section-heading"><h4>Carácter</h4><strong>${escapeHtml(characterLabel)}</strong></div><div class="pet-character-meter" style="--character-score:${characterScore ?? 50}%"><span></span></div><div class="pet-character-scale"><small>Bravo / reactivo</small><b>${characterScore === null ? 'Sin cuestionario' : `${characterScore}%`}</b><small>Manso / confiado</small></div><p class="pet-health-note">Indicador orientativo basado en conducta habitual; no garantiza cómo reaccionará en una situación nueva.</p></section>
+        <section class="pet-profile-section"><div class="pet-section-heading"><h4>Vínculos</h4>${isOwned ? '<button class="section-edit-button" type="button" data-edit-pet-section="vinculos">Editar</button>' : ''}</div><div class="pet-connections" data-pet-connections><p class="empty-state">Consultando vínculos confirmados…</p></div></section>
+        <section class="pet-profile-section"><div class="pet-section-heading"><div><h4>Árbol de habilidades</h4><span>${skills.length} logradas</span></div>${isOwned ? '<button class="section-edit-button" type="button" data-edit-pet-section="habilidades">Editar</button>' : ''}</div>${skills.length ? `<div class="pet-skill-display">${skills.map((skill) => `<span>${escapeHtml(petSkillLabels[skill])}</span>`).join('')}</div>` : '<p class="empty-state">Todavía no tiene habilidades registradas.</p>'}</section>
+        <section class="pet-profile-section"><div class="pet-section-heading"><div><h4>Carácter</h4><strong>${escapeHtml(characterLabel)}</strong></div>${isOwned ? '<button class="section-edit-button" type="button" data-edit-pet-section="caracter">Editar</button>' : ''}</div><div class="pet-character-meter" style="--character-score:${characterScore ?? 50}%"><span></span></div><div class="pet-character-scale"><small>Bravo / reactivo</small><b>${characterScore === null ? 'Sin cuestionario' : `${characterScore}%`}</b><small>Manso / confiado</small></div><p class="pet-health-note">Indicador orientativo basado en conducta habitual; no garantiza cómo reaccionará en una situación nueva.</p></section>
       </div>
-      ${isOwned ? '<button class="button button-primary" type="button" data-edit-pet-profile>Editar perfil</button>' : ''}`;
+      `;
     renderPetPhotos(view.querySelector('[data-pet-profile-gallery]'), animal);
     loadPetConnections(animal.id, view.querySelector('[data-pet-connections]'));
     if (!dialog.open) dialog.showModal();
@@ -1080,13 +1103,18 @@
     container.innerHTML = links.length ? links.join('') : '<p class="empty-state">Todavía no tiene vínculos públicos confirmados.</p>';
   };
 
-  const startPetProfileEdit = () => {
+  const startPetProfileEdit = (section = 'perfil') => {
     const animal = activePetProfile;
     const view = document.querySelector('[data-pet-profile-view]');
     const form = document.querySelector('[data-pet-profile-form]');
     if (!animal || !form) return;
+    activePetEditSection = section;
     view.hidden = true;
     form.hidden = false;
+    form.querySelector('[data-pet-edit-title]').textContent = ({ perfil: 'Datos y resumen', salud: 'Ficha de salud', habilidades: 'Árbol de habilidades', caracter: 'Indicador de carácter' })[section] || 'Datos de la mascota';
+    form.querySelectorAll('[data-pet-edit-group]').forEach((group) => { group.hidden = group.dataset.petEditGroup !== section; });
+    const saveButton = form.querySelector('[data-pet-profile-save]');
+    if (saveButton) saveButton.textContent = `Guardar ${section === 'perfil' ? 'datos y bloques' : section}`;
     ['nombre', 'especie', 'raza', 'tamano', 'sexo', 'color_pelaje', 'estado_registro', 'numero_registro', 'biografia', 'senas_particulares'].forEach((field) => {
       if (form.elements[field]) form.elements[field].value = animal[field] || (field === 'estado_registro' ? 'no_informado' : '');
     });
@@ -1098,6 +1126,8 @@
     form.elements.mostrar_en_red.checked = animal.mostrar_en_red !== false;
     const health = animal.salud && typeof animal.salud === 'object' ? animal.salud : {};
     ['altura_cm', 'condicion_corporal', 'vacunacion', 'antecedentes_morbidos', 'antecedentes_familiares', 'antecedentes_quirurgicos', 'alergias'].forEach((field) => { form.elements[field].value = health[field] || ''; });
+    form.elements.diagnostico_nutricional.value = animal.diagnostico_nutricional || '';
+    renderPetSummarySlots(form, animal.bloques_resumen);
     const skills = new Set(Array.isArray(animal.habilidades) ? animal.habilidades : []);
     form.querySelectorAll('input[name="habilidades"]').forEach((input) => { input.checked = skills.has(input.value); });
     const answers = animal.caracter_respuestas && typeof animal.caracter_respuestas === 'object' ? animal.caracter_respuestas : {};
@@ -1546,7 +1576,12 @@
   document.querySelector('[data-pet-profile-dialog]')?.addEventListener('click', (event) => {
     const dialog = event.currentTarget;
     if (event.target === dialog || event.target.closest('[data-pet-profile-close]')) dialog.close();
-    if (event.target.closest('[data-edit-pet-profile]')) startPetProfileEdit();
+    const editButton = event.target.closest('[data-edit-pet-section]');
+    if (editButton?.dataset.editPetSection === 'vinculos') {
+      dialog.close();
+      document.querySelector('[data-animal-link-form]')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setMessage(document.querySelector('[data-account-animal-message]'), 'Puedes proponer aquí vínculos con personas, mascotas o animales comunitarios. Quedarán pendientes de moderación.');
+    } else if (editButton) startPetProfileEdit(editButton.dataset.editPetSection);
     if (event.target.closest('[data-pet-profile-cancel]') && activePetProfile) showPetProfile(activePetProfile);
   });
 
@@ -1663,8 +1698,18 @@
       return;
     }
     const character = getCharacterData(form);
-    if (character.score === null) {
+    const characterHasSomeAnswer = characterKeys.some((key) => form.elements[`caracter_${key}`].value);
+    if (activePetEditSection === 'caracter' && character.score === null) {
       setMessage(message, 'Completa las cinco preguntas de carácter.', 'error');
+      return;
+    }
+    if (characterHasSomeAnswer && character.score === null) {
+      setMessage(message, 'El cuestionario de carácter está incompleto.', 'error');
+      return;
+    }
+    const summaryBlocks = Array.from({ length: 8 }, (_, index) => form.elements[`bloque_resumen_${index + 1}`].value);
+    if (new Set(summaryBlocks).size !== summaryBlocks.length) {
+      setMessage(message, 'Los ocho bloques del resumen deben ser diferentes.', 'error');
       return;
     }
     saveButton.disabled = true;
@@ -1710,6 +1755,8 @@
         p_foto_urls: photoUrls,
         p_foto_url: profilePhotoUrl,
         p_mostrar_en_red: form.elements.mostrar_en_red.checked,
+        p_diagnostico_nutricional: form.elements.diagnostico_nutricional.value.trim() || null,
+        p_bloques_resumen: summaryBlocks,
         p_salud: {
           altura_cm: form.elements.altura_cm.value ? Number(form.elements.altura_cm.value) : null,
           condicion_corporal: form.elements.condicion_corporal.value ? Number(form.elements.condicion_corporal.value) : null,
@@ -1720,7 +1767,7 @@
           alergias: form.elements.alergias.value.trim() || null,
         },
         p_habilidades: [...form.querySelectorAll('input[name="habilidades"]:checked')].map((input) => input.value),
-        p_caracter_respuestas: character.answers,
+        p_caracter_respuestas: character.score === null ? {} : character.answers,
         p_caracter_puntaje: character.score,
       });
       if (error) throw error;
