@@ -21,6 +21,8 @@
   let ownAnimals = [];
   let ownPublicProfile = null;
   let activePetProfile = null;
+  let avatarCropSource = '';
+  let avatarObjectUrls = [];
   let locationPickerMap = null;
 
   const actionContent = {
@@ -687,7 +689,15 @@
     article.className = 'animal-card';
     const avatar = document.createElement('div');
     avatar.className = 'animal-avatar';
-    avatar.textContent = animal.nombre.slice(0, 1).toUpperCase();
+    if (animal.foto_url) {
+      const image = document.createElement('img');
+      image.src = animal.foto_url;
+      image.alt = `Foto de perfil de ${animal.nombre}`;
+      image.loading = 'lazy';
+      avatar.append(image);
+    } else {
+      avatar.textContent = animal.nombre.slice(0, 1).toUpperCase();
+    }
     const title = document.createElement('h3');
     title.textContent = animal.nombre;
     const bio = document.createElement('p');
@@ -722,13 +732,19 @@
       links.textContent = `Red: ${connections.join(' · ')}`;
       article.append(links);
     }
+    const profileButton = document.createElement('button');
+    profileButton.type = 'button';
+    profileButton.className = 'animal-profile-link';
+    profileButton.dataset.openPublicPetProfile = animal.id;
+    profileButton.textContent = `Conocer a ${animal.nombre} →`;
+    article.append(profileButton);
     return article;
   };
 
   async function loadAnimalNetwork() {
     const container = document.querySelector('[data-animal-grid]');
     const [animalsResult, profilesResult, humanResult, animalLinksResult] = await Promise.all([
-      db.from('animales').select('id,slug,nombre,especie,biografia,foto_url,zona_publica,es_comunitario,estado,estado_seguridad').eq('estado', 'publicado').order('nombre'),
+      db.from('animales').select('id,slug,nombre,especie,biografia,foto_url,zona_publica,es_comunitario,estado,estado_seguridad,raza,tamano,peso_kg,fecha_nacimiento,sexo,color_pelaje,estado_registro').eq('estado', 'publicado').order('nombre'),
       db.from('perfiles_publicos').select('id,alias,biografia,estado').eq('estado', 'publicado'),
       db.from('vinculos_animal_humano').select('id,animal_id,perfil_publico_id,tipo,visible_publicamente,estado').eq('estado', 'confirmado').eq('visible_publicamente', true),
       db.from('vinculos_animales').select('id,animal_a_id,animal_b_id,tipo,descripcion,estado').eq('estado', 'confirmado'),
@@ -854,6 +870,97 @@
     }));
   };
 
+  const clearAvatarObjectUrls = () => {
+    avatarObjectUrls.forEach((url) => URL.revokeObjectURL(url));
+    avatarObjectUrls = [];
+  };
+
+  const updateAvatarCropPreview = () => {
+    const form = document.querySelector('[data-pet-profile-form]');
+    const frame = document.querySelector('[data-pet-avatar-crop]');
+    const image = document.querySelector('[data-pet-avatar-image]');
+    if (!form || !frame || !image?.naturalWidth) return;
+    const size = frame.clientWidth;
+    const zoom = Number(form.elements.avatar_zoom.value || 1);
+    const x = Number(form.elements.avatar_x.value || 0) / 100;
+    const y = Number(form.elements.avatar_y.value || 0) / 100;
+    const scale = Math.max(size / image.naturalWidth, size / image.naturalHeight) * zoom;
+    const width = image.naturalWidth * scale;
+    const height = image.naturalHeight * scale;
+    image.style.width = `${width}px`;
+    image.style.height = `${height}px`;
+    image.style.left = `${(size - width) / 2 - x * Math.max(0, width - size) / 2}px`;
+    image.style.top = `${(size - height) / 2 - y * Math.max(0, height - size) / 2}px`;
+  };
+
+  const selectAvatarSource = (source, button = null) => {
+    const workspace = document.querySelector('[data-pet-avatar-workspace]');
+    const image = document.querySelector('[data-pet-avatar-image]');
+    if (!workspace || !image || !source) return;
+    avatarCropSource = source;
+    workspace.hidden = false;
+    document.querySelectorAll('[data-avatar-source]').forEach((item) => item.classList.toggle('is-selected', item === button));
+    image.crossOrigin = source.startsWith('blob:') ? '' : 'anonymous';
+    image.onload = updateAvatarCropPreview;
+    image.src = source;
+  };
+
+  const renderAvatarChoices = (animal, addedFiles = []) => {
+    const choices = document.querySelector('[data-pet-avatar-choices]');
+    if (!choices) return;
+    clearAvatarObjectUrls();
+    const existing = Array.isArray(animal._photo_view_urls) ? animal._photo_view_urls.filter(Boolean) : [];
+    const added = addedFiles.map((file) => {
+      const url = URL.createObjectURL(file);
+      avatarObjectUrls.push(url);
+      return url;
+    });
+    const sources = [...existing, ...added];
+    if (!sources.length) {
+      choices.innerHTML = '<p class="empty-state">Agrega una foto para crear la imagen de perfil.</p>';
+      document.querySelector('[data-pet-avatar-workspace]').hidden = true;
+      avatarCropSource = '';
+      return;
+    }
+    choices.replaceChildren(...sources.map((source, index) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'pet-avatar-choice';
+      button.dataset.avatarSource = source;
+      button.setAttribute('aria-label', `Usar foto ${index + 1} como perfil`);
+      const image = document.createElement('img');
+      image.src = source;
+      image.alt = '';
+      button.append(image);
+      button.addEventListener('click', () => selectAvatarSource(source, button));
+      return button;
+    }));
+    const preferredIndex = animal.foto_url && existing.length ? 0 : 0;
+    const preferred = choices.children[preferredIndex];
+    selectAvatarSource(sources[preferredIndex], preferred);
+  };
+
+  const createCroppedAvatarBlob = () => new Promise((resolve, reject) => {
+    const form = document.querySelector('[data-pet-profile-form]');
+    const image = document.querySelector('[data-pet-avatar-image]');
+    if (!avatarCropSource || !image?.naturalWidth) return resolve(null);
+    const size = 512;
+    const zoom = Number(form.elements.avatar_zoom.value || 1);
+    const x = Number(form.elements.avatar_x.value || 0) / 100;
+    const y = Number(form.elements.avatar_y.value || 0) / 100;
+    const scale = Math.max(size / image.naturalWidth, size / image.naturalHeight) * zoom;
+    const width = image.naturalWidth * scale;
+    const height = image.naturalHeight * scale;
+    const left = (size - width) / 2 - x * Math.max(0, width - size) / 2;
+    const top = (size - height) / 2 - y * Math.max(0, height - size) / 2;
+    const canvas = document.createElement('canvas');
+    canvas.width = size;
+    canvas.height = size;
+    const context = canvas.getContext('2d');
+    context.drawImage(image, left, top, width, height);
+    canvas.toBlob((blob) => blob ? resolve(blob) : reject(new Error('No se pudo generar el recorte.')), 'image/webp', 0.88);
+  });
+
   const prepareOwnAnimalPhotos = async (animals) => Promise.all(animals.map(async (animal) => {
     const paths = Array.isArray(animal.foto_urls) ? animal.foto_urls.filter(Boolean) : [];
     const urls = await Promise.all(paths.map(async (path) => {
@@ -873,6 +980,7 @@
     form.hidden = true;
     view.hidden = false;
     const age = animal.fecha_nacimiento ? new Intl.DateTimeFormat('es-CL', { dateStyle: 'long' }).format(new Date(`${animal.fecha_nacimiento}T12:00:00`)) : 'Sin informar';
+    const isOwned = ownAnimals.some((item) => item.id === animal.id);
     view.innerHTML = `
       <div class="pet-profile-hero">
         <div class="pet-profile-gallery" data-pet-profile-gallery></div>
@@ -888,9 +996,9 @@
         <div><dt>Color o pelaje</dt><dd>${escapeHtml(petValue(animal.color_pelaje))}</dd></div>
         <div><dt>Registro</dt><dd>${escapeHtml(petRegistryLabels[animal.estado_registro] || 'Sin informar')}</dd></div>
       </dl>
-      ${animal.numero_registro ? `<p class="pet-private-detail"><strong>N.º de registro:</strong> ${escapeHtml(animal.numero_registro)}</p>` : ''}
+      ${isOwned && animal.numero_registro ? `<p class="pet-private-detail"><strong>N.º de registro:</strong> ${escapeHtml(animal.numero_registro)}</p>` : ''}
       ${animal.senas_particulares ? `<div class="pet-profile-notes"><strong>Señas particulares</strong><p>${escapeHtml(animal.senas_particulares)}</p></div>` : ''}
-      <button class="button button-primary" type="button" data-edit-pet-profile>Editar perfil</button>`;
+      ${isOwned ? '<button class="button button-primary" type="button" data-edit-pet-profile>Editar perfil</button>' : ''}`;
     renderPetPhotos(view.querySelector('[data-pet-profile-gallery]'), animal);
     if (!dialog.open) dialog.showModal();
   };
@@ -912,6 +1020,10 @@
     form.elements.peso_kg.value = animal.peso_kg || '';
     form.elements.fotos.value = '';
     renderPetPhotos(document.querySelector('[data-pet-photo-preview]'), animal, true);
+    form.elements.avatar_zoom.value = '1';
+    form.elements.avatar_x.value = '0';
+    form.elements.avatar_y.value = '0';
+    renderAvatarChoices(animal);
     setMessage(document.querySelector('[data-pet-profile-message]'));
   };
 
@@ -1357,6 +1469,12 @@
     showPetProfile(animal);
   });
 
+  document.querySelector('[data-animal-grid]')?.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-open-public-pet-profile]');
+    const animal = publicAnimals.find((item) => item.id === button?.dataset.openPublicPetProfile);
+    if (animal) showPetProfile(animal);
+  });
+
   document.querySelector('[data-pet-profile-dialog]')?.addEventListener('click', (event) => {
     const dialog = event.currentTarget;
     if (event.target === dialog || event.target.closest('[data-pet-profile-close]')) dialog.close();
@@ -1403,7 +1521,10 @@
     const preview = document.querySelector('[data-pet-photo-preview]');
     const files = [...event.target.files].slice(0, 6);
     if (!files.length) {
-      if (activePetProfile) renderPetPhotos(preview, activePetProfile, true);
+      if (activePetProfile) {
+        renderPetPhotos(preview, activePetProfile, true);
+        renderAvatarChoices(activePetProfile);
+      }
       return;
     }
     preview.replaceChildren(...files.map((file, index) => {
@@ -1413,6 +1534,20 @@
       image.onload = () => URL.revokeObjectURL(image.src);
       return image;
     }));
+    if (activePetProfile) renderAvatarChoices(activePetProfile, files);
+  });
+
+  ['avatar_zoom', 'avatar_x', 'avatar_y'].forEach((name) => {
+    document.querySelector('[data-pet-profile-form]')?.elements[name]?.addEventListener('input', updateAvatarCropPreview);
+  });
+
+  document.querySelector('[data-reset-avatar-crop]')?.addEventListener('click', () => {
+    const form = document.querySelector('[data-pet-profile-form]');
+    if (!form) return;
+    form.elements.avatar_zoom.value = '1';
+    form.elements.avatar_x.value = '0';
+    form.elements.avatar_y.value = '0';
+    updateAvatarCropPreview();
   });
 
   document.querySelector('[data-pet-profile-form]')?.addEventListener('submit', async (event) => {
@@ -1459,6 +1594,15 @@
         uploadedPhotos.push(path);
       }
       const photoUrls = [...existingPhotos, ...uploadedPhotos].slice(0, 6);
+      let profilePhotoUrl = activePetProfile.foto_url || null;
+      const avatarBlob = await createCroppedAvatarBlob();
+      if (avatarBlob) {
+        const avatarPath = `${currentSession.user.id}/${activePetProfile.id}/perfil-${Date.now()}.webp`;
+        const { error: avatarUploadError } = await db.storage.from('mascotas-publicas').upload(avatarPath, avatarBlob, { contentType: 'image/webp', cacheControl: '31536000', upsert: false });
+        if (avatarUploadError) throw avatarUploadError;
+        const { data: publicAvatar } = db.storage.from('mascotas-publicas').getPublicUrl(avatarPath);
+        profilePhotoUrl = publicAvatar.publicUrl;
+      }
       savePhase = 'profile';
       const { error } = await db.rpc('actualizar_mi_animal', {
         p_animal_id: activePetProfile.id,
@@ -1475,6 +1619,7 @@
         p_numero_registro: form.elements.numero_registro.value.trim() || null,
         p_senas_particulares: form.elements.senas_particulares.value.trim() || null,
         p_foto_urls: photoUrls,
+        p_foto_url: profilePhotoUrl,
       });
       if (error) throw error;
       await Promise.all([loadCreatorWorkspace(), loadAnimalNetwork()]);
