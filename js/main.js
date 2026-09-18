@@ -6,11 +6,11 @@
   const statusLabels = { pendiente: 'Pendiente', verificado: 'Verificado', cerrado: 'Cerrado', rechazado: 'Rechazado' };
   const categoryLabels = { agua: 'Agua', limpieza: 'Limpieza', seguridad: 'Seguridad', infraestructura: 'Infraestructura' };
   const placeCategoryLabels = {
-    canil: 'Canil', parque: 'Parque', veterinaria: 'Veterinaria', tienda_mascotas: 'Tienda de mascotas',
+    canil: 'Canil', parque: 'Parque', veterinaria: 'Veterinaria', refugio: 'Refugio', casa_acogida: 'Casa de acogida', tienda_mascotas: 'Tienda de mascotas',
     alimento: 'Comida', juguetes_accesorios: 'Juguetes y accesorios', animal_comunitario: 'Animal comunitario',
     mascota_perdida: 'Mascota perdida', servicio: 'Servicio', comercio: 'Comercio', otro: 'Otro',
   };
-  const placeIcons = { canil: '🐾', parque: '🌳', veterinaria: '✚', tienda_mascotas: '◆', alimento: '●', juguetes_accesorios: '◈', animal_comunitario: '♥', mascota_perdida: '!', servicio: '＋', comercio: '◇', otro: '⌖' };
+  const placeIcons = { canil: '🐾', parque: '🌳', veterinaria: '✚', refugio: '⌂', casa_acogida: '♡', tienda_mascotas: '◆', alimento: '●', juguetes_accesorios: '◈', animal_comunitario: '♥', mascota_perdida: '!', servicio: '＋', comercio: '◇', otro: '⌖' };
   let currentSession = null;
   let currentUserIsModerator = false;
   let communityMap = null;
