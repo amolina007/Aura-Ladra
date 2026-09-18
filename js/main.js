@@ -743,11 +743,12 @@
 
   async function loadAnimalNetwork() {
     const container = document.querySelector('[data-animal-grid]');
-    const [animalsResult, profilesResult, humanResult, animalLinksResult] = await Promise.all([
-      db.from('animales').select('id,slug,nombre,especie,biografia,foto_url,zona_publica,es_comunitario,estado,estado_seguridad,raza,tamano,peso_kg,fecha_nacimiento,sexo,color_pelaje,estado_registro').eq('estado', 'publicado').order('nombre'),
+    const [animalsResult, profilesResult, humanResult, animalLinksResult, countResult] = await Promise.all([
+      db.from('animales').select('id,slug,nombre,especie,biografia,foto_url,zona_publica,es_comunitario,estado,estado_seguridad,raza,tamano,peso_kg,fecha_nacimiento,sexo,color_pelaje,estado_registro').eq('estado', 'publicado').eq('mostrar_en_red', true).order('nombre'),
       db.from('perfiles_publicos').select('id,alias,biografia,estado').eq('estado', 'publicado'),
       db.from('vinculos_animal_humano').select('id,animal_id,perfil_publico_id,tipo,visible_publicamente,estado').eq('estado', 'confirmado').eq('visible_publicamente', true),
       db.from('vinculos_animales').select('id,animal_a_id,animal_b_id,tipo,descripcion,estado').eq('estado', 'confirmado'),
+      db.rpc('conteo_red_animal'),
     ]);
     publicAnimals = animalsResult.error ? [] : (animalsResult.data || []);
     const profiles = profilesResult.error ? [] : (profilesResult.data || []);
@@ -755,6 +756,11 @@
     const animalLinks = animalLinksResult.error ? [] : (animalLinksResult.data || []);
     const profilesById = new Map(profiles.map((profile) => [profile.id, profile]));
     const animalsById = new Map(publicAnimals.map((animal) => [animal.id, animal]));
+    const networkSummary = document.querySelector('[data-animal-network-summary]');
+    const counts = countResult.error ? null : countResult.data?.[0];
+    if (networkSummary) networkSummary.textContent = counts
+      ? `${Number(counts.total_registradas).toLocaleString('es-CL')} ${Number(counts.total_registradas) === 1 ? 'mascota registrada' : 'mascotas registradas'} · ${Number(counts.perfiles_visibles).toLocaleString('es-CL')} ${Number(counts.perfiles_visibles) === 1 ? 'perfil visible' : 'perfiles visibles'}`
+      : `${publicAnimals.length.toLocaleString('es-CL')} ${publicAnimals.length === 1 ? 'perfil visible' : 'perfiles visibles'}`;
     if (!container) return;
     if (!publicAnimals.length) {
       const empty = document.createElement('p');
@@ -1019,6 +1025,7 @@
     form.elements.nacimiento_mes.value = birthParts[1] || '';
     form.elements.nacimiento_dia.value = birthParts[2] || '';
     form.elements.peso_kg.value = animal.peso_kg || '';
+    form.elements.mostrar_en_red.checked = animal.mostrar_en_red !== false;
     form.elements.fotos.value = '';
     renderPetPhotos(document.querySelector('[data-pet-photo-preview]'), animal, true);
     form.elements.avatar_zoom.value = '1';
@@ -1621,6 +1628,7 @@
         p_senas_particulares: form.elements.senas_particulares.value.trim() || null,
         p_foto_urls: photoUrls,
         p_foto_url: profilePhotoUrl,
+        p_mostrar_en_red: form.elements.mostrar_en_red.checked,
       });
       if (error) throw error;
       await Promise.all([loadCreatorWorkspace(), loadAnimalNetwork()]);
