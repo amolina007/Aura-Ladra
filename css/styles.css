@@ -308,6 +308,37 @@ button.pet-connect-option:hover, button.pet-connect-option:focus-visible { borde
 .pet-network-visibility strong, .pet-network-visibility small { display: block; }
 .pet-network-visibility strong { color: var(--navy); }
 .pet-network-visibility small { margin-top: 3px; color: var(--muted); font-weight: 500; }
+.pet-edit-section, .pet-profile-section { margin-top: 22px; padding: 22px; border: 1px solid var(--line); border-radius: 18px; background: var(--paper); }
+.pet-profile-section.is-private, .pet-health-editor { background: #f4f8fa; border-color: rgba(30,85,105,.2); }
+.pet-section-heading { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 12px; }
+.pet-section-heading h4, .pet-section-heading h5 { margin: 0; color: var(--navy); font: 650 1.2rem "Fraunces", serif; }
+.pet-section-heading > span, .pet-section-heading > strong { color: var(--coral); font-size: .75rem; }
+.privacy-badge { padding: 5px 9px; border-radius: 999px; background: var(--navy); color: var(--white) !important; font-weight: 800; }
+.pet-section-help, .pet-health-note { color: var(--muted); font-size: .82rem; margin: 0 0 18px; }
+.pet-health-note { margin: 14px 0 0; }
+.pet-health-summary { display: grid; gap: 10px; margin: 0; }
+.pet-health-summary div { padding-bottom: 10px; border-bottom: 1px solid var(--line); }
+.pet-health-summary dt { color: var(--navy); font-size: .76rem; font-weight: 800; }
+.pet-health-summary dd { margin: 3px 0 0; color: var(--muted); white-space: pre-wrap; font-size: .86rem; }
+.pet-skill-tree { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.pet-skill-tree fieldset { position: relative; margin: 0; padding: 15px; border: 1px solid var(--line); border-radius: 14px; background: var(--white); }
+.pet-skill-tree fieldset + fieldset::before { content: '→'; position: absolute; left: -16px; top: 16px; color: var(--coral); font-weight: 900; }
+.pet-skill-tree legend { padding: 0 5px; color: var(--coral); font-size: .72rem; font-weight: 900; text-transform: uppercase; }
+.pet-skill-tree label { display: flex; gap: 7px; margin: 8px 0; color: var(--navy); font-size: .78rem; }
+.pet-skill-tree input { accent-color: var(--coral); }
+.pet-skill-display { display: flex; flex-wrap: wrap; gap: 8px; }
+.pet-skill-display span { padding: 8px 10px; border-radius: 10px; background: var(--cream); color: var(--navy); font-size: .76rem; font-weight: 750; }
+.pet-character-questions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 16px; }
+.pet-character-live, .pet-character-scale { display: flex; align-items: center; justify-content: space-between; gap: 10px; color: var(--muted); font-size: .72rem; }
+.pet-character-live output { padding: 8px 12px; border-radius: 999px; background: var(--cream); color: var(--navy); font-weight: 800; text-align: center; }
+.pet-character-meter { position: relative; height: 12px; margin-top: 8px; border-radius: 999px; background: linear-gradient(90deg, #b93b2d, #f2a93b 45%, #4b9c75); }
+.pet-character-meter span { position: absolute; top: 50%; left: var(--character-score); width: 20px; height: 20px; border: 3px solid var(--white); border-radius: 50%; background: var(--navy); box-shadow: 0 2px 8px rgba(8,26,43,.28); transform: translate(-50%, -50%); }
+.pet-character-scale { margin-top: 7px; }
+.pet-character-scale b { color: var(--navy); }
+.pet-connections { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+.pet-connections article { padding: 12px; border-radius: 12px; background: var(--cream); }
+.pet-connections article span, .pet-connections article small { display: block; color: var(--muted); font-size: .7rem; }
+.pet-connections article strong { display: block; color: var(--navy); margin: 2px 0; }
 .network-access { margin-top: 26px; padding: 28px 30px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
 .network-access h3 { margin: 0 0 5px; color: var(--navy); font: 650 1.55rem "Fraunces", serif; }
 .network-access p:not(.kicker) { margin: 0; color: var(--muted); }
@@ -434,6 +465,8 @@ button.pet-connect-option:hover, button.pet-connect-option:focus-visible { borde
   .report-form, .account-card, .my-reports, .moderator-panel { padding: 22px; }
   .pet-profile-shell { padding: 20px; }
   .pet-profile-hero, .pet-photo-editor, .pet-avatar-workspace, .pet-profile-fields { grid-template-columns: 1fr; }
+  .pet-skill-tree, .pet-character-questions, .pet-connections { grid-template-columns: 1fr; }
+  .pet-skill-tree fieldset + fieldset::before { content: '↓'; left: 50%; top: -14px; }
   .pet-avatar-crop { width: min(220px, 100%); margin-inline: auto; }
   .pet-profile-wide { grid-column: auto; }
   .pet-profile-facts { grid-template-columns: 1fr 1fr; }
