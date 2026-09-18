@@ -44,15 +44,6 @@
         { id: 'mapa-urgencia', label: 'Buscar urgencias veterinarias', style: 'secondary' },
       ],
     },
-    qr: {
-      number: '03', kicker: 'Contacto protegido', title: 'El código conecta; no publica a la persona responsable.',
-      steps: ['Escanea el código y confirma que corresponde a AuraLadra.', 'Envía el aviso sin necesidad de revelar tu identidad.', 'El responsable recibe el mensaje y decide cómo continuar el contacto.'],
-      note: 'Nunca compartas públicamente domicilios, teléfonos o documentos encontrados. Verifica el dominio antes de continuar.',
-      actions: [
-        { id: 'ingresar-qr', label: 'Abrir enlace del QR', style: 'primary' },
-        { id: 'mapa-veterinarias', label: 'Ver veterinarias cercanas', style: 'secondary' },
-      ],
-    },
   };
 
   const header = document.querySelector('[data-header]');
@@ -401,56 +392,15 @@
     });
   };
 
-  const showQrEntry = () => {
-    const workspace = document.querySelector('[data-action-workspace]');
-    const feedback = document.querySelector('[data-action-feedback]');
-    workspace.hidden = false;
-    workspace.innerHTML = `
-      <form class="quick-form" data-qr-entry-form>
-        <label><span>Enlace que abrió el QR</span><input name="qr" required maxlength="500" inputmode="url" autocomplete="off" placeholder="Pega aquí el enlace completo"></label>
-        <p class="quick-help">Solo abriremos enlaces HTTPS de AuraLadra. Si el QR muestra otro dominio, no ingreses información personal.</p>
-        <div class="quick-form-actions">
-          <button class="panel-action is-primary" type="submit">Verificar y continuar</button>
-          <button class="panel-action" type="button" data-close-workspace>Cancelar</button>
-        </div>
-      </form>`;
-    setMessage(feedback);
-    workspace.querySelector('input')?.focus();
-    const form = workspace.querySelector('[data-qr-entry-form]');
-    form.addEventListener('submit', (event) => {
-      event.preventDefault();
-      const value = String(new FormData(form).get('qr') || '').trim();
-      let target = null;
-      try {
-        const candidate = new URL(value);
-        const trustedHosts = new Set([window.location.hostname, 'auraladra-convergencia-aura.netlify.app']);
-        if (candidate.protocol === 'https:' && trustedHosts.has(candidate.hostname)) target = candidate.href;
-      } catch (_) {}
-      if (!target) {
-        setMessage(feedback, 'Ese código o enlace no parece pertenecer a AuraLadra. No ingreses datos personales.', 'error');
-        return;
-      }
-      setMessage(feedback, 'Enlace seguro confirmado. Abriendo AuraLadra…', 'success');
-      window.location.assign(target);
-    });
-    workspace.querySelector('[data-close-workspace]').addEventListener('click', () => {
-      workspace.hidden = true;
-      workspace.replaceChildren();
-      setMessage(feedback);
-    });
-  };
-
   document.querySelector('[data-panel-actions]')?.addEventListener('click', (event) => {
     const button = event.target.closest('[data-quick-action]');
     if (!button) return;
     const action = button.dataset.quickAction;
     if (action === 'preparar-perdida') showNoticeBuilder('perdida');
     if (action === 'preparar-encontrada') showNoticeBuilder('encontrada');
-    if (action === 'ingresar-qr') showQrEntry();
     if (action === 'mapa-todos') scrollToMapWithFilter('todos');
     if (action === 'mapa-perdidas') scrollToMapWithFilter('mascota_perdida');
     if (action === 'mapa-urgencia') scrollToMapWithFilter('urgencia');
-    if (action === 'mapa-veterinarias') scrollToMapWithFilter('veterinaria');
   });
 
   renderAction('perdida');
