@@ -165,7 +165,8 @@ img { max-width: 100%; }
 .account-animals-heading { display: flex; align-items: end; justify-content: space-between; gap: 14px; margin-bottom: 14px; }
 .account-animals-heading h4 { margin: 0; color: var(--navy); font: 650 1.25rem/1.15 "Fraunces", serif; }
 .account-animals-heading .kicker { margin-bottom: 3px; }
-.account-animals-heading > a { color: var(--coral); font-size: .75rem; font-weight: 800; }
+.account-add-pet { border: 0; background: none; color: var(--coral); padding: 0; font: inherit; font-size: .75rem; font-weight: 800; cursor: pointer; text-align: right; }
+.account-add-pet:hover, .account-add-pet:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
 .account-animal-list { display: grid; gap: 9px; }
 .account-animal { padding: 13px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 9px 12px; align-items: center; border: 1px solid var(--line); border-radius: 13px; background: var(--paper); cursor: pointer; transition: border-color .2s, transform .2s, box-shadow .2s; }
 .account-animal:hover, .account-animal:focus-visible { border-color: var(--amber); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(8,26,43,.08); outline: none; }
@@ -180,7 +181,8 @@ img { max-width: 100%; }
 .pet-state-action:hover, .pet-state-action:focus-visible { border-color: var(--amber); background: var(--cream); }
 .pet-state-action:disabled { opacity: .55; cursor: not-allowed; }
 .pet-profile-dialog { width: min(760px, calc(100% - 28px)); max-height: min(880px, calc(100vh - 28px)); padding: 0; border: 0; border-radius: 24px; background: var(--white); color: var(--ink); box-shadow: 0 30px 100px rgba(8,26,43,.34); overflow: auto; }
-.pet-profile-dialog::backdrop { background: rgba(8,26,43,.72); backdrop-filter: blur(4px); }
+.pet-connect-dialog { width: min(700px, calc(100% - 28px)); padding: 0; border: 0; border-radius: 24px; background: var(--white); color: var(--ink); box-shadow: 0 30px 100px rgba(8,26,43,.34); }
+.pet-profile-dialog::backdrop, .pet-connect-dialog::backdrop { background: rgba(8,26,43,.72); backdrop-filter: blur(4px); }
 .pet-profile-shell { position: relative; padding: 32px; }
 .pet-profile-close { position: sticky; z-index: 3; top: 0; float: right; width: 42px; height: 42px; border: 1px solid var(--line); border-radius: 50%; background: var(--white); color: var(--navy); font-size: 1.55rem; line-height: 1; cursor: pointer; }
 .pet-profile-hero { display: grid; grid-template-columns: minmax(220px, .8fr) 1.2fr; gap: 28px; align-items: center; clear: both; }
@@ -204,6 +206,18 @@ img { max-width: 100%; }
 .pet-profile-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 0 18px; }
 .pet-profile-wide { grid-column: 1 / -1; }
 .pet-profile-edit > .button { width: 100%; border: 0; cursor: pointer; }
+.pet-connect-heading { clear: both; margin-bottom: 24px; }
+.pet-connect-heading h3 { margin: 2px 0 8px; color: var(--navy); font: 650 2rem/1.1 "Fraunces", serif; }
+.pet-connect-heading > p:last-child { margin: 0; color: var(--muted); }
+.pet-connect-options { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.pet-connect-option { min-width: 0; padding: 20px; border: 1px solid var(--line); border-radius: 16px; background: var(--paper); color: var(--ink); text-align: left; }
+button.pet-connect-option { cursor: pointer; }
+button.pet-connect-option:hover, button.pet-connect-option:focus-visible { border-color: var(--amber); background: var(--cream); outline: none; }
+.pet-connect-option strong, .pet-connect-option span { display: block; }
+.pet-connect-option strong { color: var(--navy); font-size: 1rem; }
+.pet-connect-option > span { margin: 6px 0 16px; color: var(--muted); font-size: .82rem; line-height: 1.5; }
+.pet-connect-option .field { margin-top: 16px; }
+.pet-connect-option .button { width: 100%; border: 0; cursor: pointer; }
 .count-badge { min-width: 34px; height: 34px; padding: 0 10px; display: grid; place-items: center; border-radius: 999px; background: var(--navy); color: var(--white); font-weight: 800; font-size: .8rem; }
 .report-list { display: grid; gap: 12px; }
 .report-item { padding: 18px; border: 1px solid var(--line); border-radius: 15px; background: var(--paper); }
@@ -396,6 +410,7 @@ img { max-width: 100%; }
   .pet-profile-hero, .pet-photo-editor, .pet-profile-fields { grid-template-columns: 1fr; }
   .pet-profile-wide { grid-column: auto; }
   .pet-profile-facts { grid-template-columns: 1fr 1fr; }
+  .pet-connect-options { grid-template-columns: 1fr; }
   .moderator-place, .moderator-network { padding: 22px; }
   .map-filters { margin-top: -8px; }
   .community-map { min-height: 410px; }
