@@ -291,6 +291,7 @@ button.pet-connect-option:hover, button.pet-connect-option:focus-visible { borde
 .check-field input { width: 18px; height: 18px; accent-color: var(--navy); flex: 0 0 auto; margin-top: 2px; }
 
 .animal-network { background: var(--cream); }
+.animal-network-summary { margin: -20px 0 20px; color: var(--muted); font-size: .86rem; font-weight: 700; }
 .animal-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 .animal-card { min-height: 310px; padding: 0 26px 26px; display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--line); border-radius: 20px; background: var(--white); box-shadow: 0 15px 42px rgba(8,26,43,.07); transition: transform .2s ease, box-shadow .2s ease; }
 .animal-card:hover { transform: translateY(-3px); box-shadow: 0 20px 48px rgba(8,26,43,.11); }
@@ -303,6 +304,10 @@ button.pet-connect-option:hover, button.pet-connect-option:focus-visible { borde
 .animal-meta span { padding: 5px 9px; border-radius: 999px; background: var(--cream); color: var(--navy); font-size: .69rem; font-weight: 800; text-transform: capitalize; }
 .animal-meta span.is-lost { background: #fee0da; color: #9d2f20; }
 .animal-links { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); color: var(--muted); font-size: .76rem; }
+.pet-network-visibility { margin-top: 8px; padding: 15px; border: 1px solid var(--line); border-radius: 14px; background: var(--cream); }
+.pet-network-visibility strong, .pet-network-visibility small { display: block; }
+.pet-network-visibility strong { color: var(--navy); }
+.pet-network-visibility small { margin-top: 3px; color: var(--muted); font-weight: 500; }
 .network-access { margin-top: 26px; padding: 28px 30px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
 .network-access h3 { margin: 0 0 5px; color: var(--navy); font: 650 1.55rem "Fraunces", serif; }
 .network-access p:not(.kicker) { margin: 0; color: var(--muted); }
