@@ -3,7 +3,15 @@
 
   const db = window.auraLadraDb;
   const dateFormatter = new Intl.DateTimeFormat('es-CL', { dateStyle: 'medium', timeStyle: 'short' });
-  const statusLabels = { pendiente: 'Pendiente', verificado: 'Verificado', cerrado: 'Cerrado', rechazado: 'Rechazado' };
+  const statusLabels = {
+    pendiente: 'Pendiente',
+    verificado: 'Verificado',
+    cerrado: 'Cerrado',
+    rechazado: 'Rechazado',
+    revisado: 'Revisado',
+    accion_tomada: 'Acción tomada',
+    descartado: 'Descartado',
+  };
   const categoryLabels = { agua: 'Agua', limpieza: 'Limpieza', seguridad: 'Seguridad', infraestructura: 'Infraestructura' };
   const placeCategoryLabels = {
     canil: 'Canil', parque: 'Parque', veterinaria: 'Veterinaria', refugio: 'Refugio', casa_acogida: 'Casa de acogida', tienda_mascotas: 'Tienda de mascotas',
@@ -310,7 +318,7 @@
       return;
     }
     if (isLost && !ownAnimals.length) await loadCreatorWorkspace();
-    const eligibleAnimals = ownAnimals.filter((animal) => ['pendiente', 'publicado'].includes(animal.estado) && animal.estado_seguridad === 'segura');
+    const eligibleAnimals = ownAnimals.filter((animal) => ['pendiente', 'publicado'].includes(animal.estado) && animal.estado_seguridad === 'segura' && !animal.es_conmemorativa);
     if (isLost && !eligibleAnimals.length) {
       const hasAnimals = ownAnimals.some((animal) => ['pendiente', 'publicado'].includes(animal.estado));
       workspace.innerHTML = hasAnimals
@@ -515,6 +523,43 @@
     return place.categoria === activePlaceFilter;
   };
 
+  const placeCategoryOrder = Object.keys(placeCategoryLabels);
+
+  const createPlaceCategoryGroup = (categoria, cards) => {
+    const group = document.createElement('div');
+    group.className = 'place-category';
+    const toggle = document.createElement('button');
+    toggle.type = 'button';
+    toggle.className = 'place-category-toggle';
+    toggle.setAttribute('aria-expanded', 'false');
+    const icon = document.createElement('span');
+    icon.className = 'place-category-icon';
+    icon.setAttribute('aria-hidden', 'true');
+    icon.textContent = placeIcons[categoria] || '⌖';
+    const label = document.createElement('span');
+    label.className = 'place-category-label';
+    label.textContent = placeCategoryLabels[categoria] || categoria;
+    const count = document.createElement('span');
+    count.className = 'place-category-count';
+    count.textContent = cards.length === 1 ? '1 sitio' : `${cards.length} sitios`;
+    const chevron = document.createElement('span');
+    chevron.className = 'place-category-chevron';
+    chevron.setAttribute('aria-hidden', 'true');
+    toggle.append(icon, label, count, chevron);
+    const panel = document.createElement('div');
+    panel.className = 'place-category-panel';
+    panel.hidden = true;
+    panel.append(...cards);
+    toggle.addEventListener('click', () => {
+      const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', String(!isOpen));
+      group.classList.toggle('is-open', !isOpen);
+      panel.hidden = isOpen;
+    });
+    group.append(toggle, panel);
+    return group;
+  };
+
   const createPlaceCard = (place, marker) => {
     const article = document.createElement('article');
     article.className = 'place-card';
@@ -613,7 +658,8 @@
     markerLayer.clearLayers();
     const filtered = publicPlaces.filter(placeMatchesFilter);
     const visibleCoordinates = [];
-    const cards = filtered.map((place) => {
+    const cardsByCategory = new Map();
+    filtered.forEach((place) => {
       let marker = null;
       if (place.latitud !== null && place.longitud !== null) {
         const pin = window.L.divIcon({
@@ -631,9 +677,11 @@
           .addTo(markerLayer);
         visibleCoordinates.push([Number(place.latitud), Number(place.longitud)]);
       }
-      return createPlaceCard(place, marker);
+      const categoria = place.categoria || 'otro';
+      if (!cardsByCategory.has(categoria)) cardsByCategory.set(categoria, []);
+      cardsByCategory.get(categoria).push(createPlaceCard(place, marker));
     });
-    if (!cards.length) {
+    if (!cardsByCategory.size) {
       const empty = document.createElement('p');
       empty.className = 'empty-state';
       empty.textContent = activePlaceFilter === 'mascota_perdida'
@@ -641,7 +689,14 @@
         : 'Todavía no hay lugares publicados en esta categoría.';
       container.replaceChildren(empty);
     } else {
-      container.replaceChildren(...cards);
+      const orderedCategories = [...cardsByCategory.keys()].sort((a, b) => {
+        const indexA = placeCategoryOrder.indexOf(a);
+        const indexB = placeCategoryOrder.indexOf(b);
+        return (indexA === -1 ? 999 : indexA) - (indexB === -1 ? 999 : indexB);
+      });
+      container.replaceChildren(...orderedCategories.map((categoria) => (
+        createPlaceCategoryGroup(categoria, cardsByCategory.get(categoria))
+      )));
     }
     if (summary) {
       summary.textContent = `${filtered.length} ${filtered.length === 1 ? 'punto visible' : 'puntos visibles'} · solo comuna de Maipú`;
@@ -740,8 +795,9 @@
     bio.textContent = animal.biografia || 'Perfil comunitario en construcción.';
     const meta = document.createElement('div');
     meta.className = 'animal-meta';
-    [animal.especie, animal.zona_publica, animal.es_comunitario ? 'comunitario' : null].filter(Boolean).forEach((value) => {
+    [animal.especie, animal.zona_publica, animal.es_comunitario ? 'comunitario' : null, animal.es_conmemorativa ? 'conmemorativa' : null].filter(Boolean).forEach((value) => {
       const tag = document.createElement('span');
+      if (value === 'conmemorativa') tag.className = 'is-memorial';
       tag.textContent = value;
       meta.append(tag);
     });
@@ -780,7 +836,7 @@
   async function loadAnimalNetwork() {
     const container = document.querySelector('[data-animal-grid]');
     const [animalsResult, profilesResult, humanResult, animalLinksResult, countResult] = await Promise.all([
-      db.from('animales').select('id,slug,nombre,especie,biografia,foto_url,zona_publica,es_comunitario,estado,estado_seguridad,raza,tamano,peso_kg,fecha_nacimiento,sexo,color_pelaje,estado_registro,habilidades,caracter_puntaje,diagnostico_nutricional,bloques_resumen').eq('estado', 'publicado').eq('mostrar_en_red', true).order('nombre'),
+      db.from('animales').select('id,slug,nombre,especie,biografia,foto_url,zona_publica,es_comunitario,estado,estado_seguridad,raza,tamano,peso_kg,fecha_nacimiento,sexo,color_pelaje,estado_registro,habilidades,caracter_puntaje,diagnostico_nutricional,bloques_resumen,es_conmemorativa,fecha_deceso').eq('estado', 'publicado').eq('mostrar_en_red', true).order('nombre'),
       db.from('perfiles_publicos').select('id,alias,biografia,estado').eq('estado', 'publicado'),
       db.from('vinculos_animal_humano').select('id,animal_id,perfil_publico_id,tipo,visible_publicamente,estado').eq('estado', 'confirmado').eq('visible_publicamente', true),
       db.from('vinculos_animales').select('id,animal_a_id,animal_b_id,tipo,descripcion,estado').eq('estado', 'confirmado'),
@@ -845,12 +901,20 @@
       meta.textContent = `${animal.especie} · ficha ${animal.estado}`;
       identity.append(name, meta);
       const state = document.createElement('span');
-      state.className = `pet-state is-${animal.estado_seguridad}`;
-      state.textContent = animal.estado_seguridad === 'extraviada' ? 'Extraviada' : 'Segura';
+      if (animal.es_conmemorativa) {
+        state.className = 'pet-state is-conmemorativa';
+        state.textContent = 'Conmemorativa';
+      } else {
+        state.className = `pet-state is-${animal.estado_seguridad}`;
+        state.textContent = animal.estado_seguridad === 'extraviada' ? 'Extraviada' : 'Segura';
+      }
       const action = document.createElement('button');
       action.type = 'button';
       action.className = 'pet-state-action';
-      if (!['pendiente', 'publicado'].includes(animal.estado)) {
+      if (animal.es_conmemorativa) {
+        action.disabled = true;
+        action.textContent = 'Ficha conmemorativa';
+      } else if (!['pendiente', 'publicado'].includes(animal.estado)) {
         action.disabled = true;
         action.textContent = 'Ficha no disponible';
       } else if (animal.estado_seguridad === 'extraviada') {
@@ -894,6 +958,24 @@
     }
   };
   initializeBirthSelectors();
+
+  const syncCommemorativeFields = (form) => {
+    if (!form) return;
+    const enabled = Boolean(form.elements.es_conmemorativa?.checked);
+    const dateField = form.querySelector('[data-deceso-field]');
+    const dateInput = form.elements.fecha_deceso;
+    if (dateField) dateField.hidden = !enabled;
+    if (dateInput) {
+      dateInput.required = enabled;
+      dateInput.max = new Date().toISOString().slice(0, 10);
+      if (!enabled) dateInput.value = '';
+    }
+  };
+
+  document.querySelectorAll('[data-conmemorativa-toggle]').forEach((input) => {
+    input.addEventListener('change', () => syncCommemorativeFields(input.form));
+    syncCommemorativeFields(input.form);
+  });
 
   const renderPetPhotos = (container, animal, editable = false) => {
     if (!container) return;
@@ -1027,7 +1109,7 @@
     color: petValue(animal.color_pelaje), registro: petRegistryLabels[animal.estado_registro] || 'Sin informar',
     caracter: characterSummary(animal.caracter_puntaje), diagnostico_nutricional: animal.diagnostico_nutricional || 'Sin informar',
     habilidades: `${Array.isArray(animal.habilidades) ? animal.habilidades.length : 0} registradas`,
-    estado_seguridad: animal.estado_seguridad === 'extraviada' ? 'Extraviada' : 'Segura',
+    estado_seguridad: animal.es_conmemorativa ? 'Conmemorativa' : (animal.estado_seguridad === 'extraviada' ? 'Extraviada' : 'Segura'),
   }[key] || 'Sin informar');
 
   const renderPetSummarySlots = (form, selected = defaultPetSummaryBlocks) => {
@@ -1052,10 +1134,13 @@
     const characterScore = animal.caracter_puntaje === null || animal.caracter_puntaje === undefined || animal.caracter_puntaje === '' ? null : Number(animal.caracter_puntaje);
     const characterLabel = characterSummary(characterScore);
     const summaryBlocks = [...new Set(Array.isArray(animal.bloques_resumen) ? animal.bloques_resumen.filter((key) => petSummaryLabels[key]) : defaultPetSummaryBlocks)].slice(0, 8);
+    const deathLabel = animal.fecha_deceso
+      ? new Intl.DateTimeFormat('es-CL', { dateStyle: 'long' }).format(new Date(`${animal.fecha_deceso}T12:00:00`))
+      : '';
     view.innerHTML = `
       <div class="pet-profile-hero">
         <div class="pet-profile-gallery" data-pet-profile-gallery></div>
-        <div><p class="kicker">Ficha de mascota</p><h3 id="pet-profile-title">${escapeHtml(animal.nombre)}</h3><p>${escapeHtml(animal.biografia || 'Aún no tiene una descripción.')}</p></div>
+        <div><p class="kicker">${animal.es_conmemorativa ? 'Ficha conmemorativa' : 'Ficha de mascota'}</p><h3 id="pet-profile-title">${escapeHtml(animal.nombre)}</h3><p>${escapeHtml(animal.biografia || 'Aún no tiene una descripción.')}</p>${animal.es_conmemorativa && deathLabel ? `<p class="pet-memorial-note">In memoriam · deceso aproximado: ${escapeHtml(deathLabel)}</p>` : ''}</div>
       </div>
       <div class="pet-section-heading pet-summary-heading"><h4>Resumen</h4>${isOwned ? '<button class="section-edit-button" type="button" data-edit-pet-section="perfil">Editar</button>' : ''}</div>
       <dl class="pet-profile-facts">${summaryBlocks.map((key) => `<div><dt>${escapeHtml(petSummaryLabels[key])}</dt><dd>${escapeHtml(petSummaryValue(animal, key))}</dd></div>`).join('')}</dl>
@@ -1075,9 +1160,81 @@
         <section class="pet-profile-section"><div class="pet-section-heading"><div><h4>Árbol de habilidades</h4><span>${skills.length} logradas</span></div>${isOwned ? '<button class="section-edit-button" type="button" data-edit-pet-section="habilidades">Editar</button>' : ''}</div>${skills.length ? `<div class="pet-skill-display">${skills.map((skill) => `<span>${escapeHtml(petSkillLabels[skill])}</span>`).join('')}</div>` : '<p class="empty-state">Todavía no tiene habilidades registradas.</p>'}</section>
         <section class="pet-profile-section"><div class="pet-section-heading"><div><h4>Carácter</h4><strong>${escapeHtml(characterLabel)}</strong></div>${isOwned ? '<button class="section-edit-button" type="button" data-edit-pet-section="caracter">Editar</button>' : ''}</div><div class="pet-character-meter" style="--character-score:${characterScore ?? 50}%"><span></span></div><div class="pet-character-scale"><small>Bravo / reactivo</small><b>${characterScore === null ? 'Sin cuestionario' : `${characterScore}%`}</b><small>Manso / confiado</small></div><p class="pet-health-note">Indicador orientativo basado en conducta habitual; no garantiza cómo reaccionará en una situación nueva.</p></section>
       </div>
+      ${createProfileReportMarkup('animal', animal.id)}
       `;
     renderPetPhotos(view.querySelector('[data-pet-profile-gallery]'), animal);
     loadPetConnections(animal.id, view.querySelector('[data-pet-connections]'));
+    bindProfileReportForm(view);
+    if (!dialog.open) dialog.showModal();
+  };
+
+  const createProfileReportMarkup = (tipo, id) => `
+    <section class="profile-report" data-profile-report>
+      <button class="text-button profile-report-toggle" type="button" data-open-profile-report>Reportar este perfil</button>
+      <form class="profile-report-form" data-profile-report-form hidden>
+        <input type="hidden" name="objetivo_tipo" value="${escapeHtml(tipo)}">
+        <input type="hidden" name="objetivo_id" value="${escapeHtml(id)}">
+        <label class="field"><span>¿Por qué reportas este perfil?</span><textarea name="motivo" required minlength="10" maxlength="400" rows="3" placeholder="Describe el problema en pocas líneas."></textarea></label>
+        <div class="profile-report-actions">
+          <button class="button button-dark" type="submit">Enviar reporte</button>
+          <button class="text-button" type="button" data-cancel-profile-report>Cancelar</button>
+        </div>
+        <p class="form-message" data-profile-report-message aria-live="polite"></p>
+        <p class="pet-health-note">${currentSession?.user ? 'Podrás seguir el estado de este reporte en “Mis reportes”.' : 'Puedes reportar sin cuenta. Si inicias sesión antes de enviar, recibirás seguimiento del caso.'}</p>
+      </form>
+    </section>
+  `;
+
+  const bindProfileReportForm = (root) => {
+    const section = root.querySelector('[data-profile-report]');
+    if (!section) return;
+    const form = section.querySelector('[data-profile-report-form]');
+    const message = section.querySelector('[data-profile-report-message]');
+    section.querySelector('[data-open-profile-report]')?.addEventListener('click', () => {
+      form.hidden = false;
+      form.elements.motivo.focus();
+    });
+    section.querySelector('[data-cancel-profile-report]')?.addEventListener('click', () => {
+      form.hidden = true;
+      form.reset();
+      setMessage(message);
+    });
+    form?.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (!form.reportValidity()) return;
+      const submit = form.querySelector('button[type="submit"]');
+      submit.disabled = true;
+      const { error } = await db.rpc('crear_reporte_red', {
+        p_objetivo_tipo: form.elements.objetivo_tipo.value,
+        p_objetivo_id: form.elements.objetivo_id.value,
+        p_motivo: form.elements.motivo.value.trim(),
+      });
+      submit.disabled = false;
+      if (error) {
+        setMessage(message, /10 y 400/.test(error.message || '') ? 'El motivo debe tener entre 10 y 400 caracteres.' : 'No pudimos enviar el reporte.', 'error');
+        return;
+      }
+      form.reset();
+      form.hidden = true;
+      setMessage(message, currentSession?.user
+        ? 'Reporte enviado. Ya puedes seguirlo en “Mis reportes”.'
+        : 'Reporte enviado. Quedará privado hasta su revisión.', 'success');
+      if (currentSession?.user) await loadMyReports();
+      if (currentUserIsModerator) await loadNetworkModeration();
+    });
+  };
+
+  const showHumanProfile = (profile) => {
+    const dialog = document.querySelector('[data-human-profile-dialog]');
+    const view = document.querySelector('[data-human-profile-view]');
+    if (!dialog || !view || !profile) return;
+    view.innerHTML = `
+      <p class="kicker">Perfil público</p>
+      <h3 id="human-profile-title">${escapeHtml(profile.alias)}</h3>
+      <p>${escapeHtml(profile.biografia || 'Esta persona todavía no escribió una presentación.')}</p>
+      ${createProfileReportMarkup('perfil_publico', profile.id)}
+    `;
+    bindProfileReportForm(view);
     if (!dialog.open) dialog.showModal();
   };
 
@@ -1087,20 +1244,28 @@
       db.from('vinculos_animales').select('animal_a_id,animal_b_id,tipo,descripcion').eq('estado', 'confirmado').or(`animal_a_id.eq.${animalId},animal_b_id.eq.${animalId}`),
       db.from('vinculos_animal_humano').select('perfil_publico_id,tipo').eq('animal_id', animalId).eq('estado', 'confirmado').eq('visible_publicamente', true),
       db.from('animales').select('id,nombre,es_comunitario').eq('estado', 'publicado'),
-      db.from('perfiles_publicos').select('id,alias').eq('estado', 'publicado'),
+      db.from('perfiles_publicos').select('id,alias,biografia').eq('estado', 'publicado'),
     ]);
     const animals = new Map((animalsResult.data || []).map((item) => [item.id, item]));
     const profiles = new Map((profilesResult.data || []).map((item) => [item.id, item]));
     const links = [];
     (animalLinksResult.data || []).forEach((link) => {
       const other = animals.get(link.animal_a_id === animalId ? link.animal_b_id : link.animal_a_id);
-      if (other) links.push(`<article><span>${other.es_comunitario ? 'Animal comunitario' : 'Mascota'}</span><strong>${escapeHtml(other.nombre)}</strong><small>${escapeHtml(link.tipo)}${link.descripcion ? ` · ${escapeHtml(link.descripcion)}` : ''}</small></article>`);
+      if (other) links.push(`<article class="pet-connection-card"><span>${other.es_comunitario ? 'Animal comunitario' : 'Mascota'}</span><strong>${escapeHtml(other.nombre)}</strong><small>${escapeHtml(link.tipo)}${link.descripcion ? ` · ${escapeHtml(link.descripcion)}` : ''}</small></article>`);
     });
     (humanLinksResult.data || []).forEach((link) => {
       const profile = profiles.get(link.perfil_publico_id);
-      if (profile) links.push(`<article><span>Persona</span><strong>${escapeHtml(profile.alias)}</strong><small>${escapeHtml(link.tipo)}</small></article>`);
+      if (profile) {
+        links.push(`<article class="pet-connection-card"><span>Persona</span><button class="text-button" type="button" data-open-human-profile="${escapeHtml(profile.id)}"><strong>${escapeHtml(profile.alias)}</strong></button><small>${escapeHtml(link.tipo)}</small></article>`);
+      }
     });
     container.innerHTML = links.length ? links.join('') : '<p class="empty-state">Todavía no tiene vínculos públicos confirmados.</p>';
+    container.querySelectorAll('[data-open-human-profile]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const profile = profiles.get(button.dataset.openHumanProfile);
+        if (profile) showHumanProfile(profile);
+      });
+    });
   };
 
   const startPetProfileEdit = (section = 'perfil') => {
@@ -1124,6 +1289,9 @@
     form.elements.nacimiento_dia.value = birthParts[2] || '';
     form.elements.peso_kg.value = animal.peso_kg || '';
     form.elements.mostrar_en_red.checked = animal.mostrar_en_red !== false;
+    if (form.elements.es_conmemorativa) form.elements.es_conmemorativa.checked = Boolean(animal.es_conmemorativa);
+    if (form.elements.fecha_deceso) form.elements.fecha_deceso.value = animal.fecha_deceso || '';
+    syncCommemorativeFields(form);
     const health = animal.salud && typeof animal.salud === 'object' ? animal.salud : {};
     ['altura_cm', 'condicion_corporal', 'vacunacion', 'antecedentes_morbidos', 'antecedentes_familiares', 'antecedentes_quirurgicos', 'alergias'].forEach((field) => { form.elements[field].value = health[field] || ''; });
     form.elements.diagnostico_nutricional.value = animal.diagnostico_nutricional || '';
@@ -1152,6 +1320,8 @@
       ownAnimals = [];
       ownPublicProfile = null;
       renderAccountAnimals();
+      const linkSection = document.querySelector('[data-link-requests-section]');
+      if (linkSection) linkSection.hidden = true;
       return;
     }
     const [animalsResult, profileResult] = await Promise.all([db.rpc('mis_animales'), db.rpc('mi_perfil_publico')]);
@@ -1159,6 +1329,10 @@
     ownPublicProfile = profileResult.error ? null : (profileResult.data?.[0] || null);
     renderAccountAnimals();
     document.querySelectorAll('[data-own-animal-options]').forEach((select) => fillSelect(select, ownAnimals, ownAnimals.length ? 'Selecciona uno de tus animales' : 'Primero agrega un animal'));
+    document.querySelectorAll('[data-link-animal-options]').forEach((select) => {
+      fillSelect(select, publicAnimals, publicAnimals.length ? 'Selecciona un animal de la red' : 'Aún no hay animales publicados');
+      select.disabled = !publicAnimals.length;
+    });
     document.querySelectorAll('[data-connect-animal-options]').forEach((select) => {
       const candidates = publicAnimals.filter((animal) => !ownAnimals.some((own) => own.id === animal.id));
       fillSelect(select, candidates, candidates.length ? 'Selecciona una mascota' : 'No hay otras fichas disponibles');
@@ -1167,63 +1341,158 @@
     const profileForm = document.querySelector('[data-profile-form]');
     if (profileForm && ownPublicProfile) {
       profileForm.elements.alias.value = ownPublicProfile.alias;
-      profileForm.querySelector('button[type="submit"]').disabled = true;
-      setMessage(document.querySelector('[data-profile-message]'), `Alias enviado · estado: ${ownPublicProfile.estado}.`, ownPublicProfile.estado === 'publicado' ? 'success' : '');
+      if (profileForm.elements.biografia) profileForm.elements.biografia.value = ownPublicProfile.biografia || '';
+      profileForm.querySelector('button[type="submit"]').disabled = false;
+      profileForm.querySelector('button[type="submit"]').textContent = 'Actualizar alias';
+      setMessage(document.querySelector('[data-profile-message]'), 'Tu alias ya está publicado en la red.', 'success');
+    } else if (profileForm) {
+      profileForm.querySelector('button[type="submit"]').disabled = false;
+      profileForm.querySelector('button[type="submit"]').textContent = 'Publicar alias';
     }
-  }
+    await loadLinkRequests();
+  };
 
-  const moderationItem = (kind, row, description) => {
+  const createLinkRequestItem = (kind, row, description) => {
     const article = document.createElement('article');
     article.className = 'moderation-item';
     const title = document.createElement('strong');
-    title.textContent = row.alias || row.nombre || `${kind} pendiente`;
+    title.textContent = row.alias || row.nombre || 'Solicitud de vínculo';
     const detail = document.createElement('p');
     detail.textContent = description;
     const actions = document.createElement('div');
     actions.className = 'moderation-actions';
     const approve = document.createElement('button');
     approve.type = 'button';
-    approve.textContent = 'Aprobar';
-    approve.dataset.networkTable = kind;
-    approve.dataset.networkId = row.id;
-    approve.dataset.networkStatus = ['perfiles_publicos', 'animales'].includes(kind) ? 'publicado' : 'confirmado';
+    approve.textContent = 'Autorizar';
+    approve.dataset.linkTable = kind;
+    approve.dataset.linkId = row.id;
+    approve.dataset.linkDecision = 'confirmado';
     const reject = document.createElement('button');
     reject.type = 'button';
     reject.textContent = 'Rechazar';
-    reject.dataset.networkTable = kind;
-    reject.dataset.networkId = row.id;
-    reject.dataset.networkStatus = 'rechazado';
+    reject.dataset.linkTable = kind;
+    reject.dataset.linkId = row.id;
+    reject.dataset.linkDecision = 'rechazado';
     actions.append(approve, reject);
     article.append(title, detail, actions);
     return article;
   };
+
+  async function loadLinkRequests() {
+    const section = document.querySelector('[data-link-requests-section]');
+    const container = document.querySelector('[data-link-requests-list]');
+    if (!section || !container) return;
+    if (!currentSession?.user || !ownAnimals.length) {
+      section.hidden = true;
+      return;
+    }
+    const ownIds = ownAnimals.map((animal) => animal.id);
+    const [humanResult, animalResult, profilesResult, animalsResult] = await Promise.all([
+      db.from('vinculos_animal_humano').select('id,animal_id,perfil_publico_id,tipo,estado').eq('estado', 'pendiente').in('animal_id', ownIds),
+      db.from('vinculos_animales').select('id,animal_a_id,animal_b_id,tipo,descripcion,estado').eq('estado', 'pendiente').in('animal_b_id', ownIds),
+      db.from('perfiles_publicos').select('id,alias').eq('estado', 'publicado'),
+      db.from('animales').select('id,nombre').eq('estado', 'publicado'),
+    ]);
+    const profilesById = new Map((profilesResult.data || []).map((row) => [row.id, row]));
+    const animalsById = new Map((animalsResult.data || []).map((row) => [row.id, row]));
+    const items = [
+      ...(humanResult.data || []).map((row) => {
+        const profile = profilesById.get(row.perfil_publico_id);
+        const animal = animalsById.get(row.animal_id);
+        return createLinkRequestItem(
+          'vinculos_animal_humano',
+          { ...row, alias: profile?.alias || 'Persona' },
+          `Quiere vincularse como ${row.tipo} con ${animal?.nombre || 'tu mascota'}.`,
+        );
+      }),
+      ...(animalResult.data || []).map((row) => {
+        const fromAnimal = animalsById.get(row.animal_a_id);
+        const toAnimal = animalsById.get(row.animal_b_id);
+        return createLinkRequestItem(
+          'vinculos_animales',
+          { ...row, nombre: fromAnimal?.nombre || 'Mascota' },
+          `Solicita vínculo “${row.tipo}” con ${toAnimal?.nombre || 'tu mascota'}${row.descripcion ? ` · ${row.descripcion}` : ''}.`,
+        );
+      }),
+    ];
+    section.hidden = !items.length;
+    document.querySelector('[data-link-requests-count]').textContent = String(items.length);
+    if (!items.length) {
+      container.replaceChildren();
+      return;
+    }
+    container.replaceChildren(...items);
+  }
 
   async function loadNetworkModeration() {
     const panel = document.querySelector('[data-moderator-network]');
     if (!panel) return;
     panel.hidden = !currentUserIsModerator;
     if (!currentUserIsModerator) return;
-    const [profilesResult, animalsResult, humanResult, animalResult] = await Promise.all([
-      db.from('perfiles_publicos').select('id,alias,biografia,estado').eq('estado', 'pendiente').order('creado_en'),
-      db.from('animales').select('id,nombre,especie,zona_publica,estado').eq('estado', 'pendiente').order('creado_en'),
-      db.from('vinculos_animal_humano').select('id,animal_id,perfil_publico_id,tipo,estado').eq('estado', 'pendiente').order('creado_en'),
-      db.from('vinculos_animales').select('id,animal_a_id,animal_b_id,tipo,descripcion,estado').eq('estado', 'pendiente').order('creado_en'),
+    const { data, error } = await db.from('reportes_red')
+      .select('id,objetivo_tipo,animal_id,perfil_publico_id,motivo,estado,nota_moderacion,creado_en')
+      .order('creado_en', { ascending: false })
+      .limit(50);
+    const reports = error ? [] : (data || []);
+    const animalIds = [...new Set(reports.map((row) => row.animal_id).filter(Boolean))];
+    const profileIds = [...new Set(reports.map((row) => row.perfil_publico_id).filter(Boolean))];
+    const [animalsResult, profilesResult] = await Promise.all([
+      animalIds.length ? db.from('animales').select('id,nombre').in('id', animalIds) : Promise.resolve({ data: [] }),
+      profileIds.length ? db.from('perfiles_publicos').select('id,alias').in('id', profileIds) : Promise.resolve({ data: [] }),
     ]);
-    const rows = [
-      ...(profilesResult.data || []).map((row) => moderationItem('perfiles_publicos', row, 'Alias público de una persona')),
-      ...(animalsResult.data || []).map((row) => moderationItem('animales', row, `${row.especie}${row.zona_publica ? ` · ${row.zona_publica}` : ''}`)),
-      ...(humanResult.data || []).map((row) => moderationItem('vinculos_animal_humano', row, `Vínculo humano · ${row.tipo}`)),
-      ...(animalResult.data || []).map((row) => moderationItem('vinculos_animales', row, `Vínculo entre animales · ${row.tipo}`)),
-    ];
-    document.querySelector('[data-network-moderator-count]').textContent = String(rows.length);
+    const animalsById = new Map((animalsResult.data || []).map((row) => [row.id, row]));
+    const profilesById = new Map((profilesResult.data || []).map((row) => [row.id, row]));
+    document.querySelector('[data-network-moderator-count]').textContent = String(reports.filter((row) => row.estado === 'pendiente').length);
     const container = document.querySelector('[data-network-moderation]');
-    if (rows.length) container.replaceChildren(...rows);
-    else {
+    if (!reports.length) {
       const empty = document.createElement('p');
       empty.className = 'empty-state';
-      empty.textContent = 'No hay solicitudes pendientes.';
+      empty.textContent = error ? 'No pudimos cargar los reportes de perfiles.' : 'No hay reportes de perfiles por revisar.';
       container.replaceChildren(empty);
+      return;
     }
+    container.replaceChildren(...reports.map((report) => {
+      const article = document.createElement('article');
+      article.className = 'moderation-item';
+      const target = report.objetivo_tipo === 'animal'
+        ? `Mascota · ${animalsById.get(report.animal_id)?.nombre || 'ficha'}`
+        : `Persona · ${profilesById.get(report.perfil_publico_id)?.alias || 'alias'}`;
+      const title = document.createElement('strong');
+      title.textContent = target;
+      const status = document.createElement('span');
+      status.className = 'status-badge';
+      status.dataset.status = report.estado;
+      status.textContent = statusLabels[report.estado] || report.estado;
+      const detail = document.createElement('p');
+      detail.textContent = report.motivo;
+      const meta = document.createElement('p');
+      meta.textContent = `Enviado: ${dateFormatter.format(new Date(report.creado_en))}${report.nota_moderacion ? ` · Nota: ${report.nota_moderacion}` : ''}`;
+      article.append(title, status, detail, meta);
+      const actions = document.createElement('div');
+      actions.className = 'moderation-actions';
+      ['revisado', 'accion_tomada', 'descartado'].forEach((nextStatus) => {
+        if (nextStatus === report.estado) return;
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.dataset.profileReportId = report.id;
+        button.dataset.profileReportStatus = nextStatus;
+        button.textContent = `Marcar ${statusLabels[nextStatus].toLowerCase()}`;
+        actions.append(button);
+      });
+      const note = document.createElement('label');
+      note.className = 'field';
+      const noteLabel = document.createElement('span');
+      noteLabel.textContent = 'Nota de seguimiento (opcional)';
+      const noteInput = document.createElement('input');
+      noteInput.name = 'nota_moderacion';
+      noteInput.maxLength = 400;
+      noteInput.placeholder = 'Se mostrará a quien reportó con cuenta';
+      noteInput.value = report.nota_moderacion || '';
+      noteInput.dataset.profileReportNoteFor = report.id;
+      note.append(noteLabel, noteInput);
+      article.append(actions, note);
+      return article;
+    }));
   }
 
   async function loadPlaceProposals() {
@@ -1255,7 +1524,10 @@
     top.className = 'report-item-top';
     const category = document.createElement('strong');
     category.className = 'report-category';
-    category.textContent = categoryLabels[report.categoria] || report.categoria;
+    const sourceLabel = report._source === 'red'
+      ? (report.objetivo_tipo === 'animal' ? 'Perfil de mascota' : 'Perfil de persona')
+      : (categoryLabels[report.categoria] || report.categoria);
+    category.textContent = sourceLabel;
     const status = document.createElement('span');
     status.className = 'status-badge';
     status.dataset.status = report.estado;
@@ -1263,13 +1535,17 @@
     top.append(category, status);
     const description = document.createElement('p');
     description.className = 'report-description';
-    description.textContent = report.descripcion;
+    description.textContent = report.descripcion || report.motivo || '';
     const meta = document.createElement('p');
     meta.className = 'report-meta';
-    meta.textContent = `Observado: ${dateFormatter.format(new Date(report.observado_en))}`;
+    if (report._source === 'red') {
+      meta.textContent = `Enviado: ${dateFormatter.format(new Date(report.creado_en))}${report.nota_moderacion ? ` · Respuesta: ${report.nota_moderacion}` : ''}`;
+    } else {
+      meta.textContent = `Observado: ${dateFormatter.format(new Date(report.observado_en))}`;
+    }
     article.append(top, description, meta);
 
-    if (moderation) {
+    if (moderation && report._source !== 'red') {
       const actions = document.createElement('div');
       actions.className = 'moderation-actions';
       ['pendiente', 'verificado', 'cerrado', 'rechazado'].forEach((nextStatus) => {
@@ -1314,11 +1590,15 @@
       return;
     }
     section.hidden = false;
-    const { data, error } = await db.from('reportes_canil')
-      .select('id,categoria,descripcion,observado_en,estado,creado_en')
-      .order('creado_en', { ascending: false }).limit(30);
-    document.querySelector('[data-my-count]').textContent = String(error ? 0 : (data?.length || 0));
-    renderReportList(container, error ? [] : (data || []), error ? 'No pudimos cargar tu historial.' : 'Todavía no tienes reportes asociados a esta sesión.');
+    const [canilResult, redResult] = await Promise.all([
+      db.from('reportes_canil').select('id,categoria,descripcion,observado_en,estado,creado_en').order('creado_en', { ascending: false }).limit(30),
+      db.from('reportes_red').select('id,objetivo_tipo,motivo,estado,nota_moderacion,creado_en').order('creado_en', { ascending: false }).limit(30),
+    ]);
+    const canilReports = (canilResult.error ? [] : (canilResult.data || [])).map((row) => ({ ...row, _source: 'canil' }));
+    const redReports = (redResult.error ? [] : (redResult.data || [])).map((row) => ({ ...row, _source: 'red' }));
+    const reports = [...canilReports, ...redReports].sort((a, b) => new Date(b.creado_en) - new Date(a.creado_en));
+    document.querySelector('[data-my-count]').textContent = String(reports.length);
+    renderReportList(container, reports, (canilResult.error && redResult.error) ? 'No pudimos cargar tu historial.' : 'Todavía no tienes reportes asociados a esta sesión.');
   }
 
   async function loadModeratorReports() {
@@ -1398,18 +1678,26 @@
     const form = event.currentTarget;
     const message = document.querySelector('[data-profile-message]');
     if (!form.reportValidity() || !currentSession?.user) return;
-    const { error } = await db.from('perfiles_publicos').insert({
-      usuario_id: currentSession.user.id,
+    const payload = {
       alias: form.elements.alias.value.trim(),
       biografia: form.elements.biografia.value.trim() || null,
-      estado: 'pendiente',
-    });
+    };
+    let error = null;
+    if (ownPublicProfile?.id) {
+      ({ error } = await db.from('perfiles_publicos').update(payload).eq('id', ownPublicProfile.id));
+    } else {
+      ({ error } = await db.from('perfiles_publicos').insert({
+        usuario_id: currentSession.user.id,
+        ...payload,
+        estado: 'publicado',
+      }));
+    }
     if (error) {
-      setMessage(message, error.code === '23505' ? 'Ya tienes un alias enviado.' : 'No pudimos guardar el alias.', 'error');
+      setMessage(message, error.code === '23505' ? 'Ya tienes un alias publicado.' : 'No pudimos guardar el alias.', 'error');
       return;
     }
-    setMessage(message, 'Alias enviado a moderación.', 'success');
-    await Promise.all([loadCreatorWorkspace(), loadNetworkModeration()]);
+    setMessage(message, 'Alias publicado en la red.', 'success');
+    await Promise.all([loadCreatorWorkspace(), loadAnimalNetwork()]);
   });
 
   document.querySelector('[data-animal-form]')?.addEventListener('submit', async (event) => {
@@ -1417,6 +1705,12 @@
     const form = event.currentTarget;
     const message = document.querySelector('[data-animal-message]');
     if (!form.reportValidity() || !currentSession?.user) return;
+    const isMemorial = form.elements.es_conmemorativa.checked;
+    const deathDate = form.elements.fecha_deceso.value || null;
+    if (isMemorial && !deathDate) {
+      setMessage(message, 'Indica la fecha aproximada del deceso.', 'error');
+      return;
+    }
     const { error } = await db.from('animales').insert({
       slug: slugify(form.elements.nombre.value),
       nombre: form.elements.nombre.value.trim(),
@@ -1424,8 +1718,10 @@
       biografia: form.elements.biografia.value.trim() || null,
       zona_publica: form.elements.zona_publica.value.trim() || null,
       es_comunitario: form.elements.es_comunitario.checked,
+      es_conmemorativa: isMemorial,
+      fecha_deceso: isMemorial ? deathDate : null,
       creado_por: currentSession.user.id,
-      estado: 'pendiente',
+      estado: 'publicado',
     });
     if (error) {
       setMessage(message, 'No pudimos guardar el perfil animal.', 'error');
@@ -1433,8 +1729,9 @@
       return;
     }
     form.reset();
-    setMessage(message, 'Perfil animal enviado a moderación.', 'success');
-    await Promise.all([loadCreatorWorkspace(), loadNetworkModeration()]);
+    syncCommemorativeFields(form);
+    setMessage(message, isMemorial ? 'Ficha conmemorativa publicada.' : 'Perfil animal publicado.', 'success');
+    await Promise.all([loadCreatorWorkspace(), loadAnimalNetwork()]);
   });
 
   document.querySelector('[data-human-link-form]')?.addEventListener('submit', async (event) => {
@@ -1446,20 +1743,21 @@
       setMessage(message, 'Primero crea tu alias público.', 'error');
       return;
     }
-    const { error } = await db.from('vinculos_animal_humano').insert({
-      animal_id: form.elements.animal_id.value,
-      perfil_publico_id: ownPublicProfile.id,
-      tipo: form.elements.tipo.value,
-      visible_publicamente: form.elements.visible_publicamente.checked,
-      estado: 'pendiente',
-      creado_por: currentSession.user.id,
+    const { data, error } = await db.rpc('solicitar_vinculo_animal_humano', {
+      p_animal_id: form.elements.animal_id.value,
+      p_tipo: form.elements.tipo.value,
+      p_visible_publicamente: form.elements.visible_publicamente.checked,
     });
     if (error) {
-      setMessage(message, error.code === '23505' ? 'Ese vínculo ya fue solicitado.' : 'No pudimos solicitar el vínculo.', 'error');
+      setMessage(message, error.code === '23505' ? 'Ese vínculo ya fue solicitado.' : (error.message || 'No pudimos solicitar el vínculo.'), 'error');
       return;
     }
-    setMessage(message, 'Vínculo enviado a moderación.', 'success');
-    await loadNetworkModeration();
+    setMessage(message, data === 'confirmado'
+      ? 'Vínculo creado y visible en la red.'
+      : 'Solicitud enviada. El responsable de esa mascota debe autorizarla.', 'success');
+    form.reset();
+    form.elements.visible_publicamente.checked = true;
+    await Promise.all([loadAnimalNetwork(), loadLinkRequests(), loadCreatorWorkspace()]);
   });
 
   document.querySelector('[data-animal-link-form]')?.addEventListener('submit', async (event) => {
@@ -1471,38 +1769,59 @@
       setMessage(message, 'Selecciona dos animales diferentes.', 'error');
       return;
     }
-    const { error } = await db.from('vinculos_animales').insert({
-      animal_a_id: form.elements.animal_a_id.value,
-      animal_b_id: form.elements.animal_b_id.value,
-      tipo: form.elements.tipo.value,
-      descripcion: form.elements.descripcion.value.trim() || null,
-      estado: 'pendiente',
-      creado_por: currentSession.user.id,
+    const { data, error } = await db.rpc('solicitar_vinculo_animales', {
+      p_animal_a_id: form.elements.animal_a_id.value,
+      p_animal_b_id: form.elements.animal_b_id.value,
+      p_tipo: form.elements.tipo.value,
+      p_descripcion: form.elements.descripcion.value.trim() || null,
     });
     if (error) {
-      setMessage(message, error.code === '23505' ? 'Ese vínculo ya fue solicitado.' : 'No pudimos solicitar el vínculo.', 'error');
+      setMessage(message, error.code === '23505' ? 'Ese vínculo ya fue solicitado.' : (error.message || 'No pudimos solicitar el vínculo.'), 'error');
       return;
     }
     form.reset();
-    setMessage(message, 'Vínculo animal enviado a moderación.', 'success');
-    await loadNetworkModeration();
+    setMessage(message, data === 'confirmado'
+      ? 'Vínculo animal creado.'
+      : 'Solicitud enviada. El responsable de la otra mascota debe autorizarla.', 'success');
+    await Promise.all([loadAnimalNetwork(), loadLinkRequests(), loadCreatorWorkspace()]);
   });
 
-  document.querySelector('[data-network-moderation]')?.addEventListener('click', async (event) => {
-    const button = event.target.closest('[data-network-table][data-network-id][data-network-status]');
-    if (!button || !currentUserIsModerator) return;
-    const message = document.querySelector('[data-network-moderator-message]');
+  document.querySelector('[data-link-requests-list]')?.addEventListener('click', async (event) => {
+    const button = event.target.closest('[data-link-table][data-link-id][data-link-decision]');
+    if (!button || !currentSession?.user) return;
+    const message = document.querySelector('[data-link-requests-message]');
     button.disabled = true;
-    const { error } = await db.from(button.dataset.networkTable)
-      .update({ estado: button.dataset.networkStatus })
-      .eq('id', button.dataset.networkId);
+    const { error } = await db.rpc('responder_solicitud_vinculo', {
+      p_tabla: button.dataset.linkTable,
+      p_id: button.dataset.linkId,
+      p_decision: button.dataset.linkDecision,
+    });
     if (error) {
       button.disabled = false;
       setMessage(message, 'No pudimos actualizar esta solicitud.', 'error');
       return;
     }
-    setMessage(message, 'Solicitud actualizada.', 'success');
-    await Promise.all([loadNetworkModeration(), loadAnimalNetwork(), loadCreatorWorkspace()]);
+    setMessage(message, button.dataset.linkDecision === 'confirmado' ? 'Vínculo autorizado.' : 'Solicitud rechazada.', 'success');
+    await Promise.all([loadLinkRequests(), loadAnimalNetwork(), loadCreatorWorkspace()]);
+  });
+
+  document.querySelector('[data-network-moderation]')?.addEventListener('click', async (event) => {
+    const button = event.target.closest('[data-profile-report-id][data-profile-report-status]');
+    if (!button || !currentUserIsModerator) return;
+    const message = document.querySelector('[data-network-moderator-message]');
+    const noteInput = document.querySelector(`[data-profile-report-note-for="${button.dataset.profileReportId}"]`);
+    button.disabled = true;
+    const { error } = await db.from('reportes_red').update({
+      estado: button.dataset.profileReportStatus,
+      nota_moderacion: noteInput?.value.trim() || null,
+    }).eq('id', button.dataset.profileReportId);
+    if (error) {
+      button.disabled = false;
+      setMessage(message, 'No pudimos actualizar este reporte.', 'error');
+      return;
+    }
+    setMessage(message, 'Reporte de perfil actualizado.', 'success');
+    await Promise.all([loadNetworkModeration(), loadMyReports()]);
   });
 
   document.querySelector('[data-place-proposal-list]')?.addEventListener('click', async (event) => {
@@ -1580,9 +1899,14 @@
     if (editButton?.dataset.editPetSection === 'vinculos') {
       dialog.close();
       document.querySelector('[data-animal-link-form]')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      setMessage(document.querySelector('[data-account-animal-message]'), 'Puedes proponer aquí vínculos con personas, mascotas o animales comunitarios. Quedarán pendientes de moderación.');
+      setMessage(document.querySelector('[data-account-animal-message]'), 'Puedes proponer vínculos aquí. Si la otra mascota tiene responsable, esa persona deberá autorizarlo.');
     } else if (editButton) startPetProfileEdit(editButton.dataset.editPetSection);
     if (event.target.closest('[data-pet-profile-cancel]') && activePetProfile) showPetProfile(activePetProfile);
+  });
+
+  document.querySelector('[data-human-profile-dialog]')?.addEventListener('click', (event) => {
+    const dialog = event.currentTarget;
+    if (event.target === dialog || event.target.closest('[data-human-profile-close]')) dialog.close();
   });
 
   document.querySelector('[data-open-pet-connect]')?.addEventListener('click', () => {
@@ -1769,6 +2093,8 @@
         p_habilidades: [...form.querySelectorAll('input[name="habilidades"]:checked')].map((input) => input.value),
         p_caracter_respuestas: character.score === null ? {} : character.answers,
         p_caracter_puntaje: character.score,
+        p_es_conmemorativa: form.elements.es_conmemorativa.checked,
+        p_fecha_deceso: form.elements.es_conmemorativa.checked ? (form.elements.fecha_deceso.value || null) : null,
       });
       if (error) throw error;
       await Promise.all([loadCreatorWorkspace(), loadAnimalNetwork()]);

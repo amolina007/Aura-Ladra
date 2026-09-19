@@ -183,7 +183,7 @@
         </div>
 
         <div class="network-access card" data-network-signed-out>
-          <div><p class="kicker">Participa</p><h3>Inicia sesión con enlace mágico</h3><p>Desde “Mi cuenta” podrás proponer un perfil animal y sus vínculos. Todo queda pendiente hasta la moderación.</p></div>
+          <div><p class="kicker">Participa</p><h3>Inicia sesión con enlace mágico</h3><p>Desde “Mi cuenta” puedes publicar tu alias y las fichas de tus mascotas al instante. Los vínculos a mascotas ajenas piden autorización de su responsable.</p></div>
           <a class="button button-dark" href="#cuenta">Ir a mi cuenta</a>
         </div>
 
@@ -192,7 +192,7 @@
             <div class="card-heading compact"><span class="card-mark" aria-hidden="true">◎</span><div><p class="kicker">Identidad pública</p><h3>Mi alias en la red</h3></div></div>
             <label class="field"><span>Alias público</span><input name="alias" required minlength="2" maxlength="50"></label>
             <label class="field"><span>Presentación opcional</span><textarea name="biografia" maxlength="300" rows="3"></textarea></label>
-            <button class="button button-primary" type="submit">Guardar alias para revisión</button>
+            <button class="button button-primary" type="submit">Publicar alias</button>
             <p class="form-message" data-profile-message aria-live="polite"></p>
           </form>
 
@@ -203,16 +203,18 @@
             <label class="field"><span>Zona pública</span><input name="zona_publica" maxlength="100" placeholder="Ej.: Maipú"></label>
             <label class="field"><span>Su historia</span><textarea name="biografia" maxlength="600" rows="4"></textarea></label>
             <label class="check-field"><input name="es_comunitario" type="checkbox"><span>Es un animal comunitario</span></label>
-            <button class="button button-primary" type="submit">Enviar perfil a revisión</button>
+            <label class="check-field"><input name="es_conmemorativa" type="checkbox" data-conmemorativa-toggle><span><strong>Ficha conmemorativa</strong><small>Para honrar a una mascota que ya falleció.</small></span></label>
+            <label class="field" data-deceso-field hidden><span>Fecha aproximada del deceso</span><input name="fecha_deceso" type="date"></label>
+            <button class="button button-primary" type="submit">Publicar perfil</button>
             <p class="form-message" data-animal-message aria-live="polite"></p>
           </form>
 
           <form class="card network-form" data-human-link-form>
             <div class="card-heading compact"><span class="card-mark" aria-hidden="true">↔</span><div><p class="kicker">Vínculo humano</p><h3>Asociarme a un animal</h3></div></div>
-            <label class="field"><span>Animal</span><select name="animal_id" required data-own-animal-options></select></label>
+            <label class="field"><span>Animal</span><select name="animal_id" required data-link-animal-options></select></label>
             <label class="field"><span>Mi relación</span><select name="tipo"><option value="responsable">Responsable</option><option value="cuidador">Cuidador/a</option><option value="rescatista">Rescatista</option><option value="colaborador">Colaborador/a</option></select></label>
-            <label class="check-field"><input name="visible_publicamente" type="checkbox" checked><span>Mostrar mi alias cuando el vínculo sea aprobado</span></label>
-            <button class="button button-dark" type="submit">Solicitar vínculo</button>
+            <label class="check-field"><input name="visible_publicamente" type="checkbox" checked><span>Mostrar mi alias en la red cuando el vínculo quede activo</span></label>
+            <button class="button button-dark" type="submit">Crear o solicitar vínculo</button>
             <p class="form-message" data-human-link-message aria-live="polite"></p>
           </form>
 
@@ -222,13 +224,14 @@
             <label class="field"><span>Con</span><select name="animal_b_id" required data-public-animal-options></select></label>
             <label class="field"><span>Tipo</span><select name="tipo"><option value="familia">Familia</option><option value="convivencia">Convivencia</option><option value="amistad">Amistad</option><option value="colonia">Colonia</option><option value="manada">Manada</option><option value="otro">Otro</option></select></label>
             <label class="field"><span>Descripción opcional</span><input name="descripcion" maxlength="240"></label>
-            <button class="button button-dark" type="submit">Solicitar vínculo</button>
+            <button class="button button-dark" type="submit">Crear o solicitar vínculo</button>
             <p class="form-message" data-animal-link-message aria-live="polite"></p>
           </form>
         </div>
 
         <section class="moderator-network card" data-moderator-network hidden aria-labelledby="moderator-network-title">
-          <div class="list-heading"><div><p class="kicker">Moderación</p><h3 id="moderator-network-title">Solicitudes de la red</h3></div><span class="count-badge" data-network-moderator-count>0</span></div>
+          <div class="list-heading"><div><p class="kicker">Moderación</p><h3 id="moderator-network-title">Reportes de perfiles</h3></div><span class="count-badge" data-network-moderator-count>0</span></div>
+          <p class="card-copy">Los perfiles se publican solos. Aquí revisas denuncias y dejas una nota de seguimiento para quien reportó con cuenta.</p>
           <div class="moderation-columns" data-network-moderation></div>
           <p class="form-message" data-network-moderator-message aria-live="polite"></p>
         </section>
@@ -319,6 +322,16 @@
                 <p class="form-message" data-account-animal-message aria-live="polite"></p>
               </section>
 
+              <section class="account-link-requests card" data-link-requests-section hidden aria-labelledby="link-requests-title">
+                <div class="list-heading">
+                  <div><p class="kicker">Autorizaciones</p><h4 id="link-requests-title">Solicitudes de vínculo</h4></div>
+                  <span class="count-badge" data-link-requests-count>0</span>
+                </div>
+                <p class="card-copy">Si alguien quiere vincularse a una de tus mascotas, puedes aceptar o rechazar aquí.</p>
+                <div class="moderation-columns" data-link-requests-list></div>
+                <p class="form-message" data-link-requests-message aria-live="polite"></p>
+              </section>
+
               <dialog class="pet-profile-dialog" data-pet-profile-dialog aria-labelledby="pet-profile-title">
                 <div class="pet-profile-shell">
                   <button class="pet-profile-close" type="button" data-pet-profile-close aria-label="Cerrar ficha">×</button>
@@ -358,6 +371,8 @@
                       <label class="field"><span>N.º de registro</span><input name="numero_registro" maxlength="80" autocomplete="off"></label>
                       <label class="field pet-profile-wide"><span>Descripción</span><textarea name="biografia" maxlength="600" rows="4" placeholder="Personalidad, hábitos y lo que ayuda a reconocerla."></textarea></label>
                       <label class="field pet-profile-wide"><span>Señas particulares</span><textarea name="senas_particulares" maxlength="400" rows="3" placeholder="Marcas, cicatrices, collar habitual u otros rasgos identificables."></textarea></label>
+                      <label class="check-field pet-profile-wide pet-network-visibility"><input name="es_conmemorativa" type="checkbox" data-conmemorativa-toggle><span><strong>Ficha conmemorativa</strong><small>Actívala si esta mascota ya falleció. No se podrá marcar como extraviada.</small></span></label>
+                      <label class="field pet-profile-wide" data-deceso-field hidden><span>Fecha aproximada del deceso</span><input name="fecha_deceso" type="date"></label>
                       <label class="check-field pet-profile-wide pet-network-visibility"><input name="mostrar_en_red" type="checkbox"><span><strong>Mostrar en Red animal</strong><small>Si la desmarcas, la mascota seguirá contabilizada, pero su perfil no será visible públicamente.</small></span></label>
                       <fieldset class="pet-summary-editor pet-profile-wide"><legend>Ocho bloques visibles</legend><p>Escoge qué resumen aparece primero en la ficha. No repitas bloques.</p><div class="pet-summary-slots" data-pet-summary-slots></div></fieldset>
                     </div>
@@ -423,10 +438,18 @@
 
             <section class="my-reports card" data-my-reports-section hidden aria-labelledby="my-reports-title">
               <div class="list-heading"><div><p class="kicker">Seguimiento</p><h3 id="my-reports-title">Mis reportes</h3></div><span class="count-badge" data-my-count>0</span></div>
+              <p class="card-copy">Si enviaste un reporte con esta cuenta, aquí verás su estado y la respuesta de moderación.</p>
               <div class="report-list" data-my-reports></div>
             </section>
           </div>
         </div>
+
+        <dialog class="human-profile-dialog" data-human-profile-dialog aria-labelledby="human-profile-title">
+          <div class="human-profile-shell">
+            <button class="pet-profile-close" type="button" data-human-profile-close aria-label="Cerrar perfil">×</button>
+            <div data-human-profile-view></div>
+          </div>
+        </dialog>
 
         <section class="public-reports" aria-labelledby="public-reports-title">
           <div class="list-heading public-heading">
