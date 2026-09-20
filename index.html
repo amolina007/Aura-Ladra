@@ -14,6 +14,10 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+<div class="paw-backdrop" aria-hidden="true">
+  <div class="paw-backdrop__layer paw-backdrop__far" data-paw-layer="far"></div>
+  <div class="paw-backdrop__layer paw-backdrop__near" data-paw-layer="near"></div>
+</div>
 <div class="ca-site-top">
 <aside class="ca-ecosystem-banner" aria-label="Navegación del ecosistema Convergencia Aura">
   <div class="ca-ecosystem-banner__inner">
@@ -55,6 +59,7 @@
     <section class="hero" id="inicio">
       <div class="hero-image" role="img" aria-label="Ilustración de una comunidad compartiendo responsablemente un parque para perros en Maipú"></div>
       <div class="hero-shade"></div>
+      <div class="hero-paws" aria-hidden="true"></div>
       <div class="shell hero-content">
         <div class="hero-copy">
           <p class="eyebrow"><span class="pulse" aria-hidden="true"></span> Piloto comunitario · Maipú</p>
@@ -121,7 +126,7 @@
             <p class="kicker">Most Wanted · voz de Leia</p>
             <h2>Si alguien de los nuestros se pierde, lo pegamos en la plaza.</h2>
           </div>
-          <p>Soy Leia. Aquí cuelgo afiches de búsqueda: con recompensa o por buena voluntad. Publicar no cuesta nada. Si hay recompensa, el dinero no se queda en mis patas: un procesador lo reparte cuando el caso se confirma.</p>
+          <p>Soy Leia. Cada vez que alguien marca a su mascota como extraviada, yo cuelgo el afiche aquí. Puedes ofrecer un monto o no: publicar no cuesta nada. Si hay recompensa, el dinero no se queda en mis patas: un procesador lo reparte cuando el caso se confirma.</p>
         </div>
 
         <div class="wanted-fund" data-wanted-fund aria-label="Fondo del canil">
@@ -132,7 +137,7 @@
         <div class="wanted-tape" role="tablist" aria-label="Filtrar afiches" data-wanted-tape>
           <button class="wanted-chip is-active" type="button" data-wanted-filter="abiertos">Afiches abiertos</button>
           <button class="wanted-chip" type="button" data-wanted-filter="recompensa">Con recompensa</button>
-          <button class="wanted-chip" type="button" data-wanted-filter="buena_voluntad">Buena voluntad</button>
+          <button class="wanted-chip" type="button" data-wanted-filter="buena_voluntad">Sin recompensa</button>
           <button class="wanted-chip" type="button" data-wanted-filter="heroes">Héroes de la comunidad</button>
         </div>
 
@@ -144,44 +149,10 @@
           <article class="card wanted-publish">
             <div class="card-heading compact">
               <span class="card-mark" aria-hidden="true">🐾</span>
-              <div><p class="kicker">Dueños</p><h3>Colgar un afiche</h3></div>
+              <div><p class="kicker">Dueños</p><h3>El afiche nace al marcar extraviada</h3></div>
             </div>
-            <p class="card-copy">Gratis siempre. Eliges si ofreces un monto o solo el reconocimiento del barrio. Si empiezas por buena voluntad, después puedes pasar a recompensa. Al revés no: cuando hay un pago en curso, se respeta.</p>
-            <form data-wanted-publish>
-              <label class="field">
-                <span>Tu mascota</span>
-                <select name="animal_id" data-own-animal-options required>
-                  <option value="">Primero inicia sesión y agrega una ficha</option>
-                </select>
-              </label>
-              <fieldset class="field">
-                <legend>Modalidad</legend>
-                <label><input type="radio" name="modalidad" value="buena_voluntad" checked> Buena voluntad (sin dinero)</label>
-                <label><input type="radio" name="modalidad" value="recompensa"> Con recompensa (tú defines el monto)</label>
-              </fieldset>
-              <label class="field" data-wanted-amount-wrap hidden>
-                <span>Monto de la recompensa (CLP)</span>
-                <input type="number" name="monto" min="1000" step="1000" placeholder="Ej.: 50000">
-              </label>
-              <label class="field">
-                <span>Título del afiche</span>
-                <input type="text" name="titulo" required minlength="3" maxlength="80" placeholder="Se busca a Luna">
-              </label>
-              <label class="field">
-                <span>Lo que yo, Leia, contaría</span>
-                <textarea name="relato" required minlength="20" maxlength="800" placeholder="Cómo se ve, dónde se le vio, qué la hace única. Sin domicilio ni teléfono."></textarea>
-              </label>
-              <label class="field">
-                <span>Zona pública</span>
-                <input type="text" name="zona" required minlength="3" maxlength="80" placeholder="Maipú, cerca del canil">
-              </label>
-              <label class="field">
-                <span>Foto del afiche (opcional)</span>
-                <input type="file" name="foto" accept="image/jpeg,image/png,image/webp">
-              </label>
-              <button class="button button-primary form-submit" type="submit">Publicar afiche</button>
-              <p class="form-message" data-wanted-publish-message aria-live="polite"></p>
-            </form>
+            <p class="card-copy">No hay un segundo formulario. En Ayuda rápida marcas a tu mascota como extraviada; el aviso aparece aquí solo. La recompensa es opcional. Después puedes agregar o subir el monto, nunca bajarlo ni quitarlo desde el sitio.</p>
+            <a class="button button-primary" href="#acciones">Marcar como extraviada</a>
           </article>
 
           <dialog class="wanted-dialog" data-wanted-claim-dialog>
@@ -215,7 +186,7 @@
               <span class="card-mark" aria-hidden="true">!</span>
               <div><p class="kicker">Tus avisos</p><h3>Reclamos por verificar</h3></div>
             </div>
-            <p class="card-copy">Un solo reclamo activo a la vez. Si no alcanzas a responder en la ventana, pasa el siguiente de la cola. Los casos con bandera van a revisión manual: el pago no se libera solo.</p>
+            <p class="card-copy">Un solo reclamo activo a la vez. Si no alcanzas a responder en la ventana, pasa el siguiente de la cola. Puedes agregar o subir una recompensa; bajarla o quitarla no está en este flujo.</p>
             <div data-wanted-owner-list></div>
             <p class="form-message" data-wanted-owner-message aria-live="polite"></p>
           </article>

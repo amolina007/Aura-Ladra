@@ -20,6 +20,33 @@
 html { scroll-behavior: smooth; scroll-padding-top: 88px; }
 body { margin: 0; color: var(--ink); background: var(--paper); font-family: "DM Sans", sans-serif; font-size: 16px; line-height: 1.65; }
 body.menu-open { overflow: hidden; }
+.paw-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.paw-backdrop__layer {
+  position: absolute;
+  left: -8%;
+  right: -8%;
+  top: -24%;
+  height: 148%;
+  background-repeat: repeat;
+  will-change: transform;
+}
+.paw-backdrop__far {
+  background-image: url("../assets/paw-pattern.svg");
+  background-size: 560px 700px;
+}
+.paw-backdrop__near {
+  background-image: url("../assets/paw-pattern.svg");
+  background-size: 760px 950px;
+  background-position: 160px 80px;
+  opacity: .45;
+}
+main, .site-footer { position: relative; z-index: 1; }
 a { color: inherit; }
 button, a { -webkit-tap-highlight-color: transparent; }
 button { font: inherit; }
@@ -57,9 +84,19 @@ img { max-width: 100%; }
   color: #fff; background: rgba(94, 201, 240, .2); border-color: rgba(151, 225, 255, .72); outline: none;
 }
 
-.site-header { position: relative; z-index: 50; color: var(--white); background: rgba(8, 26, 43, .92); transition: background .25s, box-shadow .25s; }
+.site-header { position: relative; z-index: 50; color: var(--white); background: rgba(8, 26, 43, .92); transition: background .25s, box-shadow .25s; overflow: hidden; }
+.site-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("../assets/paw-pattern-light.svg");
+  background-repeat: repeat;
+  background-size: 420px 520px;
+  opacity: .4;
+}
 .site-header.is-scrolled { background: rgba(8, 26, 43, .95); box-shadow: 0 8px 30px rgba(0,0,0,.12); backdrop-filter: blur(16px); }
-.nav-shell { height: 78px; display: flex; align-items: center; justify-content: space-between; gap: 32px; }
+.nav-shell { position: relative; z-index: 1; height: 78px; display: flex; align-items: center; justify-content: space-between; gap: 32px; }
 .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 700; font-size: 1.2rem; letter-spacing: -.03em; }
 .brand > span:last-child > span { color: var(--amber); }
 .brand-mark { width: 38px; height: 38px; display: grid; place-items: center; background: var(--amber); color: var(--navy); border-radius: 12px 12px 12px 4px; font-size: 1.1rem; }
@@ -70,7 +107,15 @@ img { max-width: 100%; }
 .menu-button span:not(.sr-only) { display: block; height: 2px; margin: 4px 0; background: var(--white); border-radius: 3px; }
 
 .hero { min-height: 760px; height: 96vh; max-height: 920px; position: relative; display: grid; align-items: end; overflow: hidden; background: var(--navy-deep); color: var(--white); }
-.hero-image, .hero-shade { position: absolute; inset: 0; }
+.hero-image, .hero-shade, .hero-paws { position: absolute; inset: 0; }
+.hero-paws {
+  z-index: 1;
+  pointer-events: none;
+  background-image: url("../assets/paw-pattern-light.svg");
+  background-repeat: repeat;
+  background-size: 480px 600px;
+  opacity: .42;
+}
 .hero-image { background: url("../assets/auraladra-canil-hero.webp") center center / cover no-repeat; transform: scale(1.01); }
 .hero-shade { background: linear-gradient(90deg, rgba(8,26,43,.96) 0%, rgba(8,26,43,.82) 38%, rgba(8,26,43,.12) 72%), linear-gradient(0deg, rgba(8,26,43,.8), transparent 44%); }
 .hero-content { position: relative; z-index: 2; display: grid; align-items: end; padding-bottom: 76px; }
@@ -103,7 +148,7 @@ img { max-width: 100%; }
 .section-heading > p, .pilot-intro > p:last-child, .network-grid > div > p:last-child { color: var(--muted); margin: 0; font-size: 1.08rem; }
 .kicker { color: var(--coral); margin: 0 0 10px; }
 
-.quick-actions { background: var(--cream); }
+.quick-actions { background: transparent; }
 .action-layout { display: grid; grid-template-columns: 390px 1fr; gap: 22px; }
 .action-tabs { display: grid; gap: 10px; }
 .action-tab { width: 100%; padding: 21px; border: 1px solid var(--line); border-radius: 17px; background: rgba(255,255,255,.66); color: var(--ink); display: grid; grid-template-columns: 46px 1fr; text-align: left; gap: 15px; cursor: pointer; transition: border .2s, transform .2s, background .2s; }
@@ -152,31 +197,13 @@ img { max-width: 100%; }
 .quick-gate { display: grid; gap: 10px; }
 .quick-gate strong { color: var(--white); font: 650 1.25rem/1.2 "Fraunces", serif; }
 .quick-gate p { margin: 0; color: rgba(255,255,255,.65); font-size: .9rem; }
-.quick-gate .panel-action { justify-self: start; display: inline-flex; align-items: center; text-decoration: none; }
+.reward-option { display: flex !important; flex-direction: row; align-items: center; gap: 10px; }
+.reward-option input { width: auto; accent-color: var(--amber); }
+.wanted-publish .button { width: auto; margin-top: 8px; }
 
 .list-title { margin: 28px 0 10px; color: var(--navy); font: 650 1.2rem/1.2 "Fraunces", serif; }
 
-.most-wanted {
-  background:
-    radial-gradient(circle at 12% 18%, rgba(242,169,59,.16), transparent 22%),
-    radial-gradient(circle at 88% 8%, rgba(233,107,80,.1), transparent 18%),
-    var(--cream);
-  position: relative;
-}
-.most-wanted::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: .18;
-  background-image:
-    radial-gradient(circle at 10px 8px, var(--navy) 2px, transparent 2.4px),
-    radial-gradient(circle at 18px 8px, var(--navy) 2px, transparent 2.4px),
-    radial-gradient(circle at 14px 14px, var(--navy) 2.4px, transparent 2.8px),
-    radial-gradient(circle at 8px 18px, var(--navy) 1.5px, transparent 2px),
-    radial-gradient(circle at 20px 18px, var(--navy) 1.5px, transparent 2px);
-  background-size: 72px 56px;
-}
+.most-wanted { background: transparent; position: relative; }
 .wanted-fund {
   position: relative;
   display: grid;
@@ -314,7 +341,7 @@ img { max-width: 100%; }
   .wanted-forms { grid-template-columns: 1fr; }
 }
 
-.reports { background: var(--paper); }
+.reports { background: transparent; }
 .report-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(320px, .85fr); gap: 24px; align-items: start; }
 .report-side { display: grid; gap: 24px; }
 .card { border: 1px solid var(--line); border-radius: var(--radius); background: var(--white); box-shadow: 0 18px 50px rgba(8,26,43,.07); }
@@ -470,7 +497,7 @@ button.pet-connect-option:hover, button.pet-connect-option:focus-visible { borde
 .moderation-actions button { border: 1px solid var(--line); border-radius: 9px; background: var(--white); color: var(--navy); padding: 7px 10px; font: inherit; font-size: .75rem; font-weight: 800; cursor: pointer; }
 .moderation-actions button:hover, .moderation-actions button:focus-visible { border-color: var(--amber); background: var(--cream); }
 
-.map-section { background: #eef4f7; }
+.map-section { background: transparent; }
 .map-summary { margin: -24px 0 16px; color: var(--muted); font-size: .9rem; font-weight: 750; }
 .map-filters { display: flex; flex-wrap: wrap; gap: 9px; margin: 0 0 24px; }
 .map-filter { border: 1px solid var(--line); border-radius: 999px; background: var(--white); color: var(--navy); padding: 9px 14px; font-weight: 700; font-size: .82rem; cursor: pointer; }
@@ -513,7 +540,7 @@ button.pet-connect-option:hover, button.pet-connect-option:focus-visible { borde
 .check-field { display: flex; align-items: flex-start; gap: 10px; margin: 4px 0 20px; color: var(--muted); font-size: .88rem; font-weight: 600; }
 .check-field input { width: 18px; height: 18px; accent-color: var(--navy); flex: 0 0 auto; margin-top: 2px; }
 
-.animal-network { background: var(--cream); }
+.animal-network { background: transparent; }
 .animal-network-summary { margin: -20px 0 20px; color: var(--muted); font-size: .86rem; font-weight: 700; }
 .animal-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
 .animal-card { min-height: 310px; padding: 0 26px 26px; display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--line); border-radius: 20px; background: var(--white); box-shadow: 0 15px 42px rgba(8,26,43,.07); transition: transform .2s ease, box-shadow .2s ease; }
@@ -584,7 +611,7 @@ button.pet-connect-option:hover, button.pet-connect-option:focus-visible { borde
 .moderation-item strong { display: block; color: var(--navy); }
 .moderation-item p { margin: 5px 0; color: var(--muted); font-size: .82rem; }
 
-.pilot { background: var(--white); }
+.pilot { background: transparent; }
 .pilot-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 50px 90px; }
 .pilot-intro { max-width: 620px; }
 .pilot-intro h2 { font-size: clamp(2.5rem, 4.5vw, 4.35rem); margin-bottom: 26px; }
@@ -599,7 +626,18 @@ button.pet-connect-option:hover, button.pet-connect-option:focus-visible { borde
 .pilot-list h3 { margin: 0 0 8px; font: 650 1.45rem "Fraunces", serif; color: var(--navy); }
 .pilot-list p { color: var(--muted); margin: 0; font-size: .95rem; }
 
-.how { background: var(--navy-deep); color: var(--white); }
+.how { background: var(--navy-deep); color: var(--white); position: relative; overflow: hidden; }
+.how::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("../assets/paw-pattern-light.svg");
+  background-repeat: repeat;
+  background-size: 520px 650px;
+  opacity: .38;
+}
+.how .shell { position: relative; z-index: 1; }
 .center-heading { text-align: center; max-width: 760px; margin: 0 auto 58px; }
 .center-heading h2 { color: var(--white); }
 .center-heading > p:last-child { margin-top: 18px; color: rgba(255,255,255,.62); }
@@ -613,7 +651,7 @@ button.pet-connect-option:hover, button.pet-connect-option:focus-visible { borde
 .build-note strong { color: var(--amber-light); }
 .build-note p { margin: 2px 0 0; color: rgba(255,255,255,.6); font-size: .88rem; }
 
-.network { background: var(--cream); }
+.network { background: transparent; }
 .network-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: 90px; align-items: start; }
 .network-grid h2 { font-size: clamp(2.4rem, 4vw, 3.8rem); margin-bottom: 24px; }
 .network-cards { display: grid; gap: 12px; }
@@ -623,7 +661,7 @@ button.pet-connect-option:hover, button.pet-connect-option:focus-visible { borde
 .network-cards p { margin: 0; color: var(--muted); font-size: .9rem; }
 .network-cards small { position: absolute; right: 22px; top: 28px; color: var(--coral); text-transform: uppercase; letter-spacing: .08em; font-size: .62rem; font-weight: 800; }
 
-.principles { background: var(--white); }
+.principles { background: transparent; }
 .principles-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 100px; }
 .principles-title { position: sticky; top: 120px; align-self: start; }
 .principles-title h2 { font-size: clamp(2.4rem, 4vw, 3.9rem); }
@@ -633,14 +671,36 @@ button.pet-connect-option:hover, button.pet-connect-option:focus-visible { borde
 .principle-list h3 { margin: 0 0 4px; color: var(--navy); font: 650 1.28rem "Fraunces", serif; }
 .principle-list p { margin: 0; color: var(--muted); }
 
-.closing { padding: 70px 0; background: var(--amber); color: var(--navy-deep); }
+.closing { padding: 70px 0; background: var(--amber); color: var(--navy-deep); position: relative; overflow: hidden; }
+.closing::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("../assets/paw-pattern.svg");
+  background-repeat: repeat;
+  background-size: 520px 650px;
+  opacity: .4;
+}
+.closing .shell { position: relative; z-index: 1; }
 .closing-inner { display: flex; align-items: center; justify-content: space-between; gap: 36px; }
 .closing .kicker { color: var(--navy); opacity: .7; }
 .closing h2 { margin: 0; font-size: clamp(2.4rem, 4.6vw, 4.5rem); color: var(--navy-deep); }
 .button-dark { background: var(--navy-deep); color: var(--white); flex: 0 0 auto; }
 .button-dark:hover { background: var(--navy); }
 
-.site-footer { background: var(--navy-deep); color: rgba(255,255,255,.6); padding: 36px 0; }
+.site-footer { background: var(--navy-deep); color: rgba(255,255,255,.6); padding: 36px 0; position: relative; z-index: 1; overflow: hidden; }
+.site-footer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("../assets/paw-pattern-light.svg");
+  background-repeat: repeat;
+  background-size: 480px 600px;
+  opacity: .35;
+}
+.site-footer .shell { position: relative; z-index: 1; }
 .footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 30px; font-size: .82rem; }
 .footer-inner p { margin: 0; }
 .footer-brand { color: var(--white); }
@@ -737,4 +797,5 @@ button.pet-connect-option:hover, button.pet-connect-option:focus-visible { borde
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+  .paw-backdrop__layer { will-change: auto; transform: none !important; }
 }

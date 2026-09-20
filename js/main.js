@@ -47,10 +47,10 @@
   const actionContent = {
     perdida: {
       number: '01', kicker: 'Actúa con calma', title: 'Tu red cercana es el primer círculo de búsqueda.',
-      steps: ['Selecciona la ficha de tu mascota en Red animal.', 'Marca el último lugar y hora en que fue vista.', 'Publica la alerta y compártela con redes locales verificables.'],
+      steps: ['Selecciona la ficha de tu mascota en Red animal.', 'Marca el último lugar y hora en que fue vista.', 'Publica: el aviso sale en el mapa y en Most Wanted. La recompensa es opcional.'],
       note: 'No publiques tu domicilio, teléfono ni documentos. Si existe riesgo inmediato, utiliza los servicios municipales o de emergencia correspondientes.',
       actions: [
-        { id: 'abrir-most-wanted', label: 'Colgar afiche Most Wanted', style: 'primary' },
+        { id: 'preparar-perdida', label: 'Marcar como extraviada', style: 'primary' },
         { id: 'mapa-perdidas', label: 'Ver mascotas perdidas', style: 'secondary' },
       ],
     },
@@ -115,8 +115,22 @@
   };
 
   const setHeader = () => header?.classList.toggle('is-scrolled', window.scrollY > 20);
+  const pawLayers = [...document.querySelectorAll('[data-paw-layer]')];
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const updatePawParallax = () => {
+    if (!pawLayers.length || prefersReducedMotion.matches) return;
+    const y = window.scrollY;
+    pawLayers.forEach((layer) => {
+      const drift = layer.dataset.pawLayer === 'far' ? y * 0.08 : y * 0.18;
+      layer.style.transform = `translate3d(0, ${drift}px, 0)`;
+    });
+  };
   setHeader();
-  window.addEventListener('scroll', setHeader, { passive: true });
+  updatePawParallax();
+  window.addEventListener('scroll', () => {
+    setHeader();
+    updatePawParallax();
+  }, { passive: true });
 
   menuButton?.addEventListener('click', () => {
     const isOpen = menuButton.getAttribute('aria-expanded') === 'true';
@@ -334,11 +348,13 @@
           <label class="is-wide location-search"><span>${isLost ? 'Último lugar visto' : 'Lugar del hallazgo'}</span><input name="lugar" type="search" required maxlength="180" autocomplete="off" placeholder="Escribe calle y número o una intersección en Maipú"></label>
           ${isLost ? '<div class="location-results is-wide" data-location-results aria-live="polite"></div><p class="location-selection is-wide" data-location-selection>Escribe una dirección y elige una coincidencia del buscador.</p><div class="location-picker-map is-wide" data-location-map aria-label="Mapa del último lugar donde fue vista la mascota"></div><p class="location-credit is-wide">Búsqueda de direcciones por <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>.</p><input name="latitud" type="hidden"><input name="longitud" type="hidden">' : ''}
           <label><span>Fecha y hora aproximadas</span><input name="momento" type="datetime-local" required></label>
-          <label class="is-wide"><span>Descripción útil</span><textarea name="detalles" required minlength="10" maxlength="350" rows="3" placeholder="Especie, color, tamaño, señas y dirección de desplazamiento"></textarea></label>
+          <label class="is-wide"><span>Descripción útil</span><textarea name="detalles" required minlength="20" maxlength="350" rows="3" placeholder="Especie, color, tamaño, señas y dirección de desplazamiento"></textarea></label>
+          ${isLost ? `<label class="is-wide reward-option"><input type="checkbox" name="ofrecer_recompensa"><span>Ofrecer recompensa (opcional)</span></label>
+          <label class="is-wide" data-lost-reward-wrap hidden><span>Monto de la recompensa (CLP)</span><input name="monto_recompensa" type="number" min="1000" step="1000" placeholder="Ej.: 50000"></label>` : ''}
           <label class="trap-field" aria-hidden="true"><span>Sitio web</span><input name="sitio_web" tabindex="-1" autocomplete="off"></label>
         </div>
         <div class="quick-form-actions">
-          <button class="panel-action is-primary" type="submit" data-lost-submit>${isLost ? 'Publicar en el mapa' : 'Generar aviso'}</button>
+          <button class="panel-action is-primary" type="submit" data-lost-submit>${isLost ? 'Publicar extravío' : 'Generar aviso'}</button>
           <button class="panel-action" type="button" data-close-workspace>Cancelar</button>
         </div>
         <div class="notice-result" data-notice-result hidden>
@@ -357,6 +373,12 @@
     form.elements.momento.max = toLocalDateTimeValue(new Date(Date.now() + 15 * 60 * 1000));
     form.elements.momento.min = toLocalDateTimeValue(new Date(Date.now() - 30 * 24 * 60 * 60 * 1000));
     if (isLost) initializeLocationSearch(form, feedback);
+    form.elements.ofrecer_recompensa?.addEventListener('change', () => {
+      const wrap = form.querySelector('[data-lost-reward-wrap]');
+      if (!wrap) return;
+      wrap.hidden = !form.elements.ofrecer_recompensa.checked;
+      form.elements.monto_recompensa.required = form.elements.ofrecer_recompensa.checked;
+    });
     workspace.querySelector('input')?.focus();
 
     form.addEventListener('submit', async (event) => {
@@ -379,7 +401,15 @@
         }
         formData.set('nombre', selectedAnimal.nombre);
         submit.textContent = 'Publicando…';
-        const { error } = await db.rpc('cambiar_estado_seguridad_mascota', {
+        const ofrecer = form.elements.ofrecer_recompensa?.checked;
+        const monto = Number(form.elements.monto_recompensa?.value);
+        if (ofrecer && (!monto || monto < 1000)) {
+          submit.disabled = false;
+          submit.textContent = 'Publicar extravío';
+          setMessage(feedback, 'La recompensa debe ser de al menos $1.000, o desmarca la casilla.', 'error');
+          return;
+        }
+        const payload = {
           p_animal_id: selectedAnimal.id,
           p_estado_seguridad: 'extraviada',
           p_descripcion: String(formData.get('detalles')).trim(),
@@ -388,15 +418,17 @@
           p_longitud: Number(formData.get('longitud')),
           p_perdida_en: new Date(String(formData.get('momento'))).toISOString(),
           p_sitio_web: String(formData.get('sitio_web') || ''),
-        });
+        };
+        if (ofrecer) payload.p_monto_recompensa = monto;
+        const { error } = await db.rpc('cambiar_estado_seguridad_mascota', payload);
         if (error) {
           submit.disabled = false;
-          submit.textContent = 'Publicar en el mapa';
-          setMessage(feedback, 'No pudimos publicar el marcador. Revisa la información e inténtalo nuevamente.', 'error');
+          submit.textContent = 'Publicar extravío';
+          setMessage(feedback, error.message || 'No pudimos publicar el aviso. Revisa la información e inténtalo nuevamente.', 'error');
           return;
         }
-        await Promise.all([loadPlaces(), loadCreatorWorkspace(), loadAnimalNetwork()]);
-        setMessage(feedback, `${selectedAnimal.nombre} ahora figura como extraviada y aparece en el mapa.`, 'success');
+        await Promise.all([loadPlaces(), loadCreatorWorkspace(), loadAnimalNetwork(), refreshWanted()]);
+        setMessage(feedback, `${selectedAnimal.nombre} ahora figura como extraviada: está en el mapa y en Most Wanted.`, 'success');
       }
       const notice = buildNotice(kind, formData);
       const result = form.querySelector('[data-notice-result]');
@@ -489,7 +521,6 @@
     const button = event.target.closest('[data-quick-action]');
     if (!button) return;
     const action = button.dataset.quickAction;
-    if (action === 'abrir-most-wanted') document.getElementById('most-wanted')?.scrollIntoView({ behavior: 'smooth' });
     if (action === 'preparar-perdida') showNoticeBuilder('perdida');
     if (action === 'preparar-encontrada') showNoticeBuilder('encontrada');
     if (action === 'proponer-lugar') showPlaceProposal();
@@ -1903,7 +1934,7 @@
       return;
     }
 
-    if (!window.confirm(`¿Confirmas que ${animal.nombre} está segura? Se retirará su alerta activa del mapa.`)) return;
+    if (!window.confirm(`¿Confirmas que ${animal.nombre} está segura? Se retirará su alerta del mapa y se cerrará el afiche abierto en Most Wanted.`)) return;
     const message = document.querySelector('[data-account-animal-message]');
     safeButton.disabled = true;
     setMessage(message, `Actualizando el estado de ${animal.nombre}…`);
@@ -1916,8 +1947,14 @@
       setMessage(message, 'No pudimos actualizar el estado de la mascota.', 'error');
       return;
     }
-    await Promise.all([loadPlaces(), loadCreatorWorkspace(), loadAnimalNetwork()]);
-    setMessage(message, `${animal.nombre} ahora figura como segura y su alerta fue cerrada.`, 'success');
+    await db.rpc('retirar_avisos_most_wanted_de_mi_animal', { p_animal_id: animal.id });
+    if (error) {
+      safeButton.disabled = false;
+      setMessage(message, 'No pudimos actualizar el estado de la mascota.', 'error');
+      return;
+    }
+    await Promise.all([loadPlaces(), loadCreatorWorkspace(), loadAnimalNetwork(), refreshWanted()]);
+    setMessage(message, `${animal.nombre} ahora figura como segura. Su alerta y el afiche abierto se cerraron.`, 'success');
   });
 
   document.querySelector('[data-account-animal-list]')?.addEventListener('keydown', (event) => {
@@ -2304,7 +2341,7 @@
       const reward = aviso.modalidad === 'recompensa';
       const photo = wantedPhotoUrl(aviso.foto_path);
       article.innerHTML = `
-        <span class="wanted-badge ${reward ? '' : 'is-goodwill'}">${reward ? `Recompensa ${clp.format(aviso.monto_recompensa || 0)}` : 'Buena voluntad'}</span>
+        <span class="wanted-badge ${reward ? '' : 'is-goodwill'}">${reward ? `Recompensa ${clp.format(aviso.monto_recompensa || 0)}` : 'Sin recompensa'}</span>
         ${photo ? `<img src="${escapeHtml(photo)}" alt="">` : '<div class="pet-photo-placeholder" aria-hidden="true">🐾</div>'}
         <h3>${escapeHtml(aviso.titulo)}</h3>
         <p>${escapeHtml(aviso.relato)}</p>
@@ -2364,7 +2401,7 @@
       return;
     }
     const { data: avisos, error } = await db.from('avisos_most_wanted')
-      .select('id,titulo,modalidad,monto_recompensa,estado,resultado')
+      .select('id,animal_id,titulo,modalidad,monto_recompensa,estado,resultado')
       .eq('dueno_id', currentSession.user.id)
       .order('publicado_en', { ascending: false });
     if (error || !avisos?.length) {
@@ -2385,7 +2422,7 @@
       const queued = related.filter((item) => item.estado === 'en_cola').length;
       wrap.innerHTML = `
         <strong>${escapeHtml(aviso.titulo)}</strong>
-        <small>${escapeHtml(aviso.modalidad === 'recompensa' ? `Recompensa ${clp.format(aviso.monto_recompensa || 0)}` : 'Buena voluntad')} · ${escapeHtml(wantedStatusLabels[aviso.estado] || aviso.estado)}${aviso.resultado === 'pago_pendiente_liberar' ? ' · pago pendiente de liberar (aún no hay procesador)' : ''}</small>
+        <small>${escapeHtml(aviso.modalidad === 'recompensa' ? `Recompensa ${clp.format(aviso.monto_recompensa || 0)}` : 'Sin recompensa')} · ${escapeHtml(wantedStatusLabels[aviso.estado] || aviso.estado)}${aviso.resultado === 'pago_pendiente_liberar' ? ' · pago pendiente de liberar (aún no hay procesador)' : ''}</small>
         ${active ? `<p>Reclamo activo de ${escapeHtml(active.nombre_publico)}${active.sin_cuenta ? ' (sin cuenta)' : ''}: ${escapeHtml(active.nota)}</p>
           ${active.evidencia_path ? `<p><a href="${escapeHtml(wantedPhotoUrl(active.evidencia_path))}" target="_blank" rel="noopener noreferrer">Ver foto del hallazgo</a></p>` : ''}
           ${active.requiere_revision_manual ? `<p>Bandera: ${escapeHtml(active.motivo_bandera || 'revisión manual')}</p>` : ''}
@@ -2393,12 +2430,14 @@
             <button class="button button-primary" type="button" data-wanted-resolve="${escapeHtml(active.id)}" data-accept="true">Confirmar recuperación</button>
             <button class="button button-ghost" type="button" data-wanted-resolve="${escapeHtml(active.id)}" data-accept="false">No es</button>
           </div>` : `<p>${queued ? `${queued} reclamo(s) en cola. Uno a la vez.` : 'Sin reclamo activo.'}</p>`}
-        ${aviso.modalidad === 'buena_voluntad' && ['publicado', 'reclamado', 'en_verificacion'].includes(aviso.estado) ? `
-          <label class="field"><span>Pasar a recompensa (CLP)</span>
-            <input type="number" min="1000" step="1000" data-wanted-migrate-amount="${escapeHtml(aviso.id)}" placeholder="Monto">
+        ${['publicado', 'reclamado', 'en_verificacion'].includes(aviso.estado) ? `
+          <label class="field"><span>${aviso.modalidad === 'recompensa' ? 'Aumentar recompensa (CLP)' : 'Agregar recompensa (CLP)'}</span>
+            <input type="number" min="${aviso.modalidad === 'recompensa' ? Math.floor(Number(aviso.monto_recompensa || 0) + 1000) : 1000}" step="1000" data-wanted-migrate-amount="${escapeHtml(aviso.id)}" placeholder="${aviso.modalidad === 'recompensa' ? 'Nuevo monto, mayor al actual' : 'Monto'}">
           </label>
-          <button class="button button-ghost" type="button" data-wanted-migrate="${escapeHtml(aviso.id)}">Ofrecer recompensa</button>` : ''}
-        ${aviso.estado === 'resuelto' ? `<button class="button button-ghost" type="button" data-wanted-close="${escapeHtml(aviso.id)}">Cerrar afiche</button>` : ''}`;
+          <button class="button button-ghost" type="button" data-wanted-migrate="${escapeHtml(aviso.id)}">${aviso.modalidad === 'recompensa' ? 'Aumentar monto' : 'Ofrecer recompensa'}</button>
+          <p>En esta fase no se puede bajar ni quitar una recompensa ya publicada.</p>` : ''}
+        ${['publicado', 'reclamado', 'en_verificacion', 'resuelto'].includes(aviso.estado) ? `
+          <button class="button button-ghost" type="button" data-wanted-take-down="${escapeHtml(aviso.animal_id)}">Ya está en casa: bajar afiche</button>` : ''}`;
       return wrap;
     }));
   }
@@ -2449,48 +2488,6 @@
     wantedFilter = chip.dataset.wantedFilter;
     document.querySelectorAll('[data-wanted-filter]').forEach((item) => item.classList.toggle('is-active', item === chip));
     loadWantedBoard();
-  });
-
-  document.querySelector('[data-wanted-publish]')?.addEventListener('change', (event) => {
-    if (event.target.name !== 'modalidad') return;
-    const wrap = document.querySelector('[data-wanted-amount-wrap]');
-    if (wrap) wrap.hidden = event.target.value !== 'recompensa';
-  });
-
-  document.querySelector('[data-wanted-publish]')?.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    const form = event.currentTarget;
-    const message = document.querySelector('[data-wanted-publish-message]');
-    setMessage(message);
-    if (!currentSession?.user) return setMessage(message, 'Inicia sesión para colgar un afiche. Publicar es gratis.', 'error');
-    const modalidad = form.elements.modalidad.value;
-    const monto = Number(form.elements.monto.value);
-    if (modalidad === 'recompensa' && (!monto || monto < 1000)) return setMessage(message, 'La recompensa debe ser de al menos $1.000.', 'error');
-    const button = form.querySelector('[type="submit"]');
-    button.disabled = true;
-    try {
-      let fotoPath = null;
-      const file = form.elements.foto.files[0];
-      if (file) fotoPath = await uploadWantedFile('avisos', currentSession.user.id, file);
-      const { error } = await db.rpc('publicar_aviso_most_wanted', {
-        p_animal_id: form.elements.animal_id.value,
-        p_modalidad: modalidad,
-        p_monto: modalidad === 'recompensa' ? monto : null,
-        p_titulo: form.elements.titulo.value.trim(),
-        p_relato: form.elements.relato.value.trim(),
-        p_zona: form.elements.zona.value.trim(),
-        p_foto_path: fotoPath,
-      });
-      if (error) throw error;
-      form.reset();
-      document.querySelector('[data-wanted-amount-wrap]').hidden = true;
-      setMessage(message, 'Afiche colgado. No cobramos por publicar.', 'success');
-      await refreshWanted();
-    } catch (error) {
-      setMessage(message, error.message || 'No pudimos publicar el afiche.', 'error');
-    } finally {
-      button.disabled = false;
-    }
   });
 
   document.querySelector('[data-wanted-board]')?.addEventListener('click', async (event) => {
@@ -2550,25 +2547,37 @@
     const resolveButton = event.target.closest('[data-wanted-resolve]');
     const migrateButton = event.target.closest('[data-wanted-migrate]');
     const closeButton = event.target.closest('[data-wanted-close]');
+    const takeDownButton = event.target.closest('[data-wanted-take-down]');
     try {
       if (resolveButton) {
         const aceptar = resolveButton.dataset.accept === 'true';
         const { error } = await db.rpc('resolver_reclamo_most_wanted', { p_reclamo_id: resolveButton.dataset.wantedResolve, p_aceptar: aceptar });
         if (error) throw error;
-        setMessage(message, aceptar ? 'Recuperación confirmada. Si había recompensa, el pago queda pendiente de liberar: aún no conectamos Flow ni Mercado Pago.' : 'Reclamo rechazado. Si había cola, pasa el siguiente.', 'success');
+        setMessage(message, aceptar ? 'Listo: el afiche sale de la plaza. Si había recompensa, el pago queda pendiente de liberar.' : 'Reclamo rechazado. Si había cola, pasa el siguiente.', 'success');
+        if (aceptar) await Promise.all([loadPlaces(), loadCreatorWorkspace(), loadAnimalNetwork()]);
       }
       if (migrateButton) {
         const amountInput = document.querySelector(`[data-wanted-migrate-amount="${migrateButton.dataset.wantedMigrate}"]`);
         const { error } = await db.rpc('migrar_aviso_a_recompensa', { p_aviso_id: migrateButton.dataset.wantedMigrate, p_monto: Number(amountInput?.value) });
         if (error) throw error;
-        setMessage(message, 'El afiche ahora ofrece recompensa.', 'success');
+        setMessage(message, 'Recompensa actualizada. El monto no se puede bajar ni quitar desde aquí.', 'success');
       }
       if (closeButton) {
         const { error } = await db.rpc('cerrar_aviso_most_wanted', { p_aviso_id: closeButton.dataset.wantedClose });
         if (error) throw error;
         setMessage(message, 'Afiche cerrado.', 'success');
       }
-      if (resolveButton || migrateButton || closeButton) await refreshWanted();
+      if (takeDownButton) {
+        const { error } = await db.rpc('retirar_avisos_most_wanted_de_mi_animal', { p_animal_id: takeDownButton.dataset.wantedTakeDown });
+        if (error) throw error;
+        await db.rpc('cambiar_estado_seguridad_mascota', {
+          p_animal_id: takeDownButton.dataset.wantedTakeDown,
+          p_estado_seguridad: 'segura',
+        });
+        setMessage(message, 'Afiche bajado. La mascota vuelve a figurar como segura.', 'success');
+        await Promise.all([loadPlaces(), loadCreatorWorkspace(), loadAnimalNetwork()]);
+      }
+      if (resolveButton || migrateButton || closeButton || takeDownButton) await refreshWanted();
     } catch (error) {
       setMessage(message, error.message || 'No pudimos actualizar el aviso.', 'error');
     }
