@@ -50,7 +50,7 @@
       steps: ['Selecciona la ficha de tu mascota en Red animal.', 'Marca el último lugar y hora en que fue vista.', 'Publica la alerta y compártela con redes locales verificables.'],
       note: 'No publiques tu domicilio, teléfono ni documentos. Si existe riesgo inmediato, utiliza los servicios municipales o de emergencia correspondientes.',
       actions: [
-        { id: 'preparar-perdida', label: 'Reportar pérdida en el mapa', style: 'primary' },
+        { id: 'abrir-most-wanted', label: 'Colgar afiche Most Wanted', style: 'primary' },
         { id: 'mapa-perdidas', label: 'Ver mascotas perdidas', style: 'secondary' },
       ],
     },
@@ -489,6 +489,7 @@
     const button = event.target.closest('[data-quick-action]');
     if (!button) return;
     const action = button.dataset.quickAction;
+    if (action === 'abrir-most-wanted') document.getElementById('most-wanted')?.scrollIntoView({ behavior: 'smooth' });
     if (action === 'preparar-perdida') showNoticeBuilder('perdida');
     if (action === 'preparar-encontrada') showNoticeBuilder('encontrada');
     if (action === 'proponer-lugar') showPlaceProposal();
@@ -1668,7 +1669,7 @@
       signedIn.hidden = true;
       const placePanel = document.querySelector('[data-moderator-place]');
       if (placePanel) placePanel.hidden = true;
-      await Promise.all([loadMyReports(), loadModeratorReports(), loadPublicReports(), loadReportStats(), loadCreatorWorkspace(), loadNetworkModeration(), loadPlaceProposals()]);
+      await Promise.all([loadMyReports(), loadModeratorReports(), loadPublicReports(), loadReportStats(), loadCreatorWorkspace(), loadNetworkModeration(), loadPlaceProposals(), refreshWanted()]);
       return;
     }
     signedOut.hidden = true;
@@ -1678,7 +1679,7 @@
     currentUserIsModerator = !error && Boolean(data);
     const placePanel = document.querySelector('[data-moderator-place]');
     if (placePanel) placePanel.hidden = !currentUserIsModerator;
-    await Promise.all([loadMyReports(), loadModeratorReports(), loadPublicReports(), loadReportStats(), loadCreatorWorkspace(), loadNetworkModeration(), loadPlaceProposals()]);
+    await Promise.all([loadMyReports(), loadModeratorReports(), loadPublicReports(), loadReportStats(), loadCreatorWorkspace(), loadNetworkModeration(), loadPlaceProposals(), refreshWanted()]);
   }
 
   reportForm?.addEventListener('submit', async (event) => {
@@ -2249,6 +2250,357 @@
     await Promise.all([loadModeratorReports(), loadMyReports(), loadPublicReports(), loadReportStats()]);
   });
 
+  let wantedFilter = 'abiertos';
+  let wantedConfig = null;
+  const wantedStatusLabels = {
+    publicado: 'En la plaza',
+    reclamado: 'Hay un reclamo',
+    en_verificacion: 'En verificación',
+    resuelto: 'Resuelto',
+    cerrado: 'Cerrado',
+    expirado: 'Expirado',
+  };
+  const clp = new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP', maximumFractionDigits: 0 });
+
+  const wantedPhotoUrl = (path) => {
+    if (!path || !db) return '';
+    if (/^https?:/i.test(path)) return path;
+    return db.storage.from('most-wanted').getPublicUrl(path).data.publicUrl;
+  };
+
+  async function uploadWantedFile(folder, ownerKey, file) {
+    const type = getUploadImageType(file);
+    if (!type) throw new Error('Usa una foto JPG, PNG o WebP.');
+    if (file.size > 2 * 1024 * 1024) throw new Error('La foto no puede pesar más de 2 MB.');
+    const extension = (file.name.split('.').pop() || 'jpg').toLowerCase().replace(/[^a-z0-9]/g, '');
+    const path = `${folder}/${ownerKey}/${Date.now()}.${extension}`;
+    const { error } = await db.storage.from('most-wanted').upload(path, file, { contentType: type, cacheControl: '3600', upsert: false });
+    if (error) throw error;
+    return path;
+  }
+
+  async function loadWantedConfig() {
+    const { data } = await db.from('configuracion_most_wanted').select('*').eq('id', 'piloto').maybeSingle();
+    wantedConfig = data || null;
+  }
+
+  async function loadWantedFund() {
+    const el = document.querySelector('[data-wanted-fund-amount]');
+    if (!el) return;
+    const { data, error } = await db.rpc('total_fondo_altruismo');
+    el.textContent = error ? 'Aún no hay cifra' : clp.format(Number(data || 0));
+  }
+
+  function renderWantedPosters(rows) {
+    const board = document.querySelector('[data-wanted-board]');
+    if (!board) return;
+    if (!rows.length) {
+      board.innerHTML = '<p class="empty-state">Todavía no hay afiches en esta cinta. Si alguien se pierde, lo pegamos aquí.</p>';
+      return;
+    }
+    board.replaceChildren(...rows.map((aviso) => {
+      const article = document.createElement('article');
+      article.className = 'wanted-poster';
+      const reward = aviso.modalidad === 'recompensa';
+      const photo = wantedPhotoUrl(aviso.foto_path);
+      article.innerHTML = `
+        <span class="wanted-badge ${reward ? '' : 'is-goodwill'}">${reward ? `Recompensa ${clp.format(aviso.monto_recompensa || 0)}` : 'Buena voluntad'}</span>
+        ${photo ? `<img src="${escapeHtml(photo)}" alt="">` : '<div class="pet-photo-placeholder" aria-hidden="true">🐾</div>'}
+        <h3>${escapeHtml(aviso.titulo)}</h3>
+        <p>${escapeHtml(aviso.relato)}</p>
+        <p><strong>${escapeHtml(aviso.zona_publica)}</strong> · ${escapeHtml(wantedStatusLabels[aviso.estado] || aviso.estado)}</p>
+        <div class="wanted-poster-actions">
+          ${['publicado', 'reclamado', 'en_verificacion'].includes(aviso.estado) ? `<button class="button button-primary" type="button" data-wanted-claim="${escapeHtml(aviso.id)}">Vi a esta mascota</button>` : ''}
+          <button class="button button-ghost" type="button" data-wanted-share="${escapeHtml(aviso.id)}">Compartir aviso</button>
+        </div>`;
+      return article;
+    }));
+  }
+
+  function renderWantedHeroes(rows) {
+    const board = document.querySelector('[data-wanted-board]');
+    if (!board) return;
+    if (!rows.length) {
+      board.innerHTML = '<p class="empty-state">Aún no hay recuperaciones de buena voluntad confirmadas. El ranking nace cuando alguien vuelve a casa sin intercambio de dinero.</p>';
+      return;
+    }
+    board.replaceChildren(...rows.map((hero, index) => {
+      const article = document.createElement('article');
+      article.className = 'wanted-hero';
+      article.innerHTML = `<p class="kicker">#${index + 1}</p><strong>${escapeHtml(hero.alias_publico)}</strong><p>${hero.recuperaciones} recuperación${Number(hero.recuperaciones) === 1 ? '' : 'es'} confirmada${Number(hero.recuperaciones) === 1 ? '' : 's'}</p>`;
+      return article;
+    }));
+  }
+
+  async function loadWantedBoard() {
+    const board = document.querySelector('[data-wanted-board]');
+    if (!board || !db) return;
+    if (wantedFilter === 'heroes') {
+      const { data, error } = await db.rpc('heroes_comunidad');
+      renderWantedHeroes(error ? [] : (data || []));
+      return;
+    }
+    let query = db.from('avisos_most_wanted')
+      .select('id,animal_id,dueno_id,modalidad,monto_recompensa,estado,resultado,titulo,relato,zona_publica,foto_path,publicado_en')
+      .order('publicado_en', { ascending: false })
+      .limit(30);
+    if (wantedFilter === 'abiertos') query = query.in('estado', ['publicado', 'reclamado', 'en_verificacion']);
+    if (wantedFilter === 'recompensa') query = query.eq('modalidad', 'recompensa').in('estado', ['publicado', 'reclamado', 'en_verificacion']);
+    if (wantedFilter === 'buena_voluntad') query = query.eq('modalidad', 'buena_voluntad').in('estado', ['publicado', 'reclamado', 'en_verificacion']);
+    const { data, error } = await query;
+    if (error) {
+      board.innerHTML = '<p class="empty-state">No pudimos cargar los afiches. Si aún no corres el SQL de Most Wanted, este tablero permanece vacío.</p>';
+      return;
+    }
+    renderWantedPosters(data || []);
+  }
+
+  async function loadWantedOwner() {
+    const panel = document.querySelector('[data-wanted-owner-panel]');
+    const list = document.querySelector('[data-wanted-owner-list]');
+    if (!panel || !list) return;
+    if (!currentSession?.user) {
+      panel.hidden = true;
+      return;
+    }
+    const { data: avisos, error } = await db.from('avisos_most_wanted')
+      .select('id,titulo,modalidad,monto_recompensa,estado,resultado')
+      .eq('dueno_id', currentSession.user.id)
+      .order('publicado_en', { ascending: false });
+    if (error || !avisos?.length) {
+      panel.hidden = true;
+      return;
+    }
+    panel.hidden = false;
+    const ids = avisos.map((item) => item.id);
+    const { data: claims } = await db.from('reclamos_most_wanted')
+      .select('id,aviso_id,nombre_publico,evidencia_path,nota,estado,sin_cuenta,requiere_revision_manual,motivo_bandera,creado_en')
+      .in('aviso_id', ids)
+      .order('creado_en', { ascending: true });
+    list.replaceChildren(...avisos.map((aviso) => {
+      const wrap = document.createElement('div');
+      wrap.className = 'wanted-owner-item';
+      const related = (claims || []).filter((item) => item.aviso_id === aviso.id);
+      const active = related.find((item) => item.estado === 'activo');
+      const queued = related.filter((item) => item.estado === 'en_cola').length;
+      wrap.innerHTML = `
+        <strong>${escapeHtml(aviso.titulo)}</strong>
+        <small>${escapeHtml(aviso.modalidad === 'recompensa' ? `Recompensa ${clp.format(aviso.monto_recompensa || 0)}` : 'Buena voluntad')} · ${escapeHtml(wantedStatusLabels[aviso.estado] || aviso.estado)}${aviso.resultado === 'pago_pendiente_liberar' ? ' · pago pendiente de liberar (aún no hay procesador)' : ''}</small>
+        ${active ? `<p>Reclamo activo de ${escapeHtml(active.nombre_publico)}${active.sin_cuenta ? ' (sin cuenta)' : ''}: ${escapeHtml(active.nota)}</p>
+          ${active.evidencia_path ? `<p><a href="${escapeHtml(wantedPhotoUrl(active.evidencia_path))}" target="_blank" rel="noopener noreferrer">Ver foto del hallazgo</a></p>` : ''}
+          ${active.requiere_revision_manual ? `<p>Bandera: ${escapeHtml(active.motivo_bandera || 'revisión manual')}</p>` : ''}
+          <div class="wanted-poster-actions">
+            <button class="button button-primary" type="button" data-wanted-resolve="${escapeHtml(active.id)}" data-accept="true">Confirmar recuperación</button>
+            <button class="button button-ghost" type="button" data-wanted-resolve="${escapeHtml(active.id)}" data-accept="false">No es</button>
+          </div>` : `<p>${queued ? `${queued} reclamo(s) en cola. Uno a la vez.` : 'Sin reclamo activo.'}</p>`}
+        ${aviso.modalidad === 'buena_voluntad' && ['publicado', 'reclamado', 'en_verificacion'].includes(aviso.estado) ? `
+          <label class="field"><span>Pasar a recompensa (CLP)</span>
+            <input type="number" min="1000" step="1000" data-wanted-migrate-amount="${escapeHtml(aviso.id)}" placeholder="Monto">
+          </label>
+          <button class="button button-ghost" type="button" data-wanted-migrate="${escapeHtml(aviso.id)}">Ofrecer recompensa</button>` : ''}
+        ${aviso.estado === 'resuelto' ? `<button class="button button-ghost" type="button" data-wanted-close="${escapeHtml(aviso.id)}">Cerrar afiche</button>` : ''}`;
+      return wrap;
+    }));
+  }
+
+  async function loadWantedReview() {
+    const queue = document.querySelector('[data-wanted-review-queue]');
+    if (!queue) return;
+    if (!currentUserIsModerator) {
+      queue.replaceChildren();
+      return;
+    }
+    const { data, error } = await db.from('reclamos_most_wanted')
+      .select('id,aviso_id,reclamante_id,nombre_publico,evidencia_path,nota,estado,sin_cuenta,requiere_revision_manual,motivo_bandera,creado_en')
+      .eq('requiere_revision_manual', true)
+      .in('estado', ['activo', 'en_cola'])
+      .order('creado_en', { ascending: true });
+    if (error || !data?.length) {
+      queue.innerHTML = '<p class="empty-state">No hay reclamos con bandera.</p>';
+      return;
+    }
+    queue.replaceChildren(...data.map((claim) => {
+      const article = document.createElement('article');
+      article.className = 'wanted-owner-item';
+      article.innerHTML = `
+        <strong>${escapeHtml(claim.nombre_publico)}</strong>
+        <p>${escapeHtml(claim.nota)}</p>
+        <p>${escapeHtml(claim.motivo_bandera || 'Revisión manual')}</p>
+        ${claim.evidencia_path ? `<p><a href="${escapeHtml(wantedPhotoUrl(claim.evidencia_path))}" target="_blank" rel="noopener noreferrer">Ver evidencia</a></p>` : ''}
+        <div class="wanted-poster-actions">
+          ${claim.estado === 'activo' ? `
+            <button class="button button-primary" type="button" data-wanted-resolve="${escapeHtml(claim.id)}" data-accept="true">Aprobar (pago queda pendiente)</button>
+            <button class="button button-ghost" type="button" data-wanted-resolve="${escapeHtml(claim.id)}" data-accept="false">Rechazar</button>` : '<p>En cola, aún no activo.</p>'}
+          ${claim.reclamante_id ? `<button class="button button-ghost" type="button" data-wanted-ban="${escapeHtml(claim.reclamante_id)}">Banear por reclamo falso</button>` : ''}
+        </div>`;
+      return article;
+    }));
+  }
+
+  async function refreshWanted() {
+    if (!db) return;
+    try { await db.rpc('expirar_avisos_most_wanted'); } catch (_error) { /* el SQL puede no estar aplicado aún */ }
+    await Promise.all([loadWantedConfig(), loadWantedFund(), loadWantedBoard(), loadWantedOwner(), loadWantedReview()]);
+  }
+
+  document.querySelector('[data-wanted-tape]')?.addEventListener('click', (event) => {
+    const chip = event.target.closest('[data-wanted-filter]');
+    if (!chip) return;
+    wantedFilter = chip.dataset.wantedFilter;
+    document.querySelectorAll('[data-wanted-filter]').forEach((item) => item.classList.toggle('is-active', item === chip));
+    loadWantedBoard();
+  });
+
+  document.querySelector('[data-wanted-publish]')?.addEventListener('change', (event) => {
+    if (event.target.name !== 'modalidad') return;
+    const wrap = document.querySelector('[data-wanted-amount-wrap]');
+    if (wrap) wrap.hidden = event.target.value !== 'recompensa';
+  });
+
+  document.querySelector('[data-wanted-publish]')?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const message = document.querySelector('[data-wanted-publish-message]');
+    setMessage(message);
+    if (!currentSession?.user) return setMessage(message, 'Inicia sesión para colgar un afiche. Publicar es gratis.', 'error');
+    const modalidad = form.elements.modalidad.value;
+    const monto = Number(form.elements.monto.value);
+    if (modalidad === 'recompensa' && (!monto || monto < 1000)) return setMessage(message, 'La recompensa debe ser de al menos $1.000.', 'error');
+    const button = form.querySelector('[type="submit"]');
+    button.disabled = true;
+    try {
+      let fotoPath = null;
+      const file = form.elements.foto.files[0];
+      if (file) fotoPath = await uploadWantedFile('avisos', currentSession.user.id, file);
+      const { error } = await db.rpc('publicar_aviso_most_wanted', {
+        p_animal_id: form.elements.animal_id.value,
+        p_modalidad: modalidad,
+        p_monto: modalidad === 'recompensa' ? monto : null,
+        p_titulo: form.elements.titulo.value.trim(),
+        p_relato: form.elements.relato.value.trim(),
+        p_zona: form.elements.zona.value.trim(),
+        p_foto_path: fotoPath,
+      });
+      if (error) throw error;
+      form.reset();
+      document.querySelector('[data-wanted-amount-wrap]').hidden = true;
+      setMessage(message, 'Afiche colgado. No cobramos por publicar.', 'success');
+      await refreshWanted();
+    } catch (error) {
+      setMessage(message, error.message || 'No pudimos publicar el afiche.', 'error');
+    } finally {
+      button.disabled = false;
+    }
+  });
+
+  document.querySelector('[data-wanted-board]')?.addEventListener('click', async (event) => {
+    const claimButton = event.target.closest('[data-wanted-claim]');
+    if (claimButton) {
+      const dialog = document.querySelector('[data-wanted-claim-dialog]');
+      const form = document.querySelector('[data-wanted-claim-form]');
+      form.elements.aviso_id.value = claimButton.dataset.wantedClaim;
+      setMessage(document.querySelector('[data-wanted-claim-message]'));
+      dialog?.showModal();
+      return;
+    }
+    const shareButton = event.target.closest('[data-wanted-share]');
+    if (!shareButton) return;
+    const url = `${window.location.origin}${window.location.pathname}#most-wanted`;
+    try {
+      await navigator.clipboard.writeText(url);
+      if (currentSession?.user) await db.rpc('registrar_accion_actividad', { p_tipo: 'compartir_aviso' });
+    } catch (_error) { /* el portapapeles puede estar bloqueado */ }
+  });
+
+  document.querySelector('[data-wanted-claim-close]')?.addEventListener('click', () => {
+    document.querySelector('[data-wanted-claim-dialog]')?.close();
+  });
+
+  document.querySelector('[data-wanted-claim-form]')?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const message = document.querySelector('[data-wanted-claim-message]');
+    setMessage(message);
+    const file = form.elements.evidencia.files[0];
+    if (!file) return setMessage(message, 'Necesito la foto del momento o del lugar.', 'error');
+    const button = form.querySelector('[type="submit"]');
+    button.disabled = true;
+    try {
+      const evidenciaPath = await uploadWantedFile('reclamos', form.elements.aviso_id.value, file);
+      const { error } = await db.rpc('crear_reclamo_most_wanted', {
+        p_aviso_id: form.elements.aviso_id.value,
+        p_nombre: form.elements.nombre.value.trim(),
+        p_evidencia_path: evidenciaPath,
+        p_nota: form.elements.nota.value.trim(),
+        p_sin_cuenta: !currentSession?.user,
+      });
+      if (error) throw error;
+      form.reset();
+      setMessage(message, 'Reclamo enviado. Si ya hay uno activo, el tuyo espera en cola.', 'success');
+      await refreshWanted();
+    } catch (error) {
+      setMessage(message, error.message || 'No pudimos enviar el reclamo.', 'error');
+    } finally {
+      button.disabled = false;
+    }
+  });
+
+  document.querySelector('[data-wanted-owner-list]')?.addEventListener('click', async (event) => {
+    const message = document.querySelector('[data-wanted-owner-message]');
+    const resolveButton = event.target.closest('[data-wanted-resolve]');
+    const migrateButton = event.target.closest('[data-wanted-migrate]');
+    const closeButton = event.target.closest('[data-wanted-close]');
+    try {
+      if (resolveButton) {
+        const aceptar = resolveButton.dataset.accept === 'true';
+        const { error } = await db.rpc('resolver_reclamo_most_wanted', { p_reclamo_id: resolveButton.dataset.wantedResolve, p_aceptar: aceptar });
+        if (error) throw error;
+        setMessage(message, aceptar ? 'Recuperación confirmada. Si había recompensa, el pago queda pendiente de liberar: aún no conectamos Flow ni Mercado Pago.' : 'Reclamo rechazado. Si había cola, pasa el siguiente.', 'success');
+      }
+      if (migrateButton) {
+        const amountInput = document.querySelector(`[data-wanted-migrate-amount="${migrateButton.dataset.wantedMigrate}"]`);
+        const { error } = await db.rpc('migrar_aviso_a_recompensa', { p_aviso_id: migrateButton.dataset.wantedMigrate, p_monto: Number(amountInput?.value) });
+        if (error) throw error;
+        setMessage(message, 'El afiche ahora ofrece recompensa.', 'success');
+      }
+      if (closeButton) {
+        const { error } = await db.rpc('cerrar_aviso_most_wanted', { p_aviso_id: closeButton.dataset.wantedClose });
+        if (error) throw error;
+        setMessage(message, 'Afiche cerrado.', 'success');
+      }
+      if (resolveButton || migrateButton || closeButton) await refreshWanted();
+    } catch (error) {
+      setMessage(message, error.message || 'No pudimos actualizar el aviso.', 'error');
+    }
+  });
+
+  document.querySelector('[data-wanted-review-queue]')?.addEventListener('click', async (event) => {
+    const message = document.querySelector('[data-moderator-message]');
+    const resolveButton = event.target.closest('[data-wanted-resolve]');
+    const banButton = event.target.closest('[data-wanted-ban]');
+    try {
+      if (resolveButton) {
+        const { error } = await db.rpc('resolver_reclamo_most_wanted', {
+          p_reclamo_id: resolveButton.dataset.wantedResolve,
+          p_aceptar: resolveButton.dataset.accept === 'true',
+        });
+        if (error) throw error;
+        setMessage(message, 'Reclamo resuelto. El dinero no se transfiere solo: queda en pago pendiente de liberar.', 'success');
+      }
+      if (banButton) {
+        const { error } = await db.rpc('banear_cuenta_most_wanted', {
+          p_usuario: banButton.dataset.wantedBan,
+          p_motivo: 'Reclamo falso comprobado.',
+        });
+        if (error) throw error;
+        setMessage(message, 'Cuenta marcada como baneada de forma permanente en AuraLadra.', 'success');
+      }
+      if (resolveButton || banButton) await refreshWanted();
+    } catch (error) {
+      setMessage(message, error.message || 'No pudimos completar la revisión.', 'error');
+    }
+  });
+
   async function verifyBackend() {
     const status = document.querySelector('[data-system-status]');
     try {
@@ -2278,6 +2630,7 @@
     const [{ data }] = await Promise.all([db.auth.getSession(), verifyBackend(), loadPlaces(), loadAnimalNetwork()]);
     await syncSession(data.session);
     completeMagicLinkReturn(data.session);
+    try { await refreshWanted(); } catch (error) { console.warn('AuraLadra: Most Wanted no cargó.', error); }
     db.auth.onAuthStateChange((_event, session) => window.setTimeout(async () => {
       await syncSession(session);
       completeMagicLinkReturn(session);

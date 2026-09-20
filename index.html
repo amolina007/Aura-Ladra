@@ -14,22 +14,6 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-<style id="convergencia-aura-banner-style">
-  .ca-site-top{position:sticky;top:0;z-index:80;width:100%}
-  .ca-ecosystem-banner{position:relative;z-index:2;width:100%;background:linear-gradient(90deg,#071521 0%,#0b2637 55%,#10384a 100%);border-bottom:1px solid rgba(105,220,255,.28);color:#eaf8ff;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-  .ca-ecosystem-banner__inner{max-width:1200px;margin:0 auto;min-height:42px;padding:7px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-  .ca-ecosystem-banner__label{margin:0;font-size:13px;line-height:1.35;letter-spacing:.01em;color:#d7edf7;min-width:0}
-  .ca-ecosystem-banner__label strong{color:#fff;font-weight:700}
-  .ca-ecosystem-banner__links{display:flex;align-items:center;gap:8px;flex:0 1 auto;min-width:0}
-  .ca-ecosystem-banner__links a{display:inline-flex;align-items:center;justify-content:center;min-height:36px;padding:6px 12px;border:1px solid rgba(151,225,255,.3);border-radius:999px;color:#dff7ff!important;text-decoration:none!important;font-size:14px;font-weight:700;line-height:1.2;background:rgba(94,201,240,.08);-webkit-tap-highlight-color:transparent}
-  .ca-ecosystem-banner__links a:hover,.ca-ecosystem-banner__links a:focus-visible{background:rgba(94,201,240,.2);border-color:rgba(151,225,255,.72);outline:none}
-  @media(max-width:680px){
-    .ca-ecosystem-banner__inner{flex-direction:column;align-items:stretch;gap:8px;padding:10px 14px calc(10px + env(safe-area-inset-top, 0px))}
-    .ca-ecosystem-banner__links{width:100%;display:grid;grid-template-columns:1fr 1fr;gap:8px}
-    .ca-ecosystem-banner__links a{min-width:0;width:100%;white-space:normal;text-align:center}
-    .ca-ecosystem-banner__label{font-size:13px}
-  }
-</style>
 <div class="ca-site-top">
 <aside class="ca-ecosystem-banner" aria-label="Navegación del ecosistema Convergencia Aura">
   <div class="ca-ecosystem-banner__inner">
@@ -57,6 +41,7 @@
 
       <nav class="site-nav" id="site-nav" aria-label="Navegación principal" data-nav>
         <a href="#acciones">Ayuda rápida</a>
+        <a href="#most-wanted">Most Wanted</a>
         <a href="#mapa">Mapa</a>
         <a href="#red">Red animal</a>
         <a href="#reportes">Reportar</a>
@@ -76,7 +61,7 @@
           <h1>Hola, soy Leia.<br><em>Esta plaza también es nuestra.</em></h1>
           <p class="hero-lead">AuraLadra conecta mascotas, personas y lugares para cuidarnos mejor en el barrio.</p>
           <div class="hero-actions">
-            <a class="button button-primary" href="#reportes">Hacer un reporte <span aria-hidden="true">→</span></a>
+            <a class="button button-primary" href="#most-wanted">Most Wanted <span aria-hidden="true">→</span></a>
             <a class="button button-ghost" href="#mapa">Ver el mapa</a>
           </div>
         </div>
@@ -124,6 +109,115 @@
               <div class="action-workspace" data-action-workspace hidden></div>
               <p class="action-feedback" data-action-feedback aria-live="polite"></p>
             </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="most-wanted section" id="most-wanted">
+      <div class="shell">
+        <div class="section-heading split-heading">
+          <div>
+            <p class="kicker">Most Wanted · voz de Leia</p>
+            <h2>Si alguien de los nuestros se pierde, lo pegamos en la plaza.</h2>
+          </div>
+          <p>Soy Leia. Aquí cuelgo afiches de búsqueda: con recompensa o por buena voluntad. Publicar no cuesta nada. Si hay recompensa, el dinero no se queda en mis patas: un procesador lo reparte cuando el caso se confirma.</p>
+        </div>
+
+        <div class="wanted-fund" data-wanted-fund aria-label="Fondo del canil">
+          <strong data-wanted-fund-amount>—</strong>
+          <span>Hasta hoy hemos destinado esto al canil Parque 3 Poniente. Reinvertimos parte de lo que entra; no lo donamos a una fundación.</span>
+        </div>
+
+        <div class="wanted-tape" role="tablist" aria-label="Filtrar afiches" data-wanted-tape>
+          <button class="wanted-chip is-active" type="button" data-wanted-filter="abiertos">Afiches abiertos</button>
+          <button class="wanted-chip" type="button" data-wanted-filter="recompensa">Con recompensa</button>
+          <button class="wanted-chip" type="button" data-wanted-filter="buena_voluntad">Buena voluntad</button>
+          <button class="wanted-chip" type="button" data-wanted-filter="heroes">Héroes de la comunidad</button>
+        </div>
+
+        <div class="wanted-grid" data-wanted-board>
+          <p class="empty-state">Cargando afiches…</p>
+        </div>
+
+        <div class="wanted-forms">
+          <article class="card wanted-publish">
+            <div class="card-heading compact">
+              <span class="card-mark" aria-hidden="true">🐾</span>
+              <div><p class="kicker">Dueños</p><h3>Colgar un afiche</h3></div>
+            </div>
+            <p class="card-copy">Gratis siempre. Eliges si ofreces un monto o solo el reconocimiento del barrio. Si empiezas por buena voluntad, después puedes pasar a recompensa. Al revés no: cuando hay un pago en curso, se respeta.</p>
+            <form data-wanted-publish>
+              <label class="field">
+                <span>Tu mascota</span>
+                <select name="animal_id" data-own-animal-options required>
+                  <option value="">Primero inicia sesión y agrega una ficha</option>
+                </select>
+              </label>
+              <fieldset class="field">
+                <legend>Modalidad</legend>
+                <label><input type="radio" name="modalidad" value="buena_voluntad" checked> Buena voluntad (sin dinero)</label>
+                <label><input type="radio" name="modalidad" value="recompensa"> Con recompensa (tú defines el monto)</label>
+              </fieldset>
+              <label class="field" data-wanted-amount-wrap hidden>
+                <span>Monto de la recompensa (CLP)</span>
+                <input type="number" name="monto" min="1000" step="1000" placeholder="Ej.: 50000">
+              </label>
+              <label class="field">
+                <span>Título del afiche</span>
+                <input type="text" name="titulo" required minlength="3" maxlength="80" placeholder="Se busca a Luna">
+              </label>
+              <label class="field">
+                <span>Lo que yo, Leia, contaría</span>
+                <textarea name="relato" required minlength="20" maxlength="800" placeholder="Cómo se ve, dónde se le vio, qué la hace única. Sin domicilio ni teléfono."></textarea>
+              </label>
+              <label class="field">
+                <span>Zona pública</span>
+                <input type="text" name="zona" required minlength="3" maxlength="80" placeholder="Maipú, cerca del canil">
+              </label>
+              <label class="field">
+                <span>Foto del afiche (opcional)</span>
+                <input type="file" name="foto" accept="image/jpeg,image/png,image/webp">
+              </label>
+              <button class="button button-primary form-submit" type="submit">Publicar afiche</button>
+              <p class="form-message" data-wanted-publish-message aria-live="polite"></p>
+            </form>
+          </article>
+
+          <dialog class="wanted-dialog" data-wanted-claim-dialog>
+            <form data-wanted-claim-form>
+              <p class="kicker">Hallazgo</p>
+              <h3>Avisar que la vimos</h3>
+              <p class="card-copy">La foto tiene que ser del momento o del lugar, no una imagen genérica. Puedes hacerlo <strong>sin necesidad de crear cuenta</strong>. Si más adelante hay un pago, el procesador pedirá RUT y datos bancarios: no es anónimo.</p>
+              <input type="hidden" name="aviso_id">
+              <label class="field">
+                <span>Cómo te llamamos en el afiche</span>
+                <input type="text" name="nombre" required minlength="2" maxlength="60" placeholder="Nombre o apodo público">
+              </label>
+              <label class="field">
+                <span>Foto del hallazgo (obligatoria)</span>
+                <input type="file" name="evidencia" accept="image/jpeg,image/png,image/webp" required>
+              </label>
+              <label class="field">
+                <span>Qué viste y dónde</span>
+                <textarea name="nota" required minlength="20" maxlength="600" placeholder="Hora, calle, cómo estaba. Sin tu domicilio ni teléfono."></textarea>
+              </label>
+              <div class="wanted-dialog-actions">
+                <button class="button button-primary" type="submit">Enviar reclamo</button>
+                <button class="button button-ghost" type="button" data-wanted-claim-close>Cerrar</button>
+              </div>
+              <p class="form-message" data-wanted-claim-message aria-live="polite"></p>
+            </form>
+          </dialog>
+
+          <article class="card" data-wanted-owner-panel hidden>
+            <div class="card-heading compact">
+              <span class="card-mark" aria-hidden="true">!</span>
+              <div><p class="kicker">Tus avisos</p><h3>Reclamos por verificar</h3></div>
+            </div>
+            <p class="card-copy">Un solo reclamo activo a la vez. Si no alcanzas a responder en la ventana, pasa el siguiente de la cola. Los casos con bandera van a revisión manual: el pago no se libera solo.</p>
+            <div data-wanted-owner-list></div>
+            <p class="form-message" data-wanted-owner-message aria-live="polite"></p>
           </article>
         </div>
       </div>
@@ -483,6 +577,9 @@
           </div>
           <p class="card-copy">Revisa cada reporte y cambia su estado. Solo los verificados y cerrados serán visibles para la comunidad.</p>
           <div class="report-list" data-moderator-reports></div>
+          <h3 class="list-title">Most Wanted · revisión manual</h3>
+          <p class="card-copy">Reclamos con bandera (historial entre las mismas personas). El pago queda en “pendiente de liberar”, nunca se simula una transferencia.</p>
+          <div data-wanted-review-queue></div>
           <p class="form-message" data-moderator-message aria-live="polite"></p>
         </section>
       </div>
