@@ -1544,6 +1544,14 @@
       meta.textContent = `Observado: ${dateFormatter.format(new Date(report.observado_en))}`;
     }
     article.append(top, description, meta);
+    if (report.nota_resolucion) {
+      const resolution = document.createElement('p');
+      resolution.className = 'report-resolution';
+      const label = document.createElement('strong');
+      label.textContent = 'Qué se hizo: ';
+      resolution.append(label, document.createTextNode(report.nota_resolucion));
+      article.append(resolution);
+    }
 
     if (moderation && report._source !== 'red') {
       const actions = document.createElement('div');
@@ -1577,9 +1585,43 @@
   async function loadPublicReports() {
     const container = document.querySelector('[data-public-reports]');
     const { data, error } = await db.from('reportes_canil')
-      .select('id,categoria,descripcion,observado_en,estado,creado_en')
+      .select('id,categoria,descripcion,observado_en,estado,creado_en,nota_resolucion')
       .in('estado', ['verificado', 'cerrado']).order('observado_en', { ascending: false }).limit(12);
     renderReportList(container, error ? [] : (data || []), error ? 'No pudimos cargar los reportes en este momento.' : 'Aún no hay reportes verificados.');
+  }
+
+  async function loadReportStats() {
+    const reported = document.querySelector('[data-stat-reportados]');
+    const resolved = document.querySelector('[data-stat-resueltos]');
+    const days = document.querySelector('[data-stat-dias]');
+    const recurrence = document.querySelector('[data-report-recurrence]');
+    const formatNumber = (value) => Number(value || 0).toLocaleString('es-CL');
+    const [statsResult, recurrenceResult] = await Promise.all([
+      db.rpc('estadisticas_reportes'),
+      db.rpc('recurrencia_categoria_reportes'),
+    ]);
+    const stats = statsResult.error ? null : (statsResult.data?.[0] || null);
+    if (reported) reported.textContent = stats ? formatNumber(stats.total_reportados) : '—';
+    if (resolved) resolved.textContent = stats ? formatNumber(stats.total_resueltos) : '—';
+    if (days) days.textContent = stats ? String(stats.dias_promedio_resolucion ?? 0) : '—';
+    if (!recurrence) return;
+    const rows = recurrenceResult.error ? [] : (recurrenceResult.data || []).slice(0, 4);
+    if (!rows.length) {
+      const empty = document.createElement('li');
+      empty.className = 'empty-state';
+      empty.textContent = recurrenceResult.error ? 'No pudimos cargar lo más reportado.' : 'Aún no hay categorías con reportes publicados.';
+      recurrence.replaceChildren(empty);
+      return;
+    }
+    recurrence.replaceChildren(...rows.map((row) => {
+      const item = document.createElement('li');
+      const name = document.createElement('span');
+      name.textContent = categoryLabels[row.categoria] || row.categoria;
+      const total = document.createElement('strong');
+      total.textContent = `${formatNumber(row.total)} ${Number(row.total) === 1 ? 'caso' : 'casos'}`;
+      item.append(name, total);
+      return item;
+    }));
   }
 
   async function loadMyReports() {
@@ -1591,7 +1633,7 @@
     }
     section.hidden = false;
     const [canilResult, redResult] = await Promise.all([
-      db.from('reportes_canil').select('id,categoria,descripcion,observado_en,estado,creado_en').order('creado_en', { ascending: false }).limit(30),
+      db.from('reportes_canil').select('id,categoria,descripcion,observado_en,estado,creado_en,nota_resolucion').order('creado_en', { ascending: false }).limit(30),
       db.from('reportes_red').select('id,objetivo_tipo,motivo,estado,nota_moderacion,creado_en').order('creado_en', { ascending: false }).limit(30),
     ]);
     const canilReports = (canilResult.error ? [] : (canilResult.data || [])).map((row) => ({ ...row, _source: 'canil' }));
@@ -1610,7 +1652,7 @@
     panel.hidden = false;
     const container = document.querySelector('[data-moderator-reports]');
     const { data, error } = await db.from('reportes_canil')
-      .select('id,categoria,descripcion,observado_en,estado,creado_en')
+      .select('id,categoria,descripcion,observado_en,estado,creado_en,nota_resolucion')
       .order('creado_en', { ascending: false }).limit(50);
     document.querySelector('[data-moderator-count]').textContent = String(error ? 0 : (data?.length || 0));
     renderReportList(container, error ? [] : (data || []), error ? 'No pudimos cargar la bandeja de moderación.' : 'No hay reportes por revisar.', true);
@@ -1626,7 +1668,7 @@
       signedIn.hidden = true;
       const placePanel = document.querySelector('[data-moderator-place]');
       if (placePanel) placePanel.hidden = true;
-      await Promise.all([loadMyReports(), loadModeratorReports(), loadPublicReports(), loadCreatorWorkspace(), loadNetworkModeration(), loadPlaceProposals()]);
+      await Promise.all([loadMyReports(), loadModeratorReports(), loadPublicReports(), loadReportStats(), loadCreatorWorkspace(), loadNetworkModeration(), loadPlaceProposals()]);
       return;
     }
     signedOut.hidden = true;
@@ -1636,7 +1678,7 @@
     currentUserIsModerator = !error && Boolean(data);
     const placePanel = document.querySelector('[data-moderator-place]');
     if (placePanel) placePanel.hidden = !currentUserIsModerator;
-    await Promise.all([loadMyReports(), loadModeratorReports(), loadPublicReports(), loadCreatorWorkspace(), loadNetworkModeration(), loadPlaceProposals()]);
+    await Promise.all([loadMyReports(), loadModeratorReports(), loadPublicReports(), loadReportStats(), loadCreatorWorkspace(), loadNetworkModeration(), loadPlaceProposals()]);
   }
 
   reportForm?.addEventListener('submit', async (event) => {
@@ -2160,9 +2202,43 @@
     const button = event.target.closest('[data-report-id][data-next-status]');
     if (!button) return;
     const message = document.querySelector('[data-moderator-message]');
+    const article = button.closest('.report-item');
+    if (button.dataset.nextStatus === 'cerrado' && button.dataset.confirmClose !== 'true') {
+      let noteBox = article?.querySelector('[data-resolution-note]');
+      if (!noteBox && article) {
+        const wrap = document.createElement('div');
+        wrap.className = 'report-close-note';
+        noteBox = document.createElement('textarea');
+        noteBox.dataset.resolutionNote = '';
+        noteBox.maxLength = 500;
+        noteBox.rows = 3;
+        noteBox.placeholder = '¿Qué se hizo? Mínimo 10 caracteres.';
+        noteBox.setAttribute('aria-label', 'Nota de resolución');
+        const confirm = document.createElement('button');
+        confirm.type = 'button';
+        confirm.dataset.reportId = button.dataset.reportId;
+        confirm.dataset.nextStatus = 'cerrado';
+        confirm.dataset.confirmClose = 'true';
+        confirm.textContent = 'Confirmar cierre';
+        wrap.append(noteBox, confirm);
+        article.append(wrap);
+      }
+      noteBox?.focus();
+      return;
+    }
+    let payload = { estado: button.dataset.nextStatus };
+    if (button.dataset.nextStatus === 'cerrado') {
+      const note = article?.querySelector('[data-resolution-note]')?.value.trim() || '';
+      if (!note) {
+        setMessage(message, 'Escribe qué se hizo antes de cerrar el reporte.', 'error');
+        article?.querySelector('[data-resolution-note]')?.focus();
+        return;
+      }
+      payload = { estado: 'cerrado', nota_resolucion: note };
+    }
     button.disabled = true;
     setMessage(message);
-    const { data, error } = await db.from('reportes_canil').update({ estado: button.dataset.nextStatus })
+    const { data, error } = await db.from('reportes_canil').update(payload)
       .eq('id', button.dataset.reportId).select('id,estado').single();
     if (error || !data) {
       button.disabled = false;
@@ -2170,7 +2246,7 @@
       return;
     }
     setMessage(message, 'Estado actualizado.', 'success');
-    await Promise.all([loadModeratorReports(), loadMyReports(), loadPublicReports()]);
+    await Promise.all([loadModeratorReports(), loadMyReports(), loadPublicReports(), loadReportStats()]);
   });
 
   async function verifyBackend() {

@@ -1,29 +1,5 @@
--- Fichas conmemorativas: mascotas fallecidas con fecha aproximada de deceso.
-
-alter table ladra.animales
-  add column if not exists es_conmemorativa boolean not null default false,
-  add column if not exists fecha_deceso date;
-
-alter table ladra.animales
-  drop constraint if exists animales_conmemorativa_fecha_deceso;
-
-alter table ladra.animales
-  add constraint animales_conmemorativa_fecha_deceso check (
-    (not es_conmemorativa and fecha_deceso is null)
-    or (
-      es_conmemorativa
-      and fecha_deceso is not null
-      and fecha_deceso <= current_date
-      and (fecha_nacimiento is null or fecha_deceso >= fecha_nacimiento)
-    )
-  );
-
-comment on column ladra.animales.es_conmemorativa is
-  'Marca una ficha como homenaje a una mascota fallecida.';
-comment on column ladra.animales.fecha_deceso is
-  'Fecha aproximada del deceso. Obligatoria solo en fichas conmemorativas.';
-
-grant update (es_conmemorativa, fecha_deceso) on ladra.animales to authenticated;
+-- Cerrar alertas de pérdida al marcar una ficha conmemorativa
+-- sin exigir permisos directos sobre ladra.alertas_mascotas.
 
 create or replace function ladra.ocultar_alertas_activas_de_mi_animal(p_animal_id uuid)
 returns void
@@ -55,9 +31,7 @@ revoke all on function ladra.ocultar_alertas_activas_de_mi_animal(uuid)
 grant execute on function ladra.ocultar_alertas_activas_de_mi_animal(uuid)
   to authenticated;
 
-drop function if exists ladra.actualizar_mi_animal(uuid,text,text,text,text,text,numeric,date,text,text,text,text,text,text[],text,boolean,text,text[],jsonb,jsonb,jsonb,smallint);
-
-create function ladra.actualizar_mi_animal(
+create or replace function ladra.actualizar_mi_animal(
   p_animal_id uuid, p_nombre text, p_especie text, p_biografia text,
   p_raza text, p_tamano text, p_peso_kg numeric, p_fecha_nacimiento date,
   p_sexo text, p_color_pelaje text, p_estado_registro text,
@@ -161,149 +135,5 @@ $$;
 
 revoke all on function ladra.actualizar_mi_animal(uuid,text,text,text,text,text,numeric,date,text,text,text,text,text,text[],text,boolean,text,text[],jsonb,jsonb,jsonb,smallint,boolean,date) from public, anon, authenticated;
 grant execute on function ladra.actualizar_mi_animal(uuid,text,text,text,text,text,numeric,date,text,text,text,text,text,text[],text,boolean,text,text[],jsonb,jsonb,jsonb,smallint,boolean,date) to authenticated;
-
-drop function if exists ladra.mis_animales();
-create function ladra.mis_animales()
-returns table(
-  id uuid, nombre text, especie text, estado text, estado_seguridad text,
-  biografia text, foto_url text, foto_urls text[], raza text, tamano text,
-  peso_kg numeric, fecha_nacimiento date, sexo text, color_pelaje text,
-  estado_registro text, numero_registro text, senas_particulares text,
-  mostrar_en_red boolean, salud jsonb, habilidades jsonb,
-  caracter_respuestas jsonb, caracter_puntaje smallint,
-  diagnostico_nutricional text, bloques_resumen text[],
-  es_conmemorativa boolean, fecha_deceso date
-)
-language sql
-stable
-security definer
-set search_path = pg_catalog, ladra
-as $$
-  select a.id, a.nombre, a.especie, a.estado, a.estado_seguridad,
-    a.biografia, a.foto_url, a.foto_urls, a.raza, a.tamano,
-    a.peso_kg, a.fecha_nacimiento, a.sexo, a.color_pelaje,
-    a.estado_registro, a.numero_registro, a.senas_particulares,
-    a.mostrar_en_red, coalesce(s.datos, '{}'::jsonb), a.habilidades,
-    a.caracter_respuestas, a.caracter_puntaje,
-    a.diagnostico_nutricional, a.bloques_resumen,
-    a.es_conmemorativa, a.fecha_deceso
-  from ladra.animales a
-  left join ladra.fichas_salud_animal s on s.animal_id = a.id
-  where a.creado_por = (select auth.uid())
-  order by a.creado_en desc;
-$$;
-
-revoke all on function ladra.mis_animales() from public, anon, authenticated;
-grant execute on function ladra.mis_animales() to authenticated;
-
-create or replace function ladra.cambiar_estado_seguridad_mascota(
-  p_animal_id uuid,
-  p_estado_seguridad text,
-  p_descripcion text default null,
-  p_direccion_publica text default null,
-  p_latitud double precision default null,
-  p_longitud double precision default null,
-  p_perdida_en timestamptz default null,
-  p_sitio_web text default null
-)
-returns uuid
-language plpgsql
-security definer
-set search_path = pg_catalog, ladra
-as $$
-declare
-  v_usuario_id uuid := (select auth.uid());
-  v_animal ladra.animales%rowtype;
-  v_alerta_id uuid;
-  v_descripcion text := btrim(coalesce(p_descripcion, ''));
-  v_direccion text := btrim(coalesce(p_direccion_publica, ''));
-begin
-  if v_usuario_id is null then
-    raise exception using errcode = '42501', message = 'Debes iniciar sesión.';
-  end if;
-
-  if nullif(btrim(coalesce(p_sitio_web, '')), '') is not null then
-    raise exception using errcode = '22023', message = 'Solicitud no válida.';
-  end if;
-
-  select a.*
-    into v_animal
-    from ladra.animales a
-   where a.id = p_animal_id
-     and a.creado_por = v_usuario_id
-     and a.estado in ('pendiente', 'publicado')
-   for update;
-
-  if not found then
-    raise exception using errcode = '42501', message = 'No puedes administrar esta mascota.';
-  end if;
-
-  if p_estado_seguridad = 'segura' then
-    update ladra.alertas_mascotas
-       set estado = 'reunificada', actualizado_en = now()
-     where animal_id = v_animal.id
-       and estado = 'activa'
-    returning id into v_alerta_id;
-
-    update ladra.animales
-       set estado_seguridad = 'segura', actualizado_en = now()
-     where id = v_animal.id;
-
-    return v_alerta_id;
-  end if;
-
-  if p_estado_seguridad <> 'extraviada' then
-    raise exception using errcode = '22023', message = 'Estado de seguridad no válido.';
-  end if;
-
-  if v_animal.es_conmemorativa then
-    raise exception using errcode = '22023', message = 'Una ficha conmemorativa no puede marcarse como extraviada.';
-  end if;
-
-  if char_length(v_descripcion) not between 10 and 350 then
-    raise exception using errcode = '22023', message = 'La descripción debe tener entre 10 y 350 caracteres.';
-  end if;
-
-  if char_length(v_direccion) not between 5 and 180 then
-    raise exception using errcode = '22023', message = 'Selecciona una dirección reconocida por el mapa.';
-  end if;
-
-  if p_latitud is null or p_longitud is null
-     or p_latitud not between -33.60 and -33.42
-     or p_longitud not between -70.86 and -70.64 then
-    raise exception using errcode = '22023', message = 'La ubicación debe estar dentro de Maipú.';
-  end if;
-
-  if p_perdida_en is null
-     or p_perdida_en < now() - interval '30 days'
-     or p_perdida_en > now() + interval '15 minutes' then
-    raise exception using errcode = '22023', message = 'La fecha indicada no es válida.';
-  end if;
-
-  update ladra.alertas_mascotas
-     set estado = 'oculta', actualizado_en = now()
-   where animal_id = v_animal.id
-     and estado = 'activa';
-
-  insert into ladra.alertas_mascotas (
-    animal_id, nombre, especie, descripcion, direccion_publica,
-    latitud, longitud, perdida_en, reportante_id
-  ) values (
-    v_animal.id, v_animal.nombre, v_animal.especie, v_descripcion, v_direccion,
-    p_latitud, p_longitud, p_perdida_en, v_usuario_id
-  )
-  returning id into v_alerta_id;
-
-  update ladra.animales
-     set estado_seguridad = 'extraviada', actualizado_en = now()
-   where id = v_animal.id;
-
-  return v_alerta_id;
-end;
-$$;
-
-update ladra.estado_sistema
-set version = '0.4.1', actualizado_en = now()
-where id = 'auraladra';
 
 notify pgrst, 'reload schema';

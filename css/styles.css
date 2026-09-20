@@ -30,7 +30,7 @@ img { max-width: 100%; }
 .skip-link { position: fixed; left: 16px; top: -60px; z-index: 100; background: var(--white); color: var(--navy); padding: 10px 16px; border-radius: 8px; font-weight: 700; transition: top .2s; }
 .skip-link:focus { top: 16px; }
 
-.site-header { position: fixed; inset: 0 0 auto; z-index: 50; color: var(--white); transition: background .25s, box-shadow .25s; }
+.site-header { position: relative; z-index: 50; color: var(--white); background: rgba(8, 26, 43, .92); transition: background .25s, box-shadow .25s; }
 .site-header.is-scrolled { background: rgba(8, 26, 43, .95); box-shadow: 0 8px 30px rgba(0,0,0,.12); backdrop-filter: blur(16px); }
 .nav-shell { height: 78px; display: flex; align-items: center; justify-content: space-between; gap: 32px; }
 .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 700; font-size: 1.2rem; letter-spacing: -.03em; }
@@ -46,7 +46,7 @@ img { max-width: 100%; }
 .hero-image, .hero-shade { position: absolute; inset: 0; }
 .hero-image { background: url("../assets/auraladra-canil-hero.webp") center center / cover no-repeat; transform: scale(1.01); }
 .hero-shade { background: linear-gradient(90deg, rgba(8,26,43,.96) 0%, rgba(8,26,43,.82) 38%, rgba(8,26,43,.12) 72%), linear-gradient(0deg, rgba(8,26,43,.8), transparent 44%); }
-.hero-content { position: relative; z-index: 2; display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 70px; align-items: end; padding-bottom: 76px; }
+.hero-content { position: relative; z-index: 2; display: grid; align-items: end; padding-bottom: 76px; }
 .hero-copy { max-width: 720px; }
 .eyebrow, .kicker { text-transform: uppercase; letter-spacing: .13em; font-weight: 700; font-size: .77rem; }
 .eyebrow { display: flex; align-items: center; gap: 10px; color: var(--amber-light); margin: 0 0 18px; }
@@ -192,8 +192,8 @@ img { max-width: 100%; }
 .pet-profile-hero h3 { margin: 2px 0 10px; color: var(--navy); font: 650 clamp(2rem, 5vw, 3.2rem)/1 "Fraunces", serif; }
 .pet-profile-hero p:last-child { margin: 0; color: var(--muted); white-space: pre-wrap; }
 .pet-profile-gallery, .pet-photo-preview { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
-.pet-profile-gallery img, .pet-photo-preview img, .pet-photo-placeholder { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 12px; background: var(--cream); }
-.pet-profile-gallery img:first-child, .pet-photo-preview img:first-child, .pet-profile-gallery .pet-photo-placeholder, .pet-photo-preview .pet-photo-placeholder { grid-column: 1 / -1; aspect-ratio: 16 / 10; }
+.pet-profile-gallery img, .pet-photo-preview img, .pet-photo-placeholder { width: 100%; aspect-ratio: 1; object-fit: cover; object-position: center; border-radius: 12px; background: var(--cream); }
+.pet-profile-gallery img:first-child, .pet-photo-preview img:first-child, .pet-profile-gallery .pet-photo-placeholder, .pet-photo-preview .pet-photo-placeholder { grid-column: 1 / -1; }
 .pet-photo-placeholder { display: grid; place-items: center; color: var(--coral); font-size: 3.5rem; }
 .pet-profile-facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 28px 0; }
 .pet-profile-facts div { padding: 14px; border-radius: 13px; background: var(--paper); }
@@ -262,8 +262,18 @@ button.pet-connect-option:hover, button.pet-connect-option:focus-visible { borde
 .status-badge[data-status="rechazado"], .status-badge[data-status="descartado"] { background: #f8e2dc; color: #9f3d2c; }
 .report-description { margin: 0 0 12px; color: var(--ink); white-space: pre-wrap; overflow-wrap: anywhere; }
 .report-meta { margin: 0; color: var(--muted); font-size: .78rem; }
+.report-resolution { margin: 12px 0 0; padding: 12px 14px; border-radius: 12px; background: #eef4f7; color: #315f7e; font-size: .82rem; font-style: italic; line-height: 1.5; }
+.report-resolution strong { font-style: normal; color: var(--navy); font-size: .68rem; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; }
+.report-close-note { display: grid; gap: 8px; width: 100%; margin-top: 4px; }
+.report-close-note textarea { width: 100%; min-height: 88px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--white); color: var(--ink); font: inherit; font-size: .82rem; resize: vertical; }
 .empty-state { margin: 0; padding: 22px; border: 1px dashed rgba(16,42,67,.24); border-radius: 15px; color: var(--muted); text-align: center; }
 .public-reports { margin-top: 70px; }
+.report-loop { margin: 0 0 28px; display: grid; gap: 22px; }
+.report-loop .pilot-stats { align-self: stretch; }
+.report-recurrence ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.report-recurrence li { display: flex; justify-content: space-between; gap: 12px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--cream); color: var(--navy); font-size: .86rem; font-weight: 700; }
+.report-recurrence li span { color: var(--muted); font-weight: 650; text-transform: capitalize; }
+.report-recurrence .empty-state { padding: 14px; }
 .public-heading { align-items: end; }
 .public-heading > p { max-width: 480px; margin: 0; color: var(--muted); }
 .public-list { grid-template-columns: repeat(3, 1fr); }
@@ -317,11 +327,11 @@ button.pet-connect-option:hover, button.pet-connect-option:focus-visible { borde
 
 .animal-network { background: var(--cream); }
 .animal-network-summary { margin: -20px 0 20px; color: var(--muted); font-size: .86rem; font-weight: 700; }
-.animal-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.animal-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
 .animal-card { min-height: 310px; padding: 0 26px 26px; display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--line); border-radius: 20px; background: var(--white); box-shadow: 0 15px 42px rgba(8,26,43,.07); transition: transform .2s ease, box-shadow .2s ease; }
 .animal-card:hover { transform: translateY(-3px); box-shadow: 0 20px 48px rgba(8,26,43,.11); }
-.animal-avatar { width: calc(100% + 52px); height: 180px; margin: 0 -26px 22px; display: grid; place-items: center; overflow: hidden; background: var(--navy); color: var(--amber); font: 700 2rem "Fraunces", serif; }
-.animal-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.animal-avatar { width: calc(100% + 52px); aspect-ratio: 1; height: auto; margin: 0 -26px 22px; display: grid; place-items: center; overflow: hidden; background: var(--navy); color: var(--amber); font: 700 2rem "Fraunces", serif; }
+.animal-avatar img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
 .animal-profile-link { margin-top: 15px; border: 0; background: transparent; color: var(--coral); font: inherit; font-size: .76rem; font-weight: 800; text-align: left; cursor: pointer; padding: 0; }
 .animal-card h3 { margin: 0; color: var(--navy); font: 650 1.6rem "Fraunces", serif; }
 .animal-card > p { color: var(--muted); margin: 8px 0 18px; font-size: .9rem; }
@@ -449,8 +459,8 @@ button.pet-connect-option:hover, button.pet-connect-option:focus-visible { borde
 .footer-brand .brand-mark { width: 32px; height: 32px; border-radius: 10px 10px 10px 3px; font-size: .9rem; }
 
 @media (max-width: 900px) {
-  .site-nav { position: fixed; inset: 78px 0 auto; padding: 28px 20px 34px; background: var(--navy-deep); display: grid; gap: 6px; transform: translateY(-130%); opacity: 0; transition: transform .25s, opacity .25s; }
-  .site-nav.is-open { transform: translateY(0); opacity: 1; }
+  .site-nav { position: absolute; inset: 100% 0 auto; padding: 28px 20px 34px; background: var(--navy-deep); display: grid; gap: 6px; transform: translateY(-8px); opacity: 0; pointer-events: none; transition: transform .25s, opacity .25s; }
+  .site-nav.is-open { transform: translateY(0); opacity: 1; pointer-events: auto; }
   .site-nav a { padding: 12px 0; font-size: 1.05rem; border-bottom: 1px solid rgba(255,255,255,.1); }
   .menu-button { display: block; }
   .hero { height: auto; min-height: 820px; }
@@ -510,7 +520,7 @@ button.pet-connect-option:hover, button.pet-connect-option:focus-visible { borde
   .moderator-place, .moderator-network { padding: 22px; }
   .map-filters { margin-top: -8px; }
   .community-map { min-height: 410px; }
-  .form-grid, .animal-grid, .moderation-columns { grid-template-columns: 1fr; }
+  .form-grid, .moderation-columns { grid-template-columns: 1fr; }
   .field-wide { grid-column: auto; }
   .network-access { align-items: flex-start; flex-direction: column; }
   .public-reports { margin-top: 52px; }

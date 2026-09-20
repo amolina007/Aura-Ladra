@@ -12,8 +12,35 @@ Narrado en primera persona por Leia.
 ## Aislamiento de datos
 Este sitio consume **solo** el schema `ladra` dentro del proyecto Supabase
 compartido con AuraRitmos. AuraRitmos vive en el schema `public` con su
-propio set de tablas (`comunidades`, `locaciones`, `docentes`, etc.) — no se
-toca, no se referencia, no se altera desde este repo.
+propio set de tablas (`comunidades`, `locaciones`, `docentes`, etc.) — las
+tablas de cada schema no se tocan, no se referencian ni se alteran desde el
+repo del otro producto.
+
+**Excepción real: `storage.objects`.** A diferencia de las tablas normales,
+Supabase Storage guarda los metadatos de *todos* los buckets de *todos* los
+productos en una única tabla física, `storage.objects`, sin importar el
+schema de cada app. Postgres evalúa **todas** las políticas RLS de esa tabla
+en cada operación, aunque pertenezcan a un bucket de otro producto. El
+17-19/09/2026 esto causó un incidente real: una subida de foto de mascota en
+AuraLadra disparaba también las políticas de `fotos-sesiones` de AuraRitmos
+(JOIN contra `docentes`, `sesiones_clase`), generando errores de permisos
+en operaciones que no tenían nada que ver con AuraRitmos. Se corrigió en
+`isolate_storage_policies_by_bucket` y `isolate_auraritmos_storage_authorization`.
+
+**Regla obligatoria para cualquier política nueva sobre `storage.objects`,
+la escriba quien la escriba:** la primera condición de la política, sin
+excepción, debe filtrar por `bucket_id`. En SQL plano:
+
+using (
+  case when bucket_id = 'nombre-del-bucket' then (
+    -- lógica específica de este bucket
+  ) else false end
+)
+
+o, mejor aún, encapsular la lógica en una función `security definer` por
+bucket (como `private.puede_leer_foto_sesion`) en vez de escribir JOINs
+inline en la política. Nunca asumas que una política de storage solo se
+evalúa para tu propio bucket.
 
 ## Estructura
 ```

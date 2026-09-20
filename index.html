@@ -15,21 +15,28 @@
 </head>
 <body>
 <style id="convergencia-aura-banner-style">
-  .ca-ecosystem-banner{position:relative;z-index:9999;width:100%;background:linear-gradient(90deg,#071521 0%,#0b2637 55%,#10384a 100%);border-bottom:1px solid rgba(105,220,255,.28);color:#eaf8ff;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-  .ca-ecosystem-banner__inner{max-width:1200px;margin:0 auto;min-height:42px;padding:7px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px}
-  .ca-ecosystem-banner__label{margin:0;font-size:13px;line-height:1.35;letter-spacing:.01em;color:#d7edf7}
+  .ca-site-top{position:sticky;top:0;z-index:80;width:100%}
+  .ca-ecosystem-banner{position:relative;z-index:2;width:100%;background:linear-gradient(90deg,#071521 0%,#0b2637 55%,#10384a 100%);border-bottom:1px solid rgba(105,220,255,.28);color:#eaf8ff;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+  .ca-ecosystem-banner__inner{max-width:1200px;margin:0 auto;min-height:42px;padding:7px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .ca-ecosystem-banner__label{margin:0;font-size:13px;line-height:1.35;letter-spacing:.01em;color:#d7edf7;min-width:0}
   .ca-ecosystem-banner__label strong{color:#fff;font-weight:700}
-  .ca-ecosystem-banner__links{display:flex;align-items:center;gap:8px;flex:none}
-  .ca-ecosystem-banner__links a{display:inline-flex;align-items:center;justify-content:center;min-height:28px;padding:5px 10px;border:1px solid rgba(151,225,255,.3);border-radius:999px;color:#dff7ff!important;text-decoration:none!important;font-size:12px;font-weight:700;line-height:1;white-space:nowrap;background:rgba(94,201,240,.08);transition:background .18s ease,border-color .18s ease}
+  .ca-ecosystem-banner__links{display:flex;align-items:center;gap:8px;flex:0 1 auto;min-width:0}
+  .ca-ecosystem-banner__links a{display:inline-flex;align-items:center;justify-content:center;min-height:36px;padding:6px 12px;border:1px solid rgba(151,225,255,.3);border-radius:999px;color:#dff7ff!important;text-decoration:none!important;font-size:14px;font-weight:700;line-height:1.2;background:rgba(94,201,240,.08);-webkit-tap-highlight-color:transparent}
   .ca-ecosystem-banner__links a:hover,.ca-ecosystem-banner__links a:focus-visible{background:rgba(94,201,240,.2);border-color:rgba(151,225,255,.72);outline:none}
-  @media(max-width:680px){.ca-ecosystem-banner__inner{align-items:flex-start;flex-direction:column;gap:6px;padding:8px 14px 9px}.ca-ecosystem-banner__links{width:100%;flex-wrap:wrap}.ca-ecosystem-banner__links a{flex:1}.ca-ecosystem-banner__label{font-size:12.5px}}
+  @media(max-width:680px){
+    .ca-ecosystem-banner__inner{flex-direction:column;align-items:stretch;gap:8px;padding:10px 14px calc(10px + env(safe-area-inset-top, 0px))}
+    .ca-ecosystem-banner__links{width:100%;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .ca-ecosystem-banner__links a{min-width:0;width:100%;white-space:normal;text-align:center}
+    .ca-ecosystem-banner__label{font-size:13px}
+  }
 </style>
+<div class="ca-site-top">
 <aside class="ca-ecosystem-banner" aria-label="Navegación del ecosistema Convergencia Aura">
   <div class="ca-ecosystem-banner__inner">
     <p class="ca-ecosystem-banner__label"><strong>Parte de Convergencia Aura.</strong> Existen más páginas y proyectos conectados.</p>
     <nav class="ca-ecosystem-banner__links" aria-label="Enlaces de Convergencia Aura">
-      <a href="https://convergenciaaura.cl" target="_blank" rel="noopener noreferrer">Convergencia Aura ↗</a>
-      <a href="https://linktr.ee/amolina.uchile" target="_blank" rel="noopener noreferrer">Linktree oficial ↗</a>
+      <a href="https://convergenciaaura.cl/" target="_blank" rel="noopener noreferrer">Convergencia Aura</a>
+      <a href="https://linktr.ee/amolina.uchile" target="_blank" rel="noopener noreferrer">Linktree oficial</a>
     </nav>
   </div>
 </aside>
@@ -57,6 +64,7 @@
       </nav>
     </div>
   </header>
+</div>
 
   <main id="contenido">
     <section class="hero" id="inicio">
@@ -66,18 +74,12 @@
         <div class="hero-copy">
           <p class="eyebrow"><span class="pulse" aria-hidden="true"></span> Piloto comunitario · Maipú</p>
           <h1>Hola, soy Leia.<br><em>Esta plaza también es nuestra.</em></h1>
-          <p class="hero-lead">AuraLadra conecta mascotas, personas y lugares para cuidarnos mejor en el barrio. Partimos en el canil Parque 3 Poniente.</p>
+          <p class="hero-lead">AuraLadra conecta mascotas, personas y lugares para cuidarnos mejor en el barrio.</p>
           <div class="hero-actions">
             <a class="button button-primary" href="#reportes">Hacer un reporte <span aria-hidden="true">→</span></a>
-            <a class="button button-ghost" href="#canil">Conocer el piloto</a>
+            <a class="button button-ghost" href="#mapa">Ver el mapa</a>
           </div>
         </div>
-        <aside class="hero-note" aria-label="Estado del piloto">
-          <span class="note-label">Primera huella</span>
-          <strong>Canil Parque 3 Poniente</strong>
-          <span>Av. 3 Pte. 108, Maipú</span>
-          <span class="system-status" data-system-status><i></i> Comprobando conexión</span>
-        </aside>
       </div>
     </section>
 
@@ -456,6 +458,19 @@
             <div><p class="kicker">Información comunitaria</p><h3 id="public-reports-title">Reportes verificados</h3></div>
             <p>Solo aparecen casos revisados o cerrados. La identidad de quien reportó nunca se muestra.</p>
           </div>
+          <div class="report-loop" data-report-stats>
+            <div class="pilot-stats" aria-label="Estadísticas públicas del canal de reportes">
+              <div><strong data-stat-reportados>—</strong><span>reportados</span></div>
+              <div><strong data-stat-resueltos>—</strong><span>resueltos</span></div>
+              <div><strong data-stat-dias>—</strong><span>días promedio de resolución</span></div>
+            </div>
+            <div class="report-recurrence">
+              <p class="kicker">Lo más reportado</p>
+              <ul data-report-recurrence>
+                <li class="empty-state">Cargando recurrencia…</li>
+              </ul>
+            </div>
+          </div>
           <div class="report-list public-list" data-public-reports>
             <p class="empty-state">Cargando reportes verificados…</p>
           </div>
@@ -470,35 +485,6 @@
           <div class="report-list" data-moderator-reports></div>
           <p class="form-message" data-moderator-message aria-live="polite"></p>
         </section>
-      </div>
-    </section>
-
-    <section class="pilot section" id="canil">
-      <div class="shell pilot-grid">
-        <div class="pilot-intro">
-          <p class="kicker">El piloto</p>
-          <h2>Un canil como punto de encuentro, no solo como infraestructura.</h2>
-          <p>Parque 3 Poniente es nuestro primer lugar de observación y colaboración. Queremos entender necesidades reales antes de construir herramientas más grandes.</p>
-        </div>
-        <div class="pilot-stats" role="group" aria-label="Alcance inicial del piloto">
-          <div><strong>01</strong><span>territorio inicial</span></div>
-          <div><strong>03</strong><span>problemas a observar</span></div>
-          <div><strong>00</strong><span>datos personales públicos</span></div>
-        </div>
-        <div class="pilot-list">
-          <article>
-            <span>01</span>
-            <div><h3>Escuchar</h3><p>Registrar problemas de convivencia, seguridad y cuidado desde la experiencia de quienes usan el lugar.</p></div>
-          </article>
-          <article>
-            <span>02</span>
-            <div><h3>Conectar</h3><p>Acercar vecinos, responsables, servicios y organizaciones sin convertir datos privados en un directorio abierto.</p></div>
-          </article>
-          <article>
-            <span>03</span>
-            <div><h3>Probar</h3><p>Validar soluciones pequeñas —como QR revocables y mapas útiles— antes de extenderlas a otros barrios.</p></div>
-          </article>
-        </div>
       </div>
     </section>
 
