@@ -259,6 +259,14 @@
             <div class="card-heading compact"><span class="card-mark" aria-hidden="true">◎</span><div><p class="kicker">Identidad pública</p><h3>Mi alias en la red</h3></div></div>
             <label class="field"><span>Alias público</span><input name="alias" required minlength="2" maxlength="50"></label>
             <label class="field"><span>Presentación opcional</span><textarea name="biografia" maxlength="300" rows="3"></textarea></label>
+            <label class="field"><span>Visibilidad junto a tus mascotas</span>
+              <select name="visibilidad">
+                <option value="basico" selected>Básico</option>
+                <option value="ampliado">Ampliado</option>
+                <option value="oculto">Oculto</option>
+              </select>
+            </label>
+            <p class="pet-section-help">Vale para todas las mascotas a las que estás vinculado. Básico: alias y rol. Ampliado: también un avatar. Oculto: no apareces en la ficha pública.</p>
             <button class="button button-primary" type="submit">Publicar alias</button>
             <p class="form-message" data-profile-message aria-live="polite"></p>
           </form>
@@ -515,6 +523,28 @@
           <div class="human-profile-shell">
             <button class="pet-profile-close" type="button" data-human-profile-close aria-label="Cerrar perfil">×</button>
             <div data-human-profile-view></div>
+          </div>
+        </dialog>
+
+        <dialog class="human-profile-dialog" data-contact-human-dialog aria-labelledby="contact-human-title">
+          <div class="human-profile-shell">
+            <button class="pet-profile-close" type="button" data-contact-human-close aria-label="Cerrar contacto">×</button>
+            <form data-contact-human-form>
+              <p class="kicker">Mensaje interno</p>
+              <h3 id="contact-human-title">Contactar a <span data-contact-human-name>esta persona</span></h3>
+              <p>El mensaje llega a través de AuraLadra, a propósito de <strong data-contact-human-pet>la mascota</strong>. No mostramos teléfono ni correo de nadie.</p>
+              <input type="hidden" name="perfil_publico_id">
+              <input type="hidden" name="animal_id">
+              <div data-contact-human-signed-in>
+                <label class="field"><span>Tu mensaje</span><textarea name="cuerpo" required minlength="10" maxlength="800" rows="4" placeholder="Preséntate y explica por qué escribes."></textarea></label>
+              </div>
+              <p class="pet-health-note" data-contact-human-signed-out hidden>Para enviar el mensaje, inicia sesión con enlace mágico en Mi cuenta.</p>
+              <div class="profile-report-actions">
+                <button class="button button-dark" type="submit" data-contact-human-submit>Enviar mensaje</button>
+                <a class="button button-dark" href="#cuenta" data-contact-human-account hidden>Ir a Mi cuenta</a>
+              </div>
+              <p class="form-message" data-contact-human-message aria-live="polite"></p>
+            </form>
           </div>
         </dialog>
 

@@ -593,6 +593,11 @@ button.pet-connect-option:hover, button.pet-connect-option:focus-visible { borde
 .pet-connections article { padding: 12px; border-radius: 12px; background: var(--cream); }
 .pet-connections article span, .pet-connections article small { display: block; color: var(--muted); font-size: .7rem; }
 .pet-connections article strong { display: block; color: var(--navy); margin: 2px 0; }
+.pet-human-card { display: flex; align-items: center; gap: 12px; }
+.pet-human-avatar { flex: 0 0 auto; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: var(--navy); color: var(--white); font-weight: 800; }
+.pet-human-copy { min-width: 0; display: grid; gap: 4px; }
+.pet-human-copy strong { margin: 0; }
+.pet-human-contact { margin-top: 6px; width: max-content; padding: 7px 12px; font-size: .75rem; }
 .pet-summary-editor { margin: 8px 0 20px; padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--cream); }
 .pet-summary-editor legend { padding: 0 6px; color: var(--navy); font-weight: 800; }
 .pet-summary-editor > p { margin: 0 0 12px; color: var(--muted); font-size: .8rem; }

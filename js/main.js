@@ -29,6 +29,10 @@
     especie: 'Especie', raza: 'Raza', tamano: 'Tamaño', peso: 'Peso', sexo: 'Sexo', nacimiento: 'Nacimiento', color: 'Color o pelaje', registro: 'Registro',
     caracter: 'Carácter', diagnostico_nutricional: 'Diagnóstico nutricional', habilidades: 'Habilidades', estado_seguridad: 'Estado de seguridad',
   };
+  const familyRoleLabels = {
+    dueno_principal: 'Dueño principal',
+    secundario: 'Familiar',
+  };
   let currentSession = null;
   let currentUserIsModerator = false;
   let communityMap = null;
@@ -1188,7 +1192,7 @@
           <div><dt>Antecedentes quirúrgicos</dt><dd>${escapeHtml(health.antecedentes_quirurgicos || 'Sin antecedentes registrados')}</dd></div>
           <div><dt>Alergias</dt><dd>${escapeHtml(health.alergias || 'Sin alergias registradas')}</dd></div>
         </dl><p class="pet-health-note">Información orientativa; no reemplaza la ficha veterinaria.</p></section>` : ''}
-        <section class="pet-profile-section"><div class="pet-section-heading"><h4>Vínculos</h4>${isOwned ? '<button class="section-edit-button" type="button" data-edit-pet-section="vinculos">Editar</button>' : ''}</div><div class="pet-connections" data-pet-connections><p class="empty-state">Consultando vínculos confirmados…</p></div></section>
+        <section class="pet-profile-section"><div class="pet-section-heading"><h4>Humanos y vínculos</h4>${isOwned ? '<button class="section-edit-button" type="button" data-edit-pet-section="vinculos">Editar</button>' : ''}</div><div class="pet-connections" data-pet-connections><p class="empty-state">Consultando humanos y vínculos…</p></div></section>
         <section class="pet-profile-section"><div class="pet-section-heading"><div><h4>Árbol de habilidades</h4><span>${skills.length} logradas</span></div>${isOwned ? '<button class="section-edit-button" type="button" data-edit-pet-section="habilidades">Editar</button>' : ''}</div>${skills.length ? `<div class="pet-skill-display">${skills.map((skill) => `<span>${escapeHtml(petSkillLabels[skill])}</span>`).join('')}</div>` : '<p class="empty-state">Todavía no tiene habilidades registradas.</p>'}</section>
         <section class="pet-profile-section"><div class="pet-section-heading"><div><h4>Carácter</h4><strong>${escapeHtml(characterLabel)}</strong></div>${isOwned ? '<button class="section-edit-button" type="button" data-edit-pet-section="caracter">Editar</button>' : ''}</div><div class="pet-character-meter" style="--character-score:${characterScore ?? 50}%"><span></span></div><div class="pet-character-scale"><small>Bravo / reactivo</small><b>${characterScore === null ? 'Sin cuestionario' : `${characterScore}%`}</b><small>Manso / confiado</small></div><p class="pet-health-note">Indicador orientativo basado en conducta habitual; no garantiza cómo reaccionará en una situación nueva.</p></section>
       </div>
@@ -1270,32 +1274,65 @@
     if (!dialog.open) dialog.showModal();
   };
 
+  const familyRoleLabel = (rol) => familyRoleLabels[rol] || 'Familiar';
+
+  const openContactHumanDialog = ({ perfilId, alias, animalId, animalName }) => {
+    const dialog = document.querySelector('[data-contact-human-dialog]');
+    const form = dialog?.querySelector('[data-contact-human-form]');
+    const message = dialog?.querySelector('[data-contact-human-message]');
+    if (!dialog || !form) return;
+    form.elements.perfil_publico_id.value = perfilId;
+    form.elements.animal_id.value = animalId;
+    form.elements.cuerpo.value = '';
+    form.querySelector('[data-contact-human-name]').textContent = alias;
+    form.querySelector('[data-contact-human-pet]').textContent = animalName;
+    const signedIn = Boolean(currentSession?.user);
+    form.querySelector('[data-contact-human-signed-in]').hidden = !signedIn;
+    form.querySelector('[data-contact-human-signed-out]').hidden = signedIn;
+    form.querySelector('[data-contact-human-submit]').hidden = !signedIn;
+    const accountLink = form.querySelector('[data-contact-human-account]');
+    if (accountLink) accountLink.hidden = signedIn;
+    setMessage(message);
+    if (!dialog.open) dialog.showModal();
+  };
+
   const loadPetConnections = async (animalId, container) => {
     if (!container) return;
-    const [animalLinksResult, humanLinksResult, animalsResult, profilesResult] = await Promise.all([
+    const animalName = activePetProfile?.nombre || 'esta mascota';
+    const [animalLinksResult, humansResult, animalsResult] = await Promise.all([
       db.from('vinculos_animales').select('animal_a_id,animal_b_id,tipo,descripcion').eq('estado', 'confirmado').or(`animal_a_id.eq.${animalId},animal_b_id.eq.${animalId}`),
-      db.from('vinculos_animal_humano').select('perfil_publico_id,tipo').eq('animal_id', animalId).eq('estado', 'confirmado').eq('visible_publicamente', true),
+      db.rpc('humanos_visibles_de_animal', { p_animal_id: animalId }),
       db.from('animales').select('id,nombre,es_comunitario').eq('estado', 'publicado'),
-      db.from('perfiles_publicos').select('id,alias,biografia').eq('estado', 'publicado'),
     ]);
     const animals = new Map((animalsResult.data || []).map((item) => [item.id, item]));
-    const profiles = new Map((profilesResult.data || []).map((item) => [item.id, item]));
-    const links = [];
+    const humans = humansResult.error ? [] : (humansResult.data || []);
+    const cards = [];
+    humans.forEach((human) => {
+      const isSelf = ownPublicProfile?.id === human.perfil_publico_id;
+      const expanded = human.visibilidad === 'ampliado';
+      const initial = (human.alias || '?').slice(0, 1).toUpperCase();
+      cards.push(`<article class="pet-connection-card pet-human-card${expanded ? ' is-expanded' : ''}">
+        ${expanded ? `<div class="pet-human-avatar" aria-hidden="true">${escapeHtml(initial)}</div>` : ''}
+        <div class="pet-human-copy">
+          <strong>${escapeHtml(human.alias)}</strong>
+          <small>${escapeHtml(familyRoleLabel(human.rol))}</small>
+          ${isSelf ? '' : `<button class="button button-dark pet-human-contact" type="button" data-contact-human="${escapeHtml(human.perfil_publico_id)}" data-contact-alias="${escapeHtml(human.alias)}">Contactar</button>`}
+        </div>
+      </article>`);
+    });
     (animalLinksResult.data || []).forEach((link) => {
       const other = animals.get(link.animal_a_id === animalId ? link.animal_b_id : link.animal_a_id);
-      if (other) links.push(`<article class="pet-connection-card"><span>${other.es_comunitario ? 'Animal comunitario' : 'Mascota'}</span><strong>${escapeHtml(other.nombre)}</strong><small>${escapeHtml(link.tipo)}${link.descripcion ? ` · ${escapeHtml(link.descripcion)}` : ''}</small></article>`);
+      if (other) cards.push(`<article class="pet-connection-card"><span>${other.es_comunitario ? 'Animal comunitario' : 'Mascota'}</span><strong>${escapeHtml(other.nombre)}</strong><small>${escapeHtml(link.tipo)}${link.descripcion ? ` · ${escapeHtml(link.descripcion)}` : ''}</small></article>`);
     });
-    (humanLinksResult.data || []).forEach((link) => {
-      const profile = profiles.get(link.perfil_publico_id);
-      if (profile) {
-        links.push(`<article class="pet-connection-card"><span>Persona</span><button class="text-button" type="button" data-open-human-profile="${escapeHtml(profile.id)}"><strong>${escapeHtml(profile.alias)}</strong></button><small>${escapeHtml(link.tipo)}</small></article>`);
-      }
-    });
-    container.innerHTML = links.length ? links.join('') : '<p class="empty-state">Todavía no tiene vínculos públicos confirmados.</p>';
-    container.querySelectorAll('[data-open-human-profile]').forEach((button) => {
+    container.innerHTML = cards.length ? cards.join('') : '<p class="empty-state">Todavía no hay humanos visibles ni otros vínculos públicos.</p>';
+    container.querySelectorAll('[data-contact-human]').forEach((button) => {
       button.addEventListener('click', () => {
-        const profile = profiles.get(button.dataset.openHumanProfile);
-        if (profile) showHumanProfile(profile);
+        openContactHumanDialog({
+          perfilId: button.dataset.contactHuman,
+          alias: button.dataset.contactAlias,
+          animalId,
+          animalName,
+        });
       });
     });
   };
@@ -1374,6 +1411,11 @@
     if (profileForm && ownPublicProfile) {
       profileForm.elements.alias.value = ownPublicProfile.alias;
       if (profileForm.elements.biografia) profileForm.elements.biografia.value = ownPublicProfile.biografia || '';
+      if (profileForm.elements.visibilidad) {
+        profileForm.elements.visibilidad.value = ['basico', 'ampliado', 'oculto'].includes(ownPublicProfile.visibilidad)
+          ? ownPublicProfile.visibilidad
+          : 'basico';
+      }
       profileForm.querySelector('button[type="submit"]').disabled = false;
       profileForm.querySelector('button[type="submit"]').textContent = 'Actualizar alias';
       setMessage(document.querySelector('[data-profile-message]'), 'Tu alias ya está publicado en la red.', 'success');
@@ -1755,6 +1797,9 @@
     const payload = {
       alias: form.elements.alias.value.trim(),
       biografia: form.elements.biografia.value.trim() || null,
+      visibilidad: ['basico', 'ampliado', 'oculto'].includes(form.elements.visibilidad?.value)
+        ? form.elements.visibilidad.value
+        : 'basico',
     };
     let error = null;
     if (ownPublicProfile?.id) {
@@ -1987,6 +2032,45 @@
   document.querySelector('[data-human-profile-dialog]')?.addEventListener('click', (event) => {
     const dialog = event.currentTarget;
     if (event.target === dialog || event.target.closest('[data-human-profile-close]')) dialog.close();
+  });
+
+  document.querySelector('[data-contact-human-dialog]')?.addEventListener('click', (event) => {
+    const dialog = event.currentTarget;
+    if (event.target === dialog || event.target.closest('[data-contact-human-close]')) dialog.close();
+    if (event.target.closest('[data-contact-human-account]')) dialog.close();
+  });
+
+  document.querySelector('[data-contact-human-form]')?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const message = document.querySelector('[data-contact-human-message]');
+    const submit = form.querySelector('[data-contact-human-submit]');
+    if (!currentSession?.user) {
+      setMessage(message, 'Inicia sesión para enviar un mensaje interno.', 'error');
+      return;
+    }
+    if (!form.reportValidity()) return;
+    submit.disabled = true;
+    const { error } = await db.rpc('enviar_mensaje_contacto', {
+      p_animal_id: form.elements.animal_id.value,
+      p_perfil_publico_id: form.elements.perfil_publico_id.value,
+      p_cuerpo: form.elements.cuerpo.value.trim(),
+    });
+    submit.disabled = false;
+    if (error) {
+      const text = error.message || '';
+      const friendly = /10 y 800/.test(text)
+        ? 'El mensaje debe tener entre 10 y 800 caracteres.'
+        : /ti mismo/.test(text)
+          ? 'No puedes enviarte un mensaje a ti mismo.'
+          : /sesión/.test(text)
+            ? 'Inicia sesión para contactar. No compartimos teléfonos ni correos.'
+            : 'No pudimos enviar el mensaje.';
+      setMessage(message, friendly, 'error');
+      return;
+    }
+    form.elements.cuerpo.value = '';
+    setMessage(message, 'Mensaje enviado. La otra persona lo verá en AuraLadra, sin teléfono ni correo de por medio.', 'success');
   });
 
   document.querySelector('[data-open-pet-connect]')?.addEventListener('click', () => {
