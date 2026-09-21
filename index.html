@@ -14,22 +14,17 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-<style id="convergencia-aura-banner-style">
-  .ca-ecosystem-banner{position:relative;z-index:9999;width:100%;background:linear-gradient(90deg,#071521 0%,#0b2637 55%,#10384a 100%);border-bottom:1px solid rgba(105,220,255,.28);color:#eaf8ff;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-  .ca-ecosystem-banner__inner{max-width:1200px;margin:0 auto;min-height:42px;padding:7px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px}
-  .ca-ecosystem-banner__label{margin:0;font-size:13px;line-height:1.35;letter-spacing:.01em;color:#d7edf7}
-  .ca-ecosystem-banner__label strong{color:#fff;font-weight:700}
-  .ca-ecosystem-banner__links{display:flex;align-items:center;gap:8px;flex:none}
-  .ca-ecosystem-banner__links a{display:inline-flex;align-items:center;justify-content:center;min-height:28px;padding:5px 10px;border:1px solid rgba(151,225,255,.3);border-radius:999px;color:#dff7ff!important;text-decoration:none!important;font-size:12px;font-weight:700;line-height:1;white-space:nowrap;background:rgba(94,201,240,.08);transition:background .18s ease,border-color .18s ease}
-  .ca-ecosystem-banner__links a:hover,.ca-ecosystem-banner__links a:focus-visible{background:rgba(94,201,240,.2);border-color:rgba(151,225,255,.72);outline:none}
-  @media(max-width:680px){.ca-ecosystem-banner__inner{align-items:flex-start;flex-direction:column;gap:6px;padding:8px 14px 9px}.ca-ecosystem-banner__links{width:100%;flex-wrap:wrap}.ca-ecosystem-banner__links a{flex:1}.ca-ecosystem-banner__label{font-size:12.5px}}
-</style>
+<div class="paw-backdrop" aria-hidden="true">
+  <div class="paw-backdrop__layer paw-backdrop__far" data-paw-layer="far"></div>
+  <div class="paw-backdrop__layer paw-backdrop__near" data-paw-layer="near"></div>
+</div>
+<div class="ca-site-top">
 <aside class="ca-ecosystem-banner" aria-label="Navegación del ecosistema Convergencia Aura">
   <div class="ca-ecosystem-banner__inner">
     <p class="ca-ecosystem-banner__label"><strong>Parte de Convergencia Aura.</strong> Existen más páginas y proyectos conectados.</p>
     <nav class="ca-ecosystem-banner__links" aria-label="Enlaces de Convergencia Aura">
-      <a href="https://convergenciaaura.cl" target="_blank" rel="noopener noreferrer">Convergencia Aura ↗</a>
-      <a href="https://linktr.ee/amolina.uchile" target="_blank" rel="noopener noreferrer">Linktree oficial ↗</a>
+      <a href="https://convergenciaaura.cl/" target="_blank" rel="noopener noreferrer">Convergencia Aura</a>
+      <a href="https://linktr.ee/amolina.uchile" target="_blank" rel="noopener noreferrer">Linktree oficial</a>
     </nav>
   </div>
 </aside>
@@ -50,6 +45,7 @@
 
       <nav class="site-nav" id="site-nav" aria-label="Navegación principal" data-nav>
         <a href="#acciones">Ayuda rápida</a>
+        <a href="#most-wanted">Most Wanted</a>
         <a href="#mapa">Mapa</a>
         <a href="#red">Red animal</a>
         <a href="#reportes">Reportar</a>
@@ -57,27 +53,23 @@
       </nav>
     </div>
   </header>
+</div>
 
   <main id="contenido">
     <section class="hero" id="inicio">
       <div class="hero-image" role="img" aria-label="Ilustración de una comunidad compartiendo responsablemente un parque para perros en Maipú"></div>
       <div class="hero-shade"></div>
+      <div class="hero-paws" aria-hidden="true"></div>
       <div class="shell hero-content">
         <div class="hero-copy">
           <p class="eyebrow"><span class="pulse" aria-hidden="true"></span> Piloto comunitario · Maipú</p>
           <h1>Hola, soy Leia.<br><em>Esta plaza también es nuestra.</em></h1>
-          <p class="hero-lead">AuraLadra conecta mascotas, personas y lugares para cuidarnos mejor en el barrio. Partimos en el canil Parque 3 Poniente.</p>
+          <p class="hero-lead">AuraLadra conecta mascotas, personas y lugares para cuidarnos mejor en el barrio.</p>
           <div class="hero-actions">
-            <a class="button button-primary" href="#reportes">Hacer un reporte <span aria-hidden="true">→</span></a>
-            <a class="button button-ghost" href="#canil">Conocer el piloto</a>
+            <a class="button button-primary" href="#most-wanted">Most Wanted <span aria-hidden="true">→</span></a>
+            <a class="button button-ghost" href="#mapa">Ver el mapa</a>
           </div>
         </div>
-        <aside class="hero-note" aria-label="Estado del piloto">
-          <span class="note-label">Primera huella</span>
-          <strong>Canil Parque 3 Poniente</strong>
-          <span>Av. 3 Pte. 108, Maipú</span>
-          <span class="system-status" data-system-status><i></i> Comprobando conexión</span>
-        </aside>
       </div>
     </section>
 
@@ -122,6 +114,81 @@
               <div class="action-workspace" data-action-workspace hidden></div>
               <p class="action-feedback" data-action-feedback aria-live="polite"></p>
             </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="most-wanted section" id="most-wanted">
+      <div class="shell">
+        <div class="section-heading split-heading">
+          <div>
+            <p class="kicker">Most Wanted · voz de Leia</p>
+            <h2>Si alguien de los nuestros se pierde, lo pegamos en la plaza.</h2>
+          </div>
+          <p>Soy Leia. Cada vez que alguien marca a su mascota como extraviada, yo cuelgo el afiche aquí. Puedes ofrecer un monto o no: publicar no cuesta nada. Si hay recompensa, el dinero no se queda en mis patas: un procesador lo reparte cuando el caso se confirma.</p>
+        </div>
+
+        <div class="wanted-fund" data-wanted-fund aria-label="Fondo del canil">
+          <strong data-wanted-fund-amount>—</strong>
+          <span>Hasta hoy hemos destinado esto al canil Parque 3 Poniente. Reinvertimos parte de lo que entra; no lo donamos a una fundación.</span>
+        </div>
+
+        <div class="wanted-tape" role="tablist" aria-label="Filtrar afiches" data-wanted-tape>
+          <button class="wanted-chip is-active" type="button" data-wanted-filter="abiertos">Afiches abiertos</button>
+          <button class="wanted-chip" type="button" data-wanted-filter="recompensa">Con recompensa</button>
+          <button class="wanted-chip" type="button" data-wanted-filter="buena_voluntad">Sin recompensa</button>
+          <button class="wanted-chip" type="button" data-wanted-filter="heroes">Héroes de la comunidad</button>
+        </div>
+
+        <div class="wanted-grid" data-wanted-board>
+          <p class="empty-state">Cargando afiches…</p>
+        </div>
+
+        <div class="wanted-forms">
+          <article class="card wanted-publish">
+            <div class="card-heading compact">
+              <span class="card-mark" aria-hidden="true">🐾</span>
+              <div><p class="kicker">Dueños</p><h3>El afiche nace al marcar extraviada</h3></div>
+            </div>
+            <p class="card-copy">No hay un segundo formulario. En Ayuda rápida marcas a tu mascota como extraviada; el aviso aparece aquí solo. La recompensa es opcional. Después puedes agregar o subir el monto, nunca bajarlo ni quitarlo desde el sitio.</p>
+            <a class="button button-primary" href="#acciones">Marcar como extraviada</a>
+          </article>
+
+          <dialog class="wanted-dialog" data-wanted-claim-dialog>
+            <form data-wanted-claim-form>
+              <p class="kicker">Hallazgo</p>
+              <h3>Avisar que la vimos</h3>
+              <p class="card-copy">La foto tiene que ser del momento o del lugar, no una imagen genérica. Puedes hacerlo <strong>sin necesidad de crear cuenta</strong>. Si más adelante hay un pago, el procesador pedirá RUT y datos bancarios: no es anónimo.</p>
+              <input type="hidden" name="aviso_id">
+              <label class="field">
+                <span>Cómo te llamamos en el afiche</span>
+                <input type="text" name="nombre" required minlength="2" maxlength="60" placeholder="Nombre o apodo público">
+              </label>
+              <label class="field">
+                <span>Foto del hallazgo (obligatoria)</span>
+                <input type="file" name="evidencia" accept="image/jpeg,image/png,image/webp" required>
+              </label>
+              <label class="field">
+                <span>Qué viste y dónde</span>
+                <textarea name="nota" required minlength="20" maxlength="600" placeholder="Hora, calle, cómo estaba. Sin tu domicilio ni teléfono."></textarea>
+              </label>
+              <div class="wanted-dialog-actions">
+                <button class="button button-primary" type="submit">Enviar reclamo</button>
+                <button class="button button-ghost" type="button" data-wanted-claim-close>Cerrar</button>
+              </div>
+              <p class="form-message" data-wanted-claim-message aria-live="polite"></p>
+            </form>
+          </dialog>
+
+          <article class="card" data-wanted-owner-panel hidden>
+            <div class="card-heading compact">
+              <span class="card-mark" aria-hidden="true">!</span>
+              <div><p class="kicker">Tus avisos</p><h3>Reclamos por verificar</h3></div>
+            </div>
+            <p class="card-copy">Un solo reclamo activo a la vez. Si no alcanzas a responder en la ventana, pasa el siguiente de la cola. Puedes agregar o subir una recompensa; bajarla o quitarla no está en este flujo.</p>
+            <div data-wanted-owner-list></div>
+            <p class="form-message" data-wanted-owner-message aria-live="polite"></p>
           </article>
         </div>
       </div>
@@ -183,7 +250,7 @@
         </div>
 
         <div class="network-access card" data-network-signed-out>
-          <div><p class="kicker">Participa</p><h3>Inicia sesión con enlace mágico</h3><p>Desde “Mi cuenta” podrás proponer un perfil animal y sus vínculos. Todo queda pendiente hasta la moderación.</p></div>
+          <div><p class="kicker">Participa</p><h3>Inicia sesión con enlace mágico</h3><p>Desde “Mi cuenta” puedes publicar tu alias y las fichas de tus mascotas al instante. Los vínculos a mascotas ajenas piden autorización de su responsable.</p></div>
           <a class="button button-dark" href="#cuenta">Ir a mi cuenta</a>
         </div>
 
@@ -192,7 +259,15 @@
             <div class="card-heading compact"><span class="card-mark" aria-hidden="true">◎</span><div><p class="kicker">Identidad pública</p><h3>Mi alias en la red</h3></div></div>
             <label class="field"><span>Alias público</span><input name="alias" required minlength="2" maxlength="50"></label>
             <label class="field"><span>Presentación opcional</span><textarea name="biografia" maxlength="300" rows="3"></textarea></label>
-            <button class="button button-primary" type="submit">Guardar alias para revisión</button>
+            <label class="field"><span>Visibilidad junto a tus mascotas</span>
+              <select name="visibilidad">
+                <option value="basico" selected>Básico</option>
+                <option value="ampliado">Ampliado</option>
+                <option value="oculto">Oculto</option>
+              </select>
+            </label>
+            <p class="pet-section-help">Vale para todas las mascotas a las que estás vinculado. Básico: alias y rol. Ampliado: también un avatar. Oculto: no apareces en la ficha pública.</p>
+            <button class="button button-primary" type="submit">Publicar alias</button>
             <p class="form-message" data-profile-message aria-live="polite"></p>
           </form>
 
@@ -203,16 +278,18 @@
             <label class="field"><span>Zona pública</span><input name="zona_publica" maxlength="100" placeholder="Ej.: Maipú"></label>
             <label class="field"><span>Su historia</span><textarea name="biografia" maxlength="600" rows="4"></textarea></label>
             <label class="check-field"><input name="es_comunitario" type="checkbox"><span>Es un animal comunitario</span></label>
-            <button class="button button-primary" type="submit">Enviar perfil a revisión</button>
+            <label class="check-field"><input name="es_conmemorativa" type="checkbox" data-conmemorativa-toggle><span><strong>Ficha conmemorativa</strong><small>Para honrar a una mascota que ya falleció.</small></span></label>
+            <label class="field" data-deceso-field hidden><span>Fecha aproximada del deceso</span><input name="fecha_deceso" type="date"></label>
+            <button class="button button-primary" type="submit">Publicar perfil</button>
             <p class="form-message" data-animal-message aria-live="polite"></p>
           </form>
 
           <form class="card network-form" data-human-link-form>
             <div class="card-heading compact"><span class="card-mark" aria-hidden="true">↔</span><div><p class="kicker">Vínculo humano</p><h3>Asociarme a un animal</h3></div></div>
-            <label class="field"><span>Animal</span><select name="animal_id" required data-own-animal-options></select></label>
+            <label class="field"><span>Animal</span><select name="animal_id" required data-link-animal-options></select></label>
             <label class="field"><span>Mi relación</span><select name="tipo"><option value="responsable">Responsable</option><option value="cuidador">Cuidador/a</option><option value="rescatista">Rescatista</option><option value="colaborador">Colaborador/a</option></select></label>
-            <label class="check-field"><input name="visible_publicamente" type="checkbox" checked><span>Mostrar mi alias cuando el vínculo sea aprobado</span></label>
-            <button class="button button-dark" type="submit">Solicitar vínculo</button>
+            <label class="check-field"><input name="visible_publicamente" type="checkbox" checked><span>Mostrar mi alias en la red cuando el vínculo quede activo</span></label>
+            <button class="button button-dark" type="submit">Crear o solicitar vínculo</button>
             <p class="form-message" data-human-link-message aria-live="polite"></p>
           </form>
 
@@ -222,13 +299,14 @@
             <label class="field"><span>Con</span><select name="animal_b_id" required data-public-animal-options></select></label>
             <label class="field"><span>Tipo</span><select name="tipo"><option value="familia">Familia</option><option value="convivencia">Convivencia</option><option value="amistad">Amistad</option><option value="colonia">Colonia</option><option value="manada">Manada</option><option value="otro">Otro</option></select></label>
             <label class="field"><span>Descripción opcional</span><input name="descripcion" maxlength="240"></label>
-            <button class="button button-dark" type="submit">Solicitar vínculo</button>
+            <button class="button button-dark" type="submit">Crear o solicitar vínculo</button>
             <p class="form-message" data-animal-link-message aria-live="polite"></p>
           </form>
         </div>
 
         <section class="moderator-network card" data-moderator-network hidden aria-labelledby="moderator-network-title">
-          <div class="list-heading"><div><p class="kicker">Moderación</p><h3 id="moderator-network-title">Solicitudes de la red</h3></div><span class="count-badge" data-network-moderator-count>0</span></div>
+          <div class="list-heading"><div><p class="kicker">Moderación</p><h3 id="moderator-network-title">Reportes de perfiles</h3></div><span class="count-badge" data-network-moderator-count>0</span></div>
+          <p class="card-copy">Los perfiles se publican solos. Aquí revisas denuncias y dejas una nota de seguimiento para quien reportó con cuenta.</p>
           <div class="moderation-columns" data-network-moderation></div>
           <p class="form-message" data-network-moderator-message aria-live="polite"></p>
         </section>
@@ -319,6 +397,16 @@
                 <p class="form-message" data-account-animal-message aria-live="polite"></p>
               </section>
 
+              <section class="account-link-requests card" data-link-requests-section hidden aria-labelledby="link-requests-title">
+                <div class="list-heading">
+                  <div><p class="kicker">Autorizaciones</p><h4 id="link-requests-title">Solicitudes de vínculo</h4></div>
+                  <span class="count-badge" data-link-requests-count>0</span>
+                </div>
+                <p class="card-copy">Si alguien quiere vincularse a una de tus mascotas, puedes aceptar o rechazar aquí.</p>
+                <div class="moderation-columns" data-link-requests-list></div>
+                <p class="form-message" data-link-requests-message aria-live="polite"></p>
+              </section>
+
               <dialog class="pet-profile-dialog" data-pet-profile-dialog aria-labelledby="pet-profile-title">
                 <div class="pet-profile-shell">
                   <button class="pet-profile-close" type="button" data-pet-profile-close aria-label="Cerrar ficha">×</button>
@@ -358,6 +446,8 @@
                       <label class="field"><span>N.º de registro</span><input name="numero_registro" maxlength="80" autocomplete="off"></label>
                       <label class="field pet-profile-wide"><span>Descripción</span><textarea name="biografia" maxlength="600" rows="4" placeholder="Personalidad, hábitos y lo que ayuda a reconocerla."></textarea></label>
                       <label class="field pet-profile-wide"><span>Señas particulares</span><textarea name="senas_particulares" maxlength="400" rows="3" placeholder="Marcas, cicatrices, collar habitual u otros rasgos identificables."></textarea></label>
+                      <label class="check-field pet-profile-wide pet-network-visibility"><input name="es_conmemorativa" type="checkbox" data-conmemorativa-toggle><span><strong>Ficha conmemorativa</strong><small>Actívala si esta mascota ya falleció. No se podrá marcar como extraviada.</small></span></label>
+                      <label class="field pet-profile-wide" data-deceso-field hidden><span>Fecha aproximada del deceso</span><input name="fecha_deceso" type="date"></label>
                       <label class="check-field pet-profile-wide pet-network-visibility"><input name="mostrar_en_red" type="checkbox"><span><strong>Mostrar en Red animal</strong><small>Si la desmarcas, la mascota seguirá contabilizada, pero su perfil no será visible públicamente.</small></span></label>
                       <fieldset class="pet-summary-editor pet-profile-wide"><legend>Ocho bloques visibles</legend><p>Escoge qué resumen aparece primero en la ficha. No repitas bloques.</p><div class="pet-summary-slots" data-pet-summary-slots></div></fieldset>
                     </div>
@@ -423,15 +513,58 @@
 
             <section class="my-reports card" data-my-reports-section hidden aria-labelledby="my-reports-title">
               <div class="list-heading"><div><p class="kicker">Seguimiento</p><h3 id="my-reports-title">Mis reportes</h3></div><span class="count-badge" data-my-count>0</span></div>
+              <p class="card-copy">Si enviaste un reporte con esta cuenta, aquí verás su estado y la respuesta de moderación.</p>
               <div class="report-list" data-my-reports></div>
             </section>
           </div>
         </div>
 
+        <dialog class="human-profile-dialog" data-human-profile-dialog aria-labelledby="human-profile-title">
+          <div class="human-profile-shell">
+            <button class="pet-profile-close" type="button" data-human-profile-close aria-label="Cerrar perfil">×</button>
+            <div data-human-profile-view></div>
+          </div>
+        </dialog>
+
+        <dialog class="human-profile-dialog" data-contact-human-dialog aria-labelledby="contact-human-title">
+          <div class="human-profile-shell">
+            <button class="pet-profile-close" type="button" data-contact-human-close aria-label="Cerrar contacto">×</button>
+            <form data-contact-human-form>
+              <p class="kicker">Mensaje interno</p>
+              <h3 id="contact-human-title">Contactar a <span data-contact-human-name>esta persona</span></h3>
+              <p>El mensaje llega a través de AuraLadra, a propósito de <strong data-contact-human-pet>la mascota</strong>. No mostramos teléfono ni correo de nadie.</p>
+              <input type="hidden" name="perfil_publico_id">
+              <input type="hidden" name="animal_id">
+              <div data-contact-human-signed-in>
+                <label class="field"><span>Tu mensaje</span><textarea name="cuerpo" required minlength="10" maxlength="800" rows="4" placeholder="Preséntate y explica por qué escribes."></textarea></label>
+              </div>
+              <p class="pet-health-note" data-contact-human-signed-out hidden>Para enviar el mensaje, inicia sesión con enlace mágico en Mi cuenta.</p>
+              <div class="profile-report-actions">
+                <button class="button button-dark" type="submit" data-contact-human-submit>Enviar mensaje</button>
+                <a class="button button-dark" href="#cuenta" data-contact-human-account hidden>Ir a Mi cuenta</a>
+              </div>
+              <p class="form-message" data-contact-human-message aria-live="polite"></p>
+            </form>
+          </div>
+        </dialog>
+
         <section class="public-reports" aria-labelledby="public-reports-title">
           <div class="list-heading public-heading">
             <div><p class="kicker">Información comunitaria</p><h3 id="public-reports-title">Reportes verificados</h3></div>
             <p>Solo aparecen casos revisados o cerrados. La identidad de quien reportó nunca se muestra.</p>
+          </div>
+          <div class="report-loop" data-report-stats>
+            <div class="pilot-stats" aria-label="Estadísticas públicas del canal de reportes">
+              <div><strong data-stat-reportados>—</strong><span>reportados</span></div>
+              <div><strong data-stat-resueltos>—</strong><span>resueltos</span></div>
+              <div><strong data-stat-dias>—</strong><span>días promedio de resolución</span></div>
+            </div>
+            <div class="report-recurrence">
+              <p class="kicker">Lo más reportado</p>
+              <ul data-report-recurrence>
+                <li class="empty-state">Cargando recurrencia…</li>
+              </ul>
+            </div>
           </div>
           <div class="report-list public-list" data-public-reports>
             <p class="empty-state">Cargando reportes verificados…</p>
@@ -445,37 +578,11 @@
           </div>
           <p class="card-copy">Revisa cada reporte y cambia su estado. Solo los verificados y cerrados serán visibles para la comunidad.</p>
           <div class="report-list" data-moderator-reports></div>
+          <h3 class="list-title">Most Wanted · revisión manual</h3>
+          <p class="card-copy">Reclamos con bandera (historial entre las mismas personas). El pago queda en “pendiente de liberar”, nunca se simula una transferencia.</p>
+          <div data-wanted-review-queue></div>
           <p class="form-message" data-moderator-message aria-live="polite"></p>
         </section>
-      </div>
-    </section>
-
-    <section class="pilot section" id="canil">
-      <div class="shell pilot-grid">
-        <div class="pilot-intro">
-          <p class="kicker">El piloto</p>
-          <h2>Un canil como punto de encuentro, no solo como infraestructura.</h2>
-          <p>Parque 3 Poniente es nuestro primer lugar de observación y colaboración. Queremos entender necesidades reales antes de construir herramientas más grandes.</p>
-        </div>
-        <div class="pilot-stats" role="group" aria-label="Alcance inicial del piloto">
-          <div><strong>01</strong><span>territorio inicial</span></div>
-          <div><strong>03</strong><span>problemas a observar</span></div>
-          <div><strong>00</strong><span>datos personales públicos</span></div>
-        </div>
-        <div class="pilot-list">
-          <article>
-            <span>01</span>
-            <div><h3>Escuchar</h3><p>Registrar problemas de convivencia, seguridad y cuidado desde la experiencia de quienes usan el lugar.</p></div>
-          </article>
-          <article>
-            <span>02</span>
-            <div><h3>Conectar</h3><p>Acercar vecinos, responsables, servicios y organizaciones sin convertir datos privados en un directorio abierto.</p></div>
-          </article>
-          <article>
-            <span>03</span>
-            <div><h3>Probar</h3><p>Validar soluciones pequeñas —como QR revocables y mapas útiles— antes de extenderlas a otros barrios.</p></div>
-          </article>
-        </div>
       </div>
     </section>
 
