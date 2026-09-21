@@ -721,6 +721,7 @@ button.pet-connect-option:hover, button.pet-connect-option:focus-visible { borde
 }
 
 @media (max-width: 900px) {
+  .site-header { overflow: visible; }
   .site-nav { position: absolute; inset: 100% 0 auto; padding: 28px 20px 34px; background: var(--navy-deep); display: grid; gap: 6px; transform: translateY(-8px); opacity: 0; pointer-events: none; transition: transform .25s, opacity .25s; }
   .site-nav.is-open { transform: translateY(0); opacity: 1; pointer-events: auto; }
   .site-nav a { padding: 12px 0; font-size: 1.05rem; border-bottom: 1px solid rgba(255,255,255,.1); }
