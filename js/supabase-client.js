@@ -20,4 +20,18 @@
       },
     },
   );
+
+  // Si el cliente compartido de convergenciaaura.cl está disponible,
+  // heredamos su sesión. Si no carga por cualquier razón, el sitio
+  // sigue funcionando normal con su propio login local.
+  if (window.auraClient) {
+    window.auraClient.auth.getSession().then(({ data }) => {
+      if (data && data.session) {
+        window.auraLadraDb.auth.setSession({
+          access_token: data.session.access_token,
+          refresh_token: data.session.refresh_token,
+        });
+      }
+    });
+  }
 })();
