@@ -1024,6 +1024,37 @@
     }));
   };
 
+  const renderMyProfileActivity = (section) => {
+    const container = section.querySelector('[data-my-profile-activity]');
+    if (!container) return;
+    const items = [
+      ...ownAnimals
+        .filter((animal) => animal.estado_seguridad === 'extraviada' && !animal.es_conmemorativa)
+        .map((animal) => ({ title: `${animal.nombre} figura como extraviada`, detail: 'Aviso activo' })),
+      ...myReports.slice(0, 5).map((report) => ({
+        title: report._source === 'red' ? 'Reporte sobre la red animal' : `Reporte de ${categoryLabels[report.categoria] || 'canil'}`,
+        detail: `${statusLabels[report.estado] || report.estado || 'Pendiente'} · ${report.creado_en ? dateFormatter.format(new Date(report.creado_en)) : ''}`,
+      })),
+    ].slice(0, 6);
+    if (!items.length) {
+      const empty = document.createElement('p');
+      empty.className = 'empty-state';
+      empty.textContent = 'Cuando envíes un reporte o avises una pérdida, aparecerá aquí.';
+      container.replaceChildren(empty);
+      return;
+    }
+    container.replaceChildren(...items.map((item) => {
+      const row = document.createElement('div');
+      row.className = 'my-profile-activity-item';
+      const title = document.createElement('strong');
+      title.textContent = item.title;
+      const detail = document.createElement('small');
+      detail.textContent = item.detail;
+      row.append(title, detail);
+      return row;
+    }));
+  };
+
   const renderMyProfile = () => {
     const section = document.querySelector('[data-my-profile]');
     if (!section) return;
@@ -1042,6 +1073,7 @@
       element.textContent = String(stats[element.dataset.myProfileStat] ?? 0);
     });
     renderMyProfileAnimals(section);
+    renderMyProfileActivity(section);
   };
 
   const selectMyProfileTab = (name, focus = false) => {
