@@ -397,6 +397,18 @@ img { max-width: 100%; }
 .pet-memorial-note { margin: 10px 0 0; color: var(--muted); font-size: .88rem; font-weight: 650; }
 .pet-state-action { grid-column: 1 / -1; min-height: 38px; border: 1px solid var(--line); border-radius: 10px; background: var(--white); color: var(--navy); font: inherit; font-size: .78rem; font-weight: 800; cursor: pointer; }
 .pet-state-action:hover, .pet-state-action:focus-visible { border-color: var(--amber); background: var(--cream); }
+/* Cinta inferior para celular: Inicio, Mapa, Red animal y Mi perfil */
+.tabbar { display: none; }
+@media (max-width: 760px) {
+  .tabbar { --tab-green: #1e5a38; display: grid; grid-template-columns: repeat(4, 1fr); position: fixed; left: 0; right: 0; bottom: 0; z-index: 90; padding: 6px 4px calc(6px + env(safe-area-inset-bottom, 0px)); background: #fbf9f3; border-top: 1px solid rgba(30, 90, 56, .2); box-shadow: 0 -8px 24px rgba(8, 26, 43, .08); }
+  .tabbar a { display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: 0; padding: 6px 0 4px; border-bottom: 2px solid transparent; color: #5e6e62; font-size: .7rem; font-weight: 700; line-height: 1.2; text-decoration: none; }
+  .tabbar svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .tabbar a[data-tabbar-link="red"] svg { fill: currentColor; stroke: none; }
+  .tabbar a[aria-current="true"] { color: var(--tab-green); border-bottom-color: var(--tab-green); }
+  .tabbar a:focus-visible { outline: 2px solid var(--tab-green); outline-offset: -2px; border-radius: 8px; }
+  body { padding-bottom: calc(68px + env(safe-area-inset-bottom, 0px)); }
+  body.menu-open .tabbar { display: none; }
+}
 .pet-state-action:disabled { opacity: .55; cursor: not-allowed; }
 /* Mi perfil: pestañas Perfil, Mis animales y Actividad */
 .my-profile { padding: 32px; }
