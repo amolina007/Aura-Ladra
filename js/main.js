@@ -978,6 +978,52 @@
     atendidos: myReports.filter((report) => report.estado && report.estado !== 'pendiente').length,
   });
 
+  const renderMyProfileAnimals = (section) => {
+    const container = section.querySelector('[data-my-profile-animals]');
+    if (!container) return;
+    if (!ownAnimals.length) {
+      const empty = document.createElement('p');
+      empty.className = 'empty-state';
+      empty.textContent = 'Aún no tienes animales vinculados. Crea una ficha nueva o conecta una existente.';
+      container.replaceChildren(empty);
+      return;
+    }
+    container.replaceChildren(...ownAnimals.map((animal) => {
+      const card = document.createElement('article');
+      card.className = 'my-profile-animal';
+      const head = document.createElement('div');
+      head.className = 'my-profile-animal-head';
+      const identity = document.createElement('div');
+      const name = document.createElement('strong');
+      name.textContent = animal.nombre;
+      const meta = document.createElement('small');
+      meta.textContent = `${animal.especie} · ficha ${animal.estado}`;
+      identity.append(name, meta);
+      const state = document.createElement('span');
+      if (animal.es_conmemorativa) {
+        state.className = 'pet-state is-conmemorativa';
+        state.textContent = 'Conmemorativa';
+      } else {
+        state.className = `pet-state is-${animal.estado_seguridad}`;
+        state.textContent = animal.estado_seguridad === 'extraviada' ? 'Extraviada' : 'Segura';
+      }
+      head.append(identity, state);
+      const actions = document.createElement('div');
+      actions.className = 'my-profile-animal-actions';
+      const openButton = document.createElement('button');
+      openButton.type = 'button';
+      openButton.dataset.myProfileOpen = animal.id;
+      openButton.textContent = 'Ver ficha';
+      const healthButton = document.createElement('button');
+      healthButton.type = 'button';
+      healthButton.dataset.myProfileHealth = animal.id;
+      healthButton.textContent = 'Salud';
+      actions.append(openButton, healthButton);
+      card.append(head, actions);
+      return card;
+    }));
+  };
+
   const renderMyProfile = () => {
     const section = document.querySelector('[data-my-profile]');
     if (!section) return;
@@ -995,6 +1041,7 @@
     section.querySelectorAll('[data-my-profile-stat]').forEach((element) => {
       element.textContent = String(stats[element.dataset.myProfileStat] ?? 0);
     });
+    renderMyProfileAnimals(section);
   };
 
   const selectMyProfileTab = (name, focus = false) => {
@@ -1013,7 +1060,21 @@
 
   document.querySelector('[data-my-profile]')?.addEventListener('click', (event) => {
     const tab = event.target.closest('[data-my-profile-tab]');
-    if (tab) selectMyProfileTab(tab.dataset.myProfileTab);
+    if (tab) {
+      selectMyProfileTab(tab.dataset.myProfileTab);
+      return;
+    }
+    if (event.target.closest('[data-my-profile-connect]')) {
+      document.querySelector('[data-open-pet-connect]')?.click();
+      return;
+    }
+    const openButton = event.target.closest('[data-my-profile-open]');
+    const healthButton = event.target.closest('[data-my-profile-health]');
+    const animalId = openButton?.dataset.myProfileOpen || healthButton?.dataset.myProfileHealth;
+    const animal = ownAnimals.find((item) => item.id === animalId);
+    if (!animal) return;
+    showPetProfile(animal);
+    if (healthButton) startPetProfileEdit('salud');
   });
 
   document.querySelector('[data-my-profile]')?.addEventListener('keydown', (event) => {
