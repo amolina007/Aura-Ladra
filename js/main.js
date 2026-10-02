@@ -994,12 +994,26 @@
       card.className = 'my-profile-animal';
       const head = document.createElement('div');
       head.className = 'my-profile-animal-head';
+      const thumb = document.createElement('div');
+      thumb.className = 'my-profile-animal-thumb';
+      if (animal.foto_url) {
+        const thumbImage = document.createElement('img');
+        thumbImage.src = animal.foto_url;
+        thumbImage.alt = `Foto de perfil de ${animal.nombre}`;
+        thumbImage.loading = 'lazy';
+        thumb.append(thumbImage);
+      } else {
+        thumb.textContent = animal.nombre.slice(0, 1).toUpperCase();
+      }
       const identity = document.createElement('div');
       const name = document.createElement('strong');
       name.textContent = animal.nombre;
       const meta = document.createElement('small');
       meta.textContent = `${animal.especie} · ficha ${animal.estado}`;
       identity.append(name, meta);
+      const identityRow = document.createElement('div');
+      identityRow.className = 'my-profile-animal-identity';
+      identityRow.append(thumb, identity);
       const state = document.createElement('span');
       if (animal.es_conmemorativa) {
         state.className = 'pet-state is-conmemorativa';
@@ -1008,7 +1022,7 @@
         state.className = `pet-state is-${animal.estado_seguridad}`;
         state.textContent = animal.estado_seguridad === 'extraviada' ? 'Extraviada' : 'Segura';
       }
-      head.append(identity, state);
+      head.append(identityRow, state);
       const actions = document.createElement('div');
       actions.className = 'my-profile-animal-actions';
       const openButton = document.createElement('button');
