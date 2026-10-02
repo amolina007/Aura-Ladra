@@ -640,6 +640,17 @@ button.pet-connect-option:hover, button.pet-connect-option:focus-visible { borde
 .privacy-badge { padding: 5px 9px; border-radius: 999px; background: var(--navy); color: var(--white) !important; font-weight: 800; }
 .pet-section-help, .pet-health-note { color: var(--muted); font-size: .82rem; margin: 0 0 18px; }
 .pet-health-note { margin: 14px 0 0; }
+.health-summary-card { display: grid; gap: 12px; margin: 0 0 14px; padding: 14px; border: 1px solid rgba(30, 90, 56, .25); border-radius: 14px; background: #fbf9f3; }
+.health-summary-label { margin: 0 0 4px; color: #1e5a38; font-size: .76rem; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; }
+.health-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.health-chip { padding: 4px 10px; border-radius: 999px; background: #e5efe7; color: #17462c; font-size: .82rem; font-weight: 700; }
+.health-chip.is-alert { background: #fbe3b2; color: #7a4a0a; }
+.health-chip.is-muted { background: #eee; color: #5e6e62; font-weight: 600; }
+.health-summary-care { margin: 0; color: #17462c; font-size: .9rem; }
+.health-summary-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.health-summary-actions .button { min-height: 42px; padding: 0 10px; background: #17462c; color: #fff; font-size: .84rem; }
+.health-summary-actions .button:hover { background: #1e5a38; }
+@media (max-width: 520px) { .health-summary-actions { grid-template-columns: 1fr; } }
 .pet-health-summary { display: grid; gap: 10px; margin: 0; }
 .pet-health-summary div { padding-bottom: 10px; border-bottom: 1px solid var(--line); }
 .pet-health-summary dt { color: var(--navy); font-size: .76rem; font-weight: 800; }

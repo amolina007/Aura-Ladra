@@ -1334,7 +1334,7 @@
       ${isOwned && animal.numero_registro ? `<p class="pet-private-detail"><strong>N.º de registro:</strong> ${escapeHtml(animal.numero_registro)}</p>` : ''}
       ${animal.senas_particulares ? `<div class="pet-profile-notes"><strong>Señas particulares</strong><p>${escapeHtml(animal.senas_particulares)}</p></div>` : ''}
       <div class="pet-profile-sections">
-        ${isOwned ? `<section class="pet-profile-section is-private"><div class="pet-section-heading"><div><h4>Ficha de salud</h4><span class="privacy-badge">Privada</span></div><button class="section-edit-button" type="button" data-edit-pet-section="salud">Editar</button></div><dl class="pet-health-summary">
+        ${isOwned ? `<section class="pet-profile-section is-private"><div class="pet-section-heading"><div><h4>Ficha de salud</h4><span class="privacy-badge">Privada</span></div><button class="section-edit-button" type="button" data-edit-pet-section="salud">Editar</button></div>${healthSummaryCardHtml(health)}<dl class="pet-health-summary">
           <div><dt>Antropometría</dt><dd>${animal.peso_kg ? `${Number(animal.peso_kg).toLocaleString('es-CL')} kg` : 'Peso sin registrar'}${health.altura_cm ? ` · ${escapeHtml(health.altura_cm)} cm` : ''}${health.condicion_corporal ? ` · condición corporal ${escapeHtml(health.condicion_corporal)}/9` : ''}</dd></div>
           <div><dt>Diagnóstico nutricional</dt><dd>${escapeHtml(animal.diagnostico_nutricional || 'Sin diagnóstico registrado')}</dd></div>
           <div><dt>Vacunación</dt><dd>${vaccinesViewHtml(health, health.vacunacion)}</dd></div>
@@ -1564,6 +1564,27 @@
     const legacy = legacyText ? `<span>${escapeHtml(legacyText)}</span>` : '';
     if (!items && !legacy) return 'Sin antecedentes registrados';
     return `${items ? `<ul class="health-record-list is-view">${items}</ul>` : ''}${legacy}`;
+  };
+  const healthSummaryCardHtml = (health) => {
+    const today = healthTodayIso();
+    const allergies = (Array.isArray(health.antecedentes) ? health.antecedentes : []).filter((record) => record && record.tipo === 'alergia' && typeof record.nombre === 'string');
+    const legacyAllergies = typeof health.alergias === 'string' ? health.alergias.trim() : '';
+    let allergyHtml;
+    if (allergies.length) allergyHtml = allergies.map((record) => `<span class="health-chip is-alert">${escapeHtml(record.nombre)}</span>`).join('');
+    else if (legacyAllergies) allergyHtml = `<span class="health-chip is-alert">${escapeHtml(legacyAllergies)}</span>`;
+    else if (health.alergias_estado === 'sin_alergias') allergyHtml = '<span class="health-chip">Sin alergias conocidas</span>';
+    else allergyHtml = '<span class="health-chip is-muted">No informado</span>';
+    const upcoming = (Array.isArray(health.vacunas) ? health.vacunas : [])
+      .filter((vaccine) => vaccine && typeof vaccine.nombre === 'string' && isoDateOrNull(vaccine.proxima))
+      .sort((a, b) => a.proxima.localeCompare(b.proxima));
+    const next = upcoming.find((vaccine) => vaccine.proxima >= today) || null;
+    const overdue = next ? null : upcoming[upcoming.length - 1] || null;
+    let careHtml = 'Sin próximos cuidados registrados. Agrega la próxima dosis en el carnet.';
+    if (next) careHtml = `<strong>${escapeHtml(next.nombre)}</strong> · ${escapeHtml(formatHealthDate(next.proxima))}`;
+    else if (overdue) careHtml = `<strong>${escapeHtml(overdue.nombre)}</strong> · fecha pasada (${escapeHtml(formatHealthDate(overdue.proxima))}). Consulta al veterinario.`;
+    const vaccineCount = Array.isArray(health.vacunas) ? health.vacunas.length : 0;
+    const recordCount = Array.isArray(health.antecedentes) ? health.antecedentes.length : 0;
+    return `<div class="health-summary-card"><div><p class="health-summary-label">Alergias</p><div class="health-chips">${allergyHtml}</div></div><div><p class="health-summary-label">Próximo cuidado</p><p class="health-summary-care">${careHtml}</p></div><div class="health-summary-actions"><button class="button" type="button" data-health-jump="vacunas">Carnet de vacunas (${vaccineCount})</button><button class="button" type="button" data-health-jump="antecedentes">Antecedentes (${recordCount})</button></div></div>`;
   };
   const addVaccine = (box) => {
     if (!box || !healthDraft) return;
@@ -2376,6 +2397,13 @@
   document.querySelector('[data-pet-profile-dialog]')?.addEventListener('click', (event) => {
     const dialog = event.currentTarget;
     if (event.target === dialog || event.target.closest('[data-pet-profile-close]')) dialog.close();
+    const jumpButton = event.target.closest('[data-health-jump]');
+    if (jumpButton && activePetProfile) {
+      startPetProfileEdit('salud');
+      const target = jumpButton.dataset.healthJump === 'vacunas' ? '[data-vaccine-group]' : '[data-health-type]';
+      document.querySelector(target)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      return;
+    }
     const editButton = event.target.closest('[data-edit-pet-section]');
     if (editButton?.dataset.editPetSection === 'vinculos') {
       dialog.close();
