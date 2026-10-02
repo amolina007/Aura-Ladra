@@ -430,7 +430,7 @@ img { max-width: 100%; }
 .my-profile-activity-item strong { color: var(--navy); font-size: .92rem; overflow-wrap: anywhere; }
 .my-profile-activity-item small { color: var(--muted); font-size: .75rem; }
 .my-profile-privacy { margin: 18px 0 0; color: var(--muted); font-size: .8rem; text-align: center; }
-@media (max-width: 640px) { .my-profile { padding: 24px 18px; } }
+@media (max-width: 640px) { .my-profile { padding: 24px 18px; } .my-profile-tabs button { padding: 0 6px; font-size: .76rem; white-space: nowrap; } }
 .pet-profile-dialog { width: min(760px, calc(100% - 28px)); max-height: min(880px, calc(100vh - 28px)); padding: 0; border: 0; border-radius: 24px; background: var(--white); color: var(--ink); box-shadow: 0 30px 100px rgba(8,26,43,.34); overflow: auto; }
 .pet-connect-dialog { width: min(700px, calc(100% - 28px)); padding: 0; border: 0; border-radius: 24px; background: var(--white); color: var(--ink); box-shadow: 0 30px 100px rgba(8,26,43,.34); }
 .pet-profile-dialog::backdrop, .pet-connect-dialog::backdrop { background: rgba(8,26,43,.72); backdrop-filter: blur(4px); }
