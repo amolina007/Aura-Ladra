@@ -398,6 +398,39 @@ img { max-width: 100%; }
 .pet-state-action { grid-column: 1 / -1; min-height: 38px; border: 1px solid var(--line); border-radius: 10px; background: var(--white); color: var(--navy); font: inherit; font-size: .78rem; font-weight: 800; cursor: pointer; }
 .pet-state-action:hover, .pet-state-action:focus-visible { border-color: var(--amber); background: var(--cream); }
 .pet-state-action:disabled { opacity: .55; cursor: not-allowed; }
+/* Mi perfil: pestañas Perfil, Mis animales y Actividad */
+.my-profile { padding: 32px; }
+.my-profile-tabs { display: flex; gap: 4px; padding: 4px; margin-bottom: 22px; border: 1px solid var(--line); border-radius: 999px; background: var(--paper); }
+.my-profile-tabs button { flex: 1 1 0; min-width: 0; min-height: 40px; padding: 0 10px; border: 0; border-radius: 999px; background: transparent; color: var(--muted); font: inherit; font-size: .85rem; font-weight: 800; cursor: pointer; }
+.my-profile-tabs button[aria-selected="true"] { background: var(--navy); color: var(--white); }
+.my-profile-tabs button:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+.my-profile-panel { display: grid; gap: 18px; }
+.my-profile-panel[hidden] { display: none; }
+.my-profile-identity { display: flex; align-items: center; gap: 14px; }
+.my-profile-avatar { width: 56px; height: 56px; flex: none; display: grid; place-items: center; border-radius: 50%; background: var(--amber-light); color: var(--navy-deep); font: 650 1.35rem/1 "Fraunces", serif; }
+.my-profile-identity strong { display: block; color: var(--navy); font: 650 1.3rem/1.2 "Fraunces", serif; overflow-wrap: anywhere; }
+.my-profile-identity small { color: var(--muted); font-weight: 700; }
+.my-profile-panel .card-copy { margin: 0; overflow-wrap: anywhere; }
+.my-profile-panel .card-copy:empty { display: none; }
+.my-profile-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; text-align: center; }
+.my-profile-stats > div { padding: 12px 6px; border: 1px solid var(--line); border-radius: 14px; background: var(--paper); }
+.my-profile-stats strong { display: block; color: var(--navy); font: 650 1.5rem/1.1 "Fraunces", serif; font-variant-numeric: tabular-nums; }
+.my-profile-stats span { color: var(--muted); font-size: .75rem; font-weight: 700; }
+.my-profile-panel > .button { justify-self: start; }
+.my-profile-subtitle { margin: 4px 0 0; color: var(--navy); font: 650 1.15rem/1.2 "Fraunces", serif; }
+.my-profile-animal-list, .my-profile-activity { display: grid; gap: 10px; }
+.my-profile-animal { padding: 14px; display: grid; gap: 10px; border: 1px solid var(--line); border-radius: 14px; background: var(--paper); }
+.my-profile-animal-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.my-profile-animal strong { display: block; color: var(--navy); }
+.my-profile-animal small { color: var(--muted); font-size: .75rem; text-transform: capitalize; }
+.my-profile-animal-actions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+.my-profile-animal-actions button { min-height: 40px; border: 1px solid var(--line); border-radius: 10px; background: var(--white); color: var(--navy); font: inherit; font-size: .8rem; font-weight: 800; cursor: pointer; }
+.my-profile-animal-actions button:hover, .my-profile-animal-actions button:focus-visible { border-color: var(--amber); background: var(--cream); }
+.my-profile-activity-item { padding: 12px 14px; display: grid; gap: 2px; border: 1px solid var(--line); border-radius: 14px; background: var(--paper); }
+.my-profile-activity-item strong { color: var(--navy); font-size: .92rem; overflow-wrap: anywhere; }
+.my-profile-activity-item small { color: var(--muted); font-size: .75rem; }
+.my-profile-privacy { margin: 18px 0 0; color: var(--muted); font-size: .8rem; text-align: center; }
+@media (max-width: 640px) { .my-profile { padding: 24px 18px; } }
 .pet-profile-dialog { width: min(760px, calc(100% - 28px)); max-height: min(880px, calc(100vh - 28px)); padding: 0; border: 0; border-radius: 24px; background: var(--white); color: var(--ink); box-shadow: 0 30px 100px rgba(8,26,43,.34); overflow: auto; }
 .pet-connect-dialog { width: min(700px, calc(100% - 28px)); padding: 0; border: 0; border-radius: 24px; background: var(--white); color: var(--ink); box-shadow: 0 30px 100px rgba(8,26,43,.34); }
 .pet-profile-dialog::backdrop, .pet-connect-dialog::backdrop { background: rgba(8,26,43,.72); backdrop-filter: blur(4px); }

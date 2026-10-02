@@ -42,6 +42,7 @@
   let publicAnimals = [];
   let ownAnimals = [];
   let ownPublicProfile = null;
+  let myReports = [];
   let activePetProfile = null;
   let activePetEditSection = 'perfil';
   let avatarCropSource = '';
@@ -968,6 +969,62 @@
     }));
   };
 
+  const myProfileVisibilityLabels = { basico: 'Visibilidad básica', ampliado: 'Visibilidad ampliada', oculto: 'Oculto en las fichas públicas' };
+
+  const getMyProfileStats = () => ({
+    animales: ownAnimals.length,
+    avisos: ownAnimals.filter((animal) => animal.estado_seguridad === 'extraviada' && !animal.es_conmemorativa).length,
+    reportes: myReports.length,
+    atendidos: myReports.filter((report) => report.estado && report.estado !== 'pendiente').length,
+  });
+
+  const renderMyProfile = () => {
+    const section = document.querySelector('[data-my-profile]');
+    if (!section) return;
+    const hasUser = Boolean(currentSession?.user);
+    section.hidden = !hasUser;
+    if (!hasUser) return;
+    const alias = ownPublicProfile?.alias;
+    section.querySelector('[data-my-profile-alias]').textContent = alias || 'Sin alias todavía';
+    section.querySelector('[data-my-profile-initials]').textContent = (alias || currentSession.user.email || '?').trim().charAt(0).toUpperCase();
+    section.querySelector('[data-my-profile-visibility]').textContent = alias
+      ? (myProfileVisibilityLabels[ownPublicProfile.visibilidad] || myProfileVisibilityLabels.basico)
+      : 'Publica tu alias en Red animal para aparecer en la red.';
+    section.querySelector('[data-my-profile-bio]').textContent = ownPublicProfile?.biografia || '';
+    const stats = getMyProfileStats();
+    section.querySelectorAll('[data-my-profile-stat]').forEach((element) => {
+      element.textContent = String(stats[element.dataset.myProfileStat] ?? 0);
+    });
+  };
+
+  const selectMyProfileTab = (name, focus = false) => {
+    const section = document.querySelector('[data-my-profile]');
+    if (!section) return;
+    section.querySelectorAll('[data-my-profile-tab]').forEach((tab) => {
+      const active = tab.dataset.myProfileTab === name;
+      tab.setAttribute('aria-selected', String(active));
+      tab.tabIndex = active ? 0 : -1;
+      if (active && focus) tab.focus();
+    });
+    section.querySelectorAll('[data-my-profile-panel]').forEach((panel) => {
+      panel.hidden = panel.dataset.myProfilePanel !== name;
+    });
+  };
+
+  document.querySelector('[data-my-profile]')?.addEventListener('click', (event) => {
+    const tab = event.target.closest('[data-my-profile-tab]');
+    if (tab) selectMyProfileTab(tab.dataset.myProfileTab);
+  });
+
+  document.querySelector('[data-my-profile]')?.addEventListener('keydown', (event) => {
+    const tab = event.target.closest('[data-my-profile-tab]');
+    if (!tab || !['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
+    const tabs = [...document.querySelectorAll('[data-my-profile-tab]')];
+    const next = tabs[(tabs.indexOf(tab) + (event.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length];
+    event.preventDefault();
+    selectMyProfileTab(next.dataset.myProfileTab, true);
+  });
+
   const petValue = (value, fallback = 'Sin informar') => value === null || value === undefined || value === '' ? fallback : value;
   const petSizeLabels = { pequeno: 'Pequeño', mediano: 'Mediano', grande: 'Grande', gigante: 'Gigante' };
   const petRegistryLabels = { registrada: 'Registrada', en_tramite: 'En trámite', no_registrada: 'No registrada', no_informado: 'Sin informar' };
@@ -1389,6 +1446,7 @@
       ownAnimals = [];
       ownPublicProfile = null;
       renderAccountAnimals();
+      renderMyProfile();
       const linkSection = document.querySelector('[data-link-requests-section]');
       if (linkSection) linkSection.hidden = true;
       return;
@@ -1397,6 +1455,7 @@
     ownAnimals = animalsResult.error ? [] : await prepareOwnAnimalPhotos(animalsResult.data || []);
     ownPublicProfile = profileResult.error ? null : (profileResult.data?.[0] || null);
     renderAccountAnimals();
+    renderMyProfile();
     document.querySelectorAll('[data-own-animal-options]').forEach((select) => fillSelect(select, ownAnimals, ownAnimals.length ? 'Selecciona uno de tus animales' : 'Primero agrega un animal'));
     document.querySelectorAll('[data-link-animal-options]').forEach((select) => {
       fillSelect(select, publicAnimals, publicAnimals.length ? 'Selecciona un animal de la red' : 'Aún no hay animales publicados');
@@ -1703,6 +1762,8 @@
     const container = document.querySelector('[data-my-reports]');
     if (!currentSession?.user) {
       section.hidden = true;
+      myReports = [];
+      renderMyProfile();
       return;
     }
     section.hidden = false;
@@ -1713,6 +1774,8 @@
     const canilReports = (canilResult.error ? [] : (canilResult.data || [])).map((row) => ({ ...row, _source: 'canil' }));
     const redReports = (redResult.error ? [] : (redResult.data || [])).map((row) => ({ ...row, _source: 'red' }));
     const reports = [...canilReports, ...redReports].sort((a, b) => new Date(b.creado_en) - new Date(a.creado_en));
+    myReports = reports;
+    renderMyProfile();
     document.querySelector('[data-my-count]').textContent = String(reports.length);
     renderReportList(container, reports, (canilResult.error && redResult.error) ? 'No pudimos cargar tu historial.' : 'Todavía no tienes reportes asociados a esta sesión.');
   }
