@@ -1337,7 +1337,7 @@
         ${isOwned ? `<section class="pet-profile-section is-private"><div class="pet-section-heading"><div><h4>Ficha de salud</h4><span class="privacy-badge">Privada</span></div><button class="section-edit-button" type="button" data-edit-pet-section="salud">Editar</button></div><dl class="pet-health-summary">
           <div><dt>Antropometría</dt><dd>${animal.peso_kg ? `${Number(animal.peso_kg).toLocaleString('es-CL')} kg` : 'Peso sin registrar'}${health.altura_cm ? ` · ${escapeHtml(health.altura_cm)} cm` : ''}${health.condicion_corporal ? ` · condición corporal ${escapeHtml(health.condicion_corporal)}/9` : ''}</dd></div>
           <div><dt>Diagnóstico nutricional</dt><dd>${escapeHtml(animal.diagnostico_nutricional || 'Sin diagnóstico registrado')}</dd></div>
-          <div><dt>Vacunación</dt><dd>${escapeHtml(health.vacunacion || 'Sin antecedentes registrados')}</dd></div>
+          <div><dt>Vacunación</dt><dd>${vaccinesViewHtml(health, health.vacunacion)}</dd></div>
           <div><dt>Antecedentes mórbidos</dt><dd>${healthViewHtml(health, 'enfermedad', health.antecedentes_morbidos, 'Sin antecedentes registrados')}</dd></div>
           <div><dt>Antecedentes familiares</dt><dd>${healthViewHtml(health, 'familiar', health.antecedentes_familiares, 'Sin antecedentes registrados')}</dd></div>
           <div><dt>Antecedentes quirúrgicos</dt><dd>${healthViewHtml(health, 'cirugia', health.antecedentes_quirurgicos, 'Sin antecedentes registrados')}</dd></div>
@@ -1496,6 +1496,8 @@
     ['familiar', 'Antecedentes familiares', 'Ej.: madre con displasia de cadera'],
   ];
   const maxHealthRecords = 20;
+  const maxVaccines = 20;
+  const isoDateOrNull = (value) => (/^\d{4}-\d{2}-\d{2}$/.test(value || '') ? value : null);
   const healthTodayIso = () => new Date().toISOString().slice(0, 10);
   const newHealthId = () => (window.crypto?.randomUUID ? window.crypto.randomUUID() : `h${Date.now()}${Math.random().toString(36).slice(2, 8)}`);
   const formatHealthDate = (iso) => {
@@ -1516,7 +1518,18 @@
         notas: typeof record.notas === 'string' ? record.notas.slice(0, 120) : '',
         creado_en: typeof record.creado_en === 'string' ? record.creado_en : null,
       })),
-    vacunas: Array.isArray(health.vacunas) ? health.vacunas : [],
+    vacunas: (Array.isArray(health.vacunas) ? health.vacunas : [])
+      .filter((vaccine) => vaccine && typeof vaccine === 'object' && typeof vaccine.nombre === 'string' && vaccine.nombre.trim())
+      .slice(0, maxVaccines)
+      .map((vaccine) => ({
+        id: String(vaccine.id || newHealthId()),
+        nombre: vaccine.nombre.trim().slice(0, 80),
+        fecha: isoDateOrNull(vaccine.fecha),
+        proxima: isoDateOrNull(vaccine.proxima),
+        origen: vaccine.origen === 'profesional' ? 'profesional' : 'cuidador',
+        notas: typeof vaccine.notas === 'string' ? vaccine.notas.slice(0, 120) : '',
+        creado_en: typeof vaccine.creado_en === 'string' ? vaccine.creado_en : null,
+      })),
   });
   const healthRecordsForSave = () => {
     const base = healthDraft || sanitizeHealthRecords(activePetProfile?.salud && typeof activePetProfile.salud === 'object' ? activePetProfile.salud : {});
@@ -1537,6 +1550,57 @@
     if (!items && !legacy) return escapeHtml(emptyText);
     return `${items ? `<ul class="health-record-list is-view">${items}</ul>` : ''}${legacy}`;
   };
+  const sortedVaccines = (vaccines) => [...vaccines].sort((a, b) => String(b.fecha || '').localeCompare(String(a.fecha || '')));
+  const vaccineGroupHtml = () => {
+    const vaccines = sortedVaccines(healthDraft.vacunas);
+    const list = vaccines.length
+      ? `<ul class="health-record-list">${vaccines.map((vaccine) => `<li><div><strong>${escapeHtml(vaccine.nombre)}</strong>${vaccine.fecha ? ` <small>aplicada ${escapeHtml(formatHealthDate(vaccine.fecha))}</small>` : ''}${vaccine.proxima ? ` <small>· próxima ${escapeHtml(formatHealthDate(vaccine.proxima))}</small>` : ''} ${healthOriginBadge(vaccine.origen)}</div><button class="text-button" type="button" data-vaccine-remove="${escapeHtml(vaccine.id)}" aria-label="Quitar ${escapeHtml(vaccine.nombre)}">Quitar</button></li>`).join('')}</ul>`
+      : '<p class="health-empty">Sin vacunas registradas.</p>';
+    return `<section class="health-record-group" data-vaccine-group><h6>Carnet de vacunas</h6>${list}<div class="health-add is-vaccine"><input class="health-wide" type="text" data-vaccine-name maxlength="80" placeholder="Ej: Antirrábica, Sextuple" aria-label="Vacuna: nombre"><label class="health-date-field"><span>Fecha de aplicación</span><input type="date" data-vaccine-fecha max="${healthTodayIso()}"></label><label class="health-date-field"><span>Próxima dosis (opcional)</span><input type="date" data-vaccine-proxima></label><select class="health-wide" data-vaccine-origin aria-label="Vacuna: origen del dato"><option value="cuidador">Lo registro yo (cuidador)</option><option value="profesional">Lo indicó un profesional</option></select><button class="button button-dark" type="button" data-vaccine-add>Añadir vacuna</button></div><p class="health-hint">Las fechas y refuerzos los confirma el profesional veterinario. Este carnet es un respaldo digital.</p></section>`;
+  };
+  const vaccinesViewHtml = (health, legacyText) => {
+    const vaccines = sortedVaccines((Array.isArray(health.vacunas) ? health.vacunas : []).filter((vaccine) => vaccine && typeof vaccine.nombre === 'string'));
+    const items = vaccines.map((vaccine) => `<li><strong>${escapeHtml(vaccine.nombre)}</strong>${vaccine.fecha ? ` · aplicada ${escapeHtml(formatHealthDate(vaccine.fecha))}` : ''} · próxima: ${vaccine.proxima ? escapeHtml(formatHealthDate(vaccine.proxima)) : 'según veterinario'} ${healthOriginBadge(vaccine.origen)}</li>`).join('');
+    const legacy = legacyText ? `<span>${escapeHtml(legacyText)}</span>` : '';
+    if (!items && !legacy) return 'Sin antecedentes registrados';
+    return `${items ? `<ul class="health-record-list is-view">${items}</ul>` : ''}${legacy}`;
+  };
+  const addVaccine = (box) => {
+    if (!box || !healthDraft) return;
+    const message = document.querySelector('[data-health-message]');
+    const nameInput = box.querySelector('[data-vaccine-name]');
+    const name = nameInput.value.trim();
+    const fecha = box.querySelector('[data-vaccine-fecha]').value;
+    const proxima = box.querySelector('[data-vaccine-proxima]').value;
+    if (!name) {
+      setMessage(message, 'Escribe el nombre de la vacuna.', 'error');
+      nameInput.focus();
+      return;
+    }
+    if (fecha && fecha > healthTodayIso()) {
+      setMessage(message, 'La fecha de aplicación no puede estar en el futuro.', 'error');
+      return;
+    }
+    if (fecha && proxima && proxima < fecha) {
+      setMessage(message, 'La próxima dosis no puede ser anterior a la aplicación.', 'error');
+      return;
+    }
+    if (healthDraft.vacunas.length >= maxVaccines) {
+      setMessage(message, `Llegaste al máximo de ${maxVaccines} vacunas.`, 'error');
+      return;
+    }
+    healthDraft.vacunas.push({
+      id: newHealthId(),
+      nombre: name,
+      fecha: fecha || null,
+      proxima: proxima || null,
+      origen: box.querySelector('[data-vaccine-origin]').value === 'profesional' ? 'profesional' : 'cuidador',
+      notas: '',
+      creado_en: new Date().toISOString(),
+    });
+    renderHealthEditor();
+    setMessage(document.querySelector('[data-health-message]'), 'Vacuna añadida. Recuerda pulsar “Guardar” al final.', 'success');
+  };
   const renderHealthEditor = () => {
     const container = document.querySelector('[data-health-records]');
     if (!container || !healthDraft) return;
@@ -1549,7 +1613,7 @@
         ? `<ul class="health-record-list">${records.map((record) => `<li><div><strong>${escapeHtml(record.nombre)}</strong>${record.fecha ? ` <small>${escapeHtml(formatHealthDate(record.fecha))}</small>` : ''} ${healthOriginBadge(record.origen)}</div><button class="text-button" type="button" data-health-remove="${escapeHtml(record.id)}" aria-label="Quitar ${escapeHtml(record.nombre)}">Quitar</button></li>`).join('')}</ul>`
         : (tipo === 'alergia' ? '' : `<p class="health-empty">${tipo === 'familiar' ? 'Sin información.' : 'Sin antecedentes registrados.'}</p>`);
       return `<section class="health-record-group" data-health-type="${tipo}"><h6>${title}</h6>${allergyState}${list}<div class="health-add"><input type="text" data-health-name maxlength="80" placeholder="${placeholder}" aria-label="${title}: nombre"><input type="date" data-health-date max="${healthTodayIso()}" aria-label="${title}: fecha"><select data-health-origin aria-label="${title}: origen del dato"><option value="cuidador">Lo registro yo (cuidador)</option><option value="profesional">Lo indicó un profesional</option></select><button class="button button-dark" type="button" data-health-add>Añadir</button></div></section>`;
-    }).join('') + '<p class="form-message" data-health-message aria-live="polite"></p>';
+    }).join('') + vaccineGroupHtml() + '<p class="form-message" data-health-message aria-live="polite"></p>';
   };
   const addHealthRecord = (box) => {
     if (!box || !healthDraft) return;
@@ -1593,11 +1657,27 @@
       renderHealthEditor();
       return;
     }
+    const removeVaccine = event.target.closest('[data-vaccine-remove]');
+    if (removeVaccine && healthDraft) {
+      healthDraft.vacunas = healthDraft.vacunas.filter((vaccine) => vaccine.id !== removeVaccine.dataset.vaccineRemove);
+      renderHealthEditor();
+      return;
+    }
+    if (event.target.closest('[data-vaccine-add]')) {
+      addVaccine(event.target.closest('[data-vaccine-group]'));
+      return;
+    }
     const addButton = event.target.closest('[data-health-add]');
     if (addButton) addHealthRecord(addButton.closest('[data-health-type]'));
   });
   healthEditorRoot?.addEventListener('keydown', (event) => {
-    if (event.key !== 'Enter' || !event.target.matches('[data-health-name], [data-health-date]')) return;
+    if (event.key !== 'Enter') return;
+    if (event.target.matches('[data-vaccine-name], [data-vaccine-fecha], [data-vaccine-proxima]')) {
+      event.preventDefault();
+      addVaccine(event.target.closest('[data-vaccine-group]'));
+      return;
+    }
+    if (!event.target.matches('[data-health-name], [data-health-date]')) return;
     event.preventDefault();
     addHealthRecord(event.target.closest('[data-health-type]'));
   });

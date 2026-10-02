@@ -415,6 +415,9 @@ img { max-width: 100%; }
 .health-add .button { grid-column: 1 / -1; min-height: 42px; background: #17462c; color: #fff; }
 .health-add .button:hover { background: #1e5a38; }
 .health-empty, .health-hint { margin: 0; color: #5e6e62; font-size: .85rem; }
+.health-add.is-vaccine .health-wide { grid-column: 1 / -1; }
+.health-date-field { display: grid; gap: 4px; min-width: 0; font-size: .78rem; color: #5e6e62; }
+.health-date-field input { width: 100%; }
 @media (max-width: 520px) { .health-add { grid-template-columns: 1fr; } }
 /* Cinta inferior para celular: Inicio, Mapa, Red animal y Mi perfil */
 .tabbar { display: none; }
