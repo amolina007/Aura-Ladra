@@ -400,6 +400,9 @@ img { max-width: 100%; }
 .pet-state-action:disabled { opacity: .55; cursor: not-allowed; }
 /* Mi perfil: pestañas Perfil, Mis animales y Actividad */
 .my-profile { padding: 32px; }
+/* Paleta verde y crema de la vista Mi perfil: solo cambia los colores dentro de esta tarjeta */
+.my-profile { --navy: #1e5a38; --navy-deep: #17462c; --amber: #f2b24a; --amber-light: #fbe3b2; --cream: #e5efe7; --paper: #ffffff; --coral: #9a5f10; --line: rgba(30, 90, 56, .2); --muted: #5e6e62; background: #fbf9f3; }
+.my-profile .empty-state { border-color: rgba(30, 90, 56, .3); }
 .my-profile-tabs { display: flex; gap: 4px; padding: 4px; margin-bottom: 22px; border: 1px solid var(--line); border-radius: 999px; background: var(--paper); }
 .my-profile-tabs button { flex: 1 1 0; min-width: 0; min-height: 40px; padding: 0 10px; border: 0; border-radius: 999px; background: transparent; color: var(--muted); font: inherit; font-size: .85rem; font-weight: 800; cursor: pointer; }
 .my-profile-tabs button[aria-selected="true"] { background: var(--navy); color: var(--white); }
