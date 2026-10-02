@@ -397,6 +397,25 @@ img { max-width: 100%; }
 .pet-memorial-note { margin: 10px 0 0; color: var(--muted); font-size: .88rem; font-weight: 650; }
 .pet-state-action { grid-column: 1 / -1; min-height: 38px; border: 1px solid var(--line); border-radius: 10px; background: var(--white); color: var(--navy); font: inherit; font-size: .78rem; font-weight: 800; cursor: pointer; }
 .pet-state-action:hover, .pet-state-action:focus-visible { border-color: var(--amber); background: var(--cream); }
+/* Antecedentes de salud: alergias, enfermedades, cirugías y familiares (verde y crema) */
+.health-records { display: grid; gap: 12px; margin-bottom: 14px; }
+.health-record-group { display: grid; gap: 10px; padding: 14px; border: 1px solid rgba(30, 90, 56, .2); border-radius: 14px; background: #fbf9f3; }
+.health-record-group h6 { margin: 0; color: #1e5a38; font: 650 1.05rem/1.2 "Fraunces", serif; }
+.health-record-group .field { margin: 0; }
+.health-record-list { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.health-record-list li { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; padding: 8px 10px; border: 1px solid rgba(30, 90, 56, .15); border-radius: 10px; background: #fff; overflow-wrap: anywhere; }
+.health-record-list.is-view li { display: block; }
+.health-record-list small { color: #5e6e62; }
+.health-origin { display: inline-block; margin-left: 4px; padding: 2px 8px; border-radius: 999px; font-size: .68rem; font-weight: 800; line-height: 1.4; }
+.health-origin.is-cuidador { background: #fbe3b2; color: #6b4208; }
+.health-origin.is-profesional { background: #dff4e8; color: #216644; }
+.health-add { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 150px); gap: 8px; }
+.health-add input, .health-add select { min-width: 0; min-height: 42px; padding: 0 10px; border: 1px solid rgba(30, 90, 56, .25); border-radius: 10px; background: #fff; color: inherit; font: inherit; }
+.health-add select { grid-column: 1 / -1; }
+.health-add .button { grid-column: 1 / -1; min-height: 42px; background: #17462c; color: #fff; }
+.health-add .button:hover { background: #1e5a38; }
+.health-empty, .health-hint { margin: 0; color: #5e6e62; font-size: .85rem; }
+@media (max-width: 520px) { .health-add { grid-template-columns: 1fr; } }
 /* Cinta inferior para celular: Inicio, Mapa, Red animal y Mi perfil */
 .tabbar { display: none; }
 @media (max-width: 760px) {

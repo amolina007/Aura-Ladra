@@ -43,6 +43,7 @@
   let ownAnimals = [];
   let ownPublicProfile = null;
   let myReports = [];
+  let healthDraft = null;
   let activePetProfile = null;
   let activePetEditSection = 'perfil';
   let avatarCropSource = '';
@@ -1337,10 +1338,10 @@
           <div><dt>Antropometría</dt><dd>${animal.peso_kg ? `${Number(animal.peso_kg).toLocaleString('es-CL')} kg` : 'Peso sin registrar'}${health.altura_cm ? ` · ${escapeHtml(health.altura_cm)} cm` : ''}${health.condicion_corporal ? ` · condición corporal ${escapeHtml(health.condicion_corporal)}/9` : ''}</dd></div>
           <div><dt>Diagnóstico nutricional</dt><dd>${escapeHtml(animal.diagnostico_nutricional || 'Sin diagnóstico registrado')}</dd></div>
           <div><dt>Vacunación</dt><dd>${escapeHtml(health.vacunacion || 'Sin antecedentes registrados')}</dd></div>
-          <div><dt>Antecedentes mórbidos</dt><dd>${escapeHtml(health.antecedentes_morbidos || 'Sin antecedentes registrados')}</dd></div>
-          <div><dt>Antecedentes familiares</dt><dd>${escapeHtml(health.antecedentes_familiares || 'Sin antecedentes registrados')}</dd></div>
-          <div><dt>Antecedentes quirúrgicos</dt><dd>${escapeHtml(health.antecedentes_quirurgicos || 'Sin antecedentes registrados')}</dd></div>
-          <div><dt>Alergias</dt><dd>${escapeHtml(health.alergias || 'Sin alergias registradas')}</dd></div>
+          <div><dt>Antecedentes mórbidos</dt><dd>${healthViewHtml(health, 'enfermedad', health.antecedentes_morbidos, 'Sin antecedentes registrados')}</dd></div>
+          <div><dt>Antecedentes familiares</dt><dd>${healthViewHtml(health, 'familiar', health.antecedentes_familiares, 'Sin antecedentes registrados')}</dd></div>
+          <div><dt>Antecedentes quirúrgicos</dt><dd>${healthViewHtml(health, 'cirugia', health.antecedentes_quirurgicos, 'Sin antecedentes registrados')}</dd></div>
+          <div><dt>Alergias</dt><dd>${healthViewHtml(health, 'alergia', health.alergias, health.alergias_estado === 'sin_alergias' ? 'Sin alergias conocidas (confirmado por el cuidador)' : 'No informado. No equivale a ausencia de alergias.')}</dd></div>
         </dl><p class="pet-health-note">Información orientativa; no reemplaza la ficha veterinaria.</p></section>` : ''}
         <section class="pet-profile-section"><div class="pet-section-heading"><h4>Humanos y vínculos</h4>${isOwned ? '<button class="section-edit-button" type="button" data-edit-pet-section="vinculos">Editar</button>' : ''}</div><div class="pet-connections" data-pet-connections><p class="empty-state">Consultando humanos y vínculos…</p></div></section>
         <section class="pet-profile-section"><div class="pet-section-heading"><div><h4>Árbol de habilidades</h4><span>${skills.length} logradas</span></div>${isOwned ? '<button class="section-edit-button" type="button" data-edit-pet-section="habilidades">Editar</button>' : ''}</div>${skills.length ? `<div class="pet-skill-display">${skills.map((skill) => `<span>${escapeHtml(petSkillLabels[skill])}</span>`).join('')}</div>` : '<p class="empty-state">Todavía no tiene habilidades registradas.</p>'}</section>
@@ -1487,6 +1488,123 @@
     });
   };
 
+  /* ===== Antecedentes de salud (se guardan dentro de la ficha de salud existente) ===== */
+  const healthSectionTypes = [
+    ['alergia', 'Alergias', 'Ej.: pollo, picadura de pulga'],
+    ['enfermedad', 'Enfermedades', 'Ej.: dermatitis atópica'],
+    ['cirugia', 'Cirugías', 'Ej.: esterilización'],
+    ['familiar', 'Antecedentes familiares', 'Ej.: madre con displasia de cadera'],
+  ];
+  const maxHealthRecords = 20;
+  const healthTodayIso = () => new Date().toISOString().slice(0, 10);
+  const newHealthId = () => (window.crypto?.randomUUID ? window.crypto.randomUUID() : `h${Date.now()}${Math.random().toString(36).slice(2, 8)}`);
+  const formatHealthDate = (iso) => {
+    const date = new Date(`${iso}T12:00:00`);
+    return Number.isNaN(date.getTime()) ? '' : date.toLocaleDateString('es-CL', { day: 'numeric', month: 'short', year: 'numeric' });
+  };
+  const sanitizeHealthRecords = (health) => ({
+    alergias_estado: ['no_informado', 'sin_alergias', 'con_alergias'].includes(health.alergias_estado) ? health.alergias_estado : 'no_informado',
+    antecedentes: (Array.isArray(health.antecedentes) ? health.antecedentes : [])
+      .filter((record) => record && typeof record === 'object' && healthSectionTypes.some(([tipo]) => tipo === record.tipo) && typeof record.nombre === 'string' && record.nombre.trim())
+      .slice(0, maxHealthRecords)
+      .map((record) => ({
+        id: String(record.id || newHealthId()),
+        tipo: record.tipo,
+        nombre: record.nombre.trim().slice(0, 80),
+        fecha: /^\d{4}-\d{2}-\d{2}$/.test(record.fecha || '') ? record.fecha : null,
+        origen: record.origen === 'profesional' ? 'profesional' : 'cuidador',
+        notas: typeof record.notas === 'string' ? record.notas.slice(0, 120) : '',
+        creado_en: typeof record.creado_en === 'string' ? record.creado_en : null,
+      })),
+    vacunas: Array.isArray(health.vacunas) ? health.vacunas : [],
+  });
+  const healthRecordsForSave = () => {
+    const base = healthDraft || sanitizeHealthRecords(activePetProfile?.salud && typeof activePetProfile.salud === 'object' ? activePetProfile.salud : {});
+    const hasAllergies = base.antecedentes.some((record) => record.tipo === 'alergia');
+    return {
+      alergias_estado: hasAllergies ? 'con_alergias' : (base.alergias_estado === 'sin_alergias' ? 'sin_alergias' : 'no_informado'),
+      antecedentes: base.antecedentes,
+      vacunas: base.vacunas,
+    };
+  };
+  const healthOriginBadge = (origin) => (origin === 'profesional'
+    ? '<span class="health-origin is-profesional">Profesional</span>'
+    : '<span class="health-origin is-cuidador">Cuidador · por validar</span>');
+  const healthViewHtml = (health, tipo, legacyText, emptyText) => {
+    const records = (Array.isArray(health.antecedentes) ? health.antecedentes : []).filter((record) => record && record.tipo === tipo && typeof record.nombre === 'string');
+    const items = records.map((record) => `<li><strong>${escapeHtml(record.nombre)}</strong>${record.fecha ? ` · ${escapeHtml(formatHealthDate(record.fecha))}` : ''} ${healthOriginBadge(record.origen)}</li>`).join('');
+    const legacy = legacyText ? `<span>${escapeHtml(legacyText)}</span>` : '';
+    if (!items && !legacy) return escapeHtml(emptyText);
+    return `${items ? `<ul class="health-record-list is-view">${items}</ul>` : ''}${legacy}`;
+  };
+  const renderHealthEditor = () => {
+    const container = document.querySelector('[data-health-records]');
+    if (!container || !healthDraft) return;
+    container.innerHTML = healthSectionTypes.map(([tipo, title, placeholder]) => {
+      const records = healthDraft.antecedentes.filter((record) => record.tipo === tipo);
+      const allergyState = tipo === 'alergia' && !records.length
+        ? `<label class="field"><span>Estado</span><select data-health-allergy-state><option value="no_informado"${healthDraft.alergias_estado !== 'sin_alergias' ? ' selected' : ''}>No informado</option><option value="sin_alergias"${healthDraft.alergias_estado === 'sin_alergias' ? ' selected' : ''}>Sin alergias conocidas</option></select></label><p class="health-hint">“No informado” no equivale a que no tenga alergias.</p>`
+        : '';
+      const list = records.length
+        ? `<ul class="health-record-list">${records.map((record) => `<li><div><strong>${escapeHtml(record.nombre)}</strong>${record.fecha ? ` <small>${escapeHtml(formatHealthDate(record.fecha))}</small>` : ''} ${healthOriginBadge(record.origen)}</div><button class="text-button" type="button" data-health-remove="${escapeHtml(record.id)}" aria-label="Quitar ${escapeHtml(record.nombre)}">Quitar</button></li>`).join('')}</ul>`
+        : (tipo === 'alergia' ? '' : `<p class="health-empty">${tipo === 'familiar' ? 'Sin información.' : 'Sin antecedentes registrados.'}</p>`);
+      return `<section class="health-record-group" data-health-type="${tipo}"><h6>${title}</h6>${allergyState}${list}<div class="health-add"><input type="text" data-health-name maxlength="80" placeholder="${placeholder}" aria-label="${title}: nombre"><input type="date" data-health-date max="${healthTodayIso()}" aria-label="${title}: fecha"><select data-health-origin aria-label="${title}: origen del dato"><option value="cuidador">Lo registro yo (cuidador)</option><option value="profesional">Lo indicó un profesional</option></select><button class="button button-dark" type="button" data-health-add>Añadir</button></div></section>`;
+    }).join('') + '<p class="form-message" data-health-message aria-live="polite"></p>';
+  };
+  const addHealthRecord = (box) => {
+    if (!box || !healthDraft) return;
+    const message = document.querySelector('[data-health-message]');
+    const nameInput = box.querySelector('[data-health-name]');
+    const name = nameInput.value.trim();
+    const date = box.querySelector('[data-health-date]').value;
+    if (!name) {
+      setMessage(message, 'Escribe un nombre antes de añadir.', 'error');
+      nameInput.focus();
+      return;
+    }
+    if (date && date > healthTodayIso()) {
+      setMessage(message, 'La fecha no puede estar en el futuro.', 'error');
+      return;
+    }
+    if (healthDraft.antecedentes.length >= maxHealthRecords) {
+      setMessage(message, `Llegaste al máximo de ${maxHealthRecords} antecedentes.`, 'error');
+      return;
+    }
+    const tipo = box.dataset.healthType;
+    healthDraft.antecedentes.push({
+      id: newHealthId(),
+      tipo,
+      nombre: name,
+      fecha: date || null,
+      origen: box.querySelector('[data-health-origin]').value === 'profesional' ? 'profesional' : 'cuidador',
+      notas: '',
+      creado_en: new Date().toISOString(),
+    });
+    if (tipo === 'alergia') healthDraft.alergias_estado = 'con_alergias';
+    renderHealthEditor();
+    setMessage(document.querySelector('[data-health-message]'), 'Añadido. Recuerda pulsar “Guardar” al final.', 'success');
+  };
+  const healthEditorRoot = document.querySelector('[data-health-records]');
+  healthEditorRoot?.addEventListener('click', (event) => {
+    const removeButton = event.target.closest('[data-health-remove]');
+    if (removeButton && healthDraft) {
+      healthDraft.antecedentes = healthDraft.antecedentes.filter((record) => record.id !== removeButton.dataset.healthRemove);
+      if (!healthDraft.antecedentes.some((record) => record.tipo === 'alergia') && healthDraft.alergias_estado === 'con_alergias') healthDraft.alergias_estado = 'no_informado';
+      renderHealthEditor();
+      return;
+    }
+    const addButton = event.target.closest('[data-health-add]');
+    if (addButton) addHealthRecord(addButton.closest('[data-health-type]'));
+  });
+  healthEditorRoot?.addEventListener('keydown', (event) => {
+    if (event.key !== 'Enter' || !event.target.matches('[data-health-name], [data-health-date]')) return;
+    event.preventDefault();
+    addHealthRecord(event.target.closest('[data-health-type]'));
+  });
+  healthEditorRoot?.addEventListener('change', (event) => {
+    if (event.target.matches('[data-health-allergy-state]') && healthDraft) healthDraft.alergias_estado = event.target.value === 'sin_alergias' ? 'sin_alergias' : 'no_informado';
+  });
+
   const startPetProfileEdit = (section = 'perfil') => {
     const animal = activePetProfile;
     const view = document.querySelector('[data-pet-profile-view]');
@@ -1514,6 +1632,8 @@
     const health = animal.salud && typeof animal.salud === 'object' ? animal.salud : {};
     ['altura_cm', 'condicion_corporal', 'vacunacion', 'antecedentes_morbidos', 'antecedentes_familiares', 'antecedentes_quirurgicos', 'alergias'].forEach((field) => { form.elements[field].value = health[field] || ''; });
     form.elements.diagnostico_nutricional.value = animal.diagnostico_nutricional || '';
+    healthDraft = sanitizeHealthRecords(health);
+    renderHealthEditor();
     renderPetSummarySlots(form, animal.bloques_resumen);
     const skills = new Set(Array.isArray(animal.habilidades) ? animal.habilidades : []);
     form.querySelectorAll('input[name="habilidades"]').forEach((input) => { input.checked = skills.has(input.value); });
@@ -2356,6 +2476,21 @@
       setMessage(message, 'Los ocho bloques del resumen deben ser diferentes.', 'error');
       return;
     }
+    const saludPayload = {
+      ...(activePetProfile.salud && typeof activePetProfile.salud === 'object' ? activePetProfile.salud : {}),
+      altura_cm: form.elements.altura_cm.value ? Number(form.elements.altura_cm.value) : null,
+      condicion_corporal: form.elements.condicion_corporal.value ? Number(form.elements.condicion_corporal.value) : null,
+      vacunacion: form.elements.vacunacion.value.trim() || null,
+      antecedentes_morbidos: form.elements.antecedentes_morbidos.value.trim() || null,
+      antecedentes_familiares: form.elements.antecedentes_familiares.value.trim() || null,
+      antecedentes_quirurgicos: form.elements.antecedentes_quirurgicos.value.trim() || null,
+      alergias: form.elements.alergias.value.trim() || null,
+      ...healthRecordsForSave(),
+    };
+    if (new Blob([JSON.stringify(saludPayload)]).size > 11000) {
+      setMessage(message, 'La ficha de salud es demasiado extensa. Quita algunos antecedentes o acorta las notas de texto.', 'error');
+      return;
+    }
     saveButton.disabled = true;
     setMessage(message, 'Guardando la ficha…');
     let savePhase = 'upload';
@@ -2401,15 +2536,7 @@
         p_mostrar_en_red: form.elements.mostrar_en_red.checked,
         p_diagnostico_nutricional: form.elements.diagnostico_nutricional.value.trim() || null,
         p_bloques_resumen: summaryBlocks,
-        p_salud: {
-          altura_cm: form.elements.altura_cm.value ? Number(form.elements.altura_cm.value) : null,
-          condicion_corporal: form.elements.condicion_corporal.value ? Number(form.elements.condicion_corporal.value) : null,
-          vacunacion: form.elements.vacunacion.value.trim() || null,
-          antecedentes_morbidos: form.elements.antecedentes_morbidos.value.trim() || null,
-          antecedentes_familiares: form.elements.antecedentes_familiares.value.trim() || null,
-          antecedentes_quirurgicos: form.elements.antecedentes_quirurgicos.value.trim() || null,
-          alergias: form.elements.alergias.value.trim() || null,
-        },
+        p_salud: saludPayload,
         p_habilidades: [...form.querySelectorAll('input[name="habilidades"]:checked')].map((input) => input.value),
         p_caracter_respuestas: character.score === null ? {} : character.answers,
         p_caracter_puntaje: character.score,
