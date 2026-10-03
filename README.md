@@ -104,8 +104,39 @@ schema `ladra` se agrega a Data API sin reemplazar los schemas ya expuestos.
 - El frontend no recibe privilegio de inserción directa: usa la función validada
   `ladra.crear_reporte_canil`, con límites de longitud, fecha y campo honeypot.
 
+## Ayudar → Acciones por financiar (simulación)
+
+Una persona u organización propone una prestación concreta para un animal; varias
+personas aportan hasta completar el presupuesto; después se ejecuta y se documenta.
+Son aportes solidarios para financiar una acción: **no ofrecen intereses ni retornos**.
+
+- **Estado actual: todo aporte es una simulación.** No hay pasarela de pago ni reglas
+  de desembolso. Las tablas lo fuerzan (`modo_pago = 'simulacion'`, `simulado = true`,
+  `desembolso = 'no_liberado'`). Antes de habilitar pagos reales hay que definir:
+  cuándo se cobra, quién recibe o custodia el dinero, cuándo se desembolsa y cómo se devuelve.
+- Flujo de estados: Borrador → En revisión → Recaudando → Meta alcanzada → Programada →
+  En ejecución → Completada. También Expirada, Cancelada y En disputa; el estado de
+  devolución se guarda aparte (`estado_devolucion`).
+- Alcanzar la meta no libera fondos ni prueba que el trabajo esté hecho: el responsable
+  debe programar, ejecutar, publicar evidencia y solicitar el cierre.
+- Montos y estados los calcula el servidor (funciones `ladra.*` con `security definer`).
+  El navegador no tiene permiso para leer ni escribir las tablas directamente. Los aportes
+  usan clave de idempotencia (un doble toque no duplica) y la fila se bloquea para que
+  aportes simultáneos no excedan la meta.
+- Con aportes recibidos no se pueden cambiar precio, alcance, beneficiario ni condiciones;
+  hay historial de cambios.
+- Migraciones: `20261003180000_acciones_financiables_tablas.sql` y
+  `20261003181000_acciones_financiables_funciones.sql`. **No aplicadas todavía** al proyecto
+  Supabase; mientras tanto `js/acciones.js` usa un modo demo con datos de ejemplo guardados
+  solo en el navegador y avisa de ello en pantalla.
+- Pruebas: `supabase/tests/acciones_financiables_prueba.sql` (se ejecuta en una base
+  Postgres desechable, nunca en Supabase real).
+- Pendiente: pantalla de moderación (hoy se usa `ladra.moderar_accion` por SQL),
+  subida de fotos y documentos propios, mensajería para "Consultar", disputas.
+
 ## Fuera del MVP (decisión ya tomada)
 
-Publicaciones sociales, comentarios, seguidores, chat, marketplace, Aura Coin,
+Publicaciones sociales, comentarios, seguidores, chat, marketplace, pagos reales (los aportes
+de Acciones por financiar son solo simulación), Aura Coin,
 reputación, gamificación, GPS en tiempo real público e integración oficial
 obligatoria con terceros.

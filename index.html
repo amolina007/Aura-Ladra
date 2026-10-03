@@ -48,6 +48,7 @@
         <a href="#most-wanted">Most Wanted</a>
         <a href="#mapa">Mapa</a>
         <a href="#red">Red animal</a>
+        <a href="#ayudar">Ayudar</a>
         <a href="#reportes">Reportar</a>
         <a href="#cuenta">Mi cuenta</a>
       </nav>
@@ -313,6 +314,30 @@
       </div>
     </section>
 
+    <section class="ayudar section" id="ayudar" data-ayudar aria-labelledby="ayudar-title">
+      <div class="shell">
+        <div class="section-heading">
+          <p class="kicker">Ayudar</p>
+          <h2 id="ayudar-title">Acciones por financiar</h2>
+          <p>Una persona u organización propone una prestación concreta para un animal. Varias personas aportan hasta completar el presupuesto; después se ejecuta y se documenta el resultado. Son aportes solidarios para financiar una acción: no ofrecen intereses ni retornos.</p>
+        </div>
+        <p class="ayudar-sim" role="note"><strong>Simulación.</strong> <span data-ayudar-modo>Cargando…</span></p>
+        <div data-ayudar-vista-lista>
+          <form class="ayudar-filtros" data-ayudar-filtros aria-label="Filtrar acciones">
+            <label class="field"><span>Categoría</span>
+              <select name="categoria"><option value="">Todas</option><option value="alojamiento">Alojamiento</option><option value="cuidado">Cuidado</option><option value="salud">Salud</option><option value="alimentacion">Alimentación</option><option value="traslado">Traslado</option><option value="educacion">Educación</option><option value="otro">Otro</option></select></label>
+            <label class="field"><span>Comuna</span><input name="comuna" type="text" maxlength="60" placeholder="Ej.: Maipú" autocomplete="off"></label>
+            <label class="field"><span>Urgencia</span>
+              <select name="urgencia"><option value="">Cualquiera</option><option value="critica">Crítica</option><option value="alta">Alta</option><option value="normal">Normal</option></select></label>
+            <label class="field"><span>Estado</span>
+              <select name="estado"><option value="">Todos</option><option value="recaudando">Recaudando</option><option value="meta_alcanzada">Meta alcanzada</option><option value="programada">Programada</option><option value="en_ejecucion">En ejecución</option><option value="completada">Completada</option></select></label>
+          </form>
+          <div class="ayudar-lista" data-ayudar-lista aria-live="polite"></div>
+        </div>
+        <article class="ayudar-detalle card" data-ayudar-detalle hidden aria-live="polite"></article>
+      </div>
+    </section>
+
     <section class="reports section" id="reportes">
       <div class="shell">
         <div class="section-heading split-heading">
@@ -522,6 +547,8 @@
                 <button type="button" role="tab" id="my-profile-tab-perfil" aria-selected="true" aria-controls="my-profile-panel-perfil" data-my-profile-tab="perfil">Perfil</button>
                 <button type="button" role="tab" id="my-profile-tab-animales" aria-selected="false" aria-controls="my-profile-panel-animales" tabindex="-1" data-my-profile-tab="animales">Mis animales</button>
                 <button type="button" role="tab" id="my-profile-tab-actividad" aria-selected="false" aria-controls="my-profile-panel-actividad" tabindex="-1" data-my-profile-tab="actividad">Actividad</button>
+                <button type="button" role="tab" id="my-profile-tab-aportes" aria-selected="false" aria-controls="my-profile-panel-aportes" tabindex="-1" data-my-profile-tab="aportes">Mis aportes</button>
+                <button type="button" role="tab" id="my-profile-tab-acciones" aria-selected="false" aria-controls="my-profile-panel-acciones" tabindex="-1" data-my-profile-tab="acciones">Mis acciones</button>
               </div>
 
               <div class="my-profile-panel" role="tabpanel" id="my-profile-panel-perfil" aria-labelledby="my-profile-tab-perfil" data-my-profile-panel="perfil">
@@ -553,6 +580,13 @@
                 <div class="my-profile-activity" data-my-profile-activity></div>
               </div>
               <p class="my-profile-privacy"><span aria-hidden="true">◇</span> Solo tú ves este resumen completo.</p>
+                          <div class="my-profile-panel" role="tabpanel" id="my-profile-panel-aportes" aria-labelledby="my-profile-tab-aportes" data-my-profile-panel="aportes" hidden>
+                <div data-mis-aportes aria-live="polite"></div>
+              </div>
+
+              <div class="my-profile-panel" role="tabpanel" id="my-profile-panel-acciones" aria-labelledby="my-profile-tab-acciones" data-my-profile-panel="acciones" hidden>
+                <div data-mis-acciones aria-live="polite"></div>
+              </div>
             </section>
 
             <section class="my-reports card" data-my-reports-section hidden aria-labelledby="my-reports-title">
@@ -714,6 +748,7 @@
     <a href="#inicio" data-tabbar-link="inicio"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span>Inicio</span></a>
     <a href="#mapa" data-tabbar-link="mapa"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg><span>Mapa</span></a>
     <a href="#red" data-tabbar-link="red"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><ellipse cx="6.5" cy="11" rx="1.8" ry="2.4"/><ellipse cx="10" cy="6.8" rx="1.8" ry="2.4"/><ellipse cx="14.5" cy="6.8" rx="1.8" ry="2.4"/><ellipse cx="18" cy="11" rx="1.8" ry="2.4"/><path d="M12.2 12c2.8 0 5.5 3 5.5 5.6 0 1.8-1.5 2.6-3.1 2.1-1.1-.3-1.8-.5-2.4-.5s-1.3.2-2.4.5c-1.6.5-3.1-.3-3.1-2.1 0-2.6 2.7-5.6 5.5-5.6z"/></svg><span>Red animal</span></a>
+    <a href="#ayudar" data-tabbar-link="ayudar"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-4.6-9-9.2C1.8 8.6 3.6 5 7 5c2 0 3.4 1.1 5 3 1.6-1.9 3-3 5-3 3.4 0 5.2 3.6 4 6.8-2 4.6-9 9.2-9 9.2z"/></svg><span>Ayudar</span></a>
     <a href="#mi-perfil" data-tabbar-link="perfil"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg><span>Mi perfil</span></a>
   </nav>
 
@@ -722,6 +757,7 @@
 <script src="https://convergenciaaura.cl/aura-auth.js"></script>
 <script src="js/supabase-client.js"></script>
 <script src="js/main.js"></script>
+<script src="js/acciones.js"></script>
 <script defer src="https://core.convergenciaaura.cl/js/globo.js" data-margen-movil="76"></script>
 </body>
 </html>
