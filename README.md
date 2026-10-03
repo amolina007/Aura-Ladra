@@ -134,6 +134,16 @@ Son aportes solidarios para financiar una acción: **no ofrecen intereses ni ret
 - Pendiente: pantalla de moderación (hoy se usa `ladra.moderar_accion` por SQL),
   subida de fotos y documentos propios, mensajería para "Consultar", disputas.
 
+## Personal → Mi árbol de vínculos
+
+Pestaña **Mi árbol** dentro de Mi perfil. Abre una vista a pantalla completa con las pestañas **Árbol** e **Historia**, una **lista alternativa** y un panel con el detalle del integrante seleccionado.
+
+- **Cómo crece:** una *hoja* aparece en la rama de quien participó al registrar un paseo, juego o cuidado; una *flor*, al registrar un encuentro, adopción o recuerdo. Una línea punteada une ramas con un vínculo o un momento compartido. No hay puntajes y la inactividad no marchita el árbol. Los animales fallecidos conservan una rama de memoria que se puede ocultar.
+- **Misma fuente que la ficha:** el árbol usa `humanos_animal`, `vinculos_animal_humano` y `vinculos_animales` (los mismos ids de animales, sin segunda ficha). El apartado «Vínculos» de la ficha también lista los vínculos persona↔animal confirmados y visibles. «Ver ficha» / «Editar ficha» abren la ficha existente (puente `window.auraLadraFicha` en `main.js`); «Editar vínculo» solo cambia la relación.
+- **Privacidad:** todo pasa por funciones `ladra.*` con RLS forzada. Privado por defecto; los vínculos con usuarios registrados requieren aceptación; los integrantes privados son solo del propietario; los datos de salud nunca se incluyen.
+- **Migración:** `supabase/migrations/20261003190000_mi_arbol_de_vinculos.sql` (**preparada, no ejecutada** en ningún entorno real). Pruebas: `supabase/tests/mi_arbol_prueba.sql` con `supabase/tests/laboratorio_piezas_falsas.sql` en una base PostgreSQL desechable.
+- **Sin la migración** la pestaña funciona en modo **Demostración** (datos ficticios rotulados «(ejemplo)», guardados solo en el navegador).
+
 ## Fuera del MVP (decisión ya tomada)
 
 Publicaciones sociales, comentarios, seguidores, chat, marketplace, pagos reales (los aportes

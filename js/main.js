@@ -1464,10 +1464,12 @@
   const loadPetConnections = async (animalId, container) => {
     if (!container) return;
     const animalName = activePetProfile?.nombre || 'esta mascota';
-    const [animalLinksResult, humansResult, animalsResult] = await Promise.all([
+    const [animalLinksResult, humansResult, animalsResult, personLinksResult] = await Promise.all([
       db.from('vinculos_animales').select('animal_a_id,animal_b_id,tipo,descripcion').eq('estado', 'confirmado').or(`animal_a_id.eq.${animalId},animal_b_id.eq.${animalId}`),
       db.rpc('humanos_visibles_de_animal', { p_animal_id: animalId }),
       db.from('animales').select('id,nombre,es_comunitario').eq('estado', 'publicado'),
+      // Mismos vínculos que «Mi árbol»: personas confirmadas y marcadas como visibles.
+      db.from('vinculos_animal_humano').select('perfil_publico_id,tipo,descripcion,perfiles_publicos(alias)').eq('animal_id', animalId).eq('estado', 'confirmado').eq('visible_publicamente', true),
     ]);
     const animals = new Map((animalsResult.data || []).map((item) => [item.id, item]));
     const humans = humansResult.error ? [] : (humansResult.data || []);
@@ -1485,6 +1487,13 @@
         </div>
       </article>`);
     });
+    const shownProfiles = new Set(humans.map((h) => h.perfil_publico_id));
+    (personLinksResult.error ? [] : (personLinksResult.data || [])).forEach((link) => {
+      const alias = link.perfiles_publicos?.alias;
+      if (!alias || shownProfiles.has(link.perfil_publico_id)) return;
+      shownProfiles.add(link.perfil_publico_id);
+      cards.push(`<article class="pet-connection-card"><span>Vínculo con persona</span><strong>${escapeHtml(alias)}</strong><small>${escapeHtml(({ cuidador: 'Cuidador/a', rescatista: 'Rescatista', colaborador: 'Colaborador/a', familia: 'Familia', amistad: 'Amistad', companero_paseo: 'Compañero/a de paseo', otro: 'Otro vínculo' })[link.tipo] || link.tipo)}${link.descripcion ? ` · ${escapeHtml(link.descripcion)}` : ''}</small></article>`);
+    });
     (animalLinksResult.data || []).forEach((link) => {
       const other = animals.get(link.animal_a_id === animalId ? link.animal_b_id : link.animal_a_id);
       if (other) cards.push(`<article class="pet-connection-card"><span>${other.es_comunitario ? 'Animal comunitario' : 'Mascota'}</span><strong>${escapeHtml(other.nombre)}</strong><small>${escapeHtml(link.tipo)}${link.descripcion ? ` · ${escapeHtml(link.descripcion)}` : ''}</small></article>`);
@@ -1500,6 +1509,31 @@
         });
       });
     });
+  };
+
+  // Puente para «Mi árbol de vínculos»: reutiliza la MISMA ficha (mismo id), no crea otra.
+  window.auraLadraFicha = {
+    abrir: (id) => {
+      const animal = ownAnimals.find((item) => item.id === id) || publicAnimals.find((item) => item.id === id);
+      if (!animal) return false;
+      showPetProfile(animal);
+      return true;
+    },
+    editar: (id) => {
+      const animal = ownAnimals.find((item) => item.id === id);
+      if (!animal) return false;
+      showPetProfile(animal);
+      startPetProfileEdit();
+      return true;
+    },
+    esMia: (id) => ownAnimals.some((item) => item.id === id),
+    fotoDe: (id) => {
+      const own = ownAnimals.find((item) => item.id === id);
+      if (own) return own._photo_view_urls?.[0] || '';
+      const url = publicAnimals.find((item) => item.id === id)?.foto_url;
+      return /^https:\/\//i.test(url || '') ? url : '';
+    },
+    animalesRed: () => publicAnimals.map((a) => ({ id: a.id, nombre: a.nombre, especie: a.especie || '', comunitario: Boolean(a.es_comunitario) })),
   };
 
   /* ===== Antecedentes de salud (se guardan dentro de la ficha de salud existente) ===== */

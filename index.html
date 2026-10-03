@@ -546,6 +546,7 @@
               <div class="my-profile-tabs" role="tablist" aria-label="Secciones de Mi perfil">
                 <button type="button" role="tab" id="my-profile-tab-perfil" aria-selected="true" aria-controls="my-profile-panel-perfil" data-my-profile-tab="perfil">Perfil</button>
                 <button type="button" role="tab" id="my-profile-tab-animales" aria-selected="false" aria-controls="my-profile-panel-animales" tabindex="-1" data-my-profile-tab="animales">Mis animales</button>
+                <button type="button" role="tab" id="my-profile-tab-arbol" aria-selected="false" aria-controls="my-profile-panel-arbol" tabindex="-1" data-my-profile-tab="arbol">Mi árbol</button>
                 <button type="button" role="tab" id="my-profile-tab-actividad" aria-selected="false" aria-controls="my-profile-panel-actividad" tabindex="-1" data-my-profile-tab="actividad">Actividad</button>
                 <button type="button" role="tab" id="my-profile-tab-aportes" aria-selected="false" aria-controls="my-profile-panel-aportes" tabindex="-1" data-my-profile-tab="aportes">Mis aportes</button>
                 <button type="button" role="tab" id="my-profile-tab-acciones" aria-selected="false" aria-controls="my-profile-panel-acciones" tabindex="-1" data-my-profile-tab="acciones">Mis acciones</button>
@@ -568,6 +569,10 @@
               <div class="my-profile-panel" role="tabpanel" id="my-profile-panel-animales" aria-labelledby="my-profile-tab-animales" data-my-profile-panel="animales" hidden>
                 <div class="my-profile-animal-list" data-my-profile-animals></div>
                 <button class="button button-dark" type="button" data-my-profile-connect>＋ Asociar un animal</button>
+              </div>
+
+              <div class="my-profile-panel" role="tabpanel" id="my-profile-panel-arbol" aria-labelledby="my-profile-tab-arbol" data-my-profile-panel="arbol" hidden>
+                <div data-arbol-resumen aria-live="polite"><p class="card-copy">Cargando tu árbol…</p></div>
               </div>
 
               <div class="my-profile-panel" role="tabpanel" id="my-profile-panel-actividad" aria-labelledby="my-profile-tab-actividad" data-my-profile-panel="actividad" hidden>
@@ -758,6 +763,7 @@
 <script src="js/supabase-client.js"></script>
 <script src="js/main.js"></script>
 <script src="js/acciones.js"></script>
+<script src="js/arbol.js"></script>
 <script defer src="https://core.convergenciaaura.cl/js/globo.js" data-margen-movil="76"></script>
 </body>
 </html>
