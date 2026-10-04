@@ -41,6 +41,9 @@
   let activePlaceFilter = 'todos';
   let publicAnimals = [];
   let ownAnimals = [];
+  // Relación de quien tiene la sesión con cada mascota (propia, vinculada, amistad, seguida, bloqueada).
+  // Las mascotas sin relación («desconocidas») no aparecen aquí.
+  let animalRelations = new Map();
   let ownPublicProfile = null;
   let myReports = [];
   let healthDraft = null;
@@ -815,7 +818,7 @@
 
   // Cada animal se muestra como una miniatura cuadrada (estilo grilla de perfiles).
   // Al tocarla se abre la ficha pública, igual que antes.
-  const createAnimalCard = (animal) => {
+  const createAnimalCard = (animal, relation) => {
     const tile = document.createElement('button');
     tile.type = 'button';
     tile.className = 'animal-tile';
@@ -844,6 +847,17 @@
       lostBadge.textContent = 'Extraviada';
       tile.append(lostBadge);
     }
+    // Una estrellita pequeña distingue las mascotas de tus amistades.
+    if (relation === 'amistad') {
+      tile.classList.add('is-friend');
+      tile.setAttribute('aria-label', `Conocer a ${animal.nombre}, mascota de una amistad`);
+      const star = document.createElement('span');
+      star.className = 'animal-tile-star';
+      star.textContent = '★';
+      star.title = 'Mascota de una amistad';
+      star.setAttribute('aria-hidden', 'true');
+      tile.append(star);
+    }
     return tile;
   };
 
@@ -863,19 +877,32 @@
       grid.replaceChildren(empty);
       return;
     }
-    grid.replaceChildren(...lostFirst(animals).map((animal) => createAnimalCard(animal)));
+    grid.replaceChildren(...lostFirst(animals).map((animal) => createAnimalCard(animal, animalRelations.get(animal.id))));
   };
 
-  // Dibuja las dos grillas: «Mi red» (tus mascotas) y «Descubrir» (las de otros dueños).
-  // Se llama al terminar de cargar las mascotas públicas y también las tuyas, porque
-  // esas dos cargas ocurren al mismo tiempo y pueden terminar en cualquier orden.
+  // Convierte la respuesta de la función de la base de datos en un mapa «mascota -> relación».
+  // Si la función todavía no existe o falla, no hay relaciones y todo sigue funcionando.
+  const relationsFromRpc = (result) => new Map(
+    result && !result.error ? (result.data || []).map((row) => [row.animal_id, row.relacion]) : [],
+  );
+
+  // Relaciones que hacen que una mascota aparezca en «Mi red». Las personas bloqueadas
+  // y las desconocidas quedan en «Descubrir»: el bloqueo solo afecta lo privado de la ficha.
+  const networkRelations = new Set(['propia', 'vinculada', 'amistad', 'seguida']);
+
+  // Dibuja las dos grillas: «Mi red» (tus mascotas, las de tus amistades y las de quienes sigues)
+  // y «Descubrir» (las de otros dueños). Se llama al terminar de cargar las mascotas públicas
+  // y también las tuyas, porque esas cargas ocurren al mismo tiempo y pueden terminar en cualquier orden.
   const renderAnimalGrids = () => {
     const hasUser = Boolean(currentSession?.user);
     const ownIds = new Set(ownAnimals.map((animal) => animal.id));
+    const inNetwork = (animal) => networkRelations.has(animalRelations.get(animal.id));
     const networkGroup = document.querySelector('[data-animal-group="mi-red"]');
     if (networkGroup) networkGroup.hidden = !hasUser;
-    fillAnimalGrid(document.querySelector('[data-animal-grid="mi-red"]'), ownAnimals, 'Todavía no tienes mascotas. Crea su ficha en “Mi cuenta”.');
-    const discover = publicAnimals.filter((animal) => !ownIds.has(animal.id));
+    // Tus mascotas van con su ficha completa; las demás, con la ficha pública.
+    const network = [...ownAnimals, ...publicAnimals.filter((animal) => !ownIds.has(animal.id) && inNetwork(animal))];
+    fillAnimalGrid(document.querySelector('[data-animal-grid="mi-red"]'), network, 'Todavía no tienes mascotas. Crea su ficha en “Mi cuenta”.');
+    const discover = publicAnimals.filter((animal) => !ownIds.has(animal.id) && !inNetwork(animal));
     fillAnimalGrid(
       document.querySelector('[data-animal-grid="descubrir"]'),
       discover,
@@ -1828,6 +1855,7 @@
     if (signedOut) signedOut.hidden = hasUser;
     if (!hasUser) {
       ownAnimals = [];
+      animalRelations = new Map();
       ownPublicProfile = null;
       renderAccountAnimals();
       renderMyProfile();
@@ -1836,8 +1864,9 @@
       if (linkSection) linkSection.hidden = true;
       return;
     }
-    const [animalsResult, profileResult] = await Promise.all([db.rpc('mis_animales'), db.rpc('mi_perfil_publico')]);
+    const [animalsResult, profileResult, relationsResult] = await Promise.all([db.rpc('mis_animales'), db.rpc('mi_perfil_publico'), db.rpc('mi_relacion_con_animales')]);
     ownAnimals = animalsResult.error ? [] : await prepareOwnAnimalPhotos(animalsResult.data || []);
+    animalRelations = relationsFromRpc(relationsResult);
     ownPublicProfile = profileResult.error ? null : (profileResult.data?.[0] || null);
     renderAccountAnimals();
     renderMyProfile();
