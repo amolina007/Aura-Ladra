@@ -1468,15 +1468,18 @@
     if (!dialog || !view || !profile) return;
     const initial = (profile.alias || '?').slice(0, 1).toUpperCase();
     const roleText = context.rol ? `${familyRoleLabel(context.rol)} de ${context.animalName || 'esta mascota'}` : '';
-    // «Ver perfil completo» lleva a Convergencia Aura, donde ya existen seguir, amistad y mensajería.
-    const coreUrl = `https://core.convergenciaaura.cl/perfil.html?u=${encodeURIComponent(profile.alias)}`;
+    // «Ver perfil completo» lleva a Convergencia Aura (seguir, amistad, mensajería), pero solo con
+    // el alias de Core de quien eligió visibilidad ampliada: el alias de AuraLadra no sirve ahí.
+    const coreAlias = /^[a-z0-9_]{3,24}$/.test(context.coreAlias || '') ? context.coreAlias : '';
+    const coreUrl = coreAlias ? `https://core.convergenciaaura.cl/perfil.html?u=${encodeURIComponent(coreAlias)}` : '';
     view.innerHTML = `
       <div class="human-profile-head"><span class="human-tile-photo human-profile-photo" aria-hidden="true">${escapeHtml(initial)}</span><div><p class="kicker">Perfil público</p><h3 id="human-profile-title">${escapeHtml(profile.alias)}</h3>${roleText ? `<p class="human-profile-role">${escapeHtml(roleText)}</p>` : ''}</div></div>
       <p>${escapeHtml(profile.biografia || 'Esta persona todavía no escribió una presentación.')}</p>
       <div class="human-profile-actions">
         ${context.isSelf || !context.animalId ? '' : '<button class="button button-dark" type="button" data-human-profile-write>Escribir</button>'}
-        <a class="button button-outline" href="${coreUrl}" target="_blank" rel="noopener">Ver perfil completo</a>
+        ${coreUrl ? `<a class="button button-outline" href="${coreUrl}" target="_blank" rel="noopener">Ver perfil completo</a>` : ''}
       </div>
+      ${coreUrl || context.isSelf ? '' : '<p class="pet-health-note">Esta persona no comparte su perfil de Convergencia Aura.</p>'}
       ${createProfileReportMarkup('perfil_publico', profile.id)}
     `;
     view.querySelector('[data-human-profile-write]')?.addEventListener('click', () => {
@@ -1512,13 +1515,16 @@
   const loadPetConnections = async (animalId, container) => {
     if (!container) return;
     const animalName = activePetProfile?.nombre || 'esta mascota';
-    const [animalLinksResult, humansResult, animalsResult, personLinksResult] = await Promise.all([
+    const [animalLinksResult, humansResult, animalsResult, personLinksResult, coreAliasResult] = await Promise.all([
       db.from('vinculos_animales').select('animal_a_id,animal_b_id,tipo,descripcion').eq('estado', 'confirmado').or(`animal_a_id.eq.${animalId},animal_b_id.eq.${animalId}`),
       db.rpc('humanos_visibles_de_animal', { p_animal_id: animalId }),
       db.from('animales').select('id,nombre,es_comunitario').eq('estado', 'publicado'),
       // Mismos vínculos que «Mi árbol»: personas confirmadas y marcadas como visibles.
       db.from('vinculos_animal_humano').select('perfil_publico_id,tipo,descripcion,perfiles_publicos(alias)').eq('animal_id', animalId).eq('estado', 'confirmado').eq('visible_publicamente', true),
+      // Alias de Core solo de quienes eligieron visibilidad ampliada; si la función falla, simplemente no hay enlace.
+      db.rpc('alias_core_de_humanos_visibles', { p_animal_id: animalId }),
     ]);
+    const coreAliases = new Map((coreAliasResult?.error ? [] : (coreAliasResult?.data || [])).map((row) => [row.perfil_publico_id, row.alias_core]));
     const animals = new Map((animalsResult.data || []).map((item) => [item.id, item]));
     const humans = humansResult.error ? [] : (humansResult.data || []);
     const cards = [];
@@ -1526,7 +1532,7 @@
     if (humans.length) {
       cards.push(`<div class="pet-human-tiles">${humans.map((human) => {
         const initial = (human.alias || '?').slice(0, 1).toUpperCase();
-        return `<button class="human-tile" type="button" data-open-human="${escapeHtml(human.perfil_publico_id)}" data-human-alias="${escapeHtml(human.alias)}" data-human-role="${escapeHtml(human.rol)}" aria-label="Ver el perfil de ${escapeHtml(human.alias)}, ${escapeHtml(familyRoleLabel(human.rol))}"><span class="human-tile-photo" aria-hidden="true">${escapeHtml(initial)}</span><span class="human-tile-name">${escapeHtml(human.alias)}</span><small>${escapeHtml(familyRoleLabel(human.rol))}</small></button>`;
+        return `<button class="human-tile" type="button" data-open-human="${escapeHtml(human.perfil_publico_id)}" data-human-alias="${escapeHtml(human.alias)}" data-human-role="${escapeHtml(human.rol)}" data-human-core-alias="${escapeHtml(coreAliases.get(human.perfil_publico_id) || '')}" aria-label="Ver el perfil de ${escapeHtml(human.alias)}, ${escapeHtml(familyRoleLabel(human.rol))}"><span class="human-tile-photo" aria-hidden="true">${escapeHtml(initial)}</span><span class="human-tile-name">${escapeHtml(human.alias)}</span><small>${escapeHtml(familyRoleLabel(human.rol))}</small></button>`;
       }).join('')}</div>`);
     }
     const shownProfiles = new Set(humans.map((h) => h.perfil_publico_id));
@@ -1547,7 +1553,7 @@
         const { data } = await db.from('perfiles_publicos').select('id,alias,biografia').eq('id', perfilId).maybeSingle();
         showHumanProfile(
           { id: perfilId, alias: data?.alias || button.dataset.humanAlias, biografia: data?.biografia },
-          { animalId, animalName, rol: button.dataset.humanRole, isSelf: ownPublicProfile?.id === perfilId },
+          { animalId, animalName, rol: button.dataset.humanRole, coreAlias: button.dataset.humanCoreAlias, isSelf: ownPublicProfile?.id === perfilId },
         );
       });
     });
