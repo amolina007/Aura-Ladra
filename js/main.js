@@ -1462,16 +1462,27 @@
     });
   };
 
-  const showHumanProfile = (profile) => {
+  const showHumanProfile = (profile, context = {}) => {
     const dialog = document.querySelector('[data-human-profile-dialog]');
     const view = document.querySelector('[data-human-profile-view]');
     if (!dialog || !view || !profile) return;
+    const initial = (profile.alias || '?').slice(0, 1).toUpperCase();
+    const roleText = context.rol ? `${familyRoleLabel(context.rol)} de ${context.animalName || 'esta mascota'}` : '';
+    // «Ver perfil completo» lleva a Convergencia Aura, donde ya existen seguir, amistad y mensajería.
+    const coreUrl = `https://core.convergenciaaura.cl/perfil.html?u=${encodeURIComponent(profile.alias)}`;
     view.innerHTML = `
-      <p class="kicker">Perfil público</p>
-      <h3 id="human-profile-title">${escapeHtml(profile.alias)}</h3>
+      <div class="human-profile-head"><span class="human-tile-photo human-profile-photo" aria-hidden="true">${escapeHtml(initial)}</span><div><p class="kicker">Perfil público</p><h3 id="human-profile-title">${escapeHtml(profile.alias)}</h3>${roleText ? `<p class="human-profile-role">${escapeHtml(roleText)}</p>` : ''}</div></div>
       <p>${escapeHtml(profile.biografia || 'Esta persona todavía no escribió una presentación.')}</p>
+      <div class="human-profile-actions">
+        ${context.isSelf || !context.animalId ? '' : '<button class="button button-dark" type="button" data-human-profile-write>Escribir</button>'}
+        <a class="button button-outline" href="${coreUrl}" target="_blank" rel="noopener">Ver perfil completo</a>
+      </div>
       ${createProfileReportMarkup('perfil_publico', profile.id)}
     `;
+    view.querySelector('[data-human-profile-write]')?.addEventListener('click', () => {
+      dialog.close();
+      openContactHumanDialog({ perfilId: profile.id, alias: profile.alias, animalId: context.animalId, animalName: context.animalName || 'la mascota' });
+    });
     bindProfileReportForm(view);
     if (!dialog.open) dialog.showModal();
   };
@@ -1511,19 +1522,13 @@
     const animals = new Map((animalsResult.data || []).map((item) => [item.id, item]));
     const humans = humansResult.error ? [] : (humansResult.data || []);
     const cards = [];
-    humans.forEach((human) => {
-      const isSelf = ownPublicProfile?.id === human.perfil_publico_id;
-      const expanded = human.visibilidad === 'ampliado';
-      const initial = (human.alias || '?').slice(0, 1).toUpperCase();
-      cards.push(`<article class="pet-connection-card pet-human-card${expanded ? ' is-expanded' : ''}">
-        ${expanded ? `<div class="pet-human-avatar" aria-hidden="true">${escapeHtml(initial)}</div>` : ''}
-        <div class="pet-human-copy">
-          <strong>${escapeHtml(human.alias)}</strong>
-          <small>${escapeHtml(familyRoleLabel(human.rol))}</small>
-          ${isSelf ? '' : `<button class="button button-dark pet-human-contact" type="button" data-contact-human="${escapeHtml(human.perfil_publico_id)}" data-contact-alias="${escapeHtml(human.alias)}">Contactar</button>`}
-        </div>
-      </article>`);
-    });
+    // Cada humano es una miniatura cuadrada; al pulsarla se abre su perfil.
+    if (humans.length) {
+      cards.push(`<div class="pet-human-tiles">${humans.map((human) => {
+        const initial = (human.alias || '?').slice(0, 1).toUpperCase();
+        return `<button class="human-tile" type="button" data-open-human="${escapeHtml(human.perfil_publico_id)}" data-human-alias="${escapeHtml(human.alias)}" data-human-role="${escapeHtml(human.rol)}" aria-label="Ver el perfil de ${escapeHtml(human.alias)}, ${escapeHtml(familyRoleLabel(human.rol))}"><span class="human-tile-photo" aria-hidden="true">${escapeHtml(initial)}</span><span class="human-tile-name">${escapeHtml(human.alias)}</span><small>${escapeHtml(familyRoleLabel(human.rol))}</small></button>`;
+      }).join('')}</div>`);
+    }
     const shownProfiles = new Set(humans.map((h) => h.perfil_publico_id));
     (personLinksResult.error ? [] : (personLinksResult.data || [])).forEach((link) => {
       const alias = link.perfiles_publicos?.alias;
@@ -1536,14 +1541,14 @@
       if (other) cards.push(`<article class="pet-connection-card"><span>${other.es_comunitario ? 'Animal comunitario' : 'Mascota'}</span><strong>${escapeHtml(other.nombre)}</strong><small>${escapeHtml(link.tipo)}${link.descripcion ? ` · ${escapeHtml(link.descripcion)}` : ''}</small></article>`);
     });
     container.innerHTML = cards.length ? cards.join('') : '<p class="empty-state">Todavía no hay humanos visibles ni otros vínculos públicos.</p>';
-    container.querySelectorAll('[data-contact-human]').forEach((button) => {
-      button.addEventListener('click', () => {
-        openContactHumanDialog({
-          perfilId: button.dataset.contactHuman,
-          alias: button.dataset.contactAlias,
-          animalId,
-          animalName,
-        });
+    container.querySelectorAll('[data-open-human]').forEach((button) => {
+      button.addEventListener('click', async () => {
+        const perfilId = button.dataset.openHuman;
+        const { data } = await db.from('perfiles_publicos').select('id,alias,biografia').eq('id', perfilId).maybeSingle();
+        showHumanProfile(
+          { id: perfilId, alias: data?.alias || button.dataset.humanAlias, biografia: data?.biografia },
+          { animalId, animalName, rol: button.dataset.humanRole, isSelf: ownPublicProfile?.id === perfilId },
+        );
       });
     });
   };

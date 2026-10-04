@@ -689,6 +689,18 @@ button.pet-connect-option:hover, button.pet-connect-option:focus-visible { borde
 .pet-connections article { padding: 12px; border-radius: 12px; background: var(--cream); }
 .pet-connections article span, .pet-connections article small { display: block; color: var(--muted); font-size: .7rem; }
 .pet-connections article strong { display: block; color: var(--navy); margin: 2px 0; }
+.pet-human-tiles { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 8px; }
+.human-tile { display: grid; gap: 2px; justify-items: center; padding: 8px 6px; border: 0; border-radius: 12px; background: var(--cream); color: var(--navy); font: inherit; text-align: center; cursor: pointer; }
+.human-tile:focus-visible { outline: 3px solid var(--navy); outline-offset: 2px; }
+.human-tile-photo { width: 100%; max-width: 76px; aspect-ratio: 1; border-radius: 12px; display: grid; place-items: center; background: var(--navy); color: var(--white); font-size: 1.6rem; font-weight: 800; }
+.human-tile-name { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 800; font-size: .8rem; }
+.human-tile small { color: var(--muted); font-size: .65rem; }
+.human-profile-head { display: flex; align-items: center; gap: 14px; margin-bottom: 8px; }
+.human-profile-photo { width: 72px; flex: 0 0 auto; }
+.human-profile-role { margin: 0; color: var(--muted); font-size: .85rem; }
+.human-profile-actions .button { min-height: 44px; padding: 0 18px; }
+.button-outline { border: 2px solid var(--navy); color: var(--navy); background: transparent; }
+.human-profile-actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0; }
 .pet-human-card { display: flex; align-items: center; gap: 12px; }
 .pet-human-avatar { flex: 0 0 auto; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: var(--navy); color: var(--white); font-weight: 800; }
 .pet-human-copy { min-width: 0; display: grid; gap: 4px; }
