@@ -1333,6 +1333,10 @@
     return value < 25 ? 'Bravo / muy reactivo' : value < 50 ? 'Cauteloso' : value < 75 ? 'Equilibrado' : 'Manso / confiado';
   };
 
+  // La base entrega solo lo que esta persona puede ver; un dato ausente no se muestra (ni como «Sin informar»).
+  const petSummaryFields = { especie: 'especie', raza: 'raza', tamano: 'tamano', peso: 'peso_kg', sexo: 'sexo', nacimiento: 'fecha_nacimiento', color: 'color_pelaje', registro: 'estado_registro', caracter: 'caracter_puntaje', diagnostico_nutricional: 'diagnostico_nutricional', habilidades: 'habilidades', estado_seguridad: 'estado_seguridad' };
+  const hasPetField = (animal, key) => Object.prototype.hasOwnProperty.call(animal, petSummaryFields[key] || key);
+
   const petSummaryValue = (animal, key) => ({
     especie: petValue(animal.especie), raza: petValue(animal.raza), tamano: petSizeLabels[animal.tamano] || 'Sin informar',
     peso: animal.peso_kg ? `${Number(animal.peso_kg).toLocaleString('es-CL')} kg` : 'Sin informar', sexo: petValue(animal.sexo),
@@ -1364,7 +1368,7 @@
     const skills = Array.isArray(animal.habilidades) ? animal.habilidades.filter((skill) => petSkillLabels[skill]) : [];
     const characterScore = animal.caracter_puntaje === null || animal.caracter_puntaje === undefined || animal.caracter_puntaje === '' ? null : Number(animal.caracter_puntaje);
     const characterLabel = characterSummary(characterScore);
-    const summaryBlocks = [...new Set(Array.isArray(animal.bloques_resumen) ? animal.bloques_resumen.filter((key) => petSummaryLabels[key]) : defaultPetSummaryBlocks)].slice(0, 8);
+    const summaryBlocks = [...new Set(Array.isArray(animal.bloques_resumen) ? animal.bloques_resumen.filter((key) => petSummaryLabels[key]) : defaultPetSummaryBlocks)].filter((key) => hasPetField(animal, key)).slice(0, 8);
     const deathLabel = animal.fecha_deceso
       ? new Intl.DateTimeFormat('es-CL', { dateStyle: 'long' }).format(new Date(`${animal.fecha_deceso}T12:00:00`))
       : '';
@@ -1378,7 +1382,7 @@
       ${isOwned && animal.numero_registro ? `<p class="pet-private-detail"><strong>N.º de registro:</strong> ${escapeHtml(animal.numero_registro)}</p>` : ''}
       ${animal.senas_particulares ? `<div class="pet-profile-notes"><strong>Señas particulares</strong><p>${escapeHtml(animal.senas_particulares)}</p></div>` : ''}
       <div class="pet-profile-sections">
-        ${isOwned ? `<section class="pet-profile-section is-private"><div class="pet-section-heading"><div><h4>Ficha de salud</h4><span class="privacy-badge">Privada</span></div><button class="section-edit-button" type="button" data-edit-pet-section="salud">Editar</button></div>${healthSummaryCardHtml(health)}<dl class="pet-health-summary">
+        ${isOwned || hasPetField(animal, 'salud') ? `<section class="pet-profile-section is-private"><div class="pet-section-heading"><div><h4>Ficha de salud</h4><span class="privacy-badge">${isOwned ? 'Privada' : 'Compartida con amistades'}</span></div>${isOwned ? '<button class="section-edit-button" type="button" data-edit-pet-section="salud">Editar</button>' : ''}</div>${healthSummaryCardHtml(health, !isOwned)}<dl class="pet-health-summary">
           <div><dt>Antropometría</dt><dd>${animal.peso_kg ? `${Number(animal.peso_kg).toLocaleString('es-CL')} kg` : 'Peso sin registrar'}${health.altura_cm ? ` · ${escapeHtml(health.altura_cm)} cm` : ''}${health.condicion_corporal ? ` · condición corporal ${escapeHtml(health.condicion_corporal)}/9` : ''}</dd></div>
           <div><dt>Diagnóstico nutricional</dt><dd>${escapeHtml(animal.diagnostico_nutricional || 'Sin diagnóstico registrado')}</dd></div>
           <div><dt>Vacunación</dt><dd>${vaccinesViewHtml(health, legacyVaccineText(health))}</dd></div>
@@ -1388,7 +1392,7 @@
           <div><dt>Alergias</dt><dd>${healthViewHtml(health, 'alergia', health.alergias, health.alergias_estado === 'sin_alergias' ? 'Sin alergias conocidas (confirmado por el cuidador)' : 'No informado. No equivale a ausencia de alergias.')}</dd></div>
         </dl><p class="pet-health-note">Información orientativa; no reemplaza la ficha veterinaria.</p></section>` : ''}
         <section class="pet-profile-section"><div class="pet-section-heading"><h4>Humanos y vínculos</h4>${isOwned ? '<button class="section-edit-button" type="button" data-edit-pet-section="vinculos">Editar</button>' : ''}</div><div class="pet-connections" data-pet-connections><p class="empty-state">Consultando humanos y vínculos…</p></div></section>
-        <section class="pet-profile-section"><div class="pet-section-heading"><div><h4>Árbol de habilidades</h4><span>${skills.length} logradas</span></div>${isOwned ? '<button class="section-edit-button" type="button" data-edit-pet-section="habilidades">Editar</button>' : ''}</div>${skills.length ? `<div class="pet-skill-display">${skills.map((skill) => `<span>${escapeHtml(petSkillLabels[skill])}</span>`).join('')}</div>` : '<p class="empty-state">Todavía no tiene habilidades registradas.</p>'}</section>
+        ${hasPetField(animal, 'habilidades') ? `<section class="pet-profile-section"><div class="pet-section-heading"><div><h4>Árbol de habilidades</h4><span>${skills.length} logradas</span></div>${isOwned ? '<button class="section-edit-button" type="button" data-edit-pet-section="habilidades">Editar</button>' : ''}</div>${skills.length ? `<div class="pet-skill-display">${skills.map((skill) => `<span>${escapeHtml(petSkillLabels[skill])}</span>`).join('')}</div>` : '<p class="empty-state">Todavía no tiene habilidades registradas.</p>'}</section>` : ''}
         <section class="pet-profile-section"><div class="pet-section-heading"><div><h4>Carácter</h4><strong>${escapeHtml(characterLabel)}</strong></div>${isOwned ? '<button class="section-edit-button" type="button" data-edit-pet-section="caracter">Editar</button>' : ''}</div><div class="pet-character-meter${characterScore === null ? ' is-empty' : ''}"${characterScore === null ? '' : ` data-character-score="${characterScore}"`}><span></span></div><div class="pet-character-scale"><small>Bravo / reactivo</small><b>${characterScore === null ? 'Sin cuestionario' : `${characterScore}%`}</b><small>Manso / confiado</small></div><p class="pet-health-note">Indicador orientativo basado en conducta habitual; no garantiza cómo reaccionará en una situación nueva.</p></section>
       </div>
       ${createProfileReportMarkup('animal', animal.id)}
@@ -1559,12 +1563,28 @@
     });
   };
 
+  // Abre la ficha de una mascota. Las propias vienen completas desde «mis_animales»; las demás se piden a la
+  // base, que entrega solo lo que esta persona puede ver según su relación. Si esa función falla,
+  // se usan los datos públicos de siempre.
+  const openPetProfileById = async (animalId) => {
+    const own = ownAnimals.find((item) => item.id === animalId);
+    if (own) {
+      showPetProfile(own);
+      return true;
+    }
+    const fallback = publicAnimals.find((item) => item.id === animalId);
+    const { data, error } = await db.rpc('ficha_animal_segun_relacion', { p_animal_id: animalId });
+    const animal = !error && data && typeof data === 'object' ? data : fallback;
+    if (!animal) return false;
+    showPetProfile(animal);
+    return true;
+  };
+
   // Puente para «Mi árbol de vínculos»: reutiliza la MISMA ficha (mismo id), no crea otra.
   window.auraLadraFicha = {
     abrir: (id) => {
-      const animal = ownAnimals.find((item) => item.id === id) || publicAnimals.find((item) => item.id === id);
-      if (!animal) return false;
-      showPetProfile(animal);
+      if (!ownAnimals.some((item) => item.id === id) && !publicAnimals.some((item) => item.id === id)) return false;
+      openPetProfileById(id);
       return true;
     },
     editar: (id) => {
@@ -1680,7 +1700,7 @@
     if (!items && !legacy) return 'Sin antecedentes registrados';
     return `${items ? `<ul class="health-record-list is-view">${items}</ul>` : ''}${legacy}`;
   };
-  const healthSummaryCardHtml = (health) => {
+  const healthSummaryCardHtml = (health, readOnly = false) => {
     const today = healthTodayIso();
     const allergies = (Array.isArray(health.antecedentes) ? health.antecedentes : []).filter((record) => record && record.tipo === 'alergia' && typeof record.nombre === 'string');
     const legacyAllergies = typeof health.alergias === 'string' ? health.alergias.trim() : '';
@@ -1694,12 +1714,12 @@
       .sort((a, b) => a.proxima.localeCompare(b.proxima));
     const next = upcoming.find((vaccine) => vaccine.proxima >= today) || null;
     const overdue = next ? null : upcoming[upcoming.length - 1] || null;
-    let careHtml = 'Sin próximos cuidados registrados. Agrega la próxima dosis en el carnet.';
+    let careHtml = readOnly ? 'Sin próximos cuidados registrados.' : 'Sin próximos cuidados registrados. Agrega la próxima dosis en el carnet.';
     if (next) careHtml = `<strong>${escapeHtml(next.nombre)}</strong> · ${escapeHtml(formatHealthDate(next.proxima))}`;
     else if (overdue) careHtml = `<strong>${escapeHtml(overdue.nombre)}</strong> · fecha pasada (${escapeHtml(formatHealthDate(overdue.proxima))}). Consulta al veterinario.`;
     const vaccineCount = allVaccinesOf(health).length;
     const recordCount = Array.isArray(health.antecedentes) ? health.antecedentes.length : 0;
-    return `<div class="health-summary-card"><div><p class="health-summary-label">Alergias</p><div class="health-chips">${allergyHtml}</div></div><div><p class="health-summary-label">Próximo cuidado</p><p class="health-summary-care">${careHtml}</p></div><div class="health-summary-actions"><button class="button" type="button" data-health-jump="vacunas">Carnet de vacunas (${vaccineCount})</button><button class="button" type="button" data-health-jump="antecedentes">Antecedentes (${recordCount})</button></div></div>`;
+    return `<div class="health-summary-card"><div><p class="health-summary-label">Alergias</p><div class="health-chips">${allergyHtml}</div></div><div><p class="health-summary-label">Próximo cuidado</p><p class="health-summary-care">${careHtml}</p></div>${readOnly ? '' : `<div class="health-summary-actions"><button class="button" type="button" data-health-jump="vacunas">Carnet de vacunas (${vaccineCount})</button><button class="button" type="button" data-health-jump="antecedentes">Antecedentes (${recordCount})</button></div>`}</div>`;
   };
   const addVaccine = (box) => {
     if (!box || !healthDraft) return;
@@ -2510,16 +2530,14 @@
   document.querySelectorAll('[data-animal-grid]').forEach((grid) => grid.addEventListener('click', (event) => {
     const button = event.target.closest('[data-open-public-pet-profile]');
     const animalId = button?.dataset.openPublicPetProfile;
-    // Las mascotas propias se buscan primero: su ficha incluye la salud privada.
-    const animal = ownAnimals.find((item) => item.id === animalId) || publicAnimals.find((item) => item.id === animalId);
-    if (animal) showPetProfile(animal);
+    if (animalId) openPetProfileById(animalId);
   }));
 
   document.querySelector('[data-pet-profile-dialog]')?.addEventListener('click', (event) => {
     const dialog = event.currentTarget;
     if (event.target === dialog || event.target.closest('[data-pet-profile-close]')) dialog.close();
     const jumpButton = event.target.closest('[data-health-jump]');
-    if (jumpButton && activePetProfile) {
+    if (jumpButton && activePetProfile && ownAnimals.some((item) => item.id === activePetProfile.id)) {
       startPetProfileEdit('salud');
       const target = jumpButton.dataset.healthJump === 'vacunas' ? '[data-vaccine-group]' : '[data-health-type]';
       document.querySelector(target)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
