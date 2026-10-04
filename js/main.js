@@ -108,6 +108,7 @@
     if (params.get('auth') !== 'magic' || !session?.user) return;
     setMessage(document.querySelector('[data-auth-message]'), 'Sesión iniciada correctamente.', 'success');
     window.history.replaceState(null, '', `${window.location.pathname}#cuenta`);
+    window.auraLadraVistas?.mostrar('cuenta', { desplazar: false });
   };
 
   const toLocalDateTimeValue = (date = new Date()) => {
@@ -196,6 +197,7 @@
   const scrollToMapWithFilter = (filter) => {
     const filterButton = document.querySelector(`[data-place-filter="${filter}"]`);
     filterButton?.click();
+    window.auraLadraVistas?.ir('mapa');
     document.querySelector('#mapa')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
@@ -747,6 +749,15 @@
       communityMap.fitBounds(visibleCoordinates, { padding: [32, 32], maxZoom: 14 });
     }
   };
+
+  document.addEventListener('vista:cambio', (event) => {
+    if (event.detail?.vista !== 'mapa') return;
+    // El mapa se calculó con la sección oculta (tamaño 0): al mostrarse hay que recalcularlo.
+    setTimeout(() => {
+      communityMap?.invalidateSize();
+      locationPickerMap?.invalidateSize();
+    }, 0);
+  });
 
   const initializeMap = () => {
     if (!window.L || communityMap || !document.querySelector('#community-map')) return;
@@ -2491,6 +2502,7 @@
     if (lostButton) {
       document.querySelector('[data-action="perdida"]')?.click();
       await showNoticeBuilder('perdida', animal.id);
+      window.auraLadraVistas?.ir('acciones');
       document.querySelector('#acciones')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       return;
     }
@@ -2546,6 +2558,7 @@
     const editButton = event.target.closest('[data-edit-pet-section]');
     if (editButton?.dataset.editPetSection === 'vinculos') {
       dialog.close();
+      window.auraLadraVistas?.ir('red');
       document.querySelector('[data-animal-link-form]')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       setMessage(document.querySelector('[data-account-animal-message]'), 'Puedes proponer vínculos aquí. Si la otra mascota tiene responsable, esa persona deberá autorizarlo.');
     } else if (editButton) startPetProfileEdit(editButton.dataset.editPetSection);
@@ -2607,6 +2620,7 @@
     if (event.target === dialog || event.target.closest('[data-pet-connect-close]')) dialog.close();
     if (event.target.closest('[data-create-new-pet]')) {
       dialog.close();
+      window.auraLadraVistas?.ir('red');
       document.querySelector('[data-animal-form]')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       document.querySelector('[data-animal-form] input[name="nombre"]')?.focus({ preventScroll: true });
     }

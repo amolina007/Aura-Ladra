@@ -83,7 +83,15 @@
   window.addEventListener('popstate', alCambiarHistorial);
   window.addEventListener('hashchange', alCambiarHistorial);
 
-  window.auraLadraVistas = { mostrar, actual: () => actual, vistas: VISTAS };
+  // Cambia de sección desde el código (botones internos) sin desplazar; deja la dirección y el «atrás» al día.
+  const ir = (id) => {
+    const vista = vistaDeId(id);
+    if (!vista) return null;
+    if (idDeHash(window.location.hash) !== id) window.history.pushState({ vista }, '', `#${id}`);
+    return mostrar(id, { desplazar: false });
+  };
+
+  window.auraLadraVistas = { mostrar, ir, actual: () => actual, vistas: VISTAS };
 
   // Vista inicial según la dirección (#red, #cuenta…); sin ancla, la portada.
   // El script va al final de la página, así que las secciones ya existen: se aplica de inmediato (sin parpadeo)
