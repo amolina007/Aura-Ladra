@@ -616,6 +616,11 @@ button.pet-connect-option:hover, button.pet-connect-option:focus-visible { borde
 
 .animal-network { background: transparent; }
 .animal-network-summary { margin: -20px 0 20px; color: var(--muted); font-size: .86rem; font-weight: 700; }
+/* Red animal: dos grupos («Mi red» y «Descubrir») */
+.animal-group { margin-bottom: 44px; }
+.animal-group[hidden] { display: none; }
+.animal-group-title { margin: 0 0 4px; color: var(--navy); font: 650 1.5rem "Fraunces", serif; }
+.animal-group-help { margin: 0 0 16px; color: var(--muted); font-size: .86rem; }
 /* Red animal: grilla de miniaturas cuadradas (estilo perfiles) */
 .animal-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
 .animal-grid > .empty-state { grid-column: 1 / -1; }

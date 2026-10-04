@@ -847,8 +847,43 @@
     return tile;
   };
 
+  // Las mascotas extraviadas (Most Wanted) siempre aparecen primero; el resto va por nombre.
+  const lostFirst = (animals) => [...animals].sort((a, b) => {
+    const aOrder = a.estado_seguridad === 'extraviada' ? 0 : 1;
+    const bOrder = b.estado_seguridad === 'extraviada' ? 0 : 1;
+    return aOrder - bOrder || String(a.nombre).localeCompare(String(b.nombre), 'es');
+  });
+
+  const fillAnimalGrid = (grid, animals, emptyText) => {
+    if (!grid) return;
+    if (!animals.length) {
+      const empty = document.createElement('p');
+      empty.className = 'empty-state';
+      empty.textContent = emptyText;
+      grid.replaceChildren(empty);
+      return;
+    }
+    grid.replaceChildren(...lostFirst(animals).map((animal) => createAnimalCard(animal)));
+  };
+
+  // Dibuja las dos grillas: «Mi red» (tus mascotas) y «Descubrir» (las de otros dueños).
+  // Se llama al terminar de cargar las mascotas públicas y también las tuyas, porque
+  // esas dos cargas ocurren al mismo tiempo y pueden terminar en cualquier orden.
+  const renderAnimalGrids = () => {
+    const hasUser = Boolean(currentSession?.user);
+    const ownIds = new Set(ownAnimals.map((animal) => animal.id));
+    const networkGroup = document.querySelector('[data-animal-group="mi-red"]');
+    if (networkGroup) networkGroup.hidden = !hasUser;
+    fillAnimalGrid(document.querySelector('[data-animal-grid="mi-red"]'), ownAnimals, 'Todavía no tienes mascotas. Crea su ficha en “Mi cuenta”.');
+    const discover = publicAnimals.filter((animal) => !ownIds.has(animal.id));
+    fillAnimalGrid(
+      document.querySelector('[data-animal-grid="descubrir"]'),
+      discover,
+      publicAnimals.length ? 'Por ahora no hay otras mascotas por descubrir.' : 'La primera red de animales está en preparación.',
+    );
+  };
+
   async function loadAnimalNetwork() {
-    const container = document.querySelector('[data-animal-grid]');
     const [animalsResult, profilesResult, humanResult, animalLinksResult, countResult] = await Promise.all([
       db.from('animales').select('id,slug,nombre,especie,biografia,foto_url,zona_publica,es_comunitario,estado,estado_seguridad,raza,tamano,peso_kg,fecha_nacimiento,sexo,color_pelaje,estado_registro,habilidades,caracter_puntaje,diagnostico_nutricional,bloques_resumen,es_conmemorativa,fecha_deceso').eq('estado', 'publicado').eq('mostrar_en_red', true).order('nombre'),
       db.from('perfiles_publicos').select('id,alias,biografia,estado').eq('estado', 'publicado'),
@@ -867,15 +902,7 @@
     if (networkSummary) networkSummary.textContent = counts
       ? `${Number(counts.total_registradas).toLocaleString('es-CL')} ${Number(counts.total_registradas) === 1 ? 'mascota registrada' : 'mascotas registradas'} · ${Number(counts.perfiles_visibles).toLocaleString('es-CL')} ${Number(counts.perfiles_visibles) === 1 ? 'perfil visible' : 'perfiles visibles'}`
       : `${publicAnimals.length.toLocaleString('es-CL')} ${publicAnimals.length === 1 ? 'perfil visible' : 'perfiles visibles'}`;
-    if (!container) return;
-    if (!publicAnimals.length) {
-      const empty = document.createElement('p');
-      empty.className = 'empty-state';
-      empty.textContent = 'La primera red de animales está en preparación.';
-      container.replaceChildren(empty);
-    } else {
-      container.replaceChildren(...publicAnimals.map((animal) => createAnimalCard(animal)));
-    }
+    renderAnimalGrids();
     document.querySelectorAll('[data-public-animal-options]').forEach((select) => fillSelect(select, publicAnimals, 'Selecciona un animal'));
     document.querySelectorAll('[data-connect-animal-options]').forEach((select) => {
       const candidates = publicAnimals.filter((animal) => !ownAnimals.some((own) => own.id === animal.id));
@@ -1804,6 +1831,7 @@
       ownPublicProfile = null;
       renderAccountAnimals();
       renderMyProfile();
+      renderAnimalGrids();
       const linkSection = document.querySelector('[data-link-requests-section]');
       if (linkSection) linkSection.hidden = true;
       return;
@@ -1813,6 +1841,7 @@
     ownPublicProfile = profileResult.error ? null : (profileResult.data?.[0] || null);
     renderAccountAnimals();
     renderMyProfile();
+    renderAnimalGrids();
     document.querySelectorAll('[data-own-animal-options]').forEach((select) => fillSelect(select, ownAnimals, ownAnimals.length ? 'Selecciona uno de tus animales' : 'Primero agrega un animal'));
     document.querySelectorAll('[data-link-animal-options]').forEach((select) => {
       fillSelect(select, publicAnimals, publicAnimals.length ? 'Selecciona un animal de la red' : 'Aún no hay animales publicados');
@@ -2431,11 +2460,13 @@
     showPetProfile(animal);
   });
 
-  document.querySelector('[data-animal-grid]')?.addEventListener('click', (event) => {
+  document.querySelectorAll('[data-animal-grid]').forEach((grid) => grid.addEventListener('click', (event) => {
     const button = event.target.closest('[data-open-public-pet-profile]');
-    const animal = publicAnimals.find((item) => item.id === button?.dataset.openPublicPetProfile);
+    const animalId = button?.dataset.openPublicPetProfile;
+    // Las mascotas propias se buscan primero: su ficha incluye la salud privada.
+    const animal = ownAnimals.find((item) => item.id === animalId) || publicAnimals.find((item) => item.id === animalId);
     if (animal) showPetProfile(animal);
-  });
+  }));
 
   document.querySelector('[data-pet-profile-dialog]')?.addEventListener('click', (event) => {
     const dialog = event.currentTarget;
