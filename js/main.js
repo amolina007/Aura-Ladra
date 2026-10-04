@@ -1389,10 +1389,17 @@
         </dl><p class="pet-health-note">Información orientativa; no reemplaza la ficha veterinaria.</p></section>` : ''}
         <section class="pet-profile-section"><div class="pet-section-heading"><h4>Humanos y vínculos</h4>${isOwned ? '<button class="section-edit-button" type="button" data-edit-pet-section="vinculos">Editar</button>' : ''}</div><div class="pet-connections" data-pet-connections><p class="empty-state">Consultando humanos y vínculos…</p></div></section>
         <section class="pet-profile-section"><div class="pet-section-heading"><div><h4>Árbol de habilidades</h4><span>${skills.length} logradas</span></div>${isOwned ? '<button class="section-edit-button" type="button" data-edit-pet-section="habilidades">Editar</button>' : ''}</div>${skills.length ? `<div class="pet-skill-display">${skills.map((skill) => `<span>${escapeHtml(petSkillLabels[skill])}</span>`).join('')}</div>` : '<p class="empty-state">Todavía no tiene habilidades registradas.</p>'}</section>
-        <section class="pet-profile-section"><div class="pet-section-heading"><div><h4>Carácter</h4><strong>${escapeHtml(characterLabel)}</strong></div>${isOwned ? '<button class="section-edit-button" type="button" data-edit-pet-section="caracter">Editar</button>' : ''}</div><div class="pet-character-meter" style="--character-score:${characterScore ?? 50}%"><span></span></div><div class="pet-character-scale"><small>Bravo / reactivo</small><b>${characterScore === null ? 'Sin cuestionario' : `${characterScore}%`}</b><small>Manso / confiado</small></div><p class="pet-health-note">Indicador orientativo basado en conducta habitual; no garantiza cómo reaccionará en una situación nueva.</p></section>
+        <section class="pet-profile-section"><div class="pet-section-heading"><div><h4>Carácter</h4><strong>${escapeHtml(characterLabel)}</strong></div>${isOwned ? '<button class="section-edit-button" type="button" data-edit-pet-section="caracter">Editar</button>' : ''}</div><div class="pet-character-meter${characterScore === null ? ' is-empty' : ''}"${characterScore === null ? '' : ` data-character-score="${characterScore}"`}><span></span></div><div class="pet-character-scale"><small>Bravo / reactivo</small><b>${characterScore === null ? 'Sin cuestionario' : `${characterScore}%`}</b><small>Manso / confiado</small></div><p class="pet-health-note">Indicador orientativo basado en conducta habitual; no garantiza cómo reaccionará en una situación nueva.</p></section>
       </div>
       ${createProfileReportMarkup('animal', animal.id)}
       `;
+    // La política de seguridad no permite estilos escritos dentro del HTML:
+    // la posición de la bolita se asigna desde JavaScript.
+    const characterMeter = view.querySelector('[data-character-score]');
+    if (characterMeter) {
+      const clampedScore = Math.min(100, Math.max(0, Number(characterMeter.dataset.characterScore)));
+      characterMeter.style.setProperty('--character-score', `${clampedScore}%`);
+    }
     renderPetPhotos(view.querySelector('[data-pet-profile-gallery]'), animal);
     loadPetConnections(animal.id, view.querySelector('[data-pet-connections]'));
     bindProfileReportForm(view);

@@ -680,6 +680,8 @@ button.pet-connect-option:hover, button.pet-connect-option:focus-visible { borde
 .pet-character-live, .pet-character-scale { display: flex; align-items: center; justify-content: space-between; gap: 10px; color: var(--muted); font-size: .72rem; }
 .pet-character-live output { padding: 8px 12px; border-radius: 999px; background: var(--cream); color: var(--navy); font-weight: 800; text-align: center; }
 .pet-character-meter { position: relative; height: 12px; margin-top: 8px; border-radius: 999px; background: linear-gradient(90deg, #b93b2d, #f2a93b 45%, #4b9c75); }
+.pet-character-meter.is-empty { opacity: .35; }
+.pet-character-meter.is-empty span { display: none; }
 .pet-character-meter span { position: absolute; top: 50%; left: var(--character-score); width: 20px; height: 20px; border: 3px solid var(--white); border-radius: 50%; background: var(--navy); box-shadow: 0 2px 8px rgba(8,26,43,.28); transform: translate(-50%, -50%); }
 .pet-character-scale { margin-top: 7px; }
 .pet-character-scale b { color: var(--navy); }
