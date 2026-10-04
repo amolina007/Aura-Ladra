@@ -813,62 +813,38 @@
     select.replaceChildren(first, ...options);
   };
 
-  const createAnimalCard = (animal, animalLinks, humanLinks, profilesById, animalsById) => {
-    const article = document.createElement('article');
-    article.className = 'animal-card';
-    const avatar = document.createElement('div');
-    avatar.className = 'animal-avatar';
+  // Cada animal se muestra como una miniatura cuadrada (estilo grilla de perfiles).
+  // Al tocarla se abre la ficha pública, igual que antes.
+  const createAnimalCard = (animal) => {
+    const tile = document.createElement('button');
+    tile.type = 'button';
+    tile.className = 'animal-tile';
+    tile.dataset.openPublicPetProfile = animal.id;
+    tile.setAttribute('aria-label', `Conocer a ${animal.nombre}`);
+    if (animal.es_conmemorativa) tile.classList.add('is-memorial');
+    if (animal.estado_seguridad === 'extraviada') tile.classList.add('is-lost');
+    const photo = document.createElement('span');
+    photo.className = 'animal-tile-photo';
     if (animal.foto_url) {
       const image = document.createElement('img');
       image.src = animal.foto_url;
-      image.alt = `Foto de perfil de ${animal.nombre}`;
+      image.alt = '';
       image.loading = 'lazy';
-      avatar.append(image);
+      photo.append(image);
     } else {
-      avatar.textContent = animal.nombre.slice(0, 1).toUpperCase();
+      photo.textContent = animal.nombre.slice(0, 1).toUpperCase();
     }
-    const title = document.createElement('h3');
-    title.textContent = animal.nombre;
-    const bio = document.createElement('p');
-    bio.textContent = animal.biografia || 'Perfil comunitario en construcción.';
-    const meta = document.createElement('div');
-    meta.className = 'animal-meta';
-    [animal.especie, animal.zona_publica, animal.es_comunitario ? 'comunitario' : null, animal.es_conmemorativa ? 'conmemorativa' : null].filter(Boolean).forEach((value) => {
-      const tag = document.createElement('span');
-      if (value === 'conmemorativa') tag.className = 'is-memorial';
-      tag.textContent = value;
-      meta.append(tag);
-    });
+    const name = document.createElement('span');
+    name.className = 'animal-tile-name';
+    name.textContent = animal.nombre;
+    tile.append(photo, name);
     if (animal.estado_seguridad === 'extraviada') {
-      const lostTag = document.createElement('span');
-      lostTag.className = 'is-lost';
-      lostTag.textContent = 'Extraviada';
-      meta.append(lostTag);
+      const lostBadge = document.createElement('span');
+      lostBadge.className = 'animal-tile-badge';
+      lostBadge.textContent = 'Extraviada';
+      tile.append(lostBadge);
     }
-    const connections = [];
-    humanLinks.filter((link) => link.animal_id === animal.id).forEach((link) => {
-      const profile = profilesById.get(link.perfil_publico_id);
-      if (profile) connections.push(`${profile.alias} · ${link.tipo}`);
-    });
-    animalLinks.filter((link) => link.animal_a_id === animal.id || link.animal_b_id === animal.id).forEach((link) => {
-      const otherId = link.animal_a_id === animal.id ? link.animal_b_id : link.animal_a_id;
-      const other = animalsById.get(otherId);
-      if (other) connections.push(`${other.nombre} · ${link.tipo}`);
-    });
-    article.append(avatar, title, bio, meta);
-    if (connections.length) {
-      const links = document.createElement('div');
-      links.className = 'animal-links';
-      links.textContent = `Red: ${connections.join(' · ')}`;
-      article.append(links);
-    }
-    const profileButton = document.createElement('button');
-    profileButton.type = 'button';
-    profileButton.className = 'animal-profile-link';
-    profileButton.dataset.openPublicPetProfile = animal.id;
-    profileButton.textContent = `Conocer a ${animal.nombre} →`;
-    article.append(profileButton);
-    return article;
+    return tile;
   };
 
   async function loadAnimalNetwork() {
@@ -898,7 +874,7 @@
       empty.textContent = 'La primera red de animales está en preparación.';
       container.replaceChildren(empty);
     } else {
-      container.replaceChildren(...publicAnimals.map((animal) => createAnimalCard(animal, animalLinks, humanLinks, profilesById, animalsById)));
+      container.replaceChildren(...publicAnimals.map((animal) => createAnimalCard(animal)));
     }
     document.querySelectorAll('[data-public-animal-options]').forEach((select) => fillSelect(select, publicAnimals, 'Selecciona un animal'));
     document.querySelectorAll('[data-connect-animal-options]').forEach((select) => {
