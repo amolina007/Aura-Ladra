@@ -1212,3 +1212,10 @@ button.pet-connect-option:hover, button.pet-connect-option:focus-visible { borde
 .arbol-escenario > * { min-width: 0; }
 .arbol-escenario { grid-template-columns: minmax(0, 1fr); }
 @media (min-width: 900px) { .arbol-escenario { grid-template-columns: minmax(0, 1fr) 360px; align-items: start; } }
+
+/* Una sección a la vez (js/vistas.js). Antes de que cargue el script solo se ve la portada. */
+.vista-oculta { display: none !important; }
+body:not([data-vista]) [data-vista-de]:not([data-vista-de~="inicio"]) { display: none; }
+body[data-vista="reportar"] .report-grid,
+body[data-vista="cuenta"] .report-grid { grid-template-columns: minmax(0, 760px); justify-content: center; }
+.site-nav a[aria-current="page"] { color: var(--white); box-shadow: 0 2px 0 var(--amber); }

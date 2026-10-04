@@ -3260,40 +3260,7 @@
     }, 0));
   }
 
-  const tabbar = document.querySelector('[data-tabbar]');
-  if (tabbar) {
-    const tabLinks = [...tabbar.querySelectorAll('[data-tabbar-link]')];
-    const tabTarget = (key) => {
-      if (key !== 'perfil') return document.getElementById(key);
-      const card = document.getElementById('mi-perfil');
-      return card && !card.hidden ? card : document.getElementById('cuenta');
-    };
-    const updateTabbar = () => {
-      const line = window.innerHeight * 0.4;
-      let active = tabLinks[0];
-      tabLinks.forEach((link) => {
-        const target = tabTarget(link.dataset.tabbarLink);
-        if (target && target.getBoundingClientRect().top <= line) active = link;
-      });
-      tabLinks.forEach((link) => link.setAttribute('aria-current', String(link === active)));
-    };
-    tabbar.addEventListener('click', (event) => {
-      const link = event.target.closest('[data-tabbar-link]');
-      const target = link && tabTarget(link.dataset.tabbarLink);
-      if (!target) return;
-      event.preventDefault();
-      const stickyHeight = document.querySelector('.ca-site-top')?.offsetHeight || 88;
-      window.scrollTo({ top: Math.max(0, target.getBoundingClientRect().top + window.scrollY - stickyHeight - 8), behavior: 'smooth' });
-    });
-    let tabbarFrame = 0;
-    const scheduleTabbar = () => {
-      if (tabbarFrame) return;
-      tabbarFrame = window.requestAnimationFrame(() => { tabbarFrame = 0; updateTabbar(); });
-    };
-    window.addEventListener('scroll', scheduleTabbar, { passive: true });
-    window.addEventListener('resize', scheduleTabbar);
-    updateTabbar();
-  }
+  // La barra de abajo y el menú los maneja js/vistas.js (una sección a la vez).
 
   initialize();
 })();

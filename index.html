@@ -57,7 +57,7 @@
 </div>
 
   <main id="contenido">
-    <section class="hero" id="inicio">
+    <section class="hero" id="inicio" data-vista-de="inicio">
       <div class="hero-image" role="img" aria-label="Ilustración de una comunidad compartiendo responsablemente un parque para perros en Maipú"></div>
       <div class="hero-shade"></div>
       <div class="hero-paws" aria-hidden="true"></div>
@@ -74,7 +74,7 @@
       </div>
     </section>
 
-    <section class="quick-actions section" id="acciones">
+    <section class="quick-actions section" id="acciones" data-vista-de="acciones">
       <div class="shell">
         <div class="section-heading split-heading">
           <div>
@@ -120,7 +120,7 @@
       </div>
     </section>
 
-    <section class="most-wanted section" id="most-wanted">
+    <section class="most-wanted section" id="most-wanted" data-vista-de="most-wanted">
       <div class="shell">
         <div class="section-heading split-heading">
           <div>
@@ -156,31 +156,6 @@
             <a class="button button-primary" href="#acciones">Marcar como extraviada</a>
           </article>
 
-          <dialog class="wanted-dialog" data-wanted-claim-dialog>
-            <form data-wanted-claim-form>
-              <p class="kicker">Hallazgo</p>
-              <h3>Avisar que la vimos</h3>
-              <p class="card-copy">La foto tiene que ser del momento o del lugar, no una imagen genérica. Puedes hacerlo <strong>sin necesidad de crear cuenta</strong>. Si más adelante hay un pago, el procesador pedirá RUT y datos bancarios: no es anónimo.</p>
-              <input type="hidden" name="aviso_id">
-              <label class="field">
-                <span>Cómo te llamamos en el afiche</span>
-                <input type="text" name="nombre" required minlength="2" maxlength="60" placeholder="Nombre o apodo público">
-              </label>
-              <label class="field">
-                <span>Foto del hallazgo (obligatoria)</span>
-                <input type="file" name="evidencia" accept="image/jpeg,image/png,image/webp" required>
-              </label>
-              <label class="field">
-                <span>Qué viste y dónde</span>
-                <textarea name="nota" required minlength="20" maxlength="600" placeholder="Hora, calle, cómo estaba. Sin tu domicilio ni teléfono."></textarea>
-              </label>
-              <div class="wanted-dialog-actions">
-                <button class="button button-primary" type="submit">Enviar reclamo</button>
-                <button class="button button-ghost" type="button" data-wanted-claim-close>Cerrar</button>
-              </div>
-              <p class="form-message" data-wanted-claim-message aria-live="polite"></p>
-            </form>
-          </dialog>
 
           <article class="card" data-wanted-owner-panel hidden>
             <div class="card-heading compact">
@@ -195,7 +170,7 @@
       </div>
     </section>
 
-    <section class="map-section section" id="mapa">
+    <section class="map-section section" id="mapa" data-vista-de="mapa">
       <div class="shell">
         <div class="section-heading split-heading">
           <div>
@@ -238,7 +213,7 @@
       </div>
     </section>
 
-    <section class="animal-network section" id="red">
+    <section class="animal-network section" id="red" data-vista-de="red">
       <div class="shell">
         <div class="section-heading split-heading">
           <div><p class="kicker">Red animal</p><h2>Cada animal puede tener su propia red.</h2></div>
@@ -323,7 +298,7 @@
       </div>
     </section>
 
-    <section class="ayudar section" id="ayudar" data-ayudar aria-labelledby="ayudar-title">
+    <section class="ayudar section" id="ayudar" data-vista-de="ayudar" data-ayudar aria-labelledby="ayudar-title">
       <div class="shell">
         <div class="section-heading">
           <p class="kicker">Ayudar</p>
@@ -347,9 +322,9 @@
       </div>
     </section>
 
-    <section class="reports section" id="reportes">
+    <section class="reports section" id="reportes" data-vista-de="reportar cuenta">
       <div class="shell">
-        <div class="section-heading split-heading">
+        <div class="section-heading split-heading" data-vista-de="reportar">
           <div>
             <p class="kicker">Canil Parque 3 Poniente</p>
             <h2>Reporta lo que necesita atención.</h2>
@@ -358,7 +333,7 @@
         </div>
 
         <div class="report-grid">
-          <form class="report-form card" data-report-form novalidate>
+          <form class="report-form card" data-report-form data-vista-de="reportar" novalidate>
             <div class="card-heading">
               <span class="card-mark" aria-hidden="true">＋</span>
               <div><p class="kicker">Nuevo reporte</p><h3>Cuéntanos qué observaste</h3></div>
@@ -401,7 +376,7 @@
             <p class="emergency-note">Si existe peligro inmediato para personas o animales, contacta a los servicios de emergencia correspondientes.</p>
           </form>
 
-          <div class="report-side">
+          <div class="report-side" data-vista-de="cuenta">
             <section class="account-card card" id="cuenta" aria-labelledby="account-title">
               <div class="card-heading compact">
                 <span class="card-mark" aria-hidden="true">↗</span>
@@ -441,7 +416,220 @@
                 <p class="form-message" data-link-requests-message aria-live="polite"></p>
               </section>
 
-              <dialog class="pet-profile-dialog" data-pet-profile-dialog aria-labelledby="pet-profile-title">
+
+            </section>
+
+            <section class="card my-profile" id="mi-perfil" data-my-profile hidden aria-labelledby="my-profile-title">
+              <div class="card-heading compact">
+                <span class="card-mark" aria-hidden="true">◎</span>
+                <div><p class="kicker">Vista privada</p><h3 id="my-profile-title">Mi perfil</h3></div>
+              </div>
+              <div class="my-profile-tabs" role="tablist" aria-label="Secciones de Mi perfil">
+                <button type="button" role="tab" id="my-profile-tab-perfil" aria-selected="true" aria-controls="my-profile-panel-perfil" data-my-profile-tab="perfil">Perfil</button>
+                <button type="button" role="tab" id="my-profile-tab-animales" aria-selected="false" aria-controls="my-profile-panel-animales" tabindex="-1" data-my-profile-tab="animales">Mis animales</button>
+                <button type="button" role="tab" id="my-profile-tab-arbol" aria-selected="false" aria-controls="my-profile-panel-arbol" tabindex="-1" data-my-profile-tab="arbol">Mi árbol</button>
+                <button type="button" role="tab" id="my-profile-tab-actividad" aria-selected="false" aria-controls="my-profile-panel-actividad" tabindex="-1" data-my-profile-tab="actividad">Actividad</button>
+                <button type="button" role="tab" id="my-profile-tab-aportes" aria-selected="false" aria-controls="my-profile-panel-aportes" tabindex="-1" data-my-profile-tab="aportes">Mis aportes</button>
+                <button type="button" role="tab" id="my-profile-tab-acciones" aria-selected="false" aria-controls="my-profile-panel-acciones" tabindex="-1" data-my-profile-tab="acciones">Mis acciones</button>
+              </div>
+
+              <div class="my-profile-panel" role="tabpanel" id="my-profile-panel-perfil" aria-labelledby="my-profile-tab-perfil" data-my-profile-panel="perfil">
+                <div class="my-profile-identity">
+                  <span class="my-profile-avatar" data-my-profile-initials aria-hidden="true">?</span>
+                  <div><strong data-my-profile-alias>Sin alias todavía</strong><small data-my-profile-visibility></small></div>
+                </div>
+                <p class="card-copy" data-my-profile-bio></p>
+                <div class="my-profile-stats">
+                  <div><strong data-my-profile-stat="animales">0</strong><span>Animales</span></div>
+                  <div><strong data-my-profile-stat="avisos">0</strong><span>Avisos activos</span></div>
+                  <div><strong data-my-profile-stat="reportes">0</strong><span>Reportes</span></div>
+                </div>
+                <a class="button button-dark" href="#red">Editar perfil</a>
+              </div>
+
+              <div class="my-profile-panel" role="tabpanel" id="my-profile-panel-animales" aria-labelledby="my-profile-tab-animales" data-my-profile-panel="animales" hidden>
+                <div class="my-profile-animal-list" data-my-profile-animals></div>
+                <button class="button button-dark" type="button" data-my-profile-connect>＋ Asociar un animal</button>
+              </div>
+
+              <div class="my-profile-panel" role="tabpanel" id="my-profile-panel-arbol" aria-labelledby="my-profile-tab-arbol" data-my-profile-panel="arbol" hidden>
+                <div data-arbol-resumen aria-live="polite"><p class="card-copy">Cargando tu árbol…</p></div>
+              </div>
+
+              <div class="my-profile-panel" role="tabpanel" id="my-profile-panel-actividad" aria-labelledby="my-profile-tab-actividad" data-my-profile-panel="actividad" hidden>
+                <div class="my-profile-stats">
+                  <div><strong data-my-profile-stat="avisos">0</strong><span>Avisos activos</span></div>
+                  <div><strong data-my-profile-stat="reportes">0</strong><span>Reportes enviados</span></div>
+                  <div><strong data-my-profile-stat="atendidos">0</strong><span>Reportes atendidos</span></div>
+                </div>
+                <h4 class="my-profile-subtitle">Actividad reciente</h4>
+                <div class="my-profile-activity" data-my-profile-activity></div>
+              </div>
+              <p class="my-profile-privacy"><span aria-hidden="true">◇</span> Solo tú ves este resumen completo.</p>
+                          <div class="my-profile-panel" role="tabpanel" id="my-profile-panel-aportes" aria-labelledby="my-profile-tab-aportes" data-my-profile-panel="aportes" hidden>
+                <div data-mis-aportes aria-live="polite"></div>
+              </div>
+
+              <div class="my-profile-panel" role="tabpanel" id="my-profile-panel-acciones" aria-labelledby="my-profile-tab-acciones" data-my-profile-panel="acciones" hidden>
+                <div data-mis-acciones aria-live="polite"></div>
+              </div>
+            </section>
+
+            <section class="my-reports card" data-my-reports-section hidden aria-labelledby="my-reports-title">
+              <div class="list-heading"><div><p class="kicker">Seguimiento</p><h3 id="my-reports-title">Mis reportes</h3></div><span class="count-badge" data-my-count>0</span></div>
+              <p class="card-copy">Si enviaste un reporte con esta cuenta, aquí verás su estado y la respuesta de moderación.</p>
+              <div class="report-list" data-my-reports></div>
+            </section>
+          </div>
+        </div>
+
+
+
+        <section class="public-reports" data-vista-de="reportar" aria-labelledby="public-reports-title">
+          <div class="list-heading public-heading">
+            <div><p class="kicker">Información comunitaria</p><h3 id="public-reports-title">Reportes verificados</h3></div>
+            <p>Solo aparecen casos revisados o cerrados. La identidad de quien reportó nunca se muestra.</p>
+          </div>
+          <div class="report-loop" data-report-stats>
+            <div class="pilot-stats" aria-label="Estadísticas públicas del canal de reportes">
+              <div><strong data-stat-reportados>—</strong><span>reportados</span></div>
+              <div><strong data-stat-resueltos>—</strong><span>resueltos</span></div>
+              <div><strong data-stat-dias>—</strong><span>días promedio de resolución</span></div>
+            </div>
+            <div class="report-recurrence">
+              <p class="kicker">Lo más reportado</p>
+              <ul data-report-recurrence>
+                <li class="empty-state">Cargando recurrencia…</li>
+              </ul>
+            </div>
+          </div>
+          <div class="report-list public-list" data-public-reports>
+            <p class="empty-state">Cargando reportes verificados…</p>
+          </div>
+        </section>
+
+        <section class="moderator-panel card" data-moderator-panel data-vista-de="reportar" hidden aria-labelledby="moderator-title">
+          <div class="list-heading">
+            <div><p class="kicker">Moderación</p><h3 id="moderator-title">Bandeja del piloto</h3></div>
+            <span class="count-badge" data-moderator-count>0</span>
+          </div>
+          <p class="card-copy">Revisa cada reporte y cambia su estado. Solo los verificados y cerrados serán visibles para la comunidad.</p>
+          <div class="report-list" data-moderator-reports></div>
+          <h3 class="list-title">Most Wanted · revisión manual</h3>
+          <p class="card-copy">Reclamos con bandera (historial entre las mismas personas). El pago queda en “pendiente de liberar”, nunca se simula una transferencia.</p>
+          <div data-wanted-review-queue></div>
+          <p class="form-message" data-moderator-message aria-live="polite"></p>
+        </section>
+      </div>
+    </section>
+
+    <section class="how section" id="como-funciona" data-vista-de="inicio">
+      <div class="shell">
+        <div class="section-heading center-heading">
+          <p class="kicker">Diseñado para cuidar</p>
+          <h2>Un QR puede conectar sin revelar.</h2>
+          <p>La identificación sirve para acercar ayuda, no para publicar teléfonos, correos o domicilios.</p>
+        </div>
+        <div class="steps-grid">
+          <article>
+            <span class="step-mark">1</span>
+            <h3>Escaneas</h3>
+            <p>El código identifica a la mascota con un token revocable, no con datos personales en la URL.</p>
+          </article>
+          <article>
+            <span class="step-mark">2</span>
+            <h3>Dejas un aviso</h3>
+            <p>La interacción puede ser anónima. Identificarte es una decisión voluntaria.</p>
+          </article>
+          <article>
+            <span class="step-mark">3</span>
+            <h3>AuraLadra conecta</h3>
+            <p>El responsable recibe el aviso y decide cómo responder sin exponer su contacto públicamente.</p>
+          </article>
+        </div>
+        <div class="build-note">
+          <span aria-hidden="true">↗</span>
+          <div><strong>Función en construcción</strong><p>Estamos preparando este flujo sobre una base segura y con consentimiento por mascota.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="network section" id="recursos" data-vista-de="inicio">
+      <div class="shell network-grid">
+        <div>
+          <p class="kicker">La red que viene</p>
+          <h2>Datos comunitarios con contexto.</h2>
+          <p>El mapa distingue aportes comunitarios de lugares verificados y señala las urgencias veterinarias de forma explícita.</p>
+        </div>
+        <div class="network-cards">
+          <article><span aria-hidden="true">＋</span><h3>Servicios y comercios</h3><p>Veterinarias, urgencias, alimento, juguetes y accesorios.</p><small>Activo</small></article>
+          <article><span aria-hidden="true">⌖</span><h3>Mapa comunitario</h3><p>Caniles, espacios y lugares donde se conocen animales comunitarios.</p><small>Activo</small></article>
+          <article><span aria-hidden="true">◇</span><h3>Contenido para cuidar</h3><p>Guías breves con fuentes, fecha y enlaces para profundizar.</p><small>Próxima etapa</small></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="principles section" id="principios" data-vista-de="inicio">
+      <div class="shell principles-grid">
+        <div class="principles-title">
+          <p class="kicker">Nuestros principios</p>
+          <h2>La comunidad funciona cuando el cuidado también protege la autonomía.</h2>
+        </div>
+        <div class="principle-list">
+          <article><span>01</span><div><h3>Privacidad por defecto</h3><p>Los datos personales no son contenido público.</p></div></article>
+          <article><span>02</span><div><h3>Consentimiento revocable</h3><p>Cada responsable puede decidir, revisar y retirar permisos.</p></div></article>
+          <article><span>03</span><div><h3>Hechos separados de la voz</h3><p>La identidad verificable de una mascota se distingue de su relato de marca.</p></div></article>
+          <article><span>04</span><div><h3>Primero el territorio</h3><p>Construimos desde problemas observados, no desde funciones imaginadas.</p></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="closing" data-vista-de="inicio">
+      <div class="shell closing-inner">
+        <div>
+          <p class="kicker">Una huella a la vez</p>
+          <h2>Partimos pequeños para cuidar mejor.</h2>
+        </div>
+        <a class="button button-dark" href="https://www.instagram.com/aura.ladra/" target="_blank" rel="noopener noreferrer">Seguir @aura.ladra <span aria-hidden="true">↗</span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <a class="brand footer-brand" href="#inicio"><span class="brand-mark" aria-hidden="true">🐾</span><span>Aura<span>Ladra</span></span></a>
+      <p>Un proyecto de Convergencia Aura · Maipú, Chile</p>
+      <p>© <span data-year></span> AuraLadra</p>
+    </div>
+  </footer>
+
+  <!-- Cuadros emergentes: fuera de las secciones para que se vean desde cualquier vista (js/vistas.js esconde secciones enteras). -->
+  <dialog class="wanted-dialog" data-wanted-claim-dialog>
+            <form data-wanted-claim-form>
+              <p class="kicker">Hallazgo</p>
+              <h3>Avisar que la vimos</h3>
+              <p class="card-copy">La foto tiene que ser del momento o del lugar, no una imagen genérica. Puedes hacerlo <strong>sin necesidad de crear cuenta</strong>. Si más adelante hay un pago, el procesador pedirá RUT y datos bancarios: no es anónimo.</p>
+              <input type="hidden" name="aviso_id">
+              <label class="field">
+                <span>Cómo te llamamos en el afiche</span>
+                <input type="text" name="nombre" required minlength="2" maxlength="60" placeholder="Nombre o apodo público">
+              </label>
+              <label class="field">
+                <span>Foto del hallazgo (obligatoria)</span>
+                <input type="file" name="evidencia" accept="image/jpeg,image/png,image/webp" required>
+              </label>
+              <label class="field">
+                <span>Qué viste y dónde</span>
+                <textarea name="nota" required minlength="20" maxlength="600" placeholder="Hora, calle, cómo estaba. Sin tu domicilio ni teléfono."></textarea>
+              </label>
+              <div class="wanted-dialog-actions">
+                <button class="button button-primary" type="submit">Enviar reclamo</button>
+                <button class="button button-ghost" type="button" data-wanted-claim-close>Cerrar</button>
+              </div>
+              <p class="form-message" data-wanted-claim-message aria-live="polite"></p>
+            </form>
+          </dialog>
+  <dialog class="pet-profile-dialog" data-pet-profile-dialog aria-labelledby="pet-profile-title">
                 <div class="pet-profile-shell">
                   <button class="pet-profile-close" type="button" data-pet-profile-close aria-label="Cerrar ficha">×</button>
                   <div class="pet-profile-view" data-pet-profile-view></div>
@@ -528,8 +716,7 @@
                   </form>
                 </div>
               </dialog>
-
-              <dialog class="pet-connect-dialog" data-pet-connect-dialog aria-labelledby="pet-connect-title">
+  <dialog class="pet-connect-dialog" data-pet-connect-dialog aria-labelledby="pet-connect-title">
                 <div class="pet-profile-shell">
                   <button class="pet-profile-close" type="button" data-pet-connect-close aria-label="Cerrar">×</button>
                   <div class="pet-connect-heading"><p class="kicker">Red animal</p><h3 id="pet-connect-title">Añadir o conectar mascota</h3><p>Elige si crearás una ficha nueva o si conectarás una mascota que ya aparece en la red.</p></div>
@@ -545,80 +732,13 @@
                   </div>
                 </div>
               </dialog>
-            </section>
-
-            <section class="card my-profile" id="mi-perfil" data-my-profile hidden aria-labelledby="my-profile-title">
-              <div class="card-heading compact">
-                <span class="card-mark" aria-hidden="true">◎</span>
-                <div><p class="kicker">Vista privada</p><h3 id="my-profile-title">Mi perfil</h3></div>
-              </div>
-              <div class="my-profile-tabs" role="tablist" aria-label="Secciones de Mi perfil">
-                <button type="button" role="tab" id="my-profile-tab-perfil" aria-selected="true" aria-controls="my-profile-panel-perfil" data-my-profile-tab="perfil">Perfil</button>
-                <button type="button" role="tab" id="my-profile-tab-animales" aria-selected="false" aria-controls="my-profile-panel-animales" tabindex="-1" data-my-profile-tab="animales">Mis animales</button>
-                <button type="button" role="tab" id="my-profile-tab-arbol" aria-selected="false" aria-controls="my-profile-panel-arbol" tabindex="-1" data-my-profile-tab="arbol">Mi árbol</button>
-                <button type="button" role="tab" id="my-profile-tab-actividad" aria-selected="false" aria-controls="my-profile-panel-actividad" tabindex="-1" data-my-profile-tab="actividad">Actividad</button>
-                <button type="button" role="tab" id="my-profile-tab-aportes" aria-selected="false" aria-controls="my-profile-panel-aportes" tabindex="-1" data-my-profile-tab="aportes">Mis aportes</button>
-                <button type="button" role="tab" id="my-profile-tab-acciones" aria-selected="false" aria-controls="my-profile-panel-acciones" tabindex="-1" data-my-profile-tab="acciones">Mis acciones</button>
-              </div>
-
-              <div class="my-profile-panel" role="tabpanel" id="my-profile-panel-perfil" aria-labelledby="my-profile-tab-perfil" data-my-profile-panel="perfil">
-                <div class="my-profile-identity">
-                  <span class="my-profile-avatar" data-my-profile-initials aria-hidden="true">?</span>
-                  <div><strong data-my-profile-alias>Sin alias todavía</strong><small data-my-profile-visibility></small></div>
-                </div>
-                <p class="card-copy" data-my-profile-bio></p>
-                <div class="my-profile-stats">
-                  <div><strong data-my-profile-stat="animales">0</strong><span>Animales</span></div>
-                  <div><strong data-my-profile-stat="avisos">0</strong><span>Avisos activos</span></div>
-                  <div><strong data-my-profile-stat="reportes">0</strong><span>Reportes</span></div>
-                </div>
-                <a class="button button-dark" href="#red">Editar perfil</a>
-              </div>
-
-              <div class="my-profile-panel" role="tabpanel" id="my-profile-panel-animales" aria-labelledby="my-profile-tab-animales" data-my-profile-panel="animales" hidden>
-                <div class="my-profile-animal-list" data-my-profile-animals></div>
-                <button class="button button-dark" type="button" data-my-profile-connect>＋ Asociar un animal</button>
-              </div>
-
-              <div class="my-profile-panel" role="tabpanel" id="my-profile-panel-arbol" aria-labelledby="my-profile-tab-arbol" data-my-profile-panel="arbol" hidden>
-                <div data-arbol-resumen aria-live="polite"><p class="card-copy">Cargando tu árbol…</p></div>
-              </div>
-
-              <div class="my-profile-panel" role="tabpanel" id="my-profile-panel-actividad" aria-labelledby="my-profile-tab-actividad" data-my-profile-panel="actividad" hidden>
-                <div class="my-profile-stats">
-                  <div><strong data-my-profile-stat="avisos">0</strong><span>Avisos activos</span></div>
-                  <div><strong data-my-profile-stat="reportes">0</strong><span>Reportes enviados</span></div>
-                  <div><strong data-my-profile-stat="atendidos">0</strong><span>Reportes atendidos</span></div>
-                </div>
-                <h4 class="my-profile-subtitle">Actividad reciente</h4>
-                <div class="my-profile-activity" data-my-profile-activity></div>
-              </div>
-              <p class="my-profile-privacy"><span aria-hidden="true">◇</span> Solo tú ves este resumen completo.</p>
-                          <div class="my-profile-panel" role="tabpanel" id="my-profile-panel-aportes" aria-labelledby="my-profile-tab-aportes" data-my-profile-panel="aportes" hidden>
-                <div data-mis-aportes aria-live="polite"></div>
-              </div>
-
-              <div class="my-profile-panel" role="tabpanel" id="my-profile-panel-acciones" aria-labelledby="my-profile-tab-acciones" data-my-profile-panel="acciones" hidden>
-                <div data-mis-acciones aria-live="polite"></div>
-              </div>
-            </section>
-
-            <section class="my-reports card" data-my-reports-section hidden aria-labelledby="my-reports-title">
-              <div class="list-heading"><div><p class="kicker">Seguimiento</p><h3 id="my-reports-title">Mis reportes</h3></div><span class="count-badge" data-my-count>0</span></div>
-              <p class="card-copy">Si enviaste un reporte con esta cuenta, aquí verás su estado y la respuesta de moderación.</p>
-              <div class="report-list" data-my-reports></div>
-            </section>
-          </div>
-        </div>
-
-        <dialog class="human-profile-dialog" data-human-profile-dialog aria-labelledby="human-profile-title">
+  <dialog class="human-profile-dialog" data-human-profile-dialog aria-labelledby="human-profile-title">
           <div class="human-profile-shell">
             <button class="pet-profile-close" type="button" data-human-profile-close aria-label="Cerrar perfil">×</button>
             <div data-human-profile-view></div>
           </div>
         </dialog>
-
-        <dialog class="human-profile-dialog" data-contact-human-dialog aria-labelledby="contact-human-title">
+  <dialog class="human-profile-dialog" data-contact-human-dialog aria-labelledby="contact-human-title">
           <div class="human-profile-shell">
             <button class="pet-profile-close" type="button" data-contact-human-close aria-label="Cerrar contacto">×</button>
             <form data-contact-human-form>
@@ -640,124 +760,6 @@
           </div>
         </dialog>
 
-        <section class="public-reports" aria-labelledby="public-reports-title">
-          <div class="list-heading public-heading">
-            <div><p class="kicker">Información comunitaria</p><h3 id="public-reports-title">Reportes verificados</h3></div>
-            <p>Solo aparecen casos revisados o cerrados. La identidad de quien reportó nunca se muestra.</p>
-          </div>
-          <div class="report-loop" data-report-stats>
-            <div class="pilot-stats" aria-label="Estadísticas públicas del canal de reportes">
-              <div><strong data-stat-reportados>—</strong><span>reportados</span></div>
-              <div><strong data-stat-resueltos>—</strong><span>resueltos</span></div>
-              <div><strong data-stat-dias>—</strong><span>días promedio de resolución</span></div>
-            </div>
-            <div class="report-recurrence">
-              <p class="kicker">Lo más reportado</p>
-              <ul data-report-recurrence>
-                <li class="empty-state">Cargando recurrencia…</li>
-              </ul>
-            </div>
-          </div>
-          <div class="report-list public-list" data-public-reports>
-            <p class="empty-state">Cargando reportes verificados…</p>
-          </div>
-        </section>
-
-        <section class="moderator-panel card" data-moderator-panel hidden aria-labelledby="moderator-title">
-          <div class="list-heading">
-            <div><p class="kicker">Moderación</p><h3 id="moderator-title">Bandeja del piloto</h3></div>
-            <span class="count-badge" data-moderator-count>0</span>
-          </div>
-          <p class="card-copy">Revisa cada reporte y cambia su estado. Solo los verificados y cerrados serán visibles para la comunidad.</p>
-          <div class="report-list" data-moderator-reports></div>
-          <h3 class="list-title">Most Wanted · revisión manual</h3>
-          <p class="card-copy">Reclamos con bandera (historial entre las mismas personas). El pago queda en “pendiente de liberar”, nunca se simula una transferencia.</p>
-          <div data-wanted-review-queue></div>
-          <p class="form-message" data-moderator-message aria-live="polite"></p>
-        </section>
-      </div>
-    </section>
-
-    <section class="how section" id="como-funciona">
-      <div class="shell">
-        <div class="section-heading center-heading">
-          <p class="kicker">Diseñado para cuidar</p>
-          <h2>Un QR puede conectar sin revelar.</h2>
-          <p>La identificación sirve para acercar ayuda, no para publicar teléfonos, correos o domicilios.</p>
-        </div>
-        <div class="steps-grid">
-          <article>
-            <span class="step-mark">1</span>
-            <h3>Escaneas</h3>
-            <p>El código identifica a la mascota con un token revocable, no con datos personales en la URL.</p>
-          </article>
-          <article>
-            <span class="step-mark">2</span>
-            <h3>Dejas un aviso</h3>
-            <p>La interacción puede ser anónima. Identificarte es una decisión voluntaria.</p>
-          </article>
-          <article>
-            <span class="step-mark">3</span>
-            <h3>AuraLadra conecta</h3>
-            <p>El responsable recibe el aviso y decide cómo responder sin exponer su contacto públicamente.</p>
-          </article>
-        </div>
-        <div class="build-note">
-          <span aria-hidden="true">↗</span>
-          <div><strong>Función en construcción</strong><p>Estamos preparando este flujo sobre una base segura y con consentimiento por mascota.</p></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="network section" id="recursos">
-      <div class="shell network-grid">
-        <div>
-          <p class="kicker">La red que viene</p>
-          <h2>Datos comunitarios con contexto.</h2>
-          <p>El mapa distingue aportes comunitarios de lugares verificados y señala las urgencias veterinarias de forma explícita.</p>
-        </div>
-        <div class="network-cards">
-          <article><span aria-hidden="true">＋</span><h3>Servicios y comercios</h3><p>Veterinarias, urgencias, alimento, juguetes y accesorios.</p><small>Activo</small></article>
-          <article><span aria-hidden="true">⌖</span><h3>Mapa comunitario</h3><p>Caniles, espacios y lugares donde se conocen animales comunitarios.</p><small>Activo</small></article>
-          <article><span aria-hidden="true">◇</span><h3>Contenido para cuidar</h3><p>Guías breves con fuentes, fecha y enlaces para profundizar.</p><small>Próxima etapa</small></article>
-        </div>
-      </div>
-    </section>
-
-    <section class="principles section" id="principios">
-      <div class="shell principles-grid">
-        <div class="principles-title">
-          <p class="kicker">Nuestros principios</p>
-          <h2>La comunidad funciona cuando el cuidado también protege la autonomía.</h2>
-        </div>
-        <div class="principle-list">
-          <article><span>01</span><div><h3>Privacidad por defecto</h3><p>Los datos personales no son contenido público.</p></div></article>
-          <article><span>02</span><div><h3>Consentimiento revocable</h3><p>Cada responsable puede decidir, revisar y retirar permisos.</p></div></article>
-          <article><span>03</span><div><h3>Hechos separados de la voz</h3><p>La identidad verificable de una mascota se distingue de su relato de marca.</p></div></article>
-          <article><span>04</span><div><h3>Primero el territorio</h3><p>Construimos desde problemas observados, no desde funciones imaginadas.</p></div></article>
-        </div>
-      </div>
-    </section>
-
-    <section class="closing">
-      <div class="shell closing-inner">
-        <div>
-          <p class="kicker">Una huella a la vez</p>
-          <h2>Partimos pequeños para cuidar mejor.</h2>
-        </div>
-        <a class="button button-dark" href="https://www.instagram.com/aura.ladra/" target="_blank" rel="noopener noreferrer">Seguir @aura.ladra <span aria-hidden="true">↗</span></a>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="shell footer-inner">
-      <a class="brand footer-brand" href="#inicio"><span class="brand-mark" aria-hidden="true">🐾</span><span>Aura<span>Ladra</span></span></a>
-      <p>Un proyecto de Convergencia Aura · Maipú, Chile</p>
-      <p>© <span data-year></span> AuraLadra</p>
-    </div>
-  </footer>
-
   <nav class="tabbar" aria-label="Navegación inferior" data-tabbar>
     <a href="#inicio" data-tabbar-link="inicio"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span>Inicio</span></a>
     <a href="#mapa" data-tabbar-link="mapa"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg><span>Mapa</span></a>
@@ -773,6 +775,7 @@
 <script src="js/main.js"></script>
 <script src="js/acciones.js"></script>
 <script src="js/arbol.js"></script>
+<script src="js/vistas.js"></script>
 <script defer src="https://core.convergenciaaura.cl/js/globo.js" data-margen-movil="76"></script>
 </body>
 </html>
