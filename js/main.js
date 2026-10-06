@@ -2827,6 +2827,22 @@
     if (!form.reportValidity()) return;
     button.disabled = true;
     try {
+      // App instalada en iPhone: Safari y la app no comparten sesión; el enlace se aprueba en
+      // Safari y la app se conecta sola (ver aura-pwa-auth.js, alojado en AuraCore).
+      if (window.AuraPwaAuth?.necesitaPase()) {
+        const r = await window.AuraPwaAuth.entrar({
+          client: db,
+          email: form.elements.email.value.trim(),
+          formulario: form,
+          clases: { mensaje: 'form-message', campo: 'field' },
+        });
+        if (!r.ok) {
+          setMessage(message, r.mensaje, 'error');
+        } else {
+          form.reset();
+        }
+        return;
+      }
       const redirectUrl = new URL(window.location.pathname, window.location.origin);
       redirectUrl.searchParams.set('auth', 'magic');
       const { error } = await db.auth.signInWithOtp({
@@ -2858,6 +2874,14 @@
       button.disabled = false;
     }
   });
+
+  // Si la app instalada se cerró mientras esperaba la aprobación del enlace, retoma la espera.
+  {
+    const formMagico = document.querySelector('[data-magic-form]');
+    if (formMagico && window.AuraPwaAuth) {
+      window.AuraPwaAuth.retomar({ client: db, formulario: formMagico, clases: { mensaje: 'form-message', campo: 'field' } });
+    }
+  }
 
   document.querySelector('[data-sign-out]')?.addEventListener('click', async () => {
     const { error } = await db.auth.signOut();
