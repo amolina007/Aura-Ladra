@@ -23,10 +23,14 @@
 
   <header class="site-header" data-header>
     <div class="shell nav-shell">
-      <a class="brand" href="#inicio" aria-label="AuraLadra, inicio">
-        <span class="brand-mark" aria-hidden="true">🐾</span>
-        <span>Aura<span>Ladra</span></span>
-      </a>
+      <div class="brand-group">
+        <button type="button" class="brand-sesion" data-session-chip aria-haspopup="dialog" aria-label="AuraLadra: iniciar sesión" title="Iniciar sesión">
+          <span class="brand-mark" aria-hidden="true">🐾</span>
+        </button>
+        <a class="brand" href="#inicio" aria-label="AuraLadra, inicio">
+          <span>Aura<span>Ladra</span></span>
+        </a>
+      </div>
 
       <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav" data-menu-button>
         <span class="sr-only">Abrir menú</span>
@@ -722,6 +726,22 @@
                   </div>
                 </div>
               </dialog>
+  <dialog class="human-profile-dialog" data-login-dialog aria-labelledby="login-title">
+          <div class="human-profile-shell">
+            <button class="pet-profile-close" type="button" data-login-close aria-label="Cerrar">×</button>
+            <p class="kicker">Mi cuenta</p>
+            <h3 id="login-title">Iniciar sesión</h3>
+            <p class="card-copy">Escribe tu correo y te enviamos un enlace para entrar, sin contraseña.</p>
+            <form class="magic-form" data-magic-form>
+              <label class="field">
+                <span>Correo electrónico</span>
+                <input type="email" name="email" autocomplete="email" required placeholder="tu@correo.cl">
+              </label>
+              <button class="button button-dark" type="submit" data-magic-submit>Enviar enlace mágico</button>
+            </form>
+            <p class="form-message" data-auth-message aria-live="polite"></p>
+          </div>
+        </dialog>
   <dialog class="human-profile-dialog" data-human-profile-dialog aria-labelledby="human-profile-title">
           <div class="human-profile-shell">
             <button class="pet-profile-close" type="button" data-human-profile-close aria-label="Cerrar perfil">×</button>

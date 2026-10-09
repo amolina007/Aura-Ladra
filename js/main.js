@@ -2262,6 +2262,7 @@
   async function syncSession(session) {
     currentSession = session;
     currentUserIsModerator = false;
+    updateSessionChip(session);
     const signedOut = document.querySelector('[data-signed-out]');
     const signedIn = document.querySelector('[data-signed-in]');
     if (!session?.user) {
@@ -2818,11 +2819,12 @@
     }
   });
 
-  document.querySelector('[data-magic-form]')?.addEventListener('submit', async (event) => {
+  // Hay dos formularios de enlace mágico: el de «Mi cuenta» y el de la ventana del botón de huella.
+  for (const magicFormEl of document.querySelectorAll('[data-magic-form]')) magicFormEl.addEventListener('submit', async (event) => {
     event.preventDefault();
     const form = event.currentTarget;
-    const button = document.querySelector('[data-magic-submit]');
-    const message = document.querySelector('[data-auth-message]');
+    const button = form.querySelector('[data-magic-submit]');
+    const message = form.closest('dialog')?.querySelector('[data-auth-message]') || document.querySelector('[data-auth-message]');
     setMessage(message);
     if (!form.reportValidity()) return;
     button.disabled = true;
@@ -2886,6 +2888,81 @@
   document.querySelector('[data-sign-out]')?.addEventListener('click', async () => {
     const { error } = await db.auth.signOut();
     if (error) setMessage(document.querySelector('[data-auth-message]'), 'No pudimos cerrar la sesión.', 'error');
+  });
+
+  // ---------------- Botón de huella (cabecera): inicio de sesión ----------------
+  // Sin sesión abre una ventana para pedir el correo; con sesión muestra un menú corto.
+  const sessionChip = document.querySelector('[data-session-chip]');
+  const loginDialog = document.querySelector('[data-login-dialog]');
+
+  function updateSessionChip(session) {
+    if (!sessionChip) return;
+    const signedInNow = Boolean(session?.user);
+    sessionChip.classList.toggle('on', signedInNow);
+    sessionChip.setAttribute('aria-label', signedInNow ? 'AuraLadra: menú de tu cuenta' : 'AuraLadra: iniciar sesión');
+    sessionChip.title = signedInNow ? 'Tu cuenta' : 'Iniciar sesión';
+    if (signedInNow && loginDialog?.open) loginDialog.close();
+  }
+
+  function closeSessionMenu() {
+    document.getElementById('session-menu')?.remove();
+    document.removeEventListener('click', onClickOutsideSessionMenu, true);
+    document.removeEventListener('keydown', onEscSessionMenu);
+  }
+  function onClickOutsideSessionMenu(event) {
+    const menu = document.getElementById('session-menu');
+    if (menu && !menu.contains(event.target) && !event.target.closest('[data-session-chip]')) closeSessionMenu();
+  }
+  function onEscSessionMenu(event) { if (event.key === 'Escape') closeSessionMenu(); }
+
+  sessionChip?.addEventListener('click', () => {
+    if (!currentSession?.user) {
+      closeSessionMenu();
+      const messageEl = loginDialog?.querySelector('[data-auth-message]');
+      if (messageEl) setMessage(messageEl);
+      loginDialog?.showModal();
+      loginDialog?.querySelector('input[name="email"]')?.focus();
+      return;
+    }
+    if (document.getElementById('session-menu')) { closeSessionMenu(); return; }
+    const rect = sessionChip.getBoundingClientRect();
+    const menu = document.createElement('div');
+    menu.id = 'session-menu';
+    menu.className = 'session-menu';
+    menu.setAttribute('role', 'menu');
+    menu.style.top = `${Math.round(rect.bottom + 6)}px`;
+    menu.style.left = `${Math.max(8, Math.round(rect.left))}px`;
+    const emailRow = document.createElement('div');
+    emailRow.className = 'session-menu-email';
+    emailRow.textContent = currentSession.user.email || 'cuenta activa';
+    const accountLink = document.createElement('a');
+    accountLink.setAttribute('role', 'menuitem');
+    accountLink.href = '#cuenta';
+    accountLink.textContent = '🧾 Mi cuenta';
+    const profileLink = document.createElement('a');
+    profileLink.setAttribute('role', 'menuitem');
+    profileLink.href = '#mi-perfil';
+    profileLink.textContent = '👤 Mi perfil';
+    const signOutButton = document.createElement('button');
+    signOutButton.type = 'button';
+    signOutButton.setAttribute('role', 'menuitem');
+    signOutButton.textContent = '🚪 Cerrar sesión';
+    menu.append(emailRow, accountLink, profileLink, signOutButton);
+    menu.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeSessionMenu));
+    signOutButton.addEventListener('click', async () => {
+      closeSessionMenu();
+      const { error } = await db.auth.signOut();
+      if (error) setMessage(document.querySelector('[data-auth-message]'), 'No pudimos cerrar la sesión.', 'error');
+    });
+    document.body.appendChild(menu);
+    window.setTimeout(() => {
+      document.addEventListener('click', onClickOutsideSessionMenu, true);
+      document.addEventListener('keydown', onEscSessionMenu);
+    }, 0);
+  });
+
+  loginDialog?.addEventListener('click', (event) => {
+    if (event.target === loginDialog || event.target.closest('[data-login-close]')) loginDialog.close();
   });
 
   document.querySelector('[data-moderator-reports]')?.addEventListener('click', async (event) => {
