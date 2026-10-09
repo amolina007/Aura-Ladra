@@ -75,7 +75,7 @@
         { clave: 'animal:demo-luna', clase: 'animal', ref_id: 'demo-luna', nombre: 'Luna (ejemplo)', especie: 'Perra', foto_url: null, propio: true, memoria: false, comunitario: false, oculta: false, relaciones: [rel('familia', 'tutor', null, 'confirmado', { editable: false, retirable: false })] },
         { clave: 'animal:demo-tom', clase: 'animal', ref_id: 'demo-tom', nombre: 'Tom (ejemplo)', especie: 'Gato', foto_url: null, propio: true, memoria: true, comunitario: false, oculta: false, relaciones: [rel('familia', 'tutor', null, 'confirmado', { editable: false, retirable: false })] },
         { clave: 'perfil:demo-rosa', clase: 'persona', ref_id: 'demo-rosa', nombre: 'Rosa (ejemplo)', especie: null, foto_url: null, propio: false, memoria: false, comunitario: false, oculta: false, relaciones: [rel('personas', 'cuidador', 'Cuida a Luna cuando viajo', 'confirmado')] },
-        { clave: 'animal:demo-canela', clase: 'animal', ref_id: 'demo-canela', nombre: 'Canela (ejemplo)', especie: 'Perra', foto_url: null, propio: false, memoria: false, comunitario: true, oculta: false, relaciones: [rel('animal_humano', 'amistad', 'Perra de la plaza', 'confirmado', { publico: true })] },
+        { clave: 'animal:demo-canela', clase: 'animal', ref_id: 'demo-canela', relacion: 'bloqueada', nombre: 'Canela (ejemplo)', especie: 'Perra', foto_url: null, propio: false, memoria: false, comunitario: true, oculta: false, relaciones: [rel('animal_humano', 'amistad', 'Perra de la plaza', 'confirmado', { publico: true })] },
         { clave: 'perfil:demo-cate', clase: 'persona', ref_id: 'demo-cate', nombre: 'Cate (ejemplo)', especie: null, foto_url: null, propio: false, memoria: false, comunitario: false, oculta: false, animales: [{ nombre: 'Kira (ejemplo)', foto_url: null }, { nombre: 'Max (ejemplo)', foto_url: null }], relaciones: [rel('personas', 'familia', 'Pareja (ejemplo)', 'confirmado')] },
         { clave: 'perfil:demo-camilo', clase: 'persona', ref_id: 'demo-camilo', nombre: 'Camilo (ejemplo)', especie: null, foto_url: null, propio: false, memoria: false, comunitario: false, oculta: false, relaciones: [rel('personas', 'companero_paseo', null, 'confirmado')] },
         { clave: 'privado:demo-abuela', clase: 'persona', ref_id: 'demo-abuela', nombre: 'Abuela Elena (ejemplo)', especie: null, foto_url: null, propio: false, memoria: false, comunitario: false, oculta: false, relaciones: [rel('privado', 'familia', 'Anotación privada', 'privado')] },
@@ -174,7 +174,15 @@
     return data;
   };
   const servidor = {
-    cargar: () => rpc('mi_arbol'),
+    cargar: async () => {
+      const d = await rpc('mi_arbol');
+      // La relación con cada mascota (propia, vinculada, amistad, bloqueada…) sale de la misma función que usa «Mi red».
+      try {
+        const rel = new Map(((await rpc('mi_relacion_con_animales')) || []).map((x) => [x.animal_id, x.relacion]));
+        (d?.integrantes || []).forEach((i) => { if (i.clase === 'animal' && rel.has(i.ref_id)) i.relacion = rel.get(i.ref_id); });
+      } catch { /* sin la función, el círculo no marca bloqueos */ }
+      return d;
+    },
     vincularAnimal: (id, tipo, desc) => rpc('arbol_vincular_animal', { p_animal_id: id, p_tipo: tipo, p_descripcion: desc || null }),
     vincularPersona: (id, tipo, desc) => rpc('arbol_vincular_persona', { p_perfil_id: id, p_tipo: tipo, p_descripcion: desc || null }),
     agregarPrivado: (tipo, desc, nombre, clase) => rpc('arbol_agregar_privado', { p_tipo: tipo, p_descripcion: desc || null, p_nombre: nombre, p_clase: clase }),
@@ -677,6 +685,7 @@
   // Quién es responsable de una mascota: yo si es mía; si no, la persona de mi círculo cuya nota nombra a la mascota.
   const responsableDe = (animal) => {
     if (animal.propio) return { yo: true, nombre: YO.alias || 'Yo' };
+    if (animal.relacion === 'bloqueada') return { bloqueado: true };
     const nombre = limpiarNombre(animal.nombre).toLowerCase();
     return enCirculo().find((p) => p.clase === 'persona' && (p.relaciones || []).some((r) => String(r.descripcion || '').toLowerCase().includes(nombre))) || null;
   };
@@ -691,19 +700,20 @@
   };
   const avatarYo = () => `<span class="arbol-avatar cat-familia" aria-hidden="true"><span>${esc(inicial(YO.alias || 'Yo'))}</span>${httpsUrl(YO.foto) ? `<img src="${esc(httpsUrl(YO.foto))}" alt="" loading="lazy" referrerpolicy="no-referrer">` : ''}</span>`;
   const celdaPersona = (p, claseExtra = '') => {
+    if (p?.bloqueado) return '<div class="circ-cell circ-vacia circ-bloqueado"><span class="circ-txt"><strong>Usuario bloqueado</strong></span></div>';
     if (!p) return '<div class="circ-cell circ-vacia"><span class="circ-txt"><small>Sin responsable conocido</small></span></div>';
     if (p.yo) return `<div class="circ-cell circ-yo ${claseExtra}">${avatarYo()}<span class="circ-txt"><strong>${esc(p.nombre)}</strong><small>Tú</small></span></div>`;
     return `<button type="button" class="circ-cell circ-item ${claseExtra}" data-abrir="${esc(p.clave)}">${avatarHtml(p)}<span class="circ-txt"><strong>${esc(limpiarNombre(p.nombre))}</strong></span></button>`;
   };
   const chipPersona = (p) => {
-    const r = p && !p.yo ? relacionVigente(p) : null;
+    const r = p && !p.yo && !p.bloqueado ? relacionVigente(p) : null;
     return r ? `<span class="circ-rail circ-rail-persona">${esc(etiquetaTipo(r.tipo))}${r.estado === 'pendiente' ? ' · Pendiente' : ''}</span>` : '';
   };
   const circuloFilasHtml = (filas) => filas.map((f, i) => `
     <div class="circ-row">
       <div class="circ-lado circ-lado-animal">${i && f.tipo ? `<span class="circ-rail circ-rail-animal">${esc(etiquetaTipo(f.tipo))}</span>` : ''}
         <button type="button" class="circ-cell circ-item" data-abrir="${esc(f.animal.clave)}">${avatarHtml(f.animal)}<span class="circ-txt"><strong>${esc(limpiarNombre(f.animal.nombre))}</strong>${f.animal.memoria ? '<small>Recuerdo</small>' : ''}</span></button></div>
-      <span class="circ-medio ${f.persona ? '' : 'is-vacio'}"></span>
+      <span class="circ-medio ${f.persona && !f.persona.bloqueado ? '' : 'is-vacio'}"></span>
       <div class="circ-lado circ-lado-persona">${i ? chipPersona(f.persona) : ''}${celdaPersona(f.persona)}</div>
     </div>`).join('');
 
@@ -716,7 +726,7 @@
     let cuerpo = '';
     if (principal) {
       const filas = filasCirculo(principal);
-      filas.forEach((f) => { mostradas.add(f.animal.clave); if (f.persona && !f.persona.yo) mostradas.add(f.persona.clave); });
+      filas.forEach((f) => { mostradas.add(f.animal.clave); if (f.persona && !f.persona.yo && !f.persona.bloqueado) mostradas.add(f.persona.clave); });
       cuerpo = circuloFilasHtml(filas);
       if (filas.length === 1) cuerpo += `<p class="arbol-nota">${esc(limpiarNombre(principal.nombre))} aún no está conectada con otras mascotas. Usa «Añadir vínculo» para conectarla.</p>`;
     } else cuerpo = '<p class="arbol-nota">Aún no hay mascotas en tu círculo.</p>';
@@ -852,7 +862,7 @@
     const mini = filas.map((f) => `<div class="circ-row circ-mini">
       <div class="circ-lado">${avatarHtml(f.animal)}<strong>${esc(limpiarNombre(f.animal.nombre))}</strong></div>
       <span class="circ-medio ${f.persona ? '' : 'is-vacio'}"></span>
-      <div class="circ-lado">${f.persona ? (f.persona.yo ? `${avatarYo()}<strong>${esc(f.persona.nombre)}</strong>` : `${avatarHtml(f.persona)}<strong>${esc(limpiarNombre(f.persona.nombre))}</strong>`) : '<small>Sin responsable</small>'}</div>
+      <div class="circ-lado">${f.persona ? (f.persona.bloqueado ? '<strong>Usuario bloqueado</strong>' : f.persona.yo ? `${avatarYo()}<strong>${esc(f.persona.nombre)}</strong>` : `${avatarHtml(f.persona)}<strong>${esc(limpiarNombre(f.persona.nombre))}</strong>`) : '<small>Sin responsable</small>'}</div>
     </div>`).join('');
     resumen.innerHTML = `
       ${S.modo === 'demo' ? '<p class="arbol-demo"><strong>Demostración.</strong> Datos ficticios guardados solo en este navegador.</p>' : ''}

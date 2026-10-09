@@ -1330,3 +1330,4 @@ button.circ-cell:hover, button.circ-cell:focus-visible, .circ-item-fila:hover { 
 .circ-mini strong { font-size: .9rem; color: var(--mp-verde-oscuro, #17462c); overflow-wrap: anywhere; }
 .circ-mini small { color: var(--apagado); }
 .circ-mini .circ-medio::after { content: none; }
+.circ-bloqueado strong { color: var(--apagado); font-size: .85rem; }
