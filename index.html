@@ -43,6 +43,7 @@
         <a href="#mapa">Mapa</a>
         <a href="#red">Red animal</a>
         <a href="#ayudar">Ayudar</a>
+        <a href="#comida-agua">Comida y agua</a>
         <a href="#reportes">Reportar</a>
         <a href="#cuenta">Mi cuenta</a>
       </nav>
@@ -292,6 +293,7 @@
         </div>
         <p class="ayudar-sim" role="note"><strong>Simulación.</strong> <span data-ayudar-modo>Cargando…</span></p>
         <div data-ayudar-vista-lista>
+          <section class="puestos-resumen" data-puestos-resumen aria-labelledby="puestos-resumen-title" hidden></section>
           <form class="ayudar-filtros" data-ayudar-filtros aria-label="Filtrar acciones">
             <label class="field"><span>Categoría</span>
               <select name="categoria"><option value="">Todas</option><option value="alojamiento">Alojamiento</option><option value="cuidado">Cuidado</option><option value="salud">Salud</option><option value="alimentacion">Alimentación</option><option value="traslado">Traslado</option><option value="educacion">Educación</option><option value="otro">Otro</option></select></label>
@@ -304,6 +306,27 @@
           <div class="ayudar-lista" data-ayudar-lista aria-live="polite"></div>
         </div>
         <article class="ayudar-detalle card" data-ayudar-detalle hidden aria-live="polite"></article>
+      </div>
+    </section>
+
+    <section class="ayudar puestos section" id="comida-agua" data-vista-de="comida-agua" data-puestos aria-labelledby="puestos-title">
+      <div class="shell">
+        <div class="section-heading">
+          <p class="kicker">Comida y agua</p>
+          <h2 id="puestos-title">Puestos en espacios públicos</h2>
+          <p>Puntos con agua y alimento para perros y gatos del barrio. Puedes patrocinar un puesto o ayudar a mantenerlo en persona: reponer agua y comida, limpiarlo y avisar si falta algo. Los puestos también aparecen en el mapa.</p>
+        </div>
+        <p class="ayudar-sim" role="note"><strong>Modo demostración.</strong> <span data-puestos-modo>Cargando…</span></p>
+        <div data-puestos-vista-lista>
+          <form class="ayudar-filtros" data-puestos-filtros aria-label="Filtrar puestos">
+            <label class="field"><span>Qué ofrece</span>
+              <select name="tipo"><option value="">Agua y comida</option><option value="agua">Agua</option><option value="comida">Comida</option></select></label>
+            <label class="field"><span>Estado</span>
+              <select name="estado"><option value="">Todos</option><option value="necesita_ayuda">Necesitan ayuda</option><option value="activo">Funcionando</option></select></label>
+          </form>
+          <div class="ayudar-lista" data-puestos-lista aria-live="polite"></div>
+        </div>
+        <article class="ayudar-detalle card" data-puestos-detalle hidden aria-live="polite"></article>
       </div>
     </section>
 
@@ -777,6 +800,7 @@
 <script src="js/visitas.js"></script>
 <script src="js/main.js"></script>
 <script src="js/acciones.js"></script>
+<script src="js/puestos.js"></script>
 <script src="js/arbol.js"></script>
 <script src="js/vistas.js"></script>
 <script defer src="https://core.convergenciaaura.cl/js/globo.js" data-margen-movil="76"></script>
