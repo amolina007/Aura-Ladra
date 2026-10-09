@@ -1331,3 +1331,4 @@ button.circ-cell:hover, button.circ-cell:focus-visible, .circ-item-fila:hover { 
 .circ-mini small { color: var(--apagado); }
 .circ-mini .circ-medio::after { content: none; }
 .circ-bloqueado strong { color: var(--apagado); font-size: .85rem; }
+.mp-core-link { grid-column: 1 / -1; justify-self: start; padding: 0; font-size: .8rem; text-decoration: underline; }

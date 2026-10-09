@@ -1214,6 +1214,36 @@
     if (healthButton) startPetProfileEdit('salud');
   });
 
+  // Editar descripción: lo único que se cambia en AuraLadra; nombre y foto viven en Convergencia Aura.
+  const bioDialog = document.querySelector('[data-bio-dialog]');
+  const bioForm = document.querySelector('[data-bio-form]');
+  const bioMessage = document.querySelector('[data-bio-message]');
+  document.querySelector('[data-my-profile-edit-bio]')?.addEventListener('click', () => {
+    if (!bioDialog || !bioForm) return;
+    setMessage(bioMessage);
+    bioForm.elements.biografia.value = ownPublicProfile?.biografia || '';
+    bioDialog.showModal();
+    bioForm.elements.biografia.focus();
+  });
+  document.querySelector('[data-bio-close]')?.addEventListener('click', () => bioDialog?.close());
+  bioForm?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (!currentSession?.user) return;
+    if (!ownPublicProfile?.id) {
+      setMessage(bioMessage, 'Todavía no tienes perfil en AuraLadra. Publica tu alias en Red animal y vuelve aquí.', 'error');
+      return;
+    }
+    const biografia = bioForm.elements.biografia.value.trim() || null;
+    const { error } = await db.from('perfiles_publicos').update({ biografia }).eq('id', ownPublicProfile.id);
+    if (error) {
+      setMessage(bioMessage, 'No pudimos guardar la descripción. Inténtalo de nuevo.', 'error');
+      return;
+    }
+    ownPublicProfile = { ...ownPublicProfile, biografia };
+    renderMyProfile();
+    bioDialog?.close();
+  });
+
   const petValue = (value, fallback = 'Sin informar') => value === null || value === undefined || value === '' ? fallback : value;
   const petSizeLabels = { pequeno: 'Pequeño', mediano: 'Mediano', grande: 'Grande', gigante: 'Gigante' };
   const petRegistryLabels = { registrada: 'Registrada', en_tramite: 'En trámite', no_registrada: 'No registrada', no_informado: 'Sin informar' };
