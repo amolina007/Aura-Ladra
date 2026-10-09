@@ -73,8 +73,6 @@ schema `ladra` se agrega a Data API sin reemplazar los schemas ya expuestos.
   alimento, juguetes y accesorios, además de puntos de animales comunitarios.
 - Cada ficha importada registra su fuente y fecha de consulta; los datos abiertos
   no se presentan como si hubieran sido verificados presencialmente.
-- Los lugares propuestos quedan pendientes hasta que una persona moderadora los
-  apruebe.
 - La ubicación de animales vulnerables puede publicarse de forma aproximada.
 - Las urgencias veterinarias se distinguen explícitamente de una veterinaria
   general.
