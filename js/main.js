@@ -37,6 +37,7 @@
   let currentUserIsModerator = false;
   let communityMap = null;
   let markerLayer = null;
+  let lastFitCoordinates = [];
   let publicPlaces = [];
   let activePlaceFilter = 'todos';
   let publicAnimals = [];
@@ -745,6 +746,7 @@
       summary.textContent = `${filtered.length} ${filtered.length === 1 ? 'punto visible' : 'puntos visibles'} · solo comuna de Maipú`;
     }
     communityMap.invalidateSize();
+    lastFitCoordinates = visibleCoordinates;
     if (visibleCoordinates.length) {
       communityMap.fitBounds(visibleCoordinates, { padding: [32, 32], maxZoom: 14 });
     }
@@ -752,10 +754,14 @@
 
   document.addEventListener('vista:cambio', (event) => {
     if (event.detail?.vista !== 'mapa') return;
-    // El mapa se calculó con la sección oculta (tamaño 0): al mostrarse hay que recalcularlo.
+    // El mapa se calculó con la sección oculta (tamaño 0): al mostrarse hay que recalcularlo
+    // y volver a encuadrarlo sobre los lugares visibles.
     setTimeout(() => {
       communityMap?.invalidateSize();
       locationPickerMap?.invalidateSize();
+      if (communityMap && lastFitCoordinates.length) {
+        communityMap.fitBounds(lastFitCoordinates, { padding: [32, 32], maxZoom: 14 });
+      }
     }, 0);
   });
 
@@ -807,9 +813,21 @@
     renderPlaces();
   }
 
+  // En celular los filtros están escondidos tras el botón «Filtros» (ver css, bloque «Mapa en celular»).
+  const mapFiltersToggle = document.querySelector('[data-map-filters-toggle]');
+  const mapFiltersPanel = document.querySelector('#map-filters');
+  const setMapFiltersOpen = (open) => {
+    mapFiltersPanel?.classList.toggle('is-open', open);
+    mapFiltersToggle?.setAttribute('aria-expanded', String(open));
+  };
+  mapFiltersToggle?.addEventListener('click', () => setMapFiltersOpen(mapFiltersToggle.getAttribute('aria-expanded') !== 'true'));
+
   document.querySelectorAll('[data-place-filter]').forEach((button) => button.addEventListener('click', () => {
     activePlaceFilter = button.dataset.placeFilter;
     document.querySelectorAll('[data-place-filter]').forEach((item) => item.classList.toggle('is-active', item === button));
+    const filterLabel = document.querySelector('[data-map-filters-label]');
+    if (filterLabel) filterLabel.textContent = activePlaceFilter === 'todos' ? 'Filtros' : `Filtros · ${button.textContent.trim()}`;
+    setMapFiltersOpen(false);
     renderPlaces();
   }));
 

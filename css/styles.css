@@ -1195,3 +1195,21 @@ body:not([data-vista]) [data-vista-de]:not([data-vista-de~="inicio"]) { display:
 body[data-vista="reportar"] .report-grid,
 body[data-vista="cuenta"] .report-grid { grid-template-columns: minmax(0, 760px); justify-content: center; }
 .site-nav a[aria-current="page"] { color: var(--white); box-shadow: 0 2px 0 var(--amber); }
+
+/* ===== Mapa en celular: mapa a pantalla casi completa y filtros en botón desplegable ===== */
+.map-toolbar { display: contents; }
+.map-filters-toggle { display: none; }
+@media (max-width: 760px) {
+  .map-section { padding: 10px 0 0; }
+  .map-section .section-heading { display: none; }
+  .map-toolbar { display: flex; align-items: center; gap: 10px; margin: 0 0 8px; }
+  .map-toolbar .map-summary { flex: 1; min-width: 0; margin: 0; font-size: .78rem; line-height: 1.25; }
+  .map-filters-toggle { display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0; min-height: 40px; max-width: 62%; padding: 0 14px; border: 1px solid var(--navy); border-radius: 999px; background: var(--white); color: var(--navy); font: inherit; font-size: .85rem; font-weight: 800; cursor: pointer; }
+  .map-filters-toggle [data-map-filters-label] { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .map-filters-toggle[aria-expanded="true"] { background: var(--navy); color: var(--white); }
+  .map-filters { display: none; margin: 0 0 10px; }
+  .map-filters.is-open { display: flex; }
+  .map-layout { min-height: 0; }
+  /* alto = pantalla − cabecera (78px) − barra inferior (68px) − barra de filtros (64px) */
+  .community-map { height: calc(100dvh - 78px - 68px - env(safe-area-inset-bottom, 0px) - 64px); min-height: 320px; }
+}

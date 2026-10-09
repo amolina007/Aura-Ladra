@@ -174,9 +174,14 @@
           <p>Explora caniles, veterinarias, urgencias, alimento, tiendas y puntos comunitarios. Los datos abiertos indican su fuente y deben confirmarse antes de una visita.</p>
         </div>
 
-        <p class="map-summary" data-map-summary aria-live="polite">Cargando lugares públicos de Maipú…</p>
+        <div class="map-toolbar">
+          <button class="map-filters-toggle" type="button" aria-expanded="false" aria-controls="map-filters" data-map-filters-toggle>
+            <span aria-hidden="true">☰</span> <span data-map-filters-label>Filtros</span>
+          </button>
+          <p class="map-summary" data-map-summary aria-live="polite">Cargando lugares públicos de Maipú…</p>
+        </div>
 
-        <div class="map-filters" role="group" aria-label="Filtrar lugares">
+        <div class="map-filters" id="map-filters" role="group" aria-label="Filtrar lugares">
           <button class="map-filter is-active" type="button" data-place-filter="todos">Todos</button>
           <button class="map-filter" type="button" data-place-filter="canil">Caniles</button>
           <button class="map-filter" type="button" data-place-filter="veterinaria">Veterinarias</button>
