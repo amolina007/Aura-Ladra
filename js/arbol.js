@@ -766,20 +766,73 @@
     }).join('')}</ol></section>`).join('');
   };
 
+  // ---------- Ilustración del árbol en Mi perfil (hasta 3 integrantes reales) ----------
+  const limpiarNombre = (n) => String(n || '').replace(/\s*\(ejemplo\)\s*/i, '').trim() || '?';
+  const corto = (n, max = 12) => (n.length > max ? `${n.slice(0, max - 1)}…` : n);
+  const destacados = () => {
+    const peso = (m) => (m.memoria ? 3 : m.propio && m.clase === 'animal' ? 0 : m.clase === 'persona' ? 1 : 2);
+    return integrantes().filter((m) => !m.oculta && !esPendiente(m)).sort((a, b) => peso(a) - peso(b)).slice(0, 3);
+  };
+  const PASTELES = ['#e8e1f6', '#fbe3b2', '#d6ecdc'];
+  const avatarSvg = (m, i, cx, cy, r) => {
+    const nombre = limpiarNombre(m.nombre);
+    const foto = typeof m.foto_url === 'string' && m.foto_url.startsWith('https://') ? m.foto_url : '';
+    const base = `<circle cx="${cx}" cy="${cy}" r="${r + 3}" fill="#fff"/>`;
+    if (foto) {
+      return `<clipPath id="mpa-c${i}"><circle cx="${cx}" cy="${cy}" r="${r}"/></clipPath>${base}<image href="${esc(foto)}" x="${cx - r}" y="${cy - r}" width="${r * 2}" height="${r * 2}" preserveAspectRatio="xMidYMid slice" clip-path="url(#mpa-c${i})"/>`;
+    }
+    return `${base}<circle cx="${cx}" cy="${cy}" r="${r}" fill="${PASTELES[i % 3]}"/><text x="${cx}" y="${cy + r * 0.36}" text-anchor="middle" font-size="${Math.round(r * 0.95)}" font-weight="800" fill="#5d4a9c" font-family="Nunito, sans-serif">${esc(nombre.charAt(0).toUpperCase())}</text>`;
+  };
+  const pildora = (texto, cx, y, fill, color) => {
+    const w = Math.max(48, texto.length * 7.2 + 16);
+    return `<rect x="${cx - w / 2}" y="${y}" width="${w}" height="20" rx="10" fill="${fill}"/><text x="${cx}" y="${y + 14}" text-anchor="middle" font-size="12" font-weight="800" fill="${color}" font-family="Nunito, sans-serif">${esc(texto)}</text>`;
+  };
+  const dibujoArbol = (cuidados, encuentros) => {
+    const ms = destacados();
+    const pos = [[170, 88, 30], [92, 158, 26], [248, 158, 26]];
+    const hojas = [[120, 60], [215, 55], [150, 28], [190, 30], [70, 115], [270, 115]].slice(0, Math.min(cuidados, 6));
+    const flores = [[128, 108], [212, 112], [170, 140], [60, 190], [282, 192]].slice(0, Math.min(encuentros, 5));
+    const nombres = ms.map((m) => limpiarNombre(m.nombre)).join(', ');
+    const miembros = ms.map((m, i) => {
+      const [cx, cy, r] = pos[i];
+      const etiqueta = i === 0 ? CATEGORIAS[categoriaDe(m)] : corto(limpiarNombre(m.nombre));
+      const corazon = i === 0 ? `<circle cx="${cx + 24}" cy="${cy - 22}" r="11" fill="#f5b32f" stroke="#fff" stroke-width="2"/><text x="${cx + 24}" y="${cy - 17}" text-anchor="middle" font-size="12" fill="#17462c" font-family="Nunito, sans-serif">♥</text>` : '';
+      const nombreTop = i === 0 ? pildora(corto(limpiarNombre(m.nombre), 14), cx, cy + r + 8, '#fff', '#17462c') : pildora(etiqueta, cx, cy + r + 8, '#fff', '#17462c');
+      return `${avatarSvg(m, i, cx, cy, r)}${corazon}${nombreTop}`;
+    }).join('');
+    return `<svg class="mp-arbol-svg" viewBox="0 0 340 300" role="img" aria-label="Ilustración de tu árbol de vínculos con ${esc(nombres)}" xmlns="http://www.w3.org/2000/svg">
+      <defs><symbol id="mpa-flor" viewBox="-12 -12 24 24"><g fill="#f7a8c4"><circle cx="0" cy="-6" r="4.5"/><circle cx="5.7" cy="-1.9" r="4.5"/><circle cx="3.5" cy="4.9" r="4.5"/><circle cx="-3.5" cy="4.9" r="4.5"/><circle cx="-5.7" cy="-1.9" r="4.5"/></g><circle r="3" fill="#f5b32f"/></symbol></defs>
+      <path d="M0 255 Q85 215 170 245 T340 235 V300 H0Z" fill="#d6ecdc"/>
+      <path d="M0 280 Q110 250 200 275 T340 270 V300 H0Z" fill="#b9dcc4"/>
+      <path d="M160 300 C162 250 164 215 166 175 H176 C178 215 180 250 182 300Z" fill="#8a6a4a"/>
+      <circle cx="170" cy="105" r="86" fill="#8cc79b"/><circle cx="95" cy="150" r="52" fill="#7bb98b"/><circle cx="245" cy="150" r="52" fill="#7bb98b"/>
+      ${hojas.map(([x, y]) => `<ellipse cx="${x}" cy="${y}" rx="9" ry="5" fill="#3f8a5c" transform="rotate(-30 ${x} ${y})"/>`).join('')}
+      ${flores.map(([x, y]) => `<use href="#mpa-flor" x="${x - 9}" y="${y - 9}" width="18" height="18"/>`).join('')}
+      ${miembros}
+    </svg>`;
+  };
+
   const renderResumen = () => {
-    if (S.cargando && !S.data) { resumen.innerHTML = '<p class="card-copy" role="status">Cargando tu árbol…</p>'; return; }
-    if (S.error && !S.data) { resumen.innerHTML = `<p class="card-copy arbol-error">${esc(S.error)}</p><button type="button" class="button-borde" data-arbol-reintentar>Reintentar</button>`; return; }
+    if (S.cargando && !S.data) { resumen.innerHTML = '<p class="mp-muted" role="status">Cargando tu árbol…</p>'; return; }
+    if (S.error && !S.data) {
+      resumen.innerHTML = `<p class="mp-muted arbol-error">${esc(S.error)}</p><button type="button" class="mp-btn mp-btn-soft" data-arbol-reintentar>Reintentar</button>`;
+      document.dispatchEvent(new CustomEvent('arbol:cambio', { detail: { cuidados: 0, encuentros: 0 } }));
+      return;
+    }
     const ints = integrantes();
+    const ms = momentos();
     const animales = ints.filter((m) => m.clase === 'animal').length;
     const personas = ints.length - animales;
+    const cuidados = ms.filter((mo) => ['paseo', 'juego', 'cuidado'].includes(mo.tipo)).length;
+    const encuentros = ms.filter((mo) => mo.tipo === 'encuentro').length;
     const pend = (S.data?.pendientes?.personas?.length || 0) + (S.data?.pendientes?.participaciones?.length || 0);
     resumen.innerHTML = `
       ${S.modo === 'demo' ? '<p class="arbol-demo"><strong>Demostración.</strong> Datos ficticios guardados solo en este navegador.</p>' : ''}
-      ${ints.length ? `<p class="card-copy">Tu historia con animales y personas, rama por rama.</p>
-      <div class="my-profile-stats"><div><strong>${animales}</strong><span>Animales</span></div><div><strong>${personas}</strong><span>Personas</span></div><div><strong>${momentos().length}</strong><span>Momentos</span></div></div>
-      ${pend ? `<p class="arbol-nota"><strong>${pend}</strong> ${pend === 1 ? 'solicitud espera' : 'solicitudes esperan'} tu respuesta.</p>` : ''}` : '<p class="card-copy">Aún no tienes vínculos. Tu árbol empieza con tu primera mascota o tu primer vínculo.</p>'}
-      <button type="button" class="button-verde" data-arbol-abrir>${ints.length ? 'Abrir mi árbol' : 'Empezar mi árbol'}</button>
-      <p class="my-profile-privacy"><span aria-hidden="true">◇</span> Tu árbol es privado: nadie lo ve por estar conectado contigo.</p>`;
+      ${ints.length ? `<div class="mp-arbol">${dibujoArbol(cuidados, encuentros)}</div>
+      <p class="mp-muted mp-arbol-cuenta">${animales} ${animales === 1 ? 'animal' : 'animales'} · ${personas} ${personas === 1 ? 'persona' : 'personas'} · ${ms.length} ${ms.length === 1 ? 'momento' : 'momentos'}</p>
+      ${pend ? `<p class="arbol-nota"><strong>${pend}</strong> ${pend === 1 ? 'solicitud espera' : 'solicitudes esperan'} tu respuesta.</p>` : ''}` : '<p class="mp-muted">Aún no tienes vínculos. Tu árbol empieza con tu primera mascota o tu primer vínculo.</p>'}
+      <button type="button" class="mp-btn" data-arbol-abrir>${ints.length ? 'Gestionar vínculos' : 'Empezar mi árbol'}</button>`;
+    document.dispatchEvent(new CustomEvent('arbol:cambio', { detail: { cuidados, encuentros } }));
   };
 
   const render = () => {
@@ -1054,8 +1107,9 @@
   // ---------- Eventos principales ----------
   const irATab = (tab) => {
     vista.close();
-    document.querySelector(`[data-my-profile-tab="${tab}"]`)?.click();
-    document.querySelector(`[data-my-profile-tab="${tab}"]`)?.focus();
+    // Mi perfil ya no tiene pestañas: el árbol vive en la pantalla principal.
+    const destino = tab === 'arbol' ? 'perfil' : tab;
+    document.querySelector(`[data-my-profile-tab="${destino}"]`)?.click();
   };
 
   const abrirVista = async () => {
@@ -1143,9 +1197,6 @@
   resumen.addEventListener('click', (e) => {
     if (e.target.closest('[data-arbol-abrir]')) abrirVista();
     if (e.target.closest('[data-arbol-reintentar]')) cargar();
-  });
-  document.addEventListener('click', (e) => {
-    if (e.target.closest('[data-my-profile-tab="arbol"]')) cargar(Boolean(S.data));
   });
   // Si cambian las mascotas desde sus propios diálogos, el árbol se vuelve a leer.
   ['[data-pet-connect-dialog]', '[data-pet-profile-dialog]'].forEach((s) => document.querySelector(s)?.addEventListener('close', () => cargar(true)));

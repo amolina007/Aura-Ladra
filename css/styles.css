@@ -1275,3 +1275,8 @@ body[data-vista="cuenta"] .report-grid { grid-template-columns: minmax(0, 760px)
 .my-profile .empty-state { border-radius: 18px; background: #fff; }
 @media (min-width: 700px) { .my-profile { padding: 28px 24px 32px; } }
 .my-profile { scroll-margin-top: 90px; }
+.mp-arbol { border-radius: 18px; overflow: hidden; background: #fdf8ec; }
+.mp-arbol-svg { display: block; width: 100%; height: auto; }
+.mp-arbol-cuenta { text-align: center; }
+[data-arbol-resumen] { display: grid; gap: 12px; }
+[data-arbol-resumen] .mp-btn { justify-self: stretch; }
