@@ -2283,6 +2283,11 @@
     updateSessionChip(session);
     const signedOut = document.querySelector('[data-signed-out]');
     const signedIn = document.querySelector('[data-signed-in]');
+    // Con sesión iniciada, «Cuenta personal · Mi cuenta» no se muestra: Mi perfil ocupa su lugar.
+    const hasSession = Boolean(session?.user);
+    document.querySelector('[data-account-card]')?.classList.toggle('is-session', hasSession);
+    const accountHeading = document.querySelector('[data-account-heading]');
+    if (accountHeading) accountHeading.hidden = hasSession;
     if (!session?.user) {
       coreAvatarUrl = '';
       signedOut.hidden = false;
@@ -2291,7 +2296,7 @@
       return;
     }
     signedOut.hidden = true;
-    signedIn.hidden = false;
+    signedIn.hidden = true; // el correo y «Cerrar sesión» ya están en el botón de la cabecera
     const emailEl = document.querySelector('[data-session-email]');
     if (emailEl) emailEl.textContent = session.user.email || 'cuenta activa';
     loadCoreAvatar();

@@ -1281,3 +1281,4 @@ body[data-vista="cuenta"] .report-grid { grid-template-columns: minmax(0, 760px)
 [data-arbol-resumen] { display: grid; gap: 12px; }
 [data-arbol-resumen] .mp-btn { justify-self: stretch; }
 .mp-avatar { overflow: hidden; } .mp-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.account-card.is-session { padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; }

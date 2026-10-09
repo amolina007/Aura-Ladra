@@ -773,7 +773,7 @@
   const corto = (n, max = 12) => (n.length > max ? `${n.slice(0, max - 1)}…` : n);
   let YO = { alias: '', foto: '' }; // lo informa main.js con el evento perfil:cambio
   const PASTELES = ['#e8e1f6', '#fbe3b2', '#d6ecdc'];
-  const parejaDe = () => integrantes().find((m) => m.clase === 'persona' && !m.oculta && !esPendiente(m)
+  const parejasDe = () => integrantes().filter((m) => m.clase === 'persona' && !m.oculta && !esPendiente(m)
     && (m.relaciones || []).some((r) => r.estado === 'confirmado' && r.tipo === 'familia' && r.origen !== 'privado'));
 
   const dibujoArbol = (cuidados, encuentros) => {
@@ -790,14 +790,15 @@
       return `<rect x="${cx - w / 2}" y="${y}" width="${w}" height="18" rx="9" fill="#fff"/><text x="${cx}" y="${y + 13}" text-anchor="middle" font-size="11.5" font-weight="800" fill="#17462c" font-family="Nunito, sans-serif">${esc(texto)}</text>`;
     };
     // Un árbol: cx = eje del tronco; perros en la copa; raíces con conmemorativos; miniatura en el tronco.
+    // Se dibuja en dos capas: primero todas las copas (que se entrelazan entre vecinos) y luego troncos y miniaturas.
+    const copaDe = (cx, tono) => `<circle cx="${cx}" cy="95" r="62" fill="${tono}"/><circle cx="${cx - 36}" cy="116" r="36" fill="${tono}"/><circle cx="${cx + 36}" cy="116" r="36" fill="${tono}"/>`;
     const arbol = (cx, perros, memorias, duenoNombre, duenoFoto, hojas, flores) => {
       const copa = perros.length >= 2 ? [[cx - 22, 92], [cx + 22, 92]] : [[cx, 92]];
       const rp = perros.length >= 2 ? 21 : 26;
-      const hs = [[-48, 55], [48, 52], [-60, 105], [60, 108], [-20, 38], [22, 36]].slice(0, hojas);
-      const fs = [[-38, 128], [40, 130], [0, 134]].slice(0, flores);
-      const raices = memorias.slice(0, 3).map((m, i, a) => [cx + (i - (a.length - 1) / 2) * 44, 270]);
+      const hs = [[-40, 52], [40, 50], [-52, 100], [52, 102], [-14, 36], [16, 34]].slice(0, hojas);
+      const fs = [[-34, 128], [34, 130], [0, 136]].slice(0, flores);
+      const raices = memorias.slice(0, 3).map((m, i, arr) => [cx + (i - (arr.length - 1) / 2) * 40, 270]);
       return `
-        <circle cx="${cx}" cy="95" r="66" fill="#8cc79b"/><circle cx="${cx - 38}" cy="118" r="38" fill="#7bb98b"/><circle cx="${cx + 38}" cy="118" r="38" fill="#7bb98b"/>
         ${hs.map(([dx, y]) => `<ellipse cx="${cx + dx}" cy="${y}" rx="8" ry="4.5" fill="#3f8a5c" transform="rotate(-30 ${cx + dx} ${y})"/>`).join('')}
         ${fs.map(([dx, y]) => `<use href="#mpa-flor" x="${cx + dx - 8}" y="${y - 8}" width="16" height="16"/>`).join('')}
         <path d="M${cx - 9} 232 C${cx - 8} 200 ${cx - 7} 175 ${cx - 5} 150 H${cx + 5} C${cx + 7} 175 ${cx + 8} 200 ${cx + 9} 232Z" fill="#8a6a4a"/>
@@ -809,20 +810,26 @@
     };
     const vivos = (m) => m.clase === 'animal' && !m.oculta && !esPendiente(m);
     const mios = integrantes().filter((m) => vivos(m) && m.propio);
-    const perrosMios = mios.filter((m) => !m.memoria);
-    const memoriasMias = mios.filter((m) => m.memoria);
-    const pareja = parejaDe();
-    const perrosPareja = (pareja?.animales || []).filter((a) => !a.memoria);
-    const memoriasPareja = (pareja?.animales || []).filter((a) => a.memoria);
-    const nombres = [YO.alias || 'tú', ...perrosMios.map((m) => m.nombre), pareja?.nombre, ...perrosPareja.map((a) => a.nombre)].filter(Boolean).map(limpiarNombre).join(', ');
-    const hojas = Math.min(cuidados, 6);
-    const flores = Math.min(encuentros, 3);
-    return `<svg class="mp-arbol-svg" viewBox="0 0 340 300" role="img" aria-label="Ilustración de tu árbol${pareja ? ' y el de ' + esc(limpiarNombre(pareja.nombre)) : ''}: ${esc(nombres)}" xmlns="http://www.w3.org/2000/svg">
+    const parejas = parejasDe().slice(0, 2);
+    // Mi árbol primero; luego los de las personas con vínculo familiar confirmado.
+    const arboles = [
+      { nombre: YO.alias || 'Yo', foto: YO.foto, perros: mios.filter((m) => !m.memoria), memorias: mios.filter((m) => m.memoria), hojas: Math.min(cuidados, 6), flores: Math.min(encuentros, 3) },
+      ...parejas.map((m) => ({ nombre: m.nombre, foto: m.foto_url, perros: (m.animales || []).filter((a) => !a.memoria), memorias: (m.animales || []).filter((a) => a.memoria), hojas: 0, flores: 0 })),
+    ];
+    const paso = arboles.length > 1 ? Math.min(100, 200 / (arboles.length - 1)) : 0;
+    const xs = arboles.map((_, i) => 170 + (i - (arboles.length - 1) / 2) * paso);
+    const TONOS = ['#8cc79b', '#86c2ae', '#9ccf9a'];
+    const nombres = arboles.flatMap((t) => [t.nombre, ...t.perros.map((p) => p.nombre)]).map(limpiarNombre).join(', ');
+    const ajenos = parejas.map((m) => limpiarNombre(m.nombre));
+    const copas = arboles.map((_, i) => copaDe(xs[i], TONOS[i % 3])).join('');
+    // Lóbulos entre vecinos: hacen que las copas se entrelacen.
+    const puentes = xs.slice(1).map((x, i) => `<circle cx="${(xs[i] + x) / 2}" cy="104" r="34" fill="#a3d6ae" fill-opacity=".9"/>`).join('');
+    return `<svg class="mp-arbol-svg" viewBox="0 0 340 300" role="img" aria-label="Ilustración de tu árbol${ajenos.length ? ' junto al de ' + esc(ajenos.join(' y ')) : ''}, con las copas entrelazadas: ${esc(nombres)}" xmlns="http://www.w3.org/2000/svg">
       <defs><symbol id="mpa-flor" viewBox="-12 -12 24 24"><g fill="#f7a8c4"><circle cx="0" cy="-6" r="4.5"/><circle cx="5.7" cy="-1.9" r="4.5"/><circle cx="3.5" cy="4.9" r="4.5"/><circle cx="-3.5" cy="4.9" r="4.5"/><circle cx="-5.7" cy="-1.9" r="4.5"/></g><circle r="3" fill="#f5b32f"/></symbol></defs>
       <path d="M0 238 Q85 222 170 236 T340 230 V300 H0Z" fill="#d6ecdc"/>
       <path d="M0 262 Q110 248 200 260 T340 255 V300 H0Z" fill="#b9dcc4"/>
-      ${arbol(pareja ? 90 : 170, perrosMios, memoriasMias, YO.alias || 'Yo', YO.foto, hojas, flores)}
-      ${pareja ? arbol(250, perrosPareja, memoriasPareja, pareja.nombre, pareja.foto_url, 0, 0) : ''}
+      ${copas}${puentes}
+      ${arboles.map((t, i) => arbol(xs[i], t.perros, t.memorias, t.nombre, t.foto, t.hojas, t.flores)).join('')}
     </svg>`;
   };
 
