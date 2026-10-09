@@ -158,6 +158,14 @@ Pestaña **Mi árbol** dentro de Mi perfil. Abre una vista a pantalla completa c
 - **Migración:** `supabase/migrations/20261003190000_mi_arbol_de_vinculos.sql` (**preparada, no ejecutada** en ningún entorno real). Pruebas: `supabase/tests/mi_arbol_prueba.sql` con `supabase/tests/laboratorio_piezas_falsas.sql` en una base PostgreSQL desechable.
 - **Sin la migración** la pestaña funciona en modo **Demostración** (datos ficticios rotulados «(ejemplo)», guardados solo en el navegador).
 
+## Mi perfil
+
+Pantalla única con tarjetas (árbol ilustrado, Mis mascotas, Aportes a la comunidad) y sub-pantallas con flecha de
+volver (Mis animales, Actividad, Mis aportes, Mis acciones). El árbol dibujado muestra hasta 3 integrantes reales de
+Mi árbol. «Aportes a la comunidad» cuenta Cuidados (paseos, juegos y cuidados) y Encuentros desde el árbol, y Ayuda
+desde los aportes a acciones (simulados). Comunicación entre módulos por eventos `arbol:cambio` y `ayuda:cambio`.
+Misiones y recompensas **no** existen: la gamificación está fuera del MVP.
+
 ## Fuera del MVP (decisión ya tomada)
 
 Publicaciones sociales, comentarios, seguidores, chat, marketplace, pagos reales (los aportes

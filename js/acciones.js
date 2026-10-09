@@ -382,12 +382,16 @@
   // ---------- Personal: Mis aportes / Mis acciones ----------
   const sinCuenta = '<p class="ayudar-vacio">Inicia sesión para ver esta sección. <a href="#cuenta">Ir a Mi cuenta</a></p>';
 
+  // Mi perfil muestra cuántos aportes hizo la persona en «Aportes a la comunidad».
+  const avisarAportes = (aportes) => document.dispatchEvent(new CustomEvent('ayuda:cambio', { detail: { aportes } }));
+
   const renderAportes = async (cont) => {
     if (!cont) return;
-    if (!hayCuenta()) { cont.innerHTML = sinCuenta; return; }
+    if (!hayCuenta()) { cont.innerHTML = sinCuenta; avisarAportes(0); return; }
     cont.innerHTML = '<p class="ayudar-vacio">Cargando…</p>';
     try {
       const items = await api.misAportes();
+      avisarAportes(items.length);
       cont.innerHTML = items.length ? `<div class="mini-lista">${items.map((p) => `<div class="mini-item">
         <h4>${esc(p.accion_titulo)}</h4>
         <div class="accion-meta">${chip(clp.format(p.monto_clp))}${chip(ESTADOS[p.accion_estado] || p.accion_estado, claseEstado(p.accion_estado))}${DEVOLUCION[p.estado_devolucion] ? chip(DEVOLUCION[p.estado_devolucion], 'is-ambar') : ''}${p.simulado ? chip('Simulación', 'is-sim') : ''}</div>
