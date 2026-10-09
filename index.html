@@ -166,6 +166,12 @@
           <p>Explora caniles, veterinarias, urgencias, alimento, tiendas y puntos comunitarios. Los datos abiertos indican su fuente y deben confirmarse antes de una visita.</p>
         </div>
 
+        <div class="mapa-tabs" role="tablist" aria-label="Mapa o calendario">
+          <button class="mapa-tab is-active" type="button" role="tab" id="mapa-tab-mapa" aria-selected="true" aria-controls="mapa-panel-mapa" data-mapa-tab="mapa">Mapa</button>
+          <button class="mapa-tab" type="button" role="tab" id="mapa-tab-calendario" aria-selected="false" aria-controls="mapa-panel-calendario" tabindex="-1" data-mapa-tab="calendario">Calendario</button>
+        </div>
+
+        <div id="mapa-panel-mapa" role="tabpanel" aria-labelledby="mapa-tab-mapa" data-mapa-panel="mapa">
         <div class="map-toolbar">
           <button class="map-filters-toggle" type="button" aria-expanded="false" aria-controls="map-filters" data-map-filters-toggle>
             <span aria-hidden="true">☰</span> <span data-map-filters-label>Filtros</span>
@@ -190,6 +196,32 @@
           <div class="community-map" id="community-map" aria-label="Mapa de lugares de AuraLadra"></div>
           <div class="place-list" data-place-list aria-live="polite">
             <p class="empty-state">Cargando lugares…</p>
+          </div>
+        </div>
+        </div>
+
+        <div class="cal" id="mapa-panel-calendario" role="tabpanel" aria-labelledby="mapa-tab-calendario" data-mapa-panel="calendario" data-cal hidden>
+          <div class="cal-cab">
+            <button class="cal-nav" type="button" data-cal-prev aria-label="Mes anterior">‹</button>
+            <h3 class="cal-mes" data-cal-mes aria-live="polite"></h3>
+            <button class="cal-nav" type="button" data-cal-sig aria-label="Mes siguiente">›</button>
+            <button class="cal-hoy" type="button" data-cal-hoy>Hoy</button>
+          </div>
+          <div class="cal-filtros" role="group" aria-label="Tipo de evento">
+            <button class="cal-chip is-active" type="button" data-cal-filtro="todos" aria-pressed="true">Todos</button>
+            <button class="cal-chip" type="button" data-cal-filtro="ayudar" aria-pressed="false"><span class="cal-punto t-ayudar" aria-hidden="true"></span>Ayudar</button>
+            <button class="cal-chip" type="button" data-cal-filtro="perdida" aria-pressed="false"><span class="cal-punto t-perdida" aria-hidden="true"></span>Mascotas perdidas</button>
+            <button class="cal-chip" type="button" data-cal-filtro="puesto" aria-pressed="false"><span class="cal-punto t-puesto" aria-hidden="true"></span>Comida y agua</button>
+            <button class="cal-chip" type="button" data-cal-filtro="propio" aria-pressed="false"><span class="cal-punto t-propio" aria-hidden="true"></span>Mis eventos</button>
+          </div>
+          <div class="cal-layout">
+            <div class="cal-grid" data-cal-grid role="grid" aria-label="Calendario del mes"></div>
+            <aside class="cal-dia" aria-live="polite">
+              <h4 data-cal-dia-titulo></h4>
+              <ul class="cal-lista" data-cal-dia-lista></ul>
+              <button class="cal-nuevo" type="button" data-cal-nuevo>＋ Agregar evento propio</button>
+              <p class="cal-demo" data-cal-demo>Tus eventos se guardan solo en este navegador (modo demo).</p>
+            </aside>
           </div>
         </div>
       </div>
@@ -588,6 +620,21 @@
       </form>
     </div>
   </dialog>
+  <dialog class="human-profile-dialog feed-dialog" data-cal-dialog aria-labelledby="cal-dialog-title">
+    <form method="dialog" data-cal-form novalidate>
+      <button class="pet-profile-close" type="button" data-cal-close aria-label="Cerrar">×</button>
+      <h3 id="cal-dialog-title">Nuevo evento</h3>
+      <label>Título<input name="titulo" type="text" maxlength="80" required autocomplete="off"></label>
+      <label>Fecha<input name="fecha" type="date" required></label>
+      <label>Hora (opcional)<input name="hora" type="time"></label>
+      <label>Lugar (opcional)<input name="lugar" type="text" maxlength="120" placeholder="Ej.: Plaza de Maipú" autocomplete="off"></label>
+      <label>Detalle (opcional)<textarea name="detalle" rows="3" maxlength="300"></textarea></label>
+      <button class="button-verde" type="button" data-cal-ubicar>Usar mi ubicación</button>
+      <p class="action-feedback" data-cal-message aria-live="polite"></p>
+      <button class="feed-publicar" type="submit">Guardar evento</button>
+    </form>
+  </dialog>
+
   <dialog class="feed-historia-dialog" data-feed-historia-dialog aria-label="Historia">
     <div class="fh-barras" data-fh-barras></div>
     <header class="fh-cabecera"><span class="fh-avatar" data-fh-avatar></span><div><strong data-fh-nombre></strong><small data-fh-hora></small></div><button type="button" class="fh-cerrar" data-fh-cerrar aria-label="Cerrar historia">×</button></header>
@@ -802,6 +849,7 @@
 <script src="js/acciones.js"></script>
 <script src="js/puestos.js"></script>
 <script src="js/feed.js"></script>
+<script src="js/eventos.js"></script>
 <script src="js/arbol.js"></script>
 <script src="js/vistas.js"></script>
 <script defer src="https://core.convergenciaaura.cl/js/globo.js" data-margen-movil="76"></script>

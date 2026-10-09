@@ -644,6 +644,8 @@
     } catch (e) {
       if (faltaBackend(e)) { modo = 'demo'; api = demo; } else { el.modo.textContent = 'No pudimos conectar con el servidor. Intenta de nuevo más tarde.'; }
     }
+    window.auraLadraAcciones = { calendario: () => api.listar({}) };
+    document.dispatchEvent(new CustomEvent('acciones:listas'));
     textoModo();
     await cargarLista();
     await refrescarPersonal();

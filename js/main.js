@@ -739,6 +739,8 @@
       horario_publico: `Vista por última vez: ${dateFormatter.format(new Date(alert.perdida_en))}`,
       precision_ubicacion: 'exacta',
     }));
+    window.auraLadraAlertas = alertsResult.error ? [] : (alertsResult.data || []);
+    document.dispatchEvent(new CustomEvent('alertas:cambio'));
     basePlaces = [...alerts, ...places];
     publicPlaces = [...basePlaces, ...puestosComoLugares()];
     renderPlaces();

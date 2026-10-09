@@ -183,6 +183,13 @@ de su mascota (`js/feed.js`), se publica al instante y cualquiera puede denuncia
 en `localStorage` (imágenes reducidas a 960 px), con ejemplos «(ejemplo)». Falta el servidor (tabla, Storage y
 revisión de denuncias por moderación). Evento `feed:cambio`; `window.auraLadraFeed.posts()`.
 
+## Mapa: Calendario
+
+Mapa tiene dos pestañas: **Mapa** y **Calendario** (`js/eventos.js`). El calendario junta fechas automáticas (cierre de
+recaudación de Ayudar, fecha de pérdida de Most Wanted / Mascotas perdidas, última reposición de Comida y agua) y
+**eventos propios** (título, fecha, hora, lugar, ubicación opcional). Los propios son demo: se guardan en `localStorage`.
+Las fuentes se leen de `window.auraLadraAcciones`, `window.auraLadraAlertas` y `window.auraLadraPuestos`.
+
 ## Fuera del MVP (decisión ya tomada)
 
 Comentarios, seguidores, chat, marketplace, pagos reales (los aportes
