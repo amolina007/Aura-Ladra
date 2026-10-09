@@ -52,20 +52,15 @@
 </div>
 
   <main id="contenido">
-    <section class="hero" id="inicio" data-vista-de="inicio">
-      <div class="hero-image" role="img" aria-label="Ilustración de una comunidad compartiendo responsablemente un parque para perros en Maipú"></div>
-      <div class="hero-shade"></div>
-      <div class="hero-paws" aria-hidden="true"></div>
-      <div class="shell hero-content">
-        <div class="hero-copy">
-          <p class="eyebrow"><span class="pulse" aria-hidden="true"></span> Piloto comunitario · Maipú</p>
-          <h1>Hola, soy Leia.<br><em>Esta plaza también es nuestra.</em></h1>
-          <p class="hero-lead">AuraLadra conecta mascotas, personas y lugares para cuidarnos mejor en el barrio.</p>
-          <div class="hero-actions">
-            <a class="button button-primary" href="#most-wanted">Most Wanted <span aria-hidden="true">→</span></a>
-            <a class="button button-ghost" href="#mapa">Ver el mapa</a>
-          </div>
+    <section class="feed" id="inicio" data-vista-de="inicio" data-feed aria-labelledby="feed-title">
+      <div class="feed-shell">
+        <h1 class="sr-only" id="feed-title">AuraLadra: lo que comparten las mascotas</h1>
+        <div class="feed-historias" data-feed-historias role="list" aria-label="Historias de las mascotas"></div>
+        <div class="feed-barra">
+          <button type="button" class="feed-publicar" data-feed-publicar hidden>＋ Publicar</button>
+          <p class="feed-demo" data-feed-demo hidden><strong>Demostración.</strong> Las publicaciones «(ejemplo)» son ficticias y lo que publiques se guarda solo en este navegador.</p>
         </div>
+        <div class="feed-lista" data-feed-lista aria-live="polite"></div>
       </div>
     </section>
 
@@ -565,76 +560,6 @@
       </div>
     </section>
 
-    <section class="how section" id="como-funciona" data-vista-de="inicio">
-      <div class="shell">
-        <div class="section-heading center-heading">
-          <p class="kicker">Diseñado para cuidar</p>
-          <h2>Un QR puede conectar sin revelar.</h2>
-          <p>La identificación sirve para acercar ayuda, no para publicar teléfonos, correos o domicilios.</p>
-        </div>
-        <div class="steps-grid">
-          <article>
-            <span class="step-mark">1</span>
-            <h3>Escaneas</h3>
-            <p>El código identifica a la mascota con un token revocable, no con datos personales en la URL.</p>
-          </article>
-          <article>
-            <span class="step-mark">2</span>
-            <h3>Dejas un aviso</h3>
-            <p>La interacción puede ser anónima. Identificarte es una decisión voluntaria.</p>
-          </article>
-          <article>
-            <span class="step-mark">3</span>
-            <h3>AuraLadra conecta</h3>
-            <p>El responsable recibe el aviso y decide cómo responder sin exponer su contacto públicamente.</p>
-          </article>
-        </div>
-        <div class="build-note">
-          <span aria-hidden="true">↗</span>
-          <div><strong>Función en construcción</strong><p>Estamos preparando este flujo sobre una base segura y con consentimiento por mascota.</p></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="network section" id="recursos" data-vista-de="inicio">
-      <div class="shell network-grid">
-        <div>
-          <p class="kicker">La red que viene</p>
-          <h2>Datos comunitarios con contexto.</h2>
-          <p>El mapa distingue aportes comunitarios de lugares verificados y señala las urgencias veterinarias de forma explícita.</p>
-        </div>
-        <div class="network-cards">
-          <article><span aria-hidden="true">＋</span><h3>Servicios y comercios</h3><p>Veterinarias, urgencias, alimento, juguetes y accesorios.</p><small>Activo</small></article>
-          <article><span aria-hidden="true">⌖</span><h3>Mapa comunitario</h3><p>Caniles, espacios y lugares donde se conocen animales comunitarios.</p><small>Activo</small></article>
-          <article><span aria-hidden="true">◇</span><h3>Contenido para cuidar</h3><p>Guías breves con fuentes, fecha y enlaces para profundizar.</p><small>Próxima etapa</small></article>
-        </div>
-      </div>
-    </section>
-
-    <section class="principles section" id="principios" data-vista-de="inicio">
-      <div class="shell principles-grid">
-        <div class="principles-title">
-          <p class="kicker">Nuestros principios</p>
-          <h2>La comunidad funciona cuando el cuidado también protege la autonomía.</h2>
-        </div>
-        <div class="principle-list">
-          <article><span>01</span><div><h3>Privacidad por defecto</h3><p>Los datos personales no son contenido público.</p></div></article>
-          <article><span>02</span><div><h3>Consentimiento revocable</h3><p>Cada responsable puede decidir, revisar y retirar permisos.</p></div></article>
-          <article><span>03</span><div><h3>Hechos separados de la voz</h3><p>La identidad verificable de una mascota se distingue de su relato de marca.</p></div></article>
-          <article><span>04</span><div><h3>Primero el territorio</h3><p>Construimos desde problemas observados, no desde funciones imaginadas.</p></div></article>
-        </div>
-      </div>
-    </section>
-
-    <section class="closing" data-vista-de="inicio">
-      <div class="shell closing-inner">
-        <div>
-          <p class="kicker">Una huella a la vez</p>
-          <h2>Partimos pequeños para cuidar mejor.</h2>
-        </div>
-        <a class="button button-dark" href="https://www.instagram.com/aura.ladra/" target="_blank" rel="noopener noreferrer">Seguir @aura.ladra <span aria-hidden="true">↗</span></a>
-      </div>
-    </section>
   </main>
 
   <footer class="site-footer">
@@ -644,6 +569,33 @@
       <p>© <span data-year></span> AuraLadra</p>
     </div>
   </footer>
+
+  <dialog class="human-profile-dialog feed-dialog" data-feed-dialog aria-labelledby="feed-dialog-title">
+    <div class="human-profile-shell">
+      <button class="pet-profile-close" type="button" data-feed-close aria-label="Cerrar">×</button>
+      <p class="kicker">Feed</p>
+      <h3 id="feed-dialog-title">Publicar</h3>
+      <form class="magic-form" data-feed-form>
+        <label class="field"><span>¿Qué mascota publica?</span><select name="mascota" required data-feed-mascotas></select></label>
+        <fieldset class="feed-tipo"><legend class="sr-only">Tipo</legend>
+          <label><input type="radio" name="tipo" value="post" checked> <span>Publicación</span></label>
+          <label><input type="radio" name="tipo" value="historia"> <span>Historia (dura 24 h)</span></label>
+        </fieldset>
+        <label class="field"><span>Foto</span><input type="file" name="imagen" accept="image/jpeg,image/png,image/webp"><small>Videos: próximamente (necesitan almacenamiento).</small></label>
+        <label class="field"><span>Texto</span><textarea name="texto" maxlength="300" rows="3" placeholder="Cuenta algo de tu mascota"></textarea></label>
+        <button class="button button-dark" type="submit">Publicar</button>
+        <p class="form-message" data-feed-message aria-live="polite"></p>
+      </form>
+    </div>
+  </dialog>
+  <dialog class="feed-historia-dialog" data-feed-historia-dialog aria-label="Historia">
+    <div class="fh-barras" data-fh-barras></div>
+    <header class="fh-cabecera"><span class="fh-avatar" data-fh-avatar></span><div><strong data-fh-nombre></strong><small data-fh-hora></small></div><button type="button" class="fh-cerrar" data-fh-cerrar aria-label="Cerrar historia">×</button></header>
+    <div class="fh-medio" data-fh-medio></div>
+    <p class="fh-texto" data-fh-texto></p>
+    <button type="button" class="fh-nav fh-ant" data-fh-ant aria-label="Anterior"></button>
+    <button type="button" class="fh-nav fh-sig" data-fh-sig aria-label="Siguiente"></button>
+  </dialog>
 
   <!-- Cuadros emergentes: fuera de las secciones para que se vean desde cualquier vista (js/vistas.js esconde secciones enteras). -->
   <dialog class="wanted-dialog" data-wanted-claim-dialog>
@@ -849,6 +801,7 @@
 <script src="js/main.js"></script>
 <script src="js/acciones.js"></script>
 <script src="js/puestos.js"></script>
+<script src="js/feed.js"></script>
 <script src="js/arbol.js"></script>
 <script src="js/vistas.js"></script>
 <script defer src="https://core.convergenciaaura.cl/js/globo.js" data-margen-movil="76"></script>

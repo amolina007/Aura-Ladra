@@ -176,9 +176,16 @@ persona decida compartir (hoy solo la demo muestra a «Cate (ejemplo)»).
 «Aportes a la comunidad» cuenta Cuidados y Encuentros desde Historia y Ayuda desde los aportes a acciones (simulados),
 con los eventos `arbol:cambio` y `ayuda:cambio`. Misiones y recompensas **no** existen: la gamificación está fuera del MVP.
 
+## Inicio: feed multimedia (modo demo)
+
+Inicio es solo un feed: barra de historias (duran 24 h) y publicaciones de mascotas. El dueño publica en nombre
+de su mascota (`js/feed.js`), se publica al instante y cualquiera puede denunciar. **Por ahora es demo**: se guarda
+en `localStorage` (imágenes reducidas a 960 px), con ejemplos «(ejemplo)». Falta el servidor (tabla, Storage y
+revisión de denuncias por moderación). Evento `feed:cambio`; `window.auraLadraFeed.posts()`.
+
 ## Fuera del MVP (decisión ya tomada)
 
-Publicaciones sociales, comentarios, seguidores, chat, marketplace, pagos reales (los aportes
+Comentarios, seguidores, chat, marketplace, pagos reales (los aportes
 de Acciones por financiar son solo simulación), Aura Coin,
 reputación, gamificación, GPS en tiempo real público e integración oficial
 obligatoria con terceros.

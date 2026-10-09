@@ -1149,6 +1149,10 @@
     if (!section) return;
     const hasUser = Boolean(currentSession?.user);
     section.hidden = !hasUser;
+    // El feed publica a nombre de las mascotas propias (vivas).
+    document.dispatchEvent(new CustomEvent('mascotas:cambio', { detail: {
+      animales: hasUser ? ownAnimals.filter((a) => !a.es_conmemorativa).map((a) => ({ id: a.id, nombre: a.nombre, especie: a.especie, foto_url: a.foto_url || '' })) : [],
+    } }));
     if (!hasUser) return;
     const alias = ownPublicProfile?.alias;
     section.querySelector('[data-my-profile-alias]').textContent = alias || 'Sin alias todavía';
