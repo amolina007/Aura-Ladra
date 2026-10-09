@@ -2969,6 +2969,9 @@
     menu.setAttribute('role', 'menu');
     menu.style.top = `${Math.round(rect.bottom + 6)}px`;
     menu.style.left = `${Math.max(8, Math.round(rect.left))}px`;
+    menu.style.minWidth = '280px';
+    menu.style.maxHeight = `calc(100vh - ${Math.round(rect.bottom + 6)}px - 12px)`;
+    menu.style.overflowY = 'auto';
     const emailRow = document.createElement('div');
     emailRow.className = 'session-menu-email';
     emailRow.textContent = currentSession.user.email || 'cuenta activa';
@@ -2978,17 +2981,11 @@
     convergenciaLink.target = '_blank';
     convergenciaLink.rel = 'noopener';
     convergenciaLink.textContent = '🌐 Convergencia Aura';
-    const ritmosLink = document.createElement('a');
-    ritmosLink.setAttribute('role', 'menuitem');
-    ritmosLink.href = 'https://ritmos.convergenciaaura.cl/';
-    ritmosLink.target = '_blank';
-    ritmosLink.rel = 'noopener';
-    ritmosLink.textContent = '💃 Ritmos Aura';
     const signOutButton = document.createElement('button');
     signOutButton.type = 'button';
     signOutButton.setAttribute('role', 'menuitem');
     signOutButton.textContent = '🚪 Cerrar sesión';
-    menu.append(emailRow, convergenciaLink, ritmosLink, signOutButton);
+    menu.append(emailRow, convergenciaLink, signOutButton);
     menu.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeSessionMenu));
     signOutButton.addEventListener('click', async () => {
       closeSessionMenu();
@@ -2996,6 +2993,8 @@
       if (error) setMessage(document.querySelector('[data-auth-message]'), 'No pudimos cerrar la sesión.', 'error');
     });
     document.body.appendChild(menu);
+    // Bloque común de Convergencia Aura: rango, Auracoins y lista de sitios.
+    window.AuraNav?.pintar(menu, db, { antesDe: signOutButton });
     window.setTimeout(() => {
       document.addEventListener('click', onClickOutsideSessionMenu, true);
       document.addEventListener('keydown', onEscSessionMenu);
