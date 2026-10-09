@@ -1191,6 +1191,12 @@
     if (focus) target.querySelector('h3, h4')?.focus({ preventScroll: true });
   };
 
+  // Lleva a una pantalla de Mi perfil desde otro lugar (por ejemplo, desde el diálogo de una ficha).
+  const openMyProfileScreen = (name) => {
+    window.auraLadraVistas?.ir('mi-perfil');
+    selectMyProfileTab(name, false);
+  };
+
   document.querySelector('[data-my-profile]')?.addEventListener('click', (event) => {
     const tab = event.target.closest('[data-my-profile-tab]');
     if (tab) {
@@ -2596,7 +2602,7 @@
     const editButton = event.target.closest('[data-edit-pet-section]');
     if (editButton?.dataset.editPetSection === 'vinculos') {
       dialog.close();
-      window.auraLadraVistas?.ir('red');
+      openMyProfileScreen('fichas');
       document.querySelector('[data-animal-link-form]')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       setMessage(document.querySelector('[data-account-animal-message]'), 'Puedes proponer vínculos aquí. Si la otra mascota tiene responsable, esa persona deberá autorizarlo.');
     } else if (editButton) startPetProfileEdit(editButton.dataset.editPetSection);
@@ -2658,7 +2664,7 @@
     if (event.target === dialog || event.target.closest('[data-pet-connect-close]')) dialog.close();
     if (event.target.closest('[data-create-new-pet]')) {
       dialog.close();
-      window.auraLadraVistas?.ir('red');
+      openMyProfileScreen('fichas');
       document.querySelector('[data-animal-form]')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       document.querySelector('[data-animal-form] input[name="nombre"]')?.focus({ preventScroll: true });
     }

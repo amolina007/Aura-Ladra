@@ -87,6 +87,9 @@ schema `ladra` se agrega a Data API sin reemplazar los schemas ya expuestos.
   públicos.
 - El MVP no incluye publicaciones, comentarios, seguidores ni mensajería.
 
+La pestaña **Red animal** del sitio muestra solo **Mi red** y **Descubrir**. Crear fichas, asociarse a un animal,
+relacionar dos animales, publicar el alias y la moderación de perfiles están en **Mi perfil → Fichas y vínculos**.
+
 ## Piloto de reportes
 
 - Cualquier persona puede reportar agua, limpieza, seguridad o infraestructura
