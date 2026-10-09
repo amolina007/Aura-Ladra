@@ -1283,27 +1283,50 @@ body[data-vista="cuenta"] .report-grid { grid-template-columns: minmax(0, 760px)
 .mp-avatar { overflow: hidden; } .mp-avatar img { width: 100%; height: 100%; object-fit: cover; }
 .account-card.is-session { padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
 
-/* Vista de lista de Mi árbol: círculo de dos columnas (Mascotas | Personas) */
-.circulo { display: grid; gap: 14px; }
-.circ-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; position: relative; }
-.circ-col { display: grid; gap: 10px; align-content: start; padding: 0 0 0 10px; border-left: 3px solid #7bb98b; }
-.circ-col-personas { border-left-color: #a58be0; }
-.circ-col h3 { margin: 0; color: var(--verde-oscuro); font-size: 1rem; font-weight: 800; }
-.circ-col-personas h3 { color: #5d4a9c; }
-.circ-col ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
-.circ-item { display: grid; justify-items: center; gap: 6px; width: 100%; padding: 10px 6px; border: 1px solid var(--linea); border-radius: 16px; background: #fff; text-align: center; font: inherit; cursor: pointer; }
-.circ-item:hover, .circ-item:focus-visible { border-color: var(--verde); }
-.circ-item .arbol-avatar { width: 64px; height: 64px; }
-.circ-txt { display: grid; gap: 4px; justify-items: center; min-width: 0; max-width: 100%; }
-.circ-txt strong { color: var(--verde-oscuro); overflow-wrap: anywhere; }
-.circ-txt small { color: var(--apagado); font-size: .75rem; overflow-wrap: anywhere; }
-.circ-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px; }
-.circ-chip { padding: 3px 9px; border-radius: 999px; font-size: .72rem; font-weight: 800; background: #e5efe7; color: var(--verde-oscuro); }
-.circ-chip-yo { background: var(--ambar-claro); color: var(--ambar-texto); }
-.circ-chip-persona { background: #e8e1f6; color: #5d4a9c; }
+/* Círculo: mascotas a la izquierda, personas a la derecha */
+.circulo { display: grid; gap: 16px; max-width: 520px; margin: 0 auto; }
+.circ-head { text-align: center; display: grid; gap: 6px; }
+.circ-head h3 { margin: 0; color: var(--verde-oscuro); font: 650 1.7rem/1.15 "Fraunces", serif; }
+.circ-head p { margin: 0; color: var(--apagado); }
+.circ-sel { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 6px; }
+.circ-sel select { min-height: 44px; padding: 0 14px; border: 1px solid var(--linea); border-radius: 999px; background: #fff; color: var(--verde-oscuro); font: inherit; font-weight: 800; }
+.circ-card { display: grid; gap: 4px; padding: 14px 10px; border-radius: 22px; background: #fff; border: 1px solid var(--linea); box-shadow: 0 8px 24px rgba(30, 90, 56, .07); }
+.circ-colhead { display: grid; grid-template-columns: 1fr 1fr; padding: 0 6px 6px; font-weight: 800; color: var(--verde-oscuro); }
+.circ-colhead span:last-child { text-align: right; color: #5d4a9c; }
+.circ-row { display: grid; grid-template-columns: minmax(0, 1fr) 52px minmax(0, 1fr); align-items: end; gap: 0; padding: 4px 0; }
+.circ-lado { display: grid; justify-items: center; gap: 6px; position: relative; padding: 0 6px; }
+.circ-lado-animal { border-left: 3px solid #7bb98b; }
+.circ-lado-persona { border-right: 3px solid #a58be0; }
+.circ-rail { justify-self: start; padding: 3px 9px; border-radius: 10px; font-size: .72rem; font-weight: 800; line-height: 1.2; text-align: center; }
+.circ-rail-animal { background: var(--ambar-claro); color: var(--ambar-texto); }
+.circ-rail-persona { justify-self: end; background: #e8e1f6; color: #5d4a9c; }
+.circ-cell { display: grid; justify-items: center; gap: 4px; width: 100%; padding: 6px 4px; border: 0; border-radius: 14px; background: transparent; font: inherit; color: inherit; text-align: center; }
+button.circ-cell { cursor: pointer; }
+button.circ-cell:hover, button.circ-cell:focus-visible, .circ-item-fila:hover { background: var(--crema); }
+.circ-cell .arbol-avatar { width: 64px; height: 64px; }
+.circ-txt { display: grid; gap: 2px; justify-items: center; min-width: 0; max-width: 100%; }
+.circ-txt strong { color: var(--verde-oscuro); font-weight: 800; overflow-wrap: anywhere; }
+.circ-txt small { color: var(--apagado); font-size: .75rem; }
+.circ-vacia { align-self: center; border: 2px dashed var(--linea); border-radius: 14px; padding: 18px 6px; }
+.circ-medio { align-self: center; justify-self: center; min-width: 52px; height: 0; border-top: 2px dashed #b9c9bd; position: relative; }
+.circ-medio:not(.is-vacio)::after { content: "Su responsable"; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); padding: 2px 6px; border-radius: 10px; background: #efeee8; color: var(--apagado); font-size: .62rem; font-weight: 800; white-space: nowrap; }
+.circ-otras h3 { margin: 0 0 8px; color: var(--verde-oscuro); font-size: 1rem; }
+.circ-otras h3 span { color: var(--apagado); font-weight: 600; }
+.circ-otras ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.circ-item-fila { display: flex; align-items: center; gap: 12px; width: 100%; padding: 8px 12px; border: 1px solid var(--linea); border-radius: 16px; background: #fff; text-align: left; font: inherit; cursor: pointer; }
+.circ-item-fila .arbol-avatar { width: 44px; height: 44px; flex: none; }
+.circ-item-fila .circ-txt { justify-items: start; }
 .circ-leyenda { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px 14px; margin: 0; color: var(--apagado); font-size: .8rem; }
 .circ-punto { display: inline-block; width: 10px; height: 10px; border-radius: 50%; }
 .circ-punto-animal { background: #7bb98b; } .circ-punto-persona { background: #a58be0; }
 .circ-pie { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 14px; border-radius: 16px; background: var(--crema-2); }
 .circ-pie p { margin: 0; flex: 1 1 200px; color: var(--apagado); font-size: .8rem; }
-@media (max-width: 380px) { .circ-cols { grid-template-columns: 1fr; } }
+/* Versión corta dentro de Mi perfil */
+.circ-resumen { display: grid; gap: 6px; }
+.circ-mini { grid-template-columns: minmax(0, 1fr) 36px minmax(0, 1fr); align-items: center; }
+.circ-mini .circ-lado { border: 0; display: flex; align-items: center; gap: 8px; padding: 0; }
+.circ-mini .circ-lado:last-child { justify-content: flex-end; flex-direction: row-reverse; }
+.circ-mini .arbol-avatar { width: 40px; height: 40px; flex: none; }
+.circ-mini strong { font-size: .9rem; color: var(--mp-verde-oscuro, #17462c); overflow-wrap: anywhere; }
+.circ-mini small { color: var(--apagado); }
+.circ-mini .circ-medio::after { content: none; }

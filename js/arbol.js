@@ -197,7 +197,7 @@
   const S = {
     modo: 'servidor', api: servidor,
     data: null, cargando: true, error: '',
-    pestana: 'arbol', vistaArbol: 'arbol', // 'arbol' | 'lista'
+    pestana: 'arbol', vistaArbol: 'lista', mascota: null, // el círculo se muestra siempre como lista
     filtros: { familia: true, compania: true, cuidados: true, recuerdos: true },
     sel: null, foco: null, nuevo: null, mostrarOcultas: false,
     z: { x: 0, y: 0, k: 1 }, reajustar: true, bbox: null, confirmando: null,
@@ -238,7 +238,7 @@
         <p class="kicker">Personal</p>
         <button type="button" data-ir-tab="perfil">Perfil</button>
         <button type="button" data-ir-tab="animales">Mis animales</button>
-        <button type="button" data-ir-tab="arbol" aria-current="page">Mi árbol</button>
+        <button type="button" data-ir-tab="arbol" aria-current="page">Mi círculo</button>
         <button type="button" data-ir-tab="actividad">Actividad</button>
         <button type="button" data-ir-tab="aportes">Mis aportes</button>
         <button type="button" data-ir-tab="acciones">Mis acciones</button>
@@ -246,8 +246,8 @@
       <div class="arbol-central">
         <header class="arbol-cabecera">
           <div>
-            <p class="arbol-migas"><button type="button" class="arbol-volver" data-act="cerrar">‹ Personal</button> <span aria-hidden="true">/</span> <span>Mi árbol de vínculos</span></p>
-            <h2 id="arbol-titulo">Mi árbol</h2>
+            <p class="arbol-migas"><button type="button" class="arbol-volver" data-act="cerrar">‹ Personal</button> <span aria-hidden="true">/</span> <span>Mi círculo de vínculos</span></p>
+            <h2 id="arbol-titulo">Mi círculo</h2>
           </div>
           <button type="button" class="arbol-cerrar" data-act="cerrar" aria-label="Cerrar Mi árbol y volver a Personal">×</button>
         </header>
@@ -259,11 +259,11 @@
           <button type="button" class="button-borde" data-act="momento">Registrar un momento</button>
         </div>
         <div class="arbol-pestanas" role="tablist" aria-label="Mi árbol">
-          <button type="button" role="tab" id="arbol-tab-arbol" aria-selected="true" aria-controls="arbol-panel-arbol" data-pestana="arbol">Árbol</button>
+          <button type="button" role="tab" id="arbol-tab-arbol" aria-selected="true" aria-controls="arbol-panel-arbol" data-pestana="arbol">Círculo</button>
           <button type="button" role="tab" id="arbol-tab-historia" aria-selected="false" aria-controls="arbol-panel-historia" tabindex="-1" data-pestana="historia">Historia</button>
         </div>
         <div class="arbol-cuerpo" role="tabpanel" id="arbol-panel-arbol" aria-labelledby="arbol-tab-arbol" data-panel-arbol>
-          <div class="arbol-herramientas">
+          <div class="arbol-herramientas" hidden>
             <div class="arbol-filtros" role="group" aria-label="Filtros del árbol" data-arbol-filtros></div>
             <div class="arbol-buscar">
               <label class="sr-only" for="arbol-buscar">Buscar integrante</label>
@@ -276,7 +276,7 @@
             </div>
           </div>
           <div class="arbol-escenario">
-            <div class="arbol-lienzo" tabindex="0" data-arbol-lienzo aria-label="Árbol de vínculos. Tab recorre a los integrantes. Con el lienzo enfocado: flechas para mover, más y menos para ampliar, cero para centrar.">
+            <div class="arbol-lienzo" hidden tabindex="0" data-arbol-lienzo aria-label="Árbol de vínculos. Tab recorre a los integrantes. Con el lienzo enfocado: flechas para mover, más y menos para ampliar, cero para centrar.">
               <svg class="arbol-svg" role="group" aria-label="Dibujo del árbol" data-arbol-svg xmlns="http://www.w3.org/2000/svg"></svg>
               <div class="arbol-zoom" role="group" aria-label="Zoom">
                 <button type="button" data-act="zoom-mas" aria-label="Acercar">＋</button>
@@ -665,39 +665,83 @@
     return m ? m.nombre : '';
   };
 
-  // Vista de lista: «círculo» de dos columnas, Mascotas | Personas (solo vínculos reales de mi árbol).
+  // ---------- «Círculo»: mascotas a la izquierda, personas a la derecha (reemplaza al árbol dibujado) ----------
+  const limpiarNombre = (n) => String(n || '').replace(/\s*\(ejemplo\)\s*/i, '').trim() || '?';
+  let YO = { alias: '', foto: '' }; // lo informa main.js con el evento perfil:cambio
   const relacionVigente = (m) => (m.relaciones || []).find((r) => !['rechazado', 'revocado'].includes(r.estado)) || (m.relaciones || [])[0];
-  const circuloTarjeta = (m, chips, nota) => `<li><button type="button" class="circ-item" data-abrir="${esc(m.clave)}">${avatarHtml(m)}<span class="circ-txt"><strong>${esc(limpiarNombre(m.nombre))}</strong>${nota ? `<small>${esc(nota)}</small>` : ''}<span class="circ-chips">${chips}</span></span></button></li>`;
+  const enCirculo = () => integrantes().filter((m) => !m.oculta && !esPendiente(m));
+  const mascotaActual = () => {
+    const animales = enCirculo().filter((m) => m.clase === 'animal');
+    return animales.find((m) => m.clave === S.mascota) || animales.find((m) => m.propio && !m.memoria) || animales.find((m) => m.propio) || animales[0] || null;
+  };
+  // Quién es responsable de una mascota: yo si es mía; si no, la persona de mi círculo cuya nota nombra a la mascota.
+  const responsableDe = (animal) => {
+    if (animal.propio) return { yo: true, nombre: YO.alias || 'Yo' };
+    const nombre = limpiarNombre(animal.nombre).toLowerCase();
+    return enCirculo().find((p) => p.clase === 'persona' && (p.relaciones || []).some((r) => String(r.descripcion || '').toLowerCase().includes(nombre))) || null;
+  };
+  // Filas del círculo para una mascota: ella misma y las mascotas conectadas a ella.
+  const filasCirculo = (principal) => {
+    const conex = S.data?.conexiones || [];
+    const claves = new Set(enCirculo().map((m) => m.clave));
+    const conectadas = conex.filter((c) => c.a === principal.clave || c.b === principal.clave)
+      .map((c) => ({ animal: porClave(c.a === principal.clave ? c.b : c.a), tipo: c.tipo }))
+      .filter((f) => f.animal && claves.has(f.animal.clave));
+    return [{ animal: principal, tipo: null }, ...conectadas].map((f) => ({ ...f, persona: responsableDe(f.animal) }));
+  };
+  const avatarYo = () => `<span class="arbol-avatar cat-familia" aria-hidden="true"><span>${esc(inicial(YO.alias || 'Yo'))}</span>${httpsUrl(YO.foto) ? `<img src="${esc(httpsUrl(YO.foto))}" alt="" loading="lazy" referrerpolicy="no-referrer">` : ''}</span>`;
+  const celdaPersona = (p, claseExtra = '') => {
+    if (!p) return '<div class="circ-cell circ-vacia"><span class="circ-txt"><small>Sin responsable conocido</small></span></div>';
+    if (p.yo) return `<div class="circ-cell circ-yo ${claseExtra}">${avatarYo()}<span class="circ-txt"><strong>${esc(p.nombre)}</strong><small>Tú</small></span></div>`;
+    return `<button type="button" class="circ-cell circ-item ${claseExtra}" data-abrir="${esc(p.clave)}">${avatarHtml(p)}<span class="circ-txt"><strong>${esc(limpiarNombre(p.nombre))}</strong></span></button>`;
+  };
+  const chipPersona = (p) => {
+    const r = p && !p.yo ? relacionVigente(p) : null;
+    return r ? `<span class="circ-rail circ-rail-persona">${esc(etiquetaTipo(r.tipo))}${r.estado === 'pendiente' ? ' · Pendiente' : ''}</span>` : '';
+  };
+  const circuloFilasHtml = (filas) => filas.map((f, i) => `
+    <div class="circ-row">
+      <div class="circ-lado circ-lado-animal">${i && f.tipo ? `<span class="circ-rail circ-rail-animal">${esc(etiquetaTipo(f.tipo))}</span>` : ''}
+        <button type="button" class="circ-cell circ-item" data-abrir="${esc(f.animal.clave)}">${avatarHtml(f.animal)}<span class="circ-txt"><strong>${esc(limpiarNombre(f.animal.nombre))}</strong>${f.animal.memoria ? '<small>Recuerdo</small>' : ''}</span></button></div>
+      <span class="circ-medio ${f.persona ? '' : 'is-vacio'}"></span>
+      <div class="circ-lado circ-lado-persona">${i ? chipPersona(f.persona) : ''}${celdaPersona(f.persona)}</div>
+    </div>`).join('');
+
   const renderLista = () => {
     const cont = $('[data-arbol-lista]');
     const todos = integrantes();
-    const visibles = todos.filter((m) => !m.oculta && S.filtros[categoriaDe(m)]);
-    const orden = (x, y) => (Number(Boolean(y.propio)) - Number(Boolean(x.propio))) || x.nombre.localeCompare(y.nombre, 'es');
-    const animales = visibles.filter((m) => m.clase === 'animal').sort(orden);
-    const personas = visibles.filter((m) => m.clase === 'persona').sort(orden);
-    const conex = S.data?.conexiones || [];
-    const nombreDe = (clave) => limpiarNombre(porClave(clave)?.nombre || '');
-    const colAnimales = animales.map((m) => {
+    const principal = mascotaActual();
+    const propias = enCirculo().filter((m) => m.clase === 'animal' && m.propio);
+    const mostradas = new Set();
+    let cuerpo = '';
+    if (principal) {
+      const filas = filasCirculo(principal);
+      filas.forEach((f) => { mostradas.add(f.animal.clave); if (f.persona && !f.persona.yo) mostradas.add(f.persona.clave); });
+      cuerpo = circuloFilasHtml(filas);
+      if (filas.length === 1) cuerpo += `<p class="arbol-nota">${esc(limpiarNombre(principal.nombre))} aún no está conectada con otras mascotas. Usa «Añadir vínculo» para conectarla.</p>`;
+    } else cuerpo = '<p class="arbol-nota">Aún no hay mascotas en tu círculo.</p>';
+    const otras = enCirculo().filter((m) => !mostradas.has(m.clave));
+    const bloqueOtras = otras.length ? `<section class="circ-otras"><h3>Otras personas y mascotas de tu círculo</h3><ul>${otras.map((m) => {
       const r = relacionVigente(m);
-      const conAnimales = conex.filter((c) => c.a === m.clave || c.b === m.clave)
-        .map((c) => `<span class="circ-chip circ-chip-animal">${esc(etiquetaTipo(c.tipo))} · ${esc(nombreDe(c.a === m.clave ? c.b : c.a))}</span>`).join('');
-      const propio = r ? `<span class="circ-chip circ-chip-yo">${esc(m.propio ? 'Mi mascota' : etiquetaTipo(r.tipo))}${m.memoria ? ' · Recuerdo' : ''}</span>` : '';
-      return circuloTarjeta(m, propio + conAnimales, m.especie || 'Animal');
-    }).join('');
-    const colPersonas = personas.map((m) => {
-      const r = relacionVigente(m);
-      const chip = r ? `<span class="circ-chip circ-chip-persona">${esc(etiquetaTipo(r.tipo))}${r.estado === 'pendiente' ? ' · Pendiente' : ''}</span>` : '';
-      return circuloTarjeta(m, chip, r?.descripcion || '');
-    }).join('');
-    const vacia = (t) => `<li class="arbol-nota">${t}</li>`;
+      return `<li><button type="button" class="circ-item circ-item-fila" data-abrir="${esc(m.clave)}">${avatarHtml(m)}<span class="circ-txt"><strong>${esc(limpiarNombre(m.nombre))}</strong><small>${esc(m.clase === 'animal' ? (m.especie || 'Mascota') : 'Persona')}${r ? ` · ${esc(etiquetaTipo(r.tipo))}` : ''}</small></span></button></li>`;
+    }).join('')}</ul></section>` : '';
     const ocultas = todos.filter((m) => m.oculta);
-    const bloqueOcultas = ocultas.length ? `<section class="arbol-grupo"><h3>Ramas de memoria ocultas <span>${ocultas.length}</span></h3><ul>${ocultas.map((m) => `<li class="arbol-oculta"><span>${esc(m.nombre)}</span><button type="button" class="button-borde" data-act="mostrar-rama" data-ref="${esc(m.ref_id)}">Mostrar de nuevo</button></li>`).join('')}</ul></section>` : '';
+    const bloqueOcultas = ocultas.length ? `<section class="circ-otras"><h3>Ramas de memoria ocultas <span>${ocultas.length}</span></h3><ul>${ocultas.map((m) => `<li class="arbol-oculta"><span>${esc(m.nombre)}</span><button type="button" class="button-borde" data-act="mostrar-rama" data-ref="${esc(m.ref_id)}">Mostrar de nuevo</button></li>`).join('')}</ul></section>` : '';
     cont.innerHTML = `
       <section class="circulo" aria-label="Vínculos entre mascotas y personas">
-        <div class="circ-cols">
-          <div class="circ-col circ-col-animales"><h3>Mascotas</h3><ul>${colAnimales || vacia('Sin mascotas con estos filtros.')}</ul></div>
-          <div class="circ-col circ-col-personas"><h3>Personas</h3><ul>${colPersonas || vacia('Sin personas con estos filtros.')}</ul></div>
+        <header class="circ-head">
+          <h3>${principal ? `El círculo de ${esc(limpiarNombre(principal.nombre))}` : 'Tu círculo'}</h3>
+          <p>Mascotas y sus personas</p>
+          <div class="circ-sel">
+            ${propias.length > 1 ? `<label class="sr-only" for="circ-mascota">Elegir mascota</label><select id="circ-mascota" data-circ-mascota>${propias.map((m) => `<option value="${esc(m.clave)}"${principal && m.clave === principal.clave ? ' selected' : ''}>${esc(limpiarNombre(m.nombre))}</option>`).join('')}</select>` : ''}
+            <button type="button" class="button-borde" data-act="primera-mascota">Otra mascota ＋</button>
+          </div>
+        </header>
+        <div class="circ-card">
+          <div class="circ-colhead"><span>🐾 Mascotas</span><span>Personas</span></div>
+          ${cuerpo}
         </div>
+        ${bloqueOtras}
         <p class="circ-leyenda"><span class="circ-punto circ-punto-animal" aria-hidden="true"></span> Entre mascotas <span class="circ-punto circ-punto-persona" aria-hidden="true"></span> Entre personas</p>
         <div class="circ-pie"><p><strong>Solo tú puedes ver estos vínculos.</strong> Son opiniones personales y no implican verificación mutua.</p><button type="button" class="button-verde" data-act="vinculo">Añadir vínculo</button></div>
       </section>${bloqueOcultas}`;
@@ -788,74 +832,11 @@
     }).join('')}</ol></section>`).join('');
   };
 
-  // ---------- Ilustración en Mi perfil: mi árbol y, al lado, el de mi pareja de vínculo ----------
-  // Copa = mis animales · Tronco = mi miniatura · Raíces = animales conmemorativos.
-  const limpiarNombre = (n) => String(n || '').replace(/\s*\(ejemplo\)\s*/i, '').trim() || '?';
-  const corto = (n, max = 12) => (n.length > max ? `${n.slice(0, max - 1)}…` : n);
-  let YO = { alias: '', foto: '' }; // lo informa main.js con el evento perfil:cambio
-  const PASTELES = ['#e8e1f6', '#fbe3b2', '#d6ecdc'];
-  const parejasDe = () => integrantes().filter((m) => m.clase === 'persona' && !m.oculta && !esPendiente(m)
-    && (m.relaciones || []).some((r) => r.estado === 'confirmado' && r.tipo === 'familia' && r.origen !== 'privado'));
-
-  const dibujoArbol = (cuidados, encuentros) => {
-    let n = 0;
-    const avatar = (nombre, foto, cx, cy, r, tono) => {
-      const id = `mpa-c${n += 1}`;
-      const base = `<circle cx="${cx}" cy="${cy}" r="${r + 2.5}" fill="#fff"/>`;
-      const https = typeof foto === 'string' && foto.startsWith('https://') ? foto : '';
-      if (https) return `<clipPath id="${id}"><circle cx="${cx}" cy="${cy}" r="${r}"/></clipPath>${base}<image href="${esc(https)}" x="${cx - r}" y="${cy - r}" width="${r * 2}" height="${r * 2}" preserveAspectRatio="xMidYMid slice" clip-path="url(#${id})"/>`;
-      return `${base}<circle cx="${cx}" cy="${cy}" r="${r}" fill="${PASTELES[tono % 3]}"/><text x="${cx}" y="${cy + r * 0.36}" text-anchor="middle" font-size="${Math.round(r * 0.95)}" font-weight="800" fill="#5d4a9c" font-family="Nunito, sans-serif">${esc(limpiarNombre(nombre).charAt(0).toUpperCase())}</text>`;
-    };
-    const pildora = (texto, cx, y) => {
-      const w = Math.max(40, texto.length * 7 + 16);
-      return `<rect x="${cx - w / 2}" y="${y}" width="${w}" height="18" rx="9" fill="#fff"/><text x="${cx}" y="${y + 13}" text-anchor="middle" font-size="11.5" font-weight="800" fill="#17462c" font-family="Nunito, sans-serif">${esc(texto)}</text>`;
-    };
-    // Un árbol: cx = eje del tronco; perros en la copa; raíces con conmemorativos; miniatura en el tronco.
-    // Se dibuja en dos capas: primero todas las copas (que se entrelazan entre vecinos) y luego troncos y miniaturas.
-    const copaDe = (cx, tono) => `<circle cx="${cx}" cy="95" r="62" fill="${tono}"/><circle cx="${cx - 36}" cy="116" r="36" fill="${tono}"/><circle cx="${cx + 36}" cy="116" r="36" fill="${tono}"/>`;
-    const arbol = (cx, perros, memorias, duenoNombre, duenoFoto, hojas, flores) => {
-      const copa = perros.length >= 2 ? [[cx - 22, 92], [cx + 22, 92]] : [[cx, 92]];
-      const rp = perros.length >= 2 ? 21 : 26;
-      const hs = [[-40, 52], [40, 50], [-52, 100], [52, 102], [-14, 36], [16, 34]].slice(0, hojas);
-      const fs = [[-34, 128], [34, 130], [0, 136]].slice(0, flores);
-      const raices = memorias.slice(0, 3).map((m, i, arr) => [cx + (i - (arr.length - 1) / 2) * 40, 270]);
-      return `
-        ${hs.map(([dx, y]) => `<ellipse cx="${cx + dx}" cy="${y}" rx="8" ry="4.5" fill="#3f8a5c" transform="rotate(-30 ${cx + dx} ${y})"/>`).join('')}
-        ${fs.map(([dx, y]) => `<use href="#mpa-flor" x="${cx + dx - 8}" y="${y - 8}" width="16" height="16"/>`).join('')}
-        <path d="M${cx - 9} 232 C${cx - 8} 200 ${cx - 7} 175 ${cx - 5} 150 H${cx + 5} C${cx + 7} 175 ${cx + 8} 200 ${cx + 9} 232Z" fill="#8a6a4a"/>
-        ${raices.map(([rx]) => `<path d="M${cx} 232 Q${(cx + rx) / 2} 240 ${rx} 258" stroke="#8a6a4a" stroke-width="4" fill="none" stroke-linecap="round"/>`).join('')}
-        ${perros.slice(0, 2).map((p, i) => avatar(p.nombre, p.foto_url, copa[i][0], copa[i][1], rp, i)).join('')}
-        ${avatar(duenoNombre, duenoFoto, cx, 196, 17, 0)}
-        ${raices.map(([rx, ry], i) => avatar(memorias[i].nombre, memorias[i].foto_url, rx, ry, 13, i + 1)).join('')}
-        ${pildora(corto(limpiarNombre(duenoNombre), 10), cx, 218)}`;
-    };
-    const vivos = (m) => m.clase === 'animal' && !m.oculta && !esPendiente(m);
-    const mios = integrantes().filter((m) => vivos(m) && m.propio);
-    const parejas = parejasDe().slice(0, 2);
-    // Mi árbol primero; luego los de las personas con vínculo familiar confirmado.
-    const arboles = [
-      { nombre: YO.alias || 'Yo', foto: YO.foto, perros: mios.filter((m) => !m.memoria), memorias: mios.filter((m) => m.memoria), hojas: Math.min(cuidados, 6), flores: Math.min(encuentros, 3) },
-      ...parejas.map((m) => ({ nombre: m.nombre, foto: m.foto_url, perros: (m.animales || []).filter((a) => !a.memoria), memorias: (m.animales || []).filter((a) => a.memoria), hojas: 0, flores: 0 })),
-    ];
-    const paso = arboles.length > 1 ? Math.min(100, 200 / (arboles.length - 1)) : 0;
-    const xs = arboles.map((_, i) => 170 + (i - (arboles.length - 1) / 2) * paso);
-    const TONOS = ['#8cc79b', '#86c2ae', '#9ccf9a'];
-    const nombres = arboles.flatMap((t) => [t.nombre, ...t.perros.map((p) => p.nombre)]).map(limpiarNombre).join(', ');
-    const ajenos = parejas.map((m) => limpiarNombre(m.nombre));
-    const copas = arboles.map((_, i) => copaDe(xs[i], TONOS[i % 3])).join('');
-    // Lóbulos entre vecinos: hacen que las copas se entrelacen.
-    const puentes = xs.slice(1).map((x, i) => `<circle cx="${(xs[i] + x) / 2}" cy="104" r="34" fill="#a3d6ae" fill-opacity=".9"/>`).join('');
-    return `<svg class="mp-arbol-svg" viewBox="0 0 340 300" role="img" aria-label="Ilustración de tu árbol${ajenos.length ? ' junto al de ' + esc(ajenos.join(' y ')) : ''}, con las copas entrelazadas: ${esc(nombres)}" xmlns="http://www.w3.org/2000/svg">
-      <defs><symbol id="mpa-flor" viewBox="-12 -12 24 24"><g fill="#f7a8c4"><circle cx="0" cy="-6" r="4.5"/><circle cx="5.7" cy="-1.9" r="4.5"/><circle cx="3.5" cy="4.9" r="4.5"/><circle cx="-3.5" cy="4.9" r="4.5"/><circle cx="-5.7" cy="-1.9" r="4.5"/></g><circle r="3" fill="#f5b32f"/></symbol></defs>
-      <path d="M0 238 Q85 222 170 236 T340 230 V300 H0Z" fill="#d6ecdc"/>
-      <path d="M0 262 Q110 248 200 260 T340 255 V300 H0Z" fill="#b9dcc4"/>
-      ${copas}${puentes}
-      ${arboles.map((t, i) => arbol(xs[i], t.perros, t.memorias, t.nombre, t.foto, t.hojas, t.flores)).join('')}
-    </svg>`;
-  };
+  // Resumen en Mi perfil: vista corta del círculo de mi mascota principal.
+  document.addEventListener('perfil:cambio', (e) => { YO = { alias: e.detail?.alias || '', foto: e.detail?.foto || '' }; renderResumen(); });
 
   const renderResumen = () => {
-    if (S.cargando && !S.data) { resumen.innerHTML = '<p class="mp-muted" role="status">Cargando tu árbol…</p>'; return; }
+    if (S.cargando && !S.data) { resumen.innerHTML = '<p class="mp-muted" role="status">Cargando tu círculo…</p>'; return; }
     if (S.error && !S.data) {
       resumen.innerHTML = `<p class="mp-muted arbol-error">${esc(S.error)}</p><button type="button" class="mp-btn mp-btn-soft" data-arbol-reintentar>Reintentar</button>`;
       document.dispatchEvent(new CustomEvent('arbol:cambio', { detail: { cuidados: 0, encuentros: 0 } }));
@@ -863,21 +844,23 @@
     }
     const ints = integrantes();
     const ms = momentos();
-    const animales = ints.filter((m) => m.clase === 'animal').length;
-    const personas = ints.length - animales;
     const cuidados = ms.filter((mo) => ['paseo', 'juego', 'cuidado'].includes(mo.tipo)).length;
     const encuentros = ms.filter((mo) => mo.tipo === 'encuentro').length;
     const pend = (S.data?.pendientes?.personas?.length || 0) + (S.data?.pendientes?.participaciones?.length || 0);
+    const principal = mascotaActual();
+    const filas = principal ? filasCirculo(principal).slice(0, 3) : [];
+    const mini = filas.map((f) => `<div class="circ-row circ-mini">
+      <div class="circ-lado">${avatarHtml(f.animal)}<strong>${esc(limpiarNombre(f.animal.nombre))}</strong></div>
+      <span class="circ-medio ${f.persona ? '' : 'is-vacio'}"></span>
+      <div class="circ-lado">${f.persona ? (f.persona.yo ? `${avatarYo()}<strong>${esc(f.persona.nombre)}</strong>` : `${avatarHtml(f.persona)}<strong>${esc(limpiarNombre(f.persona.nombre))}</strong>`) : '<small>Sin responsable</small>'}</div>
+    </div>`).join('');
     resumen.innerHTML = `
       ${S.modo === 'demo' ? '<p class="arbol-demo"><strong>Demostración.</strong> Datos ficticios guardados solo en este navegador.</p>' : ''}
-      ${ints.length ? `<div class="mp-arbol">${dibujoArbol(cuidados, encuentros)}</div>
-      <p class="mp-muted mp-arbol-cuenta">${animales} ${animales === 1 ? 'animal' : 'animales'} · ${personas} ${personas === 1 ? 'persona' : 'personas'} · ${ms.length} ${ms.length === 1 ? 'momento' : 'momentos'}</p>
-      ${pend ? `<p class="arbol-nota"><strong>${pend}</strong> ${pend === 1 ? 'solicitud espera' : 'solicitudes esperan'} tu respuesta.</p>` : ''}` : '<p class="mp-muted">Aún no tienes vínculos. Tu árbol empieza con tu primera mascota o tu primer vínculo.</p>'}
-      <button type="button" class="mp-btn" data-arbol-abrir>${ints.length ? 'Gestionar vínculos' : 'Empezar mi árbol'}</button>`;
+      ${principal ? `<p class="mp-muted">El círculo de <strong>${esc(limpiarNombre(principal.nombre))}</strong> · mascotas y sus personas</p><div class="circ-resumen">${mini}</div>` : '<p class="mp-muted">Aún no tienes vínculos. Tu círculo empieza con tu primera mascota.</p>'}
+      ${pend ? `<p class="arbol-nota"><strong>${pend}</strong> ${pend === 1 ? 'solicitud espera' : 'solicitudes esperan'} tu respuesta.</p>` : ''}
+      <button type="button" class="mp-btn" data-arbol-abrir>${ints.length ? 'Gestionar vínculos' : 'Empezar mi círculo'}</button>`;
     document.dispatchEvent(new CustomEvent('arbol:cambio', { detail: { cuidados, encuentros } }));
   };
-
-  document.addEventListener('perfil:cambio', (e) => { YO = { alias: e.detail?.alias || '', foto: e.detail?.foto || '' }; renderResumen(); });
 
   const render = () => {
     renderResumen();
@@ -1101,7 +1084,7 @@
     if (pendientes.length) partesMsg.push(`Queda pendiente de confirmación: ${pendientes.map((p) => p.nombre).join(', ')}.`);
     aviso(partesMsg.join(' ') || 'Momento guardado.');
     dMomento.close();
-    S.pestana = 'arbol'; S.vistaArbol = 'arbol';
+    S.pestana = 'arbol'; S.vistaArbol = 'lista';
     render();
     if (confirmados.length) { seleccionar(confirmados[0].clave); }
   });
@@ -1158,7 +1141,7 @@
 
   const abrirVista = async () => {
     if (!vista.open) vista.showModal();
-    S.reajustar = true; S.foco = null; S.aviso = '';
+    S.vistaArbol = 'lista'; S.reajustar = true; S.foco = null; S.aviso = '';
     render();
     await cargar(Boolean(S.data));
     S.reajustar = true; render();
@@ -1168,8 +1151,6 @@
     const t = e.target;
     const filtro = t.closest('[data-filtro]');
     if (filtro) { const k = filtro.dataset.filtro; S.filtros[k] = !S.filtros[k]; if (S.foco && !S.filtros[S.foco]) S.foco = null; render(); return; }
-    const modo = t.closest('[data-modo]');
-    if (modo) { S.vistaArbol = modo.dataset.modo; S.reajustar = true; render(); return; }
     const pest = t.closest('[data-pestana]');
     if (pest) { S.pestana = pest.dataset.pestana; render(); return; }
     const ir = t.closest('[data-ir-tab]');
@@ -1223,6 +1204,11 @@
     else if (a === 'ocultar-rama') { await ejecutar(() => S.api.alternarMemoria(act.dataset.ref, true), 'Rama de memoria oculta. La encuentras en la vista de lista.'); S.sel = null; render(); }
     else if (a === 'mostrar-rama') { await ejecutar(() => S.api.alternarMemoria(act.dataset.ref, false), 'La rama de memoria vuelve a verse.'); }
     else if (a === 'primera-mascota') { document.querySelector('[data-open-pet-connect]')?.click(); }
+  });
+
+  vista.addEventListener('change', (e) => {
+    const sel = e.target.closest?.('[data-circ-mascota]');
+    if (sel) { S.mascota = sel.value; S.sel = null; render(); }
   });
 
   vista.addEventListener('keydown', (e) => {

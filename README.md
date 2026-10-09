@@ -160,15 +160,18 @@ Pestaña **Mi árbol** dentro de Mi perfil. Abre una vista a pantalla completa c
 
 ## Mi perfil
 
-Pantalla única con tarjetas (árbol ilustrado, Mis mascotas, Aportes a la comunidad) y sub-pantallas con flecha de
-volver (Mis animales, Actividad, Mis aportes, Mis acciones). El árbol dibujado muestra hasta 3 integrantes reales de
-Mi árbol. «Aportes a la comunidad» cuenta Cuidados (paseos, juegos y cuidados) y Encuentros desde el árbol, y Ayuda
-desde los aportes a acciones (simulados). Comunicación entre módulos por eventos `arbol:cambio` y `ayuda:cambio`.
-El árbol dibujado muestra **mi árbol** (copa: mis animales; tronco: mi foto; raíces: animales conmemorativos) y,
-al lado, el de la persona con vínculo familiar confirmado (pareja). Mi foto se **lee** de Convergencia Aura
-(`core.perfiles.avatar_path`, bucket público `core-avatars`); AuraLadra no la guarda ni la modifica.
-**Pendiente:** el servidor aún no entrega las mascotas de esa persona; hoy solo la demo ('Cate (ejemplo)') las muestra.
-Misiones y recompensas **no** existen: la gamificación está fuera del MVP.
+Pantalla única con tarjetas (círculo de vínculos, Mis mascotas, Aportes a la comunidad) y sub-pantallas con flecha de
+volver (Mis animales, Actividad, Mis aportes, Mis acciones).
+
+**Mi círculo** (antes «Mi árbol»): «Gestionar vínculos» abre «El círculo de {mascota}»: columna Mascotas a la izquierda,
+Personas a la derecha, con el conector «Su responsable», etiquetas de relación y selector de mascota. Muestra solo
+vínculos reales de mi árbol; el responsable de una mascota es yo si es mía, o la persona cuya nota la nombra.
+La pestaña «Historia» (momentos) se mantiene. Mi foto se **lee** de Convergencia Aura (`core.perfiles.avatar_path`,
+bucket público `core-avatars`); AuraLadra no la guarda ni la modifica.
+**Pendiente:** una función de servidor que entregue el responsable real de cada mascota y las mascotas que otra
+persona decida compartir (hoy solo la demo muestra a «Cate (ejemplo)»).
+«Aportes a la comunidad» cuenta Cuidados y Encuentros desde Historia y Ayuda desde los aportes a acciones (simulados),
+con los eventos `arbol:cambio` y `ayuda:cambio`. Misiones y recompensas **no** existen: la gamificación está fuera del MVP.
 
 ## Fuera del MVP (decisión ya tomada)
 
