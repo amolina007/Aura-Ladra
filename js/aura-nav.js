@@ -8,7 +8,8 @@
  *   - Tus Auracoins
  *   - Lista de sitios Aura (con emoji) para cambiar de uno a otro
  *
- * Uso (en el sitio, justo después de crear el menú y de agregarlo a la página):
+ * Uso automático: cargar este archivo y marcar el menú con data-aura-menu (ver abajo).
+ * Uso manual (alternativo), justo después de crear el menú y de agregarlo a la página:
  *
  *   window.AuraNav?.pintar(menu, client, { antesDe: botonCerrarSesion });
  *
@@ -186,4 +187,38 @@
   }
 
   window.AuraNav = Object.freeze({ pintar, cargarResumen, cargarSitios });
+
+  /*
+   * Modo automático (como globo.js): el sitio solo carga este archivo y marca su menú:
+   *
+   *   <div data-aura-menu> ... <button data-aura-antes>Cerrar sesión</button> </div>
+   *
+   * Apenas aparece un elemento con data-aura-menu, el bloque se pinta solo. El elemento
+   * data-aura-antes (opcional) indica antes de cuál botón va el bloque.
+   * La conexión se toma de la que ya tenga el sitio (auraClient, auraLadraDb o coreDb).
+   */
+  function conexion() {
+    return window.auraClient || window.auraLadraDb || window.coreDb || null;
+  }
+
+  function revisar(raiz) {
+    const menus = raiz.matches && raiz.matches('[data-aura-menu]') ? [raiz] : [];
+    if (raiz.querySelectorAll) menus.push(...raiz.querySelectorAll('[data-aura-menu]'));
+    menus.forEach((m) => {
+      if (m.querySelector('[data-aura-nav]')) return;
+      const client = conexion();
+      if (!client) return;
+      pintar(m, client, { antesDe: m.querySelector('[data-aura-antes]') });
+    });
+  }
+
+  function vigilar() {
+    revisar(document);
+    new MutationObserver((cambios) => {
+      cambios.forEach((c) => c.addedNodes.forEach((n) => { if (n.nodeType === 1) revisar(n); }));
+    }).observe(document.documentElement, { childList: true, subtree: true });
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', vigilar);
+  else vigilar();
 })();

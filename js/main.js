@@ -2967,6 +2967,7 @@
     menu.id = 'session-menu';
     menu.className = 'session-menu';
     menu.setAttribute('role', 'menu');
+    menu.setAttribute('data-aura-menu', '');
     menu.style.top = `${Math.round(rect.bottom + 6)}px`;
     menu.style.left = `${Math.max(8, Math.round(rect.left))}px`;
     menu.style.minWidth = '280px';
@@ -2984,6 +2985,7 @@
     const signOutButton = document.createElement('button');
     signOutButton.type = 'button';
     signOutButton.setAttribute('role', 'menuitem');
+    signOutButton.setAttribute('data-aura-antes', '');
     signOutButton.textContent = '🚪 Cerrar sesión';
     menu.append(emailRow, convergenciaLink, signOutButton);
     menu.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeSessionMenu));
@@ -2993,8 +2995,6 @@
       if (error) setMessage(document.querySelector('[data-auth-message]'), 'No pudimos cerrar la sesión.', 'error');
     });
     document.body.appendChild(menu);
-    // Bloque común de Convergencia Aura: rango, Auracoins y lista de sitios.
-    window.AuraNav?.pintar(menu, db, { antesDe: signOutButton });
     window.setTimeout(() => {
       document.addEventListener('click', onClickOutsideSessionMenu, true);
       document.addEventListener('keydown', onEscSessionMenu);
