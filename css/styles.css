@@ -1282,3 +1282,28 @@ body[data-vista="cuenta"] .report-grid { grid-template-columns: minmax(0, 760px)
 [data-arbol-resumen] .mp-btn { justify-self: stretch; }
 .mp-avatar { overflow: hidden; } .mp-avatar img { width: 100%; height: 100%; object-fit: cover; }
 .account-card.is-session { padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+
+/* Vista de lista de Mi árbol: círculo de dos columnas (Mascotas | Personas) */
+.circulo { display: grid; gap: 14px; }
+.circ-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; position: relative; }
+.circ-col { display: grid; gap: 10px; align-content: start; padding: 0 0 0 10px; border-left: 3px solid #7bb98b; }
+.circ-col-personas { border-left-color: #a58be0; }
+.circ-col h3 { margin: 0; color: var(--verde-oscuro); font-size: 1rem; font-weight: 800; }
+.circ-col-personas h3 { color: #5d4a9c; }
+.circ-col ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+.circ-item { display: grid; justify-items: center; gap: 6px; width: 100%; padding: 10px 6px; border: 1px solid var(--linea); border-radius: 16px; background: #fff; text-align: center; font: inherit; cursor: pointer; }
+.circ-item:hover, .circ-item:focus-visible { border-color: var(--verde); }
+.circ-item .arbol-avatar { width: 64px; height: 64px; }
+.circ-txt { display: grid; gap: 4px; justify-items: center; min-width: 0; max-width: 100%; }
+.circ-txt strong { color: var(--verde-oscuro); overflow-wrap: anywhere; }
+.circ-txt small { color: var(--apagado); font-size: .75rem; overflow-wrap: anywhere; }
+.circ-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px; }
+.circ-chip { padding: 3px 9px; border-radius: 999px; font-size: .72rem; font-weight: 800; background: #e5efe7; color: var(--verde-oscuro); }
+.circ-chip-yo { background: var(--ambar-claro); color: var(--ambar-texto); }
+.circ-chip-persona { background: #e8e1f6; color: #5d4a9c; }
+.circ-leyenda { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px 14px; margin: 0; color: var(--apagado); font-size: .8rem; }
+.circ-punto { display: inline-block; width: 10px; height: 10px; border-radius: 50%; }
+.circ-punto-animal { background: #7bb98b; } .circ-punto-persona { background: #a58be0; }
+.circ-pie { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 14px; border-radius: 16px; background: var(--crema-2); }
+.circ-pie p { margin: 0; flex: 1 1 200px; color: var(--apagado); font-size: .8rem; }
+@media (max-width: 380px) { .circ-cols { grid-template-columns: 1fr; } }

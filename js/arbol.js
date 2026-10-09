@@ -665,21 +665,42 @@
     return m ? m.nombre : '';
   };
 
+  // Vista de lista: «círculo» de dos columnas, Mascotas | Personas (solo vínculos reales de mi árbol).
+  const relacionVigente = (m) => (m.relaciones || []).find((r) => !['rechazado', 'revocado'].includes(r.estado)) || (m.relaciones || [])[0];
+  const circuloTarjeta = (m, chips, nota) => `<li><button type="button" class="circ-item" data-abrir="${esc(m.clave)}">${avatarHtml(m)}<span class="circ-txt"><strong>${esc(limpiarNombre(m.nombre))}</strong>${nota ? `<small>${esc(nota)}</small>` : ''}<span class="circ-chips">${chips}</span></span></button></li>`;
   const renderLista = () => {
     const cont = $('[data-arbol-lista]');
     const todos = integrantes();
-    const grupos = Object.entries(CATEGORIAS).map(([cat, nombre]) => {
-      const lista = todos.filter((m) => !m.oculta && categoriaDe(m) === cat && S.filtros[cat]);
-      if (!lista.length) return '';
-      return `<section class="arbol-grupo cat-${cat}"><h3>${esc(nombre)} <span>${lista.length}</span></h3><ul>${lista.map((m) => {
-        const crec = crecimiento().get(m.clave);
-        const rels = m.relaciones.map((r) => `${etiquetaTipo(r.tipo)} · ${ESTADO_VINCULO[r.estado] || r.estado}`).join(' · ');
-        return `<li><button type="button" class="arbol-item" data-abrir="${esc(m.clave)}">${avatarHtml(m)}<span class="arbol-item-txt"><strong>${esc(m.nombre)}</strong><small>${esc(m.clase === 'animal' ? (m.especie || 'Animal') : 'Persona')} · ${esc(rels)}</small><small>${crec ? `${crec.hojas.length} hojas · ${crec.flores.length} flores` : 'Sin momentos aún'}</small></span></button></li>`;
-      }).join('')}</ul></section>`;
+    const visibles = todos.filter((m) => !m.oculta && S.filtros[categoriaDe(m)]);
+    const orden = (x, y) => (Number(Boolean(y.propio)) - Number(Boolean(x.propio))) || x.nombre.localeCompare(y.nombre, 'es');
+    const animales = visibles.filter((m) => m.clase === 'animal').sort(orden);
+    const personas = visibles.filter((m) => m.clase === 'persona').sort(orden);
+    const conex = S.data?.conexiones || [];
+    const nombreDe = (clave) => limpiarNombre(porClave(clave)?.nombre || '');
+    const colAnimales = animales.map((m) => {
+      const r = relacionVigente(m);
+      const conAnimales = conex.filter((c) => c.a === m.clave || c.b === m.clave)
+        .map((c) => `<span class="circ-chip circ-chip-animal">${esc(etiquetaTipo(c.tipo))} · ${esc(nombreDe(c.a === m.clave ? c.b : c.a))}</span>`).join('');
+      const propio = r ? `<span class="circ-chip circ-chip-yo">${esc(m.propio ? 'Mi mascota' : etiquetaTipo(r.tipo))}${m.memoria ? ' · Recuerdo' : ''}</span>` : '';
+      return circuloTarjeta(m, propio + conAnimales, m.especie || 'Animal');
     }).join('');
+    const colPersonas = personas.map((m) => {
+      const r = relacionVigente(m);
+      const chip = r ? `<span class="circ-chip circ-chip-persona">${esc(etiquetaTipo(r.tipo))}${r.estado === 'pendiente' ? ' · Pendiente' : ''}</span>` : '';
+      return circuloTarjeta(m, chip, r?.descripcion || '');
+    }).join('');
+    const vacia = (t) => `<li class="arbol-nota">${t}</li>`;
     const ocultas = todos.filter((m) => m.oculta);
     const bloqueOcultas = ocultas.length ? `<section class="arbol-grupo"><h3>Ramas de memoria ocultas <span>${ocultas.length}</span></h3><ul>${ocultas.map((m) => `<li class="arbol-oculta"><span>${esc(m.nombre)}</span><button type="button" class="button-borde" data-act="mostrar-rama" data-ref="${esc(m.ref_id)}">Mostrar de nuevo</button></li>`).join('')}</ul></section>` : '';
-    cont.innerHTML = `<p class="arbol-nota">Es el mismo árbol, en forma de lista.</p>${grupos || '<p class="arbol-nota">No hay integrantes con los filtros elegidos.</p>'}${bloqueOcultas}`;
+    cont.innerHTML = `
+      <section class="circulo" aria-label="Vínculos entre mascotas y personas">
+        <div class="circ-cols">
+          <div class="circ-col circ-col-animales"><h3>Mascotas</h3><ul>${colAnimales || vacia('Sin mascotas con estos filtros.')}</ul></div>
+          <div class="circ-col circ-col-personas"><h3>Personas</h3><ul>${colPersonas || vacia('Sin personas con estos filtros.')}</ul></div>
+        </div>
+        <p class="circ-leyenda"><span class="circ-punto circ-punto-animal" aria-hidden="true"></span> Entre mascotas <span class="circ-punto circ-punto-persona" aria-hidden="true"></span> Entre personas</p>
+        <div class="circ-pie"><p><strong>Solo tú puedes ver estos vínculos.</strong> Son opiniones personales y no implican verificación mutua.</p><button type="button" class="button-verde" data-act="vinculo">Añadir vínculo</button></div>
+      </section>${bloqueOcultas}`;
   };
 
   const leyenda = () => `
