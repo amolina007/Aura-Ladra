@@ -8,7 +8,7 @@
   <title>AuraLadra — Comunidad que cuida</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,650;9..144,750&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,650;9..144,750&family=Nunito:wght@600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23f2a93b'/%3E%3Cpath d='M20 30c-5-1-7 5-4 8 3 3 7 0 7-3 0-2-1-4-3-5Zm24 0c5-1 7 5 4 8-3 3-7 0-7-3 0-2 1-4 3-5ZM27 21c-4-3-8 2-6 6 2 4 7 2 8-1 1-2 0-4-2-5Zm10 0c4-3 8 2 6 6-2 4-7 2-8-1-1-2 0-4 2-5Zm-5 9c-7 0-13 8-10 14 2 5 8 3 10 1 2 2 8 4 10-1 3-6-3-14-10-14Z' fill='%23102a43'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="css/styles.css">
@@ -428,58 +428,91 @@
 
             </section>
 
-            <section class="card my-profile" id="mi-perfil" data-my-profile hidden aria-labelledby="my-profile-title">
-              <div class="card-heading compact">
-                <span class="card-mark" aria-hidden="true">◎</span>
-                <div><p class="kicker">Vista privada</p><h3 id="my-profile-title">Mi perfil</h3></div>
-              </div>
-              <div class="my-profile-tabs" role="tablist" aria-label="Secciones de Mi perfil">
-                <button type="button" role="tab" id="my-profile-tab-perfil" aria-selected="true" aria-controls="my-profile-panel-perfil" data-my-profile-tab="perfil">Perfil</button>
-                <button type="button" role="tab" id="my-profile-tab-animales" aria-selected="false" aria-controls="my-profile-panel-animales" tabindex="-1" data-my-profile-tab="animales">Mis animales</button>
-                <button type="button" role="tab" id="my-profile-tab-arbol" aria-selected="false" aria-controls="my-profile-panel-arbol" tabindex="-1" data-my-profile-tab="arbol">Mi árbol</button>
-                <button type="button" role="tab" id="my-profile-tab-actividad" aria-selected="false" aria-controls="my-profile-panel-actividad" tabindex="-1" data-my-profile-tab="actividad">Actividad</button>
-                <button type="button" role="tab" id="my-profile-tab-aportes" aria-selected="false" aria-controls="my-profile-panel-aportes" tabindex="-1" data-my-profile-tab="aportes">Mis aportes</button>
-                <button type="button" role="tab" id="my-profile-tab-acciones" aria-selected="false" aria-controls="my-profile-panel-acciones" tabindex="-1" data-my-profile-tab="acciones">Mis acciones</button>
+            <section class="my-profile" id="mi-perfil" data-my-profile hidden aria-labelledby="my-profile-title">
+              <div class="mp-screen" data-my-profile-panel="perfil">
+                <header class="mp-top">
+                  <h3 id="my-profile-title" tabindex="-1">Mi perfil</h3>
+                  <button type="button" class="mp-chip" data-my-profile-public hidden>Vista pública</button>
+                </header>
+
+                <div class="mp-identity">
+                  <span class="mp-avatar" data-my-profile-initials aria-hidden="true">?</span>
+                  <div class="mp-identity-text">
+                    <strong data-my-profile-alias>Sin alias todavía</strong>
+                    <span class="mp-place">Del barrio de Maipú</span>
+                    <p class="mp-tagline" data-my-profile-bio></p>
+                    <small data-my-profile-visibility></small>
+                  </div>
+                  <a class="mp-btn mp-btn-soft" href="#red">Editar perfil</a>
+                </div>
+
+                <section class="mp-card" aria-labelledby="mp-arbol-title">
+                  <h4 id="mp-arbol-title">Mi árbol de vínculos</h4>
+                  <div data-arbol-resumen aria-live="polite"><p class="mp-muted">Cargando tu árbol…</p></div>
+                </section>
+
+                <section class="mp-card" aria-labelledby="mp-mascotas-title">
+                  <div class="mp-card-head">
+                    <h4 id="mp-mascotas-title">Mis mascotas</h4>
+                    <button type="button" class="mp-link" data-my-profile-tab="animales">Ver todas</button>
+                  </div>
+                  <div class="mp-pets" data-my-profile-pets></div>
+                </section>
+
+                <section class="mp-card" aria-labelledby="mp-aportes-title">
+                  <h4 id="mp-aportes-title">Aportes a la comunidad</h4>
+                  <div class="mp-aportes">
+                    <div data-aporte="cuidados"><strong>0</strong><span>Cuidados</span></div>
+                    <div data-aporte="encuentros"><strong>0</strong><span>Encuentros</span></div>
+                    <div data-aporte="ayuda"><strong>0</strong><span>Ayuda</span></div>
+                  </div>
+                </section>
+
+                <nav class="mp-rows" aria-label="Más de mi perfil">
+                  <button type="button" class="mp-row" data-my-profile-tab="actividad"><span>Actividad</span><span aria-hidden="true">›</span></button>
+                  <button type="button" class="mp-row" data-my-profile-tab="aportes"><span>Mis aportes</span><span aria-hidden="true">›</span></button>
+                  <button type="button" class="mp-row" data-my-profile-tab="acciones"><span>Mis acciones</span><span aria-hidden="true">›</span></button>
+                </nav>
+
+                <p class="my-profile-privacy"><span aria-hidden="true">◇</span> Solo tú ves este resumen completo.</p>
               </div>
 
-              <div class="my-profile-panel" role="tabpanel" id="my-profile-panel-perfil" aria-labelledby="my-profile-tab-perfil" data-my-profile-panel="perfil">
-                <div class="my-profile-identity">
-                  <span class="my-profile-avatar" data-my-profile-initials aria-hidden="true">?</span>
-                  <div><strong data-my-profile-alias>Sin alias todavía</strong><small data-my-profile-visibility></small></div>
-                </div>
-                <p class="card-copy" data-my-profile-bio></p>
-                <div class="my-profile-stats">
-                  <div><strong data-my-profile-stat="animales">0</strong><span>Animales</span></div>
-                  <div><strong data-my-profile-stat="avisos">0</strong><span>Avisos activos</span></div>
-                  <div><strong data-my-profile-stat="reportes">0</strong><span>Reportes</span></div>
-                </div>
-                <a class="button button-dark" href="#red">Editar perfil</a>
-              </div>
-
-              <div class="my-profile-panel" role="tabpanel" id="my-profile-panel-animales" aria-labelledby="my-profile-tab-animales" data-my-profile-panel="animales" hidden>
+              <div class="mp-screen" data-my-profile-panel="animales" hidden>
+                <header class="mp-sub">
+                  <button type="button" class="mp-back" data-my-profile-tab="perfil" aria-label="Volver a Mi perfil">‹</button>
+                  <h4 tabindex="-1">Mis animales</h4>
+                </header>
                 <div class="my-profile-animal-list" data-my-profile-animals></div>
-                <button class="button button-dark" type="button" data-my-profile-connect>＋ Asociar un animal</button>
+                <button class="mp-btn" type="button" data-my-profile-connect>＋ Asociar un animal</button>
               </div>
 
-              <div class="my-profile-panel" role="tabpanel" id="my-profile-panel-arbol" aria-labelledby="my-profile-tab-arbol" data-my-profile-panel="arbol" hidden>
-                <div data-arbol-resumen aria-live="polite"><p class="card-copy">Cargando tu árbol…</p></div>
-              </div>
-
-              <div class="my-profile-panel" role="tabpanel" id="my-profile-panel-actividad" aria-labelledby="my-profile-tab-actividad" data-my-profile-panel="actividad" hidden>
+              <div class="mp-screen" data-my-profile-panel="actividad" hidden>
+                <header class="mp-sub">
+                  <button type="button" class="mp-back" data-my-profile-tab="perfil" aria-label="Volver a Mi perfil">‹</button>
+                  <h4 tabindex="-1">Actividad</h4>
+                </header>
                 <div class="my-profile-stats">
                   <div><strong data-my-profile-stat="avisos">0</strong><span>Avisos activos</span></div>
                   <div><strong data-my-profile-stat="reportes">0</strong><span>Reportes enviados</span></div>
                   <div><strong data-my-profile-stat="atendidos">0</strong><span>Reportes atendidos</span></div>
                 </div>
-                <h4 class="my-profile-subtitle">Actividad reciente</h4>
+                <h5 class="my-profile-subtitle">Actividad reciente</h5>
                 <div class="my-profile-activity" data-my-profile-activity></div>
               </div>
-              <p class="my-profile-privacy"><span aria-hidden="true">◇</span> Solo tú ves este resumen completo.</p>
-                          <div class="my-profile-panel" role="tabpanel" id="my-profile-panel-aportes" aria-labelledby="my-profile-tab-aportes" data-my-profile-panel="aportes" hidden>
+
+              <div class="mp-screen" data-my-profile-panel="aportes" hidden>
+                <header class="mp-sub">
+                  <button type="button" class="mp-back" data-my-profile-tab="perfil" aria-label="Volver a Mi perfil">‹</button>
+                  <h4 tabindex="-1">Mis aportes</h4>
+                </header>
                 <div data-mis-aportes aria-live="polite"></div>
               </div>
 
-              <div class="my-profile-panel" role="tabpanel" id="my-profile-panel-acciones" aria-labelledby="my-profile-tab-acciones" data-my-profile-panel="acciones" hidden>
+              <div class="mp-screen" data-my-profile-panel="acciones" hidden>
+                <header class="mp-sub">
+                  <button type="button" class="mp-back" data-my-profile-tab="perfil" aria-label="Volver a Mi perfil">‹</button>
+                  <h4 tabindex="-1">Mis acciones</h4>
+                </header>
                 <div data-mis-acciones aria-live="polite"></div>
               </div>
             </section>

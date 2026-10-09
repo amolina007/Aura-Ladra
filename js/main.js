@@ -1066,6 +1066,64 @@
     }));
   };
 
+  const renderMyProfilePets = (section) => {
+    const container = section.querySelector('[data-my-profile-pets]');
+    if (!container) return;
+    const tiles = ownAnimals.map((animal) => {
+      const tile = document.createElement('button');
+      tile.type = 'button';
+      tile.className = 'mp-pet';
+      tile.dataset.myProfileOpen = animal.id;
+      const photo = document.createElement('span');
+      photo.className = 'mp-pet-photo';
+      if (typeof animal.foto_url === 'string' && animal.foto_url.startsWith('https://')) {
+        const image = document.createElement('img');
+        image.src = animal.foto_url;
+        image.alt = '';
+        image.loading = 'lazy';
+        photo.append(image);
+      } else {
+        photo.textContent = String(animal.nombre || '?').slice(0, 1).toUpperCase();
+      }
+      const name = document.createElement('strong');
+      name.textContent = animal.nombre;
+      const hint = document.createElement('small');
+      hint.textContent = 'Ver ficha';
+      tile.append(photo, name, hint);
+      return tile;
+    });
+    const add = document.createElement('button');
+    add.type = 'button';
+    add.className = 'mp-pet-add';
+    add.dataset.myProfileConnect = '';
+    const plus = document.createElement('span');
+    plus.className = 'mp-pet-photo';
+    plus.setAttribute('aria-hidden', 'true');
+    plus.textContent = '+';
+    const label = document.createElement('strong');
+    label.textContent = 'Añadir mascota';
+    add.append(plus, label);
+    container.replaceChildren(...tiles, add);
+  };
+
+  // Aportes a la comunidad: los números llegan por eventos desde arbol.js (cuidados, encuentros) y acciones.js (ayuda).
+  const aportesComunidad = { cuidados: 0, encuentros: 0, ayuda: 0 };
+  const renderAportesComunidad = (section = document.querySelector('[data-my-profile]')) => {
+    section?.querySelectorAll('[data-aporte]').forEach((tile) => {
+      const strong = tile.querySelector('strong');
+      if (strong) strong.textContent = String(aportesComunidad[tile.dataset.aporte] ?? 0);
+    });
+  };
+  document.addEventListener('arbol:cambio', (event) => {
+    aportesComunidad.cuidados = Number(event.detail?.cuidados) || 0;
+    aportesComunidad.encuentros = Number(event.detail?.encuentros) || 0;
+    renderAportesComunidad();
+  });
+  document.addEventListener('ayuda:cambio', (event) => {
+    aportesComunidad.ayuda = Number(event.detail?.aportes) || 0;
+    renderAportesComunidad();
+  });
+
   const renderMyProfile = () => {
     const section = document.querySelector('[data-my-profile]');
     if (!section) return;
@@ -1078,7 +1136,13 @@
     section.querySelector('[data-my-profile-visibility]').textContent = alias
       ? (myProfileVisibilityLabels[ownPublicProfile.visibilidad] || myProfileVisibilityLabels.basico)
       : 'Publica tu alias en Red animal para aparecer en la red.';
-    section.querySelector('[data-my-profile-bio]').textContent = ownPublicProfile?.biografia || '';
+    const petNames = ownAnimals.filter((animal) => !animal.es_conmemorativa).slice(0, 3).map((animal) => animal.nombre);
+    section.querySelector('[data-my-profile-bio]').textContent = ownPublicProfile?.biografia
+      || (petNames.length ? `Compartiendo el barrio con ${petNames.join(', ')}` : '');
+    const publicChip = section.querySelector('[data-my-profile-public]');
+    if (publicChip) publicChip.hidden = !ownPublicProfile;
+    renderMyProfilePets(section);
+    renderAportesComunidad(section);
     const stats = getMyProfileStats();
     section.querySelectorAll('[data-my-profile-stat]').forEach((element) => {
       element.textContent = String(stats[element.dataset.myProfileStat] ?? 0);
@@ -1087,24 +1151,25 @@
     renderMyProfileActivity(section);
   };
 
-  const selectMyProfileTab = (name, focus = false) => {
+  const selectMyProfileTab = (name, focus = true) => {
     const section = document.querySelector('[data-my-profile]');
     if (!section) return;
-    section.querySelectorAll('[data-my-profile-tab]').forEach((tab) => {
-      const active = tab.dataset.myProfileTab === name;
-      tab.setAttribute('aria-selected', String(active));
-      tab.tabIndex = active ? 0 : -1;
-      if (active && focus) tab.focus();
-    });
-    section.querySelectorAll('[data-my-profile-panel]').forEach((panel) => {
-      panel.hidden = panel.dataset.myProfilePanel !== name;
-    });
+    const panels = [...section.querySelectorAll('[data-my-profile-panel]')];
+    const target = panels.find((panel) => panel.dataset.myProfilePanel === name) || panels.find((panel) => panel.dataset.myProfilePanel === 'perfil');
+    panels.forEach((panel) => { panel.hidden = panel !== target; });
+    if (!target) return;
+    section.scrollIntoView({ block: 'start' });
+    if (focus) target.querySelector('h3, h4')?.focus({ preventScroll: true });
   };
 
   document.querySelector('[data-my-profile]')?.addEventListener('click', (event) => {
     const tab = event.target.closest('[data-my-profile-tab]');
     if (tab) {
       selectMyProfileTab(tab.dataset.myProfileTab);
+      return;
+    }
+    if (event.target.closest('[data-my-profile-public]')) {
+      if (ownPublicProfile) showHumanProfile(ownPublicProfile, { isSelf: true });
       return;
     }
     if (event.target.closest('[data-my-profile-connect]')) {
@@ -1118,15 +1183,6 @@
     if (!animal) return;
     showPetProfile(animal);
     if (healthButton) startPetProfileEdit('salud');
-  });
-
-  document.querySelector('[data-my-profile]')?.addEventListener('keydown', (event) => {
-    const tab = event.target.closest('[data-my-profile-tab]');
-    if (!tab || !['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
-    const tabs = [...document.querySelectorAll('[data-my-profile-tab]')];
-    const next = tabs[(tabs.indexOf(tab) + (event.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length];
-    event.preventDefault();
-    selectMyProfileTab(next.dataset.myProfileTab, true);
   });
 
   const petValue = (value, fallback = 'Sin informar') => value === null || value === undefined || value === '' ? fallback : value;
