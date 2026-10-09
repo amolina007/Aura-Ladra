@@ -14,11 +14,11 @@
   };
   const categoryLabels = { agua: 'Agua', limpieza: 'Limpieza', seguridad: 'Seguridad', infraestructura: 'Infraestructura' };
   const placeCategoryLabels = {
-    canil: 'Canil', parque: 'Parque', veterinaria: 'Veterinaria', refugio: 'Refugio', casa_acogida: 'Casa de acogida', tienda_mascotas: 'Tienda de mascotas',
+    canil: 'Canil', parque: 'Parque', puesto: 'Comida y agua', veterinaria: 'Veterinaria', refugio: 'Refugio', casa_acogida: 'Casa de acogida', tienda_mascotas: 'Tienda de mascotas',
     alimento: 'Comida', juguetes_accesorios: 'Juguetes y accesorios', animal_comunitario: 'Animal comunitario',
     mascota_perdida: 'Mascota perdida', servicio: 'Servicio', comercio: 'Comercio', otro: 'Otro',
   };
-  const placeIcons = { canil: '🐾', parque: '🌳', veterinaria: '✚', refugio: '⌂', casa_acogida: '♡', tienda_mascotas: '◆', alimento: '●', juguetes_accesorios: '◈', animal_comunitario: '♥', mascota_perdida: '!', servicio: '＋', comercio: '◇', otro: '⌖' };
+  const placeIcons = { canil: '🐾', parque: '🌳', puesto: '💧', veterinaria: '✚', refugio: '⌂', casa_acogida: '♡', tienda_mascotas: '◆', alimento: '●', juguetes_accesorios: '◈', animal_comunitario: '♥', mascota_perdida: '!', servicio: '＋', comercio: '◇', otro: '⌖' };
   const petSkillLabels = {
     reconoce_nombre: 'Reconoce su nombre', contacto_visual: 'Hace contacto visual', sentarse: 'Se sienta', dar_patita: 'Da la patita', echarse: 'Se echa',
     esperar: 'Espera', venir_llamado: 'Acude al llamado', soltar: 'Suelta objetos', paseo_correa: 'Pasea con correa', higiene: 'Hace sus necesidades en lugar indicado', socializa: 'Socializa con otros animales',
@@ -39,6 +39,9 @@
   let markerLayer = null;
   let lastFitCoordinates = [];
   let publicPlaces = [];
+  let basePlaces = []; // lugares y alertas que vienen de la base de datos (sin los puestos de comida y agua)
+  // Los puestos de comida y agua los entrega js/puestos.js (modo demo); se suman a los lugares del mapa.
+  const puestosComoLugares = () => window.auraLadraPuestos?.lugares?.() || [];
   let activePlaceFilter = 'todos';
   let publicAnimals = [];
   let ownAnimals = [];
@@ -595,6 +598,14 @@
       website.textContent = 'Sitio oficial';
       details.append(website);
     }
+    if (place.categoria === 'puesto' && place.puesto_id) {
+      const helpLink = document.createElement('a');
+      helpLink.className = 'place-link';
+      helpLink.href = '#comida-agua';
+      helpLink.dataset.abrirPuesto = place.puesto_id;
+      helpLink.textContent = 'Ayudar con este puesto →';
+      details.append(helpLink);
+    }
     const sourceUrl = cleanUrl(place.fuente_url);
     if (sourceUrl && place.fuente_nombre) {
       const source = document.createElement('a');
@@ -728,9 +739,16 @@
       horario_publico: `Vista por última vez: ${dateFormatter.format(new Date(alert.perdida_en))}`,
       precision_ubicacion: 'exacta',
     }));
-    publicPlaces = [...alerts, ...places];
+    basePlaces = [...alerts, ...places];
+    publicPlaces = [...basePlaces, ...puestosComoLugares()];
     renderPlaces();
   }
+
+  // Si los puestos cambian (o cargan después que el mapa), se actualizan los pines.
+  document.addEventListener('puestos:cambio', () => {
+    publicPlaces = [...basePlaces, ...puestosComoLugares()];
+    renderPlaces();
+  });
 
   // En celular los filtros están escondidos tras el botón «Filtros» (ver css, bloque «Mapa en celular»).
   const mapFiltersToggle = document.querySelector('[data-map-filters-toggle]');

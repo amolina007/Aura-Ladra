@@ -132,6 +132,22 @@ Son aportes solidarios para financiar una acción: **no ofrecen intereses ni ret
 - Pendiente: pantalla de moderación (hoy se usa `ladra.moderar_accion` por SQL),
   subida de fotos y documentos propios, mensajería para "Consultar", disputas.
 
+## Comida y agua (puestos en espacios públicos)
+
+Sección propia en el menú hamburguesa (`#comida-agua`), con un bloque resumen en **Ayudar** y los puestos
+como pines 💧 en el **Mapa** (filtro «Comida y agua»).
+
+- **Cómo se ayuda:** *patrocinar* un puesto (aporte a la meta del mes) y *cuidarlo en persona* (anotarse como
+  cuidador, registrar una reposición de agua o comida, o avisar que falta algo).
+- **Modo demo (estado actual):** `js/puestos.js` usa 3 puestos de ejemplo guardados solo en el navegador
+  (`localStorage`) y avisa de ello en pantalla. Los aportes son una **simulación**: no se cobra dinero. No se usa
+  Supabase todavía.
+- **Quién agrega puestos:** decisión tomada: solo moderación. **Aún no existe** ese panel ni la base de datos;
+  por ahora los puestos de ejemplo vienen precargados.
+- **Pendiente:** tablas y funciones `ladra.*` (puestos, aportes, cuidadores, reposiciones) con RLS, panel de
+  moderación para agregar puestos, ubicaciones reales verificadas, fotos del puesto y pagos reales (que requieren
+  definir pasarela y reglas, igual que Acciones por financiar).
+
 ## Personal → Mi árbol de vínculos
 
 Pestaña **Mi árbol** dentro de Mi perfil. Abre una vista a pantalla completa con las pestañas **Árbol** e **Historia**, una **lista alternativa** y un panel con el detalle del integrante seleccionado.
