@@ -21,6 +21,9 @@
   const ESTADOS = { activo: 'Funcionando', necesita_ayuda: 'Necesita ayuda' };
   const MONTOS = [2000, 5000, 10000, 20000];
   const YO = 'Tú (demo)';
+  // Montos de ejemplo para el aporte en Auracoins (provisorios: aún no hay montos ni límites definidos).
+  const MONTOS_AC = [1, 5, 10, 20];
+  const nAC = new Intl.NumberFormat('es-CL');
 
   // ---------- Datos de ejemplo (solo navegador) ----------
   const KEY = 'auraladra.demo.puestos.v1';
@@ -140,6 +143,7 @@
 
   // ---------- Detalle ----------
   let montoElegido = 0;
+  let acElegido = 0;
   let abierto = null;
   const mensaje = (texto, tipo = '') => {
     const m = el.detalle?.querySelector('[data-puesto-msg]');
@@ -182,6 +186,19 @@
       </div>
 
       <div class="detalle-bloque">
+        <h4>Aportar Auracoins al Fondo de AuraLadra</h4>
+        <div class="aportar-panel">
+          <p>Tus Auracoins van al <strong>Fondo de AuraLadra</strong>, que se usa para sostener los puestos; no se asignan a este puesto en particular.</p>
+          <p>Fondo en la demostración: <strong>🪙 ${nAC.format(datos().fondo_ac || 0)} AC</strong></p>
+          <div class="montos" role="group" aria-label="Monto en Auracoins">
+            ${MONTOS_AC.map((m) => `<button class="monto-btn" type="button" data-puesto-ac="${m}" aria-pressed="${acElegido === m}">🪙 ${m} AC</button>`).join('')}
+          </div>
+          <p><small>Es una <strong>simulación</strong>: no se mueven Auracoins reales. Es un aporte solidario; no ofrece intereses ni retornos.</small></p>
+          <button class="button-verde" type="button" data-puesto-aportar-ac ${acElegido ? '' : 'disabled'}>Confirmar aporte en AC (simulación)</button>
+        </div>
+      </div>
+
+      <div class="detalle-bloque">
         <h4>Cuidarlo en persona</h4>
         <p>${p.cuidadores.length ? `Lo cuidan: ${p.cuidadores.map((c) => esc(c.alias)).join(', ')}.` : 'Todavía nadie lo cuida en persona.'}</p>
         <p>Última reposición: <strong>${esc(fecha(p.ultima_reposicion))}</strong></p>
@@ -202,6 +219,7 @@
     if (!buscar(id)) return;
     abierto = id;
     montoElegido = 0;
+    acElegido = 0;
     if (desdeFuera) window.auraLadraVistas?.ir('comida-agua');
     if (el.vistaLista) el.vistaLista.hidden = true;
     if (el.detalle) el.detalle.hidden = false;
@@ -233,6 +251,16 @@
     const monto = montoElegido;
     montoElegido = 0;
     cambiado({ texto: `Gracias: registramos tu aporte simulado de ${clp.format(monto)}. No se cobró dinero.`, tipo: 'success' });
+  };
+
+  const aportarAC = () => {
+    if (!MONTOS_AC.includes(acElegido)) return;
+    const d = datos();
+    d.fondo_ac = (d.fondo_ac || 0) + acElegido;
+    d.aportes.push({ fondo: 'auraladra', monto_ac: acElegido, simulado: true, creado_en: new Date().toISOString() });
+    const monto = acElegido;
+    acElegido = 0;
+    cambiado({ texto: `Gracias: registramos tu aporte simulado de ${nAC.format(monto)} AC al Fondo de AuraLadra. No se movieron Auracoins reales.`, tipo: 'success' });
   };
 
   const alternarCuidado = () => {
@@ -278,6 +306,9 @@
     if (t.closest('[data-puesto-volver]')) { cerrar(); return; }
     const montoBtn = t.closest('[data-puesto-monto]');
     if (montoBtn) { montoElegido = Number(montoBtn.dataset.puestoMonto); renderDetalle(); return; }
+    const acBtn = t.closest('[data-puesto-ac]');
+    if (acBtn) { acElegido = Number(acBtn.dataset.puestoAc); renderDetalle(); return; }
+    if (t.closest('[data-puesto-aportar-ac]')) { aportarAC(); return; }
     if (t.closest('[data-puesto-aportar]')) { aportar(); return; }
     if (t.closest('[data-puesto-cuidar]')) { alternarCuidado(); return; }
     if (t.closest('[data-puesto-reponer]')) { reponer(); return; }
