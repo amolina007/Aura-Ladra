@@ -164,6 +164,10 @@ Pantalla única con tarjetas (árbol ilustrado, Mis mascotas, Aportes a la comun
 volver (Mis animales, Actividad, Mis aportes, Mis acciones). El árbol dibujado muestra hasta 3 integrantes reales de
 Mi árbol. «Aportes a la comunidad» cuenta Cuidados (paseos, juegos y cuidados) y Encuentros desde el árbol, y Ayuda
 desde los aportes a acciones (simulados). Comunicación entre módulos por eventos `arbol:cambio` y `ayuda:cambio`.
+El árbol dibujado muestra **mi árbol** (copa: mis animales; tronco: mi foto; raíces: animales conmemorativos) y,
+al lado, el de la persona con vínculo familiar confirmado (pareja). Mi foto se **lee** de Convergencia Aura
+(`core.perfiles.avatar_path`, bucket público `core-avatars`); AuraLadra no la guarda ni la modifica.
+**Pendiente:** el servidor aún no entrega las mascotas de esa persona; hoy solo la demo ('Cate (ejemplo)') las muestra.
 Misiones y recompensas **no** existen: la gamificación está fuera del MVP.
 
 ## Fuera del MVP (decisión ya tomada)

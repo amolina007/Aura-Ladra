@@ -1066,6 +1066,26 @@
     }));
   };
 
+  // Foto de la persona: se lee de Convergencia Aura (core.perfiles.avatar_path, bucket público core-avatars). Solo lectura.
+  let coreAvatarUrl = '';
+  const announceProfile = () => {
+    const alias = ownPublicProfile?.alias || '';
+    document.dispatchEvent(new CustomEvent('perfil:cambio', { detail: { alias, foto: coreAvatarUrl } }));
+  };
+  const loadCoreAvatar = async () => {
+    const userId = currentSession?.user?.id;
+    let url = '';
+    if (userId) {
+      try {
+        const { data } = await db.schema('core').from('perfiles').select('avatar_path').eq('id', userId).maybeSingle();
+        if (data?.avatar_path) url = db.storage.from('core-avatars').getPublicUrl(data.avatar_path)?.data?.publicUrl || '';
+      } catch { url = ''; }
+    }
+    if (!url.startsWith('https://')) url = '';
+    coreAvatarUrl = url;
+    renderMyProfile();
+  };
+
   const renderMyProfilePets = (section) => {
     const container = section.querySelector('[data-my-profile-pets]');
     if (!container) return;
@@ -1132,7 +1152,16 @@
     if (!hasUser) return;
     const alias = ownPublicProfile?.alias;
     section.querySelector('[data-my-profile-alias]').textContent = alias || 'Sin alias todavía';
-    section.querySelector('[data-my-profile-initials]').textContent = (alias || currentSession.user.email || '?').trim().charAt(0).toUpperCase();
+    const avatarEl = section.querySelector('[data-my-profile-initials]');
+    if (coreAvatarUrl) {
+      const photo = document.createElement('img');
+      photo.src = coreAvatarUrl;
+      photo.alt = '';
+      avatarEl.replaceChildren(photo);
+    } else {
+      avatarEl.textContent = (alias || currentSession.user.email || '?').trim().charAt(0).toUpperCase();
+    }
+    announceProfile();
     section.querySelector('[data-my-profile-visibility]').textContent = alias
       ? (myProfileVisibilityLabels[ownPublicProfile.visibilidad] || myProfileVisibilityLabels.basico)
       : 'Publica tu alias en Red animal para aparecer en la red.';
@@ -2255,6 +2284,7 @@
     const signedOut = document.querySelector('[data-signed-out]');
     const signedIn = document.querySelector('[data-signed-in]');
     if (!session?.user) {
+      coreAvatarUrl = '';
       signedOut.hidden = false;
       signedIn.hidden = true;
       await Promise.all([loadMyReports(), loadModeratorReports(), loadPublicReports(), loadReportStats(), loadCreatorWorkspace(), loadNetworkModeration(), refreshWanted()]);
@@ -2262,7 +2292,9 @@
     }
     signedOut.hidden = true;
     signedIn.hidden = false;
-    document.querySelector('[data-session-email]').textContent = session.user.email || 'cuenta activa';
+    const emailEl = document.querySelector('[data-session-email]');
+    if (emailEl) emailEl.textContent = session.user.email || 'cuenta activa';
+    loadCoreAvatar();
     const { data, error } = await db.from('moderadores').select('usuario_id').eq('usuario_id', session.user.id).maybeSingle();
     currentUserIsModerator = !error && Boolean(data);
     await Promise.all([loadMyReports(), loadModeratorReports(), loadPublicReports(), loadReportStats(), loadCreatorWorkspace(), loadNetworkModeration(), refreshWanted()]);

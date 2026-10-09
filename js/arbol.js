@@ -66,7 +66,7 @@
   // Adaptador DEMOSTRACIÓN (solo navegador, datos ficticios)
   // =====================================================================
   const demo = (() => {
-    const KEY = 'auraladra.demo.arbol.v1';
+    const KEY = 'auraladra.demo.arbol.v2';
     let st = null;
     const guardar = () => { try { window.localStorage.setItem(KEY, JSON.stringify(st)); } catch { /* sin almacenamiento */ } };
     const rel = (origen, tipo, descripcion, estado, extra = {}) => ({ origen, id: uuid(), tipo, descripcion: descripcion || null, estado, editable: true, retirable: true, publico: null, ...extra });
@@ -76,6 +76,7 @@
         { clave: 'animal:demo-tom', clase: 'animal', ref_id: 'demo-tom', nombre: 'Tom (ejemplo)', especie: 'Gato', foto_url: null, propio: true, memoria: true, comunitario: false, oculta: false, relaciones: [rel('familia', 'tutor', null, 'confirmado', { editable: false, retirable: false })] },
         { clave: 'perfil:demo-rosa', clase: 'persona', ref_id: 'demo-rosa', nombre: 'Rosa (ejemplo)', especie: null, foto_url: null, propio: false, memoria: false, comunitario: false, oculta: false, relaciones: [rel('personas', 'cuidador', 'Cuida a Luna cuando viajo', 'confirmado')] },
         { clave: 'animal:demo-canela', clase: 'animal', ref_id: 'demo-canela', nombre: 'Canela (ejemplo)', especie: 'Perra', foto_url: null, propio: false, memoria: false, comunitario: true, oculta: false, relaciones: [rel('animal_humano', 'amistad', 'Perra de la plaza', 'confirmado', { publico: true })] },
+        { clave: 'perfil:demo-cate', clase: 'persona', ref_id: 'demo-cate', nombre: 'Cate (ejemplo)', especie: null, foto_url: null, propio: false, memoria: false, comunitario: false, oculta: false, animales: [{ nombre: 'Kira (ejemplo)', foto_url: null }, { nombre: 'Max (ejemplo)', foto_url: null }], relaciones: [rel('personas', 'familia', 'Pareja (ejemplo)', 'confirmado')] },
         { clave: 'perfil:demo-camilo', clase: 'persona', ref_id: 'demo-camilo', nombre: 'Camilo (ejemplo)', especie: null, foto_url: null, propio: false, memoria: false, comunitario: false, oculta: false, relaciones: [rel('personas', 'companero_paseo', null, 'confirmado')] },
         { clave: 'privado:demo-abuela', clase: 'persona', ref_id: 'demo-abuela', nombre: 'Abuela Elena (ejemplo)', especie: null, foto_url: null, propio: false, memoria: false, comunitario: false, oculta: false, relaciones: [rel('privado', 'familia', 'Anotación privada', 'privado')] },
       ],
@@ -766,49 +767,62 @@
     }).join('')}</ol></section>`).join('');
   };
 
-  // ---------- Ilustración del árbol en Mi perfil (hasta 3 integrantes reales) ----------
+  // ---------- Ilustración en Mi perfil: mi árbol y, al lado, el de mi pareja de vínculo ----------
+  // Copa = mis animales · Tronco = mi miniatura · Raíces = animales conmemorativos.
   const limpiarNombre = (n) => String(n || '').replace(/\s*\(ejemplo\)\s*/i, '').trim() || '?';
   const corto = (n, max = 12) => (n.length > max ? `${n.slice(0, max - 1)}…` : n);
-  const destacados = () => {
-    const peso = (m) => (m.memoria ? 3 : m.propio && m.clase === 'animal' ? 0 : m.clase === 'persona' ? 1 : 2);
-    return integrantes().filter((m) => !m.oculta && !esPendiente(m)).sort((a, b) => peso(a) - peso(b)).slice(0, 3);
-  };
+  let YO = { alias: '', foto: '' }; // lo informa main.js con el evento perfil:cambio
   const PASTELES = ['#e8e1f6', '#fbe3b2', '#d6ecdc'];
-  const avatarSvg = (m, i, cx, cy, r) => {
-    const nombre = limpiarNombre(m.nombre);
-    const foto = typeof m.foto_url === 'string' && m.foto_url.startsWith('https://') ? m.foto_url : '';
-    const base = `<circle cx="${cx}" cy="${cy}" r="${r + 3}" fill="#fff"/>`;
-    if (foto) {
-      return `<clipPath id="mpa-c${i}"><circle cx="${cx}" cy="${cy}" r="${r}"/></clipPath>${base}<image href="${esc(foto)}" x="${cx - r}" y="${cy - r}" width="${r * 2}" height="${r * 2}" preserveAspectRatio="xMidYMid slice" clip-path="url(#mpa-c${i})"/>`;
-    }
-    return `${base}<circle cx="${cx}" cy="${cy}" r="${r}" fill="${PASTELES[i % 3]}"/><text x="${cx}" y="${cy + r * 0.36}" text-anchor="middle" font-size="${Math.round(r * 0.95)}" font-weight="800" fill="#5d4a9c" font-family="Nunito, sans-serif">${esc(nombre.charAt(0).toUpperCase())}</text>`;
-  };
-  const pildora = (texto, cx, y, fill, color) => {
-    const w = Math.max(48, texto.length * 7.2 + 16);
-    return `<rect x="${cx - w / 2}" y="${y}" width="${w}" height="20" rx="10" fill="${fill}"/><text x="${cx}" y="${y + 14}" text-anchor="middle" font-size="12" font-weight="800" fill="${color}" font-family="Nunito, sans-serif">${esc(texto)}</text>`;
-  };
+  const parejaDe = () => integrantes().find((m) => m.clase === 'persona' && !m.oculta && !esPendiente(m)
+    && (m.relaciones || []).some((r) => r.estado === 'confirmado' && r.tipo === 'familia' && r.origen !== 'privado'));
+
   const dibujoArbol = (cuidados, encuentros) => {
-    const ms = destacados();
-    const pos = [[170, 88, 30], [92, 158, 26], [248, 158, 26]];
-    const hojas = [[120, 60], [215, 55], [150, 28], [190, 30], [70, 115], [270, 115]].slice(0, Math.min(cuidados, 6));
-    const flores = [[128, 108], [212, 112], [170, 140], [60, 190], [282, 192]].slice(0, Math.min(encuentros, 5));
-    const nombres = ms.map((m) => limpiarNombre(m.nombre)).join(', ');
-    const miembros = ms.map((m, i) => {
-      const [cx, cy, r] = pos[i];
-      const etiqueta = i === 0 ? CATEGORIAS[categoriaDe(m)] : corto(limpiarNombre(m.nombre));
-      const corazon = i === 0 ? `<circle cx="${cx + 24}" cy="${cy - 22}" r="11" fill="#f5b32f" stroke="#fff" stroke-width="2"/><text x="${cx + 24}" y="${cy - 17}" text-anchor="middle" font-size="12" fill="#17462c" font-family="Nunito, sans-serif">♥</text>` : '';
-      const nombreTop = i === 0 ? pildora(corto(limpiarNombre(m.nombre), 14), cx, cy + r + 8, '#fff', '#17462c') : pildora(etiqueta, cx, cy + r + 8, '#fff', '#17462c');
-      return `${avatarSvg(m, i, cx, cy, r)}${corazon}${nombreTop}`;
-    }).join('');
-    return `<svg class="mp-arbol-svg" viewBox="0 0 340 300" role="img" aria-label="Ilustración de tu árbol de vínculos con ${esc(nombres)}" xmlns="http://www.w3.org/2000/svg">
+    let n = 0;
+    const avatar = (nombre, foto, cx, cy, r, tono) => {
+      const id = `mpa-c${n += 1}`;
+      const base = `<circle cx="${cx}" cy="${cy}" r="${r + 2.5}" fill="#fff"/>`;
+      const https = typeof foto === 'string' && foto.startsWith('https://') ? foto : '';
+      if (https) return `<clipPath id="${id}"><circle cx="${cx}" cy="${cy}" r="${r}"/></clipPath>${base}<image href="${esc(https)}" x="${cx - r}" y="${cy - r}" width="${r * 2}" height="${r * 2}" preserveAspectRatio="xMidYMid slice" clip-path="url(#${id})"/>`;
+      return `${base}<circle cx="${cx}" cy="${cy}" r="${r}" fill="${PASTELES[tono % 3]}"/><text x="${cx}" y="${cy + r * 0.36}" text-anchor="middle" font-size="${Math.round(r * 0.95)}" font-weight="800" fill="#5d4a9c" font-family="Nunito, sans-serif">${esc(limpiarNombre(nombre).charAt(0).toUpperCase())}</text>`;
+    };
+    const pildora = (texto, cx, y) => {
+      const w = Math.max(40, texto.length * 7 + 16);
+      return `<rect x="${cx - w / 2}" y="${y}" width="${w}" height="18" rx="9" fill="#fff"/><text x="${cx}" y="${y + 13}" text-anchor="middle" font-size="11.5" font-weight="800" fill="#17462c" font-family="Nunito, sans-serif">${esc(texto)}</text>`;
+    };
+    // Un árbol: cx = eje del tronco; perros en la copa; raíces con conmemorativos; miniatura en el tronco.
+    const arbol = (cx, perros, memorias, duenoNombre, duenoFoto, hojas, flores) => {
+      const copa = perros.length >= 2 ? [[cx - 22, 92], [cx + 22, 92]] : [[cx, 92]];
+      const rp = perros.length >= 2 ? 21 : 26;
+      const hs = [[-48, 55], [48, 52], [-60, 105], [60, 108], [-20, 38], [22, 36]].slice(0, hojas);
+      const fs = [[-38, 128], [40, 130], [0, 134]].slice(0, flores);
+      const raices = memorias.slice(0, 3).map((m, i, a) => [cx + (i - (a.length - 1) / 2) * 44, 270]);
+      return `
+        <circle cx="${cx}" cy="95" r="66" fill="#8cc79b"/><circle cx="${cx - 38}" cy="118" r="38" fill="#7bb98b"/><circle cx="${cx + 38}" cy="118" r="38" fill="#7bb98b"/>
+        ${hs.map(([dx, y]) => `<ellipse cx="${cx + dx}" cy="${y}" rx="8" ry="4.5" fill="#3f8a5c" transform="rotate(-30 ${cx + dx} ${y})"/>`).join('')}
+        ${fs.map(([dx, y]) => `<use href="#mpa-flor" x="${cx + dx - 8}" y="${y - 8}" width="16" height="16"/>`).join('')}
+        <path d="M${cx - 9} 232 C${cx - 8} 200 ${cx - 7} 175 ${cx - 5} 150 H${cx + 5} C${cx + 7} 175 ${cx + 8} 200 ${cx + 9} 232Z" fill="#8a6a4a"/>
+        ${raices.map(([rx]) => `<path d="M${cx} 232 Q${(cx + rx) / 2} 240 ${rx} 258" stroke="#8a6a4a" stroke-width="4" fill="none" stroke-linecap="round"/>`).join('')}
+        ${perros.slice(0, 2).map((p, i) => avatar(p.nombre, p.foto_url, copa[i][0], copa[i][1], rp, i)).join('')}
+        ${avatar(duenoNombre, duenoFoto, cx, 196, 17, 0)}
+        ${raices.map(([rx, ry], i) => avatar(memorias[i].nombre, memorias[i].foto_url, rx, ry, 13, i + 1)).join('')}
+        ${pildora(corto(limpiarNombre(duenoNombre), 10), cx, 218)}`;
+    };
+    const vivos = (m) => m.clase === 'animal' && !m.oculta && !esPendiente(m);
+    const mios = integrantes().filter((m) => vivos(m) && m.propio);
+    const perrosMios = mios.filter((m) => !m.memoria);
+    const memoriasMias = mios.filter((m) => m.memoria);
+    const pareja = parejaDe();
+    const perrosPareja = (pareja?.animales || []).filter((a) => !a.memoria);
+    const memoriasPareja = (pareja?.animales || []).filter((a) => a.memoria);
+    const nombres = [YO.alias || 'tú', ...perrosMios.map((m) => m.nombre), pareja?.nombre, ...perrosPareja.map((a) => a.nombre)].filter(Boolean).map(limpiarNombre).join(', ');
+    const hojas = Math.min(cuidados, 6);
+    const flores = Math.min(encuentros, 3);
+    return `<svg class="mp-arbol-svg" viewBox="0 0 340 300" role="img" aria-label="Ilustración de tu árbol${pareja ? ' y el de ' + esc(limpiarNombre(pareja.nombre)) : ''}: ${esc(nombres)}" xmlns="http://www.w3.org/2000/svg">
       <defs><symbol id="mpa-flor" viewBox="-12 -12 24 24"><g fill="#f7a8c4"><circle cx="0" cy="-6" r="4.5"/><circle cx="5.7" cy="-1.9" r="4.5"/><circle cx="3.5" cy="4.9" r="4.5"/><circle cx="-3.5" cy="4.9" r="4.5"/><circle cx="-5.7" cy="-1.9" r="4.5"/></g><circle r="3" fill="#f5b32f"/></symbol></defs>
-      <path d="M0 255 Q85 215 170 245 T340 235 V300 H0Z" fill="#d6ecdc"/>
-      <path d="M0 280 Q110 250 200 275 T340 270 V300 H0Z" fill="#b9dcc4"/>
-      <path d="M160 300 C162 250 164 215 166 175 H176 C178 215 180 250 182 300Z" fill="#8a6a4a"/>
-      <circle cx="170" cy="105" r="86" fill="#8cc79b"/><circle cx="95" cy="150" r="52" fill="#7bb98b"/><circle cx="245" cy="150" r="52" fill="#7bb98b"/>
-      ${hojas.map(([x, y]) => `<ellipse cx="${x}" cy="${y}" rx="9" ry="5" fill="#3f8a5c" transform="rotate(-30 ${x} ${y})"/>`).join('')}
-      ${flores.map(([x, y]) => `<use href="#mpa-flor" x="${x - 9}" y="${y - 9}" width="18" height="18"/>`).join('')}
-      ${miembros}
+      <path d="M0 238 Q85 222 170 236 T340 230 V300 H0Z" fill="#d6ecdc"/>
+      <path d="M0 262 Q110 248 200 260 T340 255 V300 H0Z" fill="#b9dcc4"/>
+      ${arbol(pareja ? 90 : 170, perrosMios, memoriasMias, YO.alias || 'Yo', YO.foto, hojas, flores)}
+      ${pareja ? arbol(250, perrosPareja, memoriasPareja, pareja.nombre, pareja.foto_url, 0, 0) : ''}
     </svg>`;
   };
 
@@ -834,6 +848,8 @@
       <button type="button" class="mp-btn" data-arbol-abrir>${ints.length ? 'Gestionar vínculos' : 'Empezar mi árbol'}</button>`;
     document.dispatchEvent(new CustomEvent('arbol:cambio', { detail: { cuidados, encuentros } }));
   };
+
+  document.addEventListener('perfil:cambio', (e) => { YO = { alias: e.detail?.alias || '', foto: e.detail?.foto || '' }; renderResumen(); });
 
   const render = () => {
     renderResumen();
