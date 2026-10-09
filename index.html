@@ -403,17 +403,14 @@
               </div>
               <div class="session-panel" data-signed-in hidden>
                 <p>Sesión iniciada como <strong data-session-email></strong>.</p>
-                <button class="text-button" type="button" data-sign-out>Cerrar sesión</button>
               </div>
               <p class="form-message" data-auth-message aria-live="polite"></p>
-              <section class="account-animals" data-account-animals hidden aria-labelledby="account-animals-title">
-                <div class="account-animals-heading">
-                  <div><p class="kicker">Red animal</p><h4 id="account-animals-title">Estado de mis mascotas</h4></div>
-                  <button class="account-add-pet" type="button" data-open-pet-connect>＋ Añadir o conectar mascota</button>
-                </div>
-                <div class="account-animal-list" data-account-animal-list></div>
+              <!-- «Estado de mis mascotas» se quitó: las mascotas viven en Mi perfil. Estos elementos ocultos mantienen los avisos y el botón de añadir que usa main.js. -->
+              <div hidden>
+                <button type="button" data-open-pet-connect>Añadir o conectar mascota</button>
+                <div data-account-animal-list></div>
                 <p class="form-message" data-account-animal-message aria-live="polite"></p>
-              </section>
+              </div>
 
               <section class="account-link-requests card" data-link-requests-section hidden aria-labelledby="link-requests-title">
                 <div class="list-heading">
