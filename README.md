@@ -208,10 +208,16 @@ aplicada, el botón queda desactivado con una explicación y no se muestra ning�
 **Pendiente:** consultar al organizador (requiere la mensajería de Core, aún no conectada), aceptar o rechazar una invitación desde una lista de invitaciones propia (hoy se responde desde el calendario), invitar grupos (llegan con la migración de grupos),
 y conservar zona y filtros al alternar Mapa y Calendario (hoy se conservan fecha y mes del calendario, y los filtros de cada vista por separado).
 
+## Reportar: sección retirada
+
+Se quitó la vista «Reportar» (formulario de reportes del canil y lista de reportes verificados). El panel de moderación (bandeja del piloto y
+revisión manual de Most Wanted) pasó a la vista de Mi cuenta, visible solo para moderadores. El historial «Mis reportes» y el aviso de
+denuncia de perfiles siguen. Las tablas y funciones de reportes del servidor no se tocaron.
+
 ## Navegación (cinco secciones)
 
 Barra inferior y menú: **Home** (`#inicio`), **Locaciones** (`#mapa`: Mapa | Calendario), **Mi red** (`#red`), **Aportar**
-(`#ayudar`) y **Mi cuenta** (`#cuenta`). La hamburguesa agrupa Servicios (Ayuda rápida, Most Wanted, Comida y agua, Reportar) y
+(`#ayudar`) y **Mi cuenta** (`#cuenta`). La hamburguesa agrupa Servicios (Ayuda rápida, Most Wanted, Comida y agua) y
 Más (Guías, Catálogo de recompensas, Ayuda, Configuración, Información: marcados «Pronto» y desactivados porque aún no existen).
 En la cabecera: (Se quitaron de la cabecera los tres iconos de Avisos, Mensajes y Notificaciones; Most Wanted sigue en Servicios.)
 

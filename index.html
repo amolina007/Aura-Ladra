@@ -50,7 +50,6 @@
           <a href="#acciones">Ayuda rápida</a>
           <a href="#most-wanted">Most Wanted</a>
           <a href="#comida-agua">Comida y agua</a>
-          <a href="#reportes">Reportar</a>
           <p class="nav-mas-t">Más</p>
           <span class="nav-pronto" aria-disabled="true">Guías <small>Pronto</small></span>
           <span class="nav-pronto" aria-disabled="true">Catálogo de recompensas <small>Pronto</small></span>
@@ -338,60 +337,9 @@
       </div>
     </section>
 
-    <section class="reports section" id="reportes" data-vista-de="reportar cuenta">
+    <section class="reports section" id="reportes" data-vista-de="cuenta">
       <div class="shell">
-        <div class="section-heading split-heading" data-vista-de="reportar">
-          <div>
-            <p class="kicker">Canil Parque 3 Poniente</p>
-            <h2>Reporta lo que necesita atención.</h2>
-          </div>
-          <p>Agua, limpieza, seguridad o infraestructura. Puedes reportar sin iniciar sesión; nada se publica antes de ser revisado.</p>
-        </div>
-
         <div class="report-grid">
-          <form class="report-form card" data-report-form data-vista-de="reportar" novalidate>
-            <div class="card-heading">
-              <span class="card-mark" aria-hidden="true">＋</span>
-              <div><p class="kicker">Nuevo reporte</p><h3>Cuéntanos qué observaste</h3></div>
-            </div>
-
-            <label class="field">
-              <span>Categoría</span>
-              <select name="categoria" required>
-                <option value="">Selecciona una opción</option>
-                <option value="agua">Agua</option>
-                <option value="limpieza">Limpieza</option>
-                <option value="seguridad">Seguridad</option>
-                <option value="infraestructura">Infraestructura</option>
-              </select>
-            </label>
-
-            <label class="field">
-              <span>Descripción breve</span>
-              <textarea name="descripcion" minlength="20" maxlength="600" rows="5" required placeholder="Ej.: El bebedero no tiene agua desde esta mañana." aria-describedby="description-help"></textarea>
-              <small id="description-help"><span data-description-count>0</span>/600 caracteres · mínimo 20</small>
-            </label>
-
-            <label class="field">
-              <span>Fecha y hora aproximadas</span>
-              <input type="datetime-local" name="observado_en" required>
-            </label>
-
-            <label class="trap-field" aria-hidden="true">
-              <span>Sitio web</span>
-              <input type="text" name="sitio_web" tabindex="-1" autocomplete="off">
-            </label>
-
-            <div class="privacy-note">
-              <span aria-hidden="true">◇</span>
-              <p><strong>Privado hasta verificar.</strong> Tu reporte parte como pendiente. Si se publica, nunca incluirá tu identidad.</p>
-            </div>
-
-            <button class="button button-primary form-submit" type="submit" data-report-submit>Enviar reporte <span aria-hidden="true">→</span></button>
-            <p class="form-message" data-report-message aria-live="polite"></p>
-            <p class="emergency-note">Si existe peligro inmediato para personas o animales, contacta a los servicios de emergencia correspondientes.</p>
-          </form>
-
           <div class="report-side" data-vista-de="cuenta">
             <section class="account-card card" id="cuenta" data-account-card aria-labelledby="account-title">
               <div class="card-heading compact" data-account-heading>
@@ -595,30 +543,7 @@
 
 
 
-        <section class="public-reports" data-vista-de="reportar" aria-labelledby="public-reports-title">
-          <div class="list-heading public-heading">
-            <div><p class="kicker">Información comunitaria</p><h3 id="public-reports-title">Reportes verificados</h3></div>
-            <p>Solo aparecen casos revisados o cerrados. La identidad de quien reportó nunca se muestra.</p>
-          </div>
-          <div class="report-loop" data-report-stats>
-            <div class="pilot-stats" aria-label="Estadísticas públicas del canal de reportes">
-              <div><strong data-stat-reportados>—</strong><span>reportados</span></div>
-              <div><strong data-stat-resueltos>—</strong><span>resueltos</span></div>
-              <div><strong data-stat-dias>—</strong><span>días promedio de resolución</span></div>
-            </div>
-            <div class="report-recurrence">
-              <p class="kicker">Lo más reportado</p>
-              <ul data-report-recurrence>
-                <li class="empty-state">Cargando recurrencia…</li>
-              </ul>
-            </div>
-          </div>
-          <div class="report-list public-list" data-public-reports>
-            <p class="empty-state">Cargando reportes verificados…</p>
-          </div>
-        </section>
-
-        <section class="moderator-panel card" data-moderator-panel data-vista-de="reportar" hidden aria-labelledby="moderator-title">
+        <section class="moderator-panel card" data-moderator-panel data-vista-de="cuenta" hidden aria-labelledby="moderator-title">
           <div class="list-heading">
             <div><p class="kicker">Moderación</p><h3 id="moderator-title">Bandeja del piloto</h3></div>
             <span class="count-badge" data-moderator-count>0</span>
