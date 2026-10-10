@@ -1476,3 +1476,18 @@ dialog.feed-historia-dialog::backdrop { background: #000; }
 .cal-nuevo { width: 100%; background: var(--logo-verde); color: var(--logo-crema); border: 0; border-radius: 999px; padding: 11px 18px; font: inherit; font-weight: 800; cursor: pointer; }
 .cal-demo { margin: 10px 0 0; font-size: .78rem; color: rgba(6, 61, 36, .65); }
 @media (max-width: 760px) { .cal-layout { grid-template-columns: 1fr; } .cal-grid { padding: 8px; } .cal-chip { padding: 6px 11px; font-size: .86rem; } }
+
+/* ===== Ayudar: panel de resumen ===== */
+.ayd-dash { background: #fff; border: 1px solid rgba(6, 61, 36, .12); border-radius: 18px; padding: 18px; margin: 0 0 20px; color: var(--logo-verde); font-family: 'Nunito', system-ui, sans-serif; }
+.ayd-dash[hidden] { display: none; }
+.ayd-dash h3 { margin: 0 0 12px; font-size: 1.1rem; }
+.ayd-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-bottom: 14px; }
+.ayd-tile { display: grid; gap: 2px; padding: 12px 14px; border-radius: 14px; background: var(--logo-crema); }
+.ayd-tile strong { font-size: 1.7rem; line-height: 1.1; }
+.ayd-tile span { font-size: .82rem; color: rgba(6, 61, 36, .72); font-weight: 700; }
+.ayd-barra { display: flex; height: 14px; border-radius: 999px; overflow: hidden; background: rgba(6, 61, 36, .08); }
+.ayd-seg, .ayd-pt { background: #8aa; }
+.e-rec { background: #ec8f1c; } .e-meta { background: #7bc79a; } .e-prog { background: #2f8f9d; } .e-ejec { background: #7a5fb8; } .e-comp { background: #0a6b3f; }
+.ayd-leyenda { list-style: none; display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 10px 0 0; padding: 0; font-size: .84rem; font-weight: 700; }
+.ayd-leyenda li { display: inline-flex; align-items: center; gap: 6px; }
+.ayd-pt { width: 10px; height: 10px; border-radius: 50%; }

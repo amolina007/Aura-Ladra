@@ -183,6 +183,11 @@ de su mascota (`js/feed.js`), se publica al instante y cualquiera puede denuncia
 en `localStorage` (imágenes reducidas a 960 px), con ejemplos «(ejemplo)». Falta el servidor (tabla, Storage y
 revisión de denuncias por moderación). Evento `feed:cambio`; `window.auraLadraFeed.posts()`.
 
+## Ayudar: panel de resumen
+
+Arriba de la lista de Ayudar hay un panel («Así va la ayuda») con acciones publicadas, ya financiadas, completadas y total aportado
+(simulado), más una barra por estado. Se calcula en `js/acciones.js` (`dibujarDash`) con todas las acciones públicas, sin filtros.
+
 ## Mapa: Calendario
 
 Mapa tiene dos pestañas: **Mapa** y **Calendario** (`js/eventos.js`). El calendario junta fechas automáticas (cierre de

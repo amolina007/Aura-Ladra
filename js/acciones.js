@@ -225,8 +225,47 @@
     <button class="button-verde" type="button" data-abrir="${esc(a.id)}">Ver acción</button>
   </article>`;
 
+  // ---------- Panel de resumen: cuántas acciones se han financiado y completado ----------
+  const ESTADOS_DASH = [
+    ['recaudando', 'Recaudando', 'e-rec'], ['meta_alcanzada', 'Meta alcanzada', 'e-meta'],
+    ['programada', 'Programadas', 'e-prog'], ['en_ejecucion', 'En ejecución', 'e-ejec'], ['completada', 'Completadas', 'e-comp'],
+  ];
+  const dibujarDash = async () => {
+    const box = root.querySelector('[data-ayudar-dash]');
+    if (!box) return;
+    let todas = [];
+    try { todas = await api.listar({}); } catch { box.hidden = true; return; }
+    box.hidden = false;
+    const n = (e) => todas.filter((a) => a.estado === e).length;
+    const financiadas = todas.filter((a) => ['meta_alcanzada', 'programada', 'en_ejecucion', 'completada'].includes(a.estado)).length;
+    const total = todas.reduce((s, a) => s + (Number(a.recaudado_clp) || 0), 0);
+    const tiles = [[String(todas.length), 'Acciones publicadas'], [String(financiadas), 'Ya financiadas'], [String(n('completada')), 'Completadas'], [`$${new Intl.NumberFormat('es-CL').format(total)}`, 'Aportado (simulado)']];
+    const cont = box.querySelector('[data-ayd-tiles]');
+    cont.replaceChildren(...tiles.map(([v, t]) => {
+      const d = document.createElement('div'); d.className = 'ayd-tile';
+      const b = document.createElement('strong'); b.textContent = v;
+      const s = document.createElement('span'); s.textContent = t;
+      d.append(b, s); return d;
+    }));
+    const barra = box.querySelector('[data-ayd-barra]');
+    const ley = box.querySelector('[data-ayd-leyenda]');
+    barra.replaceChildren(); ley.replaceChildren();
+    ESTADOS_DASH.forEach(([e, txt, cls]) => {
+      const c = n(e);
+      if (c && todas.length) {
+        const seg = document.createElement('span'); seg.className = `ayd-seg ${cls}`;
+        seg.style.width = `${(c / todas.length) * 100}%`; barra.append(seg);
+      }
+      const li = document.createElement('li');
+      const pt = document.createElement('span'); pt.className = `ayd-pt ${cls}`; pt.setAttribute('aria-hidden', 'true');
+      li.append(pt, document.createTextNode(`${txt}: ${c}`)); ley.append(li);
+    });
+    barra.setAttribute('aria-label', `De ${todas.length} acciones: ${ESTADOS_DASH.map(([e, t]) => `${t.toLowerCase()} ${n(e)}`).join(', ')}`);
+  };
+
   const cargarLista = async () => {
     el.lista.innerHTML = '<p class="ayudar-vacio">Cargando acciones…</p>';
+    dibujarDash();
     try {
       const items = await api.listar(filtros());
       el.lista.innerHTML = items.length
