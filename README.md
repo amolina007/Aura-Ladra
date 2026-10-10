@@ -200,7 +200,12 @@ consultar al responsable desde el perfil y registrar un vínculo privado desde e
 punto de encuentro en texto, invitaciones, confirmación con personas y mascotas propias, cancelación y actualización por quien organiza,
 y `encuentros_visibles(desde, hasta)` que alimentará Mapa y Calendario con el mismo conjunto. Sin domicilios ni ubicación en tiempo real; la
 visibilidad «grupo» llega con la migración de grupos. Prueba: `supabase/tests/encuentros_prueba.sql` (20 comprobaciones, pasaron en base
-desechable). **El sitio todavía no usa esta migración**: el calendario de Locaciones sigue con eventos propios en demo hasta conectarla.
+desechable). **Interfaz (`js/encuentros.js`)**: el Calendario de Locaciones tiene el filtro «Encuentros», «Proponer un encuentro», confirmar o rechazar asistencia
+(con personas y mascotas propias), cancelar (quien organiza), «Ver en el mapa» (enfoca el lugar) y «Guardar en calendario» (.ics). Sin la migración
+aplicada, el botón queda desactivado con una explicación y no se muestra ningún encuentro inventado. Probado con un servidor simulado en el navegador
+(jsdom); **no verificado contra Supabase**. «Agregar evento propio (demo)» sigue siendo local al navegador.
+**Pendiente:** invitar a personas concretas (hoy un encuentro privado solo lo ve quien lo organiza), consultar al organizador, actualizar desde la interfaz,
+y conservar zona y filtros al alternar Mapa y Calendario (hoy se conservan fecha y mes del calendario, y los filtros de cada vista por separado).
 
 ## Navegación (cinco secciones)
 

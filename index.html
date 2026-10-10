@@ -231,6 +231,7 @@
             <button class="cal-chip" type="button" data-cal-filtro="ayudar" aria-pressed="false"><span class="cal-punto t-ayudar" aria-hidden="true"></span>Ayudar</button>
             <button class="cal-chip" type="button" data-cal-filtro="perdida" aria-pressed="false"><span class="cal-punto t-perdida" aria-hidden="true"></span>Mascotas perdidas</button>
             <button class="cal-chip" type="button" data-cal-filtro="puesto" aria-pressed="false"><span class="cal-punto t-puesto" aria-hidden="true"></span>Comida y agua</button>
+            <button class="cal-chip" type="button" data-cal-filtro="encuentro" aria-pressed="false"><span class="cal-punto t-encuentro" aria-hidden="true"></span>Encuentros</button>
             <button class="cal-chip" type="button" data-cal-filtro="propio" aria-pressed="false"><span class="cal-punto t-propio" aria-hidden="true"></span>Mis eventos</button>
           </div>
           <div class="cal-layout">
@@ -238,7 +239,9 @@
             <aside class="cal-dia" aria-live="polite">
               <h4 data-cal-dia-titulo></h4>
               <ul class="cal-lista" data-cal-dia-lista></ul>
-              <button class="cal-nuevo" type="button" data-cal-nuevo>＋ Agregar evento propio</button>
+              <button class="cal-nuevo" type="button" data-enc-nuevo>＋ Proponer un encuentro</button>
+              <p class="cal-demo" data-enc-aviso aria-live="polite"></p>
+              <button class="cal-nuevo cal-nuevo-sec" type="button" data-cal-nuevo>＋ Agregar evento propio (demo)</button>
               <p class="cal-demo" data-cal-demo>Tus eventos se guardan solo en este navegador (modo demo).</p>
             </aside>
           </div>
@@ -664,6 +667,39 @@
       </form>
     </div>
   </dialog>
+  <dialog class="human-profile-dialog feed-dialog" data-enc-dialog aria-labelledby="enc-dialog-title">
+    <form method="dialog" data-enc-form novalidate>
+      <button class="pet-profile-close" type="button" data-enc-close aria-label="Cerrar">×</button>
+      <h3 id="enc-dialog-title">Proponer un encuentro</h3>
+      <label>Tipo<select name="tipo"><option value="paseo">Paseo coordinado</option><option value="junta_canil">Junta de canil</option><option value="jornada_adopcion">Jornada de adopción</option><option value="campana">Campaña</option><option value="mantenimiento_estacion">Mantenimiento de estación</option><option value="otro">Otro</option></select></label>
+      <label>Título<input name="titulo" type="text" maxlength="80" required autocomplete="off"></label>
+      <label>Fecha<input name="fecha" type="date" required></label>
+      <label>Hora de inicio<input name="hora" type="time" required></label>
+      <label>Hora de término (opcional)<input name="termino" type="time"></label>
+      <label>Lugar<select name="lugar" data-enc-lugares><option value="">Otro punto de encuentro (lo escribo)</option></select></label>
+      <label>Punto de encuentro<input name="lugar_texto" type="text" maxlength="120" placeholder="Ej.: Entrada del parque. Sin domicilios" autocomplete="off"></label>
+      <label>Quién puede verlo<select name="visibilidad"><option value="privado">Solo quien yo invite</option><option value="publico">Cualquier persona con sesión</option></select></label>
+      <label>Descripción (opcional)<textarea name="descripcion" rows="2" maxlength="600"></textarea></label>
+      <label>Condiciones de participación (opcional)<textarea name="condiciones" rows="2" maxlength="400" placeholder="Ej.: perros con correa"></textarea></label>
+      <label>Qué necesita tu animal para interactuar (opcional)<textarea name="necesidades" rows="2" maxlength="300" placeholder="Ej.: se pone nervioso con perros muy grandes"></textarea></label>
+      <p class="cal-demo">Describir lo que necesita un animal no promete compatibilidad ni seguridad. Invitar a personas concretas llegará más adelante.</p>
+      <p class="action-feedback" data-enc-message aria-live="polite"></p>
+      <button class="feed-publicar" type="submit">Proponer encuentro</button>
+    </form>
+  </dialog>
+
+  <dialog class="human-profile-dialog feed-dialog" data-enc-resp-dialog aria-labelledby="enc-resp-title">
+    <form method="dialog" data-enc-resp-form novalidate>
+      <button class="pet-profile-close" type="button" data-enc-resp-close aria-label="Cerrar">×</button>
+      <h3 id="enc-resp-title">Confirmar asistencia</h3>
+      <p data-enc-resp-resumen></p>
+      <label>Personas que asisten (contándote)<input name="personas" type="number" min="1" max="10" value="1"></label>
+      <fieldset class="tarea-destino" data-enc-resp-mascotas><legend>Mascotas que llevas</legend></fieldset>
+      <p class="action-feedback" data-enc-resp-message aria-live="polite"></p>
+      <button class="feed-publicar" type="submit">Confirmar</button>
+    </form>
+  </dialog>
+
   <dialog class="human-profile-dialog feed-dialog" data-cal-dialog aria-labelledby="cal-dialog-title">
     <form method="dialog" data-cal-form novalidate>
       <button class="pet-profile-close" type="button" data-cal-close aria-label="Cerrar">×</button>
@@ -895,6 +931,7 @@
 <script src="js/feed.js"></script>
 <script src="js/eventos.js"></script>
 <script src="js/descubrir.js"></script>
+<script src="js/encuentros.js"></script>
 <script src="js/arbol.js"></script>
 <script src="js/vistas.js"></script>
 <script defer src="https://convergenciaaura.cl/aura-hub.js"></script>

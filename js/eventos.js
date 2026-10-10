@@ -10,7 +10,7 @@
   const $ = (s, r = root) => r.querySelector(s);
   const KEY = 'auraladra.demo.eventos.v1';
   const TIPOS = {
-    ayudar: 'Ayudar', perdida: 'Mascota perdida', puesto: 'Comida y agua', propio: 'Mi evento',
+    ayudar: 'Ayudar', perdida: 'Mascota perdida', puesto: 'Comida y agua', encuentro: 'Encuentro', propio: 'Mi evento (demo)',
   };
   const MESES = new Intl.DateTimeFormat('es-CL', { month: 'long', year: 'numeric' });
   const DIA_LARGO = new Intl.DateTimeFormat('es-CL', { weekday: 'long', day: 'numeric', month: 'long' });
@@ -26,7 +26,8 @@
   let mes = new Date(); mes.setDate(1);
   let elegido = clave(new Date());
   let ubicacion = null;
-  let externos = { ayudar: [], perdida: [], puesto: [] };
+  let externos = { ayudar: [], perdida: [], puesto: [], encuentro: [] };
+  const fuentes = []; // fuentes externas de eventos (js/encuentros.js): async (desde, hasta) => eventos[]
 
   // ---------- Eventos propios (demo) ----------
   const leer = () => { try { const v = JSON.parse(localStorage.getItem(KEY)); return Array.isArray(v) ? v : []; } catch { return []; } };
@@ -50,7 +51,11 @@
       const d = aFecha(p.ultima_reposicion); if (!d) return null;
       return { id: `pu-${p.id}`, tipo: 'puesto', titulo: `Reposición en ${p.nombre}`, fecha: d, conHora: false, lugar: p.direccion_publica || '', detalle: p.necesidad || '', ir: 'mapa', filtroMapa: 'puesto' };
     }).filter(Boolean);
-    externos = { ayudar, perdida, puesto };
+    const desde = new Date(mes.getFullYear(), mes.getMonth(), 1);
+    const hasta = new Date(mes.getFullYear(), mes.getMonth() + 1, 1);
+    let encuentro = [];
+    for (const f of fuentes) { try { encuentro = encuentro.concat(await f(desde, hasta)); } catch { /* una fuente caída no rompe el calendario */ } }
+    externos = { ayudar, perdida, puesto, encuentro };
   };
 
   const todos = () => {
@@ -58,7 +63,7 @@
       const d = aFecha(e.fecha); if (!d) return null;
       return { id: e.id, tipo: 'propio', titulo: e.titulo, fecha: d, conHora: !!e.hora, lugar: e.lugar || '', detalle: e.detalle || '', lat: e.lat, lng: e.lng, ir: 'mapa' };
     }).filter(Boolean);
-    return [...externos.ayudar, ...externos.perdida, ...externos.puesto, ...propios]
+    return [...externos.ayudar, ...externos.perdida, ...externos.puesto, ...externos.encuentro, ...propios]
       .filter((e) => filtro === 'todos' || e.tipo === filtro)
       .sort((a, b) => a.fecha - b.fecha);
   };
@@ -122,7 +127,9 @@
       if (e.lugar) li.append(el('span', 'cal-ev-lugar', e.lugar));
       if (e.detalle) li.append(el('span', 'cal-ev-detalle', e.detalle));
       const fila = el('div', 'cal-ev-acc');
-      if (e.tipo === 'ayudar') fila.append(accion('Ir a Ayudar', () => irA(e)));
+      if (e.nota) li.append(el('span', 'cal-ev-nota', e.nota));
+      if (Array.isArray(e.acciones)) e.acciones.forEach((a) => fila.append(accion(a.txt, () => a.fn(e), a.cls || 'cal-link')));
+      if (e.tipo === 'encuentro') { /* sus acciones vienen en e.acciones */ } else if (e.tipo === 'ayudar') fila.append(accion('Ir a Ayudar', () => irA(e)));
       else if (e.tipo === 'propio') {
         if (typeof e.lat === 'number') fila.append(accion('Ver en el mapa', () => irA(e)));
         fila.append(accion('Eliminar', () => { escribir(leer().filter((x) => x.id !== e.id)); dibujar(); }, 'cal-link cal-eliminar'));
@@ -164,9 +171,9 @@
   });
 
   // ---------- Controles ----------
-  $('[data-cal-prev]').addEventListener('click', () => { mes = new Date(mes.getFullYear(), mes.getMonth() - 1, 1); dibujar(); });
-  $('[data-cal-sig]').addEventListener('click', () => { mes = new Date(mes.getFullYear(), mes.getMonth() + 1, 1); dibujar(); });
-  $('[data-cal-hoy]').addEventListener('click', () => { const h = new Date(); mes = new Date(h.getFullYear(), h.getMonth(), 1); elegido = clave(h); dibujar(); });
+  $('[data-cal-prev]').addEventListener('click', () => { mes = new Date(mes.getFullYear(), mes.getMonth() - 1, 1); refrescar(); });
+  $('[data-cal-sig]').addEventListener('click', () => { mes = new Date(mes.getFullYear(), mes.getMonth() + 1, 1); refrescar(); });
+  $('[data-cal-hoy]').addEventListener('click', () => { const h = new Date(); mes = new Date(h.getFullYear(), h.getMonth(), 1); elegido = clave(h); refrescar(); });
   $('[data-cal-grid]').addEventListener('click', (ev) => {
     const b = ev.target.closest('[data-cal-dia]'); if (!b) return;
     elegido = b.dataset.calDia; dibujar();
@@ -214,5 +221,5 @@
   });
 
   ['alertas:cambio', 'acciones:listas', 'puestos:cambio', 'ayuda:cambio'].forEach((n) => document.addEventListener(n, () => { if (!root.hidden) refrescar(); }));
-  window.auraLadraEventos = { todos, abrir: () => { mostrarPanel('calendario'); window.auraLadraVistas?.ir('mapa'); } };
+  window.auraLadraEventos = { todos, refrescar, verMapa: () => { mostrarPanel('mapa'); window.auraLadraVistas?.ir('mapa'); }, fuente: (f) => { fuentes.push(f); }, elegirDia: (iso) => { elegido = iso; }, abrir: () => { mostrarPanel('calendario'); window.auraLadraVistas?.ir('mapa'); } };
 })();

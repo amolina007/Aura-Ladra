@@ -1550,3 +1550,8 @@ dialog.feed-historia-dialog::backdrop { background: #000; }
 .ficha-btn:disabled { opacity: .5; cursor: not-allowed; }
 .ficha-btn:focus-visible { outline: 3px solid var(--logo-naranja); outline-offset: 2px; }
 .ficha-social-nota { margin: 0; flex: 1 1 200px; font-size: .88rem; color: rgba(6, 61, 36, .8); }
+.cal-punto.t-encuentro { background: #7a5fb8; }
+.cal-ev.t-encuentro { border-left-color: #7a5fb8; }
+.cal-ev-nota { font-size: .8rem; color: rgba(6, 61, 36, .7); }
+.cal-nuevo:disabled { opacity: .5; cursor: not-allowed; }
+.cal-nuevo-sec { margin-top: 10px; background: #fff; color: var(--logo-verde); border: 1px solid var(--logo-verde); }

@@ -1676,6 +1676,24 @@
     return true;
   };
 
+  // Puente para el calendario (js/eventos.js, js/encuentros.js): lugares públicos y enfocar el mapa.
+  window.auraLadraMapa = {
+    lugares: () => publicPlaces.filter((p) => p.id && p.latitud !== null && p.longitud !== null && !['mascota_perdida'].includes(p.categoria)).map((p) => ({ id: p.id, nombre: p.nombre, categoria: p.categoria })),
+    lugar: (id) => publicPlaces.find((p) => p.id === id) || null,
+    // Centra el mapa en un lugar (por id) y abre un globo con el título; se llama tras mostrar la pestaña Mapa.
+    enfocar: (id, titulo) => {
+      const place = publicPlaces.find((p) => p.id === id);
+      if (!communityMap || !place || place.latitud === null || place.longitud === null || !window.L) return false;
+      const globo = document.createElement('div');
+      const t = document.createElement('strong'); t.textContent = titulo || place.nombre;
+      const m = document.createElement('small'); m.textContent = place.nombre;
+      globo.append(t, document.createElement('br'), m);
+      communityMap.setView([Number(place.latitud), Number(place.longitud)], 16);
+      window.L.popup().setLatLng([Number(place.latitud), Number(place.longitud)]).setContent(globo).openOn(communityMap);
+      return true;
+    },
+  };
+
   // Puente para js/descubrir.js (filtros, seguir y guardar). Solo expone datos públicos ya cargados.
   window.auraLadraRed = {
     animales: () => publicAnimals,
