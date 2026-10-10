@@ -1343,7 +1343,8 @@ button.circ-cell:hover, button.circ-cell:focus-visible, .circ-item-fila:hover { 
 .brand-icono { display: block; width: 46px; height: 46px; border-radius: 50%; transition: box-shadow .15s, transform .15s; }
 .brand-sesion:hover .brand-icono, .brand-sesion:focus-visible .brand-icono { box-shadow: 0 0 0 3px rgba(236, 143, 28, .45); }
 .brand-sesion:focus-visible { outline: 2px solid var(--logo-naranja); outline-offset: 3px; }
-.brand-sesion.on .brand-icono { box-shadow: 0 0 0 3px #3fa56b; }
+.brand-sesion.on .brand-icono, .brand-sesion[data-estado="on"] .brand-icono { box-shadow: 0 0 0 3px #3fa56b; }
+.brand-sesion[data-estado="off"] .brand-icono { box-shadow: 0 0 0 3px #d9473f; }
 .brand-sesion.on::after { background: #3fa56b; border-color: var(--logo-crema); }
 .brand-palabra { display: block; height: 23px; width: auto; }
 .site-nav a { color: rgba(6, 61, 36, .78); }

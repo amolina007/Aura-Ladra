@@ -2964,8 +2964,8 @@
   }
   function onEscSessionMenu(event) { if (event.key === 'Escape') closeSessionMenu(); }
 
-  sessionChip?.addEventListener('click', () => {
-    if (!currentSession?.user) {
+  const handleSessionChip = (soloLogin) => {
+    if (!currentSession?.user || soloLogin) {
       closeSessionMenu();
       const messageEl = loginDialog?.querySelector('[data-auth-message]');
       if (messageEl) setMessage(messageEl);
@@ -3011,7 +3011,14 @@
       document.addEventListener('click', onClickOutsideSessionMenu, true);
       document.addEventListener('keydown', onEscSessionMenu);
     }, 0);
+  };
+  // El menú común de Convergencia Aura (proyectos, clasificación y wallet) lo abre aura-hub.js desde
+  // data-aura-hub, con la estética de LadraAura. Si ese script no cargó, queda el menú corto de siempre.
+  sessionChip?.addEventListener('click', () => {
+    if (window.AuraHub) return;
+    handleSessionChip(false);
   });
+  sessionChip?.addEventListener('aura-hub:login', () => handleSessionChip(true));
 
   loginDialog?.addEventListener('click', (event) => {
     if (event.target === loginDialog || event.target.closest('[data-login-close]')) loginDialog.close();
