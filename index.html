@@ -32,20 +32,39 @@
         </a>
       </div>
 
+      <div class="header-accesos" aria-label="Accesos rápidos">
+        <a class="hdr-acc" href="#most-wanted" aria-label="Avisos de mascota perdida o encontrada" title="Avisos de mascota perdida o encontrada"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17v.5"/></svg></a>
+        <button class="hdr-acc" type="button" disabled aria-label="Mensajes (próximamente)" title="Mensajes: próximamente"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 5h16v11H9l-5 4z"/></svg></button>
+        <button class="hdr-acc" type="button" disabled aria-label="Notificaciones (próximamente)" title="Notificaciones: próximamente"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 17V11a6 6 0 0 1 12 0v6l2 2H4z"/><path d="M10 21h4"/></svg></button>
+      </div>
+
       <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav" data-menu-button>
         <span class="sr-only">Abrir menú</span>
         <span></span><span></span><span></span>
       </button>
 
       <nav class="site-nav" id="site-nav" aria-label="Navegación principal" data-nav>
-        <a href="#acciones">Ayuda rápida</a>
-        <a href="#most-wanted">Most Wanted</a>
-        <a href="#mapa">Mapa</a>
-        <a href="#red">Red animal</a>
-        <a href="#ayudar">Ayudar</a>
-        <a href="#comida-agua">Comida y agua</a>
-        <a href="#reportes">Reportar</a>
+        <a href="#inicio">Home</a>
+        <a href="#mapa">Locaciones</a>
+        <a href="#red">Mi red</a>
+        <a href="#ayudar">Aportar</a>
         <a href="#cuenta">Mi cuenta</a>
+        <details class="nav-mas">
+          <summary>Servicios y más</summary>
+          <div class="nav-mas-panel">
+          <p class="nav-mas-t">Servicios</p>
+          <a href="#acciones">Ayuda rápida</a>
+          <a href="#most-wanted">Most Wanted</a>
+          <a href="#comida-agua">Comida y agua</a>
+          <a href="#reportes">Reportar</a>
+          <p class="nav-mas-t">Más</p>
+          <span class="nav-pronto" aria-disabled="true">Guías <small>Pronto</small></span>
+          <span class="nav-pronto" aria-disabled="true">Catálogo de recompensas <small>Pronto</small></span>
+          <span class="nav-pronto" aria-disabled="true">Ayuda <small>Pronto</small></span>
+          <span class="nav-pronto" aria-disabled="true">Configuración <small>Pronto</small></span>
+          <span class="nav-pronto" aria-disabled="true">Información del proyecto <small>Pronto</small></span>
+          </div>
+        </details>
       </nav>
     </div>
   </header>
@@ -160,7 +179,7 @@
       <div class="shell">
         <div class="section-heading split-heading">
           <div>
-            <p class="kicker">Directorio público · Maipú</p>
+            <p class="kicker">Locaciones · Maipú</p>
             <h2>El ecosistema animal de la comuna.</h2>
           </div>
           <p>Explora caniles, veterinarias, urgencias, alimento, tiendas y puntos comunitarios. Los datos abiertos indican su fuente y deben confirmarse antes de una visita.</p>
@@ -254,20 +273,11 @@
     <section class="ayudar section" id="ayudar" data-vista-de="ayudar" data-ayudar aria-labelledby="ayudar-title">
       <div class="shell">
         <div class="section-heading">
-          <p class="kicker">Ayudar</p>
-          <h2 id="ayudar-title">Ayudar</h2>
-          <p>Haz algo concreto por los animales de tu barrio: difundir, limpiar, reparar, reponer. Cada ayuda te da Aura Coins, y tú eliges si te las quedas o las abonas a un proyecto.</p>
+          <p class="kicker">Aportar</p>
+          <h2 id="ayudar-title">Aportar</h2>
+          <p>Apoya con aportes solidarios las acciones concretas que necesitan los animales de tu barrio.</p>
         </div>
         <div data-ayudar-vista-lista>
-          <section class="tareas" data-tareas aria-labelledby="tareas-title">
-            <div class="tareas-cab">
-              <h3 id="tareas-title">Acciones concretas</h3>
-              <p class="tareas-monedero" data-tareas-monedero aria-live="polite"></p>
-            </div>
-            <div class="tareas-filtros" role="group" aria-label="Tipo de acción" data-tareas-filtros></div>
-            <div class="tareas-lista" data-tareas-lista></div>
-            <p class="tareas-nota">Modo demo: las Aura Coins y las tareas se guardan solo en este navegador. En la versión real, alguien del proyecto valida la ayuda antes de entregar las monedas.</p>
-          </section>
           <h3 class="ayudar-sub">Proyectos por financiar</h3>
           <section class="ayd-dash" data-ayudar-dash aria-labelledby="ayd-dash-title">
             <h3 id="ayd-dash-title">Así va la ayuda</h3>
@@ -635,22 +645,6 @@
       </form>
     </div>
   </dialog>
-  <dialog class="human-profile-dialog feed-dialog" data-tarea-dialog aria-labelledby="tarea-dialog-title">
-    <form method="dialog" data-tarea-form novalidate>
-      <button class="pet-profile-close" type="button" data-tarea-close aria-label="Cerrar">×</button>
-      <h3 id="tarea-dialog-title">Marcar como hecha</h3>
-      <p data-tarea-resumen></p>
-      <label>Cuéntanos cómo fue (opcional)<textarea name="nota" rows="3" maxlength="300" placeholder="Ej.: Publiqué en Instagram y Facebook"></textarea></label>
-      <fieldset class="tarea-destino">
-        <legend>¿Qué haces con tus Aura Coins?</legend>
-        <label class="tarea-op"><input type="radio" name="destino" value="mias" checked> <span>Quedármelas</span></label>
-        <label class="tarea-op"><input type="radio" name="destino" value="abonar"> <span data-tarea-abono-txt>Abonarlas al proyecto</span></label>
-      </fieldset>
-      <p class="action-feedback" data-tarea-message aria-live="polite"></p>
-      <button class="feed-publicar" type="submit">Confirmar</button>
-    </form>
-  </dialog>
-
   <dialog class="human-profile-dialog feed-dialog" data-cal-dialog aria-labelledby="cal-dialog-title">
     <form method="dialog" data-cal-form novalidate>
       <button class="pet-profile-close" type="button" data-cal-close aria-label="Cerrar">×</button>
@@ -862,11 +856,11 @@
         </dialog>
 
   <nav class="tabbar" aria-label="Navegación inferior" data-tabbar>
-    <a href="#inicio" data-tabbar-link="inicio"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span>Inicio</span></a>
-    <a href="#mapa" data-tabbar-link="mapa"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg><span>Mapa</span></a>
-    <a href="#red" data-tabbar-link="red"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><ellipse cx="6.5" cy="11" rx="1.8" ry="2.4"/><ellipse cx="10" cy="6.8" rx="1.8" ry="2.4"/><ellipse cx="14.5" cy="6.8" rx="1.8" ry="2.4"/><ellipse cx="18" cy="11" rx="1.8" ry="2.4"/><path d="M12.2 12c2.8 0 5.5 3 5.5 5.6 0 1.8-1.5 2.6-3.1 2.1-1.1-.3-1.8-.5-2.4-.5s-1.3.2-2.4.5c-1.6.5-3.1-.3-3.1-2.1 0-2.6 2.7-5.6 5.5-5.6z"/></svg><span>Red animal</span></a>
-    <a href="#ayudar" data-tabbar-link="ayudar"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-4.6-9-9.2C1.8 8.6 3.6 5 7 5c2 0 3.4 1.1 5 3 1.6-1.9 3-3 5-3 3.4 0 5.2 3.6 4 6.8-2 4.6-9 9.2-9 9.2z"/></svg><span>Ayudar</span></a>
-    <a href="#mi-perfil" data-tabbar-link="perfil"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg><span>Mi perfil</span></a>
+    <a href="#inicio" data-tabbar-link="inicio"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span>Home</span></a>
+    <a href="#mapa" data-tabbar-link="mapa"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg><span>Locaciones</span></a>
+    <a href="#red" data-tabbar-link="red"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><ellipse cx="6.5" cy="11" rx="1.8" ry="2.4"/><ellipse cx="10" cy="6.8" rx="1.8" ry="2.4"/><ellipse cx="14.5" cy="6.8" rx="1.8" ry="2.4"/><ellipse cx="18" cy="11" rx="1.8" ry="2.4"/><path d="M12.2 12c2.8 0 5.5 3 5.5 5.6 0 1.8-1.5 2.6-3.1 2.1-1.1-.3-1.8-.5-2.4-.5s-1.3.2-2.4.5c-1.6.5-3.1-.3-3.1-2.1 0-2.6 2.7-5.6 5.5-5.6z"/></svg><span>Mi red</span></a>
+    <a href="#ayudar" data-tabbar-link="ayudar"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-4.6-9-9.2C1.8 8.6 3.6 5 7 5c2 0 3.4 1.1 5 3 1.6-1.9 3-3 5-3 3.4 0 5.2 3.6 4 6.8-2 4.6-9 9.2-9 9.2z"/></svg><span>Aportar</span></a>
+    <a href="#mi-perfil" data-tabbar-link="perfil"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg><span>Mi cuenta</span></a>
   </nav>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -881,7 +875,6 @@
 <script src="js/puestos.js"></script>
 <script src="js/feed.js"></script>
 <script src="js/eventos.js"></script>
-<script src="js/tareas.js"></script>
 <script src="js/arbol.js"></script>
 <script src="js/vistas.js"></script>
 <script defer src="https://convergenciaaura.cl/aura-hub.js"></script>

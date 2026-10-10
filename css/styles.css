@@ -1517,3 +1517,21 @@ dialog.feed-historia-dialog::backdrop { background: #000; }
 .tarea-destino { border: 1px solid rgba(6, 61, 36, .2); border-radius: 14px; margin: 12px 0; padding: 10px 14px; }
 .tarea-destino legend { font-weight: 800; padding: 0 6px; }
 .feed-dialog .tarea-op { display: flex; align-items: flex-start; gap: 8px; margin: 8px 0; font-weight: 600; }
+
+/* ===== Navegación: cinco secciones, servicios y accesos rápidos ===== */
+.header-accesos { display: flex; align-items: center; gap: 6px; margin-left: auto; margin-right: 8px; }
+.hdr-acc { display: inline-grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(6, 61, 36, .18); background: #fff; color: var(--logo-verde); cursor: pointer; padding: 0; }
+.hdr-acc svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.hdr-acc:disabled { opacity: .45; cursor: not-allowed; }
+.hdr-acc:focus-visible { outline: 3px solid var(--logo-naranja); outline-offset: 2px; }
+.nav-mas { position: relative; }
+.nav-mas summary { cursor: pointer; list-style: none; color: rgba(6, 61, 36, .78); font-size: .94rem; font-weight: 600; }
+.nav-mas summary::-webkit-details-marker { display: none; }
+.nav-mas summary::after { content: ' ▾'; }
+.nav-mas-panel { display: grid; gap: 2px; min-width: 240px; padding: 12px 14px; background: var(--logo-crema); border: 1px solid rgba(6, 61, 36, .14); border-radius: 14px; box-shadow: 0 18px 30px rgba(6, 61, 36, .14); }
+.nav-mas-t { margin: 8px 0 2px; font-size: .78rem; font-weight: 800; color: rgba(6, 61, 36, .6); }
+.nav-pronto { display: flex; justify-content: space-between; gap: 10px; padding: 8px 0; color: rgba(6, 61, 36, .45); font-size: .94rem; font-weight: 600; cursor: not-allowed; }
+.nav-pronto small { font-weight: 800; font-size: .7rem; background: #fdebd0; color: #8a5a10; border-radius: 999px; padding: 2px 8px; align-self: center; }
+@media (min-width: 901px) { .nav-mas-panel { position: absolute; right: 0; top: calc(100% + 10px); z-index: 30; } .header-accesos { margin-left: 16px; } }
+@media (max-width: 900px) { .nav-mas summary { padding: 12px 0; font-size: 1.05rem; border-bottom: 1px solid rgba(6, 61, 36, .1); } .nav-mas-panel { box-shadow: none; border: 0; padding: 4px 0; background: transparent; } .nav-mas-panel a { border-bottom: 0 !important; padding: 8px 0 !important; } }
+@media (min-width: 901px) { .site-header { overflow: visible; } }

@@ -183,14 +183,17 @@ de su mascota (`js/feed.js`), se publica al instante y cualquiera puede denuncia
 en `localStorage` (imágenes reducidas a 960 px), con ejemplos «(ejemplo)». Falta el servidor (tabla, Storage y
 revisión de denuncias por moderación). Evento `feed:cambio`; `window.auraLadraFeed.posts()`.
 
-## Ayudar: acciones concretas y Aura Coins (demo)
+## Navegación (cinco secciones)
 
-Ayudar abre con **Acciones concretas** (`js/tareas.js`): difundir, limpiar, reparar, reponer, acompañar. Cada una da Aura Coins;
-al marcarla como hecha la persona elige **quedárselas** o **abonarlas** al proyecto de la tarea (acción por financiar o puesto de
-Comida y agua; demo: 1 Aura Coin = $100 de avance, evento `tareas:abono`). Debajo siguen los proyectos por financiar.
-Todo es demo en `localStorage`. Pendiente en la versión real: validación de la ayuda por el responsable o moderación antes de
-entregar monedas, saldo y abonos en servidor, y reglas contra abuso. **Aura Coin** sale de «Fuera del MVP» solo en esta forma
-(recompensa por ayuda concreta; no se compra ni se cambia por dinero).
+Barra inferior y menú: **Home** (`#inicio`), **Locaciones** (`#mapa`: Mapa | Calendario), **Mi red** (`#red`), **Aportar**
+(`#ayudar`) y **Mi cuenta** (`#cuenta`). La hamburguesa agrupa Servicios (Ayuda rápida, Most Wanted, Comida y agua, Reportar) y
+Más (Guías, Catálogo de recompensas, Ayuda, Configuración, Información: marcados «Pronto» y desactivados porque aún no existen).
+En la cabecera: Avisos de mascota perdida (lleva a Most Wanted), y Mensajes y Notificaciones, desactivados hasta tener servidor.
+
+## Aura Coins y monedas: retirado de la interfaz
+
+Se probó un prototipo demo de «acciones concretas con Aura Coins» (`js/tareas.js`, ya **sin cargar**). No se muestra en el sitio:
+no se simulan movimientos de Aura Coin ni se inventan reglas económicas hasta tener la definición vigente del sistema.
 
 ## Ayudar: panel de resumen
 

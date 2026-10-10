@@ -245,7 +245,7 @@
     const n = (e) => todas.filter((a) => a.estado === e).length;
     const financiadas = todas.filter((a) => ['meta_alcanzada', 'programada', 'en_ejecucion', 'completada'].includes(a.estado)).length;
     const total = todas.reduce((s, a) => s + (Number(a.recaudado_clp) || 0), 0);
-    const tiles = [[String(todas.length), 'Acciones publicadas'], [String(financiadas), 'Ya financiadas'], [String(n('completada')), 'Completadas'], [`$${new Intl.NumberFormat('es-CL').format(total)}`, 'Aportado']];
+    const tiles = [[String(todas.length), 'Acciones publicadas'], [String(financiadas), 'Ya financiadas'], [String(n('completada')), 'Completadas']];
     const cont = box.querySelector('[data-ayd-tiles]');
     cont.replaceChildren(...tiles.map(([v, t]) => {
       const d = document.createElement('div'); d.className = 'ayd-tile';

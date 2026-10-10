@@ -98,6 +98,8 @@
   // y se repite al terminar de cargar por si el script se mueve más arriba.
   mostrar(idDeHash(window.location.hash), { desplazar: Boolean(window.location.hash) });
   if (document.readyState === 'loading') {
+    // En el celular el menú de servicios va desplegado dentro de la hamburguesa.
+    document.addEventListener('DOMContentLoaded', () => { if (window.matchMedia?.('(max-width: 900px)').matches) document.querySelector('.nav-mas')?.setAttribute('open', ''); });
     document.addEventListener('DOMContentLoaded', () => mostrar(idDeHash(window.location.hash), { desplazar: false }));
   }
 })();
