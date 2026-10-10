@@ -183,6 +183,17 @@ de su mascota (`js/feed.js`), se publica al instante y cualquiera puede denuncia
 en `localStorage` (imágenes reducidas a 960 px), con ejemplos «(ejemplo)». Falta el servidor (tabla, Storage y
 revisión de denuncias por moderación). Evento `feed:cambio`; `window.auraLadraFeed.posts()`.
 
+## Mi red y Descubrir (etapa 1)
+
+Mi red tiene dos pestañas: **Mi red** (tus mascotas, las de amistades y seguidos, y «Animales que sigo») y **Descubrir** (`js/descubrir.js`),
+con búsqueda y filtros por zona, especie, tamaño y edad, y «solo guardados». En la ficha de un animal ajeno hay **Seguir** y **Guardar**:
+seguir no es registrar una relación y no da acceso a datos privados. Funciones del servidor en
+`supabase/migrations/20261010000000_seguir_y_guardar_animales.sql` (**preparada, no aplicada** en ningún entorno: no se pudo crear una rama de
+desarrollo). Prueba: `supabase/tests/seguir_y_guardar_prueba.sql` (17 comprobaciones, pasaron en una base Postgres desechable).
+Hasta aplicarla, los botones aparecen desactivados con una explicación; no se simula nada.
+**Pendiente de la etapa 1:** filtro por propósito (paseos, juego, adopción, acogida; falta el dato en la ficha), proponer encuentro,
+consultar al responsable desde el perfil y registrar un vínculo privado desde el perfil (hoy se hace en Mi cuenta → Fichas y vínculos / Mi círculo).
+
 ## Navegación (cinco secciones)
 
 Barra inferior y menú: **Home** (`#inicio`), **Locaciones** (`#mapa`: Mapa | Calendario), **Mi red** (`#red`), **Aportar**

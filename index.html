@@ -254,14 +254,33 @@
         </div>
 
         <p class="animal-network-summary" data-animal-network-summary aria-live="polite">Consultando la red animal…</p>
+        <div class="red-tabs" role="tablist" aria-label="Mi red o Descubrir" data-red-tabs>
+          <button class="mapa-tab is-active" type="button" role="tab" aria-selected="true" data-red-tab="mi-red">Mi red</button>
+          <button class="mapa-tab" type="button" role="tab" aria-selected="false" tabindex="-1" data-red-tab="descubrir">Descubrir</button>
+        </div>
         <div class="animal-group" data-animal-group="mi-red" hidden>
           <h3 class="animal-group-title">Mi red</h3>
           <p class="animal-group-help">Tus mascotas, las de tus amistades (con ★) y las de las personas que sigues. Las que están extraviadas aparecen primero.</p>
           <div class="animal-grid" data-animal-grid="mi-red"></div>
         </div>
+        <div class="animal-group" data-animal-group="seguidos" hidden>
+          <h3 class="animal-group-title">Animales que sigo</h3>
+          <p class="animal-group-help">Seguir un perfil no crea una relación ni da acceso a datos privados.</p>
+          <p class="seguir-aviso" data-seguir-aviso hidden></p>
+          <div class="animal-grid" data-animal-grid="seguidos"></div>
+        </div>
         <div class="animal-group" data-animal-group="descubrir">
+          <form class="desc-filtros" data-desc-filtros role="search" aria-label="Buscar mascotas" novalidate>
+            <label class="field desc-busqueda"><span>Buscar</span><input type="search" name="q" maxlength="60" placeholder="Nombre o raza" autocomplete="off"></label>
+            <label class="field"><span>Zona</span><input type="text" name="zona" maxlength="60" placeholder="Ej.: Maipú" autocomplete="off"></label>
+            <label class="field"><span>Especie</span><select name="especie"><option value="">Todas</option><option value="perro">Perros</option><option value="gato">Gatos</option><option value="ave">Aves</option><option value="otro">Otras</option></select></label>
+            <label class="field"><span>Tamaño</span><select name="tamano"><option value="">Todos</option><option value="pequeno">Pequeño</option><option value="mediano">Mediano</option><option value="grande">Grande</option><option value="gigante">Gigante</option></select></label>
+            <label class="field"><span>Edad</span><select name="edad"><option value="">Todas</option><option value="cachorro">Menos de 1 año</option><option value="joven">1 a 3 años</option><option value="adulto">3 a 8 años</option><option value="mayor">8 años o más</option></select></label>
+            <label class="desc-check" data-desc-guardados-wrap hidden><input type="checkbox" name="guardados"> <span>Solo guardados</span></label>
+            <button class="text-button" type="reset" data-desc-limpiar>Limpiar</button>
+          </form>
           <h3 class="animal-group-title">Descubrir</h3>
-          <p class="animal-group-help">Mascotas de otros dueños. Las que están extraviadas aparecen primero.</p>
+          <p class="animal-group-help">Mascotas de otros responsables, según la visibilidad que cada uno eligió. No se muestran domicilios ni ubicación en tiempo real. Las extraviadas aparecen primero.</p>
           <div class="animal-grid" data-animal-grid="descubrir">
             <p class="empty-state">Cargando animales…</p>
           </div>
@@ -875,6 +894,7 @@
 <script src="js/puestos.js"></script>
 <script src="js/feed.js"></script>
 <script src="js/eventos.js"></script>
+<script src="js/descubrir.js"></script>
 <script src="js/arbol.js"></script>
 <script src="js/vistas.js"></script>
 <script defer src="https://convergenciaaura.cl/aura-hub.js"></script>

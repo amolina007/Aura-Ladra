@@ -870,12 +870,15 @@
     // Tus mascotas van con su ficha completa; las demás, con la ficha pública.
     const network = [...ownAnimals, ...publicAnimals.filter((animal) => !ownIds.has(animal.id) && inNetwork(animal))];
     fillAnimalGrid(document.querySelector('[data-animal-grid="mi-red"]'), network, 'Todavía no tienes mascotas. Crea su ficha en “Mi cuenta”.');
-    const discover = publicAnimals.filter((animal) => !ownIds.has(animal.id) && !inNetwork(animal));
+    const allDiscover = publicAnimals.filter((animal) => !ownIds.has(animal.id) && !inNetwork(animal));
+    // Los filtros de Descubrir (js/descubrir.js) solo reducen lo que se muestra.
+    const discover = allDiscover.filter((animal) => window.auraLadraRed?.filtro?.(animal) ?? true);
     fillAnimalGrid(
       document.querySelector('[data-animal-grid="descubrir"]'),
       discover,
-      publicAnimals.length ? 'Por ahora no hay otras mascotas por descubrir.' : 'La primera red de animales está en preparación.',
+      allDiscover.length && !discover.length ? 'Ninguna mascota coincide con estos filtros. Prueba quitando alguno.' : publicAnimals.length ? 'Por ahora no hay otras mascotas por descubrir.' : 'La primera red de animales está en preparación.',
     );
+    document.dispatchEvent(new CustomEvent('red:cambio'));
   };
 
   async function loadAnimalNetwork() {
@@ -1671,6 +1674,17 @@
     if (!animal) return false;
     showPetProfile(animal);
     return true;
+  };
+
+  // Puente para js/descubrir.js (filtros, seguir y guardar). Solo expone datos públicos ya cargados.
+  window.auraLadraRed = {
+    animales: () => publicAnimals,
+    propias: () => ownAnimals,
+    sesion: () => currentSession,
+    fichaActual: () => activePetProfile,
+    tarjeta: (animal) => createAnimalCard(animal, animalRelations.get(animal.id)),
+    redibujar: renderAnimalGrids,
+    filtro: null,
   };
 
   // Puente para «Mi árbol de vínculos»: reutiliza la MISMA ficha (mismo id), no crea otra.

@@ -1535,3 +1535,18 @@ dialog.feed-historia-dialog::backdrop { background: #000; }
 @media (min-width: 901px) { .nav-mas-panel { position: absolute; right: 0; top: calc(100% + 10px); z-index: 30; } .header-accesos { margin-left: 16px; } }
 @media (max-width: 900px) { .nav-mas summary { padding: 12px 0; font-size: 1.05rem; border-bottom: 1px solid rgba(6, 61, 36, .1); } .nav-mas-panel { box-shadow: none; border: 0; padding: 4px 0; background: transparent; } .nav-mas-panel a { border-bottom: 0 !important; padding: 8px 0 !important; } }
 @media (min-width: 901px) { .site-header { overflow: visible; } }
+
+/* ===== Mi red / Descubrir ===== */
+.red-tabs { display: inline-flex; gap: 4px; padding: 4px; margin: 0 0 18px; border-radius: 999px; background: rgba(6, 61, 36, .08); }
+#red.ver-mi-red [data-animal-group="descubrir"], #red.ver-descubrir [data-animal-group="mi-red"], #red.ver-descubrir [data-animal-group="seguidos"] { display: none; }
+.desc-filtros { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; align-items: end; margin: 0 0 18px; padding: 14px; border: 1px solid rgba(6, 61, 36, .12); border-radius: 16px; background: #fff; }
+.desc-busqueda { grid-column: 1 / -1; }
+.desc-check { display: flex; align-items: center; gap: 8px; font-weight: 700; color: var(--logo-verde); }
+.seguir-aviso { margin: 0 0 10px; padding: 10px 14px; border-radius: 12px; background: #fdebd0; color: #7a4a0c; font-size: .9rem; font-weight: 700; }
+.ficha-social { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 14px 0; padding: 12px 14px; border-radius: 14px; background: #eef6f0; }
+.ficha-btn { border: 1px solid var(--logo-verde); background: var(--logo-verde); color: var(--logo-crema); border-radius: 999px; padding: 9px 20px; font: inherit; font-weight: 800; cursor: pointer; }
+.ficha-btn.ficha-btn-sec { background: #fff; color: var(--logo-verde); }
+.ficha-btn.is-on { background: #fdebd0; color: #7a4a0c; border-color: var(--logo-naranja); }
+.ficha-btn:disabled { opacity: .5; cursor: not-allowed; }
+.ficha-btn:focus-visible { outline: 3px solid var(--logo-naranja); outline-offset: 2px; }
+.ficha-social-nota { margin: 0; flex: 1 1 200px; font-size: .88rem; color: rgba(6, 61, 36, .8); }
