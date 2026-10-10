@@ -1491,3 +1491,4 @@ dialog.feed-historia-dialog::backdrop { background: #000; }
 .ayd-leyenda { list-style: none; display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 10px 0 0; padding: 0; font-size: .84rem; font-weight: 700; }
 .ayd-leyenda li { display: inline-flex; align-items: center; gap: 6px; }
 .ayd-pt { width: 10px; height: 10px; border-radius: 50%; }
+.ayd-demo { margin: 10px 0 0; font-size: .78rem; color: rgba(6, 61, 36, .6); }
