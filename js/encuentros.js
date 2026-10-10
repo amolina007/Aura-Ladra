@@ -64,6 +64,8 @@
     acciones.push({ txt: 'Guardar en calendario', fn: () => descargar(r) });
     if (!cancelado && hayCuenta()) {
       if (r.soy_organizador) {
+        acciones.push({ txt: 'Invitar amistades', fn: () => abrirInvitar(r) });
+        acciones.push({ txt: 'Editar', fn: () => abrirEditar(r) });
         acciones.push({ txt: confirmarCancelar === r.id ? 'Sí, cancelar encuentro' : 'Cancelar encuentro', cls: 'cal-link cal-eliminar', fn: async () => {
           if (confirmarCancelar !== r.id) { confirmarCancelar = r.id; window.auraLadraEventos.refrescar(); return; }
           confirmarCancelar = null;
@@ -118,9 +120,62 @@
     dlgR.close(); window.auraLadraEventos.refrescar();
   });
 
+  // ---------- Invitar amistades ----------
+  const dlgI = $('[data-enc-inv-dialog]'); const formI = $('[data-enc-inv-form]'); const msgI = $('[data-enc-inv-message]');
+  let invitando = null;
+  async function abrirInvitar(r) {
+    invitando = r; msgI.textContent = '';
+    $('[data-enc-inv-resumen]').textContent = r.titulo;
+    const caja = $('[data-enc-inv-lista]');
+    caja.replaceChildren(el('legend', null, 'Tus amistades'), el('p', 'cal-demo', 'Cargando…'));
+    dlgI.showModal?.() ?? dlgI.setAttribute('open', '');
+    const yo = window.auraLadraRed?.sesion?.()?.user?.id;
+    try {
+      const { data: am, error } = await db.schema('core').from('amistades').select('usuario_menor,usuario_mayor');
+      if (error) throw error;
+      const ids = (am || []).map((a) => (a.usuario_menor === yo ? a.usuario_mayor : a.usuario_menor));
+      let perfiles = [];
+      if (ids.length) { const res = await db.schema('core').from('perfiles').select('id,alias').in('id', ids); if (res.error) throw res.error; perfiles = res.data || []; }
+      caja.replaceChildren(el('legend', null, 'Tus amistades'));
+      if (!perfiles.length) { caja.append(el('p', 'cal-demo', 'Aún no tienes amistades aceptadas para invitar. Solo se puede invitar a amistades.')); return; }
+      perfiles.forEach((p) => { const l = el('label', 'tarea-op'); const i = document.createElement('input'); i.type = 'checkbox'; i.value = p.id; i.name = 'amigo'; l.append(i, document.createTextNode(' '), el('span', null, p.alias)); caja.append(l); });
+    } catch {
+      caja.replaceChildren(el('legend', null, 'Tus amistades'), el('p', 'cal-demo', 'No pudimos cargar tus amistades. Intenta de nuevo más tarde.'));
+    }
+  }
+  $('[data-enc-inv-close]')?.addEventListener('click', () => dlgI.close());
+  formI?.addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    const ids = [...formI.querySelectorAll('input[name="amigo"]:checked')].map((i) => i.value);
+    if (!ids.length) { msgI.textContent = 'Elige al menos una amistad.'; return; }
+    msgI.textContent = 'Enviando…';
+    const { data, error } = await db.rpc('invitar_a_encuentro', { p_id: invitando.id, p_usuarios: ids });
+    if (error) { msgI.textContent = faltaBackend(error) ? MSG_NO : (error.message || 'No pudimos enviar las invitaciones.'); return; }
+    dlgI.close();
+    aviso.textContent = Number(data) ? `Invitaste a ${cuenta(Number(data), 'amistad', 'amistades')}.` : 'Esas amistades ya estaban invitadas.';
+    window.auraLadraEventos.refrescar();
+  });
+
   // ---------- Proponer ----------
   const dlg = $('[data-enc-dialog]'); const form = $('[data-enc-form]'); const msg = $('[data-enc-message]');
+  let editando = null;
+  const modo = (edicion) => {
+    editando = edicion;
+    $('[data-enc-titulo]').textContent = edicion ? 'Editar encuentro' : 'Proponer un encuentro';
+    $('[data-enc-enviar]').textContent = edicion ? 'Guardar cambios' : 'Proponer encuentro';
+    ['tipo', 'lugar', 'visibilidad'].forEach((n) => { form.elements[n].disabled = !!edicion; });
+  };
+  const aHora = (iso) => { const d = new Date(iso); return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`; };
+  function abrirEditar(r) {
+    modo(r); form.reset(); msg.textContent = '';
+    const f = form.elements; const d = new Date(r.inicia_en);
+    f.titulo.value = r.titulo; f.fecha.value = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    f.hora.value = aHora(r.inicia_en); f.termino.value = r.termina_en ? aHora(r.termina_en) : '';
+    f.lugar_texto.value = r.lugar_texto || ''; f.descripcion.value = r.descripcion || ''; f.condiciones.value = r.condiciones || ''; f.necesidades.value = r.necesidades_animal || '';
+    dlg.showModal?.() ?? dlg.setAttribute('open', '');
+  }
   botonNuevo?.addEventListener('click', () => {
+    modo(null);
     form.reset(); msg.textContent = '';
     const sel = $('[data-enc-lugares]');
     sel.replaceChildren(el('option', null, 'Otro punto de encuentro (lo escribo)'));
@@ -137,11 +192,16 @@
     const titulo = f.titulo.value.trim();
     if (titulo.length < 3) { msg.textContent = 'Escribe un título de al menos 3 letras.'; return; }
     if (!f.fecha.value || !f.hora.value) { msg.textContent = 'Elige fecha y hora de inicio.'; return; }
-    if (!f.lugar.value && !f.lugar_texto.value.trim()) { msg.textContent = 'Elige un lugar o escribe el punto de encuentro.'; return; }
+    if (!editando && !f.lugar.value && !f.lugar_texto.value.trim()) { msg.textContent = 'Elige un lugar o escribe el punto de encuentro.'; return; }
     const inicia = new Date(`${f.fecha.value}T${f.hora.value}`);
     const termina = f.termino.value ? new Date(`${f.fecha.value}T${f.termino.value}`) : null;
     if (termina && termina <= inicia) { msg.textContent = 'La hora de término debe ser después del inicio.'; return; }
     msg.textContent = 'Guardando…';
+    if (editando) {
+      const { error: errE } = await db.rpc('actualizar_encuentro', { p_id: editando.id, p_titulo: titulo, p_descripcion: f.descripcion.value.trim() || null, p_condiciones: f.condiciones.value.trim() || null, p_necesidades_animal: f.necesidades.value.trim() || null, p_inicia_en: inicia.toISOString(), p_termina_en: termina ? termina.toISOString() : null, p_lugar_texto: f.lugar_texto.value.trim() || null });
+      if (errE) { msg.textContent = faltaBackend(errE) ? MSG_NO : (errE.message || 'No pudimos guardar los cambios.'); return; }
+      window.auraLadraEventos.elegirDia(f.fecha.value); dlg.close(); window.auraLadraEventos.refrescar(); return;
+    }
     const { error } = await db.rpc('crear_encuentro', {
       p_tipo: f.tipo.value, p_titulo: titulo, p_inicia_en: inicia.toISOString(), p_termina_en: termina ? termina.toISOString() : null,
       p_lugar_id: f.lugar.value || null, p_lugar_texto: f.lugar_texto.value.trim() || null, p_visibilidad: f.visibilidad.value,

@@ -28,6 +28,7 @@ insert into core.perfiles (id, alias) values (:'ORG', 'org_uno'), (:'AMI', 'ami_
 insert into ladra.animales (id, slug, nombre, especie, estado, creado_por) values
   ('20000000-0000-0000-0000-000000000001', 'rex-b', 'Rex', 'perro', 'publicado', :'AMI'),
   ('20000000-0000-0000-0000-000000000002', 'ajeno-b', 'Ajeno', 'perro', 'publicado', :'ORG');
+insert into core.amistades (usuario_menor, usuario_mayor) values (:'ORG', :'AMI');
 insert into core.bloqueos (bloqueador_id, bloqueado_id) values (:'ORG', :'BLO');
 
 set role authenticated;
@@ -46,7 +47,7 @@ select t2.chk('ajeno solo ve el público', t2.ids(null) = 'Jornada pública');
 select t2.como(null);
 select t2.chk('sin sesión solo ve el público', t2.ids(null) = 'Jornada pública');
 select t2.como(:'ORG');
-select ladra.invitar_a_encuentro((select id from ladra.encuentros_visibles(now(), now() + interval '30 days') where titulo = 'Paseo privado'), array[:'AMI'::uuid, :'BLO'::uuid, :'ORG'::uuid]);
+select t2.chk('invita solo a amistades (no a bloqueado, a sí mismo ni a no-amigos)', ladra.invitar_a_encuentro((select id from ladra.encuentros_visibles(now(), now() + interval '30 days') where titulo = 'Paseo privado'), array[:'AMI'::uuid, :'BLO'::uuid, :'ORG'::uuid, :'EXT'::uuid]) = 1);
 select t2.como(:'AMI');
 select t2.chk('invitada ve el privado', t2.ids(null) = 'Jornada pública,Paseo privado');
 select t2.chk('mi_estado = invitado', (select mi_estado from ladra.encuentros_visibles(now(), now() + interval '30 days') where titulo = 'Paseo privado') = 'invitado');

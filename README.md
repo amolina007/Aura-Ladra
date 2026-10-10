@@ -199,12 +199,13 @@ consultar al responsable desde el perfil y registrar un vínculo privado desde e
 `supabase/migrations/20261010010000_encuentros.sql` (**preparada, no aplicada**): encuentros públicos o privados con lugar público o
 punto de encuentro en texto, invitaciones, confirmación con personas y mascotas propias, cancelación y actualización por quien organiza,
 y `encuentros_visibles(desde, hasta)` que alimentará Mapa y Calendario con el mismo conjunto. Sin domicilios ni ubicación en tiempo real; la
-visibilidad «grupo» llega con la migración de grupos. Prueba: `supabase/tests/encuentros_prueba.sql` (20 comprobaciones, pasaron en base
+visibilidad «grupo» llega con la migración de grupos. Prueba: `supabase/tests/encuentros_prueba.sql` (21 comprobaciones, pasaron en base
 desechable). **Interfaz (`js/encuentros.js`)**: el Calendario de Locaciones tiene el filtro «Encuentros», «Proponer un encuentro», confirmar o rechazar asistencia
 (con personas y mascotas propias), cancelar (quien organiza), «Ver en el mapa» (enfoca el lugar) y «Guardar en calendario» (.ics). Sin la migración
 aplicada, el botón queda desactivado con una explicación y no se muestra ningún encuentro inventado. Probado con un servidor simulado en el navegador
 (jsdom); **no verificado contra Supabase**. «Agregar evento propio (demo)» sigue siendo local al navegador.
-**Pendiente:** invitar a personas concretas (hoy un encuentro privado solo lo ve quien lo organiza), consultar al organizador, actualizar desde la interfaz,
+**Invitaciones:** quien organiza puede invitar a sus **amistades** (Core: amistad aceptada; no a desconocidos ni a personas bloqueadas) y editar título, fecha, hora, lugar en texto y textos del encuentro.
+**Pendiente:** consultar al organizador (requiere la mensajería de Core, aún no conectada), aceptar o rechazar una invitación desde una lista de invitaciones propia (hoy se responde desde el calendario), invitar grupos (llegan con la migración de grupos),
 y conservar zona y filtros al alternar Mapa y Calendario (hoy se conservan fecha y mes del calendario, y los filtros de cada vista por separado).
 
 ## Navegación (cinco secciones)

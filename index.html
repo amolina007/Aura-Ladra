@@ -670,7 +670,7 @@
   <dialog class="human-profile-dialog feed-dialog" data-enc-dialog aria-labelledby="enc-dialog-title">
     <form method="dialog" data-enc-form novalidate>
       <button class="pet-profile-close" type="button" data-enc-close aria-label="Cerrar">×</button>
-      <h3 id="enc-dialog-title">Proponer un encuentro</h3>
+      <h3 id="enc-dialog-title" data-enc-titulo>Proponer un encuentro</h3>
       <label>Tipo<select name="tipo"><option value="paseo">Paseo coordinado</option><option value="junta_canil">Junta de canil</option><option value="jornada_adopcion">Jornada de adopción</option><option value="campana">Campaña</option><option value="mantenimiento_estacion">Mantenimiento de estación</option><option value="otro">Otro</option></select></label>
       <label>Título<input name="titulo" type="text" maxlength="80" required autocomplete="off"></label>
       <label>Fecha<input name="fecha" type="date" required></label>
@@ -682,9 +682,20 @@
       <label>Descripción (opcional)<textarea name="descripcion" rows="2" maxlength="600"></textarea></label>
       <label>Condiciones de participación (opcional)<textarea name="condiciones" rows="2" maxlength="400" placeholder="Ej.: perros con correa"></textarea></label>
       <label>Qué necesita tu animal para interactuar (opcional)<textarea name="necesidades" rows="2" maxlength="300" placeholder="Ej.: se pone nervioso con perros muy grandes"></textarea></label>
-      <p class="cal-demo">Describir lo que necesita un animal no promete compatibilidad ni seguridad. Invitar a personas concretas llegará más adelante.</p>
+      <p class="cal-demo">Describir lo que necesita un animal no promete compatibilidad ni seguridad. Después de crearlo podrás invitar a tus amistades.</p>
       <p class="action-feedback" data-enc-message aria-live="polite"></p>
-      <button class="feed-publicar" type="submit">Proponer encuentro</button>
+      <button class="feed-publicar" type="submit" data-enc-enviar>Proponer encuentro</button>
+    </form>
+  </dialog>
+
+  <dialog class="human-profile-dialog feed-dialog" data-enc-inv-dialog aria-labelledby="enc-inv-title">
+    <form method="dialog" data-enc-inv-form novalidate>
+      <button class="pet-profile-close" type="button" data-enc-inv-close aria-label="Cerrar">×</button>
+      <h3 id="enc-inv-title">Invitar amistades</h3>
+      <p data-enc-inv-resumen></p>
+      <fieldset class="tarea-destino" data-enc-inv-lista><legend>Tus amistades</legend></fieldset>
+      <p class="action-feedback" data-enc-inv-message aria-live="polite"></p>
+      <button class="feed-publicar" type="submit">Enviar invitaciones</button>
     </form>
   </dialog>
 

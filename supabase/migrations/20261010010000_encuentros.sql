@@ -147,7 +147,7 @@ begin
   end if;
 end $$;
 
--- Quien organiza invita a otras personas (siempre se puede, también en encuentros públicos).
+-- Quien organiza invita a sus AMISTADES (amistad aceptada en Core), también en encuentros públicos. Devuelve cuántas invitaciones nuevas se crearon.
 create or replace function ladra.invitar_a_encuentro(p_id uuid, p_usuarios uuid[])
 returns integer
 language plpgsql
@@ -161,12 +161,13 @@ begin
   if not exists (select 1 from ladra.encuentros where id = p_id and organizador_id = v_yo and estado = 'programado') then
     raise exception using errcode = '42501', message = 'Solo quien organiza puede invitar a un encuentro programado.';
   end if;
-  if cardinality(p_usuarios) > 50 then
+  if p_usuarios is null or cardinality(p_usuarios) > 50 then
     raise exception using errcode = '22023', message = 'Invita hasta 50 personas por vez.';
   end if;
   insert into ladra.encuentros_participantes (encuentro_id, usuario_id)
     select p_id, u from unnest(p_usuarios) as u
      where u <> v_yo and exists (select 1 from auth.users x where x.id = u)
+       and core.son_amigos(v_yo, u)        -- solo amistades: no se invita a desconocidos
        and not core.hay_bloqueo(v_yo, u)
     on conflict do nothing;
   get diagnostics v_n = row_count;
