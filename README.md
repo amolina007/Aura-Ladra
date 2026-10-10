@@ -213,7 +213,7 @@ y conservar zona y filtros al alternar Mapa y Calendario (hoy se conservan fecha
 Barra inferior y menú: **Home** (`#inicio`), **Locaciones** (`#mapa`: Mapa | Calendario), **Mi red** (`#red`), **Aportar**
 (`#ayudar`) y **Mi cuenta** (`#cuenta`). La hamburguesa agrupa Servicios (Ayuda rápida, Most Wanted, Comida y agua, Reportar) y
 Más (Guías, Catálogo de recompensas, Ayuda, Configuración, Información: marcados «Pronto» y desactivados porque aún no existen).
-En la cabecera: Avisos de mascota perdida (lleva a Most Wanted), y Mensajes y Notificaciones, desactivados hasta tener servidor.
+En la cabecera: (Se quitaron de la cabecera los tres iconos de Avisos, Mensajes y Notificaciones; Most Wanted sigue en Servicios.)
 
 ## Aura Coins y monedas: retirado de la interfaz
 

@@ -1532,7 +1532,7 @@ dialog.feed-historia-dialog::backdrop { background: #000; }
 .nav-mas-t { margin: 8px 0 2px; font-size: .78rem; font-weight: 800; color: rgba(6, 61, 36, .6); }
 .nav-pronto { display: flex; justify-content: space-between; gap: 10px; padding: 8px 0; color: rgba(6, 61, 36, .45); font-size: .94rem; font-weight: 600; cursor: not-allowed; }
 .nav-pronto small { font-weight: 800; font-size: .7rem; background: #fdebd0; color: #8a5a10; border-radius: 999px; padding: 2px 8px; align-self: center; }
-@media (min-width: 901px) { .nav-mas-panel { position: absolute; right: 0; top: calc(100% + 10px); z-index: 30; } .header-accesos { margin-left: 16px; } }
+@media (min-width: 901px) { .nav-mas-panel { position: absolute; right: 0; top: calc(100% + 10px); z-index: 30; }  }
 @media (max-width: 900px) { .nav-mas summary { padding: 12px 0; font-size: 1.05rem; border-bottom: 1px solid rgba(6, 61, 36, .1); } .nav-mas-panel { box-shadow: none; border: 0; padding: 4px 0; background: transparent; } .nav-mas-panel a { border-bottom: 0 !important; padding: 8px 0 !important; } }
 @media (min-width: 901px) { .site-header { overflow: visible; } }
 
