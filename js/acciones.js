@@ -76,6 +76,7 @@
     const resumen = (a) => ({ id: a.id, titulo: a.titulo, descripcion: a.descripcion, categoria: a.categoria, comuna: a.comuna, urgencia: a.urgencia, estado: a.estado, meta_clp: a.meta_clp, recaudado_clp: a.recaudado_clp, fecha_limite: a.fecha_limite, verificacion: a.verificacion, modo_pago: a.modo_pago, animal_id: null, animal_nombre: null, responsable_alias: a.responsable_alias || 'Tú (demo)', creado_en: a.fecha_limite, ejemplo: !!a.ejemplo });
     return {
       uid: () => d().uid,
+      abonoTarea(id, clp) { const a = d().acciones.find((x) => x.id === id); if (!a) return false; a.recaudado_clp = Math.min(a.meta_clp, a.recaudado_clp + clp); guardar(); return true; },
       async listar(f) {
         vencer(); guardar();
         const orden = { critica: 0, alta: 1, normal: 2 };
@@ -690,6 +691,10 @@
     } catch (e) {
       if (faltaBackend(e)) { modo = 'demo'; api = demo; } else { if (el.modo) el.modo.textContent = 'No pudimos conectar con el servidor. Intenta de nuevo más tarde.'; }
     }
+    document.addEventListener('tareas:abono', (ev) => {
+      const d = ev.detail || {};
+      if (d.tipo === 'accion' && esDemo() && demo.abonoTarea(d.id, Number(d.clp) || 0)) cargarLista();
+    });
     window.auraLadraAcciones = { calendario: () => api.listar({}) };
     document.dispatchEvent(new CustomEvent('acciones:listas'));
     textoModo();

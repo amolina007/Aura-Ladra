@@ -183,6 +183,15 @@ de su mascota (`js/feed.js`), se publica al instante y cualquiera puede denuncia
 en `localStorage` (imágenes reducidas a 960 px), con ejemplos «(ejemplo)». Falta el servidor (tabla, Storage y
 revisión de denuncias por moderación). Evento `feed:cambio`; `window.auraLadraFeed.posts()`.
 
+## Ayudar: acciones concretas y Aura Coins (demo)
+
+Ayudar abre con **Acciones concretas** (`js/tareas.js`): difundir, limpiar, reparar, reponer, acompañar. Cada una da Aura Coins;
+al marcarla como hecha la persona elige **quedárselas** o **abonarlas** al proyecto de la tarea (acción por financiar o puesto de
+Comida y agua; demo: 1 Aura Coin = $100 de avance, evento `tareas:abono`). Debajo siguen los proyectos por financiar.
+Todo es demo en `localStorage`. Pendiente en la versión real: validación de la ayuda por el responsable o moderación antes de
+entregar monedas, saldo y abonos en servidor, y reglas contra abuso. **Aura Coin** sale de «Fuera del MVP» solo en esta forma
+(recompensa por ayuda concreta; no se compra ni se cambia por dinero).
+
 ## Ayudar: panel de resumen
 
 Arriba de la lista de Ayudar hay un panel («Así va la ayuda») con acciones publicadas, ya financiadas, completadas y total aportado
@@ -198,6 +207,5 @@ Las fuentes se leen de `window.auraLadraAcciones`, `window.auraLadraAlertas` y `
 ## Fuera del MVP (decisión ya tomada)
 
 Comentarios, seguidores, chat, marketplace, pagos reales (los aportes
-de Acciones por financiar son solo simulación), Aura Coin,
-reputación, gamificación, GPS en tiempo real público e integración oficial
+de Acciones por financiar son solo simulación), reputación, gamificación, GPS en tiempo real público e integración oficial
 obligatoria con terceros.

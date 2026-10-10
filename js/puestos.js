@@ -328,6 +328,16 @@
   }
   renderLista();
   renderResumen();
+  // Una ayuda concreta (js/tareas.js) abonó sus Aura Coins a este puesto (demo).
+  document.addEventListener('tareas:abono', (ev) => {
+    const d = ev.detail || {};
+    if (d.tipo !== 'puesto') return;
+    const p = buscar(d.id);
+    if (!p) return;
+    p.recaudado_clp = Math.min(p.meta_clp, p.recaudado_clp + (Number(d.clp) || 0));
+    guardar(); avisarCambio();
+  });
+
   window.auraLadraPuestos = { lista: () => datos().puestos.slice(), lugares: () => datos().puestos.map(comoLugar), abrir };
   avisarCambio();
 })();

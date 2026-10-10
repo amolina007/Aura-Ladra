@@ -255,10 +255,20 @@
       <div class="shell">
         <div class="section-heading">
           <p class="kicker">Ayudar</p>
-          <h2 id="ayudar-title">Acciones por financiar</h2>
-          <p>Propón o apoya una prestación concreta para un animal: entre varias personas completan el presupuesto y luego se documenta el resultado. Son aportes solidarios, sin intereses ni retornos.</p>
+          <h2 id="ayudar-title">Ayudar</h2>
+          <p>Haz algo concreto por los animales de tu barrio: difundir, limpiar, reparar, reponer. Cada ayuda te da Aura Coins, y tú eliges si te las quedas o las abonas a un proyecto.</p>
         </div>
         <div data-ayudar-vista-lista>
+          <section class="tareas" data-tareas aria-labelledby="tareas-title">
+            <div class="tareas-cab">
+              <h3 id="tareas-title">Acciones concretas</h3>
+              <p class="tareas-monedero" data-tareas-monedero aria-live="polite"></p>
+            </div>
+            <div class="tareas-filtros" role="group" aria-label="Tipo de acción" data-tareas-filtros></div>
+            <div class="tareas-lista" data-tareas-lista></div>
+            <p class="tareas-nota">Modo demo: las Aura Coins y las tareas se guardan solo en este navegador. En la versión real, alguien del proyecto valida la ayuda antes de entregar las monedas.</p>
+          </section>
+          <h3 class="ayudar-sub">Proyectos por financiar</h3>
           <section class="ayd-dash" data-ayudar-dash aria-labelledby="ayd-dash-title">
             <h3 id="ayd-dash-title">Así va la ayuda</h3>
             <div class="ayd-tiles" data-ayd-tiles></div>
@@ -625,6 +635,22 @@
       </form>
     </div>
   </dialog>
+  <dialog class="human-profile-dialog feed-dialog" data-tarea-dialog aria-labelledby="tarea-dialog-title">
+    <form method="dialog" data-tarea-form novalidate>
+      <button class="pet-profile-close" type="button" data-tarea-close aria-label="Cerrar">×</button>
+      <h3 id="tarea-dialog-title">Marcar como hecha</h3>
+      <p data-tarea-resumen></p>
+      <label>Cuéntanos cómo fue (opcional)<textarea name="nota" rows="3" maxlength="300" placeholder="Ej.: Publiqué en Instagram y Facebook"></textarea></label>
+      <fieldset class="tarea-destino">
+        <legend>¿Qué haces con tus Aura Coins?</legend>
+        <label class="tarea-op"><input type="radio" name="destino" value="mias" checked> <span>Quedármelas</span></label>
+        <label class="tarea-op"><input type="radio" name="destino" value="abonar"> <span data-tarea-abono-txt>Abonarlas al proyecto</span></label>
+      </fieldset>
+      <p class="action-feedback" data-tarea-message aria-live="polite"></p>
+      <button class="feed-publicar" type="submit">Confirmar</button>
+    </form>
+  </dialog>
+
   <dialog class="human-profile-dialog feed-dialog" data-cal-dialog aria-labelledby="cal-dialog-title">
     <form method="dialog" data-cal-form novalidate>
       <button class="pet-profile-close" type="button" data-cal-close aria-label="Cerrar">×</button>
@@ -855,6 +881,7 @@
 <script src="js/puestos.js"></script>
 <script src="js/feed.js"></script>
 <script src="js/eventos.js"></script>
+<script src="js/tareas.js"></script>
 <script src="js/arbol.js"></script>
 <script src="js/vistas.js"></script>
 <script defer src="https://core.convergenciaaura.cl/js/globo.js" data-margen-movil="76"></script>

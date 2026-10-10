@@ -1492,3 +1492,27 @@ dialog.feed-historia-dialog::backdrop { background: #000; }
 .ayd-leyenda li { display: inline-flex; align-items: center; gap: 6px; }
 .ayd-pt { width: 10px; height: 10px; border-radius: 50%; }
 .ayd-demo { margin: 10px 0 0; font-size: .78rem; color: rgba(6, 61, 36, .6); }
+
+/* ===== Ayudar: acciones concretas y Aura Coins ===== */
+.tareas { margin: 0 0 28px; font-family: 'Nunito', system-ui, sans-serif; color: var(--logo-verde); }
+.tareas-cab { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
+.tareas-cab h3, .ayudar-sub { margin: 0; font-size: 1.35rem; }
+.ayudar-sub { margin: 4px 0 14px; color: var(--logo-verde); }
+.tareas-monedero { margin: 0; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: .9rem; font-weight: 700; }
+.tareas-coins { background: #fdebd0; border: 1px solid var(--logo-naranja); border-radius: 999px; padding: 6px 14px; }
+.tareas-coins strong { font-size: 1.1rem; }
+.tareas-abonadas { color: rgba(6, 61, 36, .7); }
+.tareas-filtros { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+.tareas-lista { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+.tarea { display: grid; gap: 8px; align-content: start; padding: 16px; border: 1px solid rgba(6, 61, 36, .14); border-radius: 18px; background: #fff; }
+.tarea h4 { margin: 0; font-size: 1.05rem; line-height: 1.25; }
+.tarea p { margin: 0; font-size: .9rem; color: rgba(6, 61, 36, .78); }
+.tarea-cab { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.tarea-glifo { font-size: 1.5rem; margin-right: 4px; }
+.tarea-proyecto { font-size: .82rem !important; }
+.tarea.es-hecha { background: #eef6f0; }
+.tarea-ok { font-weight: 800; color: var(--logo-verde) !important; }
+.tareas-nota { margin: 12px 0 0; font-size: .8rem; color: rgba(6, 61, 36, .62); }
+.tarea-destino { border: 1px solid rgba(6, 61, 36, .2); border-radius: 14px; margin: 12px 0; padding: 10px 14px; }
+.tarea-destino legend { font-weight: 800; padding: 0 6px; }
+.feed-dialog .tarea-op { display: flex; align-items: flex-start; gap: 8px; margin: 8px 0; font-weight: 600; }
