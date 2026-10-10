@@ -194,6 +194,14 @@ Hasta aplicarla, los botones aparecen desactivados con una explicación; no se s
 **Pendiente de la etapa 1:** filtro por propósito (paseos, juego, adopción, acogida; falta el dato en la ficha), proponer encuentro,
 consultar al responsable desde el perfil y registrar un vínculo privado desde el perfil (hoy se hace en Mi cuenta → Fichas y vínculos / Mi círculo).
 
+## Encuentros (etapa 2, solo servidor preparado)
+
+`supabase/migrations/20261010010000_encuentros.sql` (**preparada, no aplicada**): encuentros públicos o privados con lugar público o
+punto de encuentro en texto, invitaciones, confirmación con personas y mascotas propias, cancelación y actualización por quien organiza,
+y `encuentros_visibles(desde, hasta)` que alimentará Mapa y Calendario con el mismo conjunto. Sin domicilios ni ubicación en tiempo real; la
+visibilidad «grupo» llega con la migración de grupos. Prueba: `supabase/tests/encuentros_prueba.sql` (20 comprobaciones, pasaron en base
+desechable). **El sitio todavía no usa esta migración**: el calendario de Locaciones sigue con eventos propios en demo hasta conectarla.
+
 ## Navegación (cinco secciones)
 
 Barra inferior y menú: **Home** (`#inicio`), **Locaciones** (`#mapa`: Mapa | Calendario), **Mi red** (`#red`), **Aportar**
