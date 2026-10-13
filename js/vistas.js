@@ -4,7 +4,7 @@
   'use strict';
 
   const VISTA_INICIAL = 'inicio';
-  const VISTAS = ['inicio', 'acciones', 'most-wanted', 'mapa', 'red', 'ayudar', 'reportar', 'cuenta'];
+  const VISTAS = ['inicio', 'acciones', 'most-wanted', 'mapa', 'red', 'ayudar', 'comida-agua', 'cuenta'];
   // A qué vista lleva cada ancla (#id) de la página.
   const VISTA_DE_ID = {
     inicio: 'inicio',
@@ -16,8 +16,6 @@
     mapa: 'mapa',
     red: 'red',
     ayudar: 'ayudar',
-    reportes: 'reportar',
-    reportar: 'reportar',
     cuenta: 'cuenta',
     'mi-perfil': 'cuenta',
   };
@@ -98,6 +96,8 @@
   // y se repite al terminar de cargar por si el script se mueve más arriba.
   mostrar(idDeHash(window.location.hash), { desplazar: Boolean(window.location.hash) });
   if (document.readyState === 'loading') {
+    // En el celular el menú de servicios va desplegado dentro de la hamburguesa.
+    document.addEventListener('DOMContentLoaded', () => { if (window.matchMedia?.('(max-width: 900px)').matches) document.querySelector('.nav-mas')?.setAttribute('open', ''); });
     document.addEventListener('DOMContentLoaded', () => mostrar(idDeHash(window.location.hash), { desplazar: false }));
   }
 })();

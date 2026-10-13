@@ -73,8 +73,6 @@ schema `ladra` se agrega a Data API sin reemplazar los schemas ya expuestos.
   alimento, juguetes y accesorios, además de puntos de animales comunitarios.
 - Cada ficha importada registra su fuente y fecha de consulta; los datos abiertos
   no se presentan como si hubieran sido verificados presencialmente.
-- Los lugares propuestos quedan pendientes hasta que una persona moderadora los
-  apruebe.
 - La ubicación de animales vulnerables puede publicarse de forma aproximada.
 - Las urgencias veterinarias se distinguen explícitamente de una veterinaria
   general.
@@ -88,6 +86,9 @@ schema `ladra` se agrega a Data API sin reemplazar los schemas ya expuestos.
 - Los perfiles, alias y vínculos propuestos requieren moderación antes de ser
   públicos.
 - El MVP no incluye publicaciones, comentarios, seguidores ni mensajería.
+
+La pestaña **Red animal** del sitio muestra solo **Mi red** y **Descubrir**. Crear fichas, asociarse a un animal,
+relacionar dos animales, publicar el alias y la moderación de perfiles están en **Mi perfil → Fichas y vínculos**.
 
 ## Piloto de reportes
 
@@ -134,6 +135,22 @@ Son aportes solidarios para financiar una acción: **no ofrecen intereses ni ret
 - Pendiente: pantalla de moderación (hoy se usa `ladra.moderar_accion` por SQL),
   subida de fotos y documentos propios, mensajería para "Consultar", disputas.
 
+## Comida y agua (puestos en espacios públicos)
+
+Sección propia en el menú hamburguesa (`#comida-agua`), con un bloque resumen en **Ayudar** y los puestos
+como pines 💧 en el **Mapa** (filtro «Comida y agua»).
+
+- **Cómo se ayuda:** *patrocinar* un puesto (aporte a la meta del mes) y *cuidarlo en persona* (anotarse como
+  cuidador, registrar una reposición de agua o comida, o avisar que falta algo).
+- **Modo demo (estado actual):** `js/puestos.js` usa 3 puestos de ejemplo guardados solo en el navegador
+  (`localStorage`) y avisa de ello en pantalla. Los aportes son una **simulación**: no se cobra dinero. No se usa
+  Supabase todavía.
+- **Quién agrega puestos:** decisión tomada: solo moderación. **Aún no existe** ese panel ni la base de datos;
+  por ahora los puestos de ejemplo vienen precargados.
+- **Pendiente:** tablas y funciones `ladra.*` (puestos, aportes, cuidadores, reposiciones) con RLS, panel de
+  moderación para agregar puestos, ubicaciones reales verificadas, fotos del puesto y pagos reales (que requieren
+  definir pasarela y reglas, igual que Acciones por financiar).
+
 ## Personal → Mi árbol de vínculos
 
 Pestaña **Mi árbol** dentro de Mi perfil. Abre una vista a pantalla completa con las pestañas **Árbol** e **Historia**, una **lista alternativa** y un panel con el detalle del integrante seleccionado.
@@ -144,9 +161,85 @@ Pestaña **Mi árbol** dentro de Mi perfil. Abre una vista a pantalla completa c
 - **Migración:** `supabase/migrations/20261003190000_mi_arbol_de_vinculos.sql` (**preparada, no ejecutada** en ningún entorno real). Pruebas: `supabase/tests/mi_arbol_prueba.sql` con `supabase/tests/laboratorio_piezas_falsas.sql` en una base PostgreSQL desechable.
 - **Sin la migración** la pestaña funciona en modo **Demostración** (datos ficticios rotulados «(ejemplo)», guardados solo en el navegador).
 
+## Mi perfil
+
+Pantalla única con tarjetas (círculo de vínculos, Mis mascotas, Aportes a la comunidad) y sub-pantallas con flecha de
+volver (Mis animales, Actividad, Mis aportes, Mis acciones).
+
+**Mi círculo** (antes «Mi árbol»): «Gestionar vínculos» abre «El círculo de {mascota}»: columna Mascotas a la izquierda,
+Personas a la derecha, con el conector «Su responsable», etiquetas de relación y selector de mascota. Muestra solo
+vínculos reales de mi árbol; el responsable de una mascota es yo si es mía, o la persona cuya nota la nombra.
+La pestaña «Historia» (momentos) se mantiene. Mi foto se **lee** de Convergencia Aura (`core.perfiles.avatar_path`,
+bucket público `core-avatars`); AuraLadra no la guarda ni la modifica.
+**Pendiente:** una función de servidor que entregue el responsable real de cada mascota y las mascotas que otra
+persona decida compartir (hoy solo la demo muestra a «Cate (ejemplo)»).
+«Aportes a la comunidad» cuenta Cuidados y Encuentros desde Historia y Ayuda desde los aportes a acciones (simulados),
+con los eventos `arbol:cambio` y `ayuda:cambio`. Misiones y recompensas **no** existen: la gamificación está fuera del MVP.
+
+## Inicio: feed multimedia (modo demo)
+
+Inicio es solo un feed: barra de historias (duran 24 h) y publicaciones de mascotas. El dueño publica en nombre
+de su mascota (`js/feed.js`), se publica al instante y cualquiera puede denunciar. **Por ahora es demo**: se guarda
+en `localStorage` (imágenes reducidas a 960 px), con ejemplos «(ejemplo)». Falta el servidor (tabla, Storage y
+revisión de denuncias por moderación). Evento `feed:cambio`; `window.auraLadraFeed.posts()`.
+
+## Mi red y Descubrir (etapa 1)
+
+Mi red tiene dos pestañas: **Mi red** (tus mascotas, las de amistades y seguidos, y «Animales que sigo») y **Descubrir** (`js/descubrir.js`),
+con búsqueda y filtros por zona, especie, tamaño y edad, y «solo guardados». En la ficha de un animal ajeno hay **Seguir** y **Guardar**:
+seguir no es registrar una relación y no da acceso a datos privados. Funciones del servidor en
+`supabase/migrations/20261010000000_seguir_y_guardar_animales.sql` (**preparada, no aplicada** en ningún entorno: no se pudo crear una rama de
+desarrollo). Prueba: `supabase/tests/seguir_y_guardar_prueba.sql` (17 comprobaciones, pasaron en una base Postgres desechable).
+Hasta aplicarla, los botones aparecen desactivados con una explicación; no se simula nada.
+**Pendiente de la etapa 1:** filtro por propósito (paseos, juego, adopción, acogida; falta el dato en la ficha), proponer encuentro,
+consultar al responsable desde el perfil y registrar un vínculo privado desde el perfil (hoy se hace en Mi cuenta → Fichas y vínculos / Mi círculo).
+
+## Encuentros (etapa 2, solo servidor preparado)
+
+`supabase/migrations/20261010010000_encuentros.sql` (**preparada, no aplicada**): encuentros públicos o privados con lugar público o
+punto de encuentro en texto, invitaciones, confirmación con personas y mascotas propias, cancelación y actualización por quien organiza,
+y `encuentros_visibles(desde, hasta)` que alimentará Mapa y Calendario con el mismo conjunto. Sin domicilios ni ubicación en tiempo real; la
+visibilidad «grupo» llega con la migración de grupos. Prueba: `supabase/tests/encuentros_prueba.sql` (21 comprobaciones, pasaron en base
+desechable). **Interfaz (`js/encuentros.js`)**: el Calendario de Locaciones tiene el filtro «Encuentros», «Proponer un encuentro», confirmar o rechazar asistencia
+(con personas y mascotas propias), cancelar (quien organiza), «Ver en el mapa» (enfoca el lugar) y «Guardar en calendario» (.ics). Sin la migración
+aplicada, el botón queda desactivado con una explicación y no se muestra ningún encuentro inventado. Probado con un servidor simulado en el navegador
+(jsdom); **no verificado contra Supabase**. «Agregar evento propio (demo)» sigue siendo local al navegador.
+**Invitaciones:** quien organiza puede invitar a sus **amistades** (Core: amistad aceptada; no a desconocidos ni a personas bloqueadas) y editar título, fecha, hora, lugar en texto y textos del encuentro.
+**Pendiente:** consultar al organizador (requiere la mensajería de Core, aún no conectada), aceptar o rechazar una invitación desde una lista de invitaciones propia (hoy se responde desde el calendario), invitar grupos (llegan con la migración de grupos),
+y conservar zona y filtros al alternar Mapa y Calendario (hoy se conservan fecha y mes del calendario, y los filtros de cada vista por separado).
+
+## Reportar: sección retirada
+
+Se quitó la vista «Reportar» (formulario de reportes del canil y lista de reportes verificados). El panel de moderación (bandeja del piloto y
+revisión manual de Most Wanted) pasó a la vista de Mi cuenta, visible solo para moderadores. El historial «Mis reportes» y el aviso de
+denuncia de perfiles siguen. Las tablas y funciones de reportes del servidor no se tocaron.
+
+## Navegación (cinco secciones)
+
+Barra inferior y menú: **Home** (`#inicio`), **Locaciones** (`#mapa`: Mapa | Calendario), **Mi red** (`#red`), **Aportar**
+(`#ayudar`) y **Mi cuenta** (`#cuenta`). La hamburguesa agrupa Servicios (Ayuda rápida, Most Wanted, Comida y agua) y
+Más (Guías, Catálogo de recompensas, Ayuda, Configuración, Información: marcados «Pronto» y desactivados porque aún no existen).
+En la cabecera: (Se quitaron de la cabecera los tres iconos de Avisos, Mensajes y Notificaciones; Most Wanted sigue en Servicios.)
+
+## Aura Coins y monedas: retirado de la interfaz
+
+Se probó un prototipo demo de «acciones concretas con Aura Coins» (`js/tareas.js`, ya **sin cargar**). No se muestra en el sitio:
+no se simulan movimientos de Aura Coin ni se inventan reglas económicas hasta tener la definición vigente del sistema.
+
+## Ayudar: panel de resumen
+
+Arriba de la lista de Ayudar hay un panel («Así va la ayuda») con acciones publicadas, ya financiadas, completadas y total aportado
+(simulado), más una barra por estado. Se calcula en `js/acciones.js` (`dibujarDash`) con todas las acciones públicas, sin filtros.
+
+## Mapa: Calendario
+
+Mapa tiene dos pestañas: **Mapa** y **Calendario** (`js/eventos.js`). El calendario junta fechas automáticas (cierre de
+recaudación de Ayudar, fecha de pérdida de Most Wanted / Mascotas perdidas, última reposición de Comida y agua) y
+**eventos propios** (título, fecha, hora, lugar, ubicación opcional). Los propios son demo: se guardan en `localStorage`.
+Las fuentes se leen de `window.auraLadraAcciones`, `window.auraLadraAlertas` y `window.auraLadraPuestos`.
+
 ## Fuera del MVP (decisión ya tomada)
 
-Publicaciones sociales, comentarios, seguidores, chat, marketplace, pagos reales (los aportes
-de Acciones por financiar son solo simulación), Aura Coin,
-reputación, gamificación, GPS en tiempo real público e integración oficial
+Comentarios, seguidores, chat, marketplace, pagos reales (los aportes
+de Acciones por financiar son solo simulación), reputación, gamificación, GPS en tiempo real público e integración oficial
 obligatoria con terceros.

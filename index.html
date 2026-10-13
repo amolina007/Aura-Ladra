@@ -4,11 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="AuraLadra es un piloto comunitario para cuidar mascotas, conectar vecinos y mejorar la convivencia en el canil Parque 3 Poniente de Maipú.">
-  <meta name="theme-color" content="#102a43">
+  <meta name="theme-color" content="#fffdf9">
   <title>AuraLadra — Comunidad que cuida</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,650;9..144,750&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,650;9..144,750&family=Nunito:wght@600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23f2a93b'/%3E%3Cpath d='M20 30c-5-1-7 5-4 8 3 3 7 0 7-3 0-2-1-4-3-5Zm24 0c5-1 7 5 4 8-3 3-7 0-7-3 0-2 1-4 3-5ZM27 21c-4-3-8 2-6 6 2 4 7 2 8-1 1-2 0-4-2-5Zm10 0c4-3 8 2 6 6-2 4-7 2-8-1-1-2 0-4 2-5Zm-5 9c-7 0-13 8-10 14 2 5 8 3 10 1 2 2 8 4 10-1 3-6-3-14-10-14Z' fill='%23102a43'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="css/styles.css">
@@ -19,24 +19,18 @@
   <div class="paw-backdrop__layer paw-backdrop__near" data-paw-layer="near"></div>
 </div>
 <div class="ca-site-top">
-<aside class="ca-ecosystem-banner" aria-label="Navegación del ecosistema Convergencia Aura">
-  <div class="ca-ecosystem-banner__inner">
-    <p class="ca-ecosystem-banner__label"><strong>Parte de Convergencia Aura.</strong> Existen más páginas y proyectos conectados.</p>
-    <nav class="ca-ecosystem-banner__links" aria-label="Enlaces de Convergencia Aura">
-      <a href="https://convergenciaaura.cl/" target="_blank" rel="noopener noreferrer">Convergencia Aura</a>
-      <a href="https://linktr.ee/amolina.uchile" target="_blank" rel="noopener noreferrer">Linktree oficial</a>
-    </nav>
-  </div>
-</aside>
-
   <a class="skip-link" href="#contenido">Saltar al contenido</a>
 
   <header class="site-header" data-header>
     <div class="shell nav-shell">
-      <a class="brand" href="#inicio" aria-label="AuraLadra, inicio">
-        <span class="brand-mark" aria-hidden="true">🐾</span>
-        <span>Aura<span>Ladra</span></span>
-      </a>
+      <div class="brand-group">
+        <button type="button" class="brand-sesion" data-session-chip data-aura-hub="ladra" aria-haspopup="dialog" aria-label="LadraAura: iniciar sesión" title="Iniciar sesión">
+          <img class="brand-icono" src="assets/logo-icono.png" alt="" width="46" height="46">
+        </button>
+        <a class="brand" href="#inicio" aria-label="LadraAura, inicio">
+          <img class="brand-palabra" src="assets/logo-palabra.png" alt="LadraAura" width="147" height="23">
+        </a>
+      </div>
 
       <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav" data-menu-button>
         <span class="sr-only">Abrir menú</span>
@@ -44,33 +38,41 @@
       </button>
 
       <nav class="site-nav" id="site-nav" aria-label="Navegación principal" data-nav>
-        <a href="#acciones">Ayuda rápida</a>
-        <a href="#most-wanted">Most Wanted</a>
-        <a href="#mapa">Mapa</a>
-        <a href="#red">Red animal</a>
-        <a href="#ayudar">Ayudar</a>
-        <a href="#reportes">Reportar</a>
+        <a href="#inicio">Home</a>
+        <a href="#mapa">Locaciones</a>
+        <a href="#red">Mi red</a>
+        <a href="#ayudar">Aportar</a>
         <a href="#cuenta">Mi cuenta</a>
+        <details class="nav-mas">
+          <summary>Servicios y más</summary>
+          <div class="nav-mas-panel">
+          <p class="nav-mas-t">Servicios</p>
+          <a href="#acciones">Ayuda rápida</a>
+          <a href="#most-wanted">Most Wanted</a>
+          <a href="#comida-agua">Comida y agua</a>
+          <p class="nav-mas-t">Más</p>
+          <span class="nav-pronto" aria-disabled="true">Guías <small>Pronto</small></span>
+          <span class="nav-pronto" aria-disabled="true">Catálogo de recompensas <small>Pronto</small></span>
+          <span class="nav-pronto" aria-disabled="true">Ayuda <small>Pronto</small></span>
+          <span class="nav-pronto" aria-disabled="true">Configuración <small>Pronto</small></span>
+          <span class="nav-pronto" aria-disabled="true">Información del proyecto <small>Pronto</small></span>
+          </div>
+        </details>
       </nav>
     </div>
   </header>
 </div>
 
   <main id="contenido">
-    <section class="hero" id="inicio" data-vista-de="inicio">
-      <div class="hero-image" role="img" aria-label="Ilustración de una comunidad compartiendo responsablemente un parque para perros en Maipú"></div>
-      <div class="hero-shade"></div>
-      <div class="hero-paws" aria-hidden="true"></div>
-      <div class="shell hero-content">
-        <div class="hero-copy">
-          <p class="eyebrow"><span class="pulse" aria-hidden="true"></span> Piloto comunitario · Maipú</p>
-          <h1>Hola, soy Leia.<br><em>Esta plaza también es nuestra.</em></h1>
-          <p class="hero-lead">AuraLadra conecta mascotas, personas y lugares para cuidarnos mejor en el barrio.</p>
-          <div class="hero-actions">
-            <a class="button button-primary" href="#most-wanted">Most Wanted <span aria-hidden="true">→</span></a>
-            <a class="button button-ghost" href="#mapa">Ver el mapa</a>
-          </div>
+    <section class="feed" id="inicio" data-vista-de="inicio" data-feed aria-labelledby="feed-title">
+      <div class="feed-shell">
+        <h1 class="sr-only" id="feed-title">AuraLadra: lo que comparten las mascotas</h1>
+        <div class="feed-historias" data-feed-historias role="list" aria-label="Historias de las mascotas"></div>
+        <div class="feed-barra">
+          <button type="button" class="feed-publicar" data-feed-publicar hidden>＋ Publicar</button>
+          <p class="feed-demo" data-feed-demo hidden><strong>Demostración.</strong> Las publicaciones «(ejemplo)» son ficticias y lo que publiques se guarda solo en este navegador.</p>
         </div>
+        <div class="feed-lista" data-feed-lista aria-live="polite"></div>
       </div>
     </section>
 
@@ -94,10 +96,6 @@
               <span class="action-icon" aria-hidden="true">⌖</span>
               <span><strong>Encontré una mascota</strong><small>Ayuda sin exponerte ni asustarla</small></span>
             </button>
-            <button class="action-tab" type="button" role="tab" aria-selected="false" aria-controls="action-panel" data-action="lugar">
-              <span class="action-icon" aria-hidden="true">＋</span>
-              <span><strong>Conozco un lugar</strong><small>Agrega o corrige información del mapa</small></span>
-            </button>
           </div>
 
           <article class="action-panel" id="action-panel" role="tabpanel" aria-live="polite">
@@ -110,7 +108,7 @@
                 <li>Prepara una foto reciente y una descripción breve.</li>
                 <li>Avisa primero a vecinos y redes locales verificables.</li>
               </ol>
-              <p class="panel-disclaimer" data-panel-note>AuraLadra está preparando su canal de reportes. Si existe riesgo inmediato, utiliza los servicios municipales o de emergencia correspondientes.</p>
+              <p class="panel-disclaimer" data-panel-note>Si existe riesgo inmediato, utiliza los servicios municipales o de emergencia correspondientes.</p>
               <div class="panel-actions" data-panel-actions aria-label="Acciones disponibles"></div>
               <div class="action-workspace" data-action-workspace hidden></div>
               <p class="action-feedback" data-action-feedback aria-live="polite"></p>
@@ -174,19 +172,31 @@
       <div class="shell">
         <div class="section-heading split-heading">
           <div>
-            <p class="kicker">Directorio público · Maipú</p>
+            <p class="kicker">Locaciones · Maipú</p>
             <h2>El ecosistema animal de la comuna.</h2>
           </div>
           <p>Explora caniles, veterinarias, urgencias, alimento, tiendas y puntos comunitarios. Los datos abiertos indican su fuente y deben confirmarse antes de una visita.</p>
         </div>
 
-        <p class="map-summary" data-map-summary aria-live="polite">Cargando lugares públicos de Maipú…</p>
+        <div class="mapa-tabs" role="tablist" aria-label="Mapa o calendario">
+          <button class="mapa-tab is-active" type="button" role="tab" id="mapa-tab-mapa" aria-selected="true" aria-controls="mapa-panel-mapa" data-mapa-tab="mapa">Mapa</button>
+          <button class="mapa-tab" type="button" role="tab" id="mapa-tab-calendario" aria-selected="false" aria-controls="mapa-panel-calendario" tabindex="-1" data-mapa-tab="calendario">Calendario</button>
+        </div>
 
-        <div class="map-filters" role="group" aria-label="Filtrar lugares">
+        <div id="mapa-panel-mapa" role="tabpanel" aria-labelledby="mapa-tab-mapa" data-mapa-panel="mapa">
+        <div class="map-toolbar">
+          <button class="map-filters-toggle" type="button" aria-expanded="false" aria-controls="map-filters" data-map-filters-toggle>
+            <span aria-hidden="true">☰</span> <span data-map-filters-label>Filtros</span>
+          </button>
+          <p class="map-summary" data-map-summary aria-live="polite">Cargando lugares públicos de Maipú…</p>
+        </div>
+
+        <div class="map-filters" id="map-filters" role="group" aria-label="Filtrar lugares">
           <button class="map-filter is-active" type="button" data-place-filter="todos">Todos</button>
           <button class="map-filter" type="button" data-place-filter="canil">Caniles</button>
           <button class="map-filter" type="button" data-place-filter="veterinaria">Veterinarias</button>
           <button class="map-filter" type="button" data-place-filter="urgencia">Urgencias</button>
+          <button class="map-filter" type="button" data-place-filter="puesto">Comida y agua</button>
           <button class="map-filter" type="button" data-place-filter="refugio">Refugios</button>
           <button class="map-filter" type="button" data-place-filter="casa_acogida">Casas de acogida</button>
           <button class="map-filter" type="button" data-place-filter="tienda">Tiendas</button>
@@ -200,16 +210,35 @@
             <p class="empty-state">Cargando lugares…</p>
           </div>
         </div>
+        </div>
 
-        <section class="moderator-place card" data-moderator-place hidden aria-labelledby="moderator-place-title">
-          <div class="list-heading">
-            <div><p class="kicker">Capitán #00</p><h3 id="moderator-place-title">Propuestas de lugares</h3></div>
-            <span class="count-badge" data-place-proposal-count>0</span>
+        <div class="cal" id="mapa-panel-calendario" role="tabpanel" aria-labelledby="mapa-tab-calendario" data-mapa-panel="calendario" data-cal hidden>
+          <div class="cal-cab">
+            <button class="cal-nav" type="button" data-cal-prev aria-label="Mes anterior">‹</button>
+            <h3 class="cal-mes" data-cal-mes aria-live="polite"></h3>
+            <button class="cal-nav" type="button" data-cal-sig aria-label="Mes siguiente">›</button>
+            <button class="cal-hoy" type="button" data-cal-hoy>Hoy</button>
           </div>
-          <p class="card-copy">Las propuestas no alteran el mapa hasta ser aprobadas.</p>
-          <div class="place-proposal-list" data-place-proposal-list></div>
-          <p class="form-message" data-place-proposal-message aria-live="polite"></p>
-        </section>
+          <div class="cal-filtros" role="group" aria-label="Tipo de evento">
+            <button class="cal-chip is-active" type="button" data-cal-filtro="todos" aria-pressed="true">Todos</button>
+            <button class="cal-chip" type="button" data-cal-filtro="ayudar" aria-pressed="false"><span class="cal-punto t-ayudar" aria-hidden="true"></span>Ayudar</button>
+            <button class="cal-chip" type="button" data-cal-filtro="perdida" aria-pressed="false"><span class="cal-punto t-perdida" aria-hidden="true"></span>Mascotas perdidas</button>
+            <button class="cal-chip" type="button" data-cal-filtro="puesto" aria-pressed="false"><span class="cal-punto t-puesto" aria-hidden="true"></span>Comida y agua</button>
+            <button class="cal-chip" type="button" data-cal-filtro="encuentro" aria-pressed="false"><span class="cal-punto t-encuentro" aria-hidden="true"></span>Encuentros</button>
+            <button class="cal-chip" type="button" data-cal-filtro="propio" aria-pressed="false"><span class="cal-punto t-propio" aria-hidden="true"></span>Mis eventos</button>
+          </div>
+          <div class="cal-layout">
+            <div class="cal-grid" data-cal-grid role="grid" aria-label="Calendario del mes"></div>
+            <aside class="cal-dia" aria-live="polite">
+              <h4 data-cal-dia-titulo></h4>
+              <ul class="cal-lista" data-cal-dia-lista></ul>
+              <button class="cal-nuevo" type="button" data-enc-nuevo>＋ Proponer un encuentro</button>
+              <p class="cal-demo" data-enc-aviso aria-live="polite"></p>
+              <button class="cal-nuevo cal-nuevo-sec" type="button" data-cal-nuevo>＋ Agregar evento propio (demo)</button>
+              <p class="cal-demo" data-cal-demo>Tus eventos se guardan solo en este navegador (modo demo).</p>
+            </aside>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -221,24 +250,223 @@
         </div>
 
         <p class="animal-network-summary" data-animal-network-summary aria-live="polite">Consultando la red animal…</p>
+        <div class="red-tabs" role="tablist" aria-label="Mi red o Descubrir" data-red-tabs>
+          <button class="mapa-tab is-active" type="button" role="tab" aria-selected="true" data-red-tab="mi-red">Mi red</button>
+          <button class="mapa-tab" type="button" role="tab" aria-selected="false" tabindex="-1" data-red-tab="descubrir">Descubrir</button>
+        </div>
         <div class="animal-group" data-animal-group="mi-red" hidden>
           <h3 class="animal-group-title">Mi red</h3>
           <p class="animal-group-help">Tus mascotas, las de tus amistades (con ★) y las de las personas que sigues. Las que están extraviadas aparecen primero.</p>
           <div class="animal-grid" data-animal-grid="mi-red"></div>
         </div>
+        <div class="animal-group" data-animal-group="seguidos" hidden>
+          <h3 class="animal-group-title">Animales que sigo</h3>
+          <p class="animal-group-help">Seguir un perfil no crea una relación ni da acceso a datos privados.</p>
+          <p class="seguir-aviso" data-seguir-aviso hidden></p>
+          <div class="animal-grid" data-animal-grid="seguidos"></div>
+        </div>
         <div class="animal-group" data-animal-group="descubrir">
+          <form class="desc-filtros" data-desc-filtros role="search" aria-label="Buscar mascotas" novalidate>
+            <label class="field desc-busqueda"><span>Buscar</span><input type="search" name="q" maxlength="60" placeholder="Nombre o raza" autocomplete="off"></label>
+            <label class="field"><span>Zona</span><input type="text" name="zona" maxlength="60" placeholder="Ej.: Maipú" autocomplete="off"></label>
+            <label class="field"><span>Especie</span><select name="especie"><option value="">Todas</option><option value="perro">Perros</option><option value="gato">Gatos</option><option value="ave">Aves</option><option value="otro">Otras</option></select></label>
+            <label class="field"><span>Tamaño</span><select name="tamano"><option value="">Todos</option><option value="pequeno">Pequeño</option><option value="mediano">Mediano</option><option value="grande">Grande</option><option value="gigante">Gigante</option></select></label>
+            <label class="field"><span>Edad</span><select name="edad"><option value="">Todas</option><option value="cachorro">Menos de 1 año</option><option value="joven">1 a 3 años</option><option value="adulto">3 a 8 años</option><option value="mayor">8 años o más</option></select></label>
+            <label class="desc-check" data-desc-guardados-wrap hidden><input type="checkbox" name="guardados"> <span>Solo guardados</span></label>
+            <button class="text-button" type="reset" data-desc-limpiar>Limpiar</button>
+          </form>
           <h3 class="animal-group-title">Descubrir</h3>
-          <p class="animal-group-help">Mascotas de otros dueños. Las que están extraviadas aparecen primero.</p>
+          <p class="animal-group-help">Mascotas de otros responsables, según la visibilidad que cada uno eligió. No se muestran domicilios ni ubicación en tiempo real. Las extraviadas aparecen primero.</p>
           <div class="animal-grid" data-animal-grid="descubrir">
             <p class="empty-state">Cargando animales…</p>
           </div>
         </div>
 
-        <div class="network-access card" data-network-signed-out>
-          <div><p class="kicker">Participa</p><h3>Inicia sesión con enlace mágico</h3><p>Desde “Mi cuenta” puedes publicar tu alias y las fichas de tus mascotas al instante. Los vínculos a mascotas ajenas piden autorización de su responsable.</p></div>
-          <a class="button button-dark" href="#cuenta">Ir a mi cuenta</a>
-        </div>
+      </div>
+    </section>
 
+    <section class="ayudar section" id="ayudar" data-vista-de="ayudar" data-ayudar aria-labelledby="ayudar-title">
+      <div class="shell">
+        <div class="section-heading">
+          <p class="kicker">Aportar</p>
+          <h2 id="ayudar-title">Aportar</h2>
+          <p>Apoya con aportes solidarios las acciones concretas que necesitan los animales de tu barrio.</p>
+        </div>
+        <div data-ayudar-vista-lista>
+          <h3 class="ayudar-sub">Proyectos por financiar</h3>
+          <section class="ayd-dash" data-ayudar-dash aria-labelledby="ayd-dash-title">
+            <h3 id="ayd-dash-title">Así va la ayuda</h3>
+            <div class="ayd-tiles" data-ayd-tiles></div>
+            <div class="ayd-barra" data-ayd-barra role="img" aria-label="Distribución de acciones por estado"></div>
+            <ul class="ayd-leyenda" data-ayd-leyenda></ul>
+          </section>
+          <section class="puestos-resumen" data-puestos-resumen aria-labelledby="puestos-resumen-title" hidden></section>
+          <form class="ayudar-filtros" data-ayudar-filtros aria-label="Filtrar acciones">
+            <label class="field"><span>Categoría</span>
+              <select name="categoria"><option value="">Todas</option><option value="alojamiento">Alojamiento</option><option value="cuidado">Cuidado</option><option value="salud">Salud</option><option value="alimentacion">Alimentación</option><option value="traslado">Traslado</option><option value="educacion">Educación</option><option value="otro">Otro</option></select></label>
+            <label class="field"><span>Comuna</span><input name="comuna" type="text" maxlength="60" placeholder="Ej.: Maipú" autocomplete="off"></label>
+            <label class="field"><span>Urgencia</span>
+              <select name="urgencia"><option value="">Cualquiera</option><option value="critica">Crítica</option><option value="alta">Alta</option><option value="normal">Normal</option></select></label>
+            <label class="field"><span>Estado</span>
+              <select name="estado"><option value="">Todos</option><option value="recaudando">Recaudando</option><option value="meta_alcanzada">Meta alcanzada</option><option value="programada">Programada</option><option value="en_ejecucion">En ejecución</option><option value="completada">Completada</option></select></label>
+          </form>
+          <div class="ayudar-lista" data-ayudar-lista aria-live="polite"></div>
+        </div>
+        <article class="ayudar-detalle card" data-ayudar-detalle hidden aria-live="polite"></article>
+      </div>
+    </section>
+
+    <section class="ayudar puestos section" id="comida-agua" data-vista-de="comida-agua" data-puestos aria-labelledby="puestos-title">
+      <div class="shell">
+        <div class="section-heading">
+          <p class="kicker">Comida y agua</p>
+          <h2 id="puestos-title">Puestos en espacios públicos</h2>
+          <p>Puntos con agua y alimento para perros y gatos del barrio. Puedes patrocinar un puesto o ayudar a mantenerlo en persona: reponer agua y comida, limpiarlo y avisar si falta algo. Los puestos también aparecen en el mapa.</p>
+        </div>
+        <p class="ayudar-sim" role="note"><strong>Modo demostración.</strong> <span data-puestos-modo>Cargando…</span></p>
+        <div data-puestos-vista-lista>
+          <form class="ayudar-filtros" data-puestos-filtros aria-label="Filtrar puestos">
+            <label class="field"><span>Qué ofrece</span>
+              <select name="tipo"><option value="">Agua y comida</option><option value="agua">Agua</option><option value="comida">Comida</option></select></label>
+            <label class="field"><span>Estado</span>
+              <select name="estado"><option value="">Todos</option><option value="necesita_ayuda">Necesitan ayuda</option><option value="activo">Funcionando</option></select></label>
+          </form>
+          <div class="ayudar-lista" data-puestos-lista aria-live="polite"></div>
+        </div>
+        <article class="ayudar-detalle card" data-puestos-detalle hidden aria-live="polite"></article>
+      </div>
+    </section>
+
+    <section class="reports section" id="reportes" data-vista-de="cuenta">
+      <div class="shell">
+        <div class="report-grid">
+          <div class="report-side" data-vista-de="cuenta">
+            <section class="account-card card" id="cuenta" data-account-card aria-labelledby="account-title">
+              <div class="card-heading compact" data-account-heading>
+                <span class="card-mark" aria-hidden="true">↗</span>
+                <div><p class="kicker">Cuenta personal</p><h3 id="account-title">Mi cuenta</h3></div>
+              </div>
+              <div data-signed-out>
+                <p class="card-copy">Recibe un enlace mágico por correo. No necesitas contraseña y podrás revisar el estado de los reportes que envíes con tu sesión iniciada.</p>
+                <form class="magic-form" data-magic-form>
+                  <label class="field">
+                    <span>Correo electrónico</span>
+                    <input type="email" name="email" autocomplete="email" required placeholder="tu@correo.cl">
+                  </label>
+                  <button class="button button-dark" type="submit" data-magic-submit>Enviar enlace mágico</button>
+                </form>
+              </div>
+              <div class="session-panel" data-signed-in hidden>
+                <p>Sesión iniciada como <strong data-session-email></strong>.</p>
+              </div>
+              <p class="form-message" data-auth-message aria-live="polite"></p>
+              <!-- «Estado de mis mascotas» se quitó: las mascotas viven en Mi perfil. Estos elementos ocultos mantienen los avisos y el botón de añadir que usa main.js. -->
+              <div hidden>
+                <button type="button" data-open-pet-connect>Añadir o conectar mascota</button>
+                <div data-account-animal-list></div>
+              </div>
+
+              <section class="account-link-requests card" data-link-requests-section hidden aria-labelledby="link-requests-title">
+                <div class="list-heading">
+                  <div><p class="kicker">Autorizaciones</p><h4 id="link-requests-title">Solicitudes de vínculo</h4></div>
+                  <span class="count-badge" data-link-requests-count>0</span>
+                </div>
+                <p class="card-copy">Si alguien quiere vincularse a una de tus mascotas, puedes aceptar o rechazar aquí.</p>
+                <div class="moderation-columns" data-link-requests-list></div>
+                <p class="form-message" data-link-requests-message aria-live="polite"></p>
+              </section>
+
+
+            </section>
+
+            <section class="my-profile" id="mi-perfil" data-my-profile hidden aria-labelledby="my-profile-title">
+              <div class="mp-screen" data-my-profile-panel="perfil">
+                <header class="mp-top">
+                  <h3 id="my-profile-title" tabindex="-1">Mi perfil</h3>
+                  <button type="button" class="mp-chip" data-my-profile-public hidden>Vista pública</button>
+                </header>
+
+                <div class="mp-identity">
+                  <span class="mp-avatar" data-my-profile-initials aria-hidden="true">?</span>
+                  <div class="mp-identity-text">
+                    <strong data-my-profile-alias>Sin alias todavía</strong>
+                    <span class="mp-place">Del barrio de Maipú</span>
+                    <p class="mp-tagline" data-my-profile-bio></p>
+                    <small data-my-profile-visibility></small>
+                  </div>
+                  <button type="button" class="mp-btn mp-btn-soft" data-my-profile-edit-bio>Editar descripción</button>
+                  <a class="mp-link mp-core-link" href="https://core.convergenciaaura.cl/mi-perfil.html" target="_blank" rel="noopener">Nombre y foto: se cambian en Convergencia Aura</a>
+                </div>
+
+                <section class="mp-card" aria-labelledby="mp-arbol-title">
+                  <h4 id="mp-arbol-title">Mi árbol de vínculos</h4>
+                  <div data-arbol-resumen aria-live="polite"><p class="mp-muted">Cargando tu árbol…</p></div>
+                </section>
+
+                <section class="mp-card" aria-labelledby="mp-mascotas-title">
+                  <div class="mp-card-head">
+                    <h4 id="mp-mascotas-title">Mis mascotas</h4>
+                    <button type="button" class="mp-link" data-my-profile-tab="animales">Ver todas</button>
+                  </div>
+                  <div class="mp-pets" data-my-profile-pets></div>
+                <p class="form-message" data-account-animal-message aria-live="polite"></p>
+                </section>
+
+                <section class="mp-card" aria-labelledby="mp-aportes-title">
+                  <h4 id="mp-aportes-title">Aportes a la comunidad</h4>
+                  <div class="mp-aportes">
+                    <div data-aporte="cuidados"><strong>0</strong><span>Cuidados</span></div>
+                    <div data-aporte="encuentros"><strong>0</strong><span>Encuentros</span></div>
+                    <div data-aporte="ayuda"><strong>0</strong><span>Ayuda</span></div>
+                  </div>
+                </section>
+
+                <nav class="mp-rows" aria-label="Más de mi perfil">
+                  <button type="button" class="mp-row" data-my-profile-tab="fichas"><span>Fichas y vínculos</span><span aria-hidden="true">›</span></button>
+                  <button type="button" class="mp-row" data-my-profile-tab="actividad"><span>Actividad</span><span aria-hidden="true">›</span></button>
+                  <button type="button" class="mp-row" data-my-profile-tab="aportes"><span>Mis aportes</span><span aria-hidden="true">›</span></button>
+                  <button type="button" class="mp-row" data-my-profile-tab="acciones"><span>Mis acciones</span><span aria-hidden="true">›</span></button>
+                </nav>
+
+                <p class="my-profile-privacy"><span aria-hidden="true">◇</span> Solo tú ves este resumen completo.</p>
+              </div>
+
+              <div class="mp-screen" data-my-profile-panel="animales" hidden>
+                <header class="mp-sub">
+                  <button type="button" class="mp-back" data-my-profile-tab="perfil" aria-label="Volver a Mi perfil">‹</button>
+                  <h4 tabindex="-1">Mis animales</h4>
+                </header>
+                <div class="my-profile-animal-list" data-my-profile-animals></div>
+                <button class="mp-btn" type="button" data-my-profile-connect>＋ Asociar un animal</button>
+              </div>
+
+              <div class="mp-screen" data-my-profile-panel="actividad" hidden>
+                <header class="mp-sub">
+                  <button type="button" class="mp-back" data-my-profile-tab="perfil" aria-label="Volver a Mi perfil">‹</button>
+                  <h4 tabindex="-1">Actividad</h4>
+                </header>
+                <div class="my-profile-stats">
+                  <div><strong data-my-profile-stat="avisos">0</strong><span>Avisos activos</span></div>
+                  <div><strong data-my-profile-stat="reportes">0</strong><span>Reportes enviados</span></div>
+                  <div><strong data-my-profile-stat="atendidos">0</strong><span>Reportes atendidos</span></div>
+                </div>
+                <h5 class="my-profile-subtitle">Actividad reciente</h5>
+                <div class="my-profile-activity" data-my-profile-activity></div>
+              </div>
+
+              <div class="mp-screen" data-my-profile-panel="aportes" hidden>
+                <header class="mp-sub">
+                  <button type="button" class="mp-back" data-my-profile-tab="perfil" aria-label="Volver a Mi perfil">‹</button>
+                  <h4 tabindex="-1">Mis aportes</h4>
+                </header>
+                <div data-mis-aportes aria-live="polite"></div>
+              </div>
+
+              <div class="mp-screen" data-my-profile-panel="fichas" hidden>
+                <header class="mp-sub">
+                  <button type="button" class="mp-back" data-my-profile-tab="perfil" aria-label="Volver a Mi perfil">‹</button>
+                  <h4 tabindex="-1">Fichas y vínculos</h4>
+                </header>
         <div class="creator-workspace" data-network-signed-in hidden>
           <form class="card network-form" data-profile-form>
             <div class="card-heading compact"><span class="card-mark" aria-hidden="true">◎</span><div><p class="kicker">Identidad pública</p><h3>Mi alias en la red</h3></div></div>
@@ -288,189 +516,19 @@
             <p class="form-message" data-animal-link-message aria-live="polite"></p>
           </form>
         </div>
-
         <section class="moderator-network card" data-moderator-network hidden aria-labelledby="moderator-network-title">
           <div class="list-heading"><div><p class="kicker">Moderación</p><h3 id="moderator-network-title">Reportes de perfiles</h3></div><span class="count-badge" data-network-moderator-count>0</span></div>
           <p class="card-copy">Los perfiles se publican solos. Aquí revisas denuncias y dejas una nota de seguimiento para quien reportó con cuenta.</p>
           <div class="moderation-columns" data-network-moderation></div>
           <p class="form-message" data-network-moderator-message aria-live="polite"></p>
         </section>
-      </div>
-    </section>
-
-    <section class="ayudar section" id="ayudar" data-vista-de="ayudar" data-ayudar aria-labelledby="ayudar-title">
-      <div class="shell">
-        <div class="section-heading">
-          <p class="kicker">Ayudar</p>
-          <h2 id="ayudar-title">Acciones por financiar</h2>
-          <p>Una persona u organización propone una prestación concreta para un animal. Varias personas aportan hasta completar el presupuesto; después se ejecuta y se documenta el resultado. Son aportes solidarios para financiar una acción: no ofrecen intereses ni retornos.</p>
-        </div>
-        <p class="ayudar-sim" role="note"><strong>Simulación.</strong> <span data-ayudar-modo>Cargando…</span></p>
-        <div data-ayudar-vista-lista>
-          <form class="ayudar-filtros" data-ayudar-filtros aria-label="Filtrar acciones">
-            <label class="field"><span>Categoría</span>
-              <select name="categoria"><option value="">Todas</option><option value="alojamiento">Alojamiento</option><option value="cuidado">Cuidado</option><option value="salud">Salud</option><option value="alimentacion">Alimentación</option><option value="traslado">Traslado</option><option value="educacion">Educación</option><option value="otro">Otro</option></select></label>
-            <label class="field"><span>Comuna</span><input name="comuna" type="text" maxlength="60" placeholder="Ej.: Maipú" autocomplete="off"></label>
-            <label class="field"><span>Urgencia</span>
-              <select name="urgencia"><option value="">Cualquiera</option><option value="critica">Crítica</option><option value="alta">Alta</option><option value="normal">Normal</option></select></label>
-            <label class="field"><span>Estado</span>
-              <select name="estado"><option value="">Todos</option><option value="recaudando">Recaudando</option><option value="meta_alcanzada">Meta alcanzada</option><option value="programada">Programada</option><option value="en_ejecucion">En ejecución</option><option value="completada">Completada</option></select></label>
-          </form>
-          <div class="ayudar-lista" data-ayudar-lista aria-live="polite"></div>
-        </div>
-        <article class="ayudar-detalle card" data-ayudar-detalle hidden aria-live="polite"></article>
-      </div>
-    </section>
-
-    <section class="reports section" id="reportes" data-vista-de="reportar cuenta">
-      <div class="shell">
-        <div class="section-heading split-heading" data-vista-de="reportar">
-          <div>
-            <p class="kicker">Canil Parque 3 Poniente</p>
-            <h2>Reporta lo que necesita atención.</h2>
-          </div>
-          <p>Agua, limpieza, seguridad o infraestructura. Puedes reportar sin iniciar sesión; nada se publica antes de ser revisado.</p>
-        </div>
-
-        <div class="report-grid">
-          <form class="report-form card" data-report-form data-vista-de="reportar" novalidate>
-            <div class="card-heading">
-              <span class="card-mark" aria-hidden="true">＋</span>
-              <div><p class="kicker">Nuevo reporte</p><h3>Cuéntanos qué observaste</h3></div>
-            </div>
-
-            <label class="field">
-              <span>Categoría</span>
-              <select name="categoria" required>
-                <option value="">Selecciona una opción</option>
-                <option value="agua">Agua</option>
-                <option value="limpieza">Limpieza</option>
-                <option value="seguridad">Seguridad</option>
-                <option value="infraestructura">Infraestructura</option>
-              </select>
-            </label>
-
-            <label class="field">
-              <span>Descripción breve</span>
-              <textarea name="descripcion" minlength="20" maxlength="600" rows="5" required placeholder="Ej.: El bebedero no tiene agua desde esta mañana." aria-describedby="description-help"></textarea>
-              <small id="description-help"><span data-description-count>0</span>/600 caracteres · mínimo 20</small>
-            </label>
-
-            <label class="field">
-              <span>Fecha y hora aproximadas</span>
-              <input type="datetime-local" name="observado_en" required>
-            </label>
-
-            <label class="trap-field" aria-hidden="true">
-              <span>Sitio web</span>
-              <input type="text" name="sitio_web" tabindex="-1" autocomplete="off">
-            </label>
-
-            <div class="privacy-note">
-              <span aria-hidden="true">◇</span>
-              <p><strong>Privado hasta verificar.</strong> Tu reporte parte como pendiente. Si se publica, nunca incluirá tu identidad.</p>
-            </div>
-
-            <button class="button button-primary form-submit" type="submit" data-report-submit>Enviar reporte <span aria-hidden="true">→</span></button>
-            <p class="form-message" data-report-message aria-live="polite"></p>
-            <p class="emergency-note">Si existe peligro inmediato para personas o animales, contacta a los servicios de emergencia correspondientes.</p>
-          </form>
-
-          <div class="report-side" data-vista-de="cuenta">
-            <section class="account-card card" id="cuenta" aria-labelledby="account-title">
-              <div class="card-heading compact">
-                <span class="card-mark" aria-hidden="true">↗</span>
-                <div><p class="kicker">Cuenta personal</p><h3 id="account-title">Mi cuenta</h3></div>
-              </div>
-              <div data-signed-out>
-                <p class="card-copy">Recibe un enlace mágico por correo. No necesitas contraseña y podrás revisar el estado de los reportes que envíes con tu sesión iniciada.</p>
-                <form class="magic-form" data-magic-form>
-                  <label class="field">
-                    <span>Correo electrónico</span>
-                    <input type="email" name="email" autocomplete="email" required placeholder="tu@correo.cl">
-                  </label>
-                  <button class="button button-dark" type="submit" data-magic-submit>Enviar enlace mágico</button>
-                </form>
-              </div>
-              <div class="session-panel" data-signed-in hidden>
-                <p>Sesión iniciada como <strong data-session-email></strong>.</p>
-                <button class="text-button" type="button" data-sign-out>Cerrar sesión</button>
-              </div>
-              <p class="form-message" data-auth-message aria-live="polite"></p>
-              <section class="account-animals" data-account-animals hidden aria-labelledby="account-animals-title">
-                <div class="account-animals-heading">
-                  <div><p class="kicker">Red animal</p><h4 id="account-animals-title">Estado de mis mascotas</h4></div>
-                  <button class="account-add-pet" type="button" data-open-pet-connect>＋ Añadir o conectar mascota</button>
-                </div>
-                <div class="account-animal-list" data-account-animal-list></div>
-                <p class="form-message" data-account-animal-message aria-live="polite"></p>
-              </section>
-
-              <section class="account-link-requests card" data-link-requests-section hidden aria-labelledby="link-requests-title">
-                <div class="list-heading">
-                  <div><p class="kicker">Autorizaciones</p><h4 id="link-requests-title">Solicitudes de vínculo</h4></div>
-                  <span class="count-badge" data-link-requests-count>0</span>
-                </div>
-                <p class="card-copy">Si alguien quiere vincularse a una de tus mascotas, puedes aceptar o rechazar aquí.</p>
-                <div class="moderation-columns" data-link-requests-list></div>
-                <p class="form-message" data-link-requests-message aria-live="polite"></p>
-              </section>
-
-
-            </section>
-
-            <section class="card my-profile" id="mi-perfil" data-my-profile hidden aria-labelledby="my-profile-title">
-              <div class="card-heading compact">
-                <span class="card-mark" aria-hidden="true">◎</span>
-                <div><p class="kicker">Vista privada</p><h3 id="my-profile-title">Mi perfil</h3></div>
-              </div>
-              <div class="my-profile-tabs" role="tablist" aria-label="Secciones de Mi perfil">
-                <button type="button" role="tab" id="my-profile-tab-perfil" aria-selected="true" aria-controls="my-profile-panel-perfil" data-my-profile-tab="perfil">Perfil</button>
-                <button type="button" role="tab" id="my-profile-tab-animales" aria-selected="false" aria-controls="my-profile-panel-animales" tabindex="-1" data-my-profile-tab="animales">Mis animales</button>
-                <button type="button" role="tab" id="my-profile-tab-arbol" aria-selected="false" aria-controls="my-profile-panel-arbol" tabindex="-1" data-my-profile-tab="arbol">Mi árbol</button>
-                <button type="button" role="tab" id="my-profile-tab-actividad" aria-selected="false" aria-controls="my-profile-panel-actividad" tabindex="-1" data-my-profile-tab="actividad">Actividad</button>
-                <button type="button" role="tab" id="my-profile-tab-aportes" aria-selected="false" aria-controls="my-profile-panel-aportes" tabindex="-1" data-my-profile-tab="aportes">Mis aportes</button>
-                <button type="button" role="tab" id="my-profile-tab-acciones" aria-selected="false" aria-controls="my-profile-panel-acciones" tabindex="-1" data-my-profile-tab="acciones">Mis acciones</button>
               </div>
 
-              <div class="my-profile-panel" role="tabpanel" id="my-profile-panel-perfil" aria-labelledby="my-profile-tab-perfil" data-my-profile-panel="perfil">
-                <div class="my-profile-identity">
-                  <span class="my-profile-avatar" data-my-profile-initials aria-hidden="true">?</span>
-                  <div><strong data-my-profile-alias>Sin alias todavía</strong><small data-my-profile-visibility></small></div>
-                </div>
-                <p class="card-copy" data-my-profile-bio></p>
-                <div class="my-profile-stats">
-                  <div><strong data-my-profile-stat="animales">0</strong><span>Animales</span></div>
-                  <div><strong data-my-profile-stat="avisos">0</strong><span>Avisos activos</span></div>
-                  <div><strong data-my-profile-stat="reportes">0</strong><span>Reportes</span></div>
-                </div>
-                <a class="button button-dark" href="#red">Editar perfil</a>
-              </div>
-
-              <div class="my-profile-panel" role="tabpanel" id="my-profile-panel-animales" aria-labelledby="my-profile-tab-animales" data-my-profile-panel="animales" hidden>
-                <div class="my-profile-animal-list" data-my-profile-animals></div>
-                <button class="button button-dark" type="button" data-my-profile-connect>＋ Asociar un animal</button>
-              </div>
-
-              <div class="my-profile-panel" role="tabpanel" id="my-profile-panel-arbol" aria-labelledby="my-profile-tab-arbol" data-my-profile-panel="arbol" hidden>
-                <div data-arbol-resumen aria-live="polite"><p class="card-copy">Cargando tu árbol…</p></div>
-              </div>
-
-              <div class="my-profile-panel" role="tabpanel" id="my-profile-panel-actividad" aria-labelledby="my-profile-tab-actividad" data-my-profile-panel="actividad" hidden>
-                <div class="my-profile-stats">
-                  <div><strong data-my-profile-stat="avisos">0</strong><span>Avisos activos</span></div>
-                  <div><strong data-my-profile-stat="reportes">0</strong><span>Reportes enviados</span></div>
-                  <div><strong data-my-profile-stat="atendidos">0</strong><span>Reportes atendidos</span></div>
-                </div>
-                <h4 class="my-profile-subtitle">Actividad reciente</h4>
-                <div class="my-profile-activity" data-my-profile-activity></div>
-              </div>
-              <p class="my-profile-privacy"><span aria-hidden="true">◇</span> Solo tú ves este resumen completo.</p>
-                          <div class="my-profile-panel" role="tabpanel" id="my-profile-panel-aportes" aria-labelledby="my-profile-tab-aportes" data-my-profile-panel="aportes" hidden>
-                <div data-mis-aportes aria-live="polite"></div>
-              </div>
-
-              <div class="my-profile-panel" role="tabpanel" id="my-profile-panel-acciones" aria-labelledby="my-profile-tab-acciones" data-my-profile-panel="acciones" hidden>
+              <div class="mp-screen" data-my-profile-panel="acciones" hidden>
+                <header class="mp-sub">
+                  <button type="button" class="mp-back" data-my-profile-tab="perfil" aria-label="Volver a Mi perfil">‹</button>
+                  <h4 tabindex="-1">Mis acciones</h4>
+                </header>
                 <div data-mis-acciones aria-live="polite"></div>
               </div>
             </section>
@@ -485,30 +543,7 @@
 
 
 
-        <section class="public-reports" data-vista-de="reportar" aria-labelledby="public-reports-title">
-          <div class="list-heading public-heading">
-            <div><p class="kicker">Información comunitaria</p><h3 id="public-reports-title">Reportes verificados</h3></div>
-            <p>Solo aparecen casos revisados o cerrados. La identidad de quien reportó nunca se muestra.</p>
-          </div>
-          <div class="report-loop" data-report-stats>
-            <div class="pilot-stats" aria-label="Estadísticas públicas del canal de reportes">
-              <div><strong data-stat-reportados>—</strong><span>reportados</span></div>
-              <div><strong data-stat-resueltos>—</strong><span>resueltos</span></div>
-              <div><strong data-stat-dias>—</strong><span>días promedio de resolución</span></div>
-            </div>
-            <div class="report-recurrence">
-              <p class="kicker">Lo más reportado</p>
-              <ul data-report-recurrence>
-                <li class="empty-state">Cargando recurrencia…</li>
-              </ul>
-            </div>
-          </div>
-          <div class="report-list public-list" data-public-reports>
-            <p class="empty-state">Cargando reportes verificados…</p>
-          </div>
-        </section>
-
-        <section class="moderator-panel card" data-moderator-panel data-vista-de="reportar" hidden aria-labelledby="moderator-title">
+        <section class="moderator-panel card" data-moderator-panel data-vista-de="cuenta" hidden aria-labelledby="moderator-title">
           <div class="list-heading">
             <div><p class="kicker">Moderación</p><h3 id="moderator-title">Bandeja del piloto</h3></div>
             <span class="count-badge" data-moderator-count>0</span>
@@ -523,76 +558,6 @@
       </div>
     </section>
 
-    <section class="how section" id="como-funciona" data-vista-de="inicio">
-      <div class="shell">
-        <div class="section-heading center-heading">
-          <p class="kicker">Diseñado para cuidar</p>
-          <h2>Un QR puede conectar sin revelar.</h2>
-          <p>La identificación sirve para acercar ayuda, no para publicar teléfonos, correos o domicilios.</p>
-        </div>
-        <div class="steps-grid">
-          <article>
-            <span class="step-mark">1</span>
-            <h3>Escaneas</h3>
-            <p>El código identifica a la mascota con un token revocable, no con datos personales en la URL.</p>
-          </article>
-          <article>
-            <span class="step-mark">2</span>
-            <h3>Dejas un aviso</h3>
-            <p>La interacción puede ser anónima. Identificarte es una decisión voluntaria.</p>
-          </article>
-          <article>
-            <span class="step-mark">3</span>
-            <h3>AuraLadra conecta</h3>
-            <p>El responsable recibe el aviso y decide cómo responder sin exponer su contacto públicamente.</p>
-          </article>
-        </div>
-        <div class="build-note">
-          <span aria-hidden="true">↗</span>
-          <div><strong>Función en construcción</strong><p>Estamos preparando este flujo sobre una base segura y con consentimiento por mascota.</p></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="network section" id="recursos" data-vista-de="inicio">
-      <div class="shell network-grid">
-        <div>
-          <p class="kicker">La red que viene</p>
-          <h2>Datos comunitarios con contexto.</h2>
-          <p>El mapa distingue aportes comunitarios de lugares verificados y señala las urgencias veterinarias de forma explícita.</p>
-        </div>
-        <div class="network-cards">
-          <article><span aria-hidden="true">＋</span><h3>Servicios y comercios</h3><p>Veterinarias, urgencias, alimento, juguetes y accesorios.</p><small>Activo</small></article>
-          <article><span aria-hidden="true">⌖</span><h3>Mapa comunitario</h3><p>Caniles, espacios y lugares donde se conocen animales comunitarios.</p><small>Activo</small></article>
-          <article><span aria-hidden="true">◇</span><h3>Contenido para cuidar</h3><p>Guías breves con fuentes, fecha y enlaces para profundizar.</p><small>Próxima etapa</small></article>
-        </div>
-      </div>
-    </section>
-
-    <section class="principles section" id="principios" data-vista-de="inicio">
-      <div class="shell principles-grid">
-        <div class="principles-title">
-          <p class="kicker">Nuestros principios</p>
-          <h2>La comunidad funciona cuando el cuidado también protege la autonomía.</h2>
-        </div>
-        <div class="principle-list">
-          <article><span>01</span><div><h3>Privacidad por defecto</h3><p>Los datos personales no son contenido público.</p></div></article>
-          <article><span>02</span><div><h3>Consentimiento revocable</h3><p>Cada responsable puede decidir, revisar y retirar permisos.</p></div></article>
-          <article><span>03</span><div><h3>Hechos separados de la voz</h3><p>La identidad verificable de una mascota se distingue de su relato de marca.</p></div></article>
-          <article><span>04</span><div><h3>Primero el territorio</h3><p>Construimos desde problemas observados, no desde funciones imaginadas.</p></div></article>
-        </div>
-      </div>
-    </section>
-
-    <section class="closing" data-vista-de="inicio">
-      <div class="shell closing-inner">
-        <div>
-          <p class="kicker">Una huella a la vez</p>
-          <h2>Partimos pequeños para cuidar mejor.</h2>
-        </div>
-        <a class="button button-dark" href="https://www.instagram.com/aura.ladra/" target="_blank" rel="noopener noreferrer">Seguir @aura.ladra <span aria-hidden="true">↗</span></a>
-      </div>
-    </section>
   </main>
 
   <footer class="site-footer">
@@ -602,6 +567,92 @@
       <p>© <span data-year></span> AuraLadra</p>
     </div>
   </footer>
+
+  <dialog class="human-profile-dialog feed-dialog" data-feed-dialog aria-labelledby="feed-dialog-title">
+    <div class="human-profile-shell">
+      <button class="pet-profile-close" type="button" data-feed-close aria-label="Cerrar">×</button>
+      <p class="kicker">Feed</p>
+      <h3 id="feed-dialog-title">Publicar</h3>
+      <form class="magic-form" data-feed-form>
+        <label class="field"><span>¿Qué mascota publica?</span><select name="mascota" required data-feed-mascotas></select></label>
+        <fieldset class="feed-tipo"><legend class="sr-only">Tipo</legend>
+          <label><input type="radio" name="tipo" value="post" checked> <span>Publicación</span></label>
+          <label><input type="radio" name="tipo" value="historia"> <span>Historia (dura 24 h)</span></label>
+        </fieldset>
+        <label class="field"><span>Foto</span><input type="file" name="imagen" accept="image/jpeg,image/png,image/webp"><small>Videos: próximamente (necesitan almacenamiento).</small></label>
+        <label class="field"><span>Texto</span><textarea name="texto" maxlength="300" rows="3" placeholder="Cuenta algo de tu mascota"></textarea></label>
+        <button class="button button-dark" type="submit">Publicar</button>
+        <p class="form-message" data-feed-message aria-live="polite"></p>
+      </form>
+    </div>
+  </dialog>
+  <dialog class="human-profile-dialog feed-dialog" data-enc-dialog aria-labelledby="enc-dialog-title">
+    <form method="dialog" data-enc-form novalidate>
+      <button class="pet-profile-close" type="button" data-enc-close aria-label="Cerrar">×</button>
+      <h3 id="enc-dialog-title" data-enc-titulo>Proponer un encuentro</h3>
+      <label>Tipo<select name="tipo"><option value="paseo">Paseo coordinado</option><option value="junta_canil">Junta de canil</option><option value="jornada_adopcion">Jornada de adopción</option><option value="campana">Campaña</option><option value="mantenimiento_estacion">Mantenimiento de estación</option><option value="otro">Otro</option></select></label>
+      <label>Título<input name="titulo" type="text" maxlength="80" required autocomplete="off"></label>
+      <label>Fecha<input name="fecha" type="date" required></label>
+      <label>Hora de inicio<input name="hora" type="time" required></label>
+      <label>Hora de término (opcional)<input name="termino" type="time"></label>
+      <label>Lugar<select name="lugar" data-enc-lugares><option value="">Otro punto de encuentro (lo escribo)</option></select></label>
+      <label>Punto de encuentro<input name="lugar_texto" type="text" maxlength="120" placeholder="Ej.: Entrada del parque. Sin domicilios" autocomplete="off"></label>
+      <label>Quién puede verlo<select name="visibilidad"><option value="privado">Solo quien yo invite</option><option value="publico">Cualquier persona con sesión</option></select></label>
+      <label>Descripción (opcional)<textarea name="descripcion" rows="2" maxlength="600"></textarea></label>
+      <label>Condiciones de participación (opcional)<textarea name="condiciones" rows="2" maxlength="400" placeholder="Ej.: perros con correa"></textarea></label>
+      <label>Qué necesita tu animal para interactuar (opcional)<textarea name="necesidades" rows="2" maxlength="300" placeholder="Ej.: se pone nervioso con perros muy grandes"></textarea></label>
+      <p class="cal-demo">Describir lo que necesita un animal no promete compatibilidad ni seguridad. Después de crearlo podrás invitar a tus amistades.</p>
+      <p class="action-feedback" data-enc-message aria-live="polite"></p>
+      <button class="feed-publicar" type="submit" data-enc-enviar>Proponer encuentro</button>
+    </form>
+  </dialog>
+
+  <dialog class="human-profile-dialog feed-dialog" data-enc-inv-dialog aria-labelledby="enc-inv-title">
+    <form method="dialog" data-enc-inv-form novalidate>
+      <button class="pet-profile-close" type="button" data-enc-inv-close aria-label="Cerrar">×</button>
+      <h3 id="enc-inv-title">Invitar amistades</h3>
+      <p data-enc-inv-resumen></p>
+      <fieldset class="tarea-destino" data-enc-inv-lista><legend>Tus amistades</legend></fieldset>
+      <p class="action-feedback" data-enc-inv-message aria-live="polite"></p>
+      <button class="feed-publicar" type="submit">Enviar invitaciones</button>
+    </form>
+  </dialog>
+
+  <dialog class="human-profile-dialog feed-dialog" data-enc-resp-dialog aria-labelledby="enc-resp-title">
+    <form method="dialog" data-enc-resp-form novalidate>
+      <button class="pet-profile-close" type="button" data-enc-resp-close aria-label="Cerrar">×</button>
+      <h3 id="enc-resp-title">Confirmar asistencia</h3>
+      <p data-enc-resp-resumen></p>
+      <label>Personas que asisten (contándote)<input name="personas" type="number" min="1" max="10" value="1"></label>
+      <fieldset class="tarea-destino" data-enc-resp-mascotas><legend>Mascotas que llevas</legend></fieldset>
+      <p class="action-feedback" data-enc-resp-message aria-live="polite"></p>
+      <button class="feed-publicar" type="submit">Confirmar</button>
+    </form>
+  </dialog>
+
+  <dialog class="human-profile-dialog feed-dialog" data-cal-dialog aria-labelledby="cal-dialog-title">
+    <form method="dialog" data-cal-form novalidate>
+      <button class="pet-profile-close" type="button" data-cal-close aria-label="Cerrar">×</button>
+      <h3 id="cal-dialog-title">Nuevo evento</h3>
+      <label>Título<input name="titulo" type="text" maxlength="80" required autocomplete="off"></label>
+      <label>Fecha<input name="fecha" type="date" required></label>
+      <label>Hora (opcional)<input name="hora" type="time"></label>
+      <label>Lugar (opcional)<input name="lugar" type="text" maxlength="120" placeholder="Ej.: Plaza de Maipú" autocomplete="off"></label>
+      <label>Detalle (opcional)<textarea name="detalle" rows="3" maxlength="300"></textarea></label>
+      <button class="button-verde" type="button" data-cal-ubicar>Usar mi ubicación</button>
+      <p class="action-feedback" data-cal-message aria-live="polite"></p>
+      <button class="feed-publicar" type="submit">Guardar evento</button>
+    </form>
+  </dialog>
+
+  <dialog class="feed-historia-dialog" data-feed-historia-dialog aria-label="Historia">
+    <div class="fh-barras" data-fh-barras></div>
+    <header class="fh-cabecera"><span class="fh-avatar" data-fh-avatar></span><div><strong data-fh-nombre></strong><small data-fh-hora></small></div><button type="button" class="fh-cerrar" data-fh-cerrar aria-label="Cerrar historia">×</button></header>
+    <div class="fh-medio" data-fh-medio></div>
+    <p class="fh-texto" data-fh-texto></p>
+    <button type="button" class="fh-nav fh-ant" data-fh-ant aria-label="Anterior"></button>
+    <button type="button" class="fh-nav fh-sig" data-fh-sig aria-label="Siguiente"></button>
+  </dialog>
 
   <!-- Cuadros emergentes: fuera de las secciones para que se vean desde cualquier vista (js/vistas.js esconde secciones enteras). -->
   <dialog class="wanted-dialog" data-wanted-claim-dialog>
@@ -732,6 +783,35 @@
                   </div>
                 </div>
               </dialog>
+  <dialog class="human-profile-dialog" data-bio-dialog aria-labelledby="bio-title">
+    <div class="human-profile-shell">
+      <button class="pet-profile-close" type="button" data-bio-close aria-label="Cerrar">×</button>
+      <p class="kicker">Mi perfil</p>
+      <h3 id="bio-title">Editar descripción</h3>
+      <p class="card-copy">Tu nombre y tu foto se editan en Convergencia Aura. Aquí solo cambias cómo te presentas en AuraLadra.</p>
+      <form class="magic-form" data-bio-form>
+        <label class="field"><span>Descripción</span><textarea name="biografia" maxlength="300" rows="4"></textarea></label>
+        <button class="button button-dark" type="submit">Guardar descripción</button>
+        <p class="form-message" data-bio-message aria-live="polite"></p>
+      </form>
+    </div>
+  </dialog>
+  <dialog class="human-profile-dialog" data-login-dialog aria-labelledby="login-title">
+          <div class="human-profile-shell">
+            <button class="pet-profile-close" type="button" data-login-close aria-label="Cerrar">×</button>
+            <p class="kicker">Mi cuenta</p>
+            <h3 id="login-title">Iniciar sesión</h3>
+            <p class="card-copy">Escribe tu correo y te enviamos un enlace para entrar, sin contraseña.</p>
+            <form class="magic-form" data-magic-form>
+              <label class="field">
+                <span>Correo electrónico</span>
+                <input type="email" name="email" autocomplete="email" required placeholder="tu@correo.cl">
+              </label>
+              <button class="button button-dark" type="submit" data-magic-submit>Enviar enlace mágico</button>
+            </form>
+            <p class="form-message" data-auth-message aria-live="polite"></p>
+          </div>
+        </dialog>
   <dialog class="human-profile-dialog" data-human-profile-dialog aria-labelledby="human-profile-title">
           <div class="human-profile-shell">
             <button class="pet-profile-close" type="button" data-human-profile-close aria-label="Cerrar perfil">×</button>
@@ -761,21 +841,30 @@
         </dialog>
 
   <nav class="tabbar" aria-label="Navegación inferior" data-tabbar>
-    <a href="#inicio" data-tabbar-link="inicio"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span>Inicio</span></a>
-    <a href="#mapa" data-tabbar-link="mapa"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg><span>Mapa</span></a>
-    <a href="#red" data-tabbar-link="red"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><ellipse cx="6.5" cy="11" rx="1.8" ry="2.4"/><ellipse cx="10" cy="6.8" rx="1.8" ry="2.4"/><ellipse cx="14.5" cy="6.8" rx="1.8" ry="2.4"/><ellipse cx="18" cy="11" rx="1.8" ry="2.4"/><path d="M12.2 12c2.8 0 5.5 3 5.5 5.6 0 1.8-1.5 2.6-3.1 2.1-1.1-.3-1.8-.5-2.4-.5s-1.3.2-2.4.5c-1.6.5-3.1-.3-3.1-2.1 0-2.6 2.7-5.6 5.5-5.6z"/></svg><span>Red animal</span></a>
-    <a href="#ayudar" data-tabbar-link="ayudar"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-4.6-9-9.2C1.8 8.6 3.6 5 7 5c2 0 3.4 1.1 5 3 1.6-1.9 3-3 5-3 3.4 0 5.2 3.6 4 6.8-2 4.6-9 9.2-9 9.2z"/></svg><span>Ayudar</span></a>
-    <a href="#mi-perfil" data-tabbar-link="perfil"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg><span>Mi perfil</span></a>
+    <a href="#inicio" data-tabbar-link="inicio"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span>Home</span></a>
+    <a href="#mapa" data-tabbar-link="mapa"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg><span>Locaciones</span></a>
+    <a href="#red" data-tabbar-link="red"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><ellipse cx="6.5" cy="11" rx="1.8" ry="2.4"/><ellipse cx="10" cy="6.8" rx="1.8" ry="2.4"/><ellipse cx="14.5" cy="6.8" rx="1.8" ry="2.4"/><ellipse cx="18" cy="11" rx="1.8" ry="2.4"/><path d="M12.2 12c2.8 0 5.5 3 5.5 5.6 0 1.8-1.5 2.6-3.1 2.1-1.1-.3-1.8-.5-2.4-.5s-1.3.2-2.4.5c-1.6.5-3.1-.3-3.1-2.1 0-2.6 2.7-5.6 5.5-5.6z"/></svg><span>Mi red</span></a>
+    <a href="#ayudar" data-tabbar-link="ayudar"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-4.6-9-9.2C1.8 8.6 3.6 5 7 5c2 0 3.4 1.1 5 3 1.6-1.9 3-3 5-3 3.4 0 5.2 3.6 4 6.8-2 4.6-9 9.2-9 9.2z"/></svg><span>Aportar</span></a>
+    <a href="#mi-perfil" data-tabbar-link="perfil"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg><span>Mi cuenta</span></a>
   </nav>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://convergenciaaura.cl/aura-auth.js"></script>
+<script src="https://core.convergenciaaura.cl/js/aura-pwa-auth.js"></script>
+<script src="https://core.convergenciaaura.cl/js/aura-nav.js"></script>
 <script src="js/supabase-client.js"></script>
+<script src="js/visitas.js"></script>
 <script src="js/main.js"></script>
 <script src="js/acciones.js"></script>
+<script src="js/puestos.js"></script>
+<script src="js/feed.js"></script>
+<script src="js/eventos.js"></script>
+<script src="js/descubrir.js"></script>
+<script src="js/encuentros.js"></script>
 <script src="js/arbol.js"></script>
 <script src="js/vistas.js"></script>
+<script defer src="https://convergenciaaura.cl/aura-hub.js"></script>
 <script defer src="https://core.convergenciaaura.cl/js/globo.js" data-margen-movil="76"></script>
 </body>
 </html>

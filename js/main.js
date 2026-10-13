@@ -14,11 +14,11 @@
   };
   const categoryLabels = { agua: 'Agua', limpieza: 'Limpieza', seguridad: 'Seguridad', infraestructura: 'Infraestructura' };
   const placeCategoryLabels = {
-    canil: 'Canil', parque: 'Parque', veterinaria: 'Veterinaria', refugio: 'Refugio', casa_acogida: 'Casa de acogida', tienda_mascotas: 'Tienda de mascotas',
+    canil: 'Canil', parque: 'Parque', puesto: 'Comida y agua', veterinaria: 'Veterinaria', refugio: 'Refugio', casa_acogida: 'Casa de acogida', tienda_mascotas: 'Tienda de mascotas',
     alimento: 'Comida', juguetes_accesorios: 'Juguetes y accesorios', animal_comunitario: 'Animal comunitario',
     mascota_perdida: 'Mascota perdida', servicio: 'Servicio', comercio: 'Comercio', otro: 'Otro',
   };
-  const placeIcons = { canil: '🐾', parque: '🌳', veterinaria: '✚', refugio: '⌂', casa_acogida: '♡', tienda_mascotas: '◆', alimento: '●', juguetes_accesorios: '◈', animal_comunitario: '♥', mascota_perdida: '!', servicio: '＋', comercio: '◇', otro: '⌖' };
+  const placeIcons = { canil: '🐾', parque: '🌳', puesto: '💧', veterinaria: '✚', refugio: '⌂', casa_acogida: '♡', tienda_mascotas: '◆', alimento: '●', juguetes_accesorios: '◈', animal_comunitario: '♥', mascota_perdida: '!', servicio: '＋', comercio: '◇', otro: '⌖' };
   const petSkillLabels = {
     reconoce_nombre: 'Reconoce su nombre', contacto_visual: 'Hace contacto visual', sentarse: 'Se sienta', dar_patita: 'Da la patita', echarse: 'Se echa',
     esperar: 'Espera', venir_llamado: 'Acude al llamado', soltar: 'Suelta objetos', paseo_correa: 'Pasea con correa', higiene: 'Hace sus necesidades en lugar indicado', socializa: 'Socializa con otros animales',
@@ -37,7 +37,11 @@
   let currentUserIsModerator = false;
   let communityMap = null;
   let markerLayer = null;
+  let lastFitCoordinates = [];
   let publicPlaces = [];
+  let basePlaces = []; // lugares y alertas que vienen de la base de datos (sin los puestos de comida y agua)
+  // Los puestos de comida y agua los entrega js/puestos.js (modo demo); se suman a los lugares del mapa.
+  const puestosComoLugares = () => window.auraLadraPuestos?.lugares?.() || [];
   let activePlaceFilter = 'todos';
   let publicAnimals = [];
   let ownAnimals = [];
@@ -71,12 +75,6 @@
         { id: 'preparar-encontrada', label: 'Preparar aviso de hallazgo', style: 'primary' },
         { id: 'mapa-urgencia', label: 'Buscar urgencias veterinarias', style: 'secondary' },
       ],
-    },
-    lugar: {
-      number: '03', kicker: 'Mapa colaborativo', title: 'Ayúdanos a mantener actualizado el ecosistema animal.',
-      steps: ['Agrega un lugar nuevo o selecciona uno existente.', 'Propón una modificación o rectificación con información verificable.', 'El capitán #00 revisará la propuesta antes de cambiar el mapa.'],
-      note: 'Ningún cambio se publica automáticamente. Evita domicilios particulares salvo que sean datos públicos de una organización.',
-      actions: [{ id: 'proponer-lugar', label: 'Crear propuesta', style: 'primary' }],
     },
   };
 
@@ -460,81 +458,12 @@
     });
   };
 
-  const showPlaceProposal = () => {
-    const workspace = document.querySelector('[data-action-workspace]');
-    const feedback = document.querySelector('[data-action-feedback]');
-    const places = publicPlaces.filter((place) => place.categoria !== 'mascota_perdida');
-    workspace.hidden = false;
-    workspace.innerHTML = `
-      <form class="quick-form" data-place-proposal-form>
-        <div class="quick-form-grid">
-          <label><span>Qué quieres hacer</span><select name="tipo" required><option value="nuevo">Agregar un lugar nuevo</option><option value="modificar">Modificar un lugar existente</option><option value="rectificar">Rectificar información incorrecta</option></select></label>
-          <label data-proposal-target hidden><span>Lugar existente</span><select name="lugar_id"><option value="">Selecciona un lugar</option>${places.map((place) => `<option value="${escapeHtml(place.id)}">${escapeHtml(place.nombre)}</option>`).join('')}</select></label>
-          <label><span>Nombre</span><input name="nombre" required maxlength="100"></label>
-          <label><span>Categoría</span><select name="categoria" required><option value="canil">Canil</option><option value="parque">Parque</option><option value="veterinaria">Veterinaria</option><option value="refugio">Refugio</option><option value="casa_acogida">Casa de acogida</option><option value="tienda_mascotas">Tienda de mascotas</option><option value="alimento">Comida para mascotas</option><option value="juguetes_accesorios">Juguetes y accesorios</option><option value="animal_comunitario">Animal comunitario</option><option value="servicio">Servicio</option><option value="comercio">Comercio</option><option value="otro">Otro</option></select></label>
-          <label class="is-wide"><span>Descripción</span><textarea name="descripcion" required maxlength="500" rows="3"></textarea></label>
-          <label><span>Dirección pública</span><input name="direccion_publica" maxlength="180"></label>
-          <label><span>Comuna</span><input name="comuna" value="Maipú" required maxlength="80"></label>
-          <label><span>Latitud</span><input name="latitud" type="number" step="0.000001" min="-90" max="90"></label>
-          <label><span>Longitud</span><input name="longitud" type="number" step="0.000001" min="-180" max="180"></label>
-          <label><span>Horario</span><input name="horario_publico" maxlength="180"></label>
-          <label><span>Teléfono público</span><input name="telefono_publico" maxlength="40"></label>
-          <label class="is-wide"><span>Sitio web</span><input name="sitio_web" type="url" maxlength="300"></label>
-          <label class="is-wide"><span>Motivo o fuente de la propuesta</span><textarea name="motivo" required minlength="10" maxlength="500" rows="3" placeholder="Explica qué conoces, qué debe corregirse o dónde puede verificarse."></textarea></label>
-          <label class="check-field"><input name="servicio_urgencia" type="checkbox"><span>Atiende urgencias veterinarias</span></label>
-          <label class="check-field"><input name="urgencia_24h" type="checkbox"><span>Urgencia 24 horas</span></label>
-        </div>
-        <div class="quick-form-actions"><button class="panel-action is-primary" type="submit">Enviar a moderación</button><button class="panel-action" type="button" data-close-workspace>Cancelar</button></div>
-      </form>`;
-    setMessage(feedback);
-    const form = workspace.querySelector('[data-place-proposal-form]');
-    const targetWrap = form.querySelector('[data-proposal-target]');
-    const syncType = () => {
-      const needsTarget = form.elements.tipo.value !== 'nuevo';
-      targetWrap.hidden = !needsTarget;
-      form.elements.lugar_id.required = needsTarget;
-    };
-    form.elements.tipo.addEventListener('change', syncType);
-    form.elements.lugar_id.addEventListener('change', () => {
-      const place = places.find((item) => item.id === form.elements.lugar_id.value);
-      if (!place) return;
-      ['nombre','categoria','descripcion','direccion_publica','comuna','latitud','longitud','horario_publico','telefono_publico','sitio_web'].forEach((field) => { if (form.elements[field]) form.elements[field].value = place[field] ?? ''; });
-      form.elements.servicio_urgencia.checked = Boolean(place.servicio_urgencia);
-      form.elements.urgencia_24h.checked = Boolean(place.urgencia_24h);
-    });
-    form.addEventListener('submit', async (event) => {
-      event.preventDefault();
-      if (!form.reportValidity()) return;
-      const latitude = form.elements.latitud.value;
-      const longitude = form.elements.longitud.value;
-      if ((latitude && !longitude) || (!latitude && longitude)) return setMessage(feedback, 'Completa ambas coordenadas o deja ambas vacías.', 'error');
-      const data = {
-        slug: slugify(form.elements.nombre.value), nombre: form.elements.nombre.value.trim(), categoria: form.elements.categoria.value,
-        descripcion: form.elements.descripcion.value.trim(), direccion_publica: form.elements.direccion_publica.value.trim() || null,
-        comuna: form.elements.comuna.value.trim(), latitud: latitude ? Number(latitude) : null, longitud: longitude ? Number(longitude) : null,
-        precision_ubicacion: 'exacta', horario_publico: form.elements.horario_publico.value.trim() || null,
-        telefono_publico: form.elements.telefono_publico.value.trim() || null, sitio_web: cleanUrl(form.elements.sitio_web.value),
-        servicio_urgencia: form.elements.servicio_urgencia.checked, urgencia_24h: form.elements.urgencia_24h.checked,
-      };
-      const button = form.querySelector('button[type="submit"]');
-      button.disabled = true;
-      const { error } = await db.from('propuestas_lugares').insert({ tipo: form.elements.tipo.value, lugar_id: form.elements.lugar_id.value || null, datos_propuestos: data, motivo: form.elements.motivo.value.trim(), creado_por: currentSession?.user?.id || null });
-      button.disabled = false;
-      if (error) return setMessage(feedback, `No pudimos enviar la propuesta${error.message ? `: ${error.message}` : '.'}`, 'error');
-      form.reset(); syncType(); setMessage(feedback, 'Propuesta enviada. El capitán #00 debe aprobarla antes de que cambie el mapa.', 'success');
-      if (currentUserIsModerator) await loadPlaceProposals();
-    });
-    workspace.querySelector('[data-close-workspace]').addEventListener('click', () => { workspace.hidden = true; workspace.replaceChildren(); setMessage(feedback); });
-    syncType();
-  };
-
   document.querySelector('[data-panel-actions]')?.addEventListener('click', (event) => {
     const button = event.target.closest('[data-quick-action]');
     if (!button) return;
     const action = button.dataset.quickAction;
     if (action === 'preparar-perdida') showNoticeBuilder('perdida');
     if (action === 'preparar-encontrada') showNoticeBuilder('encontrada');
-    if (action === 'proponer-lugar') showPlaceProposal();
     if (action === 'mapa-todos') scrollToMapWithFilter('todos');
     if (action === 'mapa-perdidas') scrollToMapWithFilter('mascota_perdida');
     if (action === 'mapa-urgencia') scrollToMapWithFilter('urgencia');
@@ -669,6 +598,14 @@
       website.textContent = 'Sitio oficial';
       details.append(website);
     }
+    if (place.categoria === 'puesto' && place.puesto_id) {
+      const helpLink = document.createElement('a');
+      helpLink.className = 'place-link';
+      helpLink.href = '#comida-agua';
+      helpLink.dataset.abrirPuesto = place.puesto_id;
+      helpLink.textContent = 'Ayudar con este puesto →';
+      details.append(helpLink);
+    }
     const sourceUrl = cleanUrl(place.fuente_url);
     if (sourceUrl && place.fuente_nombre) {
       const source = document.createElement('a');
@@ -745,6 +682,7 @@
       summary.textContent = `${filtered.length} ${filtered.length === 1 ? 'punto visible' : 'puntos visibles'} · solo comuna de Maipú`;
     }
     communityMap.invalidateSize();
+    lastFitCoordinates = visibleCoordinates;
     if (visibleCoordinates.length) {
       communityMap.fitBounds(visibleCoordinates, { padding: [32, 32], maxZoom: 14 });
     }
@@ -752,10 +690,14 @@
 
   document.addEventListener('vista:cambio', (event) => {
     if (event.detail?.vista !== 'mapa') return;
-    // El mapa se calculó con la sección oculta (tamaño 0): al mostrarse hay que recalcularlo.
+    // El mapa se calculó con la sección oculta (tamaño 0): al mostrarse hay que recalcularlo
+    // y volver a encuadrarlo sobre los lugares visibles.
     setTimeout(() => {
       communityMap?.invalidateSize();
       locationPickerMap?.invalidateSize();
+      if (communityMap && lastFitCoordinates.length) {
+        communityMap.fitBounds(lastFitCoordinates, { padding: [32, 32], maxZoom: 14 });
+      }
     }, 0);
   });
 
@@ -767,12 +709,6 @@
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     }).addTo(communityMap);
     markerLayer = window.L.layerGroup().addTo(communityMap);
-    communityMap.on('click', (event) => {
-      const form = document.querySelector('[data-place-form]');
-      if (!currentUserIsModerator || !form) return;
-      form.elements.latitud.value = event.latlng.lat.toFixed(6);
-      form.elements.longitud.value = event.latlng.lng.toFixed(6);
-    });
   };
 
   async function loadPlaces() {
@@ -803,13 +739,34 @@
       horario_publico: `Vista por última vez: ${dateFormatter.format(new Date(alert.perdida_en))}`,
       precision_ubicacion: 'exacta',
     }));
-    publicPlaces = [...alerts, ...places];
+    window.auraLadraAlertas = alertsResult.error ? [] : (alertsResult.data || []);
+    document.dispatchEvent(new CustomEvent('alertas:cambio'));
+    basePlaces = [...alerts, ...places];
+    publicPlaces = [...basePlaces, ...puestosComoLugares()];
     renderPlaces();
   }
+
+  // Si los puestos cambian (o cargan después que el mapa), se actualizan los pines.
+  document.addEventListener('puestos:cambio', () => {
+    publicPlaces = [...basePlaces, ...puestosComoLugares()];
+    renderPlaces();
+  });
+
+  // En celular los filtros están escondidos tras el botón «Filtros» (ver css, bloque «Mapa en celular»).
+  const mapFiltersToggle = document.querySelector('[data-map-filters-toggle]');
+  const mapFiltersPanel = document.querySelector('#map-filters');
+  const setMapFiltersOpen = (open) => {
+    mapFiltersPanel?.classList.toggle('is-open', open);
+    mapFiltersToggle?.setAttribute('aria-expanded', String(open));
+  };
+  mapFiltersToggle?.addEventListener('click', () => setMapFiltersOpen(mapFiltersToggle.getAttribute('aria-expanded') !== 'true'));
 
   document.querySelectorAll('[data-place-filter]').forEach((button) => button.addEventListener('click', () => {
     activePlaceFilter = button.dataset.placeFilter;
     document.querySelectorAll('[data-place-filter]').forEach((item) => item.classList.toggle('is-active', item === button));
+    const filterLabel = document.querySelector('[data-map-filters-label]');
+    if (filterLabel) filterLabel.textContent = activePlaceFilter === 'todos' ? 'Filtros' : `Filtros · ${button.textContent.trim()}`;
+    setMapFiltersOpen(false);
     renderPlaces();
   }));
 
@@ -913,12 +870,15 @@
     // Tus mascotas van con su ficha completa; las demás, con la ficha pública.
     const network = [...ownAnimals, ...publicAnimals.filter((animal) => !ownIds.has(animal.id) && inNetwork(animal))];
     fillAnimalGrid(document.querySelector('[data-animal-grid="mi-red"]'), network, 'Todavía no tienes mascotas. Crea su ficha en “Mi cuenta”.');
-    const discover = publicAnimals.filter((animal) => !ownIds.has(animal.id) && !inNetwork(animal));
+    const allDiscover = publicAnimals.filter((animal) => !ownIds.has(animal.id) && !inNetwork(animal));
+    // Los filtros de Descubrir (js/descubrir.js) solo reducen lo que se muestra.
+    const discover = allDiscover.filter((animal) => window.auraLadraRed?.filtro?.(animal) ?? true);
     fillAnimalGrid(
       document.querySelector('[data-animal-grid="descubrir"]'),
       discover,
-      publicAnimals.length ? 'Por ahora no hay otras mascotas por descubrir.' : 'La primera red de animales está en preparación.',
+      allDiscover.length && !discover.length ? 'Ninguna mascota coincide con estos filtros. Prueba quitando alguno.' : publicAnimals.length ? 'Por ahora no hay otras mascotas por descubrir.' : 'La primera red de animales está en preparación.',
     );
+    document.dispatchEvent(new CustomEvent('red:cambio'));
   };
 
   async function loadAnimalNetwork() {
@@ -1111,19 +1071,116 @@
     }));
   };
 
+  // Foto de la persona: se lee de Convergencia Aura (core.perfiles.avatar_path, bucket público core-avatars). Solo lectura.
+  let coreAvatarUrl = '';
+  const announceProfile = () => {
+    const alias = ownPublicProfile?.alias || '';
+    document.dispatchEvent(new CustomEvent('perfil:cambio', { detail: { alias, foto: coreAvatarUrl } }));
+  };
+  const loadCoreAvatar = async () => {
+    const userId = currentSession?.user?.id;
+    let url = '';
+    if (userId) {
+      try {
+        const { data } = await db.schema('core').from('perfiles').select('avatar_path').eq('id', userId).maybeSingle();
+        if (data?.avatar_path) url = db.storage.from('core-avatars').getPublicUrl(data.avatar_path)?.data?.publicUrl || '';
+      } catch { url = ''; }
+    }
+    if (!url.startsWith('https://')) url = '';
+    coreAvatarUrl = url;
+    renderMyProfile();
+  };
+
+  const renderMyProfilePets = (section) => {
+    const container = section.querySelector('[data-my-profile-pets]');
+    if (!container) return;
+    const tiles = ownAnimals.map((animal) => {
+      const tile = document.createElement('button');
+      tile.type = 'button';
+      tile.className = 'mp-pet';
+      tile.dataset.myProfileOpen = animal.id;
+      const photo = document.createElement('span');
+      photo.className = 'mp-pet-photo';
+      if (typeof animal.foto_url === 'string' && animal.foto_url.startsWith('https://')) {
+        const image = document.createElement('img');
+        image.src = animal.foto_url;
+        image.alt = '';
+        image.loading = 'lazy';
+        photo.append(image);
+      } else {
+        photo.textContent = String(animal.nombre || '?').slice(0, 1).toUpperCase();
+      }
+      const name = document.createElement('strong');
+      name.textContent = animal.nombre;
+      const hint = document.createElement('small');
+      hint.textContent = 'Ver ficha';
+      tile.append(photo, name, hint);
+      return tile;
+    });
+    const add = document.createElement('button');
+    add.type = 'button';
+    add.className = 'mp-pet-add';
+    add.dataset.myProfileConnect = '';
+    const plus = document.createElement('span');
+    plus.className = 'mp-pet-photo';
+    plus.setAttribute('aria-hidden', 'true');
+    plus.textContent = '+';
+    const label = document.createElement('strong');
+    label.textContent = 'Añadir mascota';
+    add.append(plus, label);
+    container.replaceChildren(...tiles, add);
+  };
+
+  // Aportes a la comunidad: los números llegan por eventos desde arbol.js (cuidados, encuentros) y acciones.js (ayuda).
+  const aportesComunidad = { cuidados: 0, encuentros: 0, ayuda: 0 };
+  const renderAportesComunidad = (section = document.querySelector('[data-my-profile]')) => {
+    section?.querySelectorAll('[data-aporte]').forEach((tile) => {
+      const strong = tile.querySelector('strong');
+      if (strong) strong.textContent = String(aportesComunidad[tile.dataset.aporte] ?? 0);
+    });
+  };
+  document.addEventListener('arbol:cambio', (event) => {
+    aportesComunidad.cuidados = Number(event.detail?.cuidados) || 0;
+    aportesComunidad.encuentros = Number(event.detail?.encuentros) || 0;
+    renderAportesComunidad();
+  });
+  document.addEventListener('ayuda:cambio', (event) => {
+    aportesComunidad.ayuda = Number(event.detail?.aportes) || 0;
+    renderAportesComunidad();
+  });
+
   const renderMyProfile = () => {
     const section = document.querySelector('[data-my-profile]');
     if (!section) return;
     const hasUser = Boolean(currentSession?.user);
     section.hidden = !hasUser;
+    // El feed publica a nombre de las mascotas propias (vivas).
+    document.dispatchEvent(new CustomEvent('mascotas:cambio', { detail: {
+      animales: hasUser ? ownAnimals.filter((a) => !a.es_conmemorativa).map((a) => ({ id: a.id, nombre: a.nombre, especie: a.especie, foto_url: a.foto_url || '' })) : [],
+    } }));
     if (!hasUser) return;
     const alias = ownPublicProfile?.alias;
     section.querySelector('[data-my-profile-alias]').textContent = alias || 'Sin alias todavía';
-    section.querySelector('[data-my-profile-initials]').textContent = (alias || currentSession.user.email || '?').trim().charAt(0).toUpperCase();
+    const avatarEl = section.querySelector('[data-my-profile-initials]');
+    if (coreAvatarUrl) {
+      const photo = document.createElement('img');
+      photo.src = coreAvatarUrl;
+      photo.alt = '';
+      avatarEl.replaceChildren(photo);
+    } else {
+      avatarEl.textContent = (alias || currentSession.user.email || '?').trim().charAt(0).toUpperCase();
+    }
+    announceProfile();
     section.querySelector('[data-my-profile-visibility]').textContent = alias
       ? (myProfileVisibilityLabels[ownPublicProfile.visibilidad] || myProfileVisibilityLabels.basico)
       : 'Publica tu alias en Red animal para aparecer en la red.';
-    section.querySelector('[data-my-profile-bio]').textContent = ownPublicProfile?.biografia || '';
+    const petNames = ownAnimals.filter((animal) => !animal.es_conmemorativa).slice(0, 3).map((animal) => animal.nombre);
+    section.querySelector('[data-my-profile-bio]').textContent = ownPublicProfile?.biografia
+      || (petNames.length ? `Compartiendo el barrio con ${petNames.join(', ')}` : '');
+    const publicChip = section.querySelector('[data-my-profile-public]');
+    if (publicChip) publicChip.hidden = !ownPublicProfile;
+    renderMyProfilePets(section);
+    renderAportesComunidad(section);
     const stats = getMyProfileStats();
     section.querySelectorAll('[data-my-profile-stat]').forEach((element) => {
       element.textContent = String(stats[element.dataset.myProfileStat] ?? 0);
@@ -1132,24 +1189,31 @@
     renderMyProfileActivity(section);
   };
 
-  const selectMyProfileTab = (name, focus = false) => {
+  const selectMyProfileTab = (name, focus = true) => {
     const section = document.querySelector('[data-my-profile]');
     if (!section) return;
-    section.querySelectorAll('[data-my-profile-tab]').forEach((tab) => {
-      const active = tab.dataset.myProfileTab === name;
-      tab.setAttribute('aria-selected', String(active));
-      tab.tabIndex = active ? 0 : -1;
-      if (active && focus) tab.focus();
-    });
-    section.querySelectorAll('[data-my-profile-panel]').forEach((panel) => {
-      panel.hidden = panel.dataset.myProfilePanel !== name;
-    });
+    const panels = [...section.querySelectorAll('[data-my-profile-panel]')];
+    const target = panels.find((panel) => panel.dataset.myProfilePanel === name) || panels.find((panel) => panel.dataset.myProfilePanel === 'perfil');
+    panels.forEach((panel) => { panel.hidden = panel !== target; });
+    if (!target) return;
+    section.scrollIntoView({ block: 'start' });
+    if (focus) target.querySelector('h3, h4')?.focus({ preventScroll: true });
+  };
+
+  // Lleva a una pantalla de Mi perfil desde otro lugar (por ejemplo, desde el diálogo de una ficha).
+  const openMyProfileScreen = (name) => {
+    window.auraLadraVistas?.ir('mi-perfil');
+    selectMyProfileTab(name, false);
   };
 
   document.querySelector('[data-my-profile]')?.addEventListener('click', (event) => {
     const tab = event.target.closest('[data-my-profile-tab]');
     if (tab) {
       selectMyProfileTab(tab.dataset.myProfileTab);
+      return;
+    }
+    if (event.target.closest('[data-my-profile-public]')) {
+      if (ownPublicProfile) showHumanProfile(ownPublicProfile, { isSelf: true });
       return;
     }
     if (event.target.closest('[data-my-profile-connect]')) {
@@ -1165,13 +1229,34 @@
     if (healthButton) startPetProfileEdit('salud');
   });
 
-  document.querySelector('[data-my-profile]')?.addEventListener('keydown', (event) => {
-    const tab = event.target.closest('[data-my-profile-tab]');
-    if (!tab || !['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
-    const tabs = [...document.querySelectorAll('[data-my-profile-tab]')];
-    const next = tabs[(tabs.indexOf(tab) + (event.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length];
+  // Editar descripción: lo único que se cambia en AuraLadra; nombre y foto viven en Convergencia Aura.
+  const bioDialog = document.querySelector('[data-bio-dialog]');
+  const bioForm = document.querySelector('[data-bio-form]');
+  const bioMessage = document.querySelector('[data-bio-message]');
+  document.querySelector('[data-my-profile-edit-bio]')?.addEventListener('click', () => {
+    if (!bioDialog || !bioForm) return;
+    setMessage(bioMessage);
+    bioForm.elements.biografia.value = ownPublicProfile?.biografia || '';
+    bioDialog.showModal();
+    bioForm.elements.biografia.focus();
+  });
+  document.querySelector('[data-bio-close]')?.addEventListener('click', () => bioDialog?.close());
+  bioForm?.addEventListener('submit', async (event) => {
     event.preventDefault();
-    selectMyProfileTab(next.dataset.myProfileTab, true);
+    if (!currentSession?.user) return;
+    if (!ownPublicProfile?.id) {
+      setMessage(bioMessage, 'Todavía no tienes perfil en AuraLadra. Publica tu alias en Red animal y vuelve aquí.', 'error');
+      return;
+    }
+    const biografia = bioForm.elements.biografia.value.trim() || null;
+    const { error } = await db.from('perfiles_publicos').update({ biografia }).eq('id', ownPublicProfile.id);
+    if (error) {
+      setMessage(bioMessage, 'No pudimos guardar la descripción. Inténtalo de nuevo.', 'error');
+      return;
+    }
+    ownPublicProfile = { ...ownPublicProfile, biografia };
+    renderMyProfile();
+    bioDialog?.close();
   });
 
   const petValue = (value, fallback = 'Sin informar') => value === null || value === undefined || value === '' ? fallback : value;
@@ -1589,6 +1674,35 @@
     if (!animal) return false;
     showPetProfile(animal);
     return true;
+  };
+
+  // Puente para el calendario (js/eventos.js, js/encuentros.js): lugares públicos y enfocar el mapa.
+  window.auraLadraMapa = {
+    lugares: () => publicPlaces.filter((p) => p.id && p.latitud !== null && p.longitud !== null && !['mascota_perdida'].includes(p.categoria)).map((p) => ({ id: p.id, nombre: p.nombre, categoria: p.categoria })),
+    lugar: (id) => publicPlaces.find((p) => p.id === id) || null,
+    // Centra el mapa en un lugar (por id) y abre un globo con el título; se llama tras mostrar la pestaña Mapa.
+    enfocar: (id, titulo) => {
+      const place = publicPlaces.find((p) => p.id === id);
+      if (!communityMap || !place || place.latitud === null || place.longitud === null || !window.L) return false;
+      const globo = document.createElement('div');
+      const t = document.createElement('strong'); t.textContent = titulo || place.nombre;
+      const m = document.createElement('small'); m.textContent = place.nombre;
+      globo.append(t, document.createElement('br'), m);
+      communityMap.setView([Number(place.latitud), Number(place.longitud)], 16);
+      window.L.popup().setLatLng([Number(place.latitud), Number(place.longitud)]).setContent(globo).openOn(communityMap);
+      return true;
+    },
+  };
+
+  // Puente para js/descubrir.js (filtros, seguir y guardar). Solo expone datos públicos ya cargados.
+  window.auraLadraRed = {
+    animales: () => publicAnimals,
+    propias: () => ownAnimals,
+    sesion: () => currentSession,
+    fichaActual: () => activePetProfile,
+    tarjeta: (animal) => createAnimalCard(animal, animalRelations.get(animal.id)),
+    redibujar: renderAnimalGrids,
+    filtro: null,
   };
 
   // Puente para «Mi árbol de vínculos»: reutiliza la MISMA ficha (mismo id), no crea otra.
@@ -2092,28 +2206,6 @@
     }));
   }
 
-  async function loadPlaceProposals() {
-    const panel = document.querySelector('[data-moderator-place]');
-    const container = document.querySelector('[data-place-proposal-list]');
-    if (!panel || !container) return;
-    panel.hidden = !currentUserIsModerator;
-    if (!currentUserIsModerator) return;
-    const { data, error } = await db.from('propuestas_lugares').select('id,tipo,lugar_id,datos_propuestos,motivo,creado_en').eq('estado', 'pendiente').order('creado_en');
-    const rows = error ? [] : (data || []);
-    document.querySelector('[data-place-proposal-count]').textContent = String(rows.length);
-    if (!rows.length) {
-      const empty = document.createElement('p'); empty.className = 'empty-state'; empty.textContent = error ? 'No pudimos cargar las propuestas.' : 'No hay propuestas pendientes.'; container.replaceChildren(empty); return;
-    }
-    container.replaceChildren(...rows.map((row) => {
-      const article = document.createElement('article'); article.className = 'moderation-item';
-      const title = document.createElement('strong'); title.textContent = row.datos_propuestos?.nombre || 'Lugar sin nombre';
-      const detail = document.createElement('p'); detail.textContent = `${row.tipo} · ${placeCategoryLabels[row.datos_propuestos?.categoria] || row.datos_propuestos?.categoria || 'sin categoría'} · ${row.motivo}`;
-      const actions = document.createElement('div'); actions.className = 'moderation-actions';
-      ['aprobar','rechazar'].forEach((decision) => { const button = document.createElement('button'); button.type = 'button'; button.textContent = decision === 'aprobar' ? 'Aprobar y publicar' : 'Rechazar'; button.dataset.placeProposalId = row.id; button.dataset.placeProposalDecision = decision; actions.append(button); });
-      article.append(title, detail, actions); return article;
-    }));
-  }
-
   const createReportCard = (report, moderation = false) => {
     const article = document.createElement('article');
     article.className = 'report-item';
@@ -2262,24 +2354,29 @@
   async function syncSession(session) {
     currentSession = session;
     currentUserIsModerator = false;
+    updateSessionChip(session);
     const signedOut = document.querySelector('[data-signed-out]');
     const signedIn = document.querySelector('[data-signed-in]');
+    // Con sesión iniciada, «Cuenta personal · Mi cuenta» no se muestra: Mi perfil ocupa su lugar.
+    const hasSession = Boolean(session?.user);
+    document.querySelector('[data-account-card]')?.classList.toggle('is-session', hasSession);
+    const accountHeading = document.querySelector('[data-account-heading]');
+    if (accountHeading) accountHeading.hidden = hasSession;
     if (!session?.user) {
+      coreAvatarUrl = '';
       signedOut.hidden = false;
       signedIn.hidden = true;
-      const placePanel = document.querySelector('[data-moderator-place]');
-      if (placePanel) placePanel.hidden = true;
-      await Promise.all([loadMyReports(), loadModeratorReports(), loadPublicReports(), loadReportStats(), loadCreatorWorkspace(), loadNetworkModeration(), loadPlaceProposals(), refreshWanted()]);
+      await Promise.all([loadMyReports(), loadModeratorReports(), loadPublicReports(), loadReportStats(), loadCreatorWorkspace(), loadNetworkModeration(), refreshWanted()]);
       return;
     }
     signedOut.hidden = true;
-    signedIn.hidden = false;
-    document.querySelector('[data-session-email]').textContent = session.user.email || 'cuenta activa';
+    signedIn.hidden = true; // el correo y «Cerrar sesión» ya están en el botón de la cabecera
+    const emailEl = document.querySelector('[data-session-email]');
+    if (emailEl) emailEl.textContent = session.user.email || 'cuenta activa';
+    loadCoreAvatar();
     const { data, error } = await db.from('moderadores').select('usuario_id').eq('usuario_id', session.user.id).maybeSingle();
     currentUserIsModerator = !error && Boolean(data);
-    const placePanel = document.querySelector('[data-moderator-place]');
-    if (placePanel) placePanel.hidden = !currentUserIsModerator;
-    await Promise.all([loadMyReports(), loadModeratorReports(), loadPublicReports(), loadReportStats(), loadCreatorWorkspace(), loadNetworkModeration(), loadPlaceProposals(), refreshWanted()]);
+    await Promise.all([loadMyReports(), loadModeratorReports(), loadPublicReports(), loadReportStats(), loadCreatorWorkspace(), loadNetworkModeration(), refreshWanted()]);
   }
 
   reportForm?.addEventListener('submit', async (event) => {
@@ -2470,21 +2567,6 @@
     await Promise.all([loadNetworkModeration(), loadMyReports()]);
   });
 
-  document.querySelector('[data-place-proposal-list]')?.addEventListener('click', async (event) => {
-    const button = event.target.closest('[data-place-proposal-id][data-place-proposal-decision]');
-    if (!button || !currentUserIsModerator) return;
-    const message = document.querySelector('[data-place-proposal-message]');
-    button.disabled = true;
-    const { error } = await db.rpc('moderar_propuesta_lugar', { p_propuesta_id: button.dataset.placeProposalId, p_decision: button.dataset.placeProposalDecision });
-    if (error) {
-      button.disabled = false;
-      setMessage(message, `No pudimos moderar la propuesta${error.message ? `: ${error.message}` : '.'}`, 'error');
-      return;
-    }
-    setMessage(message, button.dataset.placeProposalDecision === 'aprobar' ? 'Propuesta aprobada y mapa actualizado.' : 'Propuesta rechazada.', 'success');
-    await Promise.all([loadPlaceProposals(), loadPlaces()]);
-  });
-
   document.querySelector('[data-account-animal-list]')?.addEventListener('click', async (event) => {
     const lostButton = event.target.closest('[data-mark-pet-lost]');
     const safeButton = event.target.closest('[data-mark-pet-safe]');
@@ -2558,7 +2640,7 @@
     const editButton = event.target.closest('[data-edit-pet-section]');
     if (editButton?.dataset.editPetSection === 'vinculos') {
       dialog.close();
-      window.auraLadraVistas?.ir('red');
+      openMyProfileScreen('fichas');
       document.querySelector('[data-animal-link-form]')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       setMessage(document.querySelector('[data-account-animal-message]'), 'Puedes proponer vínculos aquí. Si la otra mascota tiene responsable, esa persona deberá autorizarlo.');
     } else if (editButton) startPetProfileEdit(editButton.dataset.editPetSection);
@@ -2620,7 +2702,7 @@
     if (event.target === dialog || event.target.closest('[data-pet-connect-close]')) dialog.close();
     if (event.target.closest('[data-create-new-pet]')) {
       dialog.close();
-      window.auraLadraVistas?.ir('red');
+      openMyProfileScreen('fichas');
       document.querySelector('[data-animal-form]')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       document.querySelector('[data-animal-form] input[name="nombre"]')?.focus({ preventScroll: true });
     }
@@ -2818,15 +2900,32 @@
     }
   });
 
-  document.querySelector('[data-magic-form]')?.addEventListener('submit', async (event) => {
+  // Hay dos formularios de enlace mágico: el de «Mi cuenta» y el de la ventana del botón de huella.
+  for (const magicFormEl of document.querySelectorAll('[data-magic-form]')) magicFormEl.addEventListener('submit', async (event) => {
     event.preventDefault();
     const form = event.currentTarget;
-    const button = document.querySelector('[data-magic-submit]');
-    const message = document.querySelector('[data-auth-message]');
+    const button = form.querySelector('[data-magic-submit]');
+    const message = form.closest('dialog')?.querySelector('[data-auth-message]') || document.querySelector('[data-auth-message]');
     setMessage(message);
     if (!form.reportValidity()) return;
     button.disabled = true;
     try {
+      // App instalada en iPhone: Safari y la app no comparten sesión; el enlace se aprueba en
+      // Safari y la app se conecta sola (ver aura-pwa-auth.js, alojado en AuraCore).
+      if (window.AuraPwaAuth?.necesitaPase()) {
+        const r = await window.AuraPwaAuth.entrar({
+          client: db,
+          email: form.elements.email.value.trim(),
+          formulario: form,
+          clases: { mensaje: 'form-message', campo: 'field' },
+        });
+        if (!r.ok) {
+          setMessage(message, r.mensaje, 'error');
+        } else {
+          form.reset();
+        }
+        return;
+      }
       const redirectUrl = new URL(window.location.pathname, window.location.origin);
       redirectUrl.searchParams.set('auth', 'magic');
       const { error } = await db.auth.signInWithOtp({
@@ -2859,9 +2958,102 @@
     }
   });
 
+  // Si la app instalada se cerró mientras esperaba la aprobación del enlace, retoma la espera.
+  {
+    const formMagico = document.querySelector('[data-magic-form]');
+    if (formMagico && window.AuraPwaAuth) {
+      window.AuraPwaAuth.retomar({ client: db, formulario: formMagico, clases: { mensaje: 'form-message', campo: 'field' } });
+    }
+  }
+
   document.querySelector('[data-sign-out]')?.addEventListener('click', async () => {
     const { error } = await db.auth.signOut();
     if (error) setMessage(document.querySelector('[data-auth-message]'), 'No pudimos cerrar la sesión.', 'error');
+  });
+
+  // ---------------- Botón de huella (cabecera): inicio de sesión ----------------
+  // Sin sesión abre una ventana para pedir el correo; con sesión muestra un menú corto.
+  const sessionChip = document.querySelector('[data-session-chip]');
+  const loginDialog = document.querySelector('[data-login-dialog]');
+
+  function updateSessionChip(session) {
+    if (!sessionChip) return;
+    const signedInNow = Boolean(session?.user);
+    sessionChip.classList.toggle('on', signedInNow);
+    sessionChip.setAttribute('aria-label', signedInNow ? 'AuraLadra: menú de tu cuenta' : 'AuraLadra: iniciar sesión');
+    sessionChip.title = signedInNow ? 'Tu cuenta' : 'Iniciar sesión';
+    if (signedInNow && loginDialog?.open) loginDialog.close();
+  }
+
+  function closeSessionMenu() {
+    document.getElementById('session-menu')?.remove();
+    document.removeEventListener('click', onClickOutsideSessionMenu, true);
+    document.removeEventListener('keydown', onEscSessionMenu);
+  }
+  function onClickOutsideSessionMenu(event) {
+    const menu = document.getElementById('session-menu');
+    if (menu && !menu.contains(event.target) && !event.target.closest('[data-session-chip]')) closeSessionMenu();
+  }
+  function onEscSessionMenu(event) { if (event.key === 'Escape') closeSessionMenu(); }
+
+  const handleSessionChip = (soloLogin) => {
+    if (!currentSession?.user || soloLogin) {
+      closeSessionMenu();
+      const messageEl = loginDialog?.querySelector('[data-auth-message]');
+      if (messageEl) setMessage(messageEl);
+      loginDialog?.showModal();
+      loginDialog?.querySelector('input[name="email"]')?.focus();
+      return;
+    }
+    if (document.getElementById('session-menu')) { closeSessionMenu(); return; }
+    const rect = sessionChip.getBoundingClientRect();
+    const menu = document.createElement('div');
+    menu.id = 'session-menu';
+    menu.className = 'session-menu';
+    menu.setAttribute('role', 'menu');
+    menu.setAttribute('data-aura-menu', '');
+    menu.style.top = `${Math.round(rect.bottom + 6)}px`;
+    menu.style.left = `${Math.max(8, Math.round(rect.left))}px`;
+    menu.style.minWidth = '280px';
+    menu.style.maxHeight = `calc(100vh - ${Math.round(rect.bottom + 6)}px - 12px)`;
+    menu.style.overflowY = 'auto';
+    const emailRow = document.createElement('div');
+    emailRow.className = 'session-menu-email';
+    emailRow.textContent = currentSession.user.email || 'cuenta activa';
+    const convergenciaLink = document.createElement('a');
+    convergenciaLink.setAttribute('role', 'menuitem');
+    convergenciaLink.href = 'https://core.convergenciaaura.cl/';
+    convergenciaLink.target = '_blank';
+    convergenciaLink.rel = 'noopener';
+    convergenciaLink.textContent = '🌐 Convergencia Aura';
+    const signOutButton = document.createElement('button');
+    signOutButton.type = 'button';
+    signOutButton.setAttribute('role', 'menuitem');
+    signOutButton.setAttribute('data-aura-antes', '');
+    signOutButton.textContent = '🚪 Cerrar sesión';
+    menu.append(emailRow, convergenciaLink, signOutButton);
+    menu.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeSessionMenu));
+    signOutButton.addEventListener('click', async () => {
+      closeSessionMenu();
+      const { error } = await db.auth.signOut();
+      if (error) setMessage(document.querySelector('[data-auth-message]'), 'No pudimos cerrar la sesión.', 'error');
+    });
+    document.body.appendChild(menu);
+    window.setTimeout(() => {
+      document.addEventListener('click', onClickOutsideSessionMenu, true);
+      document.addEventListener('keydown', onEscSessionMenu);
+    }, 0);
+  };
+  // El menú común de Convergencia Aura (proyectos, clasificación y wallet) lo abre aura-hub.js desde
+  // data-aura-hub, con la estética de LadraAura. Si ese script no cargó, queda el menú corto de siempre.
+  sessionChip?.addEventListener('click', () => {
+    if (window.AuraHub) return;
+    handleSessionChip(false);
+  });
+  sessionChip?.addEventListener('aura-hub:login', () => handleSessionChip(true));
+
+  loginDialog?.addEventListener('click', (event) => {
+    if (event.target === loginDialog || event.target.closest('[data-login-close]')) loginDialog.close();
   });
 
   document.querySelector('[data-moderator-reports]')?.addEventListener('click', async (event) => {
