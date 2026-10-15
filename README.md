@@ -226,6 +226,15 @@ En la cabecera: (Se quitaron de la cabecera los tres iconos de Avisos, Mensajes 
 Se probó un prototipo demo de «acciones concretas con Aura Coins» (`js/tareas.js`, ya **sin cargar**). No se muestra en el sitio:
 no se simulan movimientos de Aura Coin ni se inventan reglas económicas hasta tener la definición vigente del sistema.
 
+## Comida y agua: avisos de puestos (base de datos, SIN aplicar)
+
+Archivo `supabase/migrations/20261015120000_avisos_de_puestos.sql` (prueba: `supabase/tests/avisos_puestos_prueba.sql`, 43 de 43 en una base local
+desechable). Permite que una persona con cuenta proponga un puesto (para qué se piden fondos, qué cubre, plazo de habilitación, qué se documentará)
+y que un moderador lo apruebe antes de publicarlo. **No está aplicado en Supabase** y el sitio todavía no lo usa: los puestos de la pantalla siguen
+siendo una demo en el navegador. No mueve Auracoins ni dinero (`movimiento_ac` es siempre `ninguno`): las reglas de entrega por hitos y de devolución
+que aparecen en la ficha son solo una propuesta por aprobar. **Pendiente:** conectar la pantalla, editar un aviso, registrar avances, fotos de evidencia
+(falta almacenamiento privado) y cualquier movimiento real de Auracoins.
+
 ## Ayudar: panel de resumen
 
 Arriba de la lista de Ayudar hay un panel («Así va la ayuda») con acciones publicadas, ya financiadas, completadas y total aportado
