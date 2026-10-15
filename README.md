@@ -226,14 +226,20 @@ En la cabecera: (Se quitaron de la cabecera los tres iconos de Avisos, Mensajes 
 Se probó un prototipo demo de «acciones concretas con Aura Coins» (`js/tareas.js`, ya **sin cargar**). No se muestra en el sitio:
 no se simulan movimientos de Aura Coin ni se inventan reglas económicas hasta tener la definición vigente del sistema.
 
-## Comida y agua: avisos de puestos (base de datos, SIN aplicar)
+## Comida y agua: avisos de puestos (migración SIN aplicar)
 
-Archivo `supabase/migrations/20261015120000_avisos_de_puestos.sql` (prueba: `supabase/tests/avisos_puestos_prueba.sql`, 43 de 43 en una base local
-desechable). Permite que una persona con cuenta proponga un puesto (para qué se piden fondos, qué cubre, plazo de habilitación, qué se documentará)
-y que un moderador lo apruebe antes de publicarlo. **No está aplicado en Supabase** y el sitio todavía no lo usa: los puestos de la pantalla siguen
-siendo una demo en el navegador. No mueve Auracoins ni dinero (`movimiento_ac` es siempre `ninguno`): las reglas de entrega por hitos y de devolución
-que aparecen en la ficha son solo una propuesta por aprobar. **Pendiente:** conectar la pantalla, editar un aviso, registrar avances, fotos de evidencia
-(falta almacenamiento privado) y cualquier movimiento real de Auracoins.
+Archivo `supabase/migrations/20261015120000_avisos_de_puestos.sql` (prueba de base de datos: `supabase/tests/avisos_puestos_prueba.sql`, 43 de 43 en una base
+local desechable). Una persona con cuenta propone un puesto (para qué se piden fondos, qué cubre, plazo de habilitación, qué se documentará) y un moderador
+lo aprueba antes de publicarlo. **No está aplicado en Supabase.**
+
+`js/puestos.js` ya lo usa **si las funciones existen**: lista los avisos publicados, permite «Proponer un puesto» y muestra «Mis propuestas» (enviar a revisión,
+retirar, motivo de rechazo). **Si las funciones no existen, cae a la demostración** (un puesto de ejemplo guardado solo en el navegador), igual que Acciones por
+financiar. Probado con un navegador simulado (jsdom) y un servidor falso que imita las funciones (37 de 37) y con una revisión automática de que los nombres de
+funciones, parámetros y columnas del sitio coinciden con la migración; **no verificado contra Supabase real**.
+
+No mueve Auracoins ni dinero (`movimiento_ac` es siempre `ninguno`): las reglas de entrega por hitos y de devolución que aparecen en la demo son solo una propuesta
+por aprobar. **Pendiente:** panel para que un moderador apruebe o rechace desde el sitio (hoy no existe; solo la función del servidor), editar una propuesta,
+registrar avances, fotos de evidencia (falta almacenamiento privado) y cualquier movimiento real de Auracoins.
 
 ## Ayudar: panel de resumen
 

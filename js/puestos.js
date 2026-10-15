@@ -1,12 +1,14 @@
 // Comida y agua: puestos de agua y alimento en espacios públicos.
-// Primera versión: MODO DEMO. Los puestos de esta lista son ejemplos guardados solo en este navegador
-// (localStorage); todavía no se usa Supabase. Los aportes son una SIMULACIÓN: no se cobra ni se mueve dinero.
-// Los puestos nuevos los agregará moderación (aún no existe ese panel).
+// - Con la migración de avisos aplicada (supabase/migrations/20261015120000_avisos_de_puestos.sql), la lista son los
+//   avisos que la comunidad propone y que un moderador publica; el navegador solo llama funciones del servidor (ladra.*).
+// - Sin la migración, cae a un modo DEMO: un puesto de ejemplo guardado solo en este navegador (localStorage).
+// En ambos casos NO se cobra ni se mueve dinero, y NO se mueven Auracoins: sus reglas siguen por definir.
 (() => {
   'use strict';
 
   const root = document.querySelector('[data-puestos]');
   if (!root) return;
+  const db = window.auraLadraDb;
 
   // ---------- Utilidades ----------
   const clp = new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP', maximumFractionDigits: 0 });
@@ -18,10 +20,50 @@
 
   const TIPOS = { agua: 'Agua', comida: 'Comida', ambos: 'Agua y comida' };
   const ICONOS = { agua: '💧', comida: '🍖', ambos: '💧🍖' };
-  const ESTADOS = { activo: 'Funcionando', necesita_ayuda: 'Necesita ayuda' };
+  const ESTADOS = { activo: 'Funcionando', necesita_ayuda: 'Necesita ayuda', propuesta: 'Propuesta aprobada' };
+  const ESTADOS_AVISO = { borrador: 'Borrador', en_revision: 'En revisión', publicado: 'Publicado', rechazado: 'Rechazado', retirado: 'Retirado' };
   const MONTOS = [2000, 5000, 10000, 20000];
   const YO = 'Tú (demo)';
   const nAC = new Intl.NumberFormat('es-CL');
+
+  // ---------- Modo servidor (funciones ladra.*) o DEMO ----------
+  let modo = 'demo';
+  let listo = false; // hasta saber el modo no se muestra nada, para no mostrar la demo por un instante.
+  let session = null;
+  const rpc = async (nombre, args) => {
+    if (!db) throw new Error('Sin conexión al servidor.');
+    const { data, error } = await db.rpc(nombre, args);
+    if (error) throw error;
+    return data;
+  };
+  const mensajeError = (e) => {
+    const m = String(e?.message || e || 'No pudimos completar la acción.');
+    if (/check constraint/i.test(m)) return 'Revisa los datos: alguno no cumple los límites (largo de los textos, montos o plazo).';
+    return m.replace(/^[A-Z_]{4,}:\s*/, '');
+  };
+
+  const PERMISOS = {
+    sin_consultar: 'Aún no se ha consultado a quien administra el espacio. Tenlo en cuenta antes de apoyar.',
+    en_tramite: 'En trámite con quien administra el espacio.',
+    confirmado: 'Confirmado por quien lo propone (lo revisa moderación).',
+  };
+  // Un aviso publicado por el servidor, con la misma forma que usa el resto de la pantalla.
+  const delAviso = (a) => ({
+    id: a.id, aviso: true, es_mio: !!a.es_mio, nombre: a.titulo, tipo: a.tipo, estado: 'propuesta',
+    descripcion: a.descripcion, necesidad: a.para_que, direccion_publica: a.direccion_publica, comuna: a.comuna,
+    latitud: a.latitud == null ? null : Number(a.latitud), longitud: a.longitud == null ? null : Number(a.longitud),
+    meta_clp: 0, recaudado_clp: 0, ultima_reposicion: null, cuidadores: [],
+    ficha: {
+      para_que: a.para_que,
+      costo_mensual_ac: a.costo_mensual_ac,
+      cubre_mensual: a.incluye || [],
+      costo_habilitacion: a.costo_habilitacion_ac == null ? 'Por definir.' : `${nAC.format(a.costo_habilitacion_ac)} AC pedidas para habilitarlo (es una solicitud: todavía no se recauda nada).`,
+      plazo_habilitacion: `Se propone dejarlo habilitado en ${a.plazo_habilitacion_dias} días.`,
+      permiso: PERMISOS[a.permiso_estado] || PERMISOS.sin_consultar,
+      documentacion: a.documentacion || [],
+      si_no_se_cumple: `Propuesta de quien lo publica si no se habilita en el plazo: ${a.condiciones_devolucion}`,
+    },
+  });
 
   // ---------- Datos de ejemplo (solo navegador) ----------
   const KEY = 'auraladra.demo.puestos.v5';
@@ -58,8 +100,8 @@
     } catch { /* sin almacenamiento o datos dañados */ }
     return semilla();
   };
-  const datos = () => { if (!mem) mem = cargar(); return mem; };
-  const guardar = () => { try { window.localStorage.setItem(KEY, JSON.stringify(mem)); } catch { /* sin almacenamiento */ } };
+  const datos = () => { if (!listo) return { puestos: [], aportes: [] }; if (!mem) mem = cargar(); return mem; };
+  const guardar = () => { if (modo !== 'demo') return; try { window.localStorage.setItem(KEY, JSON.stringify(mem)); } catch { /* sin almacenamiento */ } };
   const avisarCambio = () => document.dispatchEvent(new CustomEvent('puestos:cambio'));
 
   const buscar = (id) => datos().puestos.find((p) => p.id === id) || null;
@@ -96,21 +138,23 @@
   const resumen = document.querySelector('[data-puestos-resumen]');
 
   // ---------- Tarjeta ----------
+  const tieneUbicacion = (p) => p.latitud != null && p.longitud != null;
   const tarjeta = (p) => {
-    const pct = porcentaje(p);
-    return `<article class="accion-card">
-      <div class="accion-meta">${chip(`${ICONOS[p.tipo]} ${TIPOS[p.tipo]}`)}${chip(ESTADOS[p.estado], p.estado === 'necesita_ayuda' ? 'is-ambar' : '')}${p.ejemplo ? chip('Ejemplo', 'is-sim') : ''}</div>
-      <h3>${esc(p.nombre)}</h3>
-      <p>${esc(p.direccion_publica)}</p>
-      ${p.ficha ? `<p><strong>🪙 ${nAC.format(p.ficha.costo_mensual_ac)} AC al mes</strong> para sostenerlo</p>` : ''}
+    const pct = p.aviso ? 0 : porcentaje(p);
+    const progreso = p.aviso ? '' : `
       <div>
         <div class="progreso" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100" aria-label="Patrocinio del mes"><span data-ancho="${pct}"></span></div>
         <p class="progreso-texto"><span><strong>${clp.format(p.recaudado_clp)}</strong> de ${clp.format(p.meta_clp)} este mes</span><span>${pct}%</span></p>
       </div>
-      <p>${p.cuidadores.length ? `${p.cuidadores.length} ${p.cuidadores.length === 1 ? 'persona lo cuida' : 'personas lo cuidan'}` : 'Aún nadie lo cuida en persona'} · Última reposición: ${esc(fecha(p.ultima_reposicion))}</p>
+      <p>${p.cuidadores.length ? `${p.cuidadores.length} ${p.cuidadores.length === 1 ? 'persona lo cuida' : 'personas lo cuidan'}` : 'Aún nadie lo cuida en persona'} · Última reposición: ${esc(fecha(p.ultima_reposicion))}</p>`;
+    return `<article class="accion-card">
+      <div class="accion-meta">${chip(`${ICONOS[p.tipo]} ${TIPOS[p.tipo]}`)}${chip(ESTADOS[p.estado], p.estado === 'necesita_ayuda' ? 'is-ambar' : '')}${p.ejemplo ? chip('Ejemplo', 'is-sim') : ''}${p.es_mio ? chip('Tuya') : ''}</div>
+      <h3>${esc(p.nombre)}</h3>
+      <p>${esc(p.direccion_publica)}</p>
+      ${p.ficha ? `<p><strong>🪙 ${nAC.format(p.ficha.costo_mensual_ac)} AC al mes</strong> para sostenerlo</p>` : ''}${progreso}
       <div class="mini-acciones">
-        <button class="button-verde" type="button" data-puesto-abrir="${esc(p.id)}">Ayudar</button>
-        <button class="button-borde" type="button" data-puesto-mapa="${esc(p.id)}">Ver en el mapa</button>
+        <button class="button-verde" type="button" data-puesto-abrir="${esc(p.id)}">${p.aviso ? 'Ver propuesta' : 'Ayudar'}</button>
+        ${tieneUbicacion(p) ? `<button class="button-borde" type="button" data-puesto-mapa="${esc(p.id)}">Ver en el mapa</button>` : ''}
       </div>
     </article>`;
   };
@@ -144,7 +188,7 @@
       <div class="section-heading">
         <p class="kicker">Comida y agua</p>
         <h3 id="puestos-resumen-title">Puestos de agua y alimento</h3>
-        <p>${necesitan.length ? `${necesitan.length} ${necesitan.length === 1 ? 'puesto necesita' : 'puestos necesitan'} ayuda ahora. ` : ''}Puedes patrocinarlos o ayudar a mantenerlos en persona.</p>
+        <p>${necesitan.length ? `${necesitan.length} ${necesitan.length === 1 ? 'puesto necesita' : 'puestos necesitan'} ayuda ahora. ` : ''}${modo === 'servidor' ? 'Son propuestas de la comunidad, revisadas por moderación.' : 'Puedes patrocinarlos o ayudar a mantenerlos en persona.'}</p>
       </div>
       <div class="ayudar-lista">${mostrar.map(tarjeta).join('')}</div>
       <p><a class="button-borde" href="#comida-agua">Ver todos los puestos →</a></p>`;
@@ -164,21 +208,21 @@
   const renderDetalle = (aviso) => {
     const p = buscar(abierto);
     if (!p || !el.detalle) return;
-    const pct = porcentaje(p);
-    const lleno = p.recaudado_clp >= p.meta_clp;
+    const pct = p.aviso ? 0 : porcentaje(p);
+    const lleno = !p.aviso && p.recaudado_clp >= p.meta_clp;
     const yoCuido = cuido(p);
     el.detalle.innerHTML = `
       <button class="button-borde detalle-volver" type="button" data-puesto-volver>← Volver a los puestos</button>
       <div class="accion-meta">${chip(`${ICONOS[p.tipo]} ${TIPOS[p.tipo]}`)}${chip(ESTADOS[p.estado], p.estado === 'necesita_ayuda' ? 'is-ambar' : '')}${p.ejemplo ? chip('Ejemplo', 'is-sim') : ''}</div>
       <h3>${esc(p.nombre)}</h3>
       <p>${esc(p.descripcion)}</p>
-      <p><strong>Dónde:</strong> ${esc(p.direccion_publica)} · <button class="button-borde" type="button" data-puesto-mapa="${esc(p.id)}">Ver en el mapa</button></p>
+      <p><strong>Dónde:</strong> ${esc(p.direccion_publica)}${tieneUbicacion(p) ? ` · <button class="button-borde" type="button" data-puesto-mapa="${esc(p.id)}">Ver en el mapa</button>` : ''}</p>
 
       <div class="detalle-bloque">
         <h4>Qué necesita</h4>
         <p>${esc(p.necesidad)}</p>
-        <div class="progreso" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100" aria-label="Patrocinio del mes"><span data-ancho="${pct}"></span></div>
-        <p class="progreso-texto"><span><strong>${clp.format(p.recaudado_clp)}</strong> de ${clp.format(p.meta_clp)} este mes</span><span>${pct}%</span></p>
+        ${p.aviso ? '' : `<div class="progreso" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100" aria-label="Patrocinio del mes"><span data-ancho="${pct}"></span></div>
+        <p class="progreso-texto"><span><strong>${clp.format(p.recaudado_clp)}</strong> de ${clp.format(p.meta_clp)} este mes</span><span>${pct}%</span></p>`}
         ${lleno ? '<p class="ayudar-msg is-success">La meta del mes ya está cubierta. Igual puedes seguir aportando o ayudar en persona.</p>' : ''}
       </div>
 
@@ -192,13 +236,13 @@
         <p><strong>Permiso:</strong> ${esc(p.ficha.permiso)}</p>
         <h4>Qué quedará documentado</h4>
         <ul>${p.ficha.documentacion.map((d) => `<li>${esc(d)}</li>`).join('')}</ul>
-        <h4>Cómo se entregarían las Auracoins (propuesta por aprobar)</h4>
+        ${p.ficha.hitos ? `<h4>Cómo se entregarían las Auracoins (propuesta por aprobar)</h4>
         <p>Esta es la propuesta, aún no es una regla vigente: las Auracoins se entregarían por etapas, solo cuando hay prueba.</p>
-        <ul>${p.ficha.hitos.map((h) => `<li>${esc(h)}</li>`).join('')}<li>Cada mes con recarga y mantención documentadas: se entregarían ${nAC.format(p.ficha.costo_mensual_ac)} AC.</li></ul>
+        <ul>${p.ficha.hitos.map((h) => `<li>${esc(h)}</li>`).join('')}<li>Cada mes con recarga y mantención documentadas: se entregarían ${nAC.format(p.ficha.costo_mensual_ac)} AC.</li></ul>` : ''}
         <p><small>${esc(p.ficha.si_no_se_cumple)}</small></p>
       </div>` : ''}
 
-      <div class="detalle-bloque">
+      ${p.aviso ? '' : `<div class="detalle-bloque">
         <h4>Patrocinar este puesto</h4>
         <div class="aportar-panel">
           <p>Elige un monto para el alimento, el agua y la mantención del mes.</p>
@@ -208,14 +252,18 @@
           <p><small>Es una <strong>simulación</strong>: no se cobra dinero. Es un aporte solidario para sostener este puesto; no ofrece intereses ni retornos.</small></p>
           <button class="button-verde" type="button" data-puesto-aportar ${montoElegido ? '' : 'disabled'}>Confirmar aporte (simulación)</button>
         </div>
-      </div>
+      </div>`}
 
       <div class="detalle-bloque">
         <h4>Auracoins</h4>
         <p>Por ahora este puesto no recibe aportes en Auracoins: el sistema de Auracoins todavía no está definido. Lo de arriba es la propuesta de cómo se usarían, para revisarla antes de activarla.</p>
       </div>
 
-      <div class="detalle-bloque">
+      ${p.aviso ? `<div class="detalle-bloque">
+        <h4>Cuidado y aportes</h4>
+        <p>Por ahora esta propuesta se puede revisar. Anotarse como cuidador y patrocinarla llegará en una próxima etapa.</p>
+        ${p.es_mio ? `<div class="mini-acciones"><button class="button-borde" type="button" data-aviso-retirar="${esc(p.id)}">Retirar mi propuesta</button></div>` : ''}
+      </div>` : `<div class="detalle-bloque">
         <h4>Cuidarlo en persona</h4>
         <p>${p.cuidadores.length ? `Lo cuidan: ${p.cuidadores.map((c) => esc(c.alias)).join(', ')}.` : 'Todavía nadie lo cuida en persona.'}</p>
         <p>Última reposición: <strong>${esc(fecha(p.ultima_reposicion))}</strong></p>
@@ -225,7 +273,7 @@
           ${p.estado === 'activo' ? '<button class="button-borde" type="button" data-puesto-falta>Avisar que falta</button>' : ''}
         </div>
         ${yoCuido ? '' : '<p><small>Para registrar una reposición primero anótate como cuidador.</small></p>'}
-      </div>
+      </div>`}
 
       <p class="ayudar-msg" data-puesto-msg role="status"></p>`;
     aplicarAnchos(el.detalle);
@@ -298,6 +346,120 @@
     window.scrollTo({ top: 0, behavior: 'instant' });
   };
 
+  // ---------- Proponer un puesto y mis propuestas (solo con servidor) ----------
+  const ui = { formAviso: false, mis: [], msg: '', msgTipo: '' };
+  const cajaProponer = document.createElement('div');
+  cajaProponer.setAttribute('data-puestos-proponer', '');
+  el.vistaLista?.insertBefore(cajaProponer, el.lista);
+  const decir = (texto, tipo = '') => { ui.msg = texto; ui.msgTipo = tipo; };
+
+  const lineasDe = (t) => String(t || '').split('\n').map((x) => x.trim()).filter(Boolean).slice(0, 8);
+  const numero = (v) => {
+    const t = String(v ?? '').trim().replace(',', '.');
+    if (t === '') return null;
+    const n = Number(t);
+    return Number.isFinite(n) ? n : null;
+  };
+
+  const formAviso = () => `<form class="ayudar-form" data-form-aviso>
+      <p><small>Es una propuesta: un moderador la revisa antes de publicarla. No se cobra dinero ni se mueven Auracoins, y no se muestra quién la creó.</small></p>
+      <label>Título<input name="titulo" minlength="8" maxlength="90" required></label>
+      <label>Descripción<textarea name="descripcion" minlength="20" maxlength="600" required></textarea></label>
+      <label>Qué ofrece<select name="tipo"><option value="ambos">Agua y comida</option><option value="agua">Agua</option><option value="comida">Comida</option></select></label>
+      <label>Comuna<input name="comuna" value="Maipú" minlength="2" maxlength="60" required></label>
+      <label>Dirección o referencia pública<input name="direccion_publica" minlength="5" maxlength="140" required></label>
+      <label>Latitud (opcional)<input name="latitud" inputmode="decimal"></label>
+      <label>Longitud (opcional)<input name="longitud" inputmode="decimal"></label>
+      <label>Para qué se piden los fondos<textarea name="para_que" minlength="20" maxlength="400" required></textarea></label>
+      <label>Qué cubre cada mes (una línea por ítem)<textarea name="incluye" required></textarea></label>
+      <label>Qué se documentará: fabricación, instalación, recargas, mantención (una línea por ítem)<textarea name="documentacion" required></textarea></label>
+      <label>Auracoins por mes para sostenerlo<input type="number" name="costo_mensual_ac" min="1" max="100000" required></label>
+      <label>Auracoins para habilitarlo (opcional)<input type="number" name="costo_habilitacion_ac" min="0" max="1000000"></label>
+      <label>Plazo para dejarlo habilitado (días)<input type="number" name="plazo_habilitacion_dias" min="1" max="180" required></label>
+      <label>Permiso del lugar<select name="permiso_estado"><option value="sin_consultar">Aún no consultado</option><option value="en_tramite">En trámite</option><option value="confirmado">Confirmado</option></select></label>
+      <label>Si no se habilita en el plazo (tu propuesta de devolución)<textarea name="condiciones_devolucion" minlength="10" maxlength="600" required></textarea></label>
+      <div class="mini-acciones"><button class="button-verde" type="submit">Enviar a revisión</button><button class="button-borde" type="button" data-aviso-cancelar>Cancelar</button></div>
+    </form>`;
+
+  const renderProponer = (forzar = false) => {
+    if (!cajaProponer.isConnected && !el.vistaLista) return;
+    if (!forzar && ui.formAviso && cajaProponer.querySelector('[data-form-aviso]')) return; // no se borra lo que se está escribiendo
+    if (modo !== 'servidor') {
+      cajaProponer.innerHTML = '<p class="ayudar-sim" role="note">Proponer un puesto necesita la conexión al servidor, que todavía no está activa en esta versión.</p>';
+      return;
+    }
+    if (!session?.user) {
+      cajaProponer.innerHTML = '<p class="ayudar-sim" role="note">Para proponer un puesto, <a href="#cuenta">inicia sesión en Mi cuenta</a>.</p>';
+      return;
+    }
+    const filas = ui.mis.filter((a) => a.estado !== 'retirado').map((a) => `<article class="accion-card">
+        <div class="accion-meta">${chip(ESTADOS_AVISO[a.estado] || a.estado, a.estado === 'rechazado' ? 'is-rojo' : a.estado === 'publicado' ? '' : 'is-gris')}</div>
+        <h3>${esc(a.titulo)}</h3>
+        ${a.motivo_rechazo ? `<p><strong>Motivo del rechazo:</strong> ${esc(a.motivo_rechazo)}</p>` : ''}
+        <div class="mini-acciones">
+          ${a.estado === 'borrador' ? `<button class="button-verde" type="button" data-aviso-enviar="${esc(a.id)}">Enviar a revisión</button>` : ''}
+          <button class="button-borde" type="button" data-aviso-retirar="${esc(a.id)}">Retirar</button>
+        </div>
+      </article>`).join('');
+    cajaProponer.innerHTML = `
+      <div class="mini-acciones"><button class="button-verde" type="button" data-aviso-nuevo>${ui.formAviso ? 'Cerrar el formulario' : 'Proponer un puesto'}</button></div>
+      ${ui.formAviso ? formAviso() : ''}
+      ${ui.msg ? `<p class="ayudar-msg${ui.msgTipo ? ` is-${ui.msgTipo}` : ''}" role="status">${esc(ui.msg)}</p>` : ''}
+      ${filas ? `<h3>Mis propuestas</h3><div class="ayudar-lista">${filas}</div>` : ''}`;
+  };
+
+  const cargarMis = async () => {
+    if (modo !== 'servidor' || !session?.user) { ui.mis = []; return; }
+    try { ui.mis = (await rpc('mis_avisos_puestos')) || []; } catch { ui.mis = []; }
+  };
+
+  const recargar = async () => {
+    if (modo !== 'servidor') return;
+    try { mem = { puestos: ((await rpc('listar_avisos_puestos')) || []).map(delAviso), aportes: [] }; } catch { /* se mantiene lo último cargado */ }
+    await cargarMis();
+    renderProponer(true);
+    renderLista();
+    renderResumen();
+    if (abierto && buscar(abierto)) renderDetalle();
+    else if (abierto) cerrar();
+    avisarCambio();
+  };
+
+  const crearYEnviar = async (form) => {
+    const f = new FormData(form);
+    const g = (k) => String(f.get(k) ?? '').trim();
+    const args = {
+      p_titulo: g('titulo'), p_descripcion: g('descripcion'), p_tipo: g('tipo'), p_comuna: g('comuna'),
+      p_direccion_publica: g('direccion_publica'), p_latitud: numero(f.get('latitud')), p_longitud: numero(f.get('longitud')),
+      p_para_que: g('para_que'), p_incluye: lineasDe(f.get('incluye')), p_documentacion: lineasDe(f.get('documentacion')),
+      p_costo_mensual_ac: numero(f.get('costo_mensual_ac')), p_costo_habilitacion_ac: numero(f.get('costo_habilitacion_ac')),
+      p_plazo_habilitacion_dias: numero(f.get('plazo_habilitacion_dias')), p_permiso_estado: g('permiso_estado'),
+      p_condiciones_devolucion: g('condiciones_devolucion'),
+    };
+    let id;
+    try { id = await rpc('crear_aviso_puesto', args); } catch (e) { decir(mensajeError(e), 'error'); renderProponer(true); return; }
+    try {
+      await rpc('enviar_aviso_puesto', { p_id: id });
+      decir('Listo: tu propuesta quedó en revisión. Te mostramos aquí si se publica o si hay algo que ajustar.', 'success');
+    } catch (e) {
+      decir(`Tu propuesta se guardó como borrador, pero no pudimos enviarla: ${mensajeError(e)}`, 'error');
+    }
+    ui.formAviso = false;
+    await recargar();
+  };
+
+  const enviarAviso = async (id) => {
+    try { await rpc('enviar_aviso_puesto', { p_id: id }); decir('Enviamos tu propuesta a revisión.', 'success'); } catch (e) { decir(mensajeError(e), 'error'); }
+    await recargar();
+  };
+
+  const retirarAviso = async (id) => {
+    if (!window.confirm('¿Retirar esta propuesta? No se puede deshacer.')) return;
+    try { await rpc('retirar_aviso_puesto', { p_id: id }); decir('Retiraste tu propuesta.', 'success'); } catch (e) { decir(mensajeError(e), 'error'); }
+    if (abierto === id) cerrar();
+    await recargar();
+  };
+
   // ---------- Eventos ----------
   document.addEventListener('click', (event) => {
     const t = event.target;
@@ -310,6 +472,12 @@
     if (t.closest('[data-puesto-mapa]')) { verEnMapa(); return; }
     if (!root.contains(t)) return;
     if (t.closest('[data-puesto-volver]')) { cerrar(); return; }
+    if (t.closest('[data-aviso-nuevo]')) { ui.formAviso = !ui.formAviso; renderProponer(true); return; }
+    if (t.closest('[data-aviso-cancelar]')) { ui.formAviso = false; renderProponer(true); return; }
+    const envBtn = t.closest('[data-aviso-enviar]');
+    if (envBtn) { enviarAviso(envBtn.dataset.avisoEnviar); return; }
+    const retBtn = t.closest('[data-aviso-retirar]');
+    if (retBtn) { retirarAviso(retBtn.dataset.avisoRetirar); return; }
     const montoBtn = t.closest('[data-puesto-monto]');
     if (montoBtn) { montoElegido = Number(montoBtn.dataset.puestoMonto); renderDetalle(); return; }
     if (t.closest('[data-puesto-aportar]')) { aportar(); return; }
@@ -319,6 +487,12 @@
   });
 
   el.filtros?.addEventListener('change', renderLista);
+  root.addEventListener('submit', (event) => {
+    const form = event.target instanceof Element ? event.target.closest('[data-form-aviso]') : null;
+    if (!form) return;
+    event.preventDefault();
+    crearYEnviar(form);
+  });
 
   // Al volver a la sección desde otra vista, se muestra la lista (no un detalle viejo).
   document.addEventListener('vista:cambio', (event) => {
@@ -326,11 +500,40 @@
   });
 
   // ---------- Inicio ----------
-  if (el.modo) {
-    el.modo.textContent = 'Los puestos de esta lista son ejemplos guardados solo en tu navegador, y los aportes son una simulación: no se cobra dinero. Más adelante los puestos reales los agregará moderación.';
-  }
-  renderLista();
-  renderResumen();
+  const textoModo = () => {
+    const fuerte = root.querySelector('.ayudar-sim strong');
+    if (modo === 'servidor') {
+      if (fuerte) fuerte.textContent = 'Propuestas de la comunidad.';
+      if (el.modo) el.modo.textContent = 'Estos puestos los propone la comunidad y los revisa un moderador antes de publicarse. Por ahora no se cobra dinero ni se mueven Auracoins: sus reglas siguen por definir.';
+    } else if (el.modo) {
+      el.modo.textContent = 'Los puestos de esta lista son ejemplos guardados solo en tu navegador, y los aportes son una simulación: no se cobra dinero. Más adelante los puestos reales los agregará moderación.';
+    }
+  };
+
+  const iniciar = async () => {
+    if (db) {
+      try { session = (await db.auth.getSession()).data.session; } catch { session = null; }
+      try {
+        mem = { puestos: ((await rpc('listar_avisos_puestos')) || []).map(delAviso), aportes: [] };
+        modo = 'servidor';
+      } catch {
+        mem = null;
+        modo = 'demo'; // sin la migración (o sin conexión) se muestra la demostración local
+      }
+    }
+    listo = true;
+    textoModo();
+    if (modo === 'servidor') {
+      const campoEstado = el.filtros?.querySelector('[name="estado"]')?.closest('label');
+      if (campoEstado) campoEstado.style.display = 'none'; // los avisos no tienen estado «funcionando / necesita ayuda»
+      await cargarMis();
+    }
+    renderProponer(true);
+    renderLista();
+    renderResumen();
+    avisarCambio();
+    if (modo === 'servidor') db.auth.onAuthStateChange((_ev, s) => { session = s; window.setTimeout(recargar, 0); });
+  };
   // Una ayuda concreta (js/tareas.js) abonó sus Aura Coins a este puesto (demo).
   document.addEventListener('tareas:abono', (ev) => {
     const d = ev.detail || {};
@@ -341,6 +544,6 @@
     guardar(); avisarCambio();
   });
 
-  window.auraLadraPuestos = { lista: () => datos().puestos.slice(), lugares: () => datos().puestos.map(comoLugar), abrir };
-  avisarCambio();
+  window.auraLadraPuestos = { lista: () => datos().puestos.slice(), lugares: () => datos().puestos.filter(tieneUbicacion).map(comoLugar), abrir };
+  iniciar();
 })();
