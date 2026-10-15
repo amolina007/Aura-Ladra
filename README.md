@@ -237,9 +237,13 @@ retirar, motivo de rechazo). **Si las funciones no existen, cae a la demostraci�
 financiar. Probado con un navegador simulado (jsdom) y un servidor falso que imita las funciones (37 de 37) y con una revisión automática de que los nombres de
 funciones, parámetros y columnas del sitio coinciden con la migración; **no verificado contra Supabase real**.
 
+**Moderación:** quien está en `ladra.moderadores` ve, dentro de la sección, el bloque «Propuestas por revisar» (con el alias público de quien propone) y puede
+aprobar y publicar o rechazar con un motivo de al menos 10 caracteres. Quien no es moderador no ve ese bloque (lo decide el servidor, no el navegador). Hoy quien
+modera puede aprobar sus propias propuestas. Probado con jsdom y un servidor falso (16 de 16); **no verificado contra Supabase real**.
+
 No mueve Auracoins ni dinero (`movimiento_ac` es siempre `ninguno`): las reglas de entrega por hitos y de devolución que aparecen en la demo son solo una propuesta
-por aprobar. **Pendiente:** panel para que un moderador apruebe o rechace desde el sitio (hoy no existe; solo la función del servidor), editar una propuesta,
-registrar avances, fotos de evidencia (falta almacenamiento privado) y cualquier movimiento real de Auracoins.
+por aprobar. **Pendiente:** editar una propuesta, registrar avances (fabricación, instalación, recargas), fotos de evidencia (falta almacenamiento privado),
+anotarse como cuidador de un aviso publicado y cualquier movimiento real de Auracoins.
 
 ## Ayudar: panel de resumen
 

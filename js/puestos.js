@@ -39,6 +39,8 @@
   const mensajeError = (e) => {
     const m = String(e?.message || e || 'No pudimos completar la acción.');
     if (/check constraint/i.test(m)) return 'Revisa los datos: alguno no cumple los límites (largo de los textos, montos o plazo).';
+    if (/PERMISO_DENEGADO/.test(m)) return 'No tienes permiso para hacer esto.';
+    if (/SESION_REQUERIDA/.test(m)) return 'Inicia sesión en Mi cuenta para continuar.';
     return m.replace(/^[A-Z_]{4,}:\s*/, '');
   };
 
@@ -408,6 +410,51 @@
       ${filas ? `<h3>Mis propuestas</h3><div class="ayudar-lista">${filas}</div>` : ''}`;
   };
 
+  // Panel de moderación: solo lo ven quienes están en ladra.moderadores (el servidor decide; si no lo eres, no aparece).
+  const mod = { esModerador: false, filas: [], msg: '', msgTipo: '' };
+  const cajaMod = document.createElement('div');
+  cajaMod.setAttribute('data-puestos-moderacion', '');
+  el.vistaLista?.insertBefore(cajaMod, el.lista);
+
+  const renderModeracion = () => {
+    if (!mod.esModerador) { cajaMod.replaceChildren(); return; }
+    const filas = mod.filas.map((a) => `<article class="accion-card" data-revisar="${esc(a.id)}">
+        <div class="accion-meta">${chip('En revisión', 'is-gris')}${chip(`${ICONOS[a.tipo]} ${TIPOS[a.tipo]}`)}</div>
+        <h3>${esc(a.titulo)}</h3>
+        <p>${esc(a.descripcion)}</p>
+        <p><strong>Propone:</strong> ${esc(a.autor_alias || 'Persona sin alias público')} · <strong>Dónde:</strong> ${esc(a.direccion_publica)}, ${esc(a.comuna)}${a.latitud == null ? ' (sin coordenadas)' : ` (${a.latitud}, ${a.longitud})`}</p>
+        <p><strong>Para qué:</strong> ${esc(a.para_que)}</p>
+        <p><strong>Pide:</strong> 🪙 ${nAC.format(a.costo_mensual_ac)} AC al mes${a.costo_habilitacion_ac == null ? '' : ` y ${nAC.format(a.costo_habilitacion_ac)} AC para habilitarlo`} · <strong>Plazo:</strong> ${a.plazo_habilitacion_dias} días · <strong>Permiso:</strong> ${esc(PERMISOS[a.permiso_estado] || a.permiso_estado)}</p>
+        <p><strong>Cubre:</strong> ${(a.incluye || []).map(esc).join('; ')}</p>
+        <p><strong>Documentará:</strong> ${(a.documentacion || []).map(esc).join('; ')}</p>
+        <p><strong>Si no se cumple (propuesta de la persona):</strong> ${esc(a.condiciones_devolucion)}</p>
+        <label>Motivo (obligatorio solo para rechazar)<textarea name="motivo" maxlength="400"></textarea></label>
+        <div class="mini-acciones">
+          <button class="button-verde" type="button" data-moderar="aprobar" data-id="${esc(a.id)}">Aprobar y publicar</button>
+          <button class="button-borde" type="button" data-moderar="rechazar" data-id="${esc(a.id)}">Rechazar</button>
+        </div>
+      </article>`).join('');
+    cajaMod.innerHTML = `<h3>Propuestas por revisar</h3>
+      ${mod.msg ? `<p class="ayudar-msg${mod.msgTipo ? ` is-${mod.msgTipo}` : ''}" role="status">${esc(mod.msg)}</p>` : ''}
+      ${filas ? `<div class="ayudar-lista">${filas}</div>` : '<p class="ayudar-vacio">No hay propuestas esperando revisión.</p>'}`;
+  };
+
+  const cargarModeracion = async () => {
+    if (modo !== 'servidor' || !session?.user) { mod.esModerador = false; mod.filas = []; return; }
+    try { mod.filas = (await rpc('avisos_puestos_en_revision')) || []; mod.esModerador = true; } catch { mod.esModerador = false; mod.filas = []; }
+  };
+
+  const moderar = async (id, aprobar, motivo) => {
+    if (!aprobar && String(motivo || '').trim().length < 10) {
+      mod.msg = 'Para rechazar escribe un motivo de al menos 10 caracteres.'; mod.msgTipo = 'error'; renderModeracion(); return;
+    }
+    try {
+      await rpc('moderar_aviso_puesto', { p_id: id, p_aprobar: aprobar, p_motivo: aprobar ? null : String(motivo).trim() });
+      mod.msg = aprobar ? 'Aprobaste la propuesta: ya está publicada.' : 'Rechazaste la propuesta con su motivo.'; mod.msgTipo = 'success';
+    } catch (e) { mod.msg = mensajeError(e); mod.msgTipo = 'error'; }
+    await recargar();
+  };
+
   const cargarMis = async () => {
     if (modo !== 'servidor' || !session?.user) { ui.mis = []; return; }
     try { ui.mis = (await rpc('mis_avisos_puestos')) || []; } catch { ui.mis = []; }
@@ -417,6 +464,8 @@
     if (modo !== 'servidor') return;
     try { mem = { puestos: ((await rpc('listar_avisos_puestos')) || []).map(delAviso), aportes: [] }; } catch { /* se mantiene lo último cargado */ }
     await cargarMis();
+    await cargarModeracion();
+    renderModeracion();
     renderProponer(true);
     renderLista();
     renderResumen();
@@ -478,6 +527,12 @@
     if (envBtn) { enviarAviso(envBtn.dataset.avisoEnviar); return; }
     const retBtn = t.closest('[data-aviso-retirar]');
     if (retBtn) { retirarAviso(retBtn.dataset.avisoRetirar); return; }
+    const modBtn = t.closest('[data-moderar]');
+    if (modBtn) {
+      const tarjetaRev = modBtn.closest('[data-revisar]');
+      moderar(modBtn.dataset.id, modBtn.dataset.moderar === 'aprobar', tarjetaRev?.querySelector('[name="motivo"]')?.value);
+      return;
+    }
     const montoBtn = t.closest('[data-puesto-monto]');
     if (montoBtn) { montoElegido = Number(montoBtn.dataset.puestoMonto); renderDetalle(); return; }
     if (t.closest('[data-puesto-aportar]')) { aportar(); return; }
@@ -527,7 +582,9 @@
       const campoEstado = el.filtros?.querySelector('[name="estado"]')?.closest('label');
       if (campoEstado) campoEstado.style.display = 'none'; // los avisos no tienen estado «funcionando / necesita ayuda»
       await cargarMis();
+      await cargarModeracion();
     }
+    renderModeracion();
     renderProponer(true);
     renderLista();
     renderResumen();
