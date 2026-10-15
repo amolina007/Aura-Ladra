@@ -1555,3 +1555,110 @@ dialog.feed-historia-dialog::backdrop { background: #000; }
 .cal-ev-nota { font-size: .8rem; color: rgba(6, 61, 36, .7); }
 .cal-nuevo:disabled { opacity: .5; cursor: not-allowed; }
 .cal-nuevo-sec { margin-top: 10px; background: #fff; color: var(--logo-verde); border: 1px solid var(--logo-verde); }
+
+/* ---------- Comida y agua: aspecto nocturno (lista a la izquierda, ficha al centro, meta a la derecha) ---------- */
+#comida-agua.ayudar {
+  --verde: #6fdcf0; --verde-oscuro: #3fb8d2; --crema: #0b1a30; --crema-2: rgba(255, 255, 255, .09);
+  --ambar: #f6b94a; --ambar-claro: rgba(246, 185, 74, .16); --ambar-texto: #f6c56a;
+  --tinta: #e8eef6; --apagado: #a4b5c8; --linea: rgba(255, 255, 255, .14);
+  background: radial-gradient(1200px 500px at 85% -10%, rgba(63, 120, 200, .25), transparent 60%), linear-gradient(180deg, #081528 0%, #0d2240 100%);
+  color: var(--tinta);
+}
+#comida-agua h2 { color: #fff; }
+#comida-agua h3, #comida-agua h4 { color: #fff; }
+#comida-agua .section-heading > p { color: var(--apagado); }
+#comida-agua .kicker { color: var(--ambar-texto); }
+#comida-agua a { color: var(--verde); }
+#comida-agua .ayudar-sim { background: rgba(246, 185, 74, .1); border-color: rgba(246, 185, 74, .55); color: #f6d9a0; }
+#comida-agua .ayudar-filtros .field { color: var(--apagado); }
+#comida-agua .ayudar-filtros select, #comida-agua .ayudar-form input, #comida-agua .ayudar-form select, #comida-agua .ayudar-form textarea {
+  background: rgba(255, 255, 255, .07); color: #fff; border-color: rgba(255, 255, 255, .2);
+}
+#comida-agua .ayudar-form label { color: var(--tinta); }
+#comida-agua .accion-card { background: rgba(255, 255, 255, .06); border-color: var(--linea); box-shadow: none; }
+#comida-agua .chip { background: rgba(255, 255, 255, .1); color: #dce6f2; }
+#comida-agua .chip.is-ambar { background: var(--ambar-claro); color: var(--ambar-texto); }
+#comida-agua .chip.is-sim { background: transparent; }
+#comida-agua .progreso { background: rgba(255, 255, 255, .12); }
+#comida-agua .progreso > span { background: linear-gradient(90deg, #2bc4e0, #4f9bff); }
+#comida-agua .button-verde { background: var(--ambar); color: #0b1a30; }
+#comida-agua .button-verde:hover { background: #ffcb6b; }
+#comida-agua .button-borde { background: transparent; color: var(--verde); border-color: rgba(111, 220, 240, .6); }
+#comida-agua .button-borde:hover { background: rgba(111, 220, 240, .12); }
+#comida-agua .detalle-bloque { border-top-color: var(--linea); }
+#comida-agua .monto-btn { background: rgba(255, 255, 255, .07); color: #fff; border-color: var(--linea); }
+#comida-agua .monto-btn[aria-pressed="true"] { border-color: var(--ambar); background: var(--ambar-claro); }
+#comida-agua .ayudar-vacio { border-color: var(--linea); color: var(--apagado); }
+
+.pz-layout { display: grid; grid-template-columns: 290px minmax(0, 1fr); gap: 22px; align-items: start; }
+.pz-lista { display: grid; gap: 12px; padding: 18px; border: 1px solid var(--linea); border-radius: 20px; background: rgba(255, 255, 255, .05); backdrop-filter: blur(6px); }
+.pz-lista-titulo { margin: 0; font-size: 1.1rem; }
+.pz-lista .ayudar-filtros { grid-template-columns: 1fr; margin: 0; }
+.pz-lista .ayudar-lista { gap: 10px; }
+.pz-item { display: flex; gap: 12px; align-items: center; width: 100%; padding: 10px; border: 1px solid transparent; border-radius: 14px; background: transparent; color: var(--tinta); font: inherit; text-align: left; cursor: pointer; }
+.pz-item:hover { background: rgba(255, 255, 255, .07); }
+.pz-item.is-activa { border-color: rgba(111, 220, 240, .75); background: rgba(111, 220, 240, .1); }
+.pz-mini { flex: 0 0 auto; display: grid; place-items: center; width: 62px; height: 62px; border-radius: 12px; background: linear-gradient(135deg, rgba(246, 185, 74, .35), rgba(79, 155, 255, .35)); font-size: 1.35rem; }
+.pz-item-texto { display: grid; gap: 3px; min-width: 0; flex: 1; }
+.pz-item-texto strong { font-size: .9rem; line-height: 1.25; color: #fff; }
+.pz-item-texto small { color: var(--apagado); font-size: .78rem; }
+.pz-barra { display: flex; align-items: center; gap: 8px; }
+.pz-barra .progreso { flex: 1; height: 7px; }
+.pz-barra em { font-style: normal; font-size: .75rem; font-weight: 800; color: var(--verde); }
+
+.pz-detalle { min-width: 0; padding: 0; }
+.pz-grid { display: grid; grid-template-columns: minmax(0, 1fr) 330px; gap: 22px; align-items: start; }
+.pz-main { min-width: 0; }
+.pz-main h3 { margin: 18px 0 6px; font: 650 clamp(1.7rem, 3vw, 2.4rem)/1.1 "Fraunces", serif; }
+.pz-foto { position: relative; display: grid; place-items: center; align-content: center; gap: 8px; aspect-ratio: 16 / 9; border: 1px solid var(--linea); border-radius: 20px; background: linear-gradient(135deg, rgba(246, 185, 74, .22), rgba(79, 155, 255, .22)); }
+.pz-foto span { font-size: 3rem; }
+.pz-foto small { padding: 0 14px; color: var(--apagado); text-align: center; }
+.pz-side { display: grid; gap: 14px; }
+.pz-card { padding: 16px; border: 1px solid var(--linea); border-radius: 18px; background: rgba(255, 255, 255, .06); }
+.pz-card h4 { margin: 0 0 10px; font-size: 1rem; }
+.pz-card p { margin: 8px 0 0; }
+.pz-card small { color: var(--apagado); }
+.pz-etapa { margin: 0 !important; color: var(--ambar-texto); font-size: .78rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+.pz-cifra { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; font-size: 1.15rem; color: var(--apagado); }
+.pz-cifra strong { font-size: 1.9rem; color: #fff; }
+.pz-cifra em { font-style: normal; font-weight: 800; color: var(--verde); }
+.pz-resto { display: flex; justify-content: space-between; gap: 10px; font-size: .86rem; color: var(--apagado); }
+.pz-patrocinar { width: 100%; min-height: 52px; margin-top: 14px; border: 0; border-radius: 14px; background: var(--ambar); color: #0b1a30; font: inherit; font-weight: 800; }
+.pz-patrocinar:disabled { opacity: .55; cursor: not-allowed; }
+.pz-tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.pz-tiles div { display: grid; gap: 2px; padding: 10px 12px; border: 1px solid var(--linea); border-radius: 12px; background: rgba(255, 255, 255, .05); }
+.pz-tiles span { color: var(--apagado); font-size: .8rem; }
+.pz-tiles strong { font-size: 1.25rem; color: var(--apagado); }
+.pz-permiso { background: rgba(246, 185, 74, .14); border-color: rgba(246, 185, 74, .4); }
+.pz-permiso h4 { color: var(--ambar-texto); }
+.pz-equipo { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+.pz-equipo li { display: flex; gap: 12px; align-items: center; }
+.pz-equipo li > span:last-child { display: grid; line-height: 1.25; }
+.pz-equipo small { color: var(--apagado); }
+.pz-avatar { flex: 0 0 auto; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, #2bc4e0, #4f9bff); color: #06182c; font-weight: 800; }
+.pz-vacio { padding: 28px; border: 1px dashed var(--linea); border-radius: 20px; color: var(--apagado); }
+
+@media (max-width: 1100px) {
+  /* En pantallas angostas la meta y el botón suben justo debajo del título, como en la versión de escritorio. */
+  .pz-grid { display: flex; flex-direction: column; gap: 14px; }
+  .pz-main, .pz-side { display: contents; }
+  .pz-main > * { order: 5; }
+  .pz-main > .pz-foto { order: 1; }
+  .pz-main > .accion-meta { order: 2; }
+  .pz-main > h3 { order: 3; }
+  .pz-main > p { order: 3; }
+  .pz-side > .pz-card { order: 6; width: 100%; box-sizing: border-box; }
+  .pz-side > .pz-card.pz-progreso { order: 4; }
+  .pz-main > .ayudar-msg { order: 9; }
+  .pz-main > .pz-foto { width: 100%; box-sizing: border-box; }
+}
+@media (max-width: 900px) {
+  .pz-layout { grid-template-columns: 1fr; }
+  .pz-lista .ayudar-lista { grid-auto-flow: column; grid-auto-columns: minmax(250px, 80%); overflow-x: auto; padding-bottom: 6px; }
+}
+#comida-agua .pz-item { width: 100%; box-sizing: border-box; }
+.pz-lista .ayudar-lista { grid-template-columns: minmax(0, 1fr); }
+.pz-main .accion-meta { margin-top: 14px; }
+@media (max-width: 900px) {
+  .pz-lista .ayudar-lista { grid-template-columns: none; }
+}

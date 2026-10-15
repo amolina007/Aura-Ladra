@@ -255,6 +255,12 @@ muestra la persona responsable (quien publica) y a las demás personas del proye
 Auracoins. **Pendiente:** formulario para crear campañas desde el sitio (la función `crear_campana_puesto` ya existe), aportes en Auracoins (falta la definición vigente),
 que otras personas se sumen al equipo con su consentimiento y el paso de etapa al alcanzar la meta.
 
+**Aspecto de la sección (Comida y agua):** tema nocturno solo dentro de `#comida-agua` (estilos `pz-*` al final de `css/styles.css`): lista de iniciativas a la
+izquierda, ficha al centro y, si es una campaña, columna de meta/condiciones/permiso/equipo a la derecha (en pantallas angostas la meta sube bajo el título). Basado
+en una maqueta de referencia, **sin copiar sus cifras**: la barra muestra 0 de la meta real, «Patrocinar» y «Mi aporte» están deshabilitados («próximamente») hasta que
+exista el sistema de Auracoins, y la foto es un espacio «pendiente» hasta tener una real. Probado con jsdom (demo y servidor falso) y con capturas en Chromium
+(escritorio y móvil).
+
 ## Ayudar: panel de resumen
 
 Arriba de la lista de Ayudar hay un panel («Así va la ayuda») con acciones publicadas, ya financiadas, completadas y total aportado

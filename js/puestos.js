@@ -60,6 +60,7 @@
     hasta: a.recaudacion_hasta,
     dias_restantes: diasHasta(a.recaudacion_hasta),
     plazo_entrega: a.plazo_habilitacion_dias,
+    permiso: a.permiso_estado === 'sin_consultar' ? 'Por consultar: se pide a quien administra el espacio cuando esté definido el emplazamiento.' : (PERMISOS[a.permiso_estado] || PERMISOS.sin_consultar),
     equipo: Array.isArray(a.equipo) ? a.equipo : [],
     si_no_se_cumple: `Propuesta de quien lo publica si no se alcanza la meta: ${a.condiciones_devolucion}`,
   });
@@ -174,6 +175,19 @@
     </article>`;
   };
 
+  // Tarjeta compacta de la lista lateral (diseño de la sección).
+  const tarjetaLateral = (p) => {
+    const pct = p.aviso ? 0 : porcentaje(p);
+    return `<button class="pz-item${p.id === abierto ? ' is-activa' : ''}" type="button" data-puesto-abrir="${esc(p.id)}" aria-pressed="${p.id === abierto}">
+      <span class="pz-mini" aria-hidden="true">${ICONOS[p.tipo]}</span>
+      <span class="pz-item-texto">
+        <strong>${esc(p.nombre)}</strong>
+        <small>📍 ${esc(p.comuna)}</small>
+        <span class="pz-barra"><span class="progreso" aria-hidden="true"><span data-ancho="${pct}"></span></span><em>${pct}%</em></span>
+      </span>
+    </button>`;
+  };
+
   // ---------- Lista ----------
   const filtrados = () => {
     const f = el.filtros ? new FormData(el.filtros) : new FormData();
@@ -186,7 +200,7 @@
     if (!el.lista) return;
     const rows = filtrados();
     el.lista.innerHTML = rows.length
-      ? rows.map(tarjeta).join('')
+      ? rows.map(tarjetaLateral).join('')
       : '<p class="ayudar-vacio">No hay puestos con estos filtros. Prueba con otros.</p>';
     aplicarAnchos(el.lista);
   };
@@ -220,14 +234,48 @@
     m.className = `ayudar-msg${tipo ? ` is-${tipo}` : ''}`;
   };
 
+  const panelCampana = (f) => `
+    <div class="pz-card pz-progreso">
+      <p class="pz-etapa">Etapa 1 · Financiamiento</p>
+      <p class="pz-cifra"><span><strong>0</strong> / ${nAC.format(f.meta_ac)} AC</span><em>0%</em></p>
+      <div class="progreso" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="Avance hacia la meta"><span data-ancho="0"></span></div>
+      <p class="pz-resto"><span>Faltan ${nAC.format(f.meta_ac)} AC</span><span>${f.hasta ? `Cierra el ${esc(fecha(f.hasta))}` : `Plazo: ${f.plazo_recaudacion_dias} días`}</span></p>
+      <button class="pz-patrocinar" type="button" disabled>Patrocinar · próximamente</button>
+      <p><small>Plazo máximo de ${f.plazo_recaudacion_dias} días${f.dias_restantes == null ? '' : ` (${f.dias_restantes === 0 ? 'último día' : `quedan ${f.dias_restantes} ${f.dias_restantes === 1 ? 'día' : 'días'}`})`}. Los aportes en Auracoins se habilitan cuando el sistema esté definido.</small></p>
+    </div>
+    <div class="pz-card">
+      <h4>Mi aporte</h4>
+      <div class="pz-tiles"><div><span>Disponible</span><strong>—</strong></div><div><span>Retenidos</span><strong>—</strong></div></div>
+      <p><small>Se mostrará cuando existan los aportes en Auracoins.</small></p>
+    </div>
+    <div class="pz-card">
+      <h4>Condiciones</h4>
+      <p>${esc(f.si_no_se_cumple)}</p>
+      <p><small>Entrega: dentro de ${f.plazo_entrega} días desde que se alcance la meta (máximo 60).</small></p>
+    </div>
+    <div class="pz-card pz-permiso">
+      <h4>Permiso del lugar</h4>
+      <p>${esc(f.permiso)}</p>
+    </div>
+    <div class="pz-card">
+      <h4>Equipo del proyecto</h4>
+      <ul class="pz-equipo">${f.equipo.map((m) => `<li><span class="pz-avatar" aria-hidden="true">${esc(String(m.alias || '?').trim().charAt(0).toUpperCase())}</span><span><strong>${esc(m.alias)}</strong><small>${m.rol === 'responsable' ? 'Responsable' : 'Integrante'}</small></span></li>`).join('')}</ul>
+    </div>`;
+
   const renderDetalle = (aviso) => {
     const p = buscar(abierto);
-    if (!p || !el.detalle) return;
+    if (!el.detalle) return;
+    if (!p) {
+      el.detalle.innerHTML = `<div class="pz-vacio"><h3>Todavía no hay iniciativas publicadas</h3><p>Cuando moderación publique una campaña, la verás aquí con su meta, su plazo, su equipo y sus condiciones.</p></div>`;
+      return;
+    }
     const pct = p.aviso ? 0 : porcentaje(p);
     const lleno = !p.aviso && p.recaudado_clp >= p.meta_clp;
     const yoCuido = cuido(p);
     el.detalle.innerHTML = `
-      <button class="button-borde detalle-volver" type="button" data-puesto-volver>← Volver a los puestos</button>
+      <div class="pz-grid">
+      <div class="pz-main">
+      <div class="pz-foto" role="img" aria-label="Foto del puesto pendiente"><span aria-hidden="true">${ICONOS[p.tipo]}</span><small>Foto pendiente: aquí irá la foto real del puesto</small></div>
       <div class="accion-meta">${chip(`${ICONOS[p.tipo]} ${TIPOS[p.tipo]}`)}${chip(ESTADOS[p.estado], p.estado === 'necesita_ayuda' ? 'is-ambar' : '')}${p.ejemplo ? chip('Ejemplo', 'is-sim') : ''}</div>
       <h3>${esc(p.nombre)}</h3>
       <p>${esc(p.descripcion)}</p>
@@ -242,16 +290,9 @@
       </div>
 
       ${p.ficha?.campana ? `<div class="detalle-bloque">
-        <h4>Etapa 1 · Financiamiento</h4>
-        <p><strong>🪙 Meta: ${nAC.format(p.ficha.meta_ac)} Aura Coins</strong>, a juntar en un plazo máximo de ${p.ficha.plazo_recaudacion_dias} días (2 meses es el máximo permitido).${p.ficha.hasta ? ` Termina el <strong>${esc(fecha(p.ficha.hasta))}</strong>${p.ficha.dias_restantes == null ? '' : ` (${p.ficha.dias_restantes === 0 ? 'último día' : `quedan ${p.ficha.dias_restantes} ${p.ficha.dias_restantes === 1 ? 'día' : 'días'}`})`}.` : ''}</p>
         <h4>Etapa 2 · Al alcanzar la meta</h4>
         <p>Ese día se verá cuánto equivale en pesos y qué se puede hacer con ello. Recién ahí se definen, con todo documentado: el emplazamiento, la mantención, la calidad y la recarga de la comida, y el resto de los detalles del puesto.</p>
         <p><strong>Plazo de entrega:</strong> el puesto quedaría listo dentro de ${p.ficha.plazo_entrega} días desde que se alcance la meta (máximo 60).</p>
-        <p><small>${esc(p.ficha.si_no_se_cumple)}</small></p>
-      </div>
-      <div class="detalle-bloque">
-        <h4>Quiénes están en el proyecto</h4>
-        <ul>${p.ficha.equipo.map((m) => `<li><strong>${esc(m.alias)}</strong> · ${m.rol === 'responsable' ? 'responsable del proyecto' : 'integrante'}</li>`).join('')}</ul>
       </div>` : p.ficha ? `<div class="detalle-bloque">
         <h4>Para qué se piden los fondos</h4>
         <p>${esc(p.ficha.para_que)}</p>
@@ -301,7 +342,10 @@
         ${yoCuido ? '' : '<p><small>Para registrar una reposición primero anótate como cuidador.</small></p>'}
       </div>`}
 
-      <p class="ayudar-msg" data-puesto-msg role="status"></p>`;
+      <p class="ayudar-msg" data-puesto-msg role="status"></p>
+      </div>
+      ${p.ficha?.campana ? `<aside class="pz-side" aria-label="Meta, condiciones y equipo">${panelCampana(p.ficha)}</aside>` : ''}
+      </div>`;
     aplicarAnchos(el.detalle);
     if (aviso) mensaje(aviso.texto, aviso.tipo);
   };
@@ -311,17 +355,23 @@
     abierto = id;
     montoElegido = 0;
     if (desdeFuera) window.auraLadraVistas?.ir('comida-agua');
-    if (el.vistaLista) el.vistaLista.hidden = true;
-    if (el.detalle) el.detalle.hidden = false;
+    renderLista();
     renderDetalle();
-    window.scrollTo({ top: 0, behavior: 'instant' });
+    if (desdeFuera) window.scrollTo({ top: 0, behavior: 'instant' });
+    else if (window.matchMedia?.('(max-width: 900px)').matches) el.detalle?.scrollIntoView?.({ behavior: 'smooth', block: 'start' });
+  };
+
+  // La ficha siempre muestra algo: si no hay una abierta (o desapareció), se abre la primera de la lista.
+  const abrirPrimera = () => {
+    const primera = filtrados()[0] || datos().puestos[0];
+    abierto = primera ? primera.id : null;
+    montoElegido = 0;
+    renderLista();
+    renderDetalle();
   };
 
   const cerrar = () => {
-    abierto = null;
-    if (el.detalle) { el.detalle.hidden = true; el.detalle.replaceChildren(); }
-    if (el.vistaLista) el.vistaLista.hidden = false;
-    renderLista();
+    abrirPrimera();
   };
 
   const cambiado = (aviso) => {
@@ -491,10 +541,9 @@
     await cargarModeracion();
     renderModeracion();
     renderProponer(true);
-    renderLista();
     renderResumen();
-    if (abierto && buscar(abierto)) renderDetalle();
-    else if (abierto) cerrar();
+    if (abierto && buscar(abierto)) { renderLista(); renderDetalle(); }
+    else abrirPrimera();
     avisarCambio();
   };
 
@@ -538,7 +587,7 @@
     const t = event.target;
     if (!(t instanceof Element)) return;
     const abrirBtn = t.closest('[data-puesto-abrir]');
-    if (abrirBtn) { abrir(abrirBtn.dataset.puestoAbrir, { desdeFuera: true }); return; }
+    if (abrirBtn) { abrir(abrirBtn.dataset.puestoAbrir, { desdeFuera: !root.contains(t) }); return; }
     // Enlace «Ayudar con este puesto» que aparece en las tarjetas del mapa.
     const desdeMapa = t.closest('[data-abrir-puesto]');
     if (desdeMapa) { abrir(desdeMapa.dataset.abrirPuesto, { desdeFuera: true }); return; }
@@ -575,7 +624,7 @@
 
   // Al volver a la sección desde otra vista, se muestra la lista (no un detalle viejo).
   document.addEventListener('vista:cambio', (event) => {
-    if (event.detail?.vista === 'comida-agua' && abierto === null) renderLista();
+    if (event.detail?.vista === 'comida-agua' && abierto === null) abrirPrimera();
   });
 
   // ---------- Inicio ----------
@@ -610,7 +659,7 @@
     }
     renderModeracion();
     renderProponer(true);
-    renderLista();
+    abrirPrimera();
     renderResumen();
     avisarCambio();
     if (modo === 'servidor') db.auth.onAuthStateChange((_ev, s) => { session = s; window.setTimeout(recargar, 0); });

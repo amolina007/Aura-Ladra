@@ -324,16 +324,19 @@
           <p>Puntos con agua y alimento para perros y gatos del barrio. Puedes patrocinar un puesto o ayudar a mantenerlo en persona: reponer agua y comida, limpiarlo y avisar si falta algo. Los puestos también aparecen en el mapa.</p>
         </div>
         <p class="ayudar-sim" role="note"><strong>Modo demostración.</strong> <span data-puestos-modo>Cargando…</span></p>
-        <div data-puestos-vista-lista>
-          <form class="ayudar-filtros" data-puestos-filtros aria-label="Filtrar puestos">
-            <label class="field"><span>Qué ofrece</span>
-              <select name="tipo"><option value="">Agua y comida</option><option value="agua">Agua</option><option value="comida">Comida</option></select></label>
-            <label class="field"><span>Estado</span>
-              <select name="estado"><option value="">Todos</option><option value="necesita_ayuda">Necesitan ayuda</option><option value="activo">Funcionando</option></select></label>
-          </form>
-          <div class="ayudar-lista" data-puestos-lista aria-live="polite"></div>
+        <div class="pz-layout">
+          <aside class="pz-lista" data-puestos-vista-lista aria-label="Iniciativas de comida y agua">
+            <h3 class="pz-lista-titulo">Iniciativas</h3>
+            <form class="ayudar-filtros" data-puestos-filtros aria-label="Filtrar puestos">
+              <label class="field"><span>Qué ofrece</span>
+                <select name="tipo"><option value="">Agua y comida</option><option value="agua">Agua</option><option value="comida">Comida</option></select></label>
+              <label class="field"><span>Estado</span>
+                <select name="estado"><option value="">Todos</option><option value="necesita_ayuda">Necesitan ayuda</option><option value="activo">Funcionando</option></select></label>
+            </form>
+            <div class="ayudar-lista" data-puestos-lista aria-live="polite"></div>
+          </aside>
+          <article class="pz-detalle" data-puestos-detalle aria-live="polite"></article>
         </div>
-        <article class="ayudar-detalle card" data-puestos-detalle hidden aria-live="polite"></article>
       </div>
     </section>
 
