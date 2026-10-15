@@ -26,7 +26,7 @@
   const nAC = new Intl.NumberFormat('es-CL');
 
   // ---------- Datos de ejemplo (solo navegador) ----------
-  const KEY = 'auraladra.demo.puestos.v2';
+  const KEY = 'auraladra.demo.puestos.v3';
   const DIA = 86400000;
   let mem = null;
 
@@ -35,7 +35,18 @@
     return {
       puestos: [
         // Ubicación APROXIMADA (centro de Maipú): pendiente de ajustar a la plaza real de Av. Sur con Padre Hurtado.
-        { id: 'av-sur-padre-hurtado', ejemplo: true, nombre: 'Plaza Av. Sur con Padre Hurtado · bebedero y comedero para perros (demo)', tipo: 'ambos', estado: 'necesita_ayuda', descripcion: 'Bebedero y comedero para perros que instalará AuraLadra en la plaza de la intersección de Av. Sur con Padre Hurtado. Es el puesto de demostración.', necesidad: 'Instalar el bebedero y el comedero, reponer agua y alimento seco, y limpiarlos cada semana.', direccion_publica: 'Plaza de Av. Sur con Padre Hurtado, Maipú', comuna: 'Maipú', latitud: -33.5107, longitud: -70.7578, meta_clp: 30000, recaudado_clp: 0, ultima_reposicion: null, cuidadores: [] },
+        { id: 'av-sur-padre-hurtado', ejemplo: true, nombre: 'Plaza Av. Sur con Padre Hurtado · bebedero y comedero para perros (demo)', tipo: 'ambos', estado: 'necesita_ayuda', descripcion: 'Bebedero y comedero para perros que instalará AuraLadra en la plaza de la intersección de Av. Sur con Padre Hurtado. Es el puesto de demostración.', necesidad: 'Instalar el bebedero y el comedero, reponer agua y alimento seco, y limpiarlos cada semana.', direccion_publica: 'Plaza de Av. Sur con Padre Hurtado, Maipú', comuna: 'Maipú', latitud: -33.5107, longitud: -70.7578, meta_clp: 30000, recaudado_clp: 0, ultima_reposicion: null, cuidadores: [],
+          // Ficha de financiamiento (textos de ejemplo): dice para qué se piden fondos y qué se entrega a cambio.
+          ficha: {
+            para_que: 'Habilitar un bebedero y un comedero para perros en la plaza y sostenerlos mes a mes, con cada paso documentado.',
+            costo_mensual_ac: 100,
+            cubre_mensual: ['Alimento seco para perros', 'Agua y limpieza del bebedero y del comedero', 'Mantención mínima: revisar y reparar lo básico'],
+            costo_habilitacion: 'Por definir: materiales y fabricación del bebedero y del comedero.',
+            plazo_habilitacion: 'Habilitado dentro de 30 días desde que se junte la meta (plazo de ejemplo).',
+            permiso: 'Permiso de la plaza: por confirmar con la Municipalidad de Maipú antes de instalar.',
+            documentacion: ['Fabricación: fotos del proceso y de los materiales', 'Posicionamiento: foto y ubicación exacta de la instalación', 'Recargas: fecha y foto de cada recarga de comida y agua', 'Mantención: registro de cada revisión o reparación'],
+            si_no_se_cumple: 'Propuesta por decidir: si no se habilita en el plazo, las Auracoins se devuelven o se reasignan.',
+          } },
       ],
       aportes: [],
     };
@@ -92,6 +103,7 @@
       <div class="accion-meta">${chip(`${ICONOS[p.tipo]} ${TIPOS[p.tipo]}`)}${chip(ESTADOS[p.estado], p.estado === 'necesita_ayuda' ? 'is-ambar' : '')}${p.ejemplo ? chip('Ejemplo', 'is-sim') : ''}</div>
       <h3>${esc(p.nombre)}</h3>
       <p>${esc(p.direccion_publica)}</p>
+      ${p.ficha ? `<p><strong>🪙 ${nAC.format(p.ficha.costo_mensual_ac)} AC al mes</strong> para sostenerlo</p>` : ''}
       <div>
         <div class="progreso" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100" aria-label="Patrocinio del mes"><span data-ancho="${pct}"></span></div>
         <p class="progreso-texto"><span><strong>${clp.format(p.recaudado_clp)}</strong> de ${clp.format(p.meta_clp)} este mes</span><span>${pct}%</span></p>
@@ -171,6 +183,19 @@
         <p class="progreso-texto"><span><strong>${clp.format(p.recaudado_clp)}</strong> de ${clp.format(p.meta_clp)} este mes</span><span>${pct}%</span></p>
         ${lleno ? '<p class="ayudar-msg is-success">La meta del mes ya está cubierta. Igual puedes seguir aportando o ayudar en persona.</p>' : ''}
       </div>
+
+      ${p.ficha ? `<div class="detalle-bloque">
+        <h4>Para qué se piden los fondos</h4>
+        <p>${esc(p.ficha.para_que)}</p>
+        <p><strong>🪙 ${nAC.format(p.ficha.costo_mensual_ac)} AC al mes</strong> para sostener el puesto. Esto cubre:</p>
+        <ul>${p.ficha.cubre_mensual.map((c) => `<li>${esc(c)}</li>`).join('')}</ul>
+        <p><strong>Habilitación:</strong> ${esc(p.ficha.costo_habilitacion)}</p>
+        <p><strong>Plazo:</strong> ${esc(p.ficha.plazo_habilitacion)}</p>
+        <p><strong>Permiso:</strong> ${esc(p.ficha.permiso)}</p>
+        <h4>Qué quedará documentado</h4>
+        <ul>${p.ficha.documentacion.map((d) => `<li>${esc(d)}</li>`).join('')}</ul>
+        <p><small>${esc(p.ficha.si_no_se_cumple)}</small></p>
+      </div>` : ''}
 
       <div class="detalle-bloque">
         <h4>Patrocinar este puesto</h4>
