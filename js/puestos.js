@@ -26,7 +26,7 @@
   const nAC = new Intl.NumberFormat('es-CL');
 
   // ---------- Datos de ejemplo (solo navegador) ----------
-  const KEY = 'auraladra.demo.puestos.v3';
+  const KEY = 'auraladra.demo.puestos.v4';
   const DIA = 86400000;
   let mem = null;
 
@@ -35,7 +35,7 @@
     return {
       puestos: [
         // Ubicación APROXIMADA (centro de Maipú): pendiente de ajustar a la plaza real de Av. Sur con Padre Hurtado.
-        { id: 'av-sur-padre-hurtado', ejemplo: true, nombre: 'Plaza Av. Sur con Padre Hurtado · bebedero y comedero para perros (demo)', tipo: 'ambos', estado: 'necesita_ayuda', descripcion: 'Bebedero y comedero para perros que instalará AuraLadra en la plaza de la intersección de Av. Sur con Padre Hurtado. Es el puesto de demostración.', necesidad: 'Instalar el bebedero y el comedero, reponer agua y alimento seco, y limpiarlos cada semana.', direccion_publica: 'Plaza de Av. Sur con Padre Hurtado, Maipú', comuna: 'Maipú', latitud: -33.5107, longitud: -70.7578, meta_clp: 30000, recaudado_clp: 0, ultima_reposicion: null, cuidadores: [],
+        { id: 'av-sur-padre-hurtado', ejemplo: true, nombre: 'Plaza Av. Sur con Padre Hurtado · bebedero y comedero para perros (demo)', tipo: 'ambos', estado: 'necesita_ayuda', descripcion: 'Bebedero y comedero para perros que instalará AuraLadra en la plaza de la intersección de Av. Sur con Padre Hurtado. Es el puesto de demostración.', necesidad: 'Instalar el bebedero y el comedero, reponer agua y alimento seco, y limpiarlos cada semana.', direccion_publica: 'Plaza de Av. Sur con Padre Hurtado, Maipú', comuna: 'Maipú', latitud: -33.5107, longitud: -70.7578, meta_clp: 30000, recaudado_clp: 0, ultima_reposicion: null, cuidadores: [], bolsa_ac: 0,
           // Ficha de financiamiento (textos de ejemplo): dice para qué se piden fondos y qué se entrega a cambio.
           ficha: {
             para_que: 'Habilitar un bebedero y un comedero para perros en la plaza y sostenerlos mes a mes, con cada paso documentado.',
@@ -43,9 +43,10 @@
             cubre_mensual: ['Alimento seco para perros', 'Agua y limpieza del bebedero y del comedero', 'Mantención mínima: revisar y reparar lo básico'],
             costo_habilitacion: 'Por definir: materiales y fabricación del bebedero y del comedero.',
             plazo_habilitacion: 'Habilitado dentro de 30 días desde que se junte la meta (plazo de ejemplo).',
-            permiso: 'Permiso de la plaza: por confirmar con la Municipalidad de Maipú antes de instalar.',
+            permiso: 'Estado del permiso de la plaza: por confirmar con la Municipalidad de Maipú. Aún no está confirmado: tenlo en cuenta antes de aportar.',
+            hitos: ['Fabricación probada con fotos: se entrega una parte de la habilitación (monto por definir).', 'Instalación probada con foto y ubicación exacta: se entrega el resto de la habilitación (monto por definir).'],
             documentacion: ['Fabricación: fotos del proceso y de los materiales', 'Posicionamiento: foto y ubicación exacta de la instalación', 'Recargas: fecha y foto de cada recarga de comida y agua', 'Mantención: registro de cada revisión o reparación'],
-            si_no_se_cumple: 'Propuesta por decidir: si no se habilita en el plazo, las Auracoins se devuelven o se reasignan.',
+            si_no_se_cumple: 'Si el puesto no queda habilitado dentro del plazo, las Auracoins que aún no se hayan entregado se devuelven a quienes aportaron.',
           } },
       ],
       aportes: [],
@@ -194,6 +195,9 @@
         <p><strong>Permiso:</strong> ${esc(p.ficha.permiso)}</p>
         <h4>Qué quedará documentado</h4>
         <ul>${p.ficha.documentacion.map((d) => `<li>${esc(d)}</li>`).join('')}</ul>
+        <h4>Cómo se entregan las Auracoins</h4>
+        <p>Las Auracoins quedan en la bolsa de este puesto y se entregan por etapas, solo cuando hay prueba:</p>
+        <ul>${p.ficha.hitos.map((h) => `<li>${esc(h)}</li>`).join('')}<li>Cada mes con recarga y mantención documentadas: se entregan ${nAC.format(p.ficha.costo_mensual_ac)} AC.</li></ul>
         <p><small>${esc(p.ficha.si_no_se_cumple)}</small></p>
       </div>` : ''}
 
@@ -210,10 +214,10 @@
       </div>
 
       <div class="detalle-bloque">
-        <h4>Aportar Auracoins al Fondo de AuraLadra</h4>
+        <h4>Aportar Auracoins a este puesto</h4>
         <div class="aportar-panel">
-          <p>Tus Auracoins van al <strong>Fondo de AuraLadra</strong>, que se usa para sostener los puestos; no se asignan a este puesto en particular.</p>
-          <p>Fondo en la demostración: <strong>🪙 ${nAC.format(datos().fondo_ac || 0)} AC</strong></p>
+          <p>Tus Auracoins quedan en la <strong>bolsa de este puesto</strong> y se entregan por etapas, con prueba (mira «Cómo se entregan las Auracoins» más arriba).</p>
+          <p>Bolsa de este puesto en la demostración: <strong>🪙 ${nAC.format(p.bolsa_ac || 0)} AC</strong></p>
           <div class="montos" role="group" aria-label="Monto en Auracoins">
             ${MONTOS_AC.map((m) => `<button class="monto-btn" type="button" data-puesto-ac="${m}" aria-pressed="${acElegido === m}">🪙 ${m} AC</button>`).join('')}
           </div>
@@ -278,13 +282,13 @@
   };
 
   const aportarAC = () => {
-    if (!MONTOS_AC.includes(acElegido)) return;
-    const d = datos();
-    d.fondo_ac = (d.fondo_ac || 0) + acElegido;
-    d.aportes.push({ fondo: 'auraladra', monto_ac: acElegido, simulado: true, creado_en: new Date().toISOString() });
+    const p = buscar(abierto);
+    if (!p || !MONTOS_AC.includes(acElegido)) return;
+    p.bolsa_ac = (p.bolsa_ac || 0) + acElegido;
+    datos().aportes.push({ puesto_id: p.id, monto_ac: acElegido, simulado: true, creado_en: new Date().toISOString() });
     const monto = acElegido;
     acElegido = 0;
-    cambiado({ texto: `Gracias: registramos tu aporte simulado de ${nAC.format(monto)} AC al Fondo de AuraLadra. No se movieron Auracoins reales.`, tipo: 'success' });
+    cambiado({ texto: `Gracias: registramos tu aporte simulado de ${nAC.format(monto)} AC a la bolsa de este puesto. No se movieron Auracoins reales.`, tipo: 'success' });
   };
 
   const alternarCuidado = () => {
