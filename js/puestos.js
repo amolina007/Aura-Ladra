@@ -20,7 +20,7 @@
 
   const TIPOS = { agua: 'Agua', comida: 'Comida', ambos: 'Agua y comida' };
   const ICONOS = { agua: '💧', comida: '🍖', ambos: '💧🍖' };
-  const ESTADOS = { activo: 'Funcionando', necesita_ayuda: 'Necesita ayuda', propuesta: 'Propuesta aprobada' };
+  const ESTADOS = { activo: 'Funcionando', necesita_ayuda: 'Necesita ayuda', propuesta: 'Propuesta aprobada', campana: 'Financiamiento abierto' };
   const ESTADOS_AVISO = { borrador: 'Borrador', en_revision: 'En revisión', publicado: 'Publicado', rechazado: 'Rechazado', retirado: 'Retirado' };
   const MONTOS = [2000, 5000, 10000, 20000];
   const YO = 'Tú (demo)';
@@ -50,12 +50,25 @@
     confirmado: 'Confirmado por quien lo propone (lo revisa moderación).',
   };
   // Un aviso publicado por el servidor, con la misma forma que usa el resto de la pantalla.
+  const diasHasta = (iso) => (iso ? Math.max(0, Math.ceil((new Date(iso).getTime() - Date.now()) / 86400000)) : null);
+  // Campaña: etapa 1 es juntar la meta (máximo 2 meses); lo demás se define al alcanzarla.
+  const fichaCampana = (a) => ({
+    campana: true,
+    para_que: a.para_que,
+    meta_ac: a.meta_ac,
+    plazo_recaudacion_dias: a.plazo_recaudacion_dias,
+    hasta: a.recaudacion_hasta,
+    dias_restantes: diasHasta(a.recaudacion_hasta),
+    plazo_entrega: a.plazo_habilitacion_dias,
+    equipo: Array.isArray(a.equipo) ? a.equipo : [],
+    si_no_se_cumple: `Propuesta de quien lo publica si no se alcanza la meta: ${a.condiciones_devolucion}`,
+  });
   const delAviso = (a) => ({
-    id: a.id, aviso: true, es_mio: !!a.es_mio, nombre: a.titulo, tipo: a.tipo, estado: 'propuesta',
+    id: a.id, aviso: true, es_mio: !!a.es_mio, nombre: a.titulo, tipo: a.tipo, estado: a.meta_ac ? 'campana' : 'propuesta',
     descripcion: a.descripcion, necesidad: a.para_que, direccion_publica: a.direccion_publica, comuna: a.comuna,
     latitud: a.latitud == null ? null : Number(a.latitud), longitud: a.longitud == null ? null : Number(a.longitud),
     meta_clp: 0, recaudado_clp: 0, ultima_reposicion: null, cuidadores: [],
-    ficha: {
+    ficha: a.meta_ac ? fichaCampana(a) : {
       para_que: a.para_que,
       costo_mensual_ac: a.costo_mensual_ac,
       cubre_mensual: a.incluye || [],
@@ -153,7 +166,7 @@
       <div class="accion-meta">${chip(`${ICONOS[p.tipo]} ${TIPOS[p.tipo]}`)}${chip(ESTADOS[p.estado], p.estado === 'necesita_ayuda' ? 'is-ambar' : '')}${p.ejemplo ? chip('Ejemplo', 'is-sim') : ''}${p.es_mio ? chip('Tuya') : ''}</div>
       <h3>${esc(p.nombre)}</h3>
       <p>${esc(p.direccion_publica)}</p>
-      ${p.ficha ? `<p><strong>🪙 ${nAC.format(p.ficha.costo_mensual_ac)} AC al mes</strong> para sostenerlo</p>` : ''}${progreso}
+      ${p.ficha?.campana ? `<p><strong>🪙 Meta: ${nAC.format(p.ficha.meta_ac)} AC</strong>${p.ficha.dias_restantes == null ? '' : ` · ${p.ficha.dias_restantes === 0 ? 'último día' : `quedan ${p.ficha.dias_restantes} ${p.ficha.dias_restantes === 1 ? 'día' : 'días'}`} para juntarla`}</p>` : p.ficha ? `<p><strong>🪙 ${nAC.format(p.ficha.costo_mensual_ac)} AC al mes</strong> para sostenerlo</p>` : ''}${progreso}
       <div class="mini-acciones">
         <button class="button-verde" type="button" data-puesto-abrir="${esc(p.id)}">${p.aviso ? 'Ver propuesta' : 'Ayudar'}</button>
         ${tieneUbicacion(p) ? `<button class="button-borde" type="button" data-puesto-mapa="${esc(p.id)}">Ver en el mapa</button>` : ''}
@@ -228,7 +241,18 @@
         ${lleno ? '<p class="ayudar-msg is-success">La meta del mes ya está cubierta. Igual puedes seguir aportando o ayudar en persona.</p>' : ''}
       </div>
 
-      ${p.ficha ? `<div class="detalle-bloque">
+      ${p.ficha?.campana ? `<div class="detalle-bloque">
+        <h4>Etapa 1 · Financiamiento</h4>
+        <p><strong>🪙 Meta: ${nAC.format(p.ficha.meta_ac)} Aura Coins</strong>, a juntar en un plazo máximo de ${p.ficha.plazo_recaudacion_dias} días (2 meses es el máximo permitido).${p.ficha.hasta ? ` Termina el <strong>${esc(fecha(p.ficha.hasta))}</strong>${p.ficha.dias_restantes == null ? '' : ` (${p.ficha.dias_restantes === 0 ? 'último día' : `quedan ${p.ficha.dias_restantes} ${p.ficha.dias_restantes === 1 ? 'día' : 'días'}`})`}.` : ''}</p>
+        <h4>Etapa 2 · Al alcanzar la meta</h4>
+        <p>Ese día se verá cuánto equivale en pesos y qué se puede hacer con ello. Recién ahí se definen, con todo documentado: el emplazamiento, la mantención, la calidad y la recarga de la comida, y el resto de los detalles del puesto.</p>
+        <p><strong>Plazo de entrega:</strong> el puesto quedaría listo dentro de ${p.ficha.plazo_entrega} días desde que se alcance la meta (máximo 60).</p>
+        <p><small>${esc(p.ficha.si_no_se_cumple)}</small></p>
+      </div>
+      <div class="detalle-bloque">
+        <h4>Quiénes están en el proyecto</h4>
+        <ul>${p.ficha.equipo.map((m) => `<li><strong>${esc(m.alias)}</strong> · ${m.rol === 'responsable' ? 'responsable del proyecto' : 'integrante'}</li>`).join('')}</ul>
+      </div>` : p.ficha ? `<div class="detalle-bloque">
         <h4>Para qué se piden los fondos</h4>
         <p>${esc(p.ficha.para_que)}</p>
         <p><strong>🪙 ${nAC.format(p.ficha.costo_mensual_ac)} AC al mes</strong> para sostener el puesto. Esto cubre:</p>
@@ -424,9 +448,9 @@
         <p>${esc(a.descripcion)}</p>
         <p><strong>Propone:</strong> ${esc(a.autor_alias || 'Persona sin alias público')} · <strong>Dónde:</strong> ${esc(a.direccion_publica)}, ${esc(a.comuna)}${a.latitud == null ? ' (sin coordenadas)' : ` (${a.latitud}, ${a.longitud})`}</p>
         <p><strong>Para qué:</strong> ${esc(a.para_que)}</p>
-        <p><strong>Pide:</strong> 🪙 ${nAC.format(a.costo_mensual_ac)} AC al mes${a.costo_habilitacion_ac == null ? '' : ` y ${nAC.format(a.costo_habilitacion_ac)} AC para habilitarlo`} · <strong>Plazo:</strong> ${a.plazo_habilitacion_dias} días · <strong>Permiso:</strong> ${esc(PERMISOS[a.permiso_estado] || a.permiso_estado)}</p>
+        ${a.meta_ac ? `<p><strong>Campaña:</strong> 🪙 meta de ${nAC.format(a.meta_ac)} AC en ${a.plazo_recaudacion_dias} días como máximo · <strong>Entrega:</strong> ${a.plazo_habilitacion_dias} días desde alcanzar la meta</p>` : `<p><strong>Pide:</strong> 🪙 ${nAC.format(a.costo_mensual_ac)} AC al mes${a.costo_habilitacion_ac == null ? '' : ` y ${nAC.format(a.costo_habilitacion_ac)} AC para habilitarlo`} · <strong>Plazo:</strong> ${a.plazo_habilitacion_dias} días · <strong>Permiso:</strong> ${esc(PERMISOS[a.permiso_estado] || a.permiso_estado)}</p>
         <p><strong>Cubre:</strong> ${(a.incluye || []).map(esc).join('; ')}</p>
-        <p><strong>Documentará:</strong> ${(a.documentacion || []).map(esc).join('; ')}</p>
+        <p><strong>Documentará:</strong> ${(a.documentacion || []).map(esc).join('; ')}</p>`}
         <p><strong>Si no se cumple (propuesta de la persona):</strong> ${esc(a.condiciones_devolucion)}</p>
         <label>Motivo (obligatorio solo para rechazar)<textarea name="motivo" maxlength="400"></textarea></label>
         <div class="mini-acciones">

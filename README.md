@@ -226,11 +226,11 @@ En la cabecera: (Se quitaron de la cabecera los tres iconos de Avisos, Mensajes 
 Se probó un prototipo demo de «acciones concretas con Aura Coins» (`js/tareas.js`, ya **sin cargar**). No se muestra en el sitio:
 no se simulan movimientos de Aura Coin ni se inventan reglas económicas hasta tener la definición vigente del sistema.
 
-## Comida y agua: avisos de puestos (migración SIN aplicar)
+## Comida y agua: avisos de puestos (primera migración aplicada en Supabase)
 
 Archivo `supabase/migrations/20261015120000_avisos_de_puestos.sql` (prueba de base de datos: `supabase/tests/avisos_puestos_prueba.sql`, 43 de 43 en una base
 local desechable). Una persona con cuenta propone un puesto (para qué se piden fondos, qué cubre, plazo de habilitación, qué se documentará) y un moderador
-lo aprueba antes de publicarlo. **No está aplicado en Supabase.**
+lo aprueba antes de publicarlo. Esta primera migración **ya está aplicada** en Supabase (se comprobó que existen la tabla y las funciones).
 
 `js/puestos.js` ya lo usa **si las funciones existen**: lista los avisos publicados, permite «Proponer un puesto» y muestra «Mis propuestas» (enviar a revisión,
 retirar, motivo de rechazo). **Si las funciones no existen, cae a la demostración** (un puesto de ejemplo guardado solo en el navegador), igual que Acciones por
@@ -244,6 +244,16 @@ modera puede aprobar sus propias propuestas. Probado con jsdom y un servidor fal
 No mueve Auracoins ni dinero (`movimiento_ac` es siempre `ninguno`): las reglas de entrega por hitos y de devolución que aparecen en la demo son solo una propuesta
 por aprobar. **Pendiente:** editar una propuesta, registrar avances (fabricación, instalación, recargas), fotos de evidencia (falta almacenamiento privado),
 anotarse como cuidador de un aviso publicado y cualquier movimiento real de Auracoins.
+
+### Campañas de financiamiento (migración `20261015220000_campanas_de_puestos.sql`, SIN aplicar)
+
+Un aviso puede ser una **campaña**: etapa 1 = juntar una meta en Auracoins (ej. 100.000 AC) en **máximo 60 días**; etapa 2 = al alcanzar la meta se define
+el emplazamiento, la mantención, la calidad de la comida, etc. (hasta entonces pueden quedar «por definir»). La campaña indica en cuántos días queda listo el puesto
+desde que se alcanza la meta (**máximo 60**). El plazo de financiamiento empieza a correr cuando moderación publica el aviso (`recaudacion_hasta`). La ficha
+muestra la persona responsable (quien publica) y a las demás personas del proyecto (`ladra.aviso_integrantes`), siempre por alias público. Prueba:
+`supabase/tests/campanas_puestos_prueba.sql` (en una base local desechable, junto con la prueba anterior de 43). Sigue sin haber aportes ni movimiento de
+Auracoins. **Pendiente:** formulario para crear campañas desde el sitio (la función `crear_campana_puesto` ya existe), aportes en Auracoins (falta la definición vigente),
+que otras personas se sumen al equipo con su consentimiento y el paso de etapa al alcanzar la meta.
 
 ## Ayudar: panel de resumen
 
