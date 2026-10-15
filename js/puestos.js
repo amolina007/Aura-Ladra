@@ -26,7 +26,7 @@
   const nAC = new Intl.NumberFormat('es-CL');
 
   // ---------- Datos de ejemplo (solo navegador) ----------
-  const KEY = 'auraladra.demo.puestos.v1';
+  const KEY = 'auraladra.demo.puestos.v2';
   const DIA = 86400000;
   let mem = null;
 
@@ -34,9 +34,8 @@
     const hace = (dias) => new Date(Date.now() - dias * DIA).toISOString();
     return {
       puestos: [
-        { id: 'plaza-maipu', ejemplo: true, nombre: 'Plaza de Maipú · puesto de agua y comida (ejemplo)', tipo: 'ambos', estado: 'activo', descripcion: 'Bebedero y comedero junto a las bancas de la plaza, pensados para perros y gatos comunitarios.', necesidad: 'Alimento seco para 30 días y cambio semanal del agua.', direccion_publica: 'Plaza de Maipú, Maipú', comuna: 'Maipú', latitud: -33.5107, longitud: -70.7578, meta_clp: 30000, recaudado_clp: 12000, ultima_reposicion: hace(2), cuidadores: [{ alias: 'Vecina de ejemplo' }] },
-        { id: 'parque-3-poniente', ejemplo: true, nombre: 'Parque 3 Poniente · bebedero (ejemplo)', tipo: 'agua', estado: 'necesita_ayuda', descripcion: 'Bebedero a la entrada del canil. El agua se acaba rápido en verano.', necesidad: 'Reponer agua a diario y limpiar el bebedero cada semana.', direccion_publica: 'Cerca del canil, Av. 3 Poniente, Maipú', comuna: 'Maipú', latitud: -33.5143, longitud: -70.7612, meta_clp: 15000, recaudado_clp: 3000, ultima_reposicion: hace(6), cuidadores: [] },
-        { id: 'pajaritos-comedero', ejemplo: true, nombre: 'Av. Pajaritos · comedero comunitario (ejemplo)', tipo: 'comida', estado: 'activo', descripcion: 'Comedero techado para gatos de la colonia del barrio.', necesidad: 'Alimento húmedo y seco para gatos, y limpieza semanal.', direccion_publica: 'Vereda de Av. Pajaritos, Maipú', comuna: 'Maipú', latitud: -33.5072, longitud: -70.7555, meta_clp: 25000, recaudado_clp: 25000, ultima_reposicion: hace(1), cuidadores: [{ alias: 'Cuidador de ejemplo' }, { alias: 'Vecino de ejemplo' }] },
+        // Ubicación APROXIMADA (centro de Maipú): pendiente de ajustar a la plaza real de Av. Sur con Padre Hurtado.
+        { id: 'av-sur-padre-hurtado', ejemplo: true, nombre: 'Plaza Av. Sur con Padre Hurtado · bebedero y comedero para perros (demo)', tipo: 'ambos', estado: 'necesita_ayuda', descripcion: 'Bebedero y comedero para perros que instalará AuraLadra en la plaza de la intersección de Av. Sur con Padre Hurtado. Es el puesto de demostración.', necesidad: 'Instalar el bebedero y el comedero, reponer agua y alimento seco, y limpiarlos cada semana.', direccion_publica: 'Plaza de Av. Sur con Padre Hurtado, Maipú', comuna: 'Maipú', latitud: -33.5107, longitud: -70.7578, meta_clp: 30000, recaudado_clp: 0, ultima_reposicion: null, cuidadores: [] },
       ],
       aportes: [],
     };

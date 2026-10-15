@@ -14,9 +14,6 @@
   const TAREAS = [
     { id: 't-difundir-accion', tipo: 'difundir', titulo: 'Difunde en redes la búsqueda de un hogar', desc: 'Comparte en tus redes la publicación de un gato en adopción con su foto y el enlace de AuraLadra.', lugar: 'Redes sociales', coins: 5, proyecto: { tipo: 'accion', id: 'demo-8', nombre: 'Traslado de un gato a su adopción' } },
     { id: 't-afiche', tipo: 'difundir', titulo: 'Pega un afiche de mascota perdida', desc: 'Imprime el afiche y pégalo en comercios y paraderos del sector donde se perdió.', lugar: 'Maipú centro', coins: 6, proyecto: null },
-    { id: 't-limpiar-canil', tipo: 'limpiar', titulo: 'Limpia el espacio del bebedero del Parque 3 Poniente', desc: 'Retira basura, barre y enjuaga el bebedero y su alrededor.', lugar: 'Parque 3 Poniente', coins: 10, proyecto: { tipo: 'puesto', id: 'parque-3-poniente', nombre: 'Parque 3 Poniente · bebedero' } },
-    { id: 't-reparar-bebedero', tipo: 'reparar', titulo: 'Repara el bebedero del Parque 3 Poniente', desc: 'Sella la fuga y cambia la tapa del bebedero. Los materiales básicos los pones tú o los coordina el cuidador.', lugar: 'Parque 3 Poniente', coins: 20, proyecto: { tipo: 'puesto', id: 'parque-3-poniente', nombre: 'Parque 3 Poniente · bebedero' } },
-    { id: 't-reponer-plaza', tipo: 'reponer', titulo: 'Repón agua y alimento en la Plaza de Maipú', desc: 'Cambia el agua, rellena el comedero y envía una foto de cómo quedó.', lugar: 'Plaza de Maipú', coins: 8, proyecto: { tipo: 'puesto', id: 'plaza-maipu', nombre: 'Plaza de Maipú · puesto de agua y comida' } },
     { id: 't-pasear', tipo: 'acompanar', titulo: 'Saca a pasear a un perro del canil', desc: 'Una hora de paseo con uno de los perros del canil, con correa y bolsas incluidas.', lugar: 'Canil Parque 3 Poniente', coins: 12, proyecto: { tipo: 'accion', id: 'demo-7', nombre: 'Vacunas para 12 perros del canil' } },
   ];
 
