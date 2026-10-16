@@ -177,7 +177,7 @@ persona decida compartir (hoy solo la demo muestra a «Cate (ejemplo)»).
 con los eventos `arbol:cambio` y `ayuda:cambio`. Las recompensas **no** existen: la gamificación está fuera del MVP.
 
 ### Misiones de LadraAura (botón «i»)
-`js/misiones.js` agrega junto al logo un botón «i» con 3 misiones guía: agregar tu mascota (se marca sola al tener una mascota viva), invitar a un amigo (se marca al compartir el enlace; no se puede verificar que lo abra alguien) y apoyar Comida y agua (me gusta o comentario, evento `puestos:interaccion`). Sin Auracoins ni recompensas. El avance de las dos últimas se recuerda solo en este navegador (localStorage, por usuario). Es la versión de Ladra; el menú común `aura-hub.js` no trae misiones y vive en el repo de Convergencia.
+`js/misiones.js` agrega un botón «i» flotante, justo encima del globo de mensajes, con 3 misiones guía: agregar tu mascota (se marca sola al tener una mascota viva), invitar a un amigo (se marca al compartir el enlace; no se puede verificar que lo abra alguien) y apoyar Comida y agua (me gusta o comentario, evento `puestos:interaccion`). Sin Auracoins ni recompensas. El avance de las dos últimas se recuerda solo en este navegador (localStorage, por usuario). Es la versión de Ladra; el menú común `aura-hub.js` no trae misiones y vive en el repo de Convergencia.
 
 ## Inicio: feed multimedia (modo demo)
 

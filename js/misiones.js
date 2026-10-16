@@ -8,6 +8,9 @@
   const panel = raiz?.querySelector('[data-misiones-panel]');
   if (!raiz || !boton || !panel) return;
 
+  // Sitio común de misiones de Convergencia. Vacío = el enlace «Ver todas las misiones» no se muestra.
+  const URL_MISIONES = '';
+
   const sesion = () => window.auraLadraRed?.sesion?.() || null;
   const clave = () => `auraladra.misiones.v1.${sesion()?.user?.id || 'anon'}`;
   const leer = () => { try { return JSON.parse(window.localStorage.getItem(clave()) || '{}') || {}; } catch { return {}; } };
@@ -72,6 +75,9 @@
       li.append(marca, cuerpo); ol.append(li);
     });
     frag.append(ol);
+    if (URL_MISIONES) {
+      const a = document.createElement('a'); a.className = 'mis-enlace'; a.href = URL_MISIONES; a.rel = 'noopener'; a.textContent = 'Ver todas las misiones →'; frag.append(a);
+    }
     if (msg) { const p = document.createElement('p'); p.className = 'mis-nota'; p.setAttribute('role', 'status'); p.textContent = msg; frag.append(p); }
     panel.replaceChildren(frag);
   }
