@@ -236,16 +236,21 @@
     ['recaudando', 'Recaudando', 'e-rec'], ['meta_alcanzada', 'Meta alcanzada', 'e-meta'],
     ['programada', 'Programadas', 'e-prog'], ['en_ejecucion', 'En ejecución', 'e-ejec'], ['completada', 'Completadas', 'e-comp'],
   ];
+  let ultimasCampanas = 0;
+  // Las campañas de Comida y agua (js/puestos.js) que están juntando su meta cuentan como «Recaudando».
+  const campanasAbiertas = () => (window.auraLadraPuestos?.lista?.() || []).filter((p) => p.estado === 'campana').length;
   const dibujarDash = async () => {
     const box = root.querySelector('[data-ayudar-dash]');
     if (!box) return;
+    const camp = campanasAbiertas();
+    ultimasCampanas = camp;
     let todas = [];
-    try { todas = await api.listar({}); } catch { box.hidden = true; return; }
+    try { todas = await api.listar({}); } catch { if (!camp) { box.hidden = true; return; } }
     box.hidden = false;
-    const n = (e) => todas.filter((a) => a.estado === e).length;
+    const totalIniciativas = todas.length + camp;
+    const n = (e) => todas.filter((a) => a.estado === e).length + (e === 'recaudando' ? camp : 0);
     const financiadas = todas.filter((a) => ['meta_alcanzada', 'programada', 'en_ejecucion', 'completada'].includes(a.estado)).length;
-    const total = todas.reduce((s, a) => s + (Number(a.recaudado_clp) || 0), 0);
-    const tiles = [[String(todas.length), 'Acciones publicadas'], [String(financiadas), 'Ya financiadas'], [String(n('completada')), 'Completadas']];
+    const tiles = [[String(totalIniciativas), 'Acciones publicadas'], [String(financiadas), 'Ya financiadas'], [String(n('completada')), 'Completadas']];
     const cont = box.querySelector('[data-ayd-tiles]');
     cont.replaceChildren(...tiles.map(([v, t]) => {
       const d = document.createElement('div'); d.className = 'ayd-tile';
@@ -258,9 +263,9 @@
     barra.replaceChildren(); ley.replaceChildren();
     ESTADOS_DASH.forEach(([e, txt, cls]) => {
       const c = n(e);
-      if (c && todas.length) {
+      if (c && totalIniciativas) {
         const seg = document.createElement('span'); seg.className = `ayd-seg ${cls}`;
-        seg.style.width = `${(c / todas.length) * 100}%`; barra.append(seg);
+        seg.style.width = `${(c / totalIniciativas) * 100}%`; barra.append(seg);
       }
       const li = document.createElement('li');
       const pt = document.createElement('span'); pt.className = `ayd-pt ${cls}`; pt.setAttribute('aria-hidden', 'true');
@@ -268,8 +273,11 @@
     });
     box.querySelector('.ayd-demo')?.remove();
     if (todas.some((a) => a.ejemplo)) { const nota = document.createElement('p'); nota.className = 'ayd-demo'; nota.textContent = 'Incluye datos de demo.'; box.append(nota); }
-    barra.setAttribute('aria-label', `De ${todas.length} acciones: ${ESTADOS_DASH.map(([e, t]) => `${t.toLowerCase()} ${n(e)}`).join(', ')}`);
+    barra.setAttribute('aria-label', `De ${totalIniciativas} acciones: ${ESTADOS_DASH.map(([e, t]) => `${t.toLowerCase()} ${n(e)}`).join(', ')}`);
   };
+
+  // js/puestos.js carga después: cuando sus campañas están listas (o cambian), se vuelve a dibujar el panel.
+  document.addEventListener('puestos:cambio', () => { if (campanasAbiertas() !== ultimasCampanas) dibujarDash(); });
 
   const cargarLista = async () => {
     el.lista.innerHTML = '<p class="ayudar-vacio">Cargando acciones…</p>';
