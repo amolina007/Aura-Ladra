@@ -58,6 +58,7 @@
     meta_ac: a.meta_ac,
     plazo_recaudacion_dias: a.plazo_recaudacion_dias,
     hasta: a.recaudacion_hasta,
+    abre: a.recaudacion_hasta ? new Date(new Date(a.recaudacion_hasta).getTime() - a.plazo_recaudacion_dias * 86400000).toISOString() : null,
     dias_restantes: diasHasta(a.recaudacion_hasta),
     plazo_entrega: a.plazo_habilitacion_dias,
     permiso: a.permiso_estado === 'sin_consultar' ? 'Por consultar: se pide a quien administra el espacio cuando esté definido el emplazamiento.' : (PERMISOS[a.permiso_estado] || PERMISOS.sin_consultar),
@@ -65,7 +66,7 @@
     si_no_se_cumple: `Propuesta de quien lo publica si no se alcanza la meta: ${a.condiciones_devolucion}`,
   });
   const delAviso = (a) => ({
-    id: a.id, aviso: true, es_mio: !!a.es_mio, nombre: a.titulo, tipo: a.tipo, estado: a.meta_ac ? 'campana' : 'propuesta',
+    id: a.id, aviso: true, creado_en: a.creado_en, es_mio: !!a.es_mio, nombre: a.titulo, tipo: a.tipo, estado: a.meta_ac ? 'campana' : 'propuesta',
     descripcion: a.descripcion, necesidad: a.para_que, direccion_publica: a.direccion_publica, comuna: a.comuna,
     latitud: a.latitud == null ? null : Number(a.latitud), longitud: a.longitud == null ? null : Number(a.longitud),
     meta_clp: 0, recaudado_clp: 0, ultima_reposicion: null, cuidadores: [],
@@ -189,11 +190,18 @@
   };
 
   // ---------- Lista ----------
+  const sinTildes = (t) => String(t || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
   const filtrados = () => {
     const f = el.filtros ? new FormData(el.filtros) : new FormData();
-    const tipo = f.get('tipo') || '';
-    const estado = f.get('estado') || '';
-    return datos().puestos.filter((p) => (!tipo || p.tipo === tipo || (tipo !== 'ambos' && p.tipo === 'ambos')) && (!estado || p.estado === estado));
+    const vista = f.get('vista') || 'todas';
+    const q = sinTildes(f.get('q')).trim();
+    return datos().puestos.filter((p) => {
+      if (vista === 'agua' && !(p.tipo === 'agua' || p.tipo === 'ambos')) return false;
+      if (vista === 'comida' && !(p.tipo === 'comida' || p.tipo === 'ambos')) return false;
+      if (vista === 'completar' && !(p.estado === 'campana' || p.estado === 'necesita_ayuda')) return false;
+      if (vista === 'mias' && !p.es_mio) return false;
+      return !q || sinTildes(`${p.nombre} ${p.comuna} ${p.descripcion} ${p.necesidad}`).includes(q);
+    });
   };
 
   const renderLista = () => {
@@ -374,6 +382,26 @@
     abrirPrimera();
   };
 
+  // Actividad reciente: solo hechos reales de las campañas publicadas (fechas guardadas en el servidor).
+  const cajaActividad = document.querySelector('[data-puestos-actividad]');
+  const renderActividad = () => {
+    if (!cajaActividad) return;
+    const hitos = [];
+    datos().puestos.filter((p) => p.aviso).forEach((p) => {
+      if (p.ficha?.campana) {
+        if (p.ficha.abre) hitos.push({ cuando: p.ficha.abre, icono: '🚀', titulo: 'Financiamiento abierto', detalle: p.nombre });
+        if (p.ficha.hasta) hitos.push({ cuando: p.ficha.hasta, icono: '⏳', titulo: 'Cierra el financiamiento', detalle: `${p.nombre} · meta de ${nAC.format(p.ficha.meta_ac)} AC` });
+      } else if (p.creado_en) {
+        hitos.push({ cuando: p.creado_en, icono: '📌', titulo: 'Propuesta publicada', detalle: p.nombre });
+      }
+    });
+    hitos.sort((x, y) => new Date(x.cuando) - new Date(y.cuando));
+    cajaActividad.hidden = !hitos.length;
+    if (!hitos.length) { cajaActividad.replaceChildren(); return; }
+    cajaActividad.innerHTML = `<h3 id="pz-act-titulo">Actividad reciente</h3>
+      <ol class="pz-linea">${hitos.slice(0, 6).map((h) => `<li><span class="pz-hito" aria-hidden="true">${h.icono}</span><span class="pz-hito-texto"><small>${esc(fecha(h.cuando))}</small><strong>${esc(h.titulo)}</strong><em>${esc(h.detalle)}</em></span></li>`).join('')}</ol>`;
+  };
+
   const cambiado = (aviso) => {
     guardar();
     renderLista();
@@ -484,6 +512,19 @@
       ${filas ? `<h3>Mis propuestas</h3><div class="ayudar-lista">${filas}</div>` : ''}`;
   };
 
+  // Resumen de mis propuestas (solo con sesión): cuenta real de lo que ya envié.
+  const cajaMio = document.createElement('div');
+  cajaMio.setAttribute('data-puestos-mio', '');
+  el.vistaLista?.appendChild(cajaMio);
+  const renderMio = () => {
+    const mias = ui.mis.filter((a) => a.estado !== 'retirado');
+    if (modo !== 'servidor' || !session?.user || !mias.length) { cajaMio.replaceChildren(); return; }
+    const n = (e) => mias.filter((a) => a.estado === e).length;
+    cajaMio.innerHTML = `<div class="pz-card"><h4>Tus propuestas</h4>
+      <div class="pz-tiles"><div><span>En revisión</span><strong>${n('en_revision')}</strong></div><div><span>Publicadas</span><strong>${n('publicado')}</strong></div></div>
+      ${n('rechazado') ? `<p><small>${n('rechazado')} para ajustar: mira el motivo arriba, en «Mis propuestas».</small></p>` : ''}</div>`;
+  };
+
   // Panel de moderación: solo lo ven quienes están en ladra.moderadores (el servidor decide; si no lo eres, no aparece).
   const mod = { esModerador: false, filas: [], msg: '', msgTipo: '' };
   const cajaMod = document.createElement('div');
@@ -541,7 +582,9 @@
     await cargarModeracion();
     renderModeracion();
     renderProponer(true);
+    renderMio();
     renderResumen();
+    renderActividad();
     if (abierto && buscar(abierto)) { renderLista(); renderDetalle(); }
     else abrirPrimera();
     avisarCambio();
@@ -615,6 +658,8 @@
   });
 
   el.filtros?.addEventListener('change', renderLista);
+  el.filtros?.addEventListener('input', renderLista);
+  el.filtros?.addEventListener('submit', (e) => e.preventDefault());
   root.addEventListener('submit', (event) => {
     const form = event.target instanceof Element ? event.target.closest('[data-form-aviso]') : null;
     if (!form) return;
@@ -652,15 +697,15 @@
     listo = true;
     textoModo();
     if (modo === 'servidor') {
-      const campoEstado = el.filtros?.querySelector('[name="estado"]')?.closest('label');
-      if (campoEstado) campoEstado.style.display = 'none'; // los avisos no tienen estado «funcionando / necesita ayuda»
       await cargarMis();
       await cargarModeracion();
     }
     renderModeracion();
     renderProponer(true);
+    renderMio();
     abrirPrimera();
     renderResumen();
+    renderActividad();
     avisarCambio();
     if (modo === 'servidor') db.auth.onAuthStateChange((_ev, s) => { session = s; window.setTimeout(recargar, 0); });
   };

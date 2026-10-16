@@ -261,6 +261,10 @@ en una maqueta de referencia, **sin copiar sus cifras**: la barra muestra 0 de l
 exista el sistema de Auracoins, y la foto es un espacio «pendiente» hasta tener una real. Probado con jsdom (demo y servidor falso) y con capturas en Chromium
 (escritorio y móvil).
 
+Inspirado en una segunda maqueta («Aportar»): título «Pequeños aportes. Cambios visibles.», buscador, filtros en píldoras (Todas, Por completar, Agua, Comida,
+Mis propuestas), resumen «Tus propuestas» (conteo real) y «Actividad reciente» con hechos reales de las campañas (apertura y cierre del financiamiento). No se
+copiaron saldos ni cifras de la maqueta. Quedó fuera «Cerca de ti» (pediría la ubicación) y «Finalizadas» (aún no existen).
+
 ## Ayudar: panel de resumen
 
 Arriba de la lista de Ayudar hay un panel («Así va la ayuda») con acciones publicadas, ya financiadas, completadas y total aportado

@@ -320,23 +320,28 @@
       <div class="shell">
         <div class="section-heading">
           <p class="kicker">Comida y agua</p>
-          <h2 id="puestos-title">Puestos en espacios públicos</h2>
-          <p>Puntos con agua y alimento para perros y gatos del barrio. Puedes patrocinar un puesto o ayudar a mantenerlo en persona: reponer agua y comida, limpiarlo y avisar si falta algo. Los puestos también aparecen en el mapa.</p>
+          <h2 id="puestos-title">Pequeños aportes. Cambios visibles.</h2>
+          <p>Encuentra una causa y sigue lo que tu ayuda consigue: puntos con agua y alimento para perros y gatos del barrio, financiados por la comunidad y documentados paso a paso.</p>
         </div>
         <p class="ayudar-sim" role="note"><strong>Modo demostración.</strong> <span data-puestos-modo>Cargando…</span></p>
         <div class="pz-layout">
           <aside class="pz-lista" data-puestos-vista-lista aria-label="Iniciativas de comida y agua">
             <h3 class="pz-lista-titulo">Iniciativas</h3>
-            <form class="ayudar-filtros" data-puestos-filtros aria-label="Filtrar puestos">
-              <label class="field"><span>Qué ofrece</span>
-                <select name="tipo"><option value="">Agua y comida</option><option value="agua">Agua</option><option value="comida">Comida</option></select></label>
-              <label class="field"><span>Estado</span>
-                <select name="estado"><option value="">Todos</option><option value="necesita_ayuda">Necesitan ayuda</option><option value="activo">Funcionando</option></select></label>
+            <form class="ayudar-filtros pz-filtros" data-puestos-filtros aria-label="Buscar y filtrar iniciativas" role="search">
+              <label class="pz-buscar"><span class="visually-hidden">Buscar iniciativas</span><input type="search" name="q" placeholder="Buscar causas o comunas" maxlength="60" autocomplete="off"></label>
+              <div class="pz-pills" role="radiogroup" aria-label="Mostrar">
+                <label class="pz-pill"><input type="radio" name="vista" value="todas" checked><span>Todas</span></label>
+                <label class="pz-pill"><input type="radio" name="vista" value="completar"><span>Por completar</span></label>
+                <label class="pz-pill"><input type="radio" name="vista" value="agua"><span>💧 Agua</span></label>
+                <label class="pz-pill"><input type="radio" name="vista" value="comida"><span>🍖 Comida</span></label>
+                <label class="pz-pill"><input type="radio" name="vista" value="mias"><span>Mis propuestas</span></label>
+              </div>
             </form>
             <div class="ayudar-lista" data-puestos-lista aria-live="polite"></div>
           </aside>
           <article class="pz-detalle" data-puestos-detalle aria-live="polite"></article>
         </div>
+        <section class="pz-actividad" data-puestos-actividad aria-labelledby="pz-act-titulo" hidden></section>
       </div>
     </section>
 
