@@ -1736,3 +1736,28 @@ dialog.feed-historia-dialog::backdrop { background: #000; }
 .puestos-resumen .pz-soc-btn.is-activa { border-color: #e0586f; background: #fde8ec; color: #a3243c; }
 .pz-soc-msg { flex-basis: 100%; color: var(--apagado); }
 .pz-social-card .pz-soc-btn:focus-visible { outline: 3px solid var(--ambar); outline-offset: 2px; }
+
+/* ---------- Misiones de LadraAura (botón «i» del encabezado) ---------- */
+.mis-wrap { position: relative; display: inline-flex; }
+.mis-boton { width: 30px; height: 30px; border-radius: 50%; border: 2px solid var(--logo-verde); background: transparent; color: var(--logo-verde); font: italic 700 1rem/1 Georgia, serif; cursor: pointer; transition: background .15s, color .15s, box-shadow .15s; }
+.mis-boton:hover, .mis-boton:focus-visible, .mis-boton[aria-expanded="true"] { background: var(--logo-verde); color: var(--logo-crema); }
+.mis-boton:focus-visible { outline: 2px solid var(--logo-naranja); outline-offset: 3px; }
+.mis-boton[data-completas="true"] { border-color: #3fa56b; box-shadow: 0 0 0 3px rgba(63, 165, 107, .3); }
+.mis-panel { position: absolute; top: calc(100% + 10px); left: 0; z-index: 60; width: min(330px, calc(100vw - 24px)); padding: 16px; border-radius: 16px; background: var(--logo-crema); color: var(--ink); border: 1px solid rgba(6, 61, 36, .18); box-shadow: 0 18px 40px rgba(6, 61, 36, .22); }
+.mis-panel[hidden] { display: none; }
+.mis-panel h2 { margin: 0; font-size: 1.05rem; color: var(--logo-verde); }
+.mis-prog { margin: 2px 0 10px; font-size: .85rem; color: var(--muted); }
+.mis-nota { margin: 8px 0; font-size: .85rem; color: var(--muted); }
+.mis-lista { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.mis-item { display: flex; gap: 10px; align-items: flex-start; padding: 10px; border-radius: 12px; background: #fff; border: 1px solid rgba(6, 61, 36, .1); }
+.mis-item[data-hecha="true"] { background: rgba(63, 165, 107, .1); border-color: rgba(63, 165, 107, .35); }
+.mis-marca { flex: none; width: 22px; height: 22px; border-radius: 50%; border: 2px solid rgba(6, 61, 36, .3); display: grid; place-items: center; font-size: .8rem; font-weight: 700; color: #fff; }
+.mis-item[data-hecha="true"] .mis-marca { background: #3fa56b; border-color: #3fa56b; }
+.mis-item strong { display: block; line-height: 1.3; }
+.mis-item small { display: block; color: var(--muted); line-height: 1.35; margin-top: 2px; }
+.mis-accion { display: inline-block; margin-top: 8px; padding: 6px 12px; border-radius: 999px; border: 0; background: var(--logo-naranja); color: #fff; font: 700 .85rem/1.2 inherit; text-decoration: none; cursor: pointer; }
+.mis-accion:hover, .mis-accion:focus-visible { filter: brightness(.92); }
+.mis-panel h2 { font-family: inherit; }
+@media (max-width: 900px) {
+  .mis-panel { position: fixed; top: 76px; left: 12px; right: 12px; width: auto; max-width: 380px; max-height: calc(100vh - 92px); overflow-y: auto; }
+}

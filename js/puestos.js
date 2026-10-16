@@ -339,6 +339,7 @@
     try {
       const puesto = await rpc('alternar_me_gusta_aviso', { p_id: p.id });
       p.social.yo = !!puesto;
+      if (puesto) document.dispatchEvent(new CustomEvent('puestos:interaccion', { detail: { tipo: 'me_gusta' } }));
       p.social.likes = Math.max(0, p.social.likes + (puesto ? 1 : -1));
       refrescarSocial(p);
     } catch (e) { decirSocial(p, mensajeError(e), 'error'); }
@@ -349,6 +350,7 @@
     try {
       await rpc('comentar_aviso', { p_id: p.id, p_texto: texto });
       form.reset();
+      document.dispatchEvent(new CustomEvent('puestos:interaccion', { detail: { tipo: 'comentario' } }));
       p.social.comentarios += 1;
       refrescarSocial(p);
       await cargarComentarios(p);

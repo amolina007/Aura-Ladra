@@ -174,7 +174,10 @@ bucket público `core-avatars`); AuraLadra no la guarda ni la modifica.
 **Pendiente:** una función de servidor que entregue el responsable real de cada mascota y las mascotas que otra
 persona decida compartir (hoy solo la demo muestra a «Cate (ejemplo)»).
 «Aportes a la comunidad» cuenta Cuidados y Encuentros desde Historia y Ayuda desde los aportes a acciones (simulados),
-con los eventos `arbol:cambio` y `ayuda:cambio`. Misiones y recompensas **no** existen: la gamificación está fuera del MVP.
+con los eventos `arbol:cambio` y `ayuda:cambio`. Las recompensas **no** existen: la gamificación está fuera del MVP.
+
+### Misiones de LadraAura (botón «i»)
+`js/misiones.js` agrega junto al logo un botón «i» con 3 misiones guía: agregar tu mascota (se marca sola al tener una mascota viva), invitar a un amigo (se marca al compartir el enlace; no se puede verificar que lo abra alguien) y apoyar Comida y agua (me gusta o comentario, evento `puestos:interaccion`). Sin Auracoins ni recompensas. El avance de las dos últimas se recuerda solo en este navegador (localStorage, por usuario). Es la versión de Ladra; el menú común `aura-hub.js` no trae misiones y vive en el repo de Convergencia.
 
 ## Inicio: feed multimedia (modo demo)
 
