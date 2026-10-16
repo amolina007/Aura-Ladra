@@ -265,6 +265,18 @@ Inspirado en una segunda maqueta («Aportar»): título «Pequeños aportes. Cam
 Mis propuestas), resumen «Tus propuestas» (conteo real) y «Actividad reciente» con hechos reales de las campañas (apertura y cierre del financiamiento). No se
 copiaron saldos ni cifras de la maqueta. Quedó fuera «Cerca de ti» (pediría la ubicación) y «Finalizadas» (aún no existen).
 
+### Me gusta, comentarios y compartir (migración `20261015230000_interacciones_de_avisos.sql`, SIN aplicar)
+
+Cada campaña publicada tiene **Me gusta**, **Comentar** y **Compartir**. Me gusta y comentarios necesitan cuenta y viven en el servidor (tablas `avisos_me_gusta` y
+`avisos_comentarios`, solo accesibles por funciones); leer los contadores y comentarios es público. Los comentarios usan el alias público (si no hay: «Persona de la
+comunidad»), no admiten enlaces, tienen límite de 5 cada 10 minutos por persona y pueden ocultarse por quien los escribió, por quien publicó la campaña y por moderación
+(se ocultan, no se borran). **Compartir** no usa base de datos: abre el menú de compartir del teléfono o copia el enlace directo `?puesto=ID#comida-agua`. Si la migración
+no está aplicada, la ficha muestra solo «Compartir» y el resto del sitio sigue igual. Prueba SQL: `supabase/tests/interacciones_avisos_prueba.sql` (32 de 32, junto con
+las migraciones anteriores); pantalla probada con jsdom (17 comprobaciones) y capturas en Chromium. **Pendiente:** denunciar un comentario, notificar a quien publicó
+la campaña, y fotos reales.
+
+La ficha de una campaña se rediseñó para que tenga menos texto: foto, título, acciones sociales y meta arriba; «Qué se hará con la meta» y «Condiciones» van plegados.
+
 ## Ayudar: panel de resumen
 
 Arriba de la lista de Ayudar hay un panel («Así va la ayuda») con acciones publicadas, ya financiadas, completadas y total aportado

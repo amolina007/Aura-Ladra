@@ -1611,8 +1611,8 @@ dialog.feed-historia-dialog::backdrop { background: #000; }
 .pz-main { min-width: 0; }
 .pz-main h3 { margin: 18px 0 6px; font: 650 clamp(1.7rem, 3vw, 2.4rem)/1.1 "Fraunces", serif; }
 .pz-foto { position: relative; display: grid; place-items: center; align-content: center; gap: 8px; aspect-ratio: 16 / 9; border: 1px solid var(--linea); border-radius: 20px; background: linear-gradient(135deg, rgba(246, 185, 74, .22), rgba(79, 155, 255, .22)); }
-.pz-foto span { font-size: 3rem; }
-.pz-foto small { padding: 0 14px; color: var(--apagado); text-align: center; }
+.pz-foto > span { font-size: 3rem; }
+.pz-foto > small { padding: 0 14px; color: var(--apagado); text-align: center; }
 .pz-side { display: grid; gap: 14px; }
 .pz-card { padding: 16px; border: 1px solid var(--linea); border-radius: 18px; background: rgba(255, 255, 255, .06); }
 .pz-card h4 { margin: 0 0 10px; font-size: 1rem; }
@@ -1639,18 +1639,21 @@ dialog.feed-historia-dialog::backdrop { background: #000; }
 .pz-vacio { padding: 28px; border: 1px dashed var(--linea); border-radius: 20px; color: var(--apagado); }
 
 @media (max-width: 1100px) {
-  /* En pantallas angostas la meta y el botón suben justo debajo del título, como en la versión de escritorio. */
+  /* En pantallas angostas: foto, título, acciones y meta primero; el detalle y los comentarios al final. */
   .pz-grid { display: flex; flex-direction: column; gap: 14px; }
   .pz-main, .pz-side { display: contents; }
   .pz-main > * { order: 5; }
-  .pz-main > .pz-foto { order: 1; }
-  .pz-main > .accion-meta { order: 2; }
-  .pz-main > h3 { order: 3; }
-  .pz-main > p { order: 3; }
-  .pz-side > .pz-card { order: 6; width: 100%; box-sizing: border-box; }
+  .pz-main > .pz-foto { order: 1; width: 100%; box-sizing: border-box; }
+  .pz-main > .pz-cabecera { order: 2; }
+  .pz-main > .pz-social { order: 3; }
+  .pz-side > .pz-card { order: 7; width: 100%; box-sizing: border-box; }
   .pz-side > .pz-card.pz-progreso { order: 4; }
+  .pz-side > .pz-permiso-chip { order: 7; }
+  .pz-main > .pz-resumen { order: 5; }
+  .pz-main > .pz-pliegues { order: 6; }
+  .pz-main > .pz-comentarios { order: 8; }
   .pz-main > .ayudar-msg { order: 9; }
-  .pz-main > .pz-foto { width: 100%; box-sizing: border-box; }
+  .pz-main > .pz-pliegues, .pz-main > .pz-comentarios, .pz-main > .pz-social, .pz-main > .pz-resumen, .pz-main > .pz-cabecera { width: 100%; box-sizing: border-box; }
 }
 @media (max-width: 900px) {
   .pz-layout { grid-template-columns: 1fr; }
@@ -1689,3 +1692,36 @@ dialog.feed-historia-dialog::backdrop { background: #000; }
   .pz-linea { flex-direction: column; gap: 14px; }
   .pz-linea li + li::before { display: none; }
 }
+
+/* ---------- Ficha compacta de una campaña, acciones sociales y comentarios ---------- */
+.pz-foto-chips { position: absolute; left: 12px; bottom: 12px; display: flex; gap: 6px; flex-wrap: wrap; }
+.pz-foto-chips .chip { background: rgba(8, 21, 40, .78); color: #fff; backdrop-filter: blur(4px); }
+.pz-cabecera h3 { margin: 16px 0 4px; font: 650 clamp(1.5rem, 2.6vw, 2rem)/1.15 "Fraunces", serif; }
+.pz-donde { margin: 0; color: var(--apagado); font-size: .92rem; }
+.pz-social { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 4px; padding: 10px 0; border-block: 1px solid var(--linea); }
+.pz-soc-btn { display: inline-flex; align-items: center; gap: 8px; min-height: 42px; padding: 0 16px; border: 1px solid rgba(255, 255, 255, .2); border-radius: 999px; background: rgba(255, 255, 255, .06); color: var(--tinta); font: inherit; font-weight: 700; cursor: pointer; }
+.pz-soc-btn:hover { background: rgba(255, 255, 255, .12); }
+.pz-soc-btn b { color: var(--verde); }
+.pz-soc-btn.is-activa { border-color: rgba(246, 120, 140, .7); background: rgba(246, 120, 140, .16); color: #ffb3c0; }
+.pz-soc-btn.is-activa span { color: #ff6f8a; }
+.pz-resumen { margin: 12px 0; color: var(--tinta); }
+.pz-pliegues { display: grid; gap: 8px; margin-bottom: 18px; }
+.pz-pliegues details { border: 1px solid var(--linea); border-radius: 14px; background: rgba(255, 255, 255, .04); }
+.pz-pliegues summary { padding: 12px 16px; font-weight: 700; color: #fff; cursor: pointer; }
+.pz-pliegues details > p { margin: 0; padding: 0 16px 12px; color: var(--apagado); }
+.pz-permiso-chip { margin: 0; padding: 12px 14px; border: 1px solid rgba(246, 185, 74, .4); border-radius: 14px; background: rgba(246, 185, 74, .12); color: #f6d9a0; font-size: .9rem; }
+.pz-side { position: sticky; top: 16px; }
+.pz-progreso .pz-cifra { margin: 0; }
+.pz-comentarios { margin-top: 6px; padding-top: 16px; border-top: 1px solid var(--linea); }
+.pz-comentarios h4 { margin: 0 0 10px; }
+.pz-form-com { display: grid; gap: 8px; margin-bottom: 8px; }
+.pz-form-com textarea { width: 100%; box-sizing: border-box; padding: 10px 12px; border: 1px solid rgba(255, 255, 255, .2); border-radius: 12px; background: rgba(255, 255, 255, .07); color: #fff; font: inherit; resize: vertical; }
+.pz-form-com .button-verde { justify-self: end; }
+.pz-aviso-sesion { margin: 0 0 8px; color: var(--apagado); }
+.pz-lista-com { display: grid; gap: 14px; margin: 14px 0 0; padding: 0; list-style: none; }
+.pz-lista-com li { display: flex; gap: 12px; align-items: flex-start; }
+.pz-lista-com p { margin: 0; }
+.pz-lista-com small { color: var(--apagado); margin-left: 6px; }
+.pz-lista-com .pz-vacio-c { color: var(--apagado); display: block; }
+.pz-avatar-s { width: 34px; height: 34px; font-size: .85rem; }
+.pz-link { padding: 0; border: 0; background: none; color: var(--apagado); font: inherit; font-size: .8rem; text-decoration: underline; cursor: pointer; }

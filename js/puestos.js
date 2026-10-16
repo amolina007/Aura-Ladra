@@ -62,11 +62,12 @@
     dias_restantes: diasHasta(a.recaudacion_hasta),
     plazo_entrega: a.plazo_habilitacion_dias,
     permiso: a.permiso_estado === 'sin_consultar' ? 'Por consultar: se pide a quien administra el espacio cuando esté definido el emplazamiento.' : (PERMISOS[a.permiso_estado] || PERMISOS.sin_consultar),
+    permiso_corto: a.permiso_estado === 'sin_consultar' ? 'por consultar al definir el lugar' : a.permiso_estado === 'en_tramite' ? 'en trámite' : 'confirmado',
     equipo: Array.isArray(a.equipo) ? a.equipo : [],
     si_no_se_cumple: `Propuesta de quien lo publica si no se alcanza la meta: ${a.condiciones_devolucion}`,
   });
   const delAviso = (a) => ({
-    id: a.id, aviso: true, creado_en: a.creado_en, es_mio: !!a.es_mio, nombre: a.titulo, tipo: a.tipo, estado: a.meta_ac ? 'campana' : 'propuesta',
+    id: a.id, aviso: true, creado_en: a.creado_en, social: a.me_gusta_total === undefined ? null : { likes: Number(a.me_gusta_total) || 0, comentarios: Number(a.comentarios_total) || 0, yo: !!a.yo_di_me_gusta }, es_mio: !!a.es_mio, nombre: a.titulo, tipo: a.tipo, estado: a.meta_ac ? 'campana' : 'propuesta',
     descripcion: a.descripcion, necesidad: a.para_que, direccion_publica: a.direccion_publica, comuna: a.comuna,
     latitud: a.latitud == null ? null : Number(a.latitud), longitud: a.longitud == null ? null : Number(a.longitud),
     meta_clp: 0, recaudado_clp: 0, ultima_reposicion: null, cuidadores: [],
@@ -242,33 +243,137 @@
     m.className = `ayudar-msg${tipo ? ` is-${tipo}` : ''}`;
   };
 
+  // ---------- Interacciones: me gusta, comentarios y compartir ----------
+  const com = { id: null, filas: [], cargando: false, msg: '', tipo: '' };
+  const tiempo = (iso) => {
+    const min = Math.round((Date.now() - new Date(iso).getTime()) / 60000);
+    if (min < 1) return 'ahora';
+    if (min < 60) return `hace ${min} min`;
+    if (min < 1440) return `hace ${Math.round(min / 60)} h`;
+    return fecha(iso);
+  };
+  const barraSocial = (p) => {
+    const so = p.social;
+    return `<div class="pz-social" data-pz-social>
+      ${so ? `<button class="pz-soc-btn${so.yo ? ' is-activa' : ''}" type="button" data-pz-like aria-pressed="${so.yo}" aria-label="Me gusta"><span aria-hidden="true">${so.yo ? '♥' : '♡'}</span> Me gusta <b>${so.likes}</b></button>
+      <button class="pz-soc-btn" type="button" data-pz-ir-comentar aria-label="Comentar"><span aria-hidden="true">💬</span> Comentar <b>${so.comentarios}</b></button>` : ''}
+      <button class="pz-soc-btn" type="button" data-pz-compartir aria-label="Compartir"><span aria-hidden="true">↗</span> Compartir</button>
+    </div>`;
+  };
+  const seccionComentarios = (p) => {
+    if (!p.social) return '';
+    const filas = com.id === p.id ? com.filas : [];
+    const lista = filas.length
+      ? filas.map((c) => `<li><span class="pz-avatar pz-avatar-s" aria-hidden="true">${esc(String(c.autor_alias || '?').trim().charAt(0).toUpperCase())}</span>
+          <div><p><strong>${esc(c.autor_alias)}</strong> <small>${esc(tiempo(c.creado_en))}</small></p><p>${esc(c.texto)}</p>
+          ${c.puede_ocultar ? `<button class="pz-link" type="button" data-pz-ocultar="${esc(c.id)}">${c.es_mio ? 'Borrar' : 'Ocultar'}</button>` : ''}</div></li>`).join('')
+      : `<li class="pz-vacio-c">${com.cargando ? 'Cargando comentarios…' : 'Todavía no hay comentarios. Sé la primera persona en comentar.'}</li>`;
+    return `<section class="pz-comentarios" id="pz-comentarios" aria-labelledby="pz-com-titulo">
+      <h4 id="pz-com-titulo">Comentarios</h4>
+      ${session?.user
+        ? `<form class="pz-form-com" data-pz-comentar><label class="visually-hidden" for="pz-com-texto">Escribe un comentario</label>
+            <textarea id="pz-com-texto" name="texto" rows="2" minlength="2" maxlength="500" placeholder="Escribe un comentario (sin enlaces)" required></textarea>
+            <button class="button-verde" type="submit">Comentar</button></form>`
+        : '<p class="pz-aviso-sesion"><a href="#cuenta">Inicia sesión en Mi cuenta</a> para dar me gusta y comentar.</p>'}
+      <p class="ayudar-msg${com.tipo ? ` is-${com.tipo}` : ''}" data-pz-com-msg role="status">${esc(com.msg)}</p>
+      <ul class="pz-lista-com" data-pz-com-lista>${lista}</ul>
+    </section>`;
+  };
+  const pintarSocial = (p) => {
+    const cont = el.detalle?.querySelector('[data-pz-social]');
+    if (cont) cont.outerHTML = barraSocial(p);
+  };
+  const pintarComentarios = (p) => {
+    const cont = el.detalle?.querySelector('#pz-comentarios');
+    if (!cont) return;
+    const lista = cont.querySelector('[data-pz-com-lista]');
+    const msg = cont.querySelector('[data-pz-com-msg]');
+    const nuevo = document.createElement('div');
+    nuevo.innerHTML = seccionComentarios(p);
+    if (lista) lista.innerHTML = nuevo.querySelector('[data-pz-com-lista]').innerHTML;
+    if (msg) { msg.textContent = com.msg; msg.className = `ayudar-msg${com.tipo ? ` is-${com.tipo}` : ''}`; }
+  };
+  const cargarComentarios = async (p) => {
+    if (!p?.social || modo !== 'servidor') return;
+    com.id = p.id; com.filas = []; com.cargando = true; com.msg = ''; com.tipo = '';
+    pintarComentarios(p);
+    try { com.filas = (await rpc('listar_comentarios_aviso', { p_id: p.id })) || []; } catch (e) { com.msg = mensajeError(e); com.tipo = 'error'; }
+    com.cargando = false;
+    if (abierto === p.id) pintarComentarios(p);
+  };
+  const urlPublica = (p) => `${window.location.origin}${window.location.pathname}?puesto=${encodeURIComponent(p.id)}#comida-agua`;
+  const compartir = async (p) => {
+    const url = urlPublica(p);
+    try {
+      if (navigator.share) { await navigator.share({ title: p.nombre, text: `${p.nombre} · AuraLadra`, url }); return; }
+    } catch (e) { if (e?.name === 'AbortError') return; }
+    try { await navigator.clipboard.writeText(url); mensaje('Enlace copiado. Pégalo donde quieras compartirlo.', 'success'); }
+    catch { window.prompt('Copia este enlace para compartir:', url); }
+  };
+  const darMeGusta = async (p) => {
+    if (!session?.user) { mensaje('Inicia sesión en Mi cuenta para dar me gusta.', 'error'); return; }
+    try {
+      const puesto = await rpc('alternar_me_gusta_aviso', { p_id: p.id });
+      p.social.yo = !!puesto;
+      p.social.likes = Math.max(0, p.social.likes + (puesto ? 1 : -1));
+      pintarSocial(p);
+    } catch (e) { mensaje(mensajeError(e), 'error'); }
+  };
+  const comentar = async (p, form) => {
+    const texto = String(new FormData(form).get('texto') || '').trim();
+    com.msg = ''; com.tipo = '';
+    try {
+      await rpc('comentar_aviso', { p_id: p.id, p_texto: texto });
+      form.reset();
+      p.social.comentarios += 1;
+      pintarSocial(p);
+      await cargarComentarios(p);
+      com.msg = 'Listo: tu comentario ya se ve.'; com.tipo = 'success'; pintarComentarios(p);
+    } catch (e) { com.msg = mensajeError(e); com.tipo = 'error'; pintarComentarios(p); }
+  };
+  const ocultarComentario = async (p, id) => {
+    if (!window.confirm('¿Quitar este comentario?')) return;
+    try {
+      await rpc('ocultar_comentario_aviso', { p_comentario: id });
+      p.social.comentarios = Math.max(0, p.social.comentarios - 1);
+      pintarSocial(p);
+      await cargarComentarios(p);
+    } catch (e) { com.msg = mensajeError(e); com.tipo = 'error'; pintarComentarios(p); }
+  };
+
+  // ---------- Ficha de una campaña (compacta: lo importante arriba, el detalle plegado) ----------
+  const equipoCampana = (f) => `<ul class="pz-equipo">${f.equipo.map((m) => `<li><span class="pz-avatar" aria-hidden="true">${esc(String(m.alias || '?').trim().charAt(0).toUpperCase())}</span><span><strong>${esc(m.alias)}</strong><small>${m.rol === 'responsable' ? 'Responsable' : 'Integrante'}</small></span></li>`).join('')}</ul>`;
   const panelCampana = (f) => `
     <div class="pz-card pz-progreso">
-      <p class="pz-etapa">Etapa 1 · Financiamiento</p>
       <p class="pz-cifra"><span><strong>0</strong> / ${nAC.format(f.meta_ac)} AC</span><em>0%</em></p>
       <div class="progreso" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="Avance hacia la meta"><span data-ancho="0"></span></div>
-      <p class="pz-resto"><span>Faltan ${nAC.format(f.meta_ac)} AC</span><span>${f.hasta ? `Cierra el ${esc(fecha(f.hasta))}` : `Plazo: ${f.plazo_recaudacion_dias} días`}</span></p>
+      <p class="pz-resto"><span>Faltan ${nAC.format(f.meta_ac)} AC</span><span>${f.dias_restantes == null ? `Plazo: ${f.plazo_recaudacion_dias} días` : f.dias_restantes === 0 ? 'Último día' : `${f.dias_restantes} ${f.dias_restantes === 1 ? 'día' : 'días'} restantes`}</span></p>
       <button class="pz-patrocinar" type="button" disabled>Patrocinar · próximamente</button>
-      <p><small>Plazo máximo de ${f.plazo_recaudacion_dias} días${f.dias_restantes == null ? '' : ` (${f.dias_restantes === 0 ? 'último día' : `quedan ${f.dias_restantes} ${f.dias_restantes === 1 ? 'día' : 'días'}`})`}. Los aportes en Auracoins se habilitan cuando el sistema esté definido.</small></p>
     </div>
-    <div class="pz-card">
-      <h4>Mi aporte</h4>
-      <div class="pz-tiles"><div><span>Disponible</span><strong>—</strong></div><div><span>Retenidos</span><strong>—</strong></div></div>
-      <p><small>Se mostrará cuando existan los aportes en Auracoins.</small></p>
-    </div>
-    <div class="pz-card">
-      <h4>Condiciones</h4>
-      <p>${esc(f.si_no_se_cumple)}</p>
-      <p><small>Entrega: dentro de ${f.plazo_entrega} días desde que se alcance la meta (máximo 60).</small></p>
-    </div>
-    <div class="pz-card pz-permiso">
-      <h4>Permiso del lugar</h4>
-      <p>${esc(f.permiso)}</p>
-    </div>
-    <div class="pz-card">
-      <h4>Equipo del proyecto</h4>
-      <ul class="pz-equipo">${f.equipo.map((m) => `<li><span class="pz-avatar" aria-hidden="true">${esc(String(m.alias || '?').trim().charAt(0).toUpperCase())}</span><span><strong>${esc(m.alias)}</strong><small>${m.rol === 'responsable' ? 'Responsable' : 'Integrante'}</small></span></li>`).join('')}</ul>
+    <div class="pz-card"><h4>Equipo</h4>${equipoCampana(f)}</div>
+    <p class="pz-permiso-chip"><strong>Permiso:</strong> ${esc(f.permiso_corto)}</p>`;
+  const renderDetalleCampana = (p, aviso) => {
+    const f = p.ficha;
+    el.detalle.innerHTML = `<div class="pz-grid">
+      <div class="pz-main">
+        <div class="pz-foto" role="img" aria-label="Foto del puesto pendiente"><span aria-hidden="true">${ICONOS[p.tipo]}</span><small>Foto pendiente</small>
+          <div class="pz-foto-chips">${chip(`${ICONOS[p.tipo]} ${TIPOS[p.tipo]}`)}${chip(ESTADOS[p.estado])}</div></div>
+        <div class="pz-cabecera"><h3>${esc(p.nombre)}</h3><p class="pz-donde">📍 ${esc(p.comuna)} · ${esc(p.direccion_publica)}</p></div>
+        ${barraSocial(p)}
+        <p class="pz-resumen">${esc(p.descripcion)}</p>
+        <div class="pz-pliegues">
+          <details><summary>Qué se hará con la meta</summary><p>${esc(f.para_que)}</p><p>Al alcanzarla se define, con todo documentado, el emplazamiento, la mantención y la comida. Quedaría listo dentro de <strong>${f.plazo_entrega} días</strong> (máximo 60).</p></details>
+          <details><summary>Condiciones</summary><p>${esc(f.si_no_se_cumple)}</p><p><small>Aún no se mueven Auracoins: el sistema está por definir.</small></p></details>
+        </div>
+        ${seccionComentarios(p)}
+        <p class="ayudar-msg" data-puesto-msg role="status"></p>
+      </div>
+      <aside class="pz-side" aria-label="Meta y equipo">${panelCampana(f)}</aside>
     </div>`;
+    aplicarAnchos(el.detalle);
+    if (aviso) mensaje(aviso.texto, aviso.tipo);
+    cargarComentarios(p);
+  };
 
   const renderDetalle = (aviso) => {
     const p = buscar(abierto);
@@ -277,6 +382,7 @@
       el.detalle.innerHTML = `<div class="pz-vacio"><h3>Todavía no hay iniciativas publicadas</h3><p>Cuando moderación publique una campaña, la verás aquí con su meta, su plazo, su equipo y sus condiciones.</p></div>`;
       return;
     }
+    if (p.ficha?.campana) { renderDetalleCampana(p, aviso); return; }
     const pct = p.aviso ? 0 : porcentaje(p);
     const lleno = !p.aviso && p.recaudado_clp >= p.meta_clp;
     const yoCuido = cuido(p);
@@ -297,11 +403,7 @@
         ${lleno ? '<p class="ayudar-msg is-success">La meta del mes ya está cubierta. Igual puedes seguir aportando o ayudar en persona.</p>' : ''}
       </div>
 
-      ${p.ficha?.campana ? `<div class="detalle-bloque">
-        <h4>Etapa 2 · Al alcanzar la meta</h4>
-        <p>Ese día se verá cuánto equivale en pesos y qué se puede hacer con ello. Recién ahí se definen, con todo documentado: el emplazamiento, la mantención, la calidad y la recarga de la comida, y el resto de los detalles del puesto.</p>
-        <p><strong>Plazo de entrega:</strong> el puesto quedaría listo dentro de ${p.ficha.plazo_entrega} días desde que se alcance la meta (máximo 60).</p>
-      </div>` : p.ficha ? `<div class="detalle-bloque">
+      ${p.ficha ? `<div class="detalle-bloque">
         <h4>Para qué se piden los fondos</h4>
         <p>${esc(p.ficha.para_que)}</p>
         <p><strong>🪙 ${nAC.format(p.ficha.costo_mensual_ac)} AC al mes</strong> para sostener el puesto. Esto cubre:</p>
@@ -352,7 +454,6 @@
 
       <p class="ayudar-msg" data-puesto-msg role="status"></p>
       </div>
-      ${p.ficha?.campana ? `<aside class="pz-side" aria-label="Meta, condiciones y equipo">${panelCampana(p.ficha)}</aside>` : ''}
       </div>`;
     aplicarAnchos(el.detalle);
     if (aviso) mensaje(aviso.texto, aviso.tipo);
@@ -635,6 +736,14 @@
     const desdeMapa = t.closest('[data-abrir-puesto]');
     if (desdeMapa) { abrir(desdeMapa.dataset.abrirPuesto, { desdeFuera: true }); return; }
     if (t.closest('[data-puesto-mapa]')) { verEnMapa(); return; }
+    const pub = buscar(abierto);
+    if (root.contains(t) && pub?.aviso) {
+      if (t.closest('[data-pz-like]')) { darMeGusta(pub); return; }
+      if (t.closest('[data-pz-compartir]')) { compartir(pub); return; }
+      if (t.closest('[data-pz-ir-comentar]')) { const c = el.detalle?.querySelector('#pz-com-texto'); (c || el.detalle?.querySelector('#pz-comentarios'))?.scrollIntoView?.({ behavior: 'smooth', block: 'center' }); c?.focus(); return; }
+      const ocu = t.closest('[data-pz-ocultar]');
+      if (ocu) { ocultarComentario(pub, ocu.dataset.pzOcultar); return; }
+    }
     if (!root.contains(t)) return;
     if (t.closest('[data-puesto-volver]')) { cerrar(); return; }
     if (t.closest('[data-aviso-nuevo]')) { ui.formAviso = !ui.formAviso; renderProponer(true); return; }
@@ -661,6 +770,8 @@
   el.filtros?.addEventListener('input', renderLista);
   el.filtros?.addEventListener('submit', (e) => e.preventDefault());
   root.addEventListener('submit', (event) => {
+    const formCom = event.target instanceof Element ? event.target.closest('[data-pz-comentar]') : null;
+    if (formCom) { event.preventDefault(); const pub = buscar(abierto); if (pub?.aviso) comentar(pub, formCom); return; }
     const form = event.target instanceof Element ? event.target.closest('[data-form-aviso]') : null;
     if (!form) return;
     event.preventDefault();
@@ -677,9 +788,9 @@
     const fuerte = root.querySelector('.ayudar-sim strong');
     if (modo === 'servidor') {
       if (fuerte) fuerte.textContent = 'Propuestas de la comunidad.';
-      if (el.modo) el.modo.textContent = 'Estos puestos los propone la comunidad y los revisa un moderador antes de publicarse. Por ahora no se cobra dinero ni se mueven Auracoins: sus reglas siguen por definir.';
+      if (el.modo) el.modo.textContent = 'Las revisa moderación antes de publicarlas. Aún no se cobra ni se mueven Auracoins.';
     } else if (el.modo) {
-      el.modo.textContent = 'Los puestos de esta lista son ejemplos guardados solo en tu navegador, y los aportes son una simulación: no se cobra dinero. Más adelante los puestos reales los agregará moderación.';
+      el.modo.textContent = 'Ejemplos guardados solo en tu navegador: los aportes son una simulación y no se cobra dinero.';
     }
   };
 
@@ -707,6 +818,8 @@
     renderResumen();
     renderActividad();
     avisarCambio();
+    const directo = new URLSearchParams(window.location.search).get('puesto');
+    if (directo && buscar(directo)) abrir(directo, { desdeFuera: true });
     if (modo === 'servidor') db.auth.onAuthStateChange((_ev, s) => { session = s; window.setTimeout(recargar, 0); });
   };
   // Una ayuda concreta (js/tareas.js) abonó sus Aura Coins a este puesto (demo).
