@@ -157,6 +157,16 @@
 
   // ---------- Tarjeta ----------
   const tieneUbicacion = (p) => p.latitud != null && p.longitud != null;
+  // Fila compacta de «Me gusta · Comentar · Compartir» en las tarjetas (vista Aportar). Sin la migración solo sale «Compartir».
+  const filaSocialTarjeta = (p) => {
+    const so = p.social;
+    return `<div class="pz-social pz-social-card" data-pzc-fila="${esc(p.id)}">
+      ${so ? `<button class="pz-soc-btn${so.yo ? ' is-activa' : ''}" type="button" data-pzc-like="${esc(p.id)}" aria-pressed="${so.yo}" aria-label="Me gusta"><span aria-hidden="true">${so.yo ? '♥' : '♡'}</span> <b>${so.likes}</b></button>
+      <button class="pz-soc-btn" type="button" data-pzc-comentar="${esc(p.id)}" aria-label="Comentar"><span aria-hidden="true">💬</span> <b>${so.comentarios}</b></button>` : ''}
+      <button class="pz-soc-btn" type="button" data-pzc-compartir="${esc(p.id)}" aria-label="Compartir"><span aria-hidden="true">↗</span> Compartir</button>
+      ${p.msgSocial ? `<small class="pz-soc-msg" role="status">${esc(p.msgSocial)}</small>` : ''}
+    </div>`;
+  };
   const tarjeta = (p) => {
     const pct = p.aviso ? 0 : porcentaje(p);
     const progreso = p.aviso ? '' : `
@@ -170,6 +180,7 @@
       <h3>${esc(p.nombre)}</h3>
       <p>${esc(p.direccion_publica)}</p>
       ${p.ficha?.campana ? `<p><strong>🪙 Meta: ${nAC.format(p.ficha.meta_ac)} AC</strong>${p.ficha.dias_restantes == null ? '' : ` · ${p.ficha.dias_restantes === 0 ? 'último día' : `quedan ${p.ficha.dias_restantes} ${p.ficha.dias_restantes === 1 ? 'día' : 'días'}`} para juntarla`}</p>` : p.ficha ? `<p><strong>🪙 ${nAC.format(p.ficha.costo_mensual_ac)} AC al mes</strong> para sostenerlo</p>` : ''}${progreso}
+      ${p.aviso ? filaSocialTarjeta(p) : ''}
       <div class="mini-acciones">
         <button class="button-verde" type="button" data-puesto-abrir="${esc(p.id)}">${p.aviso ? 'Ver propuesta' : 'Ayudar'}</button>
         ${tieneUbicacion(p) ? `<button class="button-borde" type="button" data-puesto-mapa="${esc(p.id)}">Ver en el mapa</button>` : ''}
@@ -307,17 +318,30 @@
     try {
       if (navigator.share) { await navigator.share({ title: p.nombre, text: `${p.nombre} · AuraLadra`, url }); return; }
     } catch (e) { if (e?.name === 'AbortError') return; }
-    try { await navigator.clipboard.writeText(url); mensaje('Enlace copiado. Pégalo donde quieras compartirlo.', 'success'); }
+    try { await navigator.clipboard.writeText(url); decirSocial(p, 'Enlace copiado. Pégalo donde quieras compartirlo.', 'success'); }
     catch { window.prompt('Copia este enlace para compartir:', url); }
   };
+  // Resultado de una acción social: se muestra en la ficha (si está abierta) y en la tarjeta de Aportar.
+  const decirSocial = (p, texto, tipo = '') => {
+    p.msgSocial = texto;
+    mensaje(texto, tipo);
+    renderResumen();
+    renderLista();
+  };
+  const refrescarSocial = (p) => {
+    p.msgSocial = '';
+    if (abierto === p.id) pintarSocial(p);
+    renderResumen();
+    renderLista();
+  };
   const darMeGusta = async (p) => {
-    if (!session?.user) { mensaje('Inicia sesión en Mi cuenta para dar me gusta.', 'error'); return; }
+    if (!session?.user) { decirSocial(p, 'Inicia sesión en Mi cuenta para dar me gusta.', 'error'); return; }
     try {
       const puesto = await rpc('alternar_me_gusta_aviso', { p_id: p.id });
       p.social.yo = !!puesto;
       p.social.likes = Math.max(0, p.social.likes + (puesto ? 1 : -1));
-      pintarSocial(p);
-    } catch (e) { mensaje(mensajeError(e), 'error'); }
+      refrescarSocial(p);
+    } catch (e) { decirSocial(p, mensajeError(e), 'error'); }
   };
   const comentar = async (p, form) => {
     const texto = String(new FormData(form).get('texto') || '').trim();
@@ -326,7 +350,7 @@
       await rpc('comentar_aviso', { p_id: p.id, p_texto: texto });
       form.reset();
       p.social.comentarios += 1;
-      pintarSocial(p);
+      refrescarSocial(p);
       await cargarComentarios(p);
       com.msg = 'Listo: tu comentario ya se ve.'; com.tipo = 'success'; pintarComentarios(p);
     } catch (e) { com.msg = mensajeError(e); com.tipo = 'error'; pintarComentarios(p); }
@@ -336,7 +360,7 @@
     try {
       await rpc('ocultar_comentario_aviso', { p_comentario: id });
       p.social.comentarios = Math.max(0, p.social.comentarios - 1);
-      pintarSocial(p);
+      refrescarSocial(p);
       await cargarComentarios(p);
     } catch (e) { com.msg = mensajeError(e); com.tipo = 'error'; pintarComentarios(p); }
   };
@@ -736,6 +760,16 @@
     const desdeMapa = t.closest('[data-abrir-puesto]');
     if (desdeMapa) { abrir(desdeMapa.dataset.abrirPuesto, { desdeFuera: true }); return; }
     if (t.closest('[data-puesto-mapa]')) { verEnMapa(); return; }
+    const cLike = t.closest('[data-pzc-like]');
+    if (cLike) { const q = buscar(cLike.dataset.pzcLike); if (q?.aviso) darMeGusta(q); return; }
+    const cShare = t.closest('[data-pzc-compartir]');
+    if (cShare) { const q = buscar(cShare.dataset.pzcCompartir); if (q?.aviso) compartir(q); return; }
+    const cCom = t.closest('[data-pzc-comentar]');
+    if (cCom) {
+      const q = buscar(cCom.dataset.pzcComentar);
+      if (q?.aviso) { abrir(q.id, { desdeFuera: true }); window.setTimeout(() => { const c = el.detalle?.querySelector('#pz-com-texto'); (c || el.detalle?.querySelector('#pz-comentarios'))?.scrollIntoView?.({ behavior: 'smooth', block: 'center' }); c?.focus(); }, 80); }
+      return;
+    }
     const pub = buscar(abierto);
     if (root.contains(t) && pub?.aviso) {
       if (t.closest('[data-pz-like]')) { darMeGusta(pub); return; }

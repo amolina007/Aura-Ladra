@@ -1725,3 +1725,14 @@ dialog.feed-historia-dialog::backdrop { background: #000; }
 .pz-lista-com .pz-vacio-c { color: var(--apagado); display: block; }
 .pz-avatar-s { width: 34px; height: 34px; font-size: .85rem; }
 .pz-link { padding: 0; border: 0; background: none; color: var(--apagado); font: inherit; font-size: .8rem; text-decoration: underline; cursor: pointer; }
+
+/* Fila social dentro de las tarjetas (vista Aportar, tema claro; en Comida y agua, tema oscuro) */
+.pz-social-card { margin: 4px 0 0; padding: 8px 0; align-items: center; }
+.pz-social-card .pz-soc-btn { min-height: 38px; padding: 0 12px; font-size: .9rem; }
+.puestos-resumen .pz-social { border-color: var(--linea); }
+.puestos-resumen .pz-soc-btn { border-color: var(--linea); background: #fff; color: var(--verde); }
+.puestos-resumen .pz-soc-btn:hover { background: var(--crema-2); }
+.puestos-resumen .pz-soc-btn b { color: var(--verde-oscuro); }
+.puestos-resumen .pz-soc-btn.is-activa { border-color: #e0586f; background: #fde8ec; color: #a3243c; }
+.pz-soc-msg { flex-basis: 100%; color: var(--apagado); }
+.pz-social-card .pz-soc-btn:focus-visible { outline: 3px solid var(--ambar); outline-offset: 2px; }

@@ -275,6 +275,8 @@ no está aplicada, la ficha muestra solo «Compartir» y el resto del sitio sigu
 las migraciones anteriores); pantalla probada con jsdom (17 comprobaciones) y capturas en Chromium. **Pendiente:** denunciar un comentario, notificar a quien publicó
 la campaña, y fotos reales.
 
+Las tarjetas de campañas también muestran **Me gusta · Comentar · Compartir** en la vista Aportar (y en la lista de Comida y agua); «Comentar» abre la ficha con el cursor en el cuadro de comentario.
+
 La ficha de una campaña se rediseñó para que tenga menos texto: foto, título, acciones sociales y meta arriba; «Qué se hará con la meta» y «Condiciones» van plegados.
 
 ## Ayudar: panel de resumen
