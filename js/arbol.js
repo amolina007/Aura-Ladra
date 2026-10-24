@@ -259,7 +259,7 @@
           </div>
           <button type="button" class="arbol-cerrar" data-act="cerrar" aria-label="Cerrar Mi árbol y volver a Personal">×</button>
         </header>
-        <p class="arbol-demo" data-arbol-demo hidden><strong>Demostración.</strong> Los nombres con «(ejemplo)» son ficticios y se guardan solo en este navegador. Cuando la base de datos tenga la migración aplicada, verás aquí tus vínculos reales.</p>
+        <p class="arbol-demo" data-arbol-demo hidden><strong>Demo</strong></p>
         <p class="arbol-aviso" role="status" aria-live="polite" data-arbol-aviso></p>
         <div class="arbol-pendientes" data-arbol-pendientes></div>
         <div class="arbol-acciones">
@@ -865,7 +865,7 @@
       <div class="circ-lado">${f.persona ? (f.persona.bloqueado ? '<strong>Usuario bloqueado</strong>' : f.persona.yo ? `${avatarYo()}<strong>${esc(f.persona.nombre)}</strong>` : `${avatarHtml(f.persona)}<strong>${esc(limpiarNombre(f.persona.nombre))}</strong>`) : '<small>Sin responsable</small>'}</div>
     </div>`).join('');
     resumen.innerHTML = `
-      ${S.modo === 'demo' ? '<p class="arbol-demo"><strong>Demostración.</strong> Datos ficticios guardados solo en este navegador.</p>' : ''}
+      ${S.modo === 'demo' ? '<p class="arbol-demo"><strong>Demo</strong></p>' : ''}
       ${principal ? `<p class="mp-muted">El círculo de <strong>${esc(limpiarNombre(principal.nombre))}</strong> · mascotas y sus personas</p><div class="circ-resumen">${mini}</div>` : '<p class="mp-muted">Aún no tienes vínculos. Tu círculo empieza con tu primera mascota.</p>'}
       ${pend ? `<p class="arbol-nota"><strong>${pend}</strong> ${pend === 1 ? 'solicitud espera' : 'solicitudes esperan'} tu respuesta.</p>` : ''}
       <button type="button" class="mp-btn" data-arbol-abrir>${ints.length ? 'Gestionar vínculos' : 'Empezar mi círculo'}</button>`;
@@ -1199,7 +1199,7 @@
     else if (a === 'ver-historia') { S.pestana = 'historia'; render(); }
     else if (a === 'ver-ficha' || a === 'editar-ficha') {
       const ok = a === 'ver-ficha' ? window.auraLadraFicha?.abrir(act.dataset.ref) : window.auraLadraFicha?.editar(act.dataset.ref);
-      if (!ok) aviso(S.modo === 'demo' ? 'En la demostración los animales de ejemplo no tienen ficha real.' : 'No pudimos abrir la ficha de este animal.');
+      if (!ok) aviso(S.modo === 'demo' ? 'En la demo los animales de ejemplo no tienen ficha real.' : 'No pudimos abrir la ficha de este animal.');
     } else if (a === 'editar-vinculo') abrirEditarVinculo(act.dataset.origen, act.dataset.id);
     else if (a === 'pedir-retiro') { S.confirmando = act.dataset.id; renderPanel(); }
     else if (a === 'pedir-eliminar') { S.confirmando = `m:${act.dataset.id}`; renderHistoria(); }

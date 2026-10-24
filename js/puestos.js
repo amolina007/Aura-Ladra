@@ -93,7 +93,7 @@
     return {
       puestos: [
         // Ubicación APROXIMADA (centro de Maipú): pendiente de ajustar a la plaza real de Av. Sur con Padre Hurtado.
-        { id: 'av-sur-padre-hurtado', ejemplo: true, nombre: 'Plaza Av. Sur con Padre Hurtado · bebedero y comedero para perros (demo)', tipo: 'ambos', estado: 'necesita_ayuda', descripcion: 'Bebedero y comedero para perros que instalará AuraLadra en la plaza de la intersección de Av. Sur con Padre Hurtado. Es el puesto de demostración.', necesidad: 'Instalar el bebedero y el comedero, reponer agua y alimento seco, y limpiarlos cada semana.', direccion_publica: 'Plaza de Av. Sur con Padre Hurtado, Maipú', comuna: 'Maipú', latitud: -33.5107, longitud: -70.7578, meta_clp: 30000, recaudado_clp: 0, ultima_reposicion: null, cuidadores: [],
+        { id: 'av-sur-padre-hurtado', ejemplo: true, nombre: 'Plaza Av. Sur con Padre Hurtado · bebedero y comedero para perros (demo)', tipo: 'ambos', estado: 'necesita_ayuda', descripcion: 'Bebedero y comedero para perros que instalará AuraLadra en la plaza de la intersección de Av. Sur con Padre Hurtado. Es un puesto demo.', necesidad: 'Instalar el bebedero y el comedero, reponer agua y alimento seco, y limpiarlos cada semana.', direccion_publica: 'Plaza de Av. Sur con Padre Hurtado, Maipú', comuna: 'Maipú', latitud: -33.5107, longitud: -70.7578, meta_clp: 30000, recaudado_clp: 0, ultima_reposicion: null, cuidadores: [],
           // Ficha de financiamiento (textos de ejemplo): dice para qué se piden fondos y qué se entrega a cambio.
           ficha: {
             para_que: 'Habilitar un bebedero y un comedero para perros en la plaza y sostenerlos mes a mes, con cada paso documentado.',
