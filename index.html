@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23f2a93b'/%3E%3Cpath d='M20 30c-5-1-7 5-4 8 3 3 7 0 7-3 0-2-1-4-3-5Zm24 0c5-1 7 5 4 8-3 3-7 0-7-3 0-2 1-4 3-5ZM27 21c-4-3-8 2-6 6 2 4 7 2 8-1 1-2 0-4-2-5Zm10 0c4-3 8 2 6 6-2 4-7 2-8-1-1-2 0-4 2-5Zm-5 9c-7 0-13 8-10 14 2 5 8 3 10 1 2 2 8 4 10-1 3-6-3-14-10-14Z' fill='%23102a43'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="css/mobile-refresh.css?v=causas-dashboard-1">
+  <link rel="stylesheet" href="css/mobile-refresh.css?v=acciones-estetica-1">
 </head>
 <body>
 <div class="paw-backdrop" aria-hidden="true">
@@ -305,14 +305,14 @@
             <div class="market-section-heading cause-heading"><h3 id="causas-title">Causas comunitarias</h3><p>Elige una causa y sigue su avance.</p></div>
             <section class="puestos-resumen" data-puestos-resumen aria-labelledby="puestos-resumen-title" hidden></section>
             <details class="market-more-causes"><summary>Más acciones comunitarias</summary>
-          <h4 class="ayudar-sub">Acciones por financiar</h4>
+          <header class="funding-heading"><span class="funding-eyebrow">Apoyos del barrio</span><h4 class="ayudar-sub">Acciones por financiar</h4><p>Salud, alimento y cuidados que necesitan apoyo.</p><span class="funding-demo">Demo · aportes simulados en pesos</span></header>
           <section class="ayd-dash" data-ayudar-dash aria-labelledby="ayd-dash-title">
-            <h3 id="ayd-dash-title">Así va la ayuda</h3>
+            <h3 id="ayd-dash-title" class="sr-only">Actividad comunitaria</h3>
             <div class="ayd-tiles" data-ayd-tiles></div>
-            <div class="ayd-barra" data-ayd-barra role="img" aria-label="Distribución de acciones por estado"></div>
-            <ul class="ayd-leyenda" data-ayd-leyenda></ul>
+            <details class="funding-states"><summary>Ver actividad por estado</summary><div class="ayd-barra" data-ayd-barra role="img" aria-label="Distribución de acciones por estado"></div>
+            <ul class="ayd-leyenda" data-ayd-leyenda></ul></details>
           </section>
-          <form class="ayudar-filtros" data-ayudar-filtros aria-label="Filtrar acciones">
+          <details class="funding-filters"><summary>Filtrar acciones <span aria-hidden="true">＋</span></summary><form class="ayudar-filtros" data-ayudar-filtros aria-label="Filtrar acciones">
             <label class="field"><span>Categoría</span>
               <select name="categoria"><option value="">Todas</option><option value="alojamiento">Alojamiento</option><option value="cuidado">Cuidado</option><option value="salud">Salud</option><option value="alimentacion">Alimentación</option><option value="traslado">Traslado</option><option value="educacion">Educación</option><option value="otro">Otro</option></select></label>
             <label class="field"><span>Comuna</span><input name="comuna" type="text" maxlength="60" placeholder="Ej.: Maipú" autocomplete="off"></label>
@@ -321,7 +321,7 @@
             <label class="field"><span>Estado</span>
               <select name="estado"><option value="">Todos</option><option value="recaudando">Recaudando</option><option value="meta_alcanzada">Meta alcanzada</option><option value="programada">Programada</option><option value="en_ejecucion">En ejecución</option><option value="completada">Completada</option></select></label>
           </form>
-          <div class="ayudar-lista" data-ayudar-lista aria-live="polite"></div>
+          </details><div class="ayudar-lista" data-ayudar-lista aria-live="polite"></div>
             </details>
           </section>
           <section class="use-ac-panel" id="tienda" data-tienda data-market-panel="tienda" role="tabpanel" aria-labelledby="market-tab-tienda" hidden>
@@ -894,7 +894,7 @@
 <script src="js/aura-acceso-secundario.js"></script>
 <script src="js/visitas.js"></script>
 <script src="js/main.js"></script>
-<script src="js/acciones.js"></script>
+<script src="js/acciones.js?v=estetica-1"></script>
 <script src="js/patrocinio-ac.js?v=1"></script>
 <script src="js/puestos.js?v=causas-dashboard-1"></script>
 <script src="js/misiones.js"></script>

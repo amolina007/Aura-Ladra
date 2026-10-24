@@ -322,3 +322,60 @@ body:has(.shop-dialog[open]) { overflow: hidden; }
   .cause-overview span { line-height: 1.2; }
   .cause-list-heading a { min-height: 28px; }
 }
+/* Acciones por financiar: apoyos del barrio, con filtros recogidos. */
+.market-more-causes { padding: 0; border: 0; border-radius: 20px; background: #f1eee5; overflow: hidden; }
+.market-more-causes > summary { display: list-item; padding: 17px 18px; color: #244b38; background: #eeeae0; font-size: .9rem; }
+.market-more-causes[open] > summary { border-bottom: 1px solid rgba(6,61,36,.1); }
+.funding-heading { padding: 22px 20px 16px; }
+.funding-eyebrow { color: #8a6033; font-size: .67rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 800; }
+.market-more-causes .funding-heading .ayudar-sub { margin: 7px 0 8px; font: 800 1.6rem/1.15 'Nunito',sans-serif; letter-spacing: -.035em; }
+.funding-heading p { margin: 0 0 12px; font-size: .82rem; line-height: 1.5; color: #637164; }
+.funding-demo { display: inline-block; padding: 5px 8px; border: 1px solid #ddcfac; border-radius: 6px; font-size: .66rem; font-weight: 700; color: #765320; background: #faf4e4; }
+.market-more-causes .ayd-dash { margin: 0 20px 16px; padding: 0; border: 0; background: transparent; border-radius: 0; }
+.market-more-causes .ayd-tiles { grid-template-columns: repeat(3,minmax(0,1fr)); gap: 0; margin: 0; padding: 14px 0; border-top: 1px solid #d9ddcf; border-bottom: 1px solid #d9ddcf; }
+.market-more-causes .ayd-tile { min-width: 0; padding: 0 10px; border-radius: 0; background: none; }
+.market-more-causes .ayd-tile:first-child { padding-left: 0; }
+.market-more-causes .ayd-tile + .ayd-tile { border-left: 1px solid #d9ddcf; }
+.market-more-causes .ayd-tile strong { font-size: 1.55rem; }
+.market-more-causes .ayd-tile span { font-size: .65rem; line-height: 1.35; font-weight: 600; }
+.funding-states { margin-top: 10px; }
+.funding-states > summary { color: #627265; font-size: .72rem; cursor: pointer; padding: 6px 0; }
+.funding-states .ayd-barra { height: 6px; margin-top: 8px; }
+.funding-states .ayd-leyenda { font-size: .7rem; gap: 8px 12px; }
+.funding-filters { margin: 0 20px 16px; border-bottom: 1px solid #d9ddcf; }
+.funding-filters > summary { display: flex; align-items: center; justify-content: space-between; min-height: 44px; list-style: none; font-size: .8rem; font-weight: 700; cursor: pointer; }
+.funding-filters > summary::-webkit-details-marker { display: none; }
+.funding-filters[open] > summary { margin-bottom: 8px; }
+.funding-filters[open] > summary span { transform: rotate(45deg); }
+.funding-filters .ayudar-filtros { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 0 10px; }
+.market-more-causes > .ayudar-lista { padding: 0 14px 16px; gap: 14px; grid-template-columns: repeat(auto-fit,minmax(min(100%,280px),1fr)); }
+.funding-card { display: flex; flex-direction: column; padding: 20px; min-width: 0; border-radius: 16px; background: #fffefa; border: 1px solid #e0e3d8; box-shadow: 0 3px 12px rgba(40,50,30,.025); }
+.funding-card-top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; align-items: center; margin-bottom: 15px; }
+.funding-category { color: #836535; text-transform: uppercase; letter-spacing: .08em; font-size: .62rem; font-weight: 800; }
+.funding-state { padding: 4px 7px; border-radius: 5px; background: #eaf0e5; font-size: .62rem; font-weight: 700; color: #456447; }
+.funding-card h5 { margin: 0 0 5px; font: 800 1.25rem/1.25 'Nunito',sans-serif; color: #173d2c; letter-spacing: -.025em; overflow-wrap: anywhere; }
+.funding-card .funding-location { margin: 0 0 13px; font-size: .71rem; color: #738071; }
+.funding-card .funding-description { margin: 0 0 16px; font-size: .81rem; line-height: 1.55; color: #5f6c5f; }
+.funding-card .funding-urgency { align-self: flex-start; margin: 0 0 12px; color: #935c24; font-size: .68rem; font-weight: 700; }
+.funding-amount { display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px; margin-top: auto; }
+.funding-amount strong { font: 800 1.6rem 'Nunito',sans-serif; color: #173d2c; }
+.funding-amount > span { font-size: .72rem; color: #74816f; }
+.funding-progress { appearance: none; width: 100%; height: 5px; border: 0; border-radius: 99px; overflow: hidden; margin: 10px 0 8px; background: #e7ecdf; color: #557b43; }
+.funding-progress::-webkit-progress-bar { background: #e7ecdf; border-radius: 99px; }
+.funding-progress::-webkit-progress-value { background: #557b43; border-radius: 99px; }
+.funding-progress::-moz-progress-bar { background: #557b43; border-radius: 99px; }
+.funding-caption { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 5px; font-size: .66rem; color: #738071; }
+.funding-card footer { display: flex; justify-content: space-between; gap: 8px; align-items: center; border-top: 1px solid #edf0e6; padding-top: 10px; margin-top: 16px; }
+.funding-card footer > span { font-size: .65rem; color: #78816f; }
+.funding-card footer button { display: inline-flex; align-items: center; justify-content: space-between; gap: 18px; min-height: 42px; padding: 8px 13px; border: 0; border-radius: 9px; background: #153f2b; color: #fffefa; font: 800 .75rem 'Nunito',sans-serif; cursor: pointer; }
+.funding-card footer button:focus-visible, .funding-empty a:focus-visible { outline: 3px solid #b07933; outline-offset: 3px; }
+.funding-empty { padding: 28px 20px; text-align: center; border: 1px dashed #c9d1be; border-radius: 16px; background: #faf9f2; }
+.funding-empty-icon { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; margin: 0 auto 14px; background: #e6ecdd; font-size: 1.6rem; color: #4b6c3f; }
+.funding-empty h5 { margin: 0 0 10px; font: 800 1.12rem/1.3 'Nunito',sans-serif; color: #23472e; }
+.funding-empty p { margin: 0 0 16px; font-size: .8rem; line-height: 1.55; color: #6e7b66; }
+.funding-empty a { display: inline-flex; gap: 18px; align-items: center; min-height: 44px; font-size: .8rem; font-weight: 800; text-underline-offset: 4px; }
+@media (max-width:380px) {
+  .funding-heading { padding: 20px 16px 14px; }
+  .market-more-causes .ayd-dash, .funding-filters { margin-left: 16px; margin-right: 16px; }
+  .funding-card { padding: 16px; }
+}
