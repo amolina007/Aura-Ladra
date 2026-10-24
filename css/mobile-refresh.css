@@ -102,3 +102,32 @@ body { --navy: #063d24; --navy-deep: #042c1a; --ink: #173d2c; --muted: #596d60; 
 /* Las categorías abiertas conservan su altura: el scroll pertenece a la lista. */
 .place-list { display: flex; flex-direction: column; min-height: 0; overflow-y: auto; }
 .place-category { flex: 0 0 auto; }
+/* Confirmación de patrocinios y evidencia: accesibles también en celular. */
+[data-patrocinio-ac] form { display: grid; gap: 12px; margin-top: 16px; }
+[data-patrocinio-ac] label { display: grid; gap: 6px; font-size: .9rem; font-weight: 700; }
+[data-patrocinio-ac] input:not([type=checkbox]), [data-patrocinio-ac] textarea { width: 100%; min-width: 0; min-height: 46px; border: 1px solid var(--line); border-radius: 10px; padding: 10px; background: #fff; color: var(--ink); font: inherit; }
+[data-patrocinio-ac] button { min-height: 44px; }
+.ac-estado { font-weight: 800; color: var(--logo-verde); }
+.ac-resumen { margin: 16px 0; font-size: .85rem; }
+.ac-resumen div { display: flex; justify-content: space-between; gap: 10px; margin: 8px 0; }
+.ac-resumen dd { margin: 0; font-weight: 800; }
+.ac-confirmacion { padding: 14px; border-radius: 12px; background: #fff3df; }
+.ac-confirmacion button { width: 100%; margin-top: 8px; }
+.ac-actualizar { padding: 8px 0; border: 0; background: transparent; color: var(--logo-verde); text-decoration: underline; font: inherit; font-size: .8rem; cursor: pointer; }
+.ac-hito { padding-block: 14px; border-top: 1px solid var(--line); overflow-wrap: anywhere; }
+[data-patrocinio-ac] .ac-check { display: flex; align-items: flex-start; gap: 8px; font-size: .8rem; font-weight: 500; }
+.ac-check input { flex: none; margin-top: 4px; }
+[data-patrocinio-ac] { --verde: #063d24; --crema-2: #edf3ec; --apagado: #596d60; background: #fffdf9; color: #173d2c; }
+[data-patrocinio-ac] .pz-cifra strong { color: #063d24; }
+[data-patrocinio-ac] .button-verde, #comida-agua [data-patrocinio-ac] .button-verde { display: inline-flex; justify-content: center; align-items: center; min-height: 46px; padding: 10px 16px; border: 0; border-radius: 12px; background: #063d24; color: #fff; font: inherit; font-weight: 700; text-decoration: none; }
+[data-patrocinio-ac] .button-borde { min-height: 44px; padding: 8px 14px; border: 1px solid #607281; border-radius: 12px; background: #fff; color: #063d24; font: inherit; }
+[data-patrocinio-ac] details, [data-patrocinio-ac] a, #comida-agua [data-patrocinio-ac] details, #comida-agua [data-patrocinio-ac] a { color: #063d24; }
+#comida-agua [data-patrocinio-ac] a.button-verde { color: #fff; }
+[data-patrocinio-ac] .progreso { background: #edf3ec; }
+[data-patrocinio-ac] .progreso span { background: #063d24; }
+[data-patrocinio-ac] :focus-visible { outline: 3px solid #b96a09; outline-offset: 3px; }
+[data-patrocinio-ac] button:disabled { opacity: .55; cursor: wait; }
+#comida-agua [data-patrocinio-ac] h4 { color: #063d24; }
+#comida-agua [data-patrocinio-ac] .button-borde { background: #fff; color: #063d24; border-color: #607281; }
+#comida-agua [data-patrocinio-ac] .progreso { background: #edf3ec; }
+#comida-agua [data-patrocinio-ac] .progreso > span { background: #063d24; }

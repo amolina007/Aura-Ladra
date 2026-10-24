@@ -1,0 +1,11 @@
+{
+  "name": "ladra-dev",
+  "private": true,
+  "scripts": {
+    "test:patrocinio": "node --test tests/patrocinio-ac*.test.mjs"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.5.11",
+    "jsdom": "30.1.3"
+  }
+}

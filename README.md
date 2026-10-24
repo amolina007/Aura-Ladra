@@ -301,3 +301,9 @@ Las fuentes se leen de `window.auraLadraAcciones`, `window.auraLadraAlertas` y `
 Comentarios, seguidores, chat, marketplace, pagos reales (los aportes
 de Acciones por financiar son solo simulación), reputación, gamificación, GPS en tiempo real público e integración oficial
 obligatoria con terceros.
+
+## Patrocinio con AC en campañas (implementación en dev)
+
+El nuevo flujo conecta las campañas de Comida y agua a reservas de la billetera AC: confirmación del patrocinador, meta máxima, devolución automática de lo no liberado al vencer/retirar y entrega por hitos aprobados por otro moderador. Las acciones en CLP y las propuestas sin meta mantienen su funcionamiento previo.
+
+La migración `20261024194611_patrocinio_ac_campanas.sql` está preparada, todavía no aplicada a la base compartida. Hasta activarla, la interfaz informa que el patrocinio no está disponible. Los apartados anteriores describen las etapas previas del proyecto; las reglas nuevas y la verificación están en [docs/PATROCINIO_AC.md](docs/PATROCINIO_AC.md).

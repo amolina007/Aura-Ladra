@@ -2,7 +2,8 @@
 // - Con la migración de avisos aplicada (supabase/migrations/20261015120000_avisos_de_puestos.sql), la lista son los
 //   avisos que la comunidad propone y que un moderador publica; el navegador solo llama funciones del servidor (ladra.*).
 // - Sin la migración, cae a un modo DEMO: un puesto de ejemplo guardado solo en este navegador (localStorage).
-// En ambos casos NO se cobra ni se mueve dinero, y NO se mueven Auracoins: sus reglas siguen por definir.
+// Las campañas publicadas se conectan a las reservas reales mediante js/patrocinio-ac.js.
+// La demo y los presupuestos en CLP siguen siendo simulaciones.
 (() => {
   'use strict';
 
@@ -20,7 +21,7 @@
 
   const TIPOS = { agua: 'Agua', comida: 'Comida', ambos: 'Agua y comida' };
   const ICONOS = { agua: '💧', comida: '🍖', ambos: '💧🍖' };
-  const ESTADOS = { activo: 'Funcionando', necesita_ayuda: 'Necesita ayuda', propuesta: 'Propuesta aprobada', campana: 'Financiamiento abierto' };
+  const ESTADOS = { activo: 'Funcionando', necesita_ayuda: 'Necesita ayuda', propuesta: 'Propuesta aprobada', campana: 'Financiamiento abierto', meta_alcanzada: 'Meta alcanzada', completada: 'Completada', expirada: 'Plazo terminado', cancelada: 'Cancelada' };
   const ESTADOS_AVISO = { borrador: 'Borrador', en_revision: 'En revisión', publicado: 'Publicado', rechazado: 'Rechazado', retirado: 'Retirado' };
   const MONTOS = [2000, 5000, 10000, 20000];
   const YO = 'Tú (demo)';
@@ -123,7 +124,9 @@
   const avisarCambio = () => document.dispatchEvent(new CustomEvent('puestos:cambio'));
 
   const buscar = (id) => datos().puestos.find((p) => p.id === id) || null;
-  const porcentaje = (p) => Math.min(100, Math.round((p.recaudado_clp / p.meta_clp) * 100));
+  const porcentaje = (p) => p.ficha?.campana ? (p.ac?.habilitado ? Math.min(100, Math.round(p.ac.recaudado_ac / p.ficha.meta_ac * 100)) : null) : p.aviso ? null : Math.min(100, Math.round((p.recaudado_clp / p.meta_clp) * 100));
+  const actualizarAC = (p, estado) => { p.ac = estado; if (estado?.habilitado) p.estado = estado.estado === 'recaudando' ? 'campana' : estado.estado; };
+  const cargarFinanciacion = async () => { await Promise.all(datos().puestos.filter(p => p.ficha?.campana).map(async p => { try { actualizarAC(p, await rpc('estado_patrocinio_ac', {p_aviso:p.id})); } catch { p.ac = null; } })); };
   const cuido = (p) => p.cuidadores.some((c) => c.alias === YO);
 
   // ---------- Puente con el mapa (js/main.js) ----------
@@ -168,7 +171,7 @@
     </div>`;
   };
   const tarjeta = (p) => {
-    const pct = p.aviso ? 0 : porcentaje(p);
+    const pct = porcentaje(p);
     const progreso = p.aviso ? '' : `
       <div>
         <div class="progreso" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100" aria-label="Patrocinio del mes"><span data-ancho="${pct}"></span></div>
@@ -180,9 +183,10 @@
       <h3>${esc(p.nombre)}</h3>
       <p>${esc(p.direccion_publica)}</p>
       ${p.ficha?.campana ? `<p><strong>🪙 Meta: ${nAC.format(p.ficha.meta_ac)} AC</strong>${p.ficha.dias_restantes == null ? '' : ` · ${p.ficha.dias_restantes === 0 ? 'último día' : `quedan ${p.ficha.dias_restantes} ${p.ficha.dias_restantes === 1 ? 'día' : 'días'}`} para juntarla`}</p>` : p.ficha ? `<p><strong>🪙 ${nAC.format(p.ficha.costo_mensual_ac)} AC al mes</strong> para sostenerlo</p>` : ''}${progreso}
+      ${p.ac?.habilitado ? `<p><strong>${nAC.format(p.ac.recaudado_ac)} AC</strong> patrocinadas · ${pct}% de la meta</p>` : ''}
       ${p.aviso ? filaSocialTarjeta(p) : ''}
       <div class="mini-acciones">
-        <button class="button-verde" type="button" data-puesto-abrir="${esc(p.id)}">${p.aviso ? 'Ver propuesta' : 'Ayudar'}</button>
+        <button class="button-verde" type="button" data-puesto-abrir="${esc(p.id)}">${p.ficha?.campana ? 'Ver campaña y patrocinar' : p.aviso ? 'Ver propuesta' : 'Ayudar'}</button>
         ${tieneUbicacion(p) ? `<button class="button-borde" type="button" data-puesto-mapa="${esc(p.id)}">Ver en el mapa</button>` : ''}
       </div>
     </article>`;
@@ -190,13 +194,13 @@
 
   // Tarjeta compacta de la lista lateral (diseño de la sección).
   const tarjetaLateral = (p) => {
-    const pct = p.aviso ? 0 : porcentaje(p);
+    const pct = porcentaje(p);
     return `<button class="pz-item${p.id === abierto ? ' is-activa' : ''}" type="button" data-puesto-abrir="${esc(p.id)}" aria-pressed="${p.id === abierto}">
       <span class="pz-mini" aria-hidden="true">${ICONOS[p.tipo]}</span>
       <span class="pz-item-texto">
         <strong>${esc(p.nombre)}</strong>
         <small>📍 ${esc(p.comuna)}</small>
-        <span class="pz-barra"><span class="progreso" aria-hidden="true"><span data-ancho="${pct}"></span></span><em>${pct}%</em></span>
+        ${pct == null ? '<small>Consulta el patrocinio de esta campaña</small>' : `<span class="pz-barra"><span class="progreso" aria-hidden="true"><span data-ancho="${pct}"></span></span><em>${pct}%</em></span>`}
       </span>
     </button>`;
   };
@@ -370,12 +374,7 @@
   // ---------- Ficha de una campaña (compacta: lo importante arriba, el detalle plegado) ----------
   const equipoCampana = (f) => `<ul class="pz-equipo">${f.equipo.map((m) => `<li><span class="pz-avatar" aria-hidden="true">${esc(String(m.alias || '?').trim().charAt(0).toUpperCase())}</span><span><strong>${esc(m.alias)}</strong><small>${m.rol === 'responsable' ? 'Responsable' : 'Integrante'}</small></span></li>`).join('')}</ul>`;
   const panelCampana = (f) => `
-    <div class="pz-card pz-progreso">
-      <p class="pz-cifra"><span><strong>0</strong> / ${nAC.format(f.meta_ac)} AC</span><em>0%</em></p>
-      <div class="progreso" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="Avance hacia la meta"><span data-ancho="0"></span></div>
-      <p class="pz-resto"><span>Faltan ${nAC.format(f.meta_ac)} AC</span><span>${f.dias_restantes == null ? `Plazo: ${f.plazo_recaudacion_dias} días` : f.dias_restantes === 0 ? 'Último día' : `${f.dias_restantes} ${f.dias_restantes === 1 ? 'día' : 'días'} restantes`}</span></p>
-      <button class="pz-patrocinar" type="button" disabled>Patrocinar · próximamente</button>
-    </div>
+    <div class="pz-card pz-progreso" data-patrocinio-ac><p role="status">Consultando patrocinio en AC…</p></div>
     <div class="pz-card"><h4>Equipo</h4>${equipoCampana(f)}</div>
     <p class="pz-permiso-chip"><strong>Permiso:</strong> ${esc(f.permiso_corto)}</p>`;
   const renderDetalleCampana = (p, aviso) => {
@@ -389,7 +388,7 @@
         <p class="pz-resumen">${esc(p.descripcion)}</p>
         <div class="pz-pliegues">
           <details><summary>Qué se hará con la meta</summary><p>${esc(f.para_que)}</p><p>Al alcanzarla se define, con todo documentado, el emplazamiento, la mantención y la comida. Quedaría listo dentro de <strong>${f.plazo_entrega} días</strong> (máximo 60).</p></details>
-          <details><summary>Condiciones</summary><p>${esc(f.si_no_se_cumple)}</p><p><small>Aún no se mueven Auracoins: el sistema está por definir.</small></p></details>
+          <details><summary>Condiciones</summary><p>${esc(f.si_no_se_cumple)}</p><p><small>Las AC se reservan al patrocinar y se entregan por hitos aprobados. Si vence la campaña, se devuelve automáticamente lo que no se haya entregado. Esta regla prevalece sobre la propuesta de devolución del aviso.</small></p></details>
         </div>
         ${seccionComentarios(p)}
         <p class="ayudar-msg" data-puesto-msg role="status"></p>
@@ -399,6 +398,7 @@
     aplicarAnchos(el.detalle);
     if (aviso) mensaje(aviso.texto, aviso.tipo);
     cargarComentarios(p);
+    document.dispatchEvent(new CustomEvent('puestos:campana', {detail:{id:p.id}}));
   };
 
   const renderDetalle = (aviso) => {
@@ -409,7 +409,7 @@
       return;
     }
     if (p.ficha?.campana) { renderDetalleCampana(p, aviso); return; }
-    const pct = p.aviso ? 0 : porcentaje(p);
+    const pct = porcentaje(p);
     const lleno = !p.aviso && p.recaudado_clp >= p.meta_clp;
     const yoCuido = cuido(p);
     el.detalle.innerHTML = `
@@ -705,6 +705,7 @@
   const recargar = async () => {
     if (modo !== 'servidor') return;
     try { mem = { puestos: ((await rpc('listar_avisos_puestos')) || []).map(delAviso), aportes: [] }; } catch { /* se mantiene lo último cargado */ }
+    await cargarFinanciacion();
     await cargarMis();
     await cargarModeracion();
     renderModeracion();
@@ -819,12 +820,19 @@
     if (event.detail?.vista === 'comida-agua' && abierto === null) abrirPrimera();
   });
 
+  document.addEventListener('puestos:patrocinio', (event) => {
+    const p = buscar(event.detail?.id);
+    if (!p?.ficha?.campana) return;
+    actualizarAC(p, event.detail.estado);
+    renderLista(); renderResumen();
+  });
+
   // ---------- Inicio ----------
   const textoModo = () => {
     const fuerte = root.querySelector('.ayudar-sim strong');
     if (modo === 'servidor') {
       if (fuerte) fuerte.textContent = 'Propuestas de la comunidad.';
-      if (el.modo) el.modo.textContent = 'Las revisa moderación antes de publicarlas. Aún no se cobra ni se mueven Auracoins.';
+      if (el.modo) el.modo.textContent = 'Las revisa moderación antes de publicarlas. Las campañas con patrocinio habilitado reservan AC; no cobran pesos.';
     } else if (el.modo) {
       el.modo.textContent = 'Ejemplos guardados solo en tu navegador: los aportes son una simulación y no se cobra dinero.';
     }
@@ -842,6 +850,7 @@
       }
     }
     listo = true;
+    if (modo === 'servidor') await cargarFinanciacion();
     textoModo();
     if (modo === 'servidor') {
       await cargarMis();
