@@ -34,11 +34,11 @@
   const marcarActivos = (vista) => {
     document.querySelectorAll('[data-nav] a[href^="#"]').forEach((link) => {
       const id = idDeHash(link.getAttribute('href'));
-      if (vistaDeId(id) === vista) link.setAttribute('aria-current', 'page');
+      if (vistaDeId(id) === vista || (id === 'ayudar' && vista === 'comida-agua')) link.setAttribute('aria-current', 'page');
       else link.removeAttribute('aria-current');
     });
     document.querySelectorAll('[data-tabbar-link]').forEach((link) => {
-      link.setAttribute('aria-current', String(VISTA_DE_TABBAR[link.dataset.tabbarLink] === vista));
+      link.setAttribute('aria-current', String(VISTA_DE_TABBAR[link.dataset.tabbarLink] === vista || (link.dataset.tabbarLink === 'ayudar' && vista === 'comida-agua')));
     });
   };
 

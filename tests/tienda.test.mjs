@@ -25,6 +25,9 @@ test('Usar AC muestra Causas y Tienda; enlace directo a tienda conserva la secci
   assert.equal(a.doc.querySelectorAll('[data-puestos-resumen]').length,1);
   assert.equal(a.doc.querySelector('[data-ayudar-vista-lista]').hidden,false);
   assert.equal(a.doc.querySelector('[data-ayudar-filtros]').closest('#causas')?.id,'causas');
+  a.w.auraLadraVistas.ir('comida-agua');
+  assert.equal(a.doc.querySelector('[data-tabbar-link=ayudar]').getAttribute('aria-current'),'true');
+  assert.equal(a.doc.querySelector('#comida-agua .market-return').getAttribute('href'),'#causas');
  }finally{a.dom.window.close();}
 });
 test('AirTag a 30.000 AC abre su ficha y consulta al perfil correcto sin pedir cobros',async()=>{

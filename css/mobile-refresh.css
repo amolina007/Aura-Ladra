@@ -148,7 +148,7 @@ body { --navy: #063d24; --navy-deep: #042c1a; --ink: #173d2c; --muted: #596d60; 
 .market-category-icon { display: grid; place-items: center; flex: none; width: 42px; height: 42px; border-radius: 13px; background: #e8efe7; color: #063d24; font-size: 1.8rem; }
 .use-ac-grid { display: grid; grid-template-columns: 1fr 1fr; align-items: start; gap: 28px; }
 .use-ac-grid[hidden] { display: none; }
-.use-ac-panel { min-width: 0; scroll-margin-top: 96px; }
+.use-ac-panel { min-width: 0; scroll-margin-top: 8px; }
 .market-section-heading { margin-bottom: 20px; }
 .market-section-heading h3 { margin: 3px 0 6px; font: 800 1.6rem 'Nunito',sans-serif; letter-spacing: -.03em; }
 .market-section-heading p { margin: 0; color: var(--muted); font-size: .9rem; }
@@ -226,3 +226,5 @@ body:has(.shop-dialog[open]) { overflow: hidden; }
   .site-nav { gap: 16px; }
   .site-nav a { font-size: .86rem; }
 }
+
+.market-return { display: inline-flex; align-items: center; min-height: 44px; margin-bottom: 12px; font-weight: 700; text-underline-offset: 4px; }
