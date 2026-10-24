@@ -307,3 +307,7 @@ obligatoria con terceros.
 El nuevo flujo conecta las campañas de Comida y agua a reservas de la billetera AC: confirmación del patrocinador, meta máxima, devolución automática de lo no liberado al vencer/retirar y entrega por hitos aprobados por otro moderador. Las acciones en CLP y las propuestas sin meta mantienen su funcionamiento previo.
 
 La migración `20261024194611_patrocinio_ac_campanas.sql` se aplicó al proyecto Aura el 24 de octubre de 2026 con autorización explícita del propietario. Las campañas publicadas con meta en AC ya pueden recibir patrocinios desde dev. Los apartados anteriores describen las etapas previas del proyecto; las reglas nuevas y la verificación están en [docs/PATROCINIO_AC.md](docs/PATROCINIO_AC.md).
+
+## Usar AC → Causas comunitarias y Tienda
+
+La sección 4 muestra causas y tienda, con accesos `#causas` y `#tienda`. El catálogo inicial incluye la publicación de Alejandro: AirTag + porta AirTag para collar a 30.000 AC, etiquetada con Ladra. La consulta abre su perfil central; las compras de productos todavía se coordinan con el vendedor, sin cobro de AC desde esta ficha. Detalles y pruebas: [docs/TIENDA.md](docs/TIENDA.md).

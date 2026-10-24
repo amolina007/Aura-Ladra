@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23f2a93b'/%3E%3Cpath d='M20 30c-5-1-7 5-4 8 3 3 7 0 7-3 0-2-1-4-3-5Zm24 0c5-1 7 5 4 8-3 3-7 0-7-3 0-2 1-4 3-5ZM27 21c-4-3-8 2-6 6 2 4 7 2 8-1 1-2 0-4-2-5Zm10 0c4-3 8 2 6 6-2 4-7 2-8-1-1-2 0-4 2-5Zm-5 9c-7 0-13 8-10 14 2 5 8 3 10 1 2 2 8 4 10-1 3-6-3-14-10-14Z' fill='%23102a43'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="css/mobile-refresh.css?v=patrocinio-ac-2">
+  <link rel="stylesheet" href="css/mobile-refresh.css?v=tienda-3">
 </head>
 <body>
 <div class="paw-backdrop" aria-hidden="true">
@@ -46,7 +46,7 @@
         <a href="#inicio">Inicio</a>
         <a href="#mapa">Mapa</a>
         <a href="#red">Mi red</a>
-        <a href="#ayudar">Ayudar</a>
+        <a href="#ayudar">Usar AC</a>
         <a href="#cuenta">Perfil</a>
         <details class="nav-mas">
           <summary>Servicios y más</summary>
@@ -293,22 +293,25 @@
       </div>
     </section>
 
-    <section class="ayudar section" id="ayudar" data-vista-de="ayudar" data-ayudar aria-labelledby="ayudar-title">
+    <section class="ayudar section use-ac" id="ayudar" data-vista-de="ayudar" data-ayudar aria-labelledby="ayudar-title">
       <div class="shell">
-        <div class="section-heading">
-          <p class="kicker">Aportar</p>
-          <h2 id="ayudar-title">Aportar</h2>
-          <p>Apoya con aportes solidarios las acciones concretas que necesitan los animales de tu barrio.</p>
-        </div>
-        <div data-ayudar-vista-lista>
-          <h3 class="ayudar-sub">Proyectos por financiar</h3>
+        <div class="use-ac-heading"><div><p class="kicker">Tu comunidad en AC</p><h2 id="ayudar-title">Usar AC</h2><p>Apoya causas comunitarias y encuentra productos de tu comunidad.</p></div><a class="market-wallet" href="https://convergenciaaura.cl/wallet" target="_blank" rel="noopener noreferrer">Mi billetera <span aria-hidden="true">↗</span></a></div>
+        <nav class="market-categories" aria-label="Causas y tienda">
+          <a href="#causas"><span class="market-category-icon" aria-hidden="true">♡</span><span><strong>Causas comunitarias</strong><small>Patrocina y sigue los avances</small></span><span aria-hidden="true">↓</span></a>
+          <a href="#tienda"><span class="market-category-icon" aria-hidden="true">▱</span><span><strong>Tienda</strong><small>Productos publicados por la comunidad</small></span><span aria-hidden="true">↓</span></a>
+        </nav>
+        <div class="use-ac-grid" data-ayudar-vista-lista>
+          <section class="use-ac-panel" id="causas" aria-labelledby="causas-title">
+            <div class="market-section-heading"><span class="market-eyebrow">Comunidad</span><h3 id="causas-title">Causas comunitarias</h3><p>Apoya proyectos del barrio y sigue sus avances.</p></div>
+            <section class="puestos-resumen" data-puestos-resumen aria-labelledby="puestos-resumen-title" hidden></section>
+            <details class="market-more-causes"><summary>Más acciones comunitarias</summary>
+          <h4 class="ayudar-sub">Acciones por financiar</h4>
           <section class="ayd-dash" data-ayudar-dash aria-labelledby="ayd-dash-title">
             <h3 id="ayd-dash-title">Así va la ayuda</h3>
             <div class="ayd-tiles" data-ayd-tiles></div>
             <div class="ayd-barra" data-ayd-barra role="img" aria-label="Distribución de acciones por estado"></div>
             <ul class="ayd-leyenda" data-ayd-leyenda></ul>
           </section>
-          <section class="puestos-resumen" data-puestos-resumen aria-labelledby="puestos-resumen-title" hidden></section>
           <form class="ayudar-filtros" data-ayudar-filtros aria-label="Filtrar acciones">
             <label class="field"><span>Categoría</span>
               <select name="categoria"><option value="">Todas</option><option value="alojamiento">Alojamiento</option><option value="cuidado">Cuidado</option><option value="salud">Salud</option><option value="alimentacion">Alimentación</option><option value="traslado">Traslado</option><option value="educacion">Educación</option><option value="otro">Otro</option></select></label>
@@ -319,6 +322,17 @@
               <select name="estado"><option value="">Todos</option><option value="recaudando">Recaudando</option><option value="meta_alcanzada">Meta alcanzada</option><option value="programada">Programada</option><option value="en_ejecucion">En ejecución</option><option value="completada">Completada</option></select></label>
           </form>
           <div class="ayudar-lista" data-ayudar-lista aria-live="polite"></div>
+            </details>
+          </section>
+          <section class="use-ac-panel" id="tienda" data-tienda aria-labelledby="tienda-title">
+            <div class="market-section-heading"><span class="market-eyebrow">Productos y servicios</span><h3 id="tienda-title">Tienda</h3><p>Encuentra publicaciones de personas de Convergencia Aura.</p></div>
+            <form class="shop-search" data-tienda-busqueda role="search" aria-label="Buscar en la tienda">
+              <label><span class="sr-only">Buscar productos o vendedores</span><input type="search" name="q" placeholder="Busca productos o vendedores" autocomplete="off" maxlength="100"></label>
+              <button type="reset" class="shop-clear">Limpiar</button>
+            </form>
+            <div class="shop-project"><span class="shop-project-tag">Relacionado con Ladra</span><span data-tienda-cantidad aria-live="polite"></span></div>
+            <div class="shop-grid" data-tienda-lista aria-live="polite"><p class="empty-state">Cargando publicaciones…</p></div>
+          </section>
         </div>
         <article class="ayudar-detalle card" data-ayudar-detalle hidden aria-live="polite"></article>
       </div>
@@ -856,11 +870,16 @@
           </div>
         </dialog>
 
+  <dialog class="shop-dialog" data-tienda-dialog aria-labelledby="shop-product-title">
+    <button type="button" class="shop-dialog-close" data-tienda-cerrar aria-label="Cerrar publicación">×</button>
+    <div data-tienda-detalle></div>
+  </dialog>
+
   <nav class="tabbar" aria-label="Navegación inferior" data-tabbar>
     <a href="#inicio" data-tabbar-link="inicio"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span>Inicio</span></a>
     <a href="#mapa" data-tabbar-link="mapa"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg><span>Mapa</span></a>
     <a href="#red" data-tabbar-link="red"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><ellipse cx="6.5" cy="11" rx="1.8" ry="2.4"/><ellipse cx="10" cy="6.8" rx="1.8" ry="2.4"/><ellipse cx="14.5" cy="6.8" rx="1.8" ry="2.4"/><ellipse cx="18" cy="11" rx="1.8" ry="2.4"/><path d="M12.2 12c2.8 0 5.5 3 5.5 5.6 0 1.8-1.5 2.6-3.1 2.1-1.1-.3-1.8-.5-2.4-.5s-1.3.2-2.4.5c-1.6.5-3.1-.3-3.1-2.1 0-2.6 2.7-5.6 5.5-5.6z"/></svg><span>Mi red</span></a>
-    <a href="#ayudar" data-tabbar-link="ayudar"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-4.6-9-9.2C1.8 8.6 3.6 5 7 5c2 0 3.4 1.1 5 3 1.6-1.9 3-3 5-3 3.4 0 5.2 3.6 4 6.8-2 4.6-9 9.2-9 9.2z"/></svg><span>Ayudar</span></a>
+    <a href="#ayudar" data-tabbar-link="ayudar"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-4.6-9-9.2C1.8 8.6 3.6 5 7 5c2 0 3.4 1.1 5 3 1.6-1.9 3-3 5-3 3.4 0 5.2 3.6 4 6.8-2 4.6-9 9.2-9 9.2z"/></svg><span>Usar AC</span></a>
     <a href="#mi-perfil" data-tabbar-link="perfil"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg><span>Perfil</span></a>
   </nav>
 
@@ -883,7 +902,8 @@
 <script src="js/descubrir.js"></script>
 <script src="js/encuentros.js"></script>
 <script src="js/arbol.js"></script>
-<script src="js/vistas.js"></script>
+<script src="js/vistas.js?v=tienda-1"></script>
+<script src="js/tienda.js?v=2"></script>
 <script defer src="https://core.convergenciaaura.cl/js/aura-hub.js"></script><!-- Menú común de Convergencia Aura: vive en Core (una sola versión para todos los sitios) -->
 <script defer src="https://core.convergenciaaura.cl/js/globo.js" data-margen-movil="76"></script>
 </body>

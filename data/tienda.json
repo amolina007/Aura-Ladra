@@ -1,0 +1,17 @@
+{
+  "productos": [
+    {
+      "id": "airtag-portacollar-alejandro",
+      "titulo": "AirTag + porta AirTag para collar de perro",
+      "descripcion": "Incluye un AirTag y un porta AirTag para colocarlo en el collar de tu perro.",
+      "precio_ac": 30000,
+      "vendedor": { "nombre": "Alejandro", "alias_core": "amolina007" },
+      "proyectos": ["ladra"],
+      "imagen": "assets/airtag-portacollar.png",
+      "imagen_alt": "Imagen ilustrativa de un AirTag en su soporte negro, colocado en un collar verde de perro.",
+      "nota_imagen": "Imagen ilustrativa · collar no incluido",
+      "incluye": ["1 AirTag", "1 porta AirTag para collar"],
+      "entrega": "Consulta disponibilidad y entrega con Alejandro."
+    }
+  ]
+}

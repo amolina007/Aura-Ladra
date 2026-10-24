@@ -131,3 +131,98 @@ body { --navy: #063d24; --navy-deep: #042c1a; --ink: #173d2c; --muted: #596d60; 
 #comida-agua [data-patrocinio-ac] .button-borde { background: #fff; color: #063d24; border-color: #607281; }
 #comida-agua [data-patrocinio-ac] .progreso { background: #edf3ec; }
 #comida-agua [data-patrocinio-ac] .progreso > span { background: #063d24; }
+/* Sección 4: causas comunitarias y tienda en una misma vista. */
+.use-ac { padding-top: 42px; }
+.use-ac-heading { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 24px; }
+.use-ac-heading h2 { margin: 0 0 10px; font: 800 clamp(2rem,5vw,3.3rem)/1.05 'Nunito',sans-serif; letter-spacing: -.04em; }
+.use-ac-heading p { margin: 0; color: var(--muted); max-width: 620px; }
+.use-ac-heading .kicker { margin-bottom: 10px; color: #8b4900; }
+.market-wallet { flex: none; display: inline-flex; gap: 12px; align-items: center; padding: 10px 16px; min-height: 44px; border: 1px solid var(--line); border-radius: 999px; font-weight: 700; text-decoration: none; background: #fff; }
+.market-categories { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 30px; }
+.market-categories a { display: flex; align-items: center; gap: 14px; padding: 20px; border: 1px solid var(--line); border-radius: 18px; background: #fff; text-decoration: none; }
+.market-categories a:first-child { background: #fff1dc; border-color: #f0d6af; }
+.market-categories a > span:nth-child(2) { flex: 1; }
+.market-categories strong, .market-categories small { display: block; }
+.market-categories strong { font: 800 1.05rem 'Nunito',sans-serif; }
+.market-categories small { margin-top: 4px; color: var(--muted); font-size: .8rem; line-height: 1.4; }
+.market-category-icon { display: grid; place-items: center; flex: none; width: 42px; height: 42px; border-radius: 13px; background: #e8efe7; color: #063d24; font-size: 1.8rem; }
+.use-ac-grid { display: grid; grid-template-columns: 1fr 1fr; align-items: start; gap: 28px; }
+.use-ac-grid[hidden] { display: none; }
+.use-ac-panel { min-width: 0; scroll-margin-top: 96px; }
+.market-section-heading { margin-bottom: 20px; }
+.market-section-heading h3 { margin: 3px 0 6px; font: 800 1.6rem 'Nunito',sans-serif; letter-spacing: -.03em; }
+.market-section-heading p { margin: 0; color: var(--muted); font-size: .9rem; }
+.market-eyebrow { color: #8b4900; font-size: .72rem; text-transform: uppercase; font-weight: 800; letter-spacing: .08em; }
+.use-ac-panel .puestos-resumen { margin: 0 0 16px; padding: 16px; border-color: var(--line); }
+.use-ac-panel .puestos-resumen .ayudar-lista { grid-template-columns: 1fr; }
+.use-ac-panel .puestos-resumen .section-heading { margin-bottom: 14px; }
+.use-ac-panel .puestos-resumen .section-heading .kicker { margin: 0; }
+.use-ac-panel .puestos-resumen .section-heading h3 { font: 800 1.2rem 'Nunito',sans-serif; }
+.use-ac-panel .puestos-resumen .section-heading p:last-child { margin-top: 8px; font-size: .85rem; }
+.market-more-causes { padding: 14px 16px; border: 1px solid var(--line); border-radius: 16px; background: #fff; }
+.market-more-causes > summary { font-weight: 700; cursor: pointer; min-height: 30px; }
+.market-more-causes .ayudar-sub { margin-top: 18px; }
+.shop-search { display: flex; gap: 8px; align-items: center; margin-bottom: 14px; }
+.shop-search label { flex: 1; min-width: 0; }
+.shop-search input { width: 100%; min-height: 48px; padding: 10px 14px; border: 1px solid var(--line); border-radius: 13px; background: #fff; color: var(--ink); font: inherit; }
+.shop-clear { flex: none; min-height: 44px; border: 0; background: none; color: #063d24; font: inherit; font-size: .8rem; cursor: pointer; }
+.shop-project { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 14px; font-size: .75rem; color: var(--muted); }
+.shop-project-tag { display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 999px; background: #e8efe7; color: #063d24; font-size: .74rem; font-weight: 800; }
+.shop-grid { display: grid; gap: 18px; }
+.shop-card { min-width: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 20px; background: #fff; box-shadow: 0 5px 20px rgba(6,61,36,.04); }
+.shop-card-image { display: block; position: relative; width: 100%; padding: 0; border: 0; background: #f3eee5; cursor: pointer; }
+.shop-card-image img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; }
+.shop-image-label { position: absolute; bottom: 10px; left: 10px; padding: 3px 8px; border-radius: 999px; background: #fffdf9; color: var(--muted); font-size: .68rem; }
+.shop-card-content { padding: 18px; }
+.shop-card-content h4 { margin: 10px 0 8px; }
+.shop-card-content h4 button { border: 0; padding: 0; background: none; text-align: left; color: #063d24; font: 800 1.25rem/1.3 'Nunito',sans-serif; cursor: pointer; }
+.shop-price, .use-ac .shop-price { margin: 8px 0 14px; color: #a85300; font: 800 1.85rem/1.2 'Nunito',sans-serif; }
+.shop-price span { font-size: 1.1rem; }
+.shop-seller { display: flex; align-items: center; gap: 10px; padding: 12px 0; color: #063d24; text-decoration: none; border-top: 1px solid var(--line); }
+.shop-seller > span:nth-child(2) { flex: 1; }
+.shop-seller small, .shop-seller strong { display: block; line-height: 1.4; }
+.shop-seller small { font-size: .75rem; color: var(--muted); }
+.shop-avatar { display: grid; place-items: center; flex: none; width: 38px; height: 38px; border-radius: 50%; background: #e8efe7; color: #063d24; font-weight: 800; }
+.shop-primary { display: flex; justify-content: center; align-items: center; gap: 14px; width: 100%; min-height: 48px; padding: 12px 16px; border: 0; border-radius: 12px; background: #063d24; color: #fff; font: inherit; font-weight: 700; text-decoration: none; cursor: pointer; }
+.shop-dialog { position: relative; width: min(640px,calc(100% - 24px)); max-height: calc(100dvh - 24px); padding: 0; border: 0; border-radius: 22px; overflow-y: auto; color: #173d2c; background: #fffdf9; box-shadow: 0 24px 90px rgba(0,0,0,.25); }
+.shop-dialog::backdrop { background: rgba(4,35,21,.65); }
+.shop-dialog-close { position: absolute; right: 12px; top: 12px; z-index: 2; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 1px solid var(--line); border-radius: 50%; background: #fffdf9; color: #063d24; font-size: 1.6rem; cursor: pointer; }
+.shop-detail-photo { position: relative; margin: 0; }
+.shop-detail-photo img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; }
+.shop-detail-photo figcaption { position: absolute; left: 12px; bottom: 12px; padding: 4px 8px; border-radius: 8px; background: #fffdf9; color: var(--muted); font-size: .7rem; }
+.shop-detail-body { padding: 24px; }
+.shop-detail-body h3 { margin: 12px 0; font: 800 clamp(1.45rem,4vw,2rem)/1.2 'Nunito',sans-serif; letter-spacing: -.025em; }
+.shop-detail-body h4 { margin: 0 0 8px; font-size: 1rem; }
+.shop-detail-body p { font-size: .95rem; }
+.shop-includes { margin: 16px 0; padding: 16px; border-radius: 14px; background: #f2f3ec; }
+.shop-includes ul { list-style: none; margin: 0; padding: 0; }
+.shop-includes li + li { margin-top: 6px; }
+.shop-detail-body .shop-tag-note { color: var(--muted); font-size: .78rem; }
+.shop-contact { margin-top: 18px; }
+.market-categories a:focus-visible, .shop-primary:focus-visible, .shop-seller:focus-visible, .shop-card-image:focus-visible, .shop-card h4 button:focus-visible { outline: 3px solid #b96a09; outline-offset: 3px; }
+@media (max-width: 760px) {
+  .use-ac { padding: 24px 0 40px; }
+  .use-ac-heading { align-items: flex-start; gap: 10px; }
+  .use-ac-heading h2 { font-size: 2rem; }
+  .use-ac-heading p { font-size: .9rem; line-height: 1.5; }
+  .market-wallet { padding: 8px 10px; font-size: .75rem; }
+  .market-categories { gap: 10px; margin-bottom: 26px; }
+  .market-categories a { display: block; padding: 13px; }
+  .market-categories a > span:last-child { display: none; }
+  .market-category-icon { width: 32px; height: 32px; margin-bottom: 10px; border-radius: 10px; font-size: 1.5rem; }
+  .market-categories strong { font-size: .95rem; line-height: 1.3; }
+  .market-categories small { font-size: .73rem; }
+  .use-ac-grid { grid-template-columns: 1fr; gap: 32px; }
+  .shop-card-content { padding: 16px; }
+  .shop-detail-body { padding: 18px; }
+  .shop-dialog { max-height: calc(100dvh - 16px); }
+}
+.shop-dialog { position: fixed; inset: 0; margin: auto; height: fit-content; overscroll-behavior: contain; }
+.shop-dialog-close { position: sticky; top: 12px; margin: 12px 12px -56px auto; }
+.shop-detail-body .shop-price { font-size: 1.85rem; }
+body:has(.shop-dialog[open]) { overflow: hidden; }
+@media (min-width: 901px) and (max-width: 1100px) {
+  .nav-shell { gap: 16px; }
+  .site-nav { gap: 16px; }
+  .site-nav a { font-size: .86rem; }
+}

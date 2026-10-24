@@ -16,6 +16,8 @@
     mapa: 'mapa',
     red: 'red',
     ayudar: 'ayudar',
+    causas: 'ayudar',
+    tienda: 'ayudar',
     cuenta: 'cuenta',
     'mi-perfil': 'cuenta',
   };
