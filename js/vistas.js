@@ -25,6 +25,18 @@
   const VISTA_DE_TABBAR = { inicio: 'inicio', mapa: 'mapa', red: 'red', ayudar: 'ayudar', perfil: 'cuenta' };
 
   let actual = null;
+  let mercado = window.location.hash === '#tienda' ? 'tienda' : 'causas';
+  const mostrarMercado = (id) => {
+    if (id === 'tienda' || id === 'causas') mercado = id;
+    document.querySelector('.use-ac')?.setAttribute('data-market-view', mercado);
+    document.querySelectorAll('[data-market-tab]').forEach((tab) => {
+      const seleccionado = tab.dataset.marketTab === mercado;
+      tab.setAttribute('aria-selected', String(seleccionado));
+      tab.tabIndex = seleccionado ? 0 : -1;
+    });
+    document.querySelectorAll('[data-market-panel]').forEach((panel) => { panel.hidden = panel.dataset.marketPanel !== mercado; });
+    document.dispatchEvent(new CustomEvent('mercado:cambio', {detail:{panel:mercado}}));
+  };
 
   const prefiereMenosMovimiento = () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches === true;
 
@@ -55,10 +67,15 @@
       const suyas = pieza.dataset.vistaDe.split(/\s+/);
       pieza.classList.toggle('vista-oculta', !suyas.includes(vista));
     });
+    if (vista === 'ayudar') mostrarMercado(id);
     marcarActivos(vista);
     actual = vista;
     if (cambio) document.dispatchEvent(new CustomEvent('vista:cambio', { detail: { vista } }));
 
+    if (desplazar && ['causas', 'tienda'].includes(id)) {
+      if (cambio) window.scrollTo({top:0,behavior:'instant'});
+      return vista;
+    }
     if (desplazar) {
       const ancla = document.getElementById(id);
       const visible = ancla && !ancla.hidden && !ancla.closest('.vista-oculta') && id !== vista && !['inicio', 'reportes'].includes(id);
@@ -79,6 +96,14 @@
     mostrar(id);
   });
 
+  document.querySelectorAll('[data-market-tab]').forEach((tab) => tab.addEventListener('keydown', (event) => {
+    if (!['ArrowLeft','ArrowRight','Home','End'].includes(event.key)) return;
+    event.preventDefault();
+    const tabs = [...document.querySelectorAll('[data-market-tab]')];
+    const target = event.key === 'Home' ? tabs[0] : event.key === 'End' ? tabs[tabs.length-1] : tabs.find(t => t !== tab);
+    target?.focus(); target?.click();
+  }));
+
   const alCambiarHistorial = () => mostrar(idDeHash(window.location.hash));
   window.addEventListener('popstate', alCambiarHistorial);
   window.addEventListener('hashchange', alCambiarHistorial);
@@ -92,6 +117,11 @@
   };
 
   window.auraLadraVistas = { mostrar, ir, actual: () => actual, vistas: VISTAS };
+
+  const hashInicial = window.location.hash;
+  window.addEventListener('load', () => {
+    if (window.location.hash === hashInicial && ['#causas','#tienda'].includes(hashInicial)) window.scrollTo({top:0,behavior:'instant'});
+  }, {once:true});
 
   // Vista inicial según la dirección (#red, #cuenta…); sin ancla, la portada.
   // El script va al final de la página, así que las secciones ya existen: se aplica de inmediato (sin parpadeo)

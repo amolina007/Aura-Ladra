@@ -18,6 +18,14 @@ async function app(hash='#ayudar',fail=false){
 test('Usar AC muestra Causas y Tienda; enlace directo a tienda conserva la sección 4',async()=>{
  const a=await app('#tienda');try{
   assert.equal(a.doc.body.dataset.vista,'ayudar');
+  assert.equal(a.doc.querySelector('#causas').hidden,true);
+  assert.equal(a.doc.querySelector('#tienda').hidden,false);
+  a.doc.querySelector('[data-market-tab=causas]').click();
+  assert.equal(a.doc.querySelector('#causas').hidden,false);
+  assert.equal(a.doc.querySelector('#tienda').hidden,true);
+  a.doc.querySelector('[data-market-tab=causas]').dispatchEvent(new a.w.KeyboardEvent('keydown',{key:'ArrowRight',bubbles:true}));
+  assert.equal(a.doc.querySelector('#tienda').hidden,false);
+  assert.equal(a.doc.querySelector('[data-market-tab=tienda]').getAttribute('aria-selected'),'true');
   assert.equal(a.doc.querySelector('[data-tabbar-link=ayudar]').textContent.trim(),'Usar AC');
   assert.equal(a.doc.querySelector('[data-tabbar-link=ayudar]').getAttribute('aria-current'),'true');
   assert.equal(a.doc.querySelector('#causas-title').textContent,'Causas comunitarias');
@@ -30,15 +38,15 @@ test('Usar AC muestra Causas y Tienda; enlace directo a tienda conserva la secci
   assert.equal(a.doc.querySelector('#comida-agua .market-return').getAttribute('href'),'#causas');
  }finally{a.dom.window.close();}
 });
-test('AirTag a 30.000 AC abre su ficha y consulta al perfil correcto sin pedir cobros',async()=>{
- const a=await app();try{
+test('AirTag a 30.000 AC abre su ficha y consulta al perfil correcto y muestra espacio de compra',async()=>{
+ const a=await app('#tienda');try{
   const button=a.doc.querySelector('[data-producto]');button.click();
   const dialog=a.doc.querySelector('[data-tienda-dialog]');assert.equal(dialog.open,true);
   assert.match(dialog.textContent,/AirTag \+ porta AirTag para collar de perro/);
   assert.match(dialog.querySelector('.shop-price').textContent,/30.000 AC/);
   assert.match(dialog.textContent,/Alejandro/);assert.match(dialog.textContent,/collar no incluido/);
   const link=dialog.querySelector('.shop-contact');assert.equal(link.href,'https://core.convergenciaaura.cl/perfil.html?u=amolina007');assert.equal(link.target,'_blank');assert.match(link.rel,/noopener/);
-  assert.deepEqual(a.requests,['data/tienda.json?v=1']);
+  assert.deepEqual(a.requests,['data/tienda.json?v=2']);
   a.doc.querySelector('[data-tienda-cerrar]').click();assert.equal(dialog.open,false);assert.equal(a.doc.activeElement,button);
  }finally{a.dom.window.close();}
 });

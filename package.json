@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "test:patrocinio": "node --test tests/patrocinio-ac*.test.mjs",
-    "test:tienda": "node --test tests/tienda.test.mjs tests/patrocinio-ac-ui.test.mjs"
+    "test:tienda": "node --test tests/tienda*.test.mjs tests/patrocinio-ac-ui.test.mjs"
   },
   "devDependencies": {
     "@electric-sql/pglite": "0.5.11",

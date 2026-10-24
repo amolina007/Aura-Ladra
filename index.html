@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23f2a93b'/%3E%3Cpath d='M20 30c-5-1-7 5-4 8 3 3 7 0 7-3 0-2-1-4-3-5Zm24 0c5-1 7 5 4 8-3 3-7 0-7-3 0-2 1-4 3-5ZM27 21c-4-3-8 2-6 6 2 4 7 2 8-1 1-2 0-4-2-5Zm10 0c4-3 8 2 6 6-2 4-7 2-8-1-1-2 0-4 2-5Zm-5 9c-7 0-13 8-10 14 2 5 8 3 10 1 2 2 8 4 10-1 3-6-3-14-10-14Z' fill='%23102a43'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="css/mobile-refresh.css?v=tienda-4">
+  <link rel="stylesheet" href="css/mobile-refresh.css?v=interruptor-compra-1">
 </head>
 <body>
 <div class="paw-backdrop" aria-hidden="true">
@@ -296,12 +296,12 @@
     <section class="ayudar section use-ac" id="ayudar" data-vista-de="ayudar" data-ayudar aria-labelledby="ayudar-title">
       <div class="shell">
         <div class="use-ac-heading"><div><p class="kicker">Tu comunidad en AC</p><h2 id="ayudar-title">Usar AC</h2><p>Apoya causas comunitarias y encuentra productos de tu comunidad.</p></div><a class="market-wallet" href="https://convergenciaaura.cl/wallet" target="_blank" rel="noopener noreferrer">Mi billetera <span aria-hidden="true">↗</span></a></div>
-        <nav class="market-categories" aria-label="Causas y tienda">
-          <a href="#causas"><span class="market-category-icon" aria-hidden="true">♡</span><span><strong>Causas comunitarias</strong><small>Patrocina y sigue los avances</small></span><span aria-hidden="true">↓</span></a>
-          <a href="#tienda"><span class="market-category-icon" aria-hidden="true">▱</span><span><strong>Tienda</strong><small>Productos publicados por la comunidad</small></span><span aria-hidden="true">↓</span></a>
+        <nav class="market-categories" role="tablist" aria-label="Causas o tienda">
+          <a href="#causas" id="market-tab-causas" role="tab" data-market-tab="causas" aria-controls="causas" aria-selected="true">Causas</a>
+          <a href="#tienda" id="market-tab-tienda" role="tab" data-market-tab="tienda" aria-controls="tienda" aria-selected="false" tabindex="-1">Tienda</a>
         </nav>
         <div class="use-ac-grid" data-ayudar-vista-lista>
-          <section class="use-ac-panel" id="causas" aria-labelledby="causas-title">
+          <section class="use-ac-panel" id="causas" data-market-panel="causas" role="tabpanel" aria-labelledby="market-tab-causas">
             <div class="market-section-heading"><span class="market-eyebrow">Comunidad</span><h3 id="causas-title">Causas comunitarias</h3><p>Apoya proyectos del barrio y sigue sus avances.</p></div>
             <section class="puestos-resumen" data-puestos-resumen aria-labelledby="puestos-resumen-title" hidden></section>
             <details class="market-more-causes"><summary>Más acciones comunitarias</summary>
@@ -324,7 +324,7 @@
           <div class="ayudar-lista" data-ayudar-lista aria-live="polite"></div>
             </details>
           </section>
-          <section class="use-ac-panel" id="tienda" data-tienda aria-labelledby="tienda-title">
+          <section class="use-ac-panel" id="tienda" data-tienda data-market-panel="tienda" role="tabpanel" aria-labelledby="market-tab-tienda" hidden>
             <div class="market-section-heading"><span class="market-eyebrow">Productos y servicios</span><h3 id="tienda-title">Tienda</h3><p>Encuentra publicaciones de personas de Convergencia Aura.</p></div>
             <form class="shop-search" data-tienda-busqueda role="search" aria-label="Buscar en la tienda">
               <label><span class="sr-only">Buscar productos o vendedores</span><input type="search" name="q" placeholder="Busca productos o vendedores" autocomplete="off" maxlength="100"></label>
@@ -903,8 +903,9 @@
 <script src="js/descubrir.js"></script>
 <script src="js/encuentros.js"></script>
 <script src="js/arbol.js"></script>
-<script src="js/vistas.js?v=tienda-2"></script>
-<script src="js/tienda.js?v=2"></script>
+<script src="js/vistas.js?v=interruptor-1"></script>
+<script src="js/tienda-transferencia.js?v=1"></script>
+<script src="js/tienda.js?v=transferencia-1"></script>
 <script defer src="https://core.convergenciaaura.cl/js/aura-hub.js"></script><!-- Menú común de Convergencia Aura: vive en Core (una sola versión para todos los sitios) -->
 <script defer src="https://core.convergenciaaura.cl/js/globo.js" data-margen-movil="76"></script>
 </body>

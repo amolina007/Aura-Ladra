@@ -1,5 +1,5 @@
 // Catálogo inicial de Ladra. Las publicaciones se mantienen en data/tienda.json.
-// Las consultas abren el perfil central del vendedor; este módulo no cobra ni mueve AC.
+// El pago se conecta con la transferencia central mediante js/tienda-transferencia.js.
 (() => {
   'use strict';
   const root = document.querySelector('[data-tienda]');
@@ -15,18 +15,6 @@
   let products = [];
   let loading = false;
   let lastTrigger = null;
-  let initialShopAnchor = window.location.hash === '#tienda';
-  const settleShopAnchor = () => {
-    const causes = document.querySelector('[data-puestos-resumen]');
-    if (!initialShopAnchor || window.location.hash !== '#tienda' || !causes || causes.hidden) return;
-    requestAnimationFrame(() => {
-      if (initialShopAnchor && window.location.hash === '#tienda') root.scrollIntoView({block:'start',behavior:'instant'});
-      initialShopAnchor = false;
-    });
-  };
-  document.addEventListener('puestos:cambio', settleShopAnchor);
-  document.addEventListener('pointerdown', () => { initialShopAnchor = false; }, {once:true,passive:true});
-  document.addEventListener('wheel', () => { initialShopAnchor = false; }, {once:true,passive:true});
 
   const validate = (p) => p && /^[a-z0-9-]+$/.test(p.id) && typeof p.titulo === 'string' && typeof p.descripcion === 'string'
     && Number.isSafeInteger(p.precio_ac) && p.precio_ac > 0 && p.precio_ac <= 1000000000
@@ -49,13 +37,12 @@
     if (loading) return;
     loading = true;
     try {
-      const response = await fetch('data/tienda.json?v=1');
+      const response = await fetch('data/tienda.json?v=2');
       if (!response.ok) throw new Error('Catálogo no disponible');
       const data = await response.json();
       if (!Array.isArray(data.productos) || !data.productos.every(validate)) throw new Error('Publicaciones inválidas');
       products = data.productos;
       render();
-      settleShopAnchor();
     } catch {
       root.querySelector('[data-tienda-cantidad]').textContent = '';
       list.innerHTML = '<div class="shop-load-error" role="status"><p>No pudimos cargar la tienda. Vuelve a intentarlo.</p><button class="shop-primary" type="button" data-tienda-reintentar>Reintentar</button></div>';
@@ -67,8 +54,10 @@
       <div class="shop-detail-body"><span class="shop-project-tag">Relacionado con Ladra</span><h3 id="shop-product-title">${esc(p.titulo)}</h3><p class="shop-price">${fmt.format(p.precio_ac)} <span>AC</span></p>
       <a class="shop-seller" href="${esc(profile(p))}" target="_blank" rel="noopener noreferrer"><span class="shop-avatar" aria-hidden="true">${esc(p.vendedor.nombre.slice(0,1))}</span><span><small>Publicado por</small><strong>${esc(p.vendedor.nombre)}</strong></span><span aria-hidden="true">↗</span></a>
       <p>${esc(p.descripcion)}</p><section class="shop-includes" aria-label="Contenido de la publicación"><h4>Incluye</h4><ul>${p.incluye.map(i => `<li>${esc(i)}</li>`).join('')}</ul></section><p class="shop-delivery">${esc(p.entrega)}</p><p class="shop-tag-note">La etiqueta Ladra indica el proyecto relacionado con esta publicación.</p>
-      <a class="shop-primary shop-contact" href="${esc(profile(p))}" target="_blank" rel="noopener noreferrer">Consultar a ${esc(p.vendedor.nombre)} <span aria-hidden="true">↗</span></a></div>`;
+      <section class="shop-payment" data-compra-ac aria-label="Compra con AC"><p role="status">Consultando transferencia en AC…</p></section>
+      <a class="shop-contact-link shop-contact" href="${esc(profile(p))}" target="_blank" rel="noopener noreferrer">Consultar a ${esc(p.vendedor.nombre)} <span aria-hidden="true">↗</span></a></div>`;
     if (!dialog.open) dialog.showModal();
+    document.dispatchEvent(new CustomEvent('tienda:producto', {detail:{producto:p}}));
   };
   root.addEventListener('click', (e) => {
     const button = e.target.closest('[data-producto]');
@@ -76,7 +65,7 @@
     if (e.target.closest('[data-tienda-reintentar]')) load();
   });
   dialog.addEventListener('click', (e) => { if (e.target === dialog || e.target.closest('[data-tienda-cerrar]')) dialog.close(); });
-  dialog.addEventListener('close', () => { detail.replaceChildren(); lastTrigger?.focus({preventScroll:true}); });
+  dialog.addEventListener('close', () => { document.dispatchEvent(new CustomEvent('tienda:cerrar')); detail.replaceChildren(); if (!root.hidden) lastTrigger?.focus({preventScroll:true}); });
   form.addEventListener('submit', (e) => e.preventDefault());
   form.addEventListener('input', render);
   form.addEventListener('reset', () => setTimeout(render,0));
@@ -86,5 +75,6 @@
     if (causeDetail && !causeDetail.hidden) causeDetail.querySelector('[data-volver]')?.click();
   });
   document.addEventListener('vista:cambio', (e) => { if (e.detail?.vista !== 'ayudar' && dialog.open) dialog.close(); });
+  document.addEventListener('mercado:cambio', (e) => { if (e.detail.panel !== 'tienda' && dialog.open) dialog.close(); });
   load();
 })();

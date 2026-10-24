@@ -228,3 +228,28 @@ body:has(.shop-dialog[open]) { overflow: hidden; }
 }
 
 .market-return { display: inline-flex; align-items: center; min-height: 44px; margin-bottom: 12px; font-weight: 700; text-underline-offset: 4px; }
+/* Interruptor de la sección 4: una sola categoría visible. */
+.market-categories { display: flex; width: min(100%, 360px); gap: 4px; padding: 4px; margin: 0 0 24px; border-radius: 999px; background: #e8eee7; }
+.market-categories a, .market-categories a:first-child { display: flex; flex: 1; justify-content: center; align-items: center; min-height: 38px; padding: 6px 18px; border: 0; border-radius: 999px; color: #063d24; background: transparent; font: 800 .92rem/1.3 'Nunito',sans-serif; }
+.market-categories a[aria-selected="true"] { background: #063d24; color: #fff; box-shadow: 0 2px 6px rgba(6,61,36,.1); }
+.use-ac-grid { display: block; }
+.use-ac-panel[hidden], .use-ac-grid[hidden] { display: none; }
+.use-ac[data-market-view="tienda"] .ayudar-personal { display: none; }
+.shop-grid { grid-template-columns: repeat(auto-fill,minmax(min(100%,280px),1fr)); }
+.shop-payment { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--line); }
+.shop-payment h4 { margin: 0 0 12px; }
+.shop-payment label { display: grid; gap: 6px; font-weight: 700; font-size: .9rem; }
+.shop-payment select { width: 100%; min-height: 46px; margin-bottom: 12px; border: 1px solid var(--line); border-radius: 10px; padding: 10px; background: #fff; color: var(--ink); font: inherit; }
+.shop-payment .shop-primary { margin-top: 12px; }
+.shop-payment .shop-payment-secondary { display: block; width: 100%; min-height: 44px; margin-top: 8px; border: 1px solid var(--line); border-radius: 10px; padding: 10px; background: #fff; color: #063d24; font: inherit; font-weight: 700; cursor: pointer; }
+.shop-payment button:disabled { opacity: .55; cursor: not-allowed; }
+.shop-payment [role="status"]:empty { display: none; }
+.shop-payment .shop-payment-summary { padding: 14px; border-radius: 12px; background: #f2f3ec; }
+.shop-payment-summary { margin: 0; }
+.shop-payment-summary div { display: flex; gap: 12px; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--line); }
+.shop-payment-summary div:last-child { border: 0; }
+.shop-payment-summary dd { margin: 0; max-width: 65%; text-align: right; font-weight: 700; overflow-wrap: anywhere; }
+.shop-payment .shop-payment-note { font-size: .82rem; color: var(--muted); }
+.shop-payment .shop-receipt { overflow-wrap: anywhere; padding: 14px; border-radius: 12px; background: #e8f2e7; }
+.shop-contact-link { display: block; margin: 16px 0 0; text-align: center; color: #063d24; font-weight: 700; text-underline-offset: 4px; }
+@media (max-width:760px) { .market-categories { width: 100%; max-width: 360px; } }

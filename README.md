@@ -310,4 +310,4 @@ La migración `20261024194611_patrocinio_ac_campanas.sql` se aplicó al proyecto
 
 ## Usar AC → Causas comunitarias y Tienda
 
-La sección 4 muestra causas y tienda, con accesos `#causas` y `#tienda`. El catálogo inicial incluye la publicación de Alejandro: AirTag + porta AirTag para collar a 30.000 AC, etiquetada con Ladra. La consulta abre su perfil central; las compras de productos todavía se coordinan con el vendedor, sin cobro de AC desde esta ficha. Detalles y pruebas: [docs/TIENDA.md](docs/TIENDA.md).
+La sección 4 alterna causas y tienda con un interruptor compacto y accesos `#causas` y `#tienda`. El catálogo inicial incluye la publicación de Alejandro: AirTag + porta AirTag para collar a 30.000 AC, etiquetada con Ladra. La ficha permite transferir AC al vendedor tras revisar monto y destinatario, con la opción «Entrega acordada con el comprador». Los reintentos conservan la clave para evitar duplicados. Detalles y pruebas: [docs/TIENDA.md](docs/TIENDA.md).
