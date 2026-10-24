@@ -379,3 +379,14 @@ body:has(.shop-dialog[open]) { overflow: hidden; }
   .market-more-causes .ayd-dash, .funding-filters { margin-left: 16px; margin-right: 16px; }
   .funding-card { padding: 16px; }
 }
+.shop-storefront { margin: 0 0 18px; padding: 16px; border: 1px solid var(--line); border-radius: 16px; background: #edf2e9; }
+.shop-storefront[hidden] { display: none; }
+.shop-storefront-top { display: flex; align-items: center; gap: 12px; }
+.shop-storefront h4 { margin: 0 0 5px; font: 800 1.05rem 'Nunito',sans-serif; }
+.shop-storefront a { font-size: .76rem; text-underline-offset: 3px; }
+.shop-storefront-delivery { margin: 12px 0 0; padding-top: 12px; border-top: 1px solid var(--line); font-size: .8rem; line-height: 1.5; }
+.shop-card-labels { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+.shop-stock { display: inline-flex; padding: 4px 8px; border-radius: 6px; background: #f2efe3; color: #6a582d; font-size: .7rem; font-weight: 700; }
+.shop-stock.is-empty { background: #eee; color: #626262; }
+.shop-card-image.is-catalog, .shop-detail-photo.is-catalog { background: #fff; }
+.shop-card-image.is-catalog img, .shop-detail-photo.is-catalog img { object-fit: contain; background: #fff; }

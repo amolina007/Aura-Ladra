@@ -46,17 +46,27 @@ test('AirTag a 30.000 AC abre su ficha y consulta al perfil correcto y muestra e
   assert.match(dialog.querySelector('.shop-price').textContent,/30.000 AC/);
   assert.match(dialog.textContent,/Alejandro/);assert.match(dialog.textContent,/collar no incluido/);
   const link=dialog.querySelector('.shop-contact');assert.equal(link.href,'https://core.convergenciaaura.cl/perfil.html?u=amolina007');assert.equal(link.target,'_blank');assert.match(link.rel,/noopener/);
-  assert.deepEqual(a.requests,['data/tienda.json?v=2']);
+  assert.deepEqual(a.requests,['data/tienda.json?v=snacks-2']);
   a.doc.querySelector('[data-tienda-cerrar]').click();assert.equal(dialog.open,false);assert.equal(a.doc.activeElement,button);
  }finally{a.dom.window.close();}
 });
 test('Búsqueda por vendedor y producto; estado vacío, limpiar y reintento de carga',async()=>{
  const a=await app('#ayudar',true);try{
   assert.match(a.doc.querySelector('[data-tienda-lista]').textContent,/No pudimos cargar/);
-  a.doc.querySelector('[data-tienda-reintentar]').click();await flush();assert.equal(a.doc.querySelectorAll('.shop-card').length,1);
+  a.doc.querySelector('[data-tienda-reintentar]').click();await flush();assert.equal(a.doc.querySelectorAll('.shop-card').length,3);
   const input=a.doc.querySelector('[data-tienda-busqueda] input');
-  for(const query of ['ALEJANDRO','AirTag']){input.value=query;input.dispatchEvent(new a.w.Event('input',{bubbles:true}));assert.equal(a.doc.querySelectorAll('.shop-card').length,1);}
+  for(const query of ['ALEJANDRO','AirTag']){input.value=query;input.dispatchEvent(new a.w.Event('input',{bubbles:true}));assert.equal(a.doc.querySelectorAll('.shop-card').length,query==='ALEJANDRO'?3:1);}
   input.value='inexistente';input.dispatchEvent(new a.w.Event('input',{bubbles:true}));assert.equal(a.doc.querySelectorAll('.shop-card').length,0);assert.match(a.doc.querySelector('[data-tienda-lista]').textContent,/No encontramos/);
-  a.doc.querySelector('[data-tienda-busqueda]').reset();await flush();assert.equal(a.doc.querySelectorAll('.shop-card').length,1);
+  a.doc.querySelector('[data-tienda-busqueda]').reset();await flush();assert.equal(a.doc.querySelectorAll('.shop-card').length,3);
  }finally{a.dom.window.close();}
+});
+
+test('Tienda de Alejandro muestra 5 paquetes de cada snack, precios AC y despacho',async()=>{
+ const a=await app('#tienda');try{
+ const seller=a.doc.querySelector('[data-tienda-vendedor]');assert.match(seller.textContent,/Tienda de Alejandro/);assert.match(seller.textContent,/sobre 20.000 AC/);
+ for(const [id,amount] of [['dentastix-alejandro','3.150'],['rodeo-alejandro','1.290']]){
+  a.doc.querySelector(`[data-producto="${id}"]`).click();const dialog=a.doc.querySelector('[data-tienda-dialog]');
+  assert.match(dialog.textContent,/5 paquetes disponibles/);assert.ok(dialog.querySelector('.shop-price').textContent.includes(amount));assert.match(dialog.textContent,/Maipú/);assert.match(dialog.textContent,/20.000 AC/);a.doc.querySelector('[data-tienda-cerrar]').click();
+ }
+ }finally{a.w.close();}
 });

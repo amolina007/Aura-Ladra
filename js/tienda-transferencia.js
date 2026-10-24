@@ -6,6 +6,8 @@
   const esc = v => String(v ?? '').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;');
   const wallet = '<a href="https://convergenciaaura.cl/wallet" target="_blank" rel="noopener noreferrer">Abrir mi billetera ↗</a>';
   let active;
+  const deliveries = p => Array.isArray(p.opciones_entrega) && p.opciones_entrega.length ? p.opciones_entrega : [{id:'acordada',texto:'Entrega acordada con el comprador'}];
+  const deliveryText = s => s.delivery?.texto || 'Entrega acordada con el comprador';
   const read = key => { try { return JSON.parse(sessionStorage.getItem(key)); } catch { return null; } };
   const save = (key, value) => { sessionStorage.setItem(key, JSON.stringify(value)); };
   const rpc = async (name, args) => { const r = await db.schema('public').rpc(name,args); if(r.error) throw r.error; return r.data; };
@@ -14,15 +16,15 @@
     if (!live(s)) return;
     const p = s.product;
     let html = '';
-    if (s.receipt) html = `<h4>Transferencia realizada</h4><p>Transferiste ${fmt.format(s.receipt.amount)} AC a ${esc(s.receipt.seller)}.</p><p>Entrega acordada con el comprador.</p><p class="shop-payment-note">Coordinen los detalles de la entrega.</p><small class="shop-receipt">Operación: ${esc(s.receipt.id)}</small>`;
+    if (s.receipt) html = `<h4>Transferencia realizada</h4><p>Transferiste ${fmt.format(s.receipt.amount)} AC a ${esc(s.receipt.seller)}.</p><p>${esc(s.receipt.delivery || 'Entrega acordada con el comprador')}</p><p class="shop-payment-note">Coordinen los detalles de la entrega.</p><small class="shop-receipt">Operación: ${esc(s.receipt.id)}</small>`;
     else if (s.loading) html = '<p role="status">Consultando tu billetera…</p>';
     else if (!s.user) html = '<h4>Comprar con AC</h4><p>Inicia sesión para transferir AC.</p><a href="#cuenta" data-compra-login>Iniciar sesión</a>';
     else if (s.block) html = `<p role="status">${esc(s.block)}</p>${wallet}`;
     else {
       const review = s.stage === 'review' || s.intent;
       html = `<h4>${review ? 'Revisar transferencia' : 'Comprar con AC'}</h4><p>Disponible: <strong>${fmt.format(s.balance)} AC</strong></p>`;
-      if (review) html += `<dl class="shop-payment-summary"><div><dt>Destinatario</dt><dd>${esc(p.vendedor.nombre)} · @${esc(p.vendedor.alias_core)}</dd></div><div><dt>Producto</dt><dd>${esc(p.titulo)}</dd></div><div><dt>Monto</dt><dd>${fmt.format(p.precio_ac)} AC</dd></div><div><dt>Entrega</dt><dd>Entrega acordada con el comprador</dd></div></dl><p class="shop-payment-note">Los AC se transfieren de inmediato a ${esc(p.vendedor.nombre)}. Coordinen los detalles de la entrega.</p>`;
-      else html += '<label for="shop-delivery-choice">Entrega</label><select id="shop-delivery-choice" data-compra-entrega required><option value="">Selecciona la entrega</option><option value="acordada">Entrega acordada con el comprador</option></select>';
+      if (review) html += `<dl class="shop-payment-summary"><div><dt>Destinatario</dt><dd>${esc(p.vendedor.nombre)} · @${esc(p.vendedor.alias_core)}</dd></div><div><dt>Producto</dt><dd>${esc(p.titulo)}</dd></div><div><dt>Monto</dt><dd>${fmt.format(p.precio_ac)} AC</dd></div><div><dt>Entrega</dt><dd>${esc(deliveryText(s))}</dd></div></dl><p class="shop-payment-note">Los AC se transfieren de inmediato a ${esc(p.vendedor.nombre)}. Coordinen los detalles de la entrega.</p>`;
+      else html += `<label for="shop-delivery-choice">Entrega</label><select id="shop-delivery-choice" data-compra-entrega required><option value="">Selecciona la entrega</option>${deliveries(p).map(d => `<option value="${esc(d.id)}">${esc(d.texto)}</option>`).join('')}</select>`;
       if (s.error) html += `<p role="alert">${esc(s.error)}</p>`;
       html += `<button class="shop-primary" type="button" data-compra-${review?'confirmar':'revisar'} ${s.busy?'disabled':''}>${s.busy?'Procesando…':review?(s.intent?'Reintentar la misma transferencia':`Confirmar transferencia de ${fmt.format(p.precio_ac)} AC`):'Revisar transferencia'}</button>`;
       if (review && !s.intent && !s.busy) html += '<button class="shop-payment-secondary" type="button" data-compra-volver>Volver</button>';
@@ -33,6 +35,9 @@
     const box = document.querySelector('[data-compra-ac]');
     if (!box) return;
     const s = active = {product,box,loading:true,stage:'choose'};
+    if(product.stock === 0 || !Number.isSafeInteger(product.precio_ac) || product.precio_ac <= 0) {
+      s.loading=false; s.user={}; s.block='Este producto no está disponible para transferir AC.'; render(s); return;
+    }
     render(s);
     try {
       if (!db) { s.loading=false; render(s); return; }
@@ -48,6 +53,7 @@
       s.balance = Number(balance.disponible);
       if (stored?.intent) {
         s.intent=stored.intent;
+        s.delivery=stored.delivery || deliveries(product).find(d => d.id === 'acordada');
         if(s.intent.p_monedas!==product.precio_ac || s.intent.p_destino_alias!==product.vendedor.alias_core) s.block='Hay una transferencia pendiente de comprobar. Revisa tu billetera antes de realizar otra compra.';
       }
       if(String(alias).toLowerCase()===product.vendedor.alias_core.toLowerCase()) s.block='Esta publicación es tuya.';
@@ -65,13 +71,13 @@
       if(error) throw error;
       if(data.session?.user.id!==s.user.id) { if(live(s)) start(s.product); return; }
       if (!s.intent) {
-        s.intent={p_destino_alias:s.product.vendedor.alias_core,p_monedas:s.product.precio_ac,p_motivo:`Compra: ${s.product.titulo}`,p_clave:`ladra-tienda:${crypto.randomUUID()}`,p_precio_clp:null,p_referencia:`ladra:tienda:${s.product.id};entrega=acordada_con_comprador`};
+        s.intent={p_destino_alias:s.product.vendedor.alias_core,p_monedas:s.product.precio_ac,p_motivo:`Compra: ${s.product.titulo}`,p_clave:`ladra-tienda:${crypto.randomUUID()}`,p_precio_clp:null,p_referencia:`ladra:tienda:${s.product.id};entrega=${s.delivery?.id === 'domicilio_maipu' ? 'domicilio_maipu' : 'acordada_con_comprador'}`};
       }
       // No se envía dinero si el navegador no puede conservar la clave de reintento.
-      save(s.key,{intent:s.intent});
+      save(s.key,{intent:s.intent,delivery:s.delivery});
       const result = await rpc('fn_ac_transferir',s.intent);
       if(!/^[0-9a-f]{8}-[0-9a-f-]{27}$/i.test(result?.operacion_id || '')) throw new Error('Respuesta sin comprobante');
-      s.receipt={id:result.operacion_id,amount:s.intent.p_monedas,seller:s.product.vendedor.nombre};
+      s.receipt={id:result.operacion_id,amount:s.intent.p_monedas,seller:s.product.vendedor.nombre,delivery:deliveryText(s)};
       save(s.key,{receipt:s.receipt});
       document.dispatchEvent(new CustomEvent('aura:wallet-cambio'));
     } catch(error) {
@@ -90,6 +96,8 @@
     if(e.target.closest('[data-compra-revisar]')) {
       const select=s.box.querySelector('[data-compra-entrega]');
       if(!select?.value) { select?.reportValidity(); return; }
+      s.delivery=deliveries(s.product).find(d => d.id === select.value);
+      if(!s.delivery) return;
       s.stage='review'; render(s);
     }
     if(e.target.closest('[data-compra-volver]')) { s.stage='choose'; s.error=''; render(s); }

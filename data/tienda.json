@@ -7,7 +7,8 @@
       "precio_ac": 30000,
       "vendedor": {
         "nombre": "Alejandro",
-        "alias_core": "amolina007"
+        "alias_core": "amolina007",
+        "entregas": "Entregas a domicilio en Maipú. Despacho gratis en compras sobre 20.000 AC ($20.000 CLP). Por ahora, 1 AC = $1 CLP."
       },
       "proyectos": [
         "ladra"
@@ -26,6 +27,72 @@
           "texto": "Entrega acordada con el comprador"
         }
       ]
+    },
+    {
+      "id": "dentastix-alejandro",
+      "titulo": "Pedigree Dentastix · razas grandes · 7 unidades",
+      "descripcion": "Paquete de Dentastix para perros adultos de razas grandes. Contiene 7 barritas (270 g).",
+      "precio_ac": 3150,
+      "stock": 5,
+      "vendedor": {
+        "nombre": "Alejandro",
+        "alias_core": "amolina007",
+        "entregas": "Entregas a domicilio en Maipú. Despacho gratis en compras sobre 20.000 AC ($20.000 CLP). Por ahora, 1 AC = $1 CLP."
+      },
+      "proyectos": [
+        "ladra"
+      ],
+      "imagen": "assets/dentastix-alejandro.jpg",
+      "imagen_alt": "Imagen de catálogo de Pedigree Dentastix · razas grandes · 7 unidades",
+      "nota_imagen": "Imagen de catálogo referencial; el envase puede variar.",
+      "incluye": [
+        "1 paquete de Dentastix razas grandes, 7 unidades (270 g)"
+      ],
+      "entrega": "Entregas a domicilio en Maipú. Gratis en compras sobre 20.000 AC ($20.000 CLP). Bajo ese monto, costo de despacho a coordinar con Alejandro.",
+      "opciones_entrega": [
+        {
+          "id": "acordada",
+          "texto": "Entrega acordada con el comprador"
+        },
+        {
+          "id": "domicilio_maipu",
+          "texto": "A domicilio en Maipú · despacho a coordinar"
+        }
+      ],
+      "imagen_tipo": "catalogo"
+    },
+    {
+      "id": "rodeo-alejandro",
+      "titulo": "Pedigree Rodeo pollo · 4 unidades",
+      "descripcion": "Bolsa de snacks Rodeo sabor pollo para perros adultos. Contiene 4 barritas (70 g en total).",
+      "precio_ac": 1290,
+      "stock": 5,
+      "vendedor": {
+        "nombre": "Alejandro",
+        "alias_core": "amolina007",
+        "entregas": "Entregas a domicilio en Maipú. Despacho gratis en compras sobre 20.000 AC ($20.000 CLP). Por ahora, 1 AC = $1 CLP."
+      },
+      "proyectos": [
+        "ladra"
+      ],
+      "imagen": "assets/rodeo-alejandro.jpg",
+      "imagen_alt": "Imagen de catálogo de Pedigree Rodeo pollo · 4 unidades",
+      "nota_imagen": "Imagen de catálogo referencial; el envase puede variar.",
+      "incluye": [
+        "1 paquete de Rodeo pollo, 4 unidades (70 g)"
+      ],
+      "entrega": "Entregas a domicilio en Maipú. Gratis en compras sobre 20.000 AC ($20.000 CLP). Bajo ese monto, costo de despacho a coordinar con Alejandro.",
+      "opciones_entrega": [
+        {
+          "id": "acordada",
+          "texto": "Entrega acordada con el comprador"
+        },
+        {
+          "id": "domicilio_maipu",
+          "texto": "A domicilio en Maipú · despacho a coordinar"
+        }
+      ],
+      "imagen_tipo": "catalogo"
     }
   ]
 }

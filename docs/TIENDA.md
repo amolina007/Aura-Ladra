@@ -6,9 +6,17 @@ Las causas siguen usando sus funciones y el patrocinio AC existentes. Las accion
 
 La ficha permite transferir AC al vendedor con la función existente de la billetera central. Exige sesión, términos aceptados, saldo suficiente, elegir «Entrega acordada con el comprador» y confirmar monto y destinatario. La transferencia es inmediata; los detalles de entrega se coordinan entre las partes. No crea órdenes ni certifica la entrega. Conserva la clave de la operación en sessionStorage para que los reintentos no dupliquen el movimiento y muestra el comprobante al terminar.
 
-No se añadieron tablas ni migraciones. La edición del marketplace personal en Convergencia queda pendiente.
+No se añadieron tablas ni migraciones. La tienda de Alejandro en Ladra se abre con `?vendedor=amolina007#tienda` y enlaza a su perfil central. La edición del marketplace personal dentro de Convergencia queda pendiente.
 
-La imagen del producto es ilustrativa y se rotula de esa forma; el collar de contexto no está incluido en la publicación. No se supone stock, estado nuevo/usado, garantía ni lugar de entrega.
+La imagen del producto es ilustrativa y se rotula de esa forma; el collar de contexto no está incluido en la publicación. Para el AirTag no se supone stock, estado nuevo/usado ni garantía.
+
+## Snacks de Alejandro
+
+Por indicación de Alejandro se publican **5 paquetes de Dentastix razas grandes de 7 unidades (270 g), a 3.150 AC cada uno**, y **5 paquetes de Rodeo pollo de 4 unidades (70 g), a 1.290 AC cada uno**. La referencia comercial acordada para estas publicaciones es temporal: **1 AC = $1 CLP**; no cambia la configuración de la billetera central.
+
+Entregas a domicilio en Maipú, con despacho gratis en compras **sobre 20.000 AC ($20.000 CLP)**. Bajo ese monto, el costo se coordina con el vendedor. Las fichas permiten elegir entrega acordada o domicilio en Maipú; guardan la elección en la referencia de la transferencia. No hay carrito ni cálculo automático de despacho combinado.
+
+El stock es declarado y se actualiza manualmente en `data/tienda.json`; no representa un sistema de reservas ni se descuenta automáticamente con las transferencias. Un producto con stock cero muestra «Agotado» y no habilita la transferencia. Las imágenes de los snacks son de catálogo, no fotografías del stock de Alejandro. Procedencia: [Dentastix en Jumbo](https://www.jumbo.cl/snack-perro-adulto-pedigree-dentastix-razas-grandes-7-un-1581826/p), [Rodeo pollo en Jumbo](https://www.jumbo.cl/snack-perro-adulto-pedigree-rodeo-pollo-4-un-1886112/p). Archivos de catálogo VTEX `349489` y `374350`, consultados el 24-10-2026.
 
 ## Verificación
 

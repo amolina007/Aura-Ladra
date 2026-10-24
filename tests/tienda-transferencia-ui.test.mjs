@@ -13,7 +13,7 @@ async function app(options={}){
  return {data:name==='fn_ac_mi_saldo'?{disponible:options.balance??60000,operaciones_habilitadas:true}:name==='fn_ac_mi_alias'?(options.self?'amolina007':'comprador'):{requerida:true,aceptada:!options.termsPending}};
  }}}};
  w.eval(source);
- const open=async()=>{w.document.dispatchEvent(new w.CustomEvent('tienda:producto',{detail:{producto:product}}));await flush();};
+ const open=async()=>{w.document.dispatchEvent(new w.CustomEvent('tienda:producto',{detail:{producto:options.product || product}}));await flush();};
  await open();
  const click=selector=>{const e=w.document.querySelector(selector);assert.ok(e,selector);e.click();};
  const review=()=>{w.document.querySelector('select').value='acordada';click('[data-compra-revisar]');};
@@ -38,4 +38,13 @@ test('Sesión, saldo, términos y publicación propia impiden transferir',async(
 });
 test('Cambiar de cuenta descarta la revisión anterior',async()=>{
  const a=await app();try{a.review();await a.change();assert.equal(a.w.document.querySelector('[data-compra-confirmar]'),null);assert.equal(a.calls.length,0);}finally{a.dom.window.close();}
+});
+
+test('Compra de Dentastix conserva entrega a domicilio al reintentar',async()=>{
+ const catalog=JSON.parse(await readFile(new URL('../data/tienda.json',import.meta.url),'utf8'));
+ const a=await app({lost:true,product:catalog.productos.find(p=>p.id==='dentastix-alejandro')});try{
+ a.w.document.querySelector('select').value='domicilio_maipu';a.click('[data-compra-revisar]');assert.match(a.text(),/A domicilio en Maipú/);
+ a.click('[data-compra-confirmar]');await flush();await a.open();assert.match(a.text(),/A domicilio en Maipú/);a.click('[data-compra-confirmar]');await flush();
+ assert.deepEqual(a.calls[0],a.calls[1]);assert.equal(a.calls[0].p_monedas,3150);assert.match(a.calls[0].p_referencia,/entrega=domicilio_maipu/);assert.match(a.text(),/A domicilio en Maipú/);
+ }finally{a.w.close();}
 });
