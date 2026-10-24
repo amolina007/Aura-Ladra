@@ -172,23 +172,18 @@
   };
   const tarjeta = (p) => {
     const pct = porcentaje(p);
-    const progreso = p.aviso ? '' : `
-      <div>
-        <div class="progreso" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100" aria-label="Patrocinio del mes"><span data-ancho="${pct}"></span></div>
-        <p class="progreso-texto"><span><strong>${clp.format(p.recaudado_clp)}</strong> de ${clp.format(p.meta_clp)} este mes</span><span>${pct}%</span></p>
-      </div>
-      <p>${p.cuidadores.length ? `${p.cuidadores.length} ${p.cuidadores.length === 1 ? 'persona lo cuida' : 'personas lo cuidan'}` : 'Aún nadie lo cuida en persona'} · Última reposición: ${esc(fecha(p.ultima_reposicion))}</p>`;
-    return `<article class="accion-card">
-      <div class="accion-meta">${chip(`${ICONOS[p.tipo]} ${TIPOS[p.tipo]}`)}${chip(ESTADOS[p.estado], p.estado === 'necesita_ayuda' ? 'is-ambar' : '')}${p.ejemplo ? chip('Ejemplo', 'is-sim') : ''}${p.es_mio ? chip('Tuya') : ''}</div>
-      <h3>${esc(p.nombre)}</h3>
-      <p>${esc(p.direccion_publica)}</p>
-      ${p.ficha?.campana ? `<p><strong>🪙 Meta: ${nAC.format(p.ficha.meta_ac)} AC</strong>${p.ficha.dias_restantes == null ? '' : ` · ${p.ficha.dias_restantes === 0 ? 'último día' : `quedan ${p.ficha.dias_restantes} ${p.ficha.dias_restantes === 1 ? 'día' : 'días'}`} para juntarla`}</p>` : p.ficha ? `<p><strong>🪙 ${nAC.format(p.ficha.costo_mensual_ac)} AC al mes</strong> para sostenerlo</p>` : ''}${progreso}
-      ${p.ac?.habilitado ? `<p><strong>${nAC.format(p.ac.recaudado_ac)} AC</strong> patrocinadas · ${pct}% de la meta</p>` : ''}
-      ${p.aviso ? filaSocialTarjeta(p) : ''}
-      <div class="mini-acciones">
-        <button class="button-verde" type="button" data-puesto-abrir="${esc(p.id)}">${p.ficha?.campana ? 'Ver campaña y patrocinar' : p.aviso ? 'Ver propuesta' : 'Ayudar'}</button>
-        ${tieneUbicacion(p) ? `<button class="button-borde" type="button" data-puesto-mapa="${esc(p.id)}">Ver en el mapa</button>` : ''}
-      </div>
+    const campana = p.ficha?.campana;
+    const dias = p.ficha?.dias_restantes;
+    const progreso = campana ? (p.ac?.habilitado ? `
+      <div class="cause-funding"><p><strong>${nAC.format(p.ac.recaudado_ac)} <small>AC</small></strong><span>de ${nAC.format(p.ficha.meta_ac)} AC</span></p>
+      <div class="progreso" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100" aria-label="Avance de ${esc(p.nombre)}"><span data-ancho="${pct}"></span></div>
+      <div class="cause-progress-caption"><span>${pct}% de la meta</span><span>${p.estado === 'campana' && dias != null ? (dias === 0 ? 'Último día' : `${dias} días restantes`) : esc(ESTADOS[p.estado] || p.estado)}</span></div></div>` : `<p class="cause-pending">Meta: <strong>${nAC.format(p.ficha.meta_ac)} AC</strong> · Avance por consultar</p>`) : (!p.aviso ? `
+      <div class="cause-funding"><p><strong>${clp.format(p.recaudado_clp)}</strong><span>de ${clp.format(p.meta_clp)} este mes</span></p><div class="progreso" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100" aria-label="Patrocinio del mes"><span data-ancho="${pct}"></span></div></div>` : `<p class="cause-pending">${nAC.format(p.ficha?.costo_mensual_ac || 0)} AC al mes solicitadas</p>`);
+    return `<article class="cause-card">
+      <div class="cause-card-top"><span class="cause-icon" aria-hidden="true">${ICONOS[p.tipo]}</span><span class="cause-status">${esc(ESTADOS[p.estado] || p.estado)}</span>${p.ejemplo ? chip('Demo', 'is-sim') : ''}</div>
+      <h4>${esc(p.nombre)}</h4><p class="cause-location">${esc(p.comuna || p.direccion_publica)}</p>
+      ${progreso}
+      <button class="button-verde cause-open" type="button" data-puesto-abrir="${esc(p.id)}">${campana && p.estado === 'campana' ? 'Ver campaña y patrocinar' : p.aviso ? 'Ver causa' : 'Ver cómo ayudar'} <span aria-hidden="true">→</span></button>
     </article>`;
   };
 
@@ -232,19 +227,21 @@
   // ---------- Resumen dentro de Ayudar ----------
   const renderResumen = () => {
     if (!resumen) return;
-    const necesitan = datos().puestos.filter((p) => p.estado === 'necesita_ayuda');
-    const otros = datos().puestos.filter((p) => p.estado !== 'necesita_ayuda');
-    const mostrar = [...necesitan, ...otros].slice(0, 3);
+    const puestos = datos().puestos;
+    const abiertas = puestos.filter(p => p.estado === 'campana' || p.estado === 'necesita_ayuda');
+    const mostrar = [...abiertas, ...puestos.filter(p => !abiertas.includes(p))].slice(0, 3);
     resumen.hidden = !mostrar.length;
     if (!mostrar.length) return;
+    const campanas = puestos.filter(p => p.ficha?.campana);
+    const saldoConocido = campanas.length && campanas.every(p => p.ac?.habilitado);
+    const total = campanas.reduce((sum,p) => sum + Number(p.ac?.recaudado_ac || 0), 0);
     resumen.innerHTML = `
-      <div class="section-heading">
-        <p class="kicker">Comida y agua</p>
-        <h3 id="puestos-resumen-title">Puestos de agua y alimento</h3>
-        <p>${necesitan.length ? `${necesitan.length} ${necesitan.length === 1 ? 'puesto necesita' : 'puestos necesitan'} ayuda ahora. ` : ''}${modo === 'servidor' ? 'Son propuestas de la comunidad, revisadas por moderación.' : 'Puedes patrocinarlos o ayudar a mantenerlos en persona.'}</p>
+      <div class="cause-overview" aria-label="Resumen de causas">
+        <div><strong>${abiertas.length}</strong><span>${abiertas.length === 1 ? 'Causa abierta' : 'Causas abiertas'}</span></div>
+        <div><strong>${saldoConocido ? nAC.format(total) + ' <small>AC</small>' : '—'}</strong><span>${saldoConocido ? 'Patrocinadas' : 'Avance en AC por consultar'}</span></div>
       </div>
-      <div class="ayudar-lista">${mostrar.map(tarjeta).join('')}</div>
-      <p><a class="button-borde" href="#comida-agua">Ver todos los puestos →</a></p>`;
+      <div class="cause-list-heading"><h3 id="puestos-resumen-title">${abiertas.length ? 'Para apoyar hoy' : 'Explora las causas'}</h3><a href="#comida-agua">Ver todas <span aria-hidden="true">↗</span></a></div>
+      <div class="cause-grid">${mostrar.map(tarjeta).join('')}</div>`;
     aplicarAnchos(resumen);
   };
 

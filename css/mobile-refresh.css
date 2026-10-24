@@ -253,3 +253,72 @@ body:has(.shop-dialog[open]) { overflow: hidden; }
 .shop-payment .shop-receipt { overflow-wrap: anywhere; padding: 14px; border-radius: 12px; background: #e8f2e7; }
 .shop-contact-link { display: block; margin: 16px 0 0; text-align: center; color: #063d24; font-weight: 700; text-underline-offset: 4px; }
 @media (max-width:760px) { .market-categories { width: 100%; max-width: 360px; } }
+/* Dashboard de causas: resumen breve y una jerarquía clara por campaña. */
+.use-ac-panel .puestos-resumen { padding: 0; border: 0; background: transparent; }
+.cause-overview { display: grid; grid-template-columns: 1fr 1fr; padding: 18px 0; margin-bottom: 22px; border: 1px solid var(--line); border-radius: 16px; background: #edf2e9; }
+.cause-overview > div { display: flex; flex-direction: column; gap: 3px; padding: 0 18px; }
+.cause-overview > div + div { border-left: 1px solid var(--line); }
+.cause-overview strong { font: 800 1.75rem/1.15 'Nunito',sans-serif; color: #063d24; overflow-wrap: anywhere; }
+.cause-overview strong small { font-size: .85rem; }
+.cause-overview span { color: var(--muted); font-size: .8rem; }
+.cause-list-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+.cause-list-heading h3 { margin: 0; font: 800 1.1rem 'Nunito',sans-serif; }
+.cause-list-heading a { display: inline-flex; align-items: center; min-height: 36px; font-size: .8rem; font-weight: 800; white-space: nowrap; text-underline-offset: 3px; }
+.cause-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,290px),1fr)); gap: 16px; }
+.cause-card { display: flex; flex-direction: column; min-width: 0; padding: 20px; background: #fff; border: 1px solid var(--line); border-radius: 18px; box-shadow: 0 4px 16px rgba(6,61,36,.035); }
+.cause-card-top { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+.cause-icon { display: grid; place-items: center; flex: none; width: 38px; height: 38px; border-radius: 12px; background: #eff3eb; font-size: 1rem; }
+.cause-status { margin-left: auto; color: #476749; background: #edf4e9; padding: 5px 9px; border-radius: 8px; font-size: .69rem; font-weight: 800; }
+.cause-card h4 { margin: 0 0 4px; font: 800 1.25rem/1.25 'Nunito',sans-serif; letter-spacing: -.02em; overflow-wrap: anywhere; }
+.cause-card .cause-location { margin: 0 0 18px; color: var(--muted); font-size: .8rem; }
+.cause-funding { margin-top: auto; }
+.cause-funding > p { display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px; margin: 0 0 10px; }
+.cause-funding strong { font: 800 1.6rem 'Nunito',sans-serif; }
+.cause-funding strong small { font-size: .95rem; }
+.cause-funding p > span, .cause-progress-caption, .cause-pending { font-size: .78rem; color: var(--muted); }
+.cause-funding .progreso { height: 7px; border-radius: 99px; background: #e9eee5; }
+.cause-funding .progreso > span { background: #26774d; }
+.cause-progress-caption { display: flex; justify-content: space-between; gap: 8px; margin: 8px 0 16px; }
+.cause-card .cause-open { display: flex; align-items: center; justify-content: space-between; width: 100%; min-height: 46px; margin-top: 6px; padding: 11px 14px; border-radius: 11px; font-size: .85rem; }
+@media (max-width:760px) {
+  .use-ac { padding-top: 18px; }
+  .use-ac-heading { align-items: center; margin-bottom: 18px; gap: 12px; }
+  .use-ac-heading h2 { margin-bottom: 5px; font-size: 1.75rem; }
+  .use-ac-heading p { max-width: 190px; font-size: .78rem; line-height: 1.4; }
+  .use-ac-heading .market-wallet { font-size: .73rem; padding: 9px 11px; min-height: 38px; }
+  .market-categories { margin-bottom: 22px; }
+  .cause-heading { margin-bottom: 14px; }
+  .cause-heading h3 { font-size: 1.25rem; }
+  .cause-heading p { font-size: .8rem; }
+  .cause-overview { padding: 14px 0; margin-bottom: 18px; }
+  .cause-overview strong { font-size: 1.55rem; }
+  .cause-card { padding: 16px; }
+  .market-more-causes { margin-top: 18px; }
+}
+
+@media (max-width:760px) {
+  .cause-heading { margin-bottom: 12px; }
+  .cause-heading p { display: none; }
+  .cause-overview { padding: 12px 0; margin-bottom: 12px; }
+  .cause-overview strong { font-size: 1.4rem; }
+  .cause-overview span { font-size: .75rem; }
+  .cause-list-heading { margin-bottom: 8px; }
+  .cause-card-top { margin-bottom: 10px; }
+  .cause-icon { width: 32px; height: 32px; }
+  .cause-card h4 { font-size: 1.15rem; }
+  .cause-card .cause-location { margin-bottom: 14px; }
+  .cause-progress-caption { margin-bottom: 12px; }
+}
+@media (max-width:760px) {
+  .use-ac[data-market-view="causas"] .use-ac-heading p { display: none; }
+  .use-ac[data-market-view="causas"] .use-ac-heading h2 { margin: 0; }
+  .use-ac[data-market-view="causas"] .market-categories { margin-bottom: 16px; }
+  .cause-heading { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+}
+@media (max-width:760px) {
+  .use-ac[data-market-view="causas"] .use-ac-heading { margin-bottom: 12px; }
+  .use-ac[data-market-view="causas"] .market-categories { margin-bottom: 12px; }
+  .cause-overview { padding: 10px 0; margin-bottom: 8px; }
+  .cause-overview span { line-height: 1.2; }
+  .cause-list-heading a { min-height: 28px; }
+}
