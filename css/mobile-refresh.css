@@ -1,0 +1,101 @@
+/* Propuesta móvil de Ladra: se conserva la navegación y los datos existentes. */
+body { --navy: #063d24; --navy-deep: #042c1a; --ink: #173d2c; --muted: #596d60; --amber: #ec8f1c; --cream: #fff3df; --line: rgba(6,61,36,.14); }
+.home-heading { margin: 2px 0 18px; }
+.home-location { color: var(--muted); font-size: .76rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; }
+.home-heading h1 { margin: 0 0 6px; font: 800 clamp(1.7rem, 5.8vw, 2.4rem)/1.12 'Nunito', sans-serif; letter-spacing: -.04em; }
+.home-heading p { margin: 0; }
+.home-heading .home-location { margin-bottom: 9px; }
+.home-heading > p:last-child { color: var(--muted); line-height: 1.45; }
+.home-help { margin: 12px 0 22px; padding: 17px; border: 1px solid #f7d6a6; border-radius: 18px; background: #fff1dc; }
+.home-help h2 { margin: 0 0 12px; font: 800 1.05rem/1.35 'Nunito', sans-serif; letter-spacing: -.02em; color: #8b4900; }
+.home-help-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.home-help-actions a { display: grid; place-items: center; min-height: 46px; border: 1px solid #b96a09; border-radius: 11px; text-decoration: none; font-weight: 800; color: #8b4900; background: #fffdf9; }
+.home-help-actions a:last-child { background: var(--logo-verde); color: white; border-color: var(--logo-verde); }
+.home-community { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--line); margin-bottom: 12px; }
+.home-community h2 { margin: 0; font: 800 1.1rem 'Nunito', sans-serif; letter-spacing: -.02em; }
+.home-community a { font-size: .8rem; font-weight: 700; text-underline-offset: 4px; }
+.feed-demo { flex-basis: 100%; padding: 10px 12px; border-radius: 10px; background: #f2f4ef; line-height: 1.45; font-size: .75rem; }
+.fd-post { border-radius: 20px; box-shadow: 0 4px 18px rgba(6,61,36,.04); }
+.fd-quien small { font-size: .75rem; color: var(--muted); }
+/* Las publicaciones sin foto son texto, no grandes bloques vacíos. */
+.fd-medio:has(.fd-glifo) { aspect-ratio: auto; min-height: 100px; max-height: 140px; background: #edf3ec; color: var(--logo-verde); }
+.fd-glifo { font-size: 2.5rem; }
+.fd-texto { padding: 14px 16px 4px; }
+.fd-denunciar { font-size: .75rem; }
+.fd-btn { min-height: 44px; }
+.map-search { display: block; margin-bottom: 14px; }
+.map-search input { width: 100%; min-height: 50px; padding: 12px 16px; border: 1px solid var(--line); border-radius: 15px; color: var(--ink); background: #fff; font: inherit; box-shadow: 0 3px 12px rgba(6,61,36,.04); }
+.map-filters { display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 8px; padding: 2px 2px 8px; scrollbar-width: thin; }
+.map-filter { flex: none; min-height: 44px; }
+.map-filter.is-active { background: var(--logo-verde); border-color: var(--logo-verde); }
+.map-layout { box-shadow: 0 8px 28px rgba(6,61,36,.06); }
+.animal-network .section-heading h2, .map-section .section-heading h2 { font-family: 'Nunito', sans-serif; font-weight: 800; letter-spacing: -.035em; }
+.animal-network-summary { margin: 0 0 16px; }
+.animal-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.animal-tile { display: flex; flex-direction: column; aspect-ratio: auto; border: 1px solid var(--line); border-radius: 20px; background: #fff; color: var(--logo-verde); }
+.animal-tile-photo { position: relative; inset: auto; width: 100%; aspect-ratio: 4 / 3; overflow: hidden; background: #e7eee5; color: var(--logo-verde); }
+.animal-tile-photo img { display: block; }
+.animal-tile-name { position: static; padding: 14px 16px 4px; background: none; color: inherit; font: 800 1.3rem/1.25 'Nunito', sans-serif; white-space: normal; overflow-wrap: anywhere; }
+.animal-tile-meta { display: block; padding: 0 16px 14px; color: var(--muted); font-size: .82rem; overflow-wrap: anywhere; }
+.animal-tile-cta { display: block; align-self: stretch; margin: auto 16px 16px; padding: 11px 14px; text-align: center; border-radius: 11px; background: var(--logo-verde); color: #fff; font-size: .85rem; font-weight: 800; }
+.animal-tile-badge { top: 12px; left: 12px; font-size: .7rem; padding: 6px 10px; }
+.animal-tile.is-memorial { background: #f5f1fa; }
+.animal-tile:hover { transform: translateY(-2px); }
+/* Misiones en la cabecera: deja de cubrir las fotos y el mapa. */
+.nav-shell > .mis-wrap { position: static; margin-left: auto; z-index: auto; }
+.mis-boton { width: 40px; height: 40px; box-shadow: none; background: #fff; border: 1px solid var(--line); }
+.mis-panel { position: fixed; top: 86px; bottom: auto; right: 16px; max-height: calc(100dvh - 180px); overflow-y: auto; }
+.home-help a:focus-visible, .home-community a:focus-visible, .map-search input:focus-visible { outline: 3px solid #b96a09; outline-offset: 3px; }
+@media (max-width: 760px) {
+  .paw-backdrop { opacity: .25; }
+  .nav-shell { height: 68px; gap: 12px; }
+  .brand-group { gap: 8px; }
+  .brand-icono { width: 38px; height: 38px; }
+  .brand-palabra { height: 20px; }
+  .menu-button { width: 40px; height: 40px; padding: 9px; flex: none; }
+  .feed { padding: 20px 0 24px; }
+  .feed-historias { gap: 12px; }
+  .fd-historia { width: 66px; }
+  .fd-aro { width: 62px; height: 62px; }
+  .fd-medio { max-height: 430px; aspect-ratio: 4 / 3; }
+  .tabbar { background: #fffdf9; padding-top: 8px; box-shadow: 0 -4px 20px rgba(6,61,36,.05); }
+  .tabbar a { position: relative; gap: 5px; min-height: 49px; border-bottom: 0; font-size: .68rem; }
+  .tabbar a[aria-current="true"] { color: var(--logo-verde); border-bottom: 0; }
+  .tabbar a[aria-current="true"] svg { box-sizing: content-box; margin-top: -4px; margin-bottom: -4px; padding: 4px 14px; border-radius: 999px; background: var(--logo-verde); color: #fff; }
+  .map-section, .animal-network { padding: 22px 0; }
+  .map-section .section-heading { display: block; margin-bottom: 18px; }
+  .map-section .section-heading h2, .animal-network .section-heading h2 { font-size: 2rem; }
+  .map-section .section-heading > p, .animal-network .section-heading > p { margin-top: 8px; font-size: .9rem; line-height: 1.5; }
+  .animal-network .section-heading { gap: 8px; margin-bottom: 18px; }
+  .map-filters-toggle { display: none; }
+  .map-filters, .map-filters.is-open { display: flex; margin-bottom: 10px; }
+  .map-toolbar { margin-bottom: 10px; }
+  .community-map { height: 42dvh; min-height: 300px; }
+  .place-list { max-height: 380px; border-left: 0; border-top: 1px solid var(--line); padding: 14px; }
+  .map-layout { border-radius: 20px; }
+  .animal-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  [data-animal-grid="mi-red"] { grid-template-columns: 1fr; }
+  .animal-tile-name { font-size: 1.15rem; padding: 12px 12px 4px; }
+  .animal-tile-meta { padding: 0 12px 12px; font-size: .75rem; }
+  .animal-tile-cta { margin: auto 12px 12px; }
+  .red-tabs { display: flex; }
+  .red-tabs .mapa-tab { flex: 1; padding-inline: 14px; }
+  .desc-filtros { gap: 10px; }
+}
+@media (max-width: 360px) {
+  .brand-palabra { height: 17px; }
+  .nav-shell { gap: 8px; }
+  .animal-grid { grid-template-columns: 1fr; }
+  .home-help { padding: 13px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .animal-tile { transition: none; }
+  .animal-tile:hover { transform: none; }
+}
+.network-filters { margin: 0 0 18px; border: 1px solid var(--line); border-radius: 15px; background: #fff; }
+.network-filters > summary { padding: 12px 16px; min-height: 48px; cursor: pointer; font-weight: 700; color: var(--logo-verde); }
+.network-filters > summary:focus-visible { outline: 3px solid #b96a09; outline-offset: 2px; border-radius: 15px; }
+.network-filters .desc-filtros { border: 0; margin: 0; box-shadow: none; }
+.network-privacy { margin: -6px 0 16px; color: var(--muted); font-size: .8rem; }
+.network-privacy summary { cursor: pointer; padding: 8px 0; min-height: 40px; }
+.network-privacy p { margin: 4px 0 10px; }

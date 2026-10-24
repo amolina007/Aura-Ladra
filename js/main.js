@@ -43,6 +43,8 @@
   // Los puestos de comida y agua los entrega js/puestos.js (modo demo); se suman a los lugares del mapa.
   const puestosComoLugares = () => window.auraLadraPuestos?.lugares?.() || [];
   let activePlaceFilter = 'todos';
+  let placeSearch = '';
+  const normalizePlaceSearch = (text) => String(text || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('es').trim();
   let publicAnimals = [];
   let ownAnimals = [];
   // Relación de quien tiene la sesión con cada mascota (propia, vinculada, amistad, seguida, bloqueada).
@@ -193,6 +195,9 @@
   }));
 
   const scrollToMapWithFilter = (filter) => {
+    const search = document.querySelector('[data-map-search]');
+    if (search) search.value = '';
+    placeSearch = '';
     const filterButton = document.querySelector(`[data-place-filter="${filter}"]`);
     filterButton?.click();
     window.auraLadraVistas?.ir('mapa');
@@ -489,6 +494,7 @@
   };
 
   const placeMatchesFilter = (place) => {
+    if (placeSearch && !normalizePlaceSearch([place.nombre, place.direccion_publica, placeCategoryLabels[place.categoria]].join(' ')).includes(placeSearch)) return false;
     if (activePlaceFilter === 'todos') return true;
     if (activePlaceFilter === 'urgencia') return place.categoria === 'veterinaria' && place.servicio_urgencia;
     if (activePlaceFilter === 'tienda') return ['tienda_mascotas', 'alimento', 'juguetes_accesorios', 'comercio'].includes(place.categoria);
@@ -664,7 +670,7 @@
     if (!cardsByCategory.size) {
       const empty = document.createElement('p');
       empty.className = 'empty-state';
-      empty.textContent = activePlaceFilter === 'mascota_perdida'
+      empty.textContent = placeSearch ? 'No encontramos lugares con esa búsqueda. Prueba otro nombre o categoría.' : activePlaceFilter === 'mascota_perdida'
         ? 'No hay alertas activas de mascotas perdidas en el mapa.'
         : 'Todavía no hay lugares publicados en esta categoría.';
       container.replaceChildren(empty);
@@ -763,11 +769,22 @@
 
   document.querySelectorAll('[data-place-filter]').forEach((button) => button.addEventListener('click', () => {
     activePlaceFilter = button.dataset.placeFilter;
-    document.querySelectorAll('[data-place-filter]').forEach((item) => item.classList.toggle('is-active', item === button));
+    document.querySelectorAll('[data-place-filter]').forEach((item) => {
+      item.classList.toggle('is-active', item === button);
+      item.setAttribute('aria-pressed', String(item === button));
+    });
     const filterLabel = document.querySelector('[data-map-filters-label]');
     if (filterLabel) filterLabel.textContent = activePlaceFilter === 'todos' ? 'Filtros' : `Filtros · ${button.textContent.trim()}`;
     setMapFiltersOpen(false);
     renderPlaces();
+  }));
+
+  document.querySelector('[data-map-search]')?.addEventListener('input', (event) => {
+    placeSearch = normalizePlaceSearch(event.target.value);
+    renderPlaces();
+  });
+  document.querySelectorAll('[data-home-action]').forEach((link) => link.addEventListener('click', () => {
+    document.querySelector(`[data-action="${link.dataset.homeAction}"]`)?.click();
   }));
 
   const fillSelect = (select, rows, placeholder) => {
@@ -808,7 +825,13 @@
     const name = document.createElement('span');
     name.className = 'animal-tile-name';
     name.textContent = animal.nombre;
-    tile.append(photo, name);
+    const meta = document.createElement('span');
+    meta.className = 'animal-tile-meta';
+    meta.textContent = [animal.especie, animal.zona_publica].filter(Boolean).join(' · ');
+    const cta = document.createElement('span');
+    cta.className = 'animal-tile-cta';
+    cta.textContent = 'Ver ficha →';
+    tile.append(photo, name, meta, cta);
     if (animal.estado_seguridad === 'extraviada') {
       const lostBadge = document.createElement('span');
       lostBadge.className = 'animal-tile-badge';
