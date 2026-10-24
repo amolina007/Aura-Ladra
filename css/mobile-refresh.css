@@ -99,3 +99,6 @@ body { --navy: #063d24; --navy-deep: #042c1a; --ink: #173d2c; --muted: #596d60; 
 .network-privacy { margin: -6px 0 16px; color: var(--muted); font-size: .8rem; }
 .network-privacy summary { cursor: pointer; padding: 8px 0; min-height: 40px; }
 .network-privacy p { margin: 4px 0 10px; }
+/* Las categorías abiertas conservan su altura: el scroll pertenece a la lista. */
+.place-list { display: flex; flex-direction: column; min-height: 0; overflow-y: auto; }
+.place-category { flex: 0 0 auto; }
