@@ -4,7 +4,7 @@
 
 Campañas publicadas de Comida y agua con `meta_ac`. Las propuestas sin meta y las acciones con presupuesto en CLP conservan su funcionamiento previo. No se emiten monedas, no se convierten pesos y no se integra una pasarela de pago.
 
-La implementación está en dev. La migración `20261024194611_patrocinio_ac_campanas.sql` está preparada; no se ha aplicado a la base compartida de Aura. El navegador muestra que falta la activación si las funciones todavía no existen.
+La implementación está en dev. La migración `20261024194611_patrocinio_ac_campanas.sql` se aplicó al proyecto Supabase Aura el 24 de octubre de 2026, con autorización explícita del propietario en esta conversación. La base es compartida; no se modificaron objetos de `public` ni `core`.
 
 ## Reglas implementadas
 
@@ -48,8 +48,12 @@ Las pruebas crean una base PostgreSQL WASM desechable con PGlite. El esquema Aut
 
 Cobertura: permisos, baneo, términos, saldo insuficiente, autopatrocinio, meta máxima, claves repetidas, confirmación explícita, respuesta perdida, protección ante canje/cancelación externa, evidencia HTTPS, rechazo y aprobación de hitos, prohibición de autoaprobación, entrega parcial/completa, vencimiento/retiro, devoluciones durante una pausa y conciliación de asientos/saldos. No se ha hecho una prueba de concurrencia con varias conexiones Postgres ni de una devolución de pg_cron en la base real.
 
-## Activación pendiente
+## Activación y verificación
 
-Solo se encontró una base compartida de Aura; la rama Git dev no es una base de datos separada. La regla 1 de `Convergencia-Aura/AGENTS.md` exige autorización explícita para aplicar migraciones a la base real. El paso final es aplicar esta migración al proyecto Aura y comprobar metadatos, permisos, tarea programada y lecturas públicas, sin aportar ni transferir AC de usuarios durante la verificación.
+Solo existe una base compartida de Aura; la rama Git dev no es una base de datos separada. La autorización explícita del propietario para aplicar esta migración se recibió el 24 de octubre de 2026, conforme a la regla 1 de `Convergencia-Aura/AGENTS.md`.
+
+Supabase registró la migración con versión `20261024200129` y nombre `patrocinio_ac_campanas` (el archivo fuente conserva su fecha de creación local).
+
+Verificación posterior: las tres tablas tienen RLS forzada y no permiten lectura/escritura directa a clientes; las funciones de aporte y revisión exigen sesión y los helpers no son ejecutables por clientes. La campaña publicada se lee como habilitada y recaudando. La tarea `ladra-vencer-patrocinios-ac` está activa cada minuto y su primera ejecución terminó correctamente. No había patrocinios que devolver: no se probaron devoluciones reales ni se aportó o transfirió saldo de usuarios. El libro central conservó sus seis operaciones previas. Se comprobó la lectura pública desde el sitio dev publicado, donde la campaña muestra financiamiento abierto y el acceso para iniciar sesión y patrocinar. Los avisos de seguridad anteriores permanecieron sin cambios, aparte de tres avisos informativos esperados de tablas con RLS sin políticas directas (el acceso está limitado a funciones).
 
 Debe existir un moderador distinto del responsable para aprobar sus hitos. Esta implementación no agrega moderadores ni otorga permisos a personas nuevas.

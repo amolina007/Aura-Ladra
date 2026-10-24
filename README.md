@@ -306,4 +306,4 @@ obligatoria con terceros.
 
 El nuevo flujo conecta las campañas de Comida y agua a reservas de la billetera AC: confirmación del patrocinador, meta máxima, devolución automática de lo no liberado al vencer/retirar y entrega por hitos aprobados por otro moderador. Las acciones en CLP y las propuestas sin meta mantienen su funcionamiento previo.
 
-La migración `20261024194611_patrocinio_ac_campanas.sql` está preparada, todavía no aplicada a la base compartida. Hasta activarla, la interfaz informa que el patrocinio no está disponible. Los apartados anteriores describen las etapas previas del proyecto; las reglas nuevas y la verificación están en [docs/PATROCINIO_AC.md](docs/PATROCINIO_AC.md).
+La migración `20261024194611_patrocinio_ac_campanas.sql` se aplicó al proyecto Aura el 24 de octubre de 2026 con autorización explícita del propietario. Las campañas publicadas con meta en AC ya pueden recibir patrocinios desde dev. Los apartados anteriores describen las etapas previas del proyecto; las reglas nuevas y la verificación están en [docs/PATROCINIO_AC.md](docs/PATROCINIO_AC.md).
