@@ -1483,6 +1483,7 @@
     form.hidden = true;
     view.hidden = false;
     const isOwned = ownAnimals.some((item) => item.id === animal.id);
+    const canShareMedia = isOwned && animal.estado === 'publicado' && animal.mostrar_en_red !== false;
     const health = animal.salud && typeof animal.salud === 'object' ? animal.salud : {};
     const skills = Array.isArray(animal.habilidades) ? animal.habilidades.filter((skill) => petSkillLabels[skill]) : [];
     const characterScore = animal.caracter_puntaje === null || animal.caracter_puntaje === undefined || animal.caracter_puntaje === '' ? null : Number(animal.caracter_puntaje);
@@ -1500,6 +1501,8 @@
       <dl class="pet-profile-facts">${summaryBlocks.map((key) => `<div><dt>${escapeHtml(petSummaryLabels[key])}</dt><dd>${escapeHtml(petSummaryValue(animal, key))}</dd></div>`).join('')}</dl>
       ${isOwned && animal.numero_registro ? `<p class="pet-private-detail"><strong>N.º de registro:</strong> ${escapeHtml(animal.numero_registro)}</p>` : ''}
       ${animal.senas_particulares ? `<div class="pet-profile-notes"><strong>Señas particulares</strong><p>${escapeHtml(animal.senas_particulares)}</p></div>` : ''}
+      <section class="pet-profile-section pet-community-media"><div class="pet-section-heading"><div><p class="kicker">Momentos</p><h4>Galería de fotos</h4></div>${canShareMedia ? '<label class="button button-dark media-upload-button">Subir fotos<input type="file" data-pet-photo-upload accept="image/jpeg,image/png,image/webp" multiple></label>' : ''}</div><p class="pet-health-note">Al compartir, los archivos serán públicos y aparecerán en este perfil.${isOwned && !canShareMedia ? ' Publica la ficha y hazla visible en Red animal para compartir contenido.' : ''}</p><div class="pet-public-gallery" data-pet-public-gallery><p class="empty-state">Cargando galería…</p></div><p class="form-message" data-pet-photo-message aria-live="polite"></p></section>
+      <section class="pet-profile-section pet-community-media"><div class="pet-section-heading"><div><p class="kicker">Aprendizaje</p><h4>Mis trucos</h4></div>${canShareMedia ? '<button class="button button-dark" type="button" data-open-trick-upload>Subir video</button>' : ''}</div>${canShareMedia ? `<form class="trick-upload-form" data-trick-upload-form hidden><label class="field"><span>Video del truco</span><input type="file" name="video" accept="video/mp4,video/webm,video/quicktime" required><small>MP4, WebM o MOV · máximo 50 MB y 90 segundos.</small></label><label class="field"><span>Nombre del truco</span><input name="titulo" maxlength="80" placeholder="Ej.: Dar la pata" required></label><label class="field"><span>Estado</span><select name="estado"><option value="practicando">En práctica</option><option value="aprendido">Aprendido</option></select></label><label class="field"><span>Descripción (opcional)</span><input name="descripcion" maxlength="180" placeholder="Una nota breve sobre el video"></label><p class="pet-health-note">El video será público y aparecerá en este perfil y en el repertorio.</p><button class="button button-primary" type="submit" data-trick-submit>Publicar video</button><button class="text-button" type="button" data-cancel-trick-upload>Cancelar</button><p class="form-message" data-trick-upload-message aria-live="polite"></p></form>` : ''}<div class="pet-trick-videos" data-pet-trick-videos><p class="empty-state">Cargando videos…</p></div><a class="text-button trick-repertoire-link" href="#repertorio">Explorar repertorio completo →</a></section>
       <div class="pet-profile-sections">
         ${isOwned || hasPetField(animal, 'salud') ? `<section class="pet-profile-section is-private"><div class="pet-section-heading"><div><h4>Ficha de salud</h4><span class="privacy-badge">${isOwned ? 'Privada' : 'Compartida con amistades'}</span></div>${isOwned ? '<button class="section-edit-button" type="button" data-edit-pet-section="salud">Editar</button>' : ''}</div>${healthSummaryCardHtml(health, !isOwned)}<dl class="pet-health-summary">
           <div><dt>Antropometría</dt><dd>${animal.peso_kg ? `${Number(animal.peso_kg).toLocaleString('es-CL')} kg` : 'Peso sin registrar'}${health.altura_cm ? ` · ${escapeHtml(health.altura_cm)} cm` : ''}${health.condicion_corporal ? ` · condición corporal ${escapeHtml(health.condicion_corporal)}/9` : ''}</dd></div>
@@ -1526,6 +1529,7 @@
     renderPetPhotos(view.querySelector('[data-pet-profile-gallery]'), animal);
     loadPetConnections(animal.id, view.querySelector('[data-pet-connections]'));
     bindProfileReportForm(view);
+    document.dispatchEvent(new CustomEvent('mascota:perfil', { detail: { animal, puedeEditar: isOwned } }));
     if (!dialog.open) dialog.showModal();
   };
 
@@ -2653,6 +2657,7 @@
   document.querySelector('[data-pet-profile-dialog]')?.addEventListener('click', (event) => {
     const dialog = event.currentTarget;
     if (event.target === dialog || event.target.closest('[data-pet-profile-close]')) dialog.close();
+    if (event.target.closest('a[href="#repertorio"]')) dialog.close();
     const jumpButton = event.target.closest('[data-health-jump]');
     if (jumpButton && activePetProfile && ownAnimals.some((item) => item.id === activePetProfile.id)) {
       startPetProfileEdit('salud');

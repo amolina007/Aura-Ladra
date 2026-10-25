@@ -4,7 +4,7 @@
   'use strict';
 
   const VISTA_INICIAL = 'inicio';
-  const VISTAS = ['inicio', 'acciones', 'most-wanted', 'mapa', 'red', 'ayudar', 'comida-agua', 'cuenta'];
+  const VISTAS = ['inicio', 'acciones', 'most-wanted', 'mapa', 'red', 'trucos', 'ayudar', 'comida-agua', 'cuenta'];
   // A qué vista lleva cada ancla (#id) de la página.
   const VISTA_DE_ID = {
     inicio: 'inicio',
@@ -15,6 +15,7 @@
     'most-wanted': 'most-wanted',
     mapa: 'mapa',
     red: 'red',
+    repertorio: 'trucos',
     ayudar: 'ayudar',
     causas: 'ayudar',
     tienda: 'ayudar',
