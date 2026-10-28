@@ -1,0 +1,75 @@
+/* Servicios comparte la paleta, tipografía y controles de Ladra. */
+.services-section { padding:32px 0 80px; }
+.services-home { display:flex; align-items:center; gap:12px; padding:16px; margin:0 0 20px; border:1px solid var(--line); border-radius:18px; background:#fffdf9; text-decoration:none; }
+.services-home-icon { display:grid; place-items:center; width:44px; height:44px; border-radius:14px; background:var(--cream); color:var(--navy); font-size:1.6rem; }
+.services-home > span:nth-child(2) { flex:1; }
+.services-home strong,.services-home small { display:block; }
+.services-home small { margin-top:4px; color:var(--muted); font-size:.8rem; }
+.services-shell { max-width:1060px; }
+.services-heading { display:flex; justify-content:space-between; align-items:center; gap:20px; margin-bottom:24px; }
+.services-heading h2 { margin:0 0 10px; font:800 clamp(1.8rem,5vw,2.6rem)/1.15 'Nunito',sans-serif; letter-spacing:-.04em; }
+.services-heading p:last-child { margin:0; max-width:520px; color:var(--muted); }
+.services-heading > button { flex-shrink:0; }
+.services-switch { display:flex; gap:6px; padding:5px; background:#eaf0e7; border-radius:14px; margin-bottom:22px; width:fit-content; max-width:100%; }
+.services-switch button { border:0; background:none; color:var(--navy); min-height:44px; padding:10px 16px; font:700 .85rem 'DM Sans',sans-serif; border-radius:10px; }
+.services-switch button[aria-pressed=true] { background:white; box-shadow:0 2px 8px #063d2410; }
+.services-filters { display:grid; grid-template-columns:1fr; gap:8px; margin-bottom:12px; }
+.services-advanced summary { min-height:44px; padding:10px 0; color:var(--navy); font-size:.85rem; font-weight:700; cursor:pointer; }
+.services-advanced-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; padding:8px 0 12px; }
+.services-filters .field { min-width:0; margin:0; }
+.services-filters input,.services-filters select,.service-form input:not([type=checkbox]),.service-form select,.service-form textarea,.service-response textarea { width:100%; box-sizing:border-box; min-height:48px; padding:12px; border:1px solid var(--line); border-radius:12px; background:white; color:var(--ink); font:inherit; }
+.services-filters .field > span { font-size:.78rem; }
+.services-categories { display:flex; gap:8px; overflow-x:auto; padding:2px 2px 12px; scrollbar-width:thin; }
+.services-categories button { flex-shrink:0; min-height:44px; padding:10px 16px; border:1px solid var(--line); background:#fffdf9; border-radius:99px; color:var(--navy); font:700 .85rem 'DM Sans',sans-serif; }
+.services-categories button[aria-pressed=true] { background:var(--navy); color:white; border-color:var(--navy); }
+.services-status { color:var(--muted); font-size:.9rem; line-height:1.6; margin:8px 0; }
+.services-tools { display:flex; gap:16px; flex-wrap:wrap; margin:0 0 18px; }
+.service-text-button { border:0; padding:8px 0; min-height:44px; background:transparent; color:var(--navy); font:700 .83rem 'DM Sans',sans-serif; text-decoration:underline; text-underline-offset:4px; }
+.services-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; }
+.service-card { overflow:hidden; display:flex; flex-direction:column; border:1px solid var(--line); border-radius:22px; background:#fffdf9; box-shadow:0 5px 22px #063d2408; min-width:0; }
+.service-cover { display:grid; place-items:center; min-height:140px; aspect-ratio:16/9; background:linear-gradient(130deg,#e0ecd9,#f9f1de); position:relative; overflow:hidden; }
+.service-cover[data-category=estetica] { background:linear-gradient(130deg,#f7e2bd,#fff4e2); }
+.service-cover[data-category=entrenamiento] { background:linear-gradient(130deg,#dae8d3,#f4f7ed); }
+.service-cover > span { color:var(--navy); font:700 3.8rem 'Nunito',sans-serif; }
+.service-cover img { width:100%; height:100%; position:absolute; inset:0; object-fit:cover; }
+.service-card-body { padding:18px; display:flex; flex-direction:column; gap:9px; flex:1; }
+.service-card h3 { margin:0; font:800 1.22rem/1.25 'Nunito',sans-serif; color:var(--ink); overflow-wrap:anywhere; }
+.service-card p { margin:0; }
+.service-label { color:var(--muted); font-size:.76rem; font-weight:700; }
+.service-muted { color:var(--muted); font-size:.86rem; line-height:1.6; overflow-wrap:anywhere; }
+.service-card-footer { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-top:auto; padding-top:10px; }
+.service-price { color:var(--navy); font:800 1.25rem 'Nunito',sans-serif; }
+.service-card-footer .button { padding:11px 14px; min-height:44px; font-size:.82rem; }
+.service-empty { grid-column:1/-1; padding:32px 24px; border:1px dashed var(--line); border-radius:20px; background:#fffdf9; text-align:center; }
+.service-empty h3 { margin:0 0 10px; font:800 1.2rem 'Nunito',sans-serif; }
+.service-empty p { margin:0; color:var(--muted); line-height:1.6; }
+.service-dialog { padding:0; border:1px solid var(--line); border-radius:24px; width:min(570px,calc(100% - 28px)); max-height:calc(100dvh - 40px); overflow-y:auto; color:var(--ink); background:#fffdf9; box-shadow:0 20px 90px #042c1a33; }
+.service-dialog::backdrop { background:#042c1a88; backdrop-filter:blur(3px); }
+.service-close { position:absolute; right:12px; top:12px; z-index:1; width:44px; height:44px; border:1px solid var(--line); border-radius:50%; background:#fffdf9; color:var(--navy); font-size:1.7rem; }
+.service-dialog > [data-service-detail] > .service-cover { min-height:180px; }
+.service-dialog-content { padding:28px; overflow-wrap:anywhere; }
+[data-service-publish-dialog] .service-dialog-content { padding-top:56px; }
+.service-dialog h2 { font:800 1.8rem/1.2 'Nunito',sans-serif; margin:0 30px 12px 0; letter-spacing:-.035em; }
+.service-dialog h3 { font:800 1.15rem 'Nunito',sans-serif; }
+.service-detail-price { padding:18px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); margin:20px 0; }
+.service-detail-price .service-price { font-size:2rem; display:block; }
+.service-description { white-space:pre-line; line-height:1.7; }
+.service-form { display:grid; gap:16px; }
+.service-form .field { margin:0; min-width:0; }
+.service-form-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.service-form .button { width:100%; }
+.service-consent { display:flex; align-items:flex-start; gap:10px; font-size:.82rem; line-height:1.6; }
+.service-consent input { margin-top:5px; flex-shrink:0; }
+.service-demo-note { border:1px solid #e9c88e; background:var(--cream); padding:12px 16px; border-radius:12px; line-height:1.6; font-size:.85rem; }
+.services-training-link { display:block; width:fit-content; margin:0 0 20px; color:var(--navy); font-weight:700; text-underline-offset:4px; }
+.service-account-card { padding:20px; border:1px solid var(--line); background:#fffdf9; border-radius:18px; margin:14px 0; overflow-wrap:anywhere; }
+.service-account-card h4 { margin:0 0 8px; font:800 1.15rem 'Nunito',sans-serif; }
+.service-account-card p { margin:7px 0; }
+.service-state { display:inline-block; border-radius:99px; padding:5px 10px; background:#eaf0e7; color:var(--navy); font-size:.78rem; font-weight:700; }
+.service-response { display:grid; gap:10px; margin-top:16px; }
+.service-response label { display:grid; gap:8px; }
+.service-response > div { display:flex; gap:10px; flex-wrap:wrap; }
+.services-section button:focus-visible,.service-dialog :is(button,input,select,textarea,a):focus-visible { outline:3px solid var(--amber); outline-offset:3px; }
+.services-section button:disabled,.service-dialog button:disabled { opacity:.6; cursor:wait; }
+@media(max-width:760px) { .services-advanced-grid { grid-template-columns:1fr 1fr; } .services-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .services-heading { align-items:flex-start; flex-direction:column; gap:12px; margin-bottom:18px; } .services-heading p:last-child { font-size:.9rem; } }
+@media(max-width:480px) { .services-grid { grid-template-columns:1fr; gap:18px; } .services-shell { padding-inline:18px; } .services-heading h2 { font-size:1.95rem; } .services-switch { width:100%; } .services-switch button { flex:1; padding-inline:10px; } .service-dialog-content { padding:22px; } .service-dialog { max-height:calc(100dvh - 24px); } .service-card-body { padding:18px; } }

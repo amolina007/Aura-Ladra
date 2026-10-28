@@ -2,6 +2,7 @@
   "name": "ladra-dev",
   "private": true,
   "scripts": {
+    "test:servicios": "node --test tests/servicios-*.test.mjs",
     "test:patrocinio": "node --test tests/patrocinio-ac*.test.mjs",
     "test:tienda": "node --test tests/tienda*.test.mjs tests/patrocinio-ac-ui.test.mjs"
   },

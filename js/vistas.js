@@ -4,7 +4,7 @@
   'use strict';
 
   const VISTA_INICIAL = 'inicio';
-  const VISTAS = ['inicio', 'acciones', 'most-wanted', 'mapa', 'red', 'trucos', 'ayudar', 'comida-agua', 'cuenta'];
+  const VISTAS = ['inicio', 'acciones', 'most-wanted', 'mapa', 'red', 'trucos', 'servicios', 'ayudar', 'comida-agua', 'cuenta'];
   // A qué vista lleva cada ancla (#id) de la página.
   const VISTA_DE_ID = {
     inicio: 'inicio',
@@ -16,6 +16,7 @@
     mapa: 'mapa',
     red: 'red',
     repertorio: 'trucos',
+    servicios: 'servicios',
     ayudar: 'ayudar',
     causas: 'ayudar',
     tienda: 'ayudar',
@@ -121,7 +122,7 @@
 
   const hashInicial = window.location.hash;
   window.addEventListener('load', () => {
-    if (window.location.hash === hashInicial && ['#causas','#tienda'].includes(hashInicial)) window.scrollTo({top:0,behavior:'instant'});
+    if (window.location.hash === hashInicial && ['#causas','#tienda','#servicios'].includes(hashInicial)) window.scrollTo({top:0,behavior:'instant'});
   }, {once:true});
 
   // Vista inicial según la dirección (#red, #cuenta…); sin ancla, la portada.

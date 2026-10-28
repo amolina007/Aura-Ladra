@@ -311,3 +311,10 @@ La migración `20261024194611_patrocinio_ac_campanas.sql` se aplicó al proyecto
 ## Usar AC → Causas comunitarias y Tienda
 
 La sección 4 alterna causas y tienda con un interruptor compacto y accesos `#causas` y `#tienda`. El catálogo inicial incluye la publicación de Alejandro: AirTag + porta AirTag para collar a 30.000 AC, etiquetada con Ladra. La ficha permite transferir AC al vendedor tras revisar monto y destinatario, con la opción «Entrega acordada con el comprador». Los reintentos conservan la clave para evitar duplicados. Detalles y pruebas: [docs/TIENDA.md](docs/TIENDA.md).
+
+## Servicios para mascotas
+
+Nueva vista `#servicios`: catálogo, fichas, consultas vinculadas a una mascota y bandeja de prestadores,
+integrados con Inicio, el menú, los trucos y las fichas propias. Destino de publicación: rama `dev`.
+La migración de guardado se aplicó a Supabase el 27 de octubre de 2026 y se verificó con escrituras revertidas.
+Los ejemplos se abren voluntariamente y no aceptan envíos. Detalles y verificación: [docs/SERVICIOS.md](docs/SERVICIOS.md).
