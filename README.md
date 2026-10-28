@@ -318,3 +318,6 @@ Nueva vista `#servicios`: catálogo, fichas, consultas vinculadas a una mascota 
 integrados con Inicio, el menú, los trucos y las fichas propias. Destino de publicación: rama `dev`.
 La migración de guardado se aplicó a Supabase el 27 de octubre de 2026 y se verificó con escrituras revertidas.
 Los ejemplos se abren voluntariamente y no aceptan envíos. Detalles y verificación: [docs/SERVICIOS.md](docs/SERVICIOS.md).
+
+La ampliación del 28 de octubre permite elegir fotos desde el celular y editar los servicios propios, conservando
+las consultas. Las imágenes se optimizan antes de subir y se guardan en un contenedor exclusivo de Ladra.

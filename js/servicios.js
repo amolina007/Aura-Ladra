@@ -25,6 +25,9 @@
   let selected = null, opener = null, panel = 'catalogo', submitting = false;
   let retryRequest = null, preferredPet = null, authEvents = 0, authUser = window.auraLadraRed?.sesion?.()?.user?.id || null;
   let petsReady = Boolean(authUser);
+  let ownedServices = [], editingService = null, creationKey = null, photoFile = null, stagedPhoto = null;
+  let removePhoto = false, previewUrl = null, editorGeneration = 0;
+  const photoBucket = 'servicios-ladra';
   const userId = () => authUser;
   const pets = () => petsReady && window.auraLadraRed?.sesion?.()?.user?.id === authUser
     ? (window.auraLadraRed?.propias?.() || []).filter(a => !a.es_conmemorativa) : [];
@@ -47,6 +50,62 @@
   const wireImages = (container) => container.querySelectorAll('.service-cover img').forEach(img => img.addEventListener('error', () => img.remove(), { once: true }));
   const show = (dlg, from) => { opener = from || document.activeElement; if (!dlg.open) dlg.showModal(); };
   const close = (dlg) => { if (dlg.open) dlg.close(); };
+  const photoUrl = path => db.storage.from(photoBucket).getPublicUrl(path).data.publicUrl;
+  const ownPhoto = path => path && path.split('/')[0] === userId();
+  async function removeUnusedPhoto(path) {
+    if (!ownPhoto(path)) return;
+    try {
+      // El servidor impide borrar una foto que siga referenciada por un servicio.
+      const result = await db.storage.from(photoBucket).remove([path]);
+      if (result.error) console.warn('Ladra: foto sin uso pendiente de retirar.');
+    } catch { console.warn('Ladra: foto sin uso pendiente de retirar.'); }
+  }
+  function renderPhotoPreview() {
+    if (previewUrl) { URL.revokeObjectURL(previewUrl); previewUrl = null; }
+    const current = photoFile ? (previewUrl = URL.createObjectURL(photoFile)) : !removePhoto ? safePhoto(editingService?.foto_url) : '';
+    $('[data-service-photo-preview]').hidden = !current;
+    $('[data-service-photo-remove]').hidden = !current;
+    const image = $('[data-service-photo-image]');
+    if (current) image.src = current; else image.removeAttribute('src');
+  }
+  function resetEditor() {
+    const unused = stagedPhoto?.path;
+    stagedPhoto = null; photoFile = null; removePhoto = false; creationKey = null; editingService = null; editorGeneration++;
+    publishForm.reset(); renderPhotoPreview();
+    if (unused) removeUnusedPhoto(unused);
+  }
+  function openEditor(service, from) {
+    if (submitting || (service && service.propietario_id !== userId())) return;
+    resetEditor(); editingService = service ? { ...service } : null;
+    $('#service-publish-title').textContent = service ? 'Editar servicio' : 'Ofrecer un servicio';
+    publishForm.querySelector('[type=submit]').textContent = service ? 'Guardar cambios' : 'Publicar servicio';
+    if (service) for (const key of ['titulo','prestador','categoria','zona','modalidad','precio_clp','precio_tipo','duracion_min','descripcion']) publishForm.elements[key].value = service[key] ?? '';
+    $('[data-service-publish-message]').textContent = ready ? '' : 'El guardado aún no está disponible. Actualiza el catálogo e inténtalo de nuevo.';
+    renderPhotoPreview(); show(publishDialog, from);
+  }
+  async function uploadPhoto(actor, generation, message) {
+    if (!photoFile) return removePhoto ? { foto_path: null, foto_url: null } : { foto_path: editingService?.foto_path || null, foto_url: editingService?.foto_url || null };
+    if (!stagedPhoto) {
+      message.textContent = 'Preparando foto…';
+      const file = photoFile, blob = await window.auraLadraServiciosFotos.prepare(file);
+      if (actor !== userId() || generation !== editorGeneration) throw Error('La sesión cambió. Vuelve a abrir el formulario.');
+      stagedPhoto = { path: `${actor}/${window.crypto.randomUUID()}.webp`, blob, confirmed: false };
+    }
+    const stage = stagedPhoto;
+    if (!stage.confirmed) {
+      message.textContent = 'Subiendo foto…';
+      const result = await db.storage.from(photoBucket).upload(stage.path, stage.blob, { contentType: 'image/webp', cacheControl: '31536000', upsert: false });
+      if (result.error) {
+        // Puede haberse subido y haberse perdido la respuesta: nunca sobrescribimos.
+        const existing = await db.storage.from(photoBucket).download(stage.path);
+        if (existing.error || !existing.data || existing.data.size !== stage.blob.size) throw Error('No pudimos confirmar la subida de la foto. Puedes reintentar.');
+        const digest = async blob => Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', await blob.arrayBuffer()))).join(',');
+        if (await digest(existing.data) !== await digest(stage.blob)) throw Error('No pudimos verificar la foto. Elige la imagen otra vez.');
+      }
+      stage.confirmed = true;
+    }
+    return { foto_path: stage.path, foto_url: photoUrl(stage.path) };
+  }
   const empty = (title, copy) => `<div class="service-empty"><h3>${escape(title)}</h3><p>${escape(copy)}</p></div>`;
 
   function renderCatalog() {
@@ -150,7 +209,8 @@
       ]);
       if (actor !== userId() || version !== epoch) return;
       if (offers.error || inquiries.error) throw offers.error || inquiries.error;
-      box.innerHTML = '<h3>Mis servicios</h3>' + ((offers.data || []).map(s => `<article class="service-account-card"><h4>${escape(s.titulo)}</h4><p class="service-muted">${escape(price(s))} · ${escape(s.zona)}</p><span class="service-state">${s.publicado ? 'Publicado' : 'Retirado'}</span> <button class="service-text-button" type="button" data-service-toggle="${escape(s.id)}" data-next-published="${!s.publicado}">${s.publicado ? 'Retirar del catálogo' : 'Volver a publicar'}</button></article>`).join('') || '<p class="service-muted">Todavía no ofreces servicios.</p>') + '<h3>Consultas enviadas y recibidas</h3>' + ((inquiries.data || []).map(q => {
+      ownedServices = offers.data || [];
+      box.innerHTML = '<h3>Mis servicios</h3>' + ((offers.data || []).map(s => `<article class="service-account-card"><h4>${escape(s.titulo)}</h4><p class="service-muted">${escape(price(s))} · ${escape(s.zona)}</p><span class="service-state">${s.publicado ? 'Publicado' : 'Retirado'}</span> <div class="service-own-actions"><button class="service-text-button" type="button" data-service-edit="${escape(s.id)}">Editar servicio</button><button class="service-text-button" type="button" data-service-toggle="${escape(s.id)}" data-next-published="${!s.publicado}">${s.publicado ? 'Retirar del catálogo' : 'Volver a publicar'}</button></div></article>`).join('') || '<p class="service-muted">Todavía no ofreces servicios.</p>') + '<h3>Consultas enviadas y recibidas</h3>' + ((inquiries.data || []).map(q => {
         const received = q.prestador_id === actor;
         return `<article class="service-account-card"><span class="service-label">${received ? 'Recibida' : 'Enviada'}</span><h4>${escape(q.servicio_titulo)}</h4><span class="service-state">${escape(states[q.estado] || q.estado)}</span><p>${escape(q.mascota_nombre)} · ${escape(dateLabel(q.dia_preferido))} · ${escape(times[q.horario])}</p><p class="service-description">${escape(q.mensaje)}</p>${q.respuesta ? `<p class="service-description"><strong>Respuesta del prestador:</strong><br>${escape(q.respuesta)}</p>` : ''}${received && q.estado === 'pendiente' ? `<form class="service-response" data-service-response="${escape(q.id)}"><label><span>Tu respuesta: disponibilidad y valor</span><textarea name="respuesta" rows="3" required minlength="10" maxlength="800"></textarea></label><div><button class="button button-dark" type="submit" name="estado" value="respondida">Responder</button><button class="button button-outline" type="submit" name="estado" value="no_disponible">Sin disponibilidad</button></div><p role="status"></p></form>` : ''}</article>`;
       }).join('') || '<p class="service-muted">Aún no tienes consultas. Las respuestas aparecerán aquí.</p>') + '<p class="service-muted">Se muestran hasta 100 servicios propios y las 100 consultas más recientes. Una respuesta no equivale a una reserva confirmada.</p><p role="status" data-services-account-message></p>';
@@ -171,25 +231,45 @@
     event.preventDefault();
     if (submitting || !publishForm.reportValidity()) return;
     const message = $('[data-service-publish-message]'), button = publishForm.querySelector('[type=submit]');
-    const actor = userId(), version = epoch;
+    const actor = userId(), generation = editorGeneration, editing = editingService;
     if (!actor || !ready) { message.textContent = 'Inicia sesión y espera a que el catálogo esté disponible para publicar.'; return; }
     const payload = Object.fromEntries(new FormData(publishForm));
     delete payload.consentimiento;
+    delete payload.foto_file;
     for (const name of ['titulo','prestador','zona','descripcion']) payload[name] = payload[name].trim();
     payload.precio_clp = payload.precio_clp === '' ? null : Number(payload.precio_clp);
     payload.duracion_min = payload.duracion_min === '' ? null : Number(payload.duracion_min);
-    if (payload.foto_url && !safePhoto(payload.foto_url)) { message.textContent = 'Usa el enlace HTTPS de una foto alojada en Ladra. Por ahora no se admiten fotos de sitios externos.'; return; }
-    payload.foto_url = safePhoto(payload.foto_url) || null;
-    submitting = true; button.disabled = true; message.textContent = 'Publicando…';
+    const controls = [...publishForm.querySelectorAll('input,select,textarea,button'), $('[data-service-publish-close]')];
+    submitting = true; controls.forEach(c => c.disabled = true);
     try {
-      const { data, error } = await db.from('servicios').insert(payload).select('id').single();
-      if (error || !data?.id) throw error || new Error('Sin comprobante');
-      if (actor !== userId() || version !== epoch) return;
-      publishForm.reset(); close(publishDialog); demo = false;
+      Object.assign(payload, await uploadPhoto(actor, generation, message));
+      if (actor !== userId() || generation !== editorGeneration) return;
+      message.textContent = editing ? 'Guardando cambios…' : 'Publicando…';
+      let result;
+      if (editing) {
+        result = await db.from('servicios').update(payload).eq('id', editing.id).eq('propietario_id', actor).eq('revision', editing.revision || 1).select('*').maybeSingle();
+        if (result.error || !result.data) {
+          const current = await db.from('servicios').select('*').eq('id', editing.id).eq('propietario_id', actor).maybeSingle();
+          if (!current.error && current.data && Object.entries(payload).every(([key,value]) => (current.data[key] ?? null) === value)) result = current;
+          else if (!current.error && current.data && current.data.revision !== editing.revision) throw Error('Este servicio cambió en otra pestaña. Cierra el formulario y vuelve a editar para cargar la versión actual.');
+        }
+      } else {
+        creationKey ||= window.crypto.randomUUID();
+        result = await db.from('servicios').insert({ ...payload, creacion_clave: creationKey }).select('*').single();
+        if (result.error) {
+          const previous = await db.from('servicios').select('*').eq('propietario_id', actor).eq('creacion_clave', creationKey).maybeSingle();
+          if (!previous.error && previous.data && Object.entries(payload).every(([key,value]) => (previous.data[key] ?? null) === value)) result = previous;
+        }
+      }
+      if (result.error || !result.data?.id) throw result.error || Error('No pudimos confirmar el guardado. Revisa tu bandeja antes de volver a intentarlo.');
+      if (actor !== userId() || generation !== editorGeneration) return;
+      const oldPath = editing?.foto_path;
+      stagedPhoto = null; close(publishDialog); resetEditor(); demo = false;
+      if (oldPath && oldPath !== payload.foto_path) await removeUnusedPhoto(oldPath);
       await load(); setPanel('consultas');
     } catch (error) {
-      if (actor === userId() && version === epoch) message.textContent = errorText(error, 'No pudimos confirmar la publicación. Revisa “Mis consultas y servicios” antes de volver a intentarlo.');
-    } finally { submitting = false; button.disabled = false; }
+      if (actor === userId() && generation === editorGeneration) message.textContent = errorText(error, error instanceof Error ? error.message : 'No pudimos confirmar el guardado. Puedes reintentar; revisa también tu bandeja.');
+    } finally { submitting = false; controls.forEach(c => c.disabled = false); }
   }
 
   async function toggleOffer(button) {
@@ -236,10 +316,13 @@
     if (target.hasAttribute('data-services-retry')) load();
     if (target.hasAttribute('data-services-demo')) { demo = !demo; if (!demo) load(); else renderCatalog(); }
     if (target.dataset.serviceToggle) toggleOffer(target);
+    if (target.dataset.serviceEdit) {
+      const service = ownedServices.find(s => s.id === target.dataset.serviceEdit);
+      if (service) openEditor(service, target);
+    }
     if (target.hasAttribute('data-service-publish')) {
       if (!userId()) { window.auraLadraVistas?.ir('cuenta'); return; }
-      $('[data-service-publish-message]').textContent = ready ? '' : 'El guardado de servicios aún no está disponible. Puedes revisar el formulario; no se publicará hasta habilitarlo.';
-      show(publishDialog, target);
+      openEditor(null, target);
     }
   });
   filters.addEventListener('submit', e => e.preventDefault());
@@ -247,6 +330,27 @@
   filters.addEventListener('change', renderCatalog);
   $('[data-service-close]').addEventListener('click', () => close(dialog));
   $('[data-service-publish-close]').addEventListener('click', () => close(publishDialog));
+  publishDialog.addEventListener('cancel', event => { if (submitting) event.preventDefault(); });
+  publishDialog.addEventListener('close', resetEditor);
+  $('[data-service-photo-input]').addEventListener('change', event => {
+    if (submitting) return;
+    const file = event.target.files?.[0];
+    if (!file) return;
+    try {
+      window.auraLadraServiciosFotos.validate(file);
+      const unused = stagedPhoto?.path;
+      stagedPhoto = null; photoFile = file; removePhoto = false;
+      $('[data-service-publish-message]').textContent = ''; renderPhotoPreview();
+      if (unused) removeUnusedPhoto(unused);
+    } catch (error) { event.target.value = ''; $('[data-service-publish-message]').textContent = error.message; }
+  });
+  $('[data-service-photo-remove]').addEventListener('click', () => {
+    if (submitting) return;
+    const unused = stagedPhoto?.path;
+    stagedPhoto = null; photoFile = null; removePhoto = true;
+    $('[data-service-photo-input]').value = ''; renderPhotoPreview();
+    if (unused) removeUnusedPhoto(unused);
+  });
   [dialog, publishDialog].forEach(dlg => dlg.addEventListener('close', () => { if (!dialog.open && !publishDialog.open && opener?.isConnected) opener.focus(); }));
   detail.addEventListener('click', e => {
     if (e.target.closest('[data-service-inquire]')) {
@@ -293,7 +397,7 @@
   async function refreshAuth(nextUser) {
     if (nextUser === authUser) return;
     authUser = nextUser; epoch++; services = []; ready = false; petsReady = false; retryRequest = null; preferredPet = null;
-    close(dialog); close(publishDialog); publishForm.reset();
+    close(dialog); close(publishDialog); resetEditor(); ownedServices = [];
     $('[data-services-account-list]').replaceChildren();
     renderCatalog(); await load();
   }
