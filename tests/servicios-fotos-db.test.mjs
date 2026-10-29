@@ -23,7 +23,7 @@ test('Fotos y edición: aislamiento frente a permisos heredados, revisión e his
    create policy inherited_update on storage.objects for update using(true) with check(true);
    create policy inherited_delete on storage.objects for delete using(true);`);
   for(const id of [owner,other])await db.query('insert into auth.users values($1)',[id]);
-  for(const filename of ['20261028023325_ladra_servicios_y_consultas.sql','20261028031950_ladra_servicios_fotos_y_edicion.sql'])await db.exec(await readFile(new URL('../supabase/migrations/'+filename,import.meta.url),'utf8'));
+  for(const filename of ['20261028023325_ladra_servicios_y_consultas.sql','20261028031950_ladra_servicios_fotos_y_edicion.sql','20261029233438_ladra_servicios_refugio_transporte.sql'])await db.exec(await readFile(new URL('../supabase/migrations/'+filename,import.meta.url),'utf8'));
   await t.test('Solo el propietario sube y lee su carpeta aunque existan políticas amplias',async()=>{
    await as(other);await assert.rejects(db.query("insert into storage.objects(bucket_id,name)values('servicios-ladra',$1)",[path]),/row-level security/i);
    await as(owner);await db.query("insert into storage.objects(bucket_id,name)values('servicios-ladra',$1)",[path]);
@@ -55,6 +55,12 @@ test('Fotos y edición: aislamiento frente a permisos heredados, revisión e his
    await db.exec('reset role');await db.query('update ladra.servicios set creacion_clave=$2 where id=$1',[service,key]);await as(owner);
    await assert.rejects(db.query("insert into ladra.servicios(titulo,prestador,categoria,zona,modalidad,descripcion,creacion_clave)values('Servicio','Prestador','estetica','Maipú','local','Descripción suficientemente larga de la prestación.',$1)",[key]),/unique/i);
    await db.exec("insert into storage.objects(bucket_id,name)values('otro-bucket','libre.jpg');update storage.objects set name='editado.jpg' where bucket_id='otro-bucket';delete from storage.objects where bucket_id='otro-bucket'");
+  });
+  await t.test('Acepta refugio gratis, transporte con valor y otras prestaciones existentes',async()=>{
+   const create=async(category,mode,price)=>scalar("insert into ladra.servicios(titulo,prestador,categoria,zona,modalidad,descripcion,precio_clp,precio_tipo)values('Ofrecimiento','Persona',$1,'Maipú',$2,'Condiciones del ofrecimiento para coordinar en privado.',$3,'fijo')returning precio_clp",[category,mode,price]);
+   assert.equal(await create('refugio','local',0),0);assert.equal(await create('transporte','traslado',10000),10000);assert.equal(await create('transporte','traslado',null),null);
+   await assert.rejects(create('refugio','local',-1),/check constraint/i);
+   await assert.rejects(create('desconocida','local',0),/check constraint/i);
   });
  }finally{await db.close();}
 });

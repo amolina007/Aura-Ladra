@@ -76,6 +76,12 @@ No se cambian `public`, Auth, Core ni contenedores de fotos existentes.
 
 ## Verificación
 
+Refugio temporal y transporte tienen categorías y accesos directos propios. El ofrecimiento exige elegir
+Gratis, valor fijo, desde un valor o valor a convenir. Gratis se guarda como `precio_clp=0` y se muestra como
+«Gratis»; un precio no definido se guarda como `null` y se muestra como «A convenir». No son equivalentes.
+El filtro «Solo gratis» excluye los precios a convenir. En refugio la duración, cupos y condiciones se describen
+en texto; no se solicitan minutos ni una dirección exacta pública. Transporte admite la modalidad «Traslado acordado».
+
 `npm run test:servicios` ejecuta pruebas de interfaz con JSDOM y PostgreSQL desechable con PGlite.
 Cubren filtros, navegación, ausencia del backend, ejemplos, publicación/retiro, consulta, reintento,
 respuesta, cierre de sesión, HTML ajeno y permisos efectivos entre tutor, prestador, tercero y anónimo.

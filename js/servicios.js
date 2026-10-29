@@ -12,8 +12,8 @@
   const detail = $('[data-service-detail]');
   const publishDialog = $('[data-service-publish-dialog]');
   const publishForm = $('[data-service-publish-form]');
-  const categories = { estetica: ['Estética', '✂'], entrenamiento: ['Entrenamiento', '◇'], paseos: ['Paseos', '🐾'], cuidado: ['Cuidado', '♡'], otros: ['Otras prestaciones', '＋'] };
-  const modalities = { local: 'En local', domicilio: 'A domicilio', aire_libre: 'Al aire libre', online: 'En línea' };
+  const categories = { refugio: ['Refugio temporal', '⌂'], transporte: ['Transporte', '↗'], estetica: ['Estética', '✂'], entrenamiento: ['Entrenamiento', '◇'], paseos: ['Paseos', '🐾'], cuidado: ['Cuidado', '♡'], otros: ['Otras prestaciones', '＋'] };
+  const modalities = { local: 'En local', domicilio: 'A domicilio', aire_libre: 'Al aire libre', online: 'En línea', traslado: 'Traslado acordado' };
   const states = { pendiente: 'Pendiente de respuesta', respondida: 'Respondida', no_disponible: 'Sin disponibilidad' };
   const times = { manana: 'Mañana', tarde: 'Tarde', a_convenir: 'A convenir' };
   const examples = [
@@ -33,7 +33,7 @@
     ? (window.auraLadraRed?.propias?.() || []).filter(a => !a.es_conmemorativa) : [];
   const escape = (value) => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const norm = (value) => String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
-  const price = (service) => service.precio_clp == null ? 'A convenir' : `${service.precio_tipo === 'desde' ? 'Desde ' : ''}$${Number(service.precio_clp).toLocaleString('es-CL')}`;
+  const price = (service) => service.precio_clp == null ? 'A convenir' : Number(service.precio_clp) === 0 ? 'Gratis' : `${service.precio_tipo === 'desde' ? 'Desde ' : ''}$${Number(service.precio_clp).toLocaleString('es-CL')}`;
   const today = () => new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Santiago', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
   const dateLabel = (value) => new Intl.DateTimeFormat('es-CL', { dateStyle: 'long', timeZone: 'UTC' }).format(new Date(`${value}T12:00:00Z`));
   // Mismos orígenes que permite la política de imágenes existente de Ladra.
@@ -80,8 +80,29 @@
     $('#service-publish-title').textContent = service ? 'Editar servicio' : 'Ofrecer un servicio';
     publishForm.querySelector('[type=submit]').textContent = service ? 'Guardar cambios' : 'Publicar servicio';
     if (service) for (const key of ['titulo','prestador','categoria','zona','modalidad','precio_clp','precio_tipo','duracion_min','descripcion']) publishForm.elements[key].value = service[key] ?? '';
+    if (service) publishForm.elements.precio_tipo.value = service.precio_clp == null ? 'acordar' : Number(service.precio_clp) === 0 ? 'gratis' : service.precio_tipo;
+    syncPriceFields(); syncCategoryHelp();
     $('[data-service-publish-message]').textContent = ready ? '' : 'El guardado aún no está disponible. Actualiza el catálogo e inténtalo de nuevo.';
     renderPhotoPreview(); show(publishDialog, from);
+  }
+  function syncPriceFields() {
+    const mode = publishForm.elements.precio_tipo.value;
+    const paid = ['fijo','desde'].includes(mode);
+    $('[data-service-amount]').hidden = !paid;
+    publishForm.elements.precio_clp.disabled = !paid;
+    publishForm.elements.precio_clp.required = paid;
+    if (!paid) publishForm.elements.precio_clp.value = '';
+  }
+  function syncCategoryHelp() {
+    const category = publishForm.elements.categoria.value;
+    const hints = {
+      refugio: 'Indica qué mascotas puedes recibir, cupos, por cuánto tiempo y en qué condiciones. Comparte la dirección exacta solo por mensaje.',
+      transporte: 'Indica zonas, trayectos, horarios y qué mascotas puedes trasladar. Acuerda recogida y entrega por mensaje.',
+    };
+    const hint = $('[data-service-category-help]');
+    hint.hidden = !hints[category]; hint.textContent = hints[category] || '';
+    publishForm.elements.duracion_min.closest('label').hidden = category === 'refugio';
+    if (category === 'refugio') publishForm.elements.duracion_min.value = '';
   }
   async function uploadPhoto(actor, generation, message) {
     if (!photoFile) return removePhoto ? { foto_path: null, foto_url: null } : { foto_path: editingService?.foto_path || null, foto_url: editingService?.foto_url || null };
@@ -117,6 +138,7 @@
       norm(`${s.titulo} ${s.prestador} ${s.descripcion}`).includes(norm(data.get('busqueda'))) &&
       norm(s.zona).includes(norm(data.get('zona'))) &&
       (!data.get('modalidad') || s.modalidad === data.get('modalidad')) &&
+      (!data.get('costo') || (data.get('costo') === 'gratis' && s.precio_clp != null && Number(s.precio_clp) === 0) || (data.get('costo') === 'pagado' && Number(s.precio_clp) > 0) || (data.get('costo') === 'acordar' && s.precio_clp == null)) &&
       (data.get('precio') === '' || (s.precio_clp != null && Number(s.precio_clp) <= Number(data.get('precio'))))
     );
     list.innerHTML = rows.length ? rows.map(s => `<article class="service-card">${cover(s)}<div class="service-card-body"><span class="service-label">${escape(categories[s.categoria]?.[0] || 'Servicio')}${demo ? ' · Ejemplo' : ''}</span><h3>${escape(s.titulo)}</h3><p class="service-muted">${escape(s.prestador)}</p><p class="service-muted">⌖ ${escape(s.zona)} · ${escape(modalities[s.modalidad])}</p><div class="service-card-footer"><span class="service-price">${escape(price(s))}</span><button type="button" class="button button-dark" data-service-open="${escape(s.id)}">Ver servicio</button></div></div></article>`).join('')
@@ -152,7 +174,7 @@
 
   function renderDetail() {
     const s = selected;
-    detail.innerHTML = `${cover(s)}<div class="service-dialog-content"><p class="kicker">${escape(categories[s.categoria]?.[0])}</p><h2 id="service-dialog-title">${escape(s.titulo)}</h2><p>${escape(s.prestador)}</p><p class="service-muted">⌖ ${escape(s.zona)} · ${escape(modalities[s.modalidad])}</p><div class="service-detail-price"><span class="service-muted">Precio en CLP</span><strong class="service-price">${escape(price(s))}</strong>${s.duracion_min ? `<span class="service-muted">Duración estimada: ${Number(s.duracion_min)} min</span>` : ''}</div><h3>Qué incluye y condiciones</h3><p class="service-description">${escape(s.descripcion)}</p>${isExample(s) ? '<p class="service-demo-note">Ejemplo del diseño. Este servicio no está publicado y no acepta consultas.</p>' : '<p class="service-muted">Información publicada por el prestador. La disponibilidad y el valor se acuerdan antes de reservar.</p>'}${s.propietario_id === userId() ? '<p class="service-demo-note">Esta es tu prestación. Puedes administrarla en “Mis consultas y servicios”.</p>' : '<button type="button" class="button button-dark" data-service-inquire>Consultar disponibilidad</button>'}</div>`;
+    detail.innerHTML = `${cover(s)}<div class="service-dialog-content"><p class="kicker">${escape(categories[s.categoria]?.[0])}</p><h2 id="service-dialog-title">${escape(s.titulo)}</h2><p>${escape(s.prestador)}</p><p class="service-muted">⌖ ${escape(s.zona)} · ${escape(modalities[s.modalidad])}</p><div class="service-detail-price"><span class="service-muted">Costo</span><strong class="service-price">${escape(price(s))}</strong>${s.duracion_min ? `<span class="service-muted">Duración estimada: ${Number(s.duracion_min)} min</span>` : ''}</div><h3>Qué incluye y condiciones</h3><p class="service-description">${escape(s.descripcion)}</p>${isExample(s) ? '<p class="service-demo-note">Ejemplo del diseño. Este servicio no está publicado y no acepta consultas.</p>' : '<p class="service-muted">Información publicada por el prestador. La disponibilidad y el valor se acuerdan antes de reservar.</p>'}${s.propietario_id === userId() ? '<p class="service-demo-note">Esta es tu prestación. Puedes administrarla en “Mis consultas y servicios”.</p>' : '<button type="button" class="button button-dark" data-service-inquire>Consultar disponibilidad</button>'}</div>`;
     wireImages(detail);
     focusDetail();
   }
@@ -237,7 +259,9 @@
     delete payload.consentimiento;
     delete payload.foto_file;
     for (const name of ['titulo','prestador','zona','descripcion']) payload[name] = payload[name].trim();
-    payload.precio_clp = payload.precio_clp === '' ? null : Number(payload.precio_clp);
+    const priceMode = payload.precio_tipo;
+    payload.precio_clp = priceMode === 'gratis' ? 0 : priceMode === 'acordar' ? null : Number(payload.precio_clp);
+    payload.precio_tipo = ['gratis','acordar'].includes(priceMode) ? 'fijo' : priceMode;
     payload.duracion_min = payload.duracion_min === '' ? null : Number(payload.duracion_min);
     const controls = [...publishForm.querySelectorAll('input,select,textarea,button'), $('[data-service-publish-close]')];
     submitting = true; controls.forEach(c => c.disabled = true);
@@ -320,6 +344,14 @@
       const service = ownedServices.find(s => s.id === target.dataset.serviceEdit);
       if (service) openEditor(service, target);
     }
+    if (target.dataset.serviceOffer) {
+      if (!userId()) { window.auraLadraVistas?.ir('cuenta'); return; }
+      openEditor(null, target);
+      publishForm.elements.categoria.value = target.dataset.serviceOffer;
+      publishForm.elements.titulo.value = target.dataset.serviceOffer === 'refugio' ? 'Refugio temporal' : 'Transporte de mascotas';
+      publishForm.elements.modalidad.value = target.dataset.serviceOffer === 'transporte' ? 'traslado' : 'local';
+      syncCategoryHelp();
+    }
     if (target.hasAttribute('data-service-publish')) {
       if (!userId()) { window.auraLadraVistas?.ir('cuenta'); return; }
       openEditor(null, target);
@@ -366,6 +398,8 @@
   });
   detail.addEventListener('submit', e => { const form = e.target.closest('[data-service-inquiry-form]'); if (form) { e.preventDefault(); sendInquiry(form); } });
   publishForm.addEventListener('submit', publish);
+  publishForm.elements.precio_tipo.addEventListener('change', syncPriceFields);
+  publishForm.elements.categoria.addEventListener('change', syncCategoryHelp);
   root.addEventListener('submit', respond);
   document.addEventListener('click', e => {
     if (e.target.closest('[data-services-training]')) {

@@ -13,7 +13,7 @@
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23f2a93b'/%3E%3Cpath d='M20 30c-5-1-7 5-4 8 3 3 7 0 7-3 0-2-1-4-3-5Zm24 0c5-1 7 5 4 8-3 3-7 0-7-3 0-2 1-4 3-5ZM27 21c-4-3-8 2-6 6 2 4 7 2 8-1 1-2 0-4-2-5Zm10 0c4-3 8 2 6 6-2 4-7 2-8-1-1-2 0-4 2-5Zm-5 9c-7 0-13 8-10 14 2 5 8 3 10 1 2 2 8 4 10-1 3-6-3-14-10-14Z' fill='%23102a43'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/mobile-refresh.css?v=galeria-trucos-1">
-  <link rel="stylesheet" href="css/servicios.css?v=2">
+  <link rel="stylesheet" href="css/servicios.css?v=3">
 </head>
 <body>
 <div class="paw-backdrop" aria-hidden="true">
@@ -89,18 +89,19 @@
 
     <section class="services-section section" id="servicios" data-vista-de="servicios" aria-labelledby="services-title">
       <div class="shell services-shell">
-        <div class="services-heading"><div><p class="kicker">Cuidados cerca de ti</p><h2 id="services-title">Servicios</h2><p>Estética, entrenamiento y más para tu mascota.</p></div><button class="button button-dark" type="button" data-service-publish>Ofrecer un servicio</button></div>
+        <div class="services-heading"><div><p class="kicker">Cuidados cerca de ti</p><h2 id="services-title">Servicios</h2><p>Refugio, transporte y cuidados, gratis o por un valor.</p></div><button class="button button-dark" type="button" data-service-publish>Ofrecer un servicio</button></div>
+        <div class="services-community-actions" aria-label="Ofrecer ayuda"><button type="button" data-service-offer="refugio"><strong>⌂ Ofrecer refugio</strong><small>Recibir temporalmente a una mascota</small></button><button type="button" data-service-offer="transporte"><strong>↗ Ofrecer transporte</strong><small>Ayudar con un traslado</small></button></div>
         <div class="services-switch" role="group" aria-label="Ver servicios o consultas"><button type="button" data-services-panel="catalogo" aria-pressed="true">Explorar</button><button type="button" data-services-panel="consultas" aria-pressed="false">Mis consultas y servicios</button></div>
         <div data-services-catalog>
           <form class="services-filters" data-services-filters role="search" aria-label="Buscar servicios">
             <label class="field services-search"><span>¿Qué necesita tu mascota?</span><input type="search" name="busqueda" placeholder="Servicio o profesional" maxlength="100"></label>
             <details class="services-advanced"><summary>Filtrar por zona, modalidad y precio</summary><div class="services-advanced-grid">
             <label class="field"><span>Comuna o zona</span><input name="zona" placeholder="Todas las zonas" maxlength="100"></label>
-            <label class="field"><span>Modalidad</span><select name="modalidad"><option value="">Todas</option><option value="local">En local</option><option value="domicilio">A domicilio</option><option value="aire_libre">Al aire libre</option><option value="online">En línea</option></select></label>
-            <label class="field"><span>Precio desde, hasta (CLP)</span><input type="number" name="precio" min="0" step="1" placeholder="Sin límite"></label>
+            <label class="field"><span>Modalidad</span><select name="modalidad"><option value="">Todas</option><option value="local">En local</option><option value="domicilio">A domicilio</option><option value="aire_libre">Al aire libre</option><option value="online">En línea</option><option value="traslado">Traslado acordado</option></select></label>
+            <label class="field"><span>Costo</span><select name="costo"><option value="">Todos</option><option value="gratis">Solo gratis</option><option value="pagado">Con valor definido</option><option value="acordar">A convenir</option></select></label><label class="field"><span>Precio desde, hasta (CLP)</span><input type="number" name="precio" min="0" step="1" placeholder="Sin límite"></label>
             </div></details>
           </form>
-          <div class="services-categories" role="group" aria-label="Categoría de servicio"><button type="button" data-service-category="" aria-pressed="true">Todos</button><button type="button" data-service-category="estetica" aria-pressed="false">✂ Estética</button><button type="button" data-service-category="entrenamiento" aria-pressed="false">◇ Entrenamiento</button><button type="button" data-service-category="paseos" aria-pressed="false">🐾 Paseos</button><button type="button" data-service-category="cuidado" aria-pressed="false">♡ Cuidado</button><button type="button" data-service-category="otros" aria-pressed="false">Más prestaciones</button></div>
+          <div class="services-categories" role="group" aria-label="Categoría de servicio"><button type="button" data-service-category="" aria-pressed="true">Todos</button><button type="button" data-service-category="refugio" aria-pressed="false">⌂ Refugio temporal</button><button type="button" data-service-category="transporte" aria-pressed="false">↗ Transporte</button><button type="button" data-service-category="estetica" aria-pressed="false">✂ Estética</button><button type="button" data-service-category="entrenamiento" aria-pressed="false">◇ Entrenamiento</button><button type="button" data-service-category="paseos" aria-pressed="false">🐾 Paseos</button><button type="button" data-service-category="cuidado" aria-pressed="false">♡ Cuidado</button><button type="button" data-service-category="otros" aria-pressed="false">Más prestaciones</button></div>
           <div class="services-status" role="status" data-services-status>Cargando servicios…</div>
           <div class="services-tools"><button type="button" class="service-text-button" data-services-retry>Actualizar servicios</button><button type="button" class="service-text-button" data-services-demo>Ver ejemplos del diseño</button></div>
           <div class="services-grid" data-services-list></div>
@@ -916,14 +917,14 @@
 
   <dialog class="service-dialog" data-service-publish-dialog aria-labelledby="service-publish-title">
     <button type="button" class="service-close" data-service-publish-close aria-label="Cerrar formulario">×</button>
-    <div class="service-dialog-content"><p class="kicker">Tu trabajo en Ladra</p><h2 id="service-publish-title">Ofrecer un servicio</h2><p>Publica información real. Las consultas llegarán a tu bandeja de servicios.</p>
+    <div class="service-dialog-content"><p class="kicker">Lo que puedes ofrecer</p><h2 id="service-publish-title">Ofrecer un servicio</h2><p>Ofrece ayuda o una prestación. Las consultas llegarán a tu bandeja de servicios.</p>
       <form class="service-form" data-service-publish-form>
         <label class="field"><span>Nombre del servicio</span><input name="titulo" required minlength="3" maxlength="100" placeholder="Por ejemplo, baño y cepillado"></label>
-        <label class="field"><span>Tu nombre o negocio</span><input name="prestador" required minlength="2" maxlength="100" autocomplete="organization"></label>
-        <label class="field"><span>Categoría</span><select name="categoria" required><option value="estetica">Estética</option><option value="entrenamiento">Entrenamiento</option><option value="paseos">Paseos</option><option value="cuidado">Cuidado</option><option value="otros">Otras prestaciones</option></select></label>
+        <p class="service-category-help" data-service-category-help hidden></p><label class="field"><span>Tu nombre o negocio</span><input name="prestador" required minlength="2" maxlength="100" autocomplete="organization"></label>
+        <label class="field"><span>Categoría</span><select name="categoria" required><option value="refugio">Refugio temporal</option><option value="transporte">Transporte</option><option value="estetica">Estética</option><option value="entrenamiento">Entrenamiento</option><option value="paseos">Paseos</option><option value="cuidado">Cuidado</option><option value="otros">Otras prestaciones</option></select></label>
         <label class="field"><span>Comuna o zona de cobertura</span><input name="zona" required minlength="2" maxlength="100" placeholder="Por ejemplo, Maipú"></label>
-        <label class="field"><span>Modalidad</span><select name="modalidad" required><option value="local">En local</option><option value="domicilio">A domicilio</option><option value="aire_libre">Al aire libre</option><option value="online">En línea</option></select></label>
-        <div class="service-form-row"><label class="field"><span>Precio en CLP (opcional)</span><input type="number" name="precio_clp" min="0" max="10000000" step="1" placeholder="A convenir"></label><label class="field"><span>Tipo de precio</span><select name="precio_tipo"><option value="desde">Desde</option><option value="fijo">Fijo</option></select></label></div>
+        <label class="field"><span>Modalidad</span><select name="modalidad" required><option value="local">En local</option><option value="domicilio">A domicilio</option><option value="aire_libre">Al aire libre</option><option value="online">En línea</option><option value="traslado">Traslado acordado</option></select></label>
+        <label class="field"><span>¿Cómo lo ofreces?</span><select name="precio_tipo" required><option value="">Elige una opción</option><option value="gratis">Gratis</option><option value="fijo">Por un valor fijo</option><option value="desde">Desde un valor</option><option value="acordar">Valor a convenir</option></select></label><label class="field" data-service-amount hidden><span>Monto en pesos (CLP)</span><input type="number" name="precio_clp" min="1" max="10000000" step="1" placeholder="Por ejemplo, 10000" disabled></label>
         <label class="field"><span>Duración en minutos (opcional)</span><input type="number" name="duracion_min" min="5" max="1440" step="1"></label>
         <label class="field"><span>Qué incluye y condiciones</span><textarea name="descripcion" required minlength="20" maxlength="2000" rows="4" placeholder="Qué ofreces, para qué mascotas y de qué depende el precio. En entrenamiento, explica tus métodos."></textarea></label>
         <div class="service-photo-field"><span class="service-label">Foto del servicio (opcional)</span><div class="service-photo-preview" data-service-photo-preview hidden><img alt="Vista previa de la foto del servicio" data-service-photo-image></div><label class="service-photo-picker"><span>Tomar o elegir foto</span><input type="file" name="foto_file" accept="image/jpeg,image/png,image/webp" data-service-photo-input></label><button class="service-text-button" type="button" data-service-photo-remove hidden>Quitar foto</button><p class="service-muted" data-service-photo-note>JPG, PNG o WebP · hasta 20 MB. La optimizamos antes de subirla. Las fotos guardadas son públicas.</p></div>
@@ -971,7 +972,7 @@
 <script src="js/tienda-transferencia.js?v=entregas-2"></script>
 <script src="js/tienda.js?v=stock-vendedor-1"></script>
 <script src="js/servicios-fotos.js?v=1"></script>
-<script src="js/servicios.js?v=2"></script>
+<script src="js/servicios.js?v=3"></script>
 <script defer src="https://core.convergenciaaura.cl/js/aura-hub.js"></script><!-- Menú común de Convergencia Aura: vive en Core (una sola versión para todos los sitios) -->
 <script defer src="https://core.convergenciaaura.cl/js/globo.js" data-margen-movil="76" data-sitio="ladra"></script>
 </body>

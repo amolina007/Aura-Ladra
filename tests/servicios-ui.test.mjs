@@ -94,7 +94,7 @@ test('Publicar servicio, retirarlo y volver a publicarlo',async()=>{
  const a=await app({actor:'provider'});try{
  a.doc.querySelector('[data-service-publish]').click();const f=a.doc.querySelector('[data-service-publish-form]');
  for(const [key,value] of Object.entries({titulo:'Paseos del barrio',prestador:'Persona responsable',zona:'Maipú',descripcion:'Paseo individual con condiciones acordadas.'}))f.elements[key].value=value;
- f.elements.consentimiento.checked=true;submit(a,f);await flush();
+ f.elements.precio_tipo.value='acordar';f.elements.precio_tipo.dispatchEvent(new a.w.Event('change'));f.elements.consentimiento.checked=true;submit(a,f);await flush();
  assert.equal(a.store.servicios.length,3);assert.equal(a.doc.querySelector('[data-service-publish-dialog]').open,false);
  const btn=a.doc.querySelector('[data-service-toggle=new2]');assert.ok(btn);btn.click();await flush();assert.equal(a.store.servicios[2].publicado,false);
  a.doc.querySelector('[data-service-toggle=new2]').click();await flush();assert.equal(a.store.servicios[2].publicado,true);
@@ -168,6 +168,29 @@ test('Respuesta de publicación perdida no duplica el servicio al reintentar',as
  const a=await app({actor:'provider',serviceCommitThenFail:true});try{
  a.doc.querySelector('[data-service-publish]').click();const f=a.doc.querySelector('[data-service-publish-form]');
  for(const [key,value]of Object.entries({titulo:'Nuevo servicio',prestador:'Prestador',zona:'Maipú',descripcion:'Descripción del servicio suficientemente larga.'}))f.elements[key].value=value;
- f.elements.consentimiento.checked=true;submit(a,f);await flush();assert.equal(a.store.servicios.length,3);submit(a,f);await flush();assert.equal(a.store.servicios.length,3);assert.equal(a.doc.querySelector('[data-service-publish-dialog]').open,false);
+ f.elements.precio_tipo.value='acordar';f.elements.precio_tipo.dispatchEvent(new a.w.Event('change'));f.elements.consentimiento.checked=true;submit(a,f);await flush();assert.equal(a.store.servicios.length,3);submit(a,f);await flush();assert.equal(a.store.servicios.length,3);assert.equal(a.doc.querySelector('[data-service-publish-dialog]').open,false);
+ }finally{a.close();}
+});
+
+test('Refugio y transporte tienen accesos directos y precio explícito gratis o pagado',async()=>{
+ const a=await app({actor:'provider'});try{
+ a.doc.querySelector('[data-service-offer=refugio]').click();let f=a.doc.querySelector('[data-service-publish-form]');
+ assert.equal(f.elements.categoria.value,'refugio');assert.equal(f.elements.titulo.value,'Refugio temporal');assert.equal(f.elements.precio_tipo.value,'');
+ f.elements.prestador.value='Persona del barrio';f.elements.zona.value='Maipú';f.elements.descripcion.value='Puedo recibir mascotas temporalmente, previa coordinación.';f.elements.consentimiento.checked=true;
+ assert.equal(f.reportValidity(),false);
+ f.elements.precio_tipo.value='gratis';f.elements.precio_tipo.dispatchEvent(new a.w.Event('change'));assert.equal(f.elements.precio_clp.disabled,true);
+ submit(a,f);await flush();assert.equal(a.store.servicios.at(-1).precio_clp,0);assert.equal(a.store.servicios.at(-1).precio_tipo,'fijo');
+ a.doc.querySelector('[data-services-panel=catalogo]').click();assert.match(a.doc.querySelector('[data-services-list]').textContent,/Gratis/);assert.doesNotMatch(a.doc.querySelector('[data-services-list]').textContent,/Desde \$0/);
+ a.doc.querySelector('[data-service-offer=transporte]').click();f=a.doc.querySelector('[data-service-publish-form]');assert.equal(f.elements.modalidad.value,'traslado');assert.equal(f.elements.categoria.value,'transporte');
+ f.elements.prestador.value='Persona del barrio';f.elements.zona.value='Maipú';f.elements.descripcion.value='Traslados coordinados para mascotas dentro de la comuna.';f.elements.consentimiento.checked=true;
+ f.elements.precio_tipo.value='fijo';f.elements.precio_tipo.dispatchEvent(new a.w.Event('change'));assert.equal(f.elements.precio_clp.required,true);assert.equal(f.reportValidity(),false);
+ f.elements.precio_clp.value='10000';submit(a,f);await flush();assert.equal(a.store.servicios.at(-1).precio_clp,10000);assert.equal(a.store.servicios.at(-1).modalidad,'traslado');
+ }finally{a.close();}
+});
+test('Solo gratis distingue cero de precio no definido y editar conserva esa elección',async()=>{
+ const a=await app({actor:'provider',services:[{...initial[0],categoria:'refugio',precio_clp:0},{...initial[1],categoria:'transporte'}]});try{
+ const cost=a.doc.querySelector('[data-services-filters] [name=costo]');cost.value='gratis';cost.dispatchEvent(new a.w.Event('change',{bubbles:true}));assert.equal(a.doc.querySelectorAll('.service-card').length,1);assert.match(a.doc.querySelector('.service-price').textContent,/Gratis/);
+ const f=await edit(a);assert.equal(f.elements.precio_tipo.value,'gratis');assert.equal(f.elements.precio_clp.required,false);
+ f.elements.descripcion.value='Descripción actualizada de refugio temporal gratuito.';submit(a,f);await flush();assert.equal(a.store.servicios[0].precio_clp,0);
  }finally{a.close();}
 });

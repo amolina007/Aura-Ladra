@@ -10,6 +10,12 @@
 .services-heading h2 { margin:0 0 10px; font:800 clamp(1.8rem,5vw,2.6rem)/1.15 'Nunito',sans-serif; letter-spacing:-.04em; }
 .services-heading p:last-child { margin:0; max-width:520px; color:var(--muted); }
 .services-heading > button { flex-shrink:0; }
+.services-community-actions { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:20px; }
+.services-community-actions button { padding:16px; min-height:64px; border:1px solid var(--line); border-radius:16px; text-align:left; background:var(--cream); color:var(--navy); cursor:pointer; }
+.services-community-actions strong,.services-community-actions small { display:block; }
+.services-community-actions strong { font:800 1rem 'Nunito',sans-serif; }
+.services-community-actions small { margin-top:5px; color:var(--muted); font-size:.76rem; }
+.service-category-help { padding:12px; margin:0; border-radius:12px; background:#f3f6ef; font-size:.83rem; line-height:1.6; }
 .services-switch { display:flex; gap:6px; padding:5px; background:#eaf0e7; border-radius:14px; margin-bottom:22px; width:fit-content; max-width:100%; }
 .services-switch button { border:0; background:none; color:var(--navy); min-height:44px; padding:10px 16px; font:700 .85rem 'DM Sans',sans-serif; border-radius:10px; }
 .services-switch button[aria-pressed=true] { background:white; box-shadow:0 2px 8px #063d2410; }
