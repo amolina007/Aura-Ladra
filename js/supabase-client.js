@@ -27,8 +27,11 @@
     },
     setItem: (key, value) => {
       const maxAge = 60 * 60 * 24 * 30;
+      const compact = window.auraLadraSesionCookie.compactar(value);
+      if (encodeURIComponent(compact).length > 3700) throw new Error('La sesión es demasiado grande para guardarla en este navegador.');
       document.cookie =
-        `${key}=${encodeURIComponent(value)}; domain=${COOKIE_DOMAIN}; path=/; max-age=${maxAge}; SameSite=Lax; Secure`;
+        `${key}=${encodeURIComponent(compact)}; domain=${COOKIE_DOMAIN}; path=/; max-age=${maxAge}; SameSite=Lax; Secure`;
+      if (cookieStorage.getItem(key) !== compact) throw new Error('El navegador no permitió guardar la sesión.');
     },
     removeItem: (key) => {
       document.cookie =

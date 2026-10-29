@@ -314,6 +314,11 @@ La sección 4 alterna causas y tienda con un interruptor compacto y accesos `#ca
 
 ## Servicios para mascotas
 
+Sin sesión, Mi cuenta y la ventana de acceso de la cabecera ofrecen «Continuar con Google» junto al enlace por correo.
+Google usa el cliente propio de Ladra y vuelve al mismo origen. La cookie compartida conserva los tokens de Supabase,
+sin guardar tokens de Google ni los datos de identidad duplicados. Pruebas: `tests/login-google.test.mjs`.
+La apertura del proveedor se verifica por separado de completar el acceso con una cuenta personal de Google.
+
 Nueva vista `#servicios`: catálogo, fichas, consultas vinculadas a una mascota y bandeja de prestadores,
 integrados con Inicio, el menú, los trucos y las fichas propias. Destino de publicación: rama `dev`.
 La migración de guardado se aplicó a Supabase el 27 de octubre de 2026 y se verificó con escrituras revertidas.

@@ -1,0 +1,9 @@
+.ladra-google-zone { margin:16px 0; }
+.ladra-google { display:flex; align-items:center; justify-content:center; gap:12px; min-height:48px; width:100%; padding:12px 18px; border:1px solid #b9c8bd; border-radius:12px; background:#fff; color:#173d2c; font:700 .95rem 'DM Sans',sans-serif; cursor:pointer; }
+.ladra-google svg { width:20px; height:20px; flex:none; }
+.ladra-google:hover { background:#f3f6ef; }
+.ladra-google:focus-visible { outline:3px solid var(--amber); outline-offset:3px; }
+.ladra-google:disabled { opacity:.65; cursor:wait; }
+.ladra-login-separator { display:flex; align-items:center; gap:12px; color:var(--muted); font-size:.85rem; margin:14px 0; }
+.ladra-login-separator::before,.ladra-login-separator::after { content:''; height:1px; background:var(--line); flex:1; }
+.ladra-google-message { margin:8px 0 0; font-size:.85rem; color:var(--ink); }

@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/mobile-refresh.css?v=galeria-trucos-1">
   <link rel="stylesheet" href="css/servicios.css?v=3">
+  <link rel="stylesheet" href="css/login.css?v=1">
 </head>
 <body>
 <div class="paw-backdrop" aria-hidden="true">
@@ -417,6 +418,7 @@
                 <div><p class="kicker">Cuenta personal</p><h3 id="account-title">Mi cuenta</h3></div>
               </div>
               <div data-signed-out>
+<div class="ladra-google-zone" data-login-google-zone><button class="ladra-google" type="button" data-login-google><svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#4285F4" d="M43.6 24.5c0-1.4-.1-2.8-.4-4.2H24v8h11a9.4 9.4 0 0 1-4.1 6.2v5.2h6.7c3.9-3.6 6-8.8 6-15.2z"/><path fill="#34A853" d="M24 44c5.5 0 10.1-1.8 13.5-4.9l-6.7-5.2c-1.8 1.2-4.1 1.9-6.8 1.9-5.3 0-9.8-3.6-11.4-8.4H5.7v5.4A20.4 20.4 0 0 0 24 44z"/><path fill="#FBBC05" d="M12.6 27.4a12.2 12.2 0 0 1 0-7.8v-5.4H5.7a20.3 20.3 0 0 0 0 18.6z"/><path fill="#EA4335" d="M24 11.2c3 0 5.6 1 7.7 3l5.8-5.8A19.6 19.6 0 0 0 24 3a20.4 20.4 0 0 0-18.3 11.2l6.9 5.4c1.6-4.8 6.1-8.4 11.4-8.4z"/></svg><span>Continuar con Google</span></button><p class="ladra-google-message" data-login-google-message role="status"></p><div class="ladra-login-separator">o entra con tu correo</div></div>
                 <p class="card-copy">Recibe un enlace mágico por correo. No necesitas contraseña y podrás revisar el estado de los reportes que envíes con tu sesión iniciada.</p>
                 <form class="magic-form" data-magic-form>
                   <label class="field">
@@ -871,7 +873,8 @@
             <button class="pet-profile-close" type="button" data-login-close aria-label="Cerrar">×</button>
             <p class="kicker">Mi cuenta</p>
             <h3 id="login-title">Iniciar sesión</h3>
-            <p class="card-copy">Escribe tu correo y te enviamos un enlace para entrar, sin contraseña.</p>
+<div class="ladra-google-zone" data-login-google-zone><button class="ladra-google" type="button" data-login-google><svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#4285F4" d="M43.6 24.5c0-1.4-.1-2.8-.4-4.2H24v8h11a9.4 9.4 0 0 1-4.1 6.2v5.2h6.7c3.9-3.6 6-8.8 6-15.2z"/><path fill="#34A853" d="M24 44c5.5 0 10.1-1.8 13.5-4.9l-6.7-5.2c-1.8 1.2-4.1 1.9-6.8 1.9-5.3 0-9.8-3.6-11.4-8.4H5.7v5.4A20.4 20.4 0 0 0 24 44z"/><path fill="#FBBC05" d="M12.6 27.4a12.2 12.2 0 0 1 0-7.8v-5.4H5.7a20.3 20.3 0 0 0 0 18.6z"/><path fill="#EA4335" d="M24 11.2c3 0 5.6 1 7.7 3l5.8-5.8A19.6 19.6 0 0 0 24 3a20.4 20.4 0 0 0-18.3 11.2l6.9 5.4c1.6-4.8 6.1-8.4 11.4-8.4z"/></svg><span>Continuar con Google</span></button><p class="ladra-google-message" data-login-google-message role="status"></p><div class="ladra-login-separator">o entra con tu correo</div></div>
+            <p class="card-copy">Elige Google o recibe un enlace por correo, sin contraseña.</p>
             <form class="magic-form" data-magic-form>
               <label class="field">
                 <span>Correo electrónico</span>
@@ -900,7 +903,7 @@
               <div data-contact-human-signed-in>
                 <label class="field"><span>Tu mensaje</span><textarea name="cuerpo" required minlength="10" maxlength="800" rows="4" placeholder="Preséntate y explica por qué escribes."></textarea></label>
               </div>
-              <p class="pet-health-note" data-contact-human-signed-out hidden>Para enviar el mensaje, inicia sesión con enlace mágico en Mi cuenta.</p>
+              <p class="pet-health-note" data-contact-human-signed-out hidden>Para enviar el mensaje, inicia sesión en Mi cuenta.</p>
               <div class="profile-report-actions">
                 <button class="button button-dark" type="submit" data-contact-human-submit>Enviar mensaje</button>
                 <a class="button button-dark" href="#cuenta" data-contact-human-account hidden>Ir a Mi cuenta</a>
@@ -954,7 +957,8 @@
 <script src="https://convergenciaaura.cl/aura-auth.js"></script>
 <script src="https://core.convergenciaaura.cl/js/aura-pwa-auth.js"></script>
 <script src="https://core.convergenciaaura.cl/js/aura-nav.js"></script>
-<script src="js/supabase-client.js"></script>
+<script src="js/sesion-cookie.js?v=1"></script>
+<script src="js/supabase-client.js?v=google-1"></script>
 <script src="js/aura-acceso-secundario.js"></script>
 <script src="js/visitas.js"></script>
 <script src="js/main.js"></script>
@@ -969,6 +973,7 @@
 <script src="js/encuentros.js"></script>
 <script src="js/arbol.js"></script>
 <script src="js/vistas.js?v=interruptor-1"></script>
+<script src="js/login-google.js?v=1"></script>
 <script src="js/tienda-transferencia.js?v=entregas-2"></script>
 <script src="js/tienda.js?v=stock-vendedor-1"></script>
 <script src="js/servicios-fotos.js?v=1"></script>
