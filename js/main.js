@@ -2382,6 +2382,7 @@
     currentSession = session;
     currentUserIsModerator = false;
     updateSessionChip(session);
+    document.dispatchEvent(new CustomEvent('sesion:cambio', { detail: { session } }));
     const signedOut = document.querySelector('[data-signed-out]');
     const signedIn = document.querySelector('[data-signed-in]');
     // Con sesión iniciada, «Cuenta personal · Mi cuenta» no se muestra: Mi perfil ocupa su lugar.
@@ -3484,14 +3485,24 @@
       setMessage(reportMessage, 'El sistema de reportes no está disponible temporalmente.', 'error');
       return;
     }
+    // Escuchar antes de iniciar consultas: una respuesta inicial lenta con null
+    // no debe reemplazar una sesión que llegó mientras cargaba el mapa.
+    let versionSesion = 0;
+    db.auth.onAuthStateChange((_event, session) => {
+      const version = ++versionSesion;
+      window.setTimeout(async () => {
+        if (version !== versionSesion) return;
+        await syncSession(session);
+        if (version === versionSesion) completeMagicLinkReturn(session);
+      }, 0);
+    });
+    const versionInicial = versionSesion;
     const [{ data }] = await Promise.all([db.auth.getSession(), verifyBackend(), loadPlaces(), loadAnimalNetwork()]);
-    await syncSession(data.session);
-    completeMagicLinkReturn(data.session);
+    if (versionInicial === versionSesion) {
+      await syncSession(data.session);
+      if (versionInicial === versionSesion) completeMagicLinkReturn(data.session);
+    }
     try { await refreshWanted(); } catch (error) { console.warn('AuraLadra: Most Wanted no cargó.', error); }
-    db.auth.onAuthStateChange((_event, session) => window.setTimeout(async () => {
-      await syncSession(session);
-      completeMagicLinkReturn(session);
-    }, 0));
   }
 
   // La barra de abajo y el menú los maneja js/vistas.js (una sección a la vez).

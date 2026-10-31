@@ -69,6 +69,17 @@
     },
   );
 
-  // auraClient y auraLadraDb usan ahora la misma sesión compartida;
-  // cada conexión conserva el esquema de datos que le corresponde.
+  // Una sola instancia renueva la sesión y procesa el retorno de Google/correo.
+  // La navegación compartida consulta sus otros esquemas con .schema(...).
+  // Crear dos clientes, aunque lean la misma cookie, duplica la renovación y
+  // puede dejar los formularios con un estado distinto al de la cabecera.
+  window.auraClient = window.auraLadraDb;
+  window.auraSendMagicLink = async (email, returnTo) => {
+    const { error } = await window.auraClient.auth.signInWithOtp({
+      email,
+      options: { emailRedirectTo: `https://convergenciaaura.cl/auth/callback.html?return_to=${encodeURIComponent(returnTo || window.location.href)}` },
+    });
+    return error;
+  };
+  window.auraSignOut = () => window.auraClient.auth.signOut();
 })();

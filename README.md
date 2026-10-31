@@ -324,6 +324,10 @@ Google usa el cliente propio de Ladra y vuelve al mismo origen. La cookie compar
 sin guardar tokens de Google ni los datos de identidad duplicados. Pruebas: `tests/login-google.test.mjs`.
 La apertura del proveedor se verifica por separado de completar el acceso con una cuenta personal de Google.
 
+El parche de sesión usa una sola instancia para `auraClient` y `auraLadraDb`; el menú y Ladra comparten la renovación.
+La escucha de Auth empieza antes de cargar mapa y red, y las fichas abiertas actualizan Seguir/Guardar al cambiar de sesión.
+Pruebas de regresión: `tests/sesion-perfil.test.mjs`. La propuesta visual de «Mi espacio» se revisa por separado.
+
 Nueva vista `#servicios`: catálogo, fichas, consultas vinculadas a una mascota y bandeja de prestadores,
 integrados con Inicio, el menú, los trucos y las fichas propias. Destino de publicación: rama `dev`.
 La migración de guardado se aplicó a Supabase el 27 de octubre de 2026 y se verificó con escrituras revertidas.
