@@ -179,12 +179,17 @@ con los eventos `arbol:cambio` y `ayuda:cambio`. Las recompensas **no** existen:
 ### Misiones de LadraAura (botón «i»)
 `js/misiones.js` agrega un botón «i» flotante, justo encima del globo de mensajes, con 3 misiones guía: agregar tu mascota (se marca sola al tener una mascota viva), invitar a un amigo (se marca al compartir el enlace; no se puede verificar que lo abra alguien) y apoyar Comida y agua (me gusta o comentario, evento `puestos:interaccion`). Cada misión dice cuánto paga en AC: crear una mascota paga desde 350 AC (lo paga el trigger `trg_aporte_creacion` de `ladra.animales`, valor de `aura_coin.parametro` al 16-oct-2026, constante `PAGO_MASCOTA_AC`); invitar y apoyar la campaña no tienen pago definido. Muestra la equivalencia en pesos (`fn_ac_resumen_publico`) y las misiones abiertas de Convergencia (`fn_ac_misiones_comunidad`), ambas públicas. El botón «Ver todas las misiones» abre `/misiones` en el mismo origen que `aura-hub.js` (en dev: el de dev; en producción solo existirá cuando Convergencia suba su página de misiones). Este sitio no mueve AC. El avance de las dos últimas se recuerda solo en este navegador (localStorage, por usuario). Es la versión de Ladra; el menú común `aura-hub.js` no trae misiones y vive en el repo de Convergencia.
 
-## Inicio: feed multimedia (modo demo)
+## Inicio: publicaciones compartidas
 
-Inicio es solo un feed: barra de historias (duran 24 h) y publicaciones de mascotas. El dueño publica en nombre
-de su mascota (`js/feed.js`), se publica al instante y cualquiera puede denunciar. **Por ahora es demo**: se guarda
-en `localStorage` (imágenes reducidas a 960 px), con ejemplos «(ejemplo)». Falta el servidor (tabla, Storage y
-revisión de denuncias por moderación). Evento `feed:cambio`; `window.auraLadraFeed.posts()`.
+Publicaciones e historias se guardan en `ladra.publicaciones_feed` y las fotos en el bucket `ladra-feed`.
+La migración `20261031232711_ladra_feed_compartido.sql` se aplicó el 31 de octubre de 2026; la interfaz se prepara en `dev`.
+Cada persona publica con sus mascotas de perfil público. Sus publicaciones ofrecen Editar y Eliminar con confirmación.
+La vista previa permite arrastrar, centrar, acercar y elegir formato; el archivo final usa el mismo recorte y hasta 960 px.
+Las historias dejan de aparecer en el feed después de 24 horas; los archivos del bucket público no caducan automáticamente.
+No se generan publicaciones de ejemplo y se retiran las semillas demo almacenadas anteriormente.
+Las fotos reales antiguas se conservan en el navegador original: «Compartir entre dispositivos» las copia al servidor sin duplicarlas.
+Los me gusta, las vistas y las ocultaciones siguen siendo preferencias locales; no hay revisión de denuncias por moderación.
+Pruebas: `node --test tests/feed-fotos.test.mjs tests/feed-db.test.mjs`. Evento `feed:cambio`; `window.auraLadraFeed.posts()`.
 
 ## Mi red y Descubrir (etapa 1)
 

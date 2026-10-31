@@ -116,7 +116,7 @@
           throw rowError;
         }
       }
-      setMessage(message, `${files.length === 1 ? 'Foto agregada' : `${files.length} fotos agregadas`} a la galería.`, 'success');
+      setMessage(message, `${files.length === 1 ? 'Foto agregada' : `${files.length} fotos agregadas`} a la galería y al feed.`, 'success');
       await loadAnimalMedia(animal, document.querySelector('[data-pet-profile-view]'));
       document.dispatchEvent(new CustomEvent('trucos:actualizados'));
     } catch (error) {
@@ -169,7 +169,7 @@
       }
       form.reset();
       form.hidden = true;
-      setMessage(message, 'Video publicado en el perfil y el repertorio.', 'success');
+      setMessage(message, 'Video publicado en el perfil, el repertorio y el feed.', 'success');
       await loadAnimalMedia(animal, document.querySelector('[data-pet-profile-view]'));
       document.dispatchEvent(new CustomEvent('trucos:actualizados'));
     } catch (error) {

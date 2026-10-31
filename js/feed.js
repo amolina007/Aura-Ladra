@@ -1,7 +1,5 @@
-// Inicio: feed multimedia. Las mascotas publican (a través de quien las cuida) fotos e historias de 24 h.
-// Primera versión: MODO DEMO. Todo se guarda solo en este navegador (localStorage); todavía no se usa
-// Supabase ni almacenamiento de archivos. Los videos quedan para cuando exista almacenamiento.
-// Moderación: cualquiera puede denunciar una publicación; en la demo la denuncia solo la oculta para quien denunció.
+// Inicio: fotos y trucos de perfiles públicos guardados en Supabase.
+// Publicaciones e historias compartidas. Solo las preferencias de lectura son locales.
 (() => {
   'use strict';
 
@@ -11,7 +9,8 @@
   const KEY = 'auraladra.demo.feed.v1';
   const KEY_VISTAS = 'auraladra.demo.feed.vistas.v1';
   const HORAS_HISTORIA = 24;
-  const MAX_LADO = 960;
+  const fotos = window.auraLadraFeedFotos;
+  const datos = window.auraLadraFeedDatos;
 
   const $ = (sel, el = document) => el.querySelector(sel);
   const listaEl = $('[data-feed-lista]', root);
@@ -23,6 +22,15 @@
   const msg = $('[data-feed-message]');
   const visor = $('[data-feed-historia-dialog]');
 
+  let compartidos = [];
+  let remotos = [];
+  let ocupado = false;
+  let editando = null;
+  let foto = null;
+  let lectura = 0;
+  let operacion = null;
+  let carga = 0;
+  let errorMedios = false;
   let sesion = null;
   let mias = []; // mascotas propias [{id, nombre, especie, foto_url}]
 
@@ -50,28 +58,19 @@
   const guardar = (k, v) => { try { window.localStorage.setItem(k, JSON.stringify(v)); return true; } catch { return false; } };
   const leer = (k) => { try { return JSON.parse(window.localStorage.getItem(k)); } catch { return null; } };
 
-  // ---------- Datos de ejemplo ----------
-  const haceH = (h) => new Date(Date.now() - h * 3600000).toISOString();
-  const semilla = () => ([
-    { id: 'ej-1', ejemplo: true, tipo: 'post', mascota: { id: 'ej-luna', nombre: 'Luna (ejemplo)', especie: 'Perra' }, autor: 'Ana (ejemplo)', texto: 'Primera tarde de sol en el parque. Aprendí a esperar mi turno en el columpio de pasto.', imagen: '', tono: 0, creado: haceH(2), likes: 12 },
-    { id: 'ej-2', ejemplo: true, tipo: 'historia', mascota: { id: 'ej-luna', nombre: 'Luna (ejemplo)', especie: 'Perra' }, autor: 'Ana (ejemplo)', texto: 'Paseo de las 7 🌅', imagen: '', tono: 2, creado: haceH(3), likes: 0 },
-    { id: 'ej-3', ejemplo: true, tipo: 'historia', mascota: { id: 'ej-luna', nombre: 'Luna (ejemplo)', especie: 'Perra' }, autor: 'Ana (ejemplo)', texto: 'Hoy me bañaron y estoy digna.', imagen: '', tono: 1, creado: haceH(1), likes: 0 },
-    { id: 'ej-4', ejemplo: true, tipo: 'post', mascota: { id: 'ej-canela', nombre: 'Canela (ejemplo)', especie: 'Perra' }, autor: 'Rosa (ejemplo)', texto: 'Canela, la perra de la plaza, ya tiene su puesto de agua nuevo. Gracias a quienes ayudaron 💧', imagen: '', tono: 3, creado: haceH(9), likes: 31 },
-    { id: 'ej-5', ejemplo: true, tipo: 'historia', mascota: { id: 'ej-toby', nombre: 'Toby (ejemplo)', especie: 'Perro' }, autor: 'Diego (ejemplo)', texto: 'Mi primer encuentro con un gato. Fue... intenso.', imagen: '', tono: 4, creado: haceH(5), likes: 0 },
-    { id: 'ej-6', ejemplo: true, tipo: 'post', mascota: { id: 'ej-toby', nombre: 'Toby (ejemplo)', especie: 'Perro' }, autor: 'Diego (ejemplo)', texto: 'Jornada de vacunación este sábado en la plaza. ¡Nos vemos en el calendario!', imagen: '', tono: 4, creado: haceH(30), likes: 8 },
-  ]);
-
+  // Retirar ejemplos antiguos conservando las fotos reales que aún son locales.
   const estado = (() => {
-    let posts = leer(KEY);
-    if (!Array.isArray(posts)) { posts = semilla(); guardar(KEY, posts); }
-    let extra = leer(KEY_VISTAS);
-    if (!extra || typeof extra !== 'object') extra = { megusta: [], denuncias: [], vistas: [] };
+    const anteriores = leer(KEY);
+    const posts = Array.isArray(anteriores) ? anteriores.filter(p => p && !p.ejemplo && !String(p.id).startsWith('ej-')) : [];
+    guardar(KEY, posts);
+    const guardado = leer(KEY_VISTAS);
+    const extra = Object.fromEntries(['megusta', 'denuncias', 'vistas'].map(k => [k, Array.isArray(guardado?.[k]) ? guardado[k] : []]));
     return { posts, extra, guardar() { guardar(KEY, this.posts); guardar(KEY_VISTAS, this.extra); } };
   })();
 
   const vigentes = () => {
     const limite = Date.now() - HORAS_HISTORIA * 3600000;
-    return estado.posts.filter((p) => !estado.extra.denuncias.includes(p.id) && (p.tipo !== 'historia' || new Date(p.creado).getTime() > limite));
+    return [...compartidos, ...remotos, ...estado.posts.filter(p => sesion && mias.some(m => m.id === p.mascota?.id) && !remotos.some(r => r.id === p.id))].filter((p) => !estado.extra.denuncias.includes(p.id) && (p.tipo !== 'historia' || new Date(p.creado).getTime() > limite));
   };
 
   // ---------- Avatares y medios ----------
@@ -91,7 +90,13 @@
   const medio = (p, clase = 'fd-medio') => {
     const caja = el('div', `${clase} tono-${(p.tono ?? 0) % 5}`);
     const img = https(p.imagen);
-    if (img) {
+    if (https(p.video)) {
+      const video = el('video');
+      video.src = https(p.video);
+      video.controls = true; video.playsInline = true; video.preload = 'metadata';
+      video.setAttribute('aria-label', `Video de ${p.titulo || 'truco'} de ${limpiar(p.mascota.nombre)}`);
+      caja.append(video);
+    } else if (img) {
       const i = el('img');
       i.src = img; i.alt = `Foto de ${limpiar(p.mascota.nombre)}`; i.loading = 'lazy';
       caja.append(i);
@@ -154,6 +159,10 @@
       b.append(el('span', 'fh-relleno'));
       return b;
     }));
+    $('[data-fh-propias]', visor)?.remove();
+    if ((it.remoto && it.autorId === sesion?.user.id) || (!it.remoto && !it.compartido)) {
+      const acciones = controlesPropios(it); acciones.dataset.fhPropias = ''; visor.append(acciones);
+    }
     pararTimer();
     if (!reducido()) V.timer = window.setTimeout(siguiente, 5000);
   };
@@ -183,7 +192,7 @@
     art.dataset.postId = p.id;
     const cab = el('header', 'fd-cab');
     const quien = el('div', 'fd-quien');
-    quien.append(el('strong', '', limpiar(p.mascota.nombre)), el('small', '', `de ${limpiar(p.autor || 'su familia')} · ${hace(p.creado)}`));
+    quien.append(el('strong', '', limpiar(p.mascota.nombre)), el('small', '', p.compartido ? `Compartido en su perfil · ${hace(p.creado)}` : `de ${limpiar(p.autor || 'su familia')} · ${hace(p.creado)}`));
     cab.append(avatar(p.mascota), quien);
     const acciones = el('div', 'fd-acciones');
     const gusta = estado.extra.megusta.includes(p.id);
@@ -198,8 +207,16 @@
     den.textContent = 'Denunciar';
     acciones.append(like, den);
     art.append(cab, medio(p));
+    if (p.titulo) {
+      art.append(el('h3', 'fd-texto', p.titulo), el('p', 'fd-texto', p.estado === 'aprendido' ? 'Aprendido' : 'En práctica'));
+    }
     if (p.texto) art.append(el('p', 'fd-texto', p.texto));
     art.append(acciones);
+    if (p.remoto && p.autorId === sesion?.user.id) art.append(controlesPropios(p));
+    else if (!p.remoto && !p.compartido) {
+      art.append(el('p', 'fd-local', 'Guardada solo en este navegador.'));
+      art.append(controlesPropios(p));
+    }
     return art;
   };
 
@@ -217,68 +234,188 @@
   const render = () => {
     publicarBtn.hidden = !(sesion && mias.length);
     demoEl.hidden = false;
+    demoEl.textContent = errorMedios ? 'No pudimos cargar todas las publicaciones. Vuelve a Inicio para reintentar.' : 'Publicaciones e historias compartidas entre dispositivos. Los me gusta y las ocultaciones se guardan en este navegador.';
     renderHistorias();
     renderLista();
   };
 
-  // ---------- Publicar ----------
-  const reducirImagen = (archivo) => new Promise((resolve, reject) => {
-    const lector = new FileReader();
-    lector.onerror = () => reject(new Error('lectura'));
-    lector.onload = () => {
-      const img = new Image();
-      img.onerror = () => reject(new Error('imagen'));
-      img.onload = () => {
-        const k = Math.min(1, MAX_LADO / Math.max(img.width, img.height));
-        const c = document.createElement('canvas');
-        c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
-        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
-        resolve(c.toDataURL('image/jpeg', 0.72));
-      };
-      img.src = lector.result;
-    };
-    lector.readAsDataURL(archivo);
-  });
-
-  const abrirPublicar = (tipo = 'post') => {
-    if (!mias.length) return;
-    msg.textContent = '';
-    form.reset();
-    form.elements.mascota.replaceChildren(...mias.map((m) => { const o = el('option', '', limpiar(m.nombre)); o.value = m.id; return o; }));
-    form.elements.tipo.value = tipo;
-    dialog.showModal();
-  };
-
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const mascota = mias.find((m) => m.id === form.elements.mascota.value);
-    if (!mascota) return;
-    const texto = form.elements.texto.value.trim();
-    const archivo = form.elements.imagen.files?.[0] || null;
-    if (!texto && !archivo) { msg.textContent = 'Agrega una foto o un texto.'; msg.className = 'form-message is-error'; return; }
-    let imagen = '';
-    if (archivo) {
-      if (!/^image\/(jpeg|png|webp)$/.test(archivo.type)) { msg.textContent = 'Usa una foto JPG, PNG o WebP.'; msg.className = 'form-message is-error'; return; }
-      try { imagen = await reducirImagen(archivo); } catch { msg.textContent = 'No pudimos leer esa foto. Prueba con otra.'; msg.className = 'form-message is-error'; return; }
+  // Leemos los medios existentes: no duplicamos archivos ni publicaciones en la base.
+  const cargarCompartidos = async () => {
+    const db = window.auraLadraDb;
+    if (!db) return;
+    const turno = ++carga;
+    try {
+      const publicaciones = await datos.cargar();
+      const { data, error } = await db.from('medios_mascota')
+        .select('id,tipo,titulo,estado,descripcion,ruta_archivo,creado_en,animales!inner(id,nombre,especie,foto_url,estado,mostrar_en_red)')
+        .eq('animales.estado', 'publicado').eq('animales.mostrar_en_red', true)
+        .order('creado_en', { ascending: false }).limit(100);
+      if (turno !== carga) return;
+      if (error) throw error;
+      remotos = publicaciones;
+      compartidos = (data || []).map((item) => {
+        const url = db.storage.from('mascotas-medios').getPublicUrl(item.ruta_archivo).data.publicUrl;
+        return {
+          id: `medio-${item.id}`, tipo: 'post', compartido: true, mascota: item.animales,
+          titulo: item.titulo, estado: item.estado, texto: item.descripcion || '',
+          imagen: item.tipo === 'foto' ? url : '', video: item.tipo === 'video' ? url : '',
+          creado: item.creado_en, likes: 0,
+        };
+      });
+      errorMedios = false;
+    } catch {
+      if (turno !== carga) return;
+      compartidos = [];
+      errorMedios = true;
     }
-    const post = {
-      id: uuid(), tipo: form.elements.tipo.value === 'historia' ? 'historia' : 'post',
-      mascota: { id: mascota.id, nombre: mascota.nombre, especie: mascota.especie, foto_url: '' },
-      autor: 'Tú', texto, imagen, tono: Math.floor(Math.random() * 5), creado: new Date().toISOString(), likes: 0,
-    };
-    estado.posts.unshift(post);
-    // La demo vive en localStorage: si no cabe, se avisa en vez de perder la publicación en silencio.
-    if (!guardar(KEY, estado.posts)) {
-      estado.posts.shift();
-      msg.textContent = 'No hay espacio para guardar la foto en este navegador. Prueba con una más liviana.';
-      msg.className = 'form-message is-error';
-      return;
-    }
-    dialog.close();
     render();
     document.dispatchEvent(new CustomEvent('feed:cambio'));
+  };
+  document.addEventListener('trucos:actualizados', cargarCompartidos);
+  document.addEventListener('vista:cambio', (event) => {
+    if (event.detail?.vista === 'inicio') cargarCompartidos();
   });
-  $('[data-feed-close]', dialog).addEventListener('click', () => dialog.close());
+
+  // ---------- Publicar, editar y encuadrar ----------
+  const ajustes = () => ({ proporcion: Number(form.elements.encuadre.value), zoom: Number(form.elements.foto_zoom.value), x: Number(form.elements.foto_x.value), y: Number(form.elements.foto_y.value) });
+  const preview = $('[data-feed-preview]', form);
+  const mensaje = (texto, error = false) => { msg.textContent = texto; msg.className = `form-message${error ? ' is-error' : ''}`; };
+  const mostrarRecorte = () => {
+    if (!foto) return;
+    try { fotos.dibujar(foto, preview, ajustes(), 480); } catch (error) { mensaje(error.message, true); }
+  };
+  const limpiarFoto = () => { lectura++; foto?.cerrar(); foto = null; $('[data-feed-recorte]', form).hidden = true; };
+  const bloquear = valor => {
+    ocupado = valor;
+    for (const control of form.elements) control.disabled = valor;
+    if (!valor && editando) { form.elements.mascota.disabled = true; for (const radio of form.elements.tipo) radio.disabled = true; }
+    $('[data-feed-close]', dialog).disabled = valor;
+  };
+  form.addEventListener('input', () => { if (!ocupado) operacion = null; });
+  form.elements.imagen.addEventListener('change', async () => {
+    limpiarFoto(); operacion = null;
+    const archivo = form.elements.imagen.files?.[0];
+    if (!archivo) return;
+    const turno = lectura;
+    bloquear(true); mensaje('Abriendo foto…');
+    try {
+      const nueva = await fotos.abrir(archivo);
+      if (turno !== lectura) { nueva.cerrar(); return; }
+      foto = nueva; $('[data-feed-recorte]', form).hidden = false;
+      $('[data-feed-foto-actual]', form).hidden = true;
+      mostrarRecorte(); mensaje('Ajusta el encuadre antes de guardar.');
+    } catch (error) { mensaje(error.message, true); }
+    finally { bloquear(false); }
+  });
+  for (const nombre of ['encuadre', 'foto_zoom', 'foto_x', 'foto_y']) form.elements[nombre].addEventListener('input', mostrarRecorte);
+  $('[data-feed-centrar]', form).addEventListener('click', () => {
+    form.elements.foto_zoom.value = '1'; form.elements.foto_x.value = '0'; form.elements.foto_y.value = '0'; operacion = null; mostrarRecorte();
+  });
+  let arrastre = null;
+  preview.addEventListener('pointerdown', event => {
+    if (!foto || ocupado) return;
+    arrastre = { x: event.clientX, y: event.clientY, inicio: ajustes(), rect: preview.getBoundingClientRect() };
+    preview.setPointerCapture(event.pointerId);
+  });
+  preview.addEventListener('pointermove', event => {
+    if (!arrastre || !foto || ocupado) return;
+    const a = arrastre, r = fotos.rectangulo(foto.ancho, foto.alto, a.inicio.proporcion, a.inicio.zoom, a.inicio.x, a.inicio.y);
+    const mover = (delta, tamaño, recorte, total, inicio) => Math.max(-100, Math.min(100, inicio - delta / Math.max(1, tamaño) * recorte / Math.max(1, total - recorte) * 200));
+    form.elements.foto_x.value = String(mover(event.clientX - a.x, a.rect.width, r.w, foto.ancho, a.inicio.x));
+    form.elements.foto_y.value = String(mover(event.clientY - a.y, a.rect.height, r.h, foto.alto, a.inicio.y));
+    operacion = null; mostrarRecorte();
+  });
+  for (const ev of ['pointerup', 'pointercancel', 'lostpointercapture']) preview.addEventListener(ev, () => { arrastre = null; });
+
+  const abrirPublicar = (tipo = 'post', post = null) => {
+    if (ocupado || !sesion || !mias.length) return;
+    limpiarFoto(); form.reset(); editando = post; operacion = null;
+    bloquear(false); mensaje('');
+    form.elements.mascota.replaceChildren(...mias.map(m => { const o = el('option', '', limpiar(m.nombre)); o.value = m.id; return o; }));
+    form.elements.tipo.value = post?.tipo || tipo;
+    if (post) { form.elements.mascota.value = post.mascota.id; form.elements.texto.value = post.texto || ''; }
+    const actual = $('[data-feed-foto-actual]', form);
+    actual.hidden = !post?.imagen;
+    if (post?.imagen) actual.src = https(post.imagen); else actual.removeAttribute('src');
+    $('[id="feed-dialog-title"]', dialog).textContent = post ? (post.remoto ? 'Editar publicación' : 'Compartir publicación guardada') : 'Publicar';
+    form.querySelector('[type="submit"]').textContent = post ? (post.remoto ? 'Guardar cambios' : 'Compartir entre dispositivos') : 'Publicar';
+    $('[data-feed-publico]', form).textContent = post?.imagen ? 'Puedes conservar la foto actual o elegir otra para encuadrarla y reemplazarla.' : 'Visible en Inicio desde cualquier dispositivo. La mascota debe tener un perfil público.';
+    dialog.showModal();
+  };
+  const controlesPropios = post => {
+    const caja = el('div', 'fd-propias');
+    caja.addEventListener('pointerdown', pararTimer);
+    caja.addEventListener('focusin', pararTimer);
+    const editar = el('button', 'fd-btn', post.remoto ? 'Editar' : 'Compartir entre dispositivos'); editar.type = 'button';
+    editar.addEventListener('click', () => { if (visor.open) visor.close(); abrirPublicar(post.tipo, post); });
+    const borrar = el('button', 'fd-btn', 'Eliminar'); borrar.type = 'button';
+    borrar.addEventListener('click', () => {
+      if (caja.querySelector('[data-feed-confirmar-borrado]')) return;
+      const confirmar = el('button', 'fd-btn', 'Confirmar eliminación'); confirmar.type = 'button'; confirmar.dataset.feedConfirmarBorrado = '';
+      const cancelar = el('button', 'fd-btn', 'Cancelar'); cancelar.type = 'button';
+      cancelar.addEventListener('click', () => { confirmar.remove(); cancelar.remove(); });
+      confirmar.addEventListener('click', async () => {
+        if (ocupado) return;
+        ocupado = true; confirmar.disabled = true;
+        try {
+          if (post.remoto) await datos.eliminar(post);
+          else { estado.posts = estado.posts.filter(p => p.id !== post.id); estado.guardar(); }
+          remotos = remotos.filter(p => p.id !== post.id);
+          carga++;
+          if (visor.open) visor.close();
+          render(); document.dispatchEvent(new CustomEvent('feed:cambio'));
+        } catch { confirmar.textContent = 'No se pudo eliminar. Reintentar'; }
+        finally { ocupado = false; confirmar.disabled = false; }
+      });
+      caja.append(confirmar, cancelar);
+    });
+    caja.append(editar, borrar); return caja;
+  };
+
+  form.addEventListener('submit', async event => {
+    event.preventDefault();
+    if (ocupado || !sesion) return;
+    const mascota = mias.find(m => m.id === form.elements.mascota.value);
+    if (!mascota) return;
+    const texto = form.elements.texto.value.trim();
+    const archivo = form.elements.imagen.files?.[0];
+    if (!texto && !archivo && !editando?.imagen) { mensaje('Agrega una foto o un texto.', true); return; }
+    if (archivo && !foto) { mensaje('Vuelve a elegir la foto para poder abrirla y encuadrarla.', true); return; }
+    bloquear(true); mensaje('Guardando publicación…');
+    try {
+      if (!operacion) {
+        const clave = uuid();
+        let blob = foto ? await fotos.preparar(foto, ajustes()) : null;
+        if (!blob && editando && !editando.remoto && editando.imagen) {
+          // Recuperar exclusivamente la copia local de esta mascota al pulsar Compartir.
+          if (!/^data:image\/(jpeg|png|webp);base64,/.test(editando.imagen)) throw Error('Vuelve a elegir la foto para compartirla.');
+          const original = await (await fetch(editando.imagen)).blob();
+          const recuperada = await fotos.abrir(original);
+          try { blob = await fotos.preparar(recuperada, { proporcion: 0, zoom: 1, x: 0, y: 0 }); } finally { recuperada.cerrar(); }
+        }
+        operacion = {
+          id: editando?.remoto ? editando.id : (editando?.id && /^[0-9a-f-]{36}$/i.test(editando.id) ? editando.id : uuid()),
+          autorId: sesion.user.id, animalId: mascota.id, tipo: form.elements.tipo.value,
+          texto, clave, blob, editar: Boolean(editando?.remoto), revision: editando?.revision,
+          ruta: blob ? `${sesion.user.id}/${mascota.id}/${clave}.jpg` : editando?.ruta || null,
+          rutaAnterior: editando?.ruta || null,
+        };
+      }
+      const guardado = await datos.guardar(operacion);
+      if (sesion?.user.id !== operacion.autorId) throw Error('Tu sesión cambió. La publicación se guardó en la cuenta anterior.');
+      remotos = [guardado, ...remotos.filter(p => p.id !== guardado.id)];
+      carga++;
+      if (editando && !editando.remoto) { estado.posts = estado.posts.filter(p => p.id !== editando.id); estado.guardar(); }
+      bloquear(false); dialog.close(); limpiarFoto(); editando = null; operacion = null;
+      render(); document.dispatchEvent(new CustomEvent('feed:cambio'));
+    } catch (error) {
+      const permiso = error?.code === '42501' || String(error?.statusCode) === '403';
+      mensaje(permiso ? 'Solo puedes publicar con tus mascotas de perfil público. Revisa la visibilidad en Mi cuenta.' : (error instanceof Error ? error.message : 'No pudimos guardar la publicación. Comprueba tu conexión y reintenta; no se duplicará.'), true);
+    } finally { bloquear(false); }
+  });
+  $('[data-feed-close]', dialog).addEventListener('click', () => { if (!ocupado) dialog.close(); });
+  dialog.addEventListener('cancel', event => { if (ocupado) event.preventDefault(); });
+  dialog.addEventListener('close', () => { limpiarFoto(); editando = null; operacion = null; });
 
   // ---------- Eventos ----------
   root.addEventListener('click', (e) => {
@@ -304,7 +441,7 @@
       if (previa) { previa.remove(); return; }
       const c = el('div', 'fd-confirma');
       c.setAttribute('role', 'alert');
-      c.append(el('span', '', '¿Denunciar esta publicación? Moderación la revisará.'));
+      c.append(el('span', '', '¿Ocultar esta publicación en este navegador?'));
       const si = el('button', 'fd-btn fd-si', 'Sí, denunciar'); si.type = 'button';
       const no = el('button', 'fd-btn', 'Cancelar'); no.type = 'button';
       si.addEventListener('click', () => { estado.extra.denuncias.push(id); estado.guardar(); renderLista(); renderHistorias(); });
@@ -317,15 +454,25 @@
   document.addEventListener('mascotas:cambio', (e) => {
     mias = (e.detail?.animales || []).filter((a) => a?.id);
     render();
+    cargarCompartidos();
   });
 
   const iniciar = async () => {
     try { sesion = (await window.auraLadraDb?.auth.getSession())?.data?.session || null; } catch { sesion = null; }
-    window.auraLadraDb?.auth.onAuthStateChange((_ev, s) => { sesion = s; if (!s) mias = []; render(); });
+    window.auraLadraDb?.auth.onAuthStateChange((_ev, s) => {
+      const cambio = sesion?.user.id !== s?.user.id;
+      sesion = s;
+      if (cambio) {
+        carga++; mias = []; compartidos = []; remotos = [];
+        if (dialog.open) dialog.close();
+      }
+      render(); window.setTimeout(cargarCompartidos, 0);
+    });
     render();
   };
   render();
   iniciar();
+  cargarCompartidos();
 
   // Para otras secciones (calendario): publicaciones visibles.
   window.auraLadraFeed = { posts: () => vigentes().map((p) => ({ ...p })) };

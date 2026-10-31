@@ -82,7 +82,7 @@
         <a class="services-home" href="#servicios"><span class="services-home-icon" aria-hidden="true">✂</span><span><strong>Cuidados cerca de ti</strong><small>Estética, entrenamiento, paseos y más</small></span><span aria-hidden="true">→</span></a>
         <div class="feed-barra">
           <button type="button" class="feed-publicar" data-feed-publicar hidden>＋ Publicar</button>
-          <p class="feed-demo" data-feed-demo hidden><strong>Demo</strong></p>
+          <p class="feed-demo" data-feed-demo hidden role="status"></p>
         </div>
         <div class="feed-lista" data-feed-lista aria-live="polite"></div>
       </div>
@@ -651,7 +651,19 @@
           <label><input type="radio" name="tipo" value="post" checked> <span>Publicación</span></label>
           <label><input type="radio" name="tipo" value="historia"> <span>Historia (dura 24 h)</span></label>
         </fieldset>
-        <label class="field"><span>Foto</span><input type="file" name="imagen" accept="image/jpeg,image/png,image/webp"><small>Videos: próximamente (necesitan almacenamiento).</small></label>
+        <img class="fd-actual" data-feed-foto-actual hidden alt="Foto actual de la publicación">
+        <label class="field"><span>Foto</span><input type="file" name="imagen" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"><small>JPG, PNG o WebP, hasta 20 MB. Si está en Google Fotos, descárgala primero al celular.</small></label>
+        <fieldset class="fd-recorte" data-feed-recorte hidden>
+          <legend>Encuadrar foto</legend>
+          <canvas data-feed-preview aria-label="Vista previa del recorte. Arrastra la foto para centrarla."></canvas>
+          <p>Arrastra la foto o usa los controles para centrarla.</p>
+          <label class="field"><span>Formato</span><select name="encuadre"><option value="0">Foto completa</option><option value="1">Cuadrada</option><option value="0.8">Vertical (4:5)</option><option value="1.7777777778">Horizontal (16:9)</option><option value="0.5625">Historia (9:16)</option></select></label>
+          <label class="field"><span>Acercar</span><input type="range" name="foto_zoom" min="1" max="3" step="0.01" value="1"></label>
+          <label class="field"><span>Posición horizontal</span><input type="range" name="foto_x" min="-100" max="100" value="0"></label>
+          <label class="field"><span>Posición vertical</span><input type="range" name="foto_y" min="-100" max="100" value="0"></label>
+          <button type="button" class="text-button" data-feed-centrar>Centrar y restablecer</button>
+        </fieldset>
+        <p data-feed-publico>Esta publicación será visible en Inicio desde cualquier dispositivo. La mascota debe tener un perfil público.</p>
         <label class="field"><span>Texto</span><textarea name="texto" maxlength="300" rows="3" placeholder="Cuenta algo de tu mascota"></textarea></label>
         <button class="button button-dark" type="submit">Publicar</button>
         <p class="form-message" data-feed-message aria-live="polite"></p>
@@ -966,6 +978,8 @@
 <script src="js/patrocinio-ac.js?v=1"></script>
 <script src="js/puestos.js?v=causas-dashboard-1"></script>
 <script src="js/misiones.js"></script>
+<script src="js/feed-fotos.js"></script>
+<script src="js/feed-datos.js"></script>
 <script src="js/feed.js"></script>
 <script src="js/eventos.js"></script>
 <script src="js/descubrir.js"></script>
