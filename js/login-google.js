@@ -3,7 +3,7 @@
   const db = window.auraLadraDb;
   const buttons = [...document.querySelectorAll('[data-login-google]')];
   const key = 'ladra-google-retorno';
-  const allowed = ['inicio','servicios','cuenta','mapa','red','repertorio','ayudar','tienda','acciones','most-wanted','comida-agua'];
+  const allowed = ['inicio','servicios','cuenta','mi-espacio','mi-perfil','mapa','red','repertorio','ayudar','tienda','acciones','most-wanted','comida-agua'];
   let busy = false, signedIn = false, returned = false, authEvents = 0;
   const starting = new URL(window.location.href);
   const hash = new URLSearchParams(starting.hash.slice(1));

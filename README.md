@@ -326,7 +326,16 @@ La apertura del proveedor se verifica por separado de completar el acceso con un
 
 El parche de sesión usa una sola instancia para `auraClient` y `auraLadraDb`; el menú y Ladra comparten la renovación.
 La escucha de Auth empieza antes de cargar mapa y red, y las fichas abiertas actualizan Seguir/Guardar al cambiar de sesión.
-Pruebas de regresión: `tests/sesion-perfil.test.mjs`. La propuesta visual de «Mi espacio» se revisa por separado.
+Pruebas de regresión: `tests/sesion-perfil.test.mjs`. La sección «Mi espacio» se describe a continuación.
+
+## Mi espacio
+
+Reemplaza «Perfil» en menú y barra inferior con la propuesta de gestión privada: mascotas, publicaciones,
+historias activas, guardados, consultas, actividad, vínculos y privacidad. `#mi-espacio` conserva los accesos
+anteriores desde `#mi-perfil` y `#cuenta`. El acceso a la cuenta usa el botón superior; no se duplica el formulario.
+Las publicaciones propias se consultan por autor y conservan edición, eliminación y recorte del feed.
+Las imágenes de mascotas y miniaturas provienen de sus registros reales; los estados vacíos no añaden ejemplos.
+Código de interfaz: `js/mi-espacio.js`, `css/mi-espacio.css`. Destino inicial de publicación: `dev`.
 
 Nueva vista `#servicios`: catálogo, fichas, consultas vinculadas a una mascota y bandeja de prestadores,
 integrados con Inicio, el menú, los trucos y las fichas propias. Destino de publicación: rama `dev`.

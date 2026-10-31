@@ -282,7 +282,7 @@
       const items = await api.listar(filtros());
       el.lista.innerHTML = items.length
         ? items.map(tarjeta).join('')
-        : '<div class="funding-empty"><span class="funding-empty-icon" aria-hidden="true">♡</span><h5>Aún no hay acciones aquí</h5><p>No hay acciones con estos filtros. Puedes cambiarlos o proponer una desde tu perfil.</p><a href="#mi-perfil">Ir a mi perfil <span aria-hidden="true">→</span></a></div>';
+        : '<div class="funding-empty"><span class="funding-empty-icon" aria-hidden="true">♡</span><h5>Aún no hay acciones aquí</h5><p>No hay acciones con estos filtros. Puedes cambiarlos o proponer una desde Mi espacio.</p><a href="#mi-espacio">Ir a Mi espacio <span aria-hidden="true">→</span></a></div>';
     } catch (e) {
       el.lista.innerHTML = `<p class="ayudar-vacio">No pudimos cargar las acciones. ${esc(mensajeError(e))}</p>`;
     }

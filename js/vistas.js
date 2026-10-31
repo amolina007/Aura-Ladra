@@ -22,6 +22,7 @@
     tienda: 'ayudar',
     cuenta: 'cuenta',
     'mi-perfil': 'cuenta',
+    'mi-espacio': 'cuenta',
   };
   // Botón de la barra de abajo → vista
   const VISTA_DE_TABBAR = { inicio: 'inicio', mapa: 'mapa', red: 'red', ayudar: 'ayudar', perfil: 'cuenta' };
@@ -59,8 +60,8 @@
   // Muestra una vista. «destino» puede ser el nombre de la vista o el id de un ancla (ej. "mi-perfil").
   const mostrar = (destino, { desplazar = true } = {}) => {
     let id = String(destino || '');
-    // «Mi perfil» solo existe con sesión iniciada; sin ella, el destino es «Mi cuenta».
-    if (id === 'mi-perfil' && document.getElementById('mi-perfil')?.hidden) id = 'cuenta';
+    // Compatibilidad con enlaces anteriores al cambio a Mi espacio.
+    if (id === 'mi-perfil') id = 'mi-espacio';
     const vista = vistaDeId(id) || VISTA_INICIAL;
     const cambio = vista !== actual;
 

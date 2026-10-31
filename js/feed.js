@@ -187,7 +187,7 @@
   });
 
   // ---------- Publicaciones ----------
-  const tarjeta = (p) => {
+  const tarjeta = (p, personal = false) => {
     const art = el('article', 'fd-post');
     art.dataset.postId = p.id;
     const cab = el('header', 'fd-cab');
@@ -211,7 +211,7 @@
       art.append(el('h3', 'fd-texto', p.titulo), el('p', 'fd-texto', p.estado === 'aprendido' ? 'Aprendido' : 'En práctica'));
     }
     if (p.texto) art.append(el('p', 'fd-texto', p.texto));
-    art.append(acciones);
+    if (!personal) art.append(acciones);
     if (p.remoto && p.autorId === sesion?.user.id) art.append(controlesPropios(p));
     else if (!p.remoto && !p.compartido) {
       art.append(el('p', 'fd-local', 'Guardada solo en este navegador.'));
@@ -228,7 +228,7 @@
       listaEl.replaceChildren(v);
       return;
     }
-    listaEl.replaceChildren(...posts.map(tarjeta));
+    listaEl.replaceChildren(...posts.map(p => tarjeta(p)));
   };
 
   const render = () => {
@@ -475,5 +475,19 @@
   cargarCompartidos();
 
   // Para otras secciones (calendario): publicaciones visibles.
-  window.auraLadraFeed = { posts: () => vigentes().map((p) => ({ ...p })) };
+  window.auraLadraFeed = {
+    posts: () => vigentes().map((p) => ({ ...p })),
+    publicar: abrirPublicar,
+    tarjetaPropia: p => tarjeta(p, true),
+    propias: async () => {
+      const usuario = sesion?.user.id;
+      if (!usuario) return [];
+      const publicaciones = await datos.cargar(usuario);
+      if (sesion?.user.id !== usuario) return [];
+      const locales = estado.posts.filter(p => mias.some(m => m.id === p.mascota?.id)
+        && !publicaciones.some(r => r.id === p.id)
+        && (p.tipo !== 'historia' || new Date(p.creado).getTime() > Date.now() - HORAS_HISTORIA * 3600000));
+      return [...publicaciones, ...locales].sort((a, b) => new Date(b.creado) - new Date(a.creado));
+    },
+  };
 })();

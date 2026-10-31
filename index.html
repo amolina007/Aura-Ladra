@@ -13,6 +13,7 @@
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23f2a93b'/%3E%3Cpath d='M20 30c-5-1-7 5-4 8 3 3 7 0 7-3 0-2-1-4-3-5Zm24 0c5-1 7 5 4 8-3 3-7 0-7-3 0-2 1-4 3-5ZM27 21c-4-3-8 2-6 6 2 4 7 2 8-1 1-2 0-4-2-5Zm10 0c4-3 8 2 6 6-2 4-7 2-8-1-1-2 0-4 2-5Zm-5 9c-7 0-13 8-10 14 2 5 8 3 10 1 2 2 8 4 10-1 3-6-3-14-10-14Z' fill='%23102a43'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/mobile-refresh.css?v=galeria-trucos-1">
+  <link rel="stylesheet" href="css/mi-espacio.css">
   <link rel="stylesheet" href="css/servicios.css?v=3">
   <link rel="stylesheet" href="css/login.css?v=1">
 </head>
@@ -49,7 +50,7 @@
         <a href="#mapa">Mapa</a>
         <a href="#red">Mi red</a>
         <a href="#ayudar">Usar AC</a>
-        <a href="#cuenta">Perfil</a>
+        <a href="#mi-espacio">Mi espacio</a>
         <details class="nav-mas">
           <summary>Servicios y más</summary>
           <div class="nav-mas-panel">
@@ -412,7 +413,7 @@
       <div class="shell">
         <div class="report-grid">
           <div class="report-side" data-vista-de="cuenta">
-            <section class="account-card card" id="cuenta" data-account-card aria-labelledby="account-title">
+            <section class="account-card card" id="cuenta" hidden data-account-card aria-labelledby="account-title">
               <div class="card-heading compact" data-account-heading>
                 <span class="card-mark" aria-hidden="true">↗</span>
                 <div><p class="kicker">Cuenta personal</p><h3 id="account-title">Mi cuenta</h3></div>
@@ -432,7 +433,7 @@
                 <p>Sesión iniciada como <strong data-session-email></strong>.</p>
               </div>
               <p class="form-message" data-auth-message aria-live="polite"></p>
-              <!-- «Estado de mis mascotas» se quitó: las mascotas viven en Mi perfil. Estos elementos ocultos mantienen los avisos y el botón de añadir que usa main.js. -->
+              <!-- «Estado de mis mascotas» se quitó: las mascotas viven en Mi espacio. Estos elementos ocultos mantienen los avisos y el botón de añadir que usa main.js. -->
               <div hidden>
                 <button type="button" data-open-pet-connect>Añadir o conectar mascota</button>
                 <div data-account-animal-list></div>
@@ -451,14 +452,35 @@
 
             </section>
 
-            <section class="my-profile" id="mi-perfil" data-my-profile hidden aria-labelledby="my-profile-title">
-              <div class="mp-screen" data-my-profile-panel="perfil">
-                <header class="mp-top">
-                  <h3 id="my-profile-title" tabindex="-1">Mi perfil</h3>
-                  <button type="button" class="mp-chip" data-my-profile-public hidden>Vista pública</button>
-                </header>
-
-                <div class="mp-identity">
+<section class="space-signed-out" data-space-signed-out hidden><h3>Mi espacio</h3><p>Reúne tus mascotas, publicaciones y consultas en un solo lugar.</p><button type="button" class="button button-dark" data-space-acceso>Abrir mi cuenta</button></section>
+            <section class="my-profile" id="mi-espacio" data-my-profile hidden aria-labelledby="my-profile-title">
+              <div class="mp-screen space-home" data-my-profile-panel="perfil">
+                <header class="mp-top"><div><h3 id="my-profile-title" tabindex="-1">Mi espacio</h3><p class="space-subtitle">Tu vida con ellos, en un solo lugar.</p></div><button type="button" class="space-settings" data-my-profile-tab="privacidad" aria-label="Privacidad y ajustes">⚙</button></header>
+                <section class="space-section" aria-labelledby="mp-mascotas-title">
+                  <div class="mp-card-head"><h4 id="mp-mascotas-title">Mis mascotas</h4><button type="button" class="mp-link" data-my-profile-tab="animales">Ver todas <span aria-hidden="true">›</span></button></div>
+                  <div class="mp-pets" data-my-profile-pets></div><p class="form-message" data-account-animal-message aria-live="polite"></p>
+                </section>
+                <section class="space-section" aria-labelledby="space-content-title">
+                  <div class="mp-card-head"><h4 id="space-content-title">Mi contenido</h4><button type="button" class="space-create" data-space-crear="post">＋ Crear</button></div>
+                  <div class="space-content-grid">
+                    <button type="button" class="space-content-card" data-my-profile-tab="publicaciones"><span class="space-content-label"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><strong>Publicaciones</strong><span aria-hidden="true">›</span></span><span class="space-content-hint">Ver, editar y eliminar</span><span class="space-thumbs" data-space-miniaturas="post"></span></button>
+                    <button type="button" class="space-content-card" data-my-profile-tab="historias"><span class="space-content-label"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></svg><strong>Historias</strong><span aria-hidden="true">›</span></span><span class="space-content-hint">Tus historias de 24 horas</span><span class="space-thumbs space-thumbs-round" data-space-miniaturas="historia"></span></button>
+                  </div>
+                </section>
+                <section class="space-section" aria-labelledby="space-handy-title"><h4 id="space-handy-title">A mano</h4>
+                  <nav class="space-rows" aria-label="Accesos de Mi espacio">
+                    <button type="button" data-space-guardados><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"/></svg></span><span>Perfiles guardados</span><span aria-hidden="true">›</span></button>
+                    <button type="button" data-space-consultas><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 11a8 8 0 0 1-8 8H5l-3 3V11a9 9 0 0 1 18 0z"/><path d="M7 10h8M7 14h5"/></svg></span><span>Mis consultas</span><span aria-hidden="true">›</span></button>
+                    <button type="button" data-my-profile-tab="vinculos"><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"/></svg></span><span>Mi árbol y vínculos</span><span aria-hidden="true">›</span></button>
+                    <button type="button" data-my-profile-tab="actividad"><span aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></svg></span><span>Actividad y aportes</span><span aria-hidden="true">›</span></button>
+                    <button type="button" data-my-profile-tab="privacidad"><span aria-hidden="true">⚙</span><span>Privacidad y ajustes</span><span aria-hidden="true">›</span></button>
+                  </nav>
+                </section>
+                <aside class="space-private"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V6a4 4 0 0 1 8 0v4M12 14v3"/></svg><div><strong>Este espacio es solo para ti</strong><p>Aquí gestionas tus mascotas y lo que compartes en Ladra.</p></div></aside>
+              </div>
+<div class="mp-screen" data-my-profile-panel="publicaciones" hidden><header class="mp-sub"><button type="button" class="mp-back" data-my-profile-tab="perfil" aria-label="Volver a Mi espacio">‹</button><h4 tabindex="-1">Mis publicaciones</h4></header><button class="space-create" type="button" data-space-crear="post">＋ Crear publicación</button><div class="space-posts" data-space-contenido="post" aria-live="polite"></div></div>
+<div class="mp-screen" data-my-profile-panel="historias" hidden><header class="mp-sub"><button type="button" class="mp-back" data-my-profile-tab="perfil" aria-label="Volver a Mi espacio">‹</button><h4 tabindex="-1">Mis historias</h4></header><button class="space-create" type="button" data-space-crear="historia">＋ Crear historia</button><div class="space-posts" data-space-contenido="historia" aria-live="polite"></div></div>
+<div class="mp-screen" data-my-profile-panel="privacidad" hidden><header class="mp-sub"><button type="button" class="mp-back" data-my-profile-tab="perfil" aria-label="Volver a Mi espacio">‹</button><h4 tabindex="-1">Privacidad y ajustes</h4></header>                <div class="mp-identity">
                   <span class="mp-avatar" data-my-profile-initials aria-hidden="true">?</span>
                   <div class="mp-identity-text">
                     <strong data-my-profile-alias>Sin alias todavía</strong>
@@ -466,24 +488,31 @@
                     <p class="mp-tagline" data-my-profile-bio></p>
                     <small data-my-profile-visibility></small>
                   </div>
-                  <button type="button" class="mp-btn mp-btn-soft" data-my-profile-edit-bio>Editar descripción</button>
+                  <button type="button" class="mp-chip" data-my-profile-public hidden>Vista pública</button><button type="button" class="mp-btn mp-btn-soft" data-my-profile-edit-bio>Editar descripción</button>
                   <a class="mp-link mp-core-link" href="https://core.convergenciaaura.cl/mi-perfil.html" target="_blank" rel="noopener">Nombre y foto: se cambian en Convergencia Aura</a>
                 </div>
 
-                <section class="mp-card" aria-labelledby="mp-arbol-title">
+<button class="mp-row" type="button" data-my-profile-tab="fichas">Configurar alias y visibilidad <span aria-hidden="true">›</span></button><p class="space-muted">El acceso y el cierre de sesión están en tu botón de cuenta, arriba a la izquierda.</p></div>
+<div class="mp-screen" data-my-profile-panel="vinculos" hidden><header class="mp-sub"><button type="button" class="mp-back" data-my-profile-tab="perfil" aria-label="Volver a Mi espacio">‹</button><h4 tabindex="-1">Mi árbol y vínculos</h4></header>                <section class="mp-card" aria-labelledby="mp-arbol-title">
                   <h4 id="mp-arbol-title">Mi árbol de vínculos</h4>
                   <div data-arbol-resumen aria-live="polite"><p class="mp-muted">Cargando tu árbol…</p></div>
                 </section>
 
-                <section class="mp-card" aria-labelledby="mp-mascotas-title">
-                  <div class="mp-card-head">
-                    <h4 id="mp-mascotas-title">Mis mascotas</h4>
-                    <button type="button" class="mp-link" data-my-profile-tab="animales">Ver todas</button>
-                  </div>
-                  <div class="mp-pets" data-my-profile-pets></div>
-                <p class="form-message" data-account-animal-message aria-live="polite"></p>
-                </section>
+<div data-space-vinculos></div><button type="button" class="mp-row" data-my-profile-tab="fichas">Gestionar fichas y vínculos <span aria-hidden="true">›</span></button></div>
+              <div class="mp-screen" data-my-profile-panel="animales" hidden>
+                <header class="mp-sub">
+                  <button type="button" class="mp-back" data-my-profile-tab="perfil" aria-label="Volver a Mi espacio">‹</button>
+                  <h4 tabindex="-1">Mis animales</h4>
+                </header>
+                <div class="my-profile-animal-list" data-my-profile-animals></div>
+                <button class="mp-btn" type="button" data-my-profile-connect>＋ Asociar un animal</button>
+              </div>
 
+              <div class="mp-screen" data-my-profile-panel="actividad" hidden>
+                <header class="mp-sub">
+                  <button type="button" class="mp-back" data-my-profile-tab="perfil" aria-label="Volver a Mi espacio">‹</button>
+                  <h4 tabindex="-1">Actividad y aportes</h4>
+                </header>
                 <section class="mp-card" aria-labelledby="mp-aportes-title">
                   <h4 id="mp-aportes-title">Aportes a la comunidad</h4>
                   <div class="mp-aportes">
@@ -493,30 +522,7 @@
                   </div>
                 </section>
 
-                <nav class="mp-rows" aria-label="Más de mi perfil">
-                  <button type="button" class="mp-row" data-my-profile-tab="fichas"><span>Fichas y vínculos</span><span aria-hidden="true">›</span></button>
-                  <button type="button" class="mp-row" data-my-profile-tab="actividad"><span>Actividad</span><span aria-hidden="true">›</span></button>
-                  <button type="button" class="mp-row" data-my-profile-tab="aportes"><span>Mis aportes</span><span aria-hidden="true">›</span></button>
-                  <button type="button" class="mp-row" data-my-profile-tab="acciones"><span>Mis acciones</span><span aria-hidden="true">›</span></button>
-                </nav>
-
-                <p class="my-profile-privacy"><span aria-hidden="true">◇</span> Solo tú ves este resumen completo.</p>
-              </div>
-
-              <div class="mp-screen" data-my-profile-panel="animales" hidden>
-                <header class="mp-sub">
-                  <button type="button" class="mp-back" data-my-profile-tab="perfil" aria-label="Volver a Mi perfil">‹</button>
-                  <h4 tabindex="-1">Mis animales</h4>
-                </header>
-                <div class="my-profile-animal-list" data-my-profile-animals></div>
-                <button class="mp-btn" type="button" data-my-profile-connect>＋ Asociar un animal</button>
-              </div>
-
-              <div class="mp-screen" data-my-profile-panel="actividad" hidden>
-                <header class="mp-sub">
-                  <button type="button" class="mp-back" data-my-profile-tab="perfil" aria-label="Volver a Mi perfil">‹</button>
-                  <h4 tabindex="-1">Actividad</h4>
-                </header>
+<nav class="space-secondary-links"><button type="button" class="mp-link" data-my-profile-tab="aportes">Mis aportes</button><button type="button" class="mp-link" data-my-profile-tab="acciones">Mis acciones</button></nav>
                 <div class="my-profile-stats">
                   <div><strong data-my-profile-stat="avisos">0</strong><span>Avisos activos</span></div>
                   <div><strong data-my-profile-stat="reportes">0</strong><span>Reportes enviados</span></div>
@@ -528,7 +534,7 @@
 
               <div class="mp-screen" data-my-profile-panel="aportes" hidden>
                 <header class="mp-sub">
-                  <button type="button" class="mp-back" data-my-profile-tab="perfil" aria-label="Volver a Mi perfil">‹</button>
+                  <button type="button" class="mp-back" data-my-profile-tab="perfil" aria-label="Volver a Mi espacio">‹</button>
                   <h4 tabindex="-1">Mis aportes</h4>
                 </header>
                 <div data-mis-aportes aria-live="polite"></div>
@@ -536,7 +542,7 @@
 
               <div class="mp-screen" data-my-profile-panel="fichas" hidden>
                 <header class="mp-sub">
-                  <button type="button" class="mp-back" data-my-profile-tab="perfil" aria-label="Volver a Mi perfil">‹</button>
+                  <button type="button" class="mp-back" data-my-profile-tab="perfil" aria-label="Volver a Mi espacio">‹</button>
                   <h4 tabindex="-1">Fichas y vínculos</h4>
                 </header>
         <div class="creator-workspace" data-network-signed-in hidden>
@@ -598,7 +604,7 @@
 
               <div class="mp-screen" data-my-profile-panel="acciones" hidden>
                 <header class="mp-sub">
-                  <button type="button" class="mp-back" data-my-profile-tab="perfil" aria-label="Volver a Mi perfil">‹</button>
+                  <button type="button" class="mp-back" data-my-profile-tab="perfil" aria-label="Volver a Mi espacio">‹</button>
                   <h4 tabindex="-1">Mis acciones</h4>
                 </header>
                 <div data-mis-acciones aria-live="polite"></div>
@@ -870,7 +876,7 @@
   <dialog class="human-profile-dialog" data-bio-dialog aria-labelledby="bio-title">
     <div class="human-profile-shell">
       <button class="pet-profile-close" type="button" data-bio-close aria-label="Cerrar">×</button>
-      <p class="kicker">Mi perfil</p>
+      <p class="kicker">Mi espacio</p>
       <h3 id="bio-title">Editar descripción</h3>
       <p class="card-copy">Tu nombre y tu foto se editan en Convergencia Aura. Aquí solo cambias cómo te presentas en AuraLadra.</p>
       <form class="magic-form" data-bio-form>
@@ -960,7 +966,7 @@
     <a href="#mapa" data-tabbar-link="mapa"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg><span>Mapa</span></a>
     <a href="#red" data-tabbar-link="red"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><ellipse cx="6.5" cy="11" rx="1.8" ry="2.4"/><ellipse cx="10" cy="6.8" rx="1.8" ry="2.4"/><ellipse cx="14.5" cy="6.8" rx="1.8" ry="2.4"/><ellipse cx="18" cy="11" rx="1.8" ry="2.4"/><path d="M12.2 12c2.8 0 5.5 3 5.5 5.6 0 1.8-1.5 2.6-3.1 2.1-1.1-.3-1.8-.5-2.4-.5s-1.3.2-2.4.5c-1.6.5-3.1-.3-3.1-2.1 0-2.6 2.7-5.6 5.5-5.6z"/></svg><span>Mi red</span></a>
     <a href="#ayudar" data-tabbar-link="ayudar"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-4.6-9-9.2C1.8 8.6 3.6 5 7 5c2 0 3.4 1.1 5 3 1.6-1.9 3-3 5-3 3.4 0 5.2 3.6 4 6.8-2 4.6-9 9.2-9 9.2z"/></svg><span>Usar AC</span></a>
-    <a href="#mi-perfil" data-tabbar-link="perfil"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg><span>Perfil</span></a>
+    <a href="#mi-espacio" data-tabbar-link="perfil"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg><span>Mi espacio</span></a>
   </nav>
 
 
@@ -991,6 +997,7 @@
 <script src="js/tienda.js?v=stock-vendedor-1"></script>
 <script src="js/servicios-fotos.js?v=1"></script>
 <script src="js/servicios.js?v=3"></script>
+<script src="js/mi-espacio.js"></script>
 <script defer src="https://core.convergenciaaura.cl/js/aura-hub.js"></script><!-- Menú común de Convergencia Aura: vive en Core (una sola versión para todos los sitios) -->
 <script defer src="https://core.convergenciaaura.cl/js/globo.js" data-margen-movil="76" data-sitio="ladra"></script>
 </body>

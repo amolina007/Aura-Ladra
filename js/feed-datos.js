@@ -8,8 +8,10 @@
     texto: item.texto, imagen: item.ruta_archivo ? db().storage.from(bucket).getPublicUrl(item.ruta_archivo).data.publicUrl : '',
     ruta: item.ruta_archivo, creado: item.creado_en, revision: item.revision, edicionClave: item.edicion_clave, remoto: true,
   });
-  const cargar = async () => {
-    const { data, error } = await db().from(tabla).select(columnas).order('creado_en', { ascending: false }).limit(200);
+  const cargar = async (autorId = null) => {
+    let consulta = db().from(tabla).select(columnas).order('creado_en', { ascending: false }).limit(200);
+    if (autorId) consulta = consulta.eq('autor_id', autorId);
+    const { data, error } = await consulta;
     if (error) throw error;
     return (data || []).map(convertir);
   };

@@ -892,7 +892,7 @@
     if (networkGroup) networkGroup.hidden = !hasUser;
     // Tus mascotas van con su ficha completa; las demás, con la ficha pública.
     const network = [...ownAnimals, ...publicAnimals.filter((animal) => !ownIds.has(animal.id) && inNetwork(animal))];
-    fillAnimalGrid(document.querySelector('[data-animal-grid="mi-red"]'), network, 'Todavía no tienes mascotas. Crea su ficha en “Mi cuenta”.');
+    fillAnimalGrid(document.querySelector('[data-animal-grid="mi-red"]'), network, 'Todavía no tienes mascotas. Crea su ficha en “Mi espacio”.');
     const allDiscover = publicAnimals.filter((animal) => !ownIds.has(animal.id) && !inNetwork(animal));
     // Los filtros de Descubrir (js/descubrir.js) solo reducen lo que se muestra.
     const discover = allDiscover.filter((animal) => window.auraLadraRed?.filtro?.(animal) ?? true);
@@ -1136,7 +1136,7 @@
       const name = document.createElement('strong');
       name.textContent = animal.nombre;
       const hint = document.createElement('small');
-      hint.textContent = 'Ver ficha';
+      hint.textContent = 'Ficha y cuidados  ›';
       tile.append(photo, name, hint);
       return tile;
     });
@@ -1221,11 +1221,12 @@
     if (!target) return;
     section.scrollIntoView({ block: 'start' });
     if (focus) target.querySelector('h3, h4')?.focus({ preventScroll: true });
+    document.dispatchEvent(new CustomEvent('espacio:panel', { detail: { panel: target.dataset.myProfilePanel } }));
   };
 
-  // Lleva a una pantalla de Mi perfil desde otro lugar (por ejemplo, desde el diálogo de una ficha).
+  // Lleva a una pantalla de Mi espacio desde otro lugar (por ejemplo, desde el diálogo de una ficha).
   const openMyProfileScreen = (name) => {
-    window.auraLadraVistas?.ir('mi-perfil');
+    window.auraLadraVistas?.ir('mi-espacio');
     selectMyProfileTab(name, false);
   };
 
@@ -2385,7 +2386,7 @@
     document.dispatchEvent(new CustomEvent('sesion:cambio', { detail: { session } }));
     const signedOut = document.querySelector('[data-signed-out]');
     const signedIn = document.querySelector('[data-signed-in]');
-    // Con sesión iniciada, «Cuenta personal · Mi cuenta» no se muestra: Mi perfil ocupa su lugar.
+    // Con sesión iniciada, «Cuenta personal · Mi cuenta» no se muestra: Mi espacio ocupa su lugar.
     const hasSession = Boolean(session?.user);
     document.querySelector('[data-account-card]')?.classList.toggle('is-session', hasSession);
     const accountHeading = document.querySelector('[data-account-heading]');

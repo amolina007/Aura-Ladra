@@ -1,0 +1,52 @@
+/* Espacio privado de Ladra: crema, verde y acciones naranjas. */
+[data-account-card][hidden], [data-my-profile][hidden], [data-space-signed-out][hidden] { display: none; }
+body[data-vista="cuenta"] .reports { padding: 24px 0 100px; min-height: 80vh; background: #fffdf9; }
+.my-profile { padding: 12px 0 24px; border: 0; border-radius: 0; background: #fffdf9; color: #063d24; box-shadow: none; font-family: 'Nunito', sans-serif; }
+.my-profile .mp-top { align-items: flex-start; margin-bottom: 4px; }
+.my-profile .mp-top h3, .space-signed-out h3 { font-size: clamp(1.85rem, 6vw, 2.5rem); letter-spacing: -.04em; font-weight: 900; }
+.space-subtitle { margin: 8px 0 0; color: #687573; font-size: .95rem; line-height: 1.45; }
+.space-settings { flex: none; width: 44px; height: 44px; border: 0; border-radius: 50%; background: transparent; color: #063d24; font-size: 1.8rem; cursor: pointer; }
+.space-home { gap: 28px; }
+.space-section h4 { margin: 0 0 16px; font-size: 1.3rem; letter-spacing: -.025em; font-weight: 900; }
+.space-section .mp-card-head { margin-bottom: 14px; gap: 8px; }
+.space-section .mp-card-head h4 { margin: 0; }
+.space-section .mp-link { color: #063d24; font-size: .85rem; text-decoration: underline; text-underline-offset: 4px; }
+.space-home .mp-pets { display: grid; grid-template-columns: minmax(0, 1fr) 100px; gap: 12px; overflow: visible; padding: 0; }
+.space-home .mp-pets:has(.mp-pet:nth-child(2)) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.space-home .mp-pet { position: relative; display: block; width: 100%; min-width: 0; padding: 0; border-radius: 18px; overflow: hidden; text-align: left; }
+.space-home .mp-pet-photo { width: 100%; height: 180px; border-radius: 0; background: #dce9da; color: #063d24; font-size: 3rem; }
+.space-home .mp-pet::after { content: ''; position: absolute; inset: 40% 0 0; background: linear-gradient(transparent, rgba(3, 35, 20, .85)); pointer-events: none; }
+.space-home .mp-pet strong, .space-home .mp-pet small { position: absolute; left: 14px; right: 10px; z-index: 1; color: #fff; }
+.space-home .mp-pet strong { bottom: 32px; font-size: 1.2rem; }
+.space-home .mp-pet small { bottom: 13px; font-size: .75rem; }
+.space-home .mp-pet-add { width: 100%; min-height: 150px; align-content: center; padding: 14px 8px; border: 1px dashed #cdd4cb; border-radius: 18px; color: #063d24; background: transparent; }
+.space-home .mp-pet-add strong { font-size: .85rem; line-height: 1.3; }
+.space-home .mp-pet-add .mp-pet-photo { width: 48px; height: 48px; border: 1px solid #ec8f1c; border-radius: 50%; background: transparent; color: #ec8f1c; font-size: 2rem; }
+.space-create { min-height: 40px; padding: 7px 16px; border: 0; border-radius: 999px; background: #ec8f1c; color: #172b20; font: inherit; font-size: .9rem; font-weight: 900; cursor: pointer; }
+.space-content-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.space-content-card { min-width: 0; padding: 14px 10px; border: 1px solid #e4e6df; border-radius: 16px; background: #fffdf9; color: #063d24; text-align: left; cursor: pointer; font: inherit; }
+.space-content-label { display: flex; align-items: center; gap: 6px; font-size: .85rem; }
+.space-content-label strong { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.space-content-label svg { flex: none; width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.6; }
+.space-content-hint { display: block; margin-top: 8px; color: #687573; font-size: .7rem; }
+.space-thumbs { display: flex; gap: 5px; align-items: center; min-height: 46px; margin-top: 12px; color: #7d8981; font-size: .75rem; }
+.space-thumbs img { width: calc((100% - 10px) / 3); aspect-ratio: 1; object-fit: cover; border-radius: 8px; }
+.space-thumbs-round img { border-radius: 50%; border: 2px solid #ec8f1c; padding: 2px; }
+.space-rows { display: grid; }
+.space-rows button { display: flex; align-items: center; gap: 14px; width: 100%; min-height: 58px; padding: 10px 2px; border: 0; border-bottom: 1px solid #e4e6df; color: #063d24; background: transparent; font: inherit; text-align: left; cursor: pointer; }
+.space-rows button > span:first-child { width: 28px; font-size: 1.45rem; text-align: center; }
+.space-rows button > span:nth-child(2) { flex: 1; }
+.space-rows svg { width: 25px; height: 25px; fill: none; stroke: currentColor; stroke-width: 1.6; }
+.space-rows button > span:last-child { font-size: 1.4rem; }
+.space-private { display: flex; align-items: center; gap: 15px; padding: 18px; border-radius: 16px; background: #eaf2e5; }
+.space-private svg { width: 32px; height: 32px; flex: none; fill: none; stroke: #063d24; stroke-width: 1.6; }
+.space-private strong { font-size: .9rem; }
+.space-private p, .space-muted { margin: 5px 0 0; color: #687573; font-size: .8rem; line-height: 1.5; }
+.space-posts { display: grid; gap: 18px; margin-top: 12px; }
+.space-secondary-links { display: flex; gap: 18px; }
+.space-signed-out { padding: 30px 0; color: #063d24; }
+.space-signed-out p { color: #687573; }
+.space-signed-out h3 { margin-top: 0; }
+.tabbar [data-tabbar-link="perfil"] span { white-space: nowrap; font-size: .65rem; }
+.my-profile button:focus-visible { outline: 3px solid #ec8f1c; outline-offset: 3px; }
+@media (min-width: 700px) { .my-profile { padding: 20px 8px 32px; } .space-home .mp-pet-photo { height: 240px; } .space-content-card { padding: 18px; } .space-content-label { font-size: 1rem; } }
