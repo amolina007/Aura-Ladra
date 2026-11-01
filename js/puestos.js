@@ -1,9 +1,8 @@
 // Comida y agua: puestos de agua y alimento en espacios públicos.
 // - Con la migración de avisos aplicada (supabase/migrations/20261015120000_avisos_de_puestos.sql), la lista son los
 //   avisos que la comunidad propone y que un moderador publica; el navegador solo llama funciones del servidor (ladra.*).
-// - Sin la migración, cae a un modo DEMO: un puesto de ejemplo guardado solo en este navegador (localStorage).
+// - Si la consulta falla, se informa el error sin generar iniciativas ficticias.
 // Las campañas publicadas se conectan a las reservas reales mediante js/patrocinio-ac.js.
-// La demo y los presupuestos en CLP siguen siendo simulaciones.
 (() => {
   'use strict';
 
@@ -23,13 +22,10 @@
   const ICONOS = { agua: '💧', comida: '🍖', ambos: '💧🍖' };
   const ESTADOS = { activo: 'Funcionando', necesita_ayuda: 'Necesita ayuda', propuesta: 'Propuesta aprobada', campana: 'Financiamiento abierto', meta_alcanzada: 'Meta alcanzada', completada: 'Completada', expirada: 'Plazo terminado', cancelada: 'Cancelada' };
   const ESTADOS_AVISO = { borrador: 'Borrador', en_revision: 'En revisión', publicado: 'Publicado', rechazado: 'Rechazado', retirado: 'Retirado' };
-  const MONTOS = [2000, 5000, 10000, 20000];
-  const YO = 'Tú (demo)';
   const nAC = new Intl.NumberFormat('es-CL');
 
   // ---------- Modo servidor (funciones ladra.*) o DEMO ----------
-  let modo = 'demo';
-  let listo = false; // hasta saber el modo no se muestra nada, para no mostrar la demo por un instante.
+  let modo = 'no_disponible';
   let session = null;
   const rpc = async (nombre, args) => {
     if (!db) throw new Error('Sin conexión al servidor.');
@@ -84,50 +80,15 @@
     },
   });
 
-  // ---------- Datos de ejemplo (solo navegador) ----------
-  const KEY = 'auraladra.demo.puestos.v5';
-  const DIA = 86400000;
-  let mem = null;
-
-  const semilla = () => {
-    const hace = (dias) => new Date(Date.now() - dias * DIA).toISOString();
-    return {
-      puestos: [
-        // Ubicación APROXIMADA (centro de Maipú): pendiente de ajustar a la plaza real de Av. Sur con Padre Hurtado.
-        { id: 'av-sur-padre-hurtado', ejemplo: true, nombre: 'Plaza Av. Sur con Padre Hurtado · bebedero y comedero para perros (demo)', tipo: 'ambos', estado: 'necesita_ayuda', descripcion: 'Bebedero y comedero para perros que instalará AuraLadra en la plaza de la intersección de Av. Sur con Padre Hurtado. Es un puesto demo.', necesidad: 'Instalar el bebedero y el comedero, reponer agua y alimento seco, y limpiarlos cada semana.', direccion_publica: 'Plaza de Av. Sur con Padre Hurtado, Maipú', comuna: 'Maipú', latitud: -33.5107, longitud: -70.7578, meta_clp: 30000, recaudado_clp: 0, ultima_reposicion: null, cuidadores: [],
-          // Ficha de financiamiento (textos de ejemplo): dice para qué se piden fondos y qué se entrega a cambio.
-          ficha: {
-            para_que: 'Habilitar un bebedero y un comedero para perros en la plaza y sostenerlos mes a mes, con cada paso documentado.',
-            costo_mensual_ac: 100,
-            cubre_mensual: ['Alimento seco para perros', 'Agua y limpieza del bebedero y del comedero', 'Mantención mínima: revisar y reparar lo básico'],
-            costo_habilitacion: 'Por definir: materiales y fabricación del bebedero y del comedero.',
-            plazo_habilitacion: 'Habilitado dentro de 30 días desde que se junte la meta (plazo de ejemplo).',
-            permiso: 'Estado del permiso de la plaza: por confirmar con la Municipalidad de Maipú. Aún no está confirmado: tenlo en cuenta antes de aportar.',
-            hitos: ['Fabricación probada con fotos: se entregaría una parte de la habilitación (monto por definir).', 'Instalación probada con foto y ubicación exacta: se entregaría el resto de la habilitación (monto por definir).'],
-            documentacion: ['Fabricación: fotos del proceso y de los materiales', 'Posicionamiento: foto y ubicación exacta de la instalación', 'Recargas: fecha y foto de cada recarga de comida y agua', 'Mantención: registro de cada revisión o reparación'],
-            si_no_se_cumple: 'Si el puesto no queda habilitado dentro del plazo, las Auracoins que aún no se hayan entregado se devolverían a quienes aportaron (propuesta).',
-          } },
-      ],
-      aportes: [],
-    };
-  };
-
-  const cargar = () => {
-    try {
-      const v = JSON.parse(window.localStorage.getItem(KEY));
-      if (v?.puestos) return v;
-    } catch { /* sin almacenamiento o datos dañados */ }
-    return semilla();
-  };
-  const datos = () => { if (!listo) return { puestos: [], aportes: [] }; if (!mem) mem = cargar(); return mem; };
-  const guardar = () => { if (modo !== 'demo') return; try { window.localStorage.setItem(KEY, JSON.stringify(mem)); } catch { /* sin almacenamiento */ } };
+  // Solo se muestran avisos obtenidos del servidor.
+  let mem = { puestos: [], aportes: [] };
+  const datos = () => mem;
   const avisarCambio = () => document.dispatchEvent(new CustomEvent('puestos:cambio'));
 
   const buscar = (id) => datos().puestos.find((p) => p.id === id) || null;
   const porcentaje = (p) => p.ficha?.campana ? (p.ac?.habilitado ? Math.min(100, Math.round(p.ac.recaudado_ac / p.ficha.meta_ac * 100)) : null) : p.aviso ? null : Math.min(100, Math.round((p.recaudado_clp / p.meta_clp) * 100));
   const actualizarAC = (p, estado) => { p.ac = estado; if (estado?.habilitado) p.estado = estado.estado === 'recaudando' ? 'campana' : estado.estado; };
   const cargarFinanciacion = async () => { await Promise.all(datos().puestos.filter(p => p.ficha?.campana).map(async p => { try { actualizarAC(p, await rpc('estado_patrocinio_ac', {p_aviso:p.id})); } catch { p.ac = null; } })); };
-  const cuido = (p) => p.cuidadores.some((c) => c.alias === YO);
 
   // ---------- Puente con el mapa (js/main.js) ----------
   const comoLugar = (p) => ({
@@ -180,7 +141,7 @@
       <div class="cause-progress-caption"><span>${pct}% de la meta</span><span>${p.estado === 'campana' && dias != null ? (dias === 0 ? 'Último día' : `${dias} días restantes`) : esc(ESTADOS[p.estado] || p.estado)}</span></div></div>` : `<p class="cause-pending">Meta: <strong>${nAC.format(p.ficha.meta_ac)} AC</strong> · Avance por consultar</p>`) : (!p.aviso ? `
       <div class="cause-funding"><p><strong>${clp.format(p.recaudado_clp)}</strong><span>de ${clp.format(p.meta_clp)} este mes</span></p><div class="progreso" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100" aria-label="Patrocinio del mes"><span data-ancho="${pct}"></span></div></div>` : `<p class="cause-pending">${nAC.format(p.ficha?.costo_mensual_ac || 0)} AC al mes solicitadas</p>`);
     return `<article class="cause-card">
-      <div class="cause-card-top"><span class="cause-icon" aria-hidden="true">${ICONOS[p.tipo]}</span><span class="cause-status">${esc(ESTADOS[p.estado] || p.estado)}</span>${p.ejemplo ? chip('Demo', 'is-sim') : ''}</div>
+      <div class="cause-card-top"><span class="cause-icon" aria-hidden="true">${ICONOS[p.tipo]}</span><span class="cause-status">${esc(ESTADOS[p.estado] || p.estado)}</span></div>
       <h4>${esc(p.nombre)}</h4><p class="cause-location">${esc(p.comuna || p.direccion_publica)}</p>
       ${progreso}
       <button class="button-verde cause-open" type="button" data-puesto-abrir="${esc(p.id)}">${campana && p.estado === 'campana' ? 'Ver campaña y patrocinar' : p.aviso ? 'Ver causa' : 'Ver cómo ayudar'} <span aria-hidden="true">→</span></button>
@@ -246,7 +207,6 @@
   };
 
   // ---------- Detalle ----------
-  let montoElegido = 0;
   let abierto = null;
   const mensaje = (texto, tipo = '') => {
     const m = el.detalle?.querySelector('[data-puesto-msg]');
@@ -385,7 +345,7 @@
         <p class="pz-resumen">${esc(p.descripcion)}</p>
         <div class="pz-pliegues">
           <details><summary>Qué se hará con la meta</summary><p>${esc(f.para_que)}</p><p>Al alcanzarla se define, con todo documentado, el emplazamiento, la mantención y la comida. Quedaría listo dentro de <strong>${f.plazo_entrega} días</strong> (máximo 60).</p></details>
-          <details><summary>Condiciones</summary><p>${esc(f.si_no_se_cumple)}</p><p><small>Las AC se reservan al patrocinar y se entregan por hitos aprobados. Si vence la campaña, se devuelve automáticamente lo que no se haya entregado. Esta regla prevalece sobre la propuesta de devolución del aviso.</small></p></details>
+          <details><summary>Condiciones</summary><p>Las AC quedan reservadas al patrocinar y se entregan únicamente por hitos aprobados. Si vence la campaña, se devuelve automáticamente a quienes aportaron el saldo que no se haya entregado.</p></details>
         </div>
         ${seccionComentarios(p)}
         <p class="ayudar-msg" data-puesto-msg role="status"></p>
@@ -406,78 +366,23 @@
       return;
     }
     if (p.ficha?.campana) { renderDetalleCampana(p, aviso); return; }
-    const pct = porcentaje(p);
-    const lleno = !p.aviso && p.recaudado_clp >= p.meta_clp;
-    const yoCuido = cuido(p);
-    el.detalle.innerHTML = `
-      <div class="pz-grid">
-      <div class="pz-main">
-      <div class="pz-foto" role="img" aria-label="Foto del puesto pendiente"><span aria-hidden="true">${ICONOS[p.tipo]}</span><small>Foto pendiente: aquí irá la foto real del puesto</small></div>
-      <div class="accion-meta">${chip(`${ICONOS[p.tipo]} ${TIPOS[p.tipo]}`)}${chip(ESTADOS[p.estado], p.estado === 'necesita_ayuda' ? 'is-ambar' : '')}${p.ejemplo ? chip('Ejemplo', 'is-sim') : ''}</div>
-      <h3>${esc(p.nombre)}</h3>
-      <p>${esc(p.descripcion)}</p>
+    const f = p.ficha;
+    el.detalle.innerHTML = `<div class="pz-grid"><div class="pz-main">
+      <h3>${esc(p.nombre)}</h3><p>${esc(p.descripcion)}</p>
       <p><strong>Dónde:</strong> ${esc(p.direccion_publica)}${tieneUbicacion(p) ? ` · <button class="button-borde" type="button" data-puesto-mapa="${esc(p.id)}">Ver en el mapa</button>` : ''}</p>
-
-      <div class="detalle-bloque">
-        <h4>Qué necesita</h4>
-        <p>${esc(p.necesidad)}</p>
-        ${p.aviso ? '' : `<div class="progreso" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100" aria-label="Patrocinio del mes"><span data-ancho="${pct}"></span></div>
-        <p class="progreso-texto"><span><strong>${clp.format(p.recaudado_clp)}</strong> de ${clp.format(p.meta_clp)} este mes</span><span>${pct}%</span></p>`}
-        ${lleno ? '<p class="ayudar-msg is-success">La meta del mes ya está cubierta. Igual puedes seguir aportando o ayudar en persona.</p>' : ''}
-      </div>
-
-      ${p.ficha ? `<div class="detalle-bloque">
-        <h4>Para qué se piden los fondos</h4>
-        <p>${esc(p.ficha.para_que)}</p>
-        <p><strong>🪙 ${nAC.format(p.ficha.costo_mensual_ac)} AC al mes</strong> para sostener el puesto. Esto cubre:</p>
-        <ul>${p.ficha.cubre_mensual.map((c) => `<li>${esc(c)}</li>`).join('')}</ul>
-        <p><strong>Habilitación:</strong> ${esc(p.ficha.costo_habilitacion)}</p>
-        <p><strong>Plazo:</strong> ${esc(p.ficha.plazo_habilitacion)}</p>
-        <p><strong>Permiso:</strong> ${esc(p.ficha.permiso)}</p>
-        <h4>Qué quedará documentado</h4>
-        <ul>${p.ficha.documentacion.map((d) => `<li>${esc(d)}</li>`).join('')}</ul>
-        ${p.ficha.hitos ? `<h4>Cómo se entregarían las Auracoins (propuesta por aprobar)</h4>
-        <p>Esta es la propuesta, aún no es una regla vigente: las Auracoins se entregarían por etapas, solo cuando hay prueba.</p>
-        <ul>${p.ficha.hitos.map((h) => `<li>${esc(h)}</li>`).join('')}<li>Cada mes con recarga y mantención documentadas: se entregarían ${nAC.format(p.ficha.costo_mensual_ac)} AC.</li></ul>` : ''}
-        <p><small>${esc(p.ficha.si_no_se_cumple)}</small></p>
-      </div>` : ''}
-
-      ${p.aviso ? '' : `<div class="detalle-bloque">
-        <h4>Patrocinar este puesto</h4>
-        <div class="aportar-panel">
-          <p>Elige un monto para el alimento, el agua y la mantención del mes.</p>
-          <div class="montos" role="group" aria-label="Monto del aporte">
-            ${MONTOS.map((m) => `<button class="monto-btn" type="button" data-puesto-monto="${m}" aria-pressed="${montoElegido === m}">${clp.format(m)}</button>`).join('')}
-          </div>
-          <p><small>Es una <strong>simulación</strong>: no se cobra dinero. Es un aporte solidario para sostener este puesto; no ofrece intereses ni retornos.</small></p>
-          <button class="button-verde" type="button" data-puesto-aportar ${montoElegido ? '' : 'disabled'}>Confirmar aporte (simulación)</button>
-        </div>
-      </div>`}
-
-      <div class="detalle-bloque">
-        <h4>Auracoins</h4>
-        <p>Por ahora este puesto no recibe aportes en Auracoins: el sistema de Auracoins todavía no está definido. Lo de arriba es la propuesta de cómo se usarían, para revisarla antes de activarla.</p>
-      </div>
-
-      ${p.aviso ? `<div class="detalle-bloque">
-        <h4>Cuidado y aportes</h4>
-        <p>Por ahora esta propuesta se puede revisar. Anotarse como cuidador y patrocinarla llegará en una próxima etapa.</p>
-        ${p.es_mio ? `<div class="mini-acciones"><button class="button-borde" type="button" data-aviso-retirar="${esc(p.id)}">Retirar mi propuesta</button></div>` : ''}
-      </div>` : `<div class="detalle-bloque">
-        <h4>Cuidarlo en persona</h4>
-        <p>${p.cuidadores.length ? `Lo cuidan: ${p.cuidadores.map((c) => esc(c.alias)).join(', ')}.` : 'Todavía nadie lo cuida en persona.'}</p>
-        <p>Última reposición: <strong>${esc(fecha(p.ultima_reposicion))}</strong></p>
-        <div class="mini-acciones">
-          <button class="button-verde" type="button" data-puesto-cuidar>${yoCuido ? 'Dejar de cuidarlo' : 'Quiero cuidarlo'}</button>
-          <button class="button-borde" type="button" data-puesto-reponer ${yoCuido ? '' : 'disabled'}>Registrar reposición</button>
-          ${p.estado === 'activo' ? '<button class="button-borde" type="button" data-puesto-falta>Avisar que falta</button>' : ''}
-        </div>
-        ${yoCuido ? '' : '<p><small>Para registrar una reposición primero anótate como cuidador.</small></p>'}
-      </div>`}
-
+      <h4>Qué necesita</h4><p>${esc(p.necesidad)}</p>
+      ${f ? `<h4>Propuesta de sostenimiento</h4><p>${esc(f.para_que)}</p>
+      <p><strong>${nAC.format(f.costo_mensual_ac)} AC al mes solicitadas</strong></p>
+      <ul>${f.cubre_mensual.map(c => `<li>${esc(c)}</li>`).join('')}</ul>
+      <p><strong>Habilitación:</strong> ${esc(f.costo_habilitacion)}</p>
+      <p><strong>Plazo:</strong> ${esc(f.plazo_habilitacion)}</p>
+      <p><strong>Permiso:</strong> ${esc(f.permiso)}</p>
+      <h4>Documentación prevista</h4><ul>${f.documentacion.map(d => `<li>${esc(d)}</li>`).join('')}</ul>
+      <p>${esc(f.si_no_se_cumple)}</p>` : ''}
+      <p>Esta propuesta todavía no recibe aportes. Podrás patrocinarla cuando tenga una campaña habilitada.</p>
+      ${p.es_mio ? `<button class="button-borde" type="button" data-aviso-retirar="${esc(p.id)}">Retirar mi propuesta</button>` : ''}
       <p class="ayudar-msg" data-puesto-msg role="status"></p>
-      </div>
-      </div>`;
+    </div></div>`;
     aplicarAnchos(el.detalle);
     if (aviso) mensaje(aviso.texto, aviso.tipo);
   };
@@ -485,7 +390,6 @@
   const abrir = (id, { desdeFuera = false } = {}) => {
     if (!buscar(id)) return;
     abierto = id;
-    montoElegido = 0;
     if (desdeFuera) window.auraLadraVistas?.ir('comida-agua');
     renderLista();
     renderDetalle();
@@ -497,7 +401,6 @@
   const abrirPrimera = () => {
     const primera = filtrados()[0] || datos().puestos[0];
     abierto = primera ? primera.id : null;
-    montoElegido = 0;
     renderLista();
     renderDetalle();
   };
@@ -524,48 +427,6 @@
     if (!hitos.length) { cajaActividad.replaceChildren(); return; }
     cajaActividad.innerHTML = `<h3 id="pz-act-titulo">Actividad reciente</h3>
       <ol class="pz-linea">${hitos.slice(0, 6).map((h) => `<li><span class="pz-hito" aria-hidden="true">${h.icono}</span><span class="pz-hito-texto"><small>${esc(fecha(h.cuando))}</small><strong>${esc(h.titulo)}</strong><em>${esc(h.detalle)}</em></span></li>`).join('')}</ol>`;
-  };
-
-  const cambiado = (aviso) => {
-    guardar();
-    renderLista();
-    renderResumen();
-    renderDetalle(aviso);
-    avisarCambio();
-  };
-
-  // ---------- Acciones ----------
-  const aportar = () => {
-    const p = buscar(abierto);
-    if (!p || !MONTOS.includes(montoElegido)) return;
-    p.recaudado_clp += montoElegido;
-    datos().aportes.push({ puesto_id: p.id, monto_clp: montoElegido, simulado: true, creado_en: new Date().toISOString() });
-    const monto = montoElegido;
-    montoElegido = 0;
-    cambiado({ texto: `Gracias: registramos tu aporte simulado de ${clp.format(monto)}. No se cobró dinero.`, tipo: 'success' });
-  };
-
-  const alternarCuidado = () => {
-    const p = buscar(abierto);
-    if (!p) return;
-    if (cuido(p)) p.cuidadores = p.cuidadores.filter((c) => c.alias !== YO);
-    else p.cuidadores.push({ alias: YO });
-    cambiado({ texto: cuido(p) ? 'Listo: te anotaste como cuidador de este puesto.' : 'Dejaste de cuidar este puesto.', tipo: 'success' });
-  };
-
-  const reponer = () => {
-    const p = buscar(abierto);
-    if (!p || !cuido(p)) return;
-    p.ultima_reposicion = new Date().toISOString();
-    p.estado = 'activo';
-    cambiado({ texto: 'Gracias por reponer. Registramos la fecha y el puesto quedó como funcionando.', tipo: 'success' });
-  };
-
-  const avisarFalta = () => {
-    const p = buscar(abierto);
-    if (!p) return;
-    p.estado = 'necesita_ayuda';
-    cambiado({ texto: 'Avisamos que este puesto necesita ayuda. Ahora aparece primero en Ayudar.', tipo: 'success' });
   };
 
   const verEnMapa = () => {
@@ -613,7 +474,7 @@
     if (!cajaProponer.isConnected && !el.vistaLista) return;
     if (!forzar && ui.formAviso && cajaProponer.querySelector('[data-form-aviso]')) return; // no se borra lo que se está escribiendo
     if (modo !== 'servidor') {
-      cajaProponer.innerHTML = '<p class="ayudar-sim" role="note">Proponer un puesto necesita la conexión al servidor, que todavía no está activa en esta versión.</p>';
+      cajaProponer.innerHTML = '<p class="ayudar-sim" role="note">No puedes proponer un puesto en este momento. Inténtalo más adelante.</p>';
       return;
     }
     if (!session?.user) {
@@ -792,12 +653,7 @@
       moderar(modBtn.dataset.id, modBtn.dataset.moderar === 'aprobar', tarjetaRev?.querySelector('[name="motivo"]')?.value);
       return;
     }
-    const montoBtn = t.closest('[data-puesto-monto]');
-    if (montoBtn) { montoElegido = Number(montoBtn.dataset.puestoMonto); renderDetalle(); return; }
-    if (t.closest('[data-puesto-aportar]')) { aportar(); return; }
-    if (t.closest('[data-puesto-cuidar]')) { alternarCuidado(); return; }
-    if (t.closest('[data-puesto-reponer]')) { reponer(); return; }
-    if (t.closest('[data-puesto-falta]')) avisarFalta();
+
   });
 
   el.filtros?.addEventListener('change', renderLista);
@@ -831,7 +687,7 @@
       if (fuerte) fuerte.textContent = 'Propuestas de la comunidad.';
       if (el.modo) el.modo.textContent = 'Las revisa moderación antes de publicarlas. Las campañas con patrocinio habilitado reservan AC; no cobran pesos.';
     } else if (el.modo) {
-      el.modo.textContent = 'Ejemplos guardados solo en tu navegador: los aportes son una simulación y no se cobra dinero.';
+      el.modo.textContent = 'No pudimos cargar las iniciativas. Recarga la página para volver a intentarlo.';
     }
   };
 
@@ -842,11 +698,10 @@
         mem = { puestos: ((await rpc('listar_avisos_puestos')) || []).map(delAviso), aportes: [] };
         modo = 'servidor';
       } catch {
-        mem = null;
-        modo = 'demo'; // sin la migración (o sin conexión) se muestra la demostración local
+        mem = { puestos: [], aportes: [] };
+        modo = 'no_disponible';
       }
     }
-    listo = true;
     if (modo === 'servidor') await cargarFinanciacion();
     textoModo();
     if (modo === 'servidor') {
@@ -864,16 +719,6 @@
     if (directo && buscar(directo)) abrir(directo, { desdeFuera: true });
     if (modo === 'servidor') db.auth.onAuthStateChange((_ev, s) => { session = s; window.setTimeout(recargar, 0); });
   };
-  // Una ayuda concreta (js/tareas.js) abonó sus Aura Coins a este puesto (demo).
-  document.addEventListener('tareas:abono', (ev) => {
-    const d = ev.detail || {};
-    if (d.tipo !== 'puesto') return;
-    const p = buscar(d.id);
-    if (!p) return;
-    p.recaudado_clp = Math.min(p.meta_clp, p.recaudado_clp + (Number(d.clp) || 0));
-    guardar(); avisarCambio();
-  });
-
   window.auraLadraPuestos = { lista: () => datos().puestos.slice(), lugares: () => datos().puestos.filter(tieneUbicacion).map(comoLugar), abrir };
   iniciar();
 })();

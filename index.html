@@ -60,12 +60,6 @@
           <a href="#most-wanted">Most Wanted</a>
           <a href="#comida-agua">Comida y agua</a>
           <a href="#repertorio">Repertorio de trucos</a>
-          <p class="nav-mas-t">Más</p>
-          <span class="nav-pronto" aria-disabled="true">Guías <small>Pronto</small></span>
-          <span class="nav-pronto" aria-disabled="true">Catálogo de recompensas <small>Pronto</small></span>
-          <span class="nav-pronto" aria-disabled="true">Ayuda <small>Pronto</small></span>
-          <span class="nav-pronto" aria-disabled="true">Configuración <small>Pronto</small></span>
-          <span class="nav-pronto" aria-disabled="true">Información del proyecto <small>Pronto</small></span>
           </div>
         </details>
       </nav>
@@ -77,6 +71,7 @@
     <section class="feed" id="inicio" data-vista-de="inicio" data-feed aria-labelledby="feed-title">
       <div class="feed-shell">
         <div class="home-heading"><p class="home-location">Comunidad de Maipú</p><h1 id="feed-title">Tu barrio, más conectado.</h1><p>Historias y cuidados que nos acercan.</p></div>
+        <aside class="home-help" aria-label="Únete a la comunidad"><h2>Tu mascota también tiene un lugar aquí</h2><p>Crea su ficha, comparte sus momentos y conecta con quienes la cuidan.</p><a class="button button-dark" href="#mi-espacio">Crear la ficha de mi mascota</a></aside>
         <div class="feed-historias" data-feed-historias role="list" aria-label="Historias de las mascotas"></div>
         <aside class="home-help" aria-labelledby="home-help-title"><h2 id="home-help-title">¿Una mascota necesita ayuda?</h2><div class="home-help-actions"><a href="#acciones" data-home-action="perdida">La perdí</a><a href="#acciones" data-home-action="encontrada">La encontré</a></div></aside>
         <div class="home-community"><h2>Mi comunidad</h2><a href="#mapa">Explorar el mapa <span aria-hidden="true">→</span></a></div>
@@ -105,7 +100,7 @@
           </form>
           <div class="services-categories" role="group" aria-label="Categoría de servicio"><button type="button" data-service-category="" aria-pressed="true">Todos</button><button type="button" data-service-category="refugio" aria-pressed="false">⌂ Refugio temporal</button><button type="button" data-service-category="transporte" aria-pressed="false">↗ Transporte</button><button type="button" data-service-category="estetica" aria-pressed="false">✂ Estética</button><button type="button" data-service-category="entrenamiento" aria-pressed="false">◇ Entrenamiento</button><button type="button" data-service-category="paseos" aria-pressed="false">🐾 Paseos</button><button type="button" data-service-category="cuidado" aria-pressed="false">♡ Cuidado</button><button type="button" data-service-category="otros" aria-pressed="false">Más prestaciones</button></div>
           <div class="services-status" role="status" data-services-status>Cargando servicios…</div>
-          <div class="services-tools"><button type="button" class="service-text-button" data-services-retry>Actualizar servicios</button><button type="button" class="service-text-button" data-services-demo>Ver ejemplos del diseño</button></div>
+          <div class="services-tools"><button type="button" class="service-text-button" data-services-retry>Actualizar servicios</button></div>
           <div class="services-grid" data-services-list></div>
         </div>
         <div data-services-account hidden><h3>Mis consultas y servicios</h3><p class="service-muted">Aquí puedes revisar tus solicitudes, responder las que recibes y retirar tus prestaciones del catálogo.</p><div data-services-account-list aria-live="polite"></div></div>
@@ -271,8 +266,8 @@
               <ul class="cal-lista" data-cal-dia-lista></ul>
               <button class="cal-nuevo" type="button" data-enc-nuevo>＋ Proponer un encuentro</button>
               <p class="cal-demo" data-enc-aviso aria-live="polite"></p>
-              <button class="cal-nuevo cal-nuevo-sec" type="button" data-cal-nuevo>＋ Agregar evento propio (demo)</button>
-              <p class="cal-demo" data-cal-demo>Tus eventos se guardan solo en este navegador (modo demo).</p>
+              <button class="cal-nuevo cal-nuevo-sec" type="button" data-cal-nuevo>＋ Agregar evento personal</button>
+              <p class="cal-demo" data-cal-demo>Tus eventos personales se guardan solo en este navegador; no se publican ni se sincronizan con otros dispositivos.</p>
             </aside>
           </div>
         </div>
@@ -344,25 +339,7 @@
           <section class="use-ac-panel" id="causas" data-market-panel="causas" role="tabpanel" aria-labelledby="market-tab-causas">
             <div class="market-section-heading cause-heading"><h3 id="causas-title">Causas comunitarias</h3><p>Elige una causa y sigue su avance.</p></div>
             <section class="puestos-resumen" data-puestos-resumen aria-labelledby="puestos-resumen-title" hidden></section>
-            <details class="market-more-causes"><summary>Más acciones comunitarias</summary>
-          <header class="funding-heading"><span class="funding-eyebrow">Apoyos del barrio</span><h4 class="ayudar-sub">Acciones por financiar</h4><p>Salud, alimento y cuidados que necesitan apoyo.</p><span class="funding-demo">Demo · aportes simulados en pesos</span></header>
-          <section class="ayd-dash" data-ayudar-dash aria-labelledby="ayd-dash-title">
-            <h3 id="ayd-dash-title" class="sr-only">Actividad comunitaria</h3>
-            <div class="ayd-tiles" data-ayd-tiles></div>
-            <details class="funding-states"><summary>Ver actividad por estado</summary><div class="ayd-barra" data-ayd-barra role="img" aria-label="Distribución de acciones por estado"></div>
-            <ul class="ayd-leyenda" data-ayd-leyenda></ul></details>
-          </section>
-          <details class="funding-filters"><summary>Filtrar acciones <span aria-hidden="true">＋</span></summary><form class="ayudar-filtros" data-ayudar-filtros aria-label="Filtrar acciones">
-            <label class="field"><span>Categoría</span>
-              <select name="categoria"><option value="">Todas</option><option value="alojamiento">Alojamiento</option><option value="cuidado">Cuidado</option><option value="salud">Salud</option><option value="alimentacion">Alimentación</option><option value="traslado">Traslado</option><option value="educacion">Educación</option><option value="otro">Otro</option></select></label>
-            <label class="field"><span>Comuna</span><input name="comuna" type="text" maxlength="60" placeholder="Ej.: Maipú" autocomplete="off"></label>
-            <label class="field"><span>Urgencia</span>
-              <select name="urgencia"><option value="">Cualquiera</option><option value="critica">Crítica</option><option value="alta">Alta</option><option value="normal">Normal</option></select></label>
-            <label class="field"><span>Estado</span>
-              <select name="estado"><option value="">Todos</option><option value="recaudando">Recaudando</option><option value="meta_alcanzada">Meta alcanzada</option><option value="programada">Programada</option><option value="en_ejecucion">En ejecución</option><option value="completada">Completada</option></select></label>
-          </form>
-          </details><div class="ayudar-lista" data-ayudar-lista aria-live="polite"></div>
-            </details>
+
           </section>
           <section class="use-ac-panel" id="tienda" data-tienda data-market-panel="tienda" role="tabpanel" aria-labelledby="market-tab-tienda" hidden>
             <div class="market-section-heading"><span class="market-eyebrow">Productos y servicios</span><h3 id="tienda-title">Tienda</h3><p>Encuentra publicaciones de personas de Convergencia Aura.</p></div>
@@ -387,7 +364,7 @@
           <h2 id="puestos-title">Pequeños aportes. Cambios visibles.</h2>
           <p>Encuentra una causa y sigue lo que tu ayuda consigue: puntos con agua y alimento para perros y gatos del barrio, financiados por la comunidad y documentados paso a paso.</p>
         </div>
-        <p class="ayudar-sim" role="note"><strong>Demo</strong> <span data-puestos-modo>Cargando…</span></p>
+        <p class="ayudar-sim" role="note"><strong>Propuestas de la comunidad.</strong> <span data-puestos-modo>Cargando…</span></p>
         <div class="pz-layout">
           <aside class="pz-lista" data-puestos-vista-lista aria-label="Iniciativas de comida y agua">
             <h3 class="pz-lista-titulo">Iniciativas</h3>
@@ -979,7 +956,6 @@
 <script src="js/aura-acceso-secundario.js"></script>
 <script src="js/visitas.js"></script>
 <script src="js/main.js"></script>
-<script src="js/acciones.js?v=estetica-1"></script>
 <script src="js/patrocinio-ac.js?v=1"></script>
 <script src="js/puestos.js?v=causas-dashboard-1"></script>
 <script src="js/misiones.js"></script>

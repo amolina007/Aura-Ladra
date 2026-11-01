@@ -60,13 +60,12 @@ test('Servicios tiene ruta propia, filtros combinados, condiciones y retorno de 
  assert.match(a.doc.querySelector('[data-service-detail]').textContent,/tamaño y pelaje/);a.doc.querySelector('[data-service-close]').click();assert.equal(a.doc.activeElement,opener);
  }finally{a.close();}
 });
-test('Backend ausente informa preparación; ejemplos optativos no escriben',async()=>{
+test('Backend ausente informa preparación sin ofrecer servicios ficticios',async()=>{
  const a=await app({missing:true});try{
- assert.match(a.doc.querySelector('[data-services-status]').textContent,/preparación/);assert.equal(a.doc.querySelectorAll('.service-card').length,0);
- a.doc.querySelector('[data-services-demo]').click();assert.equal(a.doc.querySelectorAll('.service-card').length,3);
- a.doc.querySelector('[data-service-open=ejemplo-estetica]').click();a.doc.querySelector('[data-service-inquire]').click();
- const form=a.doc.querySelector('[data-service-inquiry-form]');assert.equal(form.querySelector('[type=submit]').disabled,true);
- form.elements.dia_preferido.value='2027-01-15';form.elements.mensaje.value='Consulta en ejemplo de diseño';submit(a,form);await flush();assert.equal(a.calls.filter(c=>c.op==='insert').length,0);
+ assert.match(a.doc.querySelector('[data-services-status]').textContent,/preparación/);
+ assert.equal(a.doc.querySelectorAll('.service-card').length,0);
+ assert.equal(a.doc.querySelector('[data-services-demo]'),null);
+ assert.equal(a.calls.filter(c=>c.op==='insert').length,0);
  }finally{a.close();}
 });
 test('Sin sesión muestra acceso a cuenta y no admite consulta',async()=>{

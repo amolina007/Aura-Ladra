@@ -1,8 +1,7 @@
 // Personal → Mi perfil → Mi árbol de vínculos.
 // - Con la migración 20261003190000 aplicada, todo pasa por funciones del servidor (ladra.*):
 //   el navegador no decide permisos; la base de datos sí.
-// - Sin la migración, cae a una DEMOSTRACIÓN con datos ficticios claramente rotulados,
-//   guardados solo en este navegador.
+// - Si faltan las funciones del servidor, muestra un error recuperable,
 // El árbol se dibuja con SVG (no es una imagen): troncos, ramas, hojas y flores salen de datos reales.
 (() => {
   'use strict';
@@ -63,110 +62,6 @@
   const esPendiente = (m) => (m.relaciones || []).length > 0 && (m.relaciones || []).every((r) => r.estado === 'pendiente');
 
   // =====================================================================
-  // Adaptador DEMOSTRACIÓN (solo navegador, datos ficticios)
-  // =====================================================================
-  const demo = (() => {
-    const KEY = 'auraladra.demo.arbol.v2';
-    let st = null;
-    const guardar = () => { try { window.localStorage.setItem(KEY, JSON.stringify(st)); } catch { /* sin almacenamiento */ } };
-    const rel = (origen, tipo, descripcion, estado, extra = {}) => ({ origen, id: uuid(), tipo, descripcion: descripcion || null, estado, editable: true, retirable: true, publico: null, ...extra });
-    const semilla = () => ({
-      integrantes: [
-        { clave: 'animal:demo-luna', clase: 'animal', ref_id: 'demo-luna', nombre: 'Luna (ejemplo)', especie: 'Perra', foto_url: null, propio: true, memoria: false, comunitario: false, oculta: false, relaciones: [rel('familia', 'tutor', null, 'confirmado', { editable: false, retirable: false })] },
-        { clave: 'animal:demo-tom', clase: 'animal', ref_id: 'demo-tom', nombre: 'Tom (ejemplo)', especie: 'Gato', foto_url: null, propio: true, memoria: true, comunitario: false, oculta: false, relaciones: [rel('familia', 'tutor', null, 'confirmado', { editable: false, retirable: false })] },
-        { clave: 'perfil:demo-rosa', clase: 'persona', ref_id: 'demo-rosa', nombre: 'Rosa (ejemplo)', especie: null, foto_url: null, propio: false, memoria: false, comunitario: false, oculta: false, relaciones: [rel('personas', 'cuidador', 'Cuida a Luna cuando viajo', 'confirmado')] },
-        { clave: 'animal:demo-canela', clase: 'animal', ref_id: 'demo-canela', relacion: 'bloqueada', nombre: 'Canela (ejemplo)', especie: 'Perra', foto_url: null, propio: false, memoria: false, comunitario: true, oculta: false, relaciones: [rel('animal_humano', 'amistad', 'Perra de la plaza', 'confirmado', { publico: true })] },
-        { clave: 'perfil:demo-cate', clase: 'persona', ref_id: 'demo-cate', nombre: 'Cate (ejemplo)', especie: null, foto_url: null, propio: false, memoria: false, comunitario: false, oculta: false, animales: [{ nombre: 'Kira (ejemplo)', foto_url: null }, { nombre: 'Max (ejemplo)', foto_url: null }], relaciones: [rel('personas', 'familia', 'Pareja (ejemplo)', 'confirmado')] },
-        { clave: 'perfil:demo-camilo', clase: 'persona', ref_id: 'demo-camilo', nombre: 'Camilo (ejemplo)', especie: null, foto_url: null, propio: false, memoria: false, comunitario: false, oculta: false, relaciones: [rel('personas', 'companero_paseo', null, 'confirmado')] },
-        { clave: 'privado:demo-abuela', clase: 'persona', ref_id: 'demo-abuela', nombre: 'Abuela Elena (ejemplo)', especie: null, foto_url: null, propio: false, memoria: false, comunitario: false, oculta: false, relaciones: [rel('privado', 'familia', 'Anotación privada', 'privado')] },
-      ],
-      conexiones: [{ a: 'animal:demo-luna', b: 'animal:demo-canela', tipo: 'amistad' }],
-      momentos: [
-        { id: 'm1', tipo: 'adopcion', fecha: '2024-03-10', texto: 'Luna llegó a casa (ejemplo).', visibilidad: 'privado', es_mio: true, autor_alias: 'Tú', participantes: [{ id: 'p1', clave: 'animal:demo-luna', nombre: 'Luna (ejemplo)', estado: 'confirmado' }] },
-        { id: 'm2', tipo: 'paseo', fecha: '2026-09-20', texto: 'Paseo largo por el parque.', visibilidad: 'compartido', es_mio: true, autor_alias: 'Tú', participantes: [{ id: 'p2', clave: 'animal:demo-luna', nombre: 'Luna (ejemplo)', estado: 'confirmado' }, { id: 'p3', clave: 'perfil:demo-camilo', nombre: 'Camilo (ejemplo)', estado: 'confirmado' }] },
-        { id: 'm3', tipo: 'juego', fecha: '2026-09-27', texto: null, visibilidad: 'privado', es_mio: true, autor_alias: 'Tú', participantes: [{ id: 'p4', clave: 'animal:demo-luna', nombre: 'Luna (ejemplo)', estado: 'confirmado' }, { id: 'p5', clave: 'animal:demo-canela', nombre: 'Canela (ejemplo)', estado: 'confirmado' }] },
-        { id: 'm4', tipo: 'recuerdo', fecha: '2025-12-24', texto: 'Tom dormía siempre junto al árbol de Navidad (ejemplo).', visibilidad: 'privado', es_mio: true, autor_alias: 'Tú', participantes: [{ id: 'p6', clave: 'animal:demo-tom', nombre: 'Tom (ejemplo)', estado: 'confirmado' }] },
-        { id: 'm5', tipo: 'cuidado', fecha: '2026-10-01', texto: 'Rosa la cuidó el fin de semana.', visibilidad: 'privado', es_mio: true, autor_alias: 'Tú', participantes: [{ id: 'p7', clave: 'animal:demo-luna', nombre: 'Luna (ejemplo)', estado: 'confirmado' }, { id: 'p8', clave: 'perfil:demo-rosa', nombre: 'Rosa (ejemplo)', estado: 'confirmado' }] },
-      ],
-      pendientes: { personas: [{ id: 'demo-sol-1', de_alias: 'Marta (ejemplo)', tipo: 'amistad', descripcion: 'Nos conocimos en el parque' }], participaciones: [] },
-    });
-    const cargar = () => { try { const v = JSON.parse(window.localStorage.getItem(KEY)); if (v?.integrantes) return v; } catch { /* sin almacenamiento */ } return semilla(); };
-    const d = () => { if (!st) st = cargar(); return st; };
-    const falla = (t) => { throw new Error(t); };
-    const buscarRel = (id) => { for (const m of d().integrantes) { const r = m.relaciones.find((x) => x.id === id); if (r) return { m, r }; } return null; };
-    const CATALOGO = [{ id: 'demo-bruno', nombre: 'Bruno (ejemplo)', especie: 'Perro' }, { id: 'demo-mia', nombre: 'Mía (ejemplo)', especie: 'Gata' }];
-    const PERSONAS = [{ perfil_id: 'demo-ines', alias: 'Inés (ejemplo)' }, { perfil_id: 'demo-pablo', alias: 'Pablo (ejemplo)' }];
-    return {
-      async cargar() { return JSON.parse(JSON.stringify({ yo: { perfil_id: 'demo', alias: 'Tú', publicado: true }, ...d() })); },
-      async vincularAnimal(id, tipo, desc) {
-        const a = CATALOGO.find((x) => x.id === id) || falla('Animal no disponible.');
-        const clave = `animal:${a.id}`;
-        if (d().integrantes.some((m) => m.clave === clave)) falla('Ya tienes un vínculo con este animal.');
-        d().integrantes.push({ clave, clase: 'animal', ref_id: a.id, nombre: a.nombre, especie: a.especie, foto_url: null, propio: false, memoria: false, comunitario: false, oculta: false, relaciones: [rel('animal_humano', tipo, desc, 'pendiente', { publico: false })] });
-        guardar(); return 'pendiente';
-      },
-      async vincularPersona(id, tipo, desc) {
-        const p = PERSONAS.find((x) => x.perfil_id === id) || falla('Persona no disponible.');
-        const clave = `perfil:${p.perfil_id}`;
-        if (d().integrantes.some((m) => m.clave === clave)) falla('Ya existe un vínculo con esta persona.');
-        d().integrantes.push({ clave, clase: 'persona', ref_id: p.perfil_id, nombre: p.alias, especie: null, foto_url: null, propio: false, memoria: false, comunitario: false, oculta: false, relaciones: [rel('personas', tipo, desc, 'pendiente')] });
-        guardar(); return 'pendiente';
-      },
-      async agregarPrivado(tipo, desc, nombre, clase) {
-        if (!nombre) falla('Escribe un nombre.');
-        const id = uuid();
-        d().integrantes.push({ clave: `privado:${id}`, clase, ref_id: id, nombre, especie: null, foto_url: null, propio: false, memoria: false, comunitario: false, oculta: false, relaciones: [rel('privado', tipo, desc, 'privado')] });
-        guardar(); return id;
-      },
-      async editarVinculo(origen, id, tipo, desc, publico) {
-        const f = buscarRel(id) || falla('No puedes editar este vínculo.');
-        if (origen === 'privado' && tipo) f.r.tipo = tipo;
-        f.r.descripcion = desc || null;
-        if (origen === 'animal_humano' && publico !== null && publico !== undefined) f.r.publico = publico;
-        guardar();
-      },
-      async retirarVinculo(origen, id) {
-        const f = buscarRel(id) || falla('Vínculo no encontrado.');
-        f.m.relaciones = f.m.relaciones.filter((x) => x.id !== id);
-        if (!f.m.relaciones.length) d().integrantes = d().integrantes.filter((x) => x !== f.m);
-        guardar();
-      },
-      async buscarPersonas(texto) { const t = String(texto).toLowerCase(); return PERSONAS.filter((p) => p.alias.toLowerCase().includes(t)); },
-      async animalesRed() { return CATALOGO; },
-      async humanosDe() { return [{ alias: 'Tú', rol: 'dueno_principal' }]; },
-      async responderPersona(id, decision) {
-        const s = d().pendientes.personas.find((x) => x.id === id) || falla('Solicitud no encontrada.');
-        d().pendientes.personas = d().pendientes.personas.filter((x) => x !== s);
-        if (decision === 'confirmado') {
-          const idp = uuid();
-          d().integrantes.push({ clave: `perfil:${idp}`, clase: 'persona', ref_id: idp, nombre: s.de_alias, especie: null, foto_url: null, propio: false, memoria: false, comunitario: false, oculta: false, relaciones: [rel('personas', s.tipo, s.descripcion, 'confirmado')] });
-        }
-        guardar();
-      },
-      async responderParticipacion() { guardar(); },
-      async registrarMomento(tipo, fechaIso, texto, visibilidad, participantes) {
-        const ps = participantes.map((p) => {
-          const m = d().integrantes.find((x) => x.ref_id === p.id) || falla('Participante inválido.');
-          const confirmado = m.propio || m.clave.startsWith('privado:') || m.comunitario;
-          return { id: uuid(), clave: m.clave, nombre: m.nombre, estado: confirmado ? 'confirmado' : 'pendiente' };
-        });
-        const id = uuid();
-        d().momentos.unshift({ id, tipo, fecha: fechaIso, texto: texto || null, visibilidad, es_mio: true, autor_alias: 'Tú', creado_en: new Date().toISOString(), participantes: ps });
-        guardar(); return id;
-      },
-      async editarMomento(id, tipo, fechaIso, texto, visibilidad) {
-        const m = d().momentos.find((x) => x.id === id) || falla('No puedes editar este momento.');
-        Object.assign(m, { tipo, fecha: fechaIso, texto: texto || null, visibilidad }); guardar();
-      },
-      async eliminarMomento(id) { d().momentos = d().momentos.filter((x) => x.id !== id); guardar(); },
-      async alternarMemoria(refId, ocultar) {
-        const m = d().integrantes.find((x) => x.ref_id === refId); if (m) m.oculta = ocultar; guardar();
-      },
-    };
-  })();
-
-  // =====================================================================
-  // Adaptador SERVIDOR (funciones ladra.* de la migración)
   // =====================================================================
   const rpc = async (fn, args) => {
     const { data, error } = await db.rpc(fn, args);
@@ -259,7 +154,6 @@
           </div>
           <button type="button" class="arbol-cerrar" data-act="cerrar" aria-label="Cerrar Mi árbol y volver a Personal">×</button>
         </header>
-        <p class="arbol-demo" data-arbol-demo hidden><strong>Demo</strong></p>
         <p class="arbol-aviso" role="status" aria-live="polite" data-arbol-aviso></p>
         <div class="arbol-pendientes" data-arbol-pendientes></div>
         <div class="arbol-acciones">
@@ -865,7 +759,6 @@
       <div class="circ-lado">${f.persona ? (f.persona.bloqueado ? '<strong>Usuario bloqueado</strong>' : f.persona.yo ? `${avatarYo()}<strong>${esc(f.persona.nombre)}</strong>` : `${avatarHtml(f.persona)}<strong>${esc(limpiarNombre(f.persona.nombre))}</strong>`) : '<small>Sin responsable</small>'}</div>
     </div>`).join('');
     resumen.innerHTML = `
-      ${S.modo === 'demo' ? '<p class="arbol-demo"><strong>Demo</strong></p>' : ''}
       ${principal ? `<p class="mp-muted">El círculo de <strong>${esc(limpiarNombre(principal.nombre))}</strong> · mascotas y sus personas</p><div class="circ-resumen">${mini}</div>` : '<p class="mp-muted">Aún no tienes vínculos. Tu círculo empieza con tu primera mascota.</p>'}
       ${pend ? `<p class="arbol-nota"><strong>${pend}</strong> ${pend === 1 ? 'solicitud espera' : 'solicitudes esperan'} tu respuesta.</p>` : ''}
       <button type="button" class="mp-btn" data-arbol-abrir>${ints.length ? 'Gestionar vínculos' : 'Empezar mi círculo'}</button>`;
@@ -875,7 +768,6 @@
   const render = () => {
     renderResumen();
     if (!vista.open) return;
-    $('[data-arbol-demo]').hidden = S.modo !== 'demo';
     $('[data-arbol-aviso]').textContent = S.aviso;
     renderPendientes();
     $$('[data-pestana]').forEach((b) => { const a = b.dataset.pestana === S.pestana; b.setAttribute('aria-selected', String(a)); b.tabIndex = a ? 0 : -1; });
@@ -914,8 +806,7 @@
       S.data = await S.api.cargar();
       S.error = '';
     } catch (e) {
-      if (S.modo === 'servidor' && faltaBackend(e)) { S.modo = 'demo'; S.api = demo; return cargar(silencioso); }
-      S.error = mensajeError(e);
+      S.error = faltaBackend(e) ? 'No pudimos cargar tus vínculos. Inténtalo más adelante.' : mensajeError(e);
     }
     S.cargando = false;
     if (S.sel && !porClave(S.sel)) S.sel = null;
@@ -1199,7 +1090,7 @@
     else if (a === 'ver-historia') { S.pestana = 'historia'; render(); }
     else if (a === 'ver-ficha' || a === 'editar-ficha') {
       const ok = a === 'ver-ficha' ? window.auraLadraFicha?.abrir(act.dataset.ref) : window.auraLadraFicha?.editar(act.dataset.ref);
-      if (!ok) aviso(S.modo === 'demo' ? 'En la demo los animales de ejemplo no tienen ficha real.' : 'No pudimos abrir la ficha de este animal.');
+      if (!ok) aviso('No pudimos abrir la ficha de este animal.');
     } else if (a === 'editar-vinculo') abrirEditarVinculo(act.dataset.origen, act.dataset.id);
     else if (a === 'pedir-retiro') { S.confirmando = act.dataset.id; renderPanel(); }
     else if (a === 'pedir-eliminar') { S.confirmando = `m:${act.dataset.id}`; renderHistoria(); }

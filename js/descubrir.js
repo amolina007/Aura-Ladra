@@ -93,7 +93,7 @@
     grupo.hidden = !hayCuenta();
     if (!hayCuenta()) { grid.replaceChildren(); return; }
     aviso.hidden = disponible;
-    aviso.textContent = disponible ? '' : 'Seguir y guardar perfiles todavía no está disponible: falta aplicar la actualización en el servidor.';
+    aviso.textContent = disponible ? '' : 'Seguir y guardar perfiles estará disponible próximamente.';
     const animales = (R()?.animales?.() || []).filter((a) => estado.get(a.id)?.seguido);
     if (!animales.length) {
       grid.replaceChildren(el('p', 'empty-state', disponible ? 'Aún no sigues a ningún animal. Abre un perfil en Descubrir y toca «Seguir».' : 'Cuando esté disponible, aquí verás los animales que sigues.'));
@@ -114,7 +114,7 @@
     if (gua) { gua.textContent = e.guardado ? 'Guardado' : 'Guardar'; gua.setAttribute('aria-pressed', String(!!e.guardado)); gua.classList.toggle('is-on', !!e.guardado); gua.disabled = !disponible; }
     const nota = $('[data-ficha-nota]', barra);
     if (nota && disponible && nota.dataset.error !== '1') nota.textContent = '';
-    if (nota && !disponible) nota.textContent = 'Seguir y guardar todavía no está disponible: falta aplicar la actualización en el servidor.';
+    if (nota && !disponible) nota.textContent = 'Seguir y guardar estará disponible próximamente.';
   }
   const alternar = async (campo) => {
     const usuario = R()?.sesion?.()?.user?.id;

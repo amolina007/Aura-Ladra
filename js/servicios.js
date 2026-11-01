@@ -16,12 +16,7 @@
   const modalities = { local: 'En local', domicilio: 'A domicilio', aire_libre: 'Al aire libre', online: 'En línea', traslado: 'Traslado acordado' };
   const states = { pendiente: 'Pendiente de respuesta', respondida: 'Respondida', no_disponible: 'Sin disponibilidad' };
   const times = { manana: 'Mañana', tarde: 'Tarde', a_convenir: 'A convenir' };
-  const examples = [
-    { id: 'ejemplo-estetica', titulo: 'Baño y cepillado', prestador: 'Estética canina · Ejemplo', categoria: 'estetica', zona: 'Maipú', modalidad: 'local', precio_clp: 25000, precio_tipo: 'desde', duracion_min: 60, descripcion: 'Baño, secado y cepillado. El valor depende del tamaño y el pelaje. Condiciones ilustrativas: el profesional debe detallar su propia prestación.', publicado: true },
-    { id: 'ejemplo-entrenamiento', titulo: 'Sesión de entrenamiento', prestador: 'Educación canina · Ejemplo', categoria: 'entrenamiento', zona: 'Maipú', modalidad: 'domicilio', precio_clp: 30000, precio_tipo: 'desde', duracion_min: 60, descripcion: 'Acompañamiento con refuerzo positivo para practicar paseos con correa. Objetivos acordados en una evaluación inicial. Servicio ilustrativo.', publicado: true },
-    { id: 'ejemplo-paseos', titulo: 'Paseos acompañados', prestador: 'Paseos de barrio · Ejemplo', categoria: 'paseos', zona: 'Maipú', modalidad: 'aire_libre', precio_clp: null, precio_tipo: 'desde', duracion_min: 45, descripcion: 'Paseo individual, ritmo y recorrido acordados con el tutor. Precio a convenir. Servicio ilustrativo.', publicado: true },
-  ];
-  let services = [], category = '', demo = false, ready = false, epoch = 0;
+  let services = [], category = '', ready = false, epoch = 0;
   let selected = null, opener = null, panel = 'catalogo', submitting = false;
   let retryRequest = null, preferredPet = null, authEvents = 0, authUser = window.auraLadraRed?.sesion?.()?.user?.id || null;
   let petsReady = Boolean(authUser);
@@ -41,7 +36,7 @@
   const isExample = (service) => service.id.startsWith('ejemplo-');
   const unavailable = (error) => ['42P01', 'PGRST205', 'PGRST202'].includes(error?.code);
   const errorText = (error, fallback) => unavailable(error)
-    ? 'Servicios está en preparación. Aún no se ha habilitado su guardado en el servidor.'
+    ? 'Servicios está en preparación. Inténtalo más adelante.'
     : error?.code === '42501' ? 'Tu cuenta no tiene permiso para esta acción. Vuelve a iniciar sesión e inténtalo de nuevo.' : fallback;
   const cover = (service) => {
     const photo = safePhoto(service.foto_url);
@@ -130,10 +125,8 @@
   const empty = (title, copy) => `<div class="service-empty"><h3>${escape(title)}</h3><p>${escape(copy)}</p></div>`;
 
   function renderCatalog() {
-    $('[data-services-demo]').textContent = demo ? 'Volver a servicios reales' : 'Ver ejemplos del diseño';
-    if (demo) status.textContent = 'Vista de ejemplo: nombres, condiciones y precios ilustrativos. No se envían consultas.';
     const data = new FormData(filters);
-    const rows = (demo ? examples : services.filter(s => s.publicado)).filter(s =>
+    const rows = services.filter(s => s.publicado).filter(s =>
       (!category || s.categoria === category) &&
       norm(`${s.titulo} ${s.prestador} ${s.descripcion}`).includes(norm(data.get('busqueda'))) &&
       norm(s.zona).includes(norm(data.get('zona'))) &&
@@ -141,33 +134,33 @@
       (!data.get('costo') || (data.get('costo') === 'gratis' && s.precio_clp != null && Number(s.precio_clp) === 0) || (data.get('costo') === 'pagado' && Number(s.precio_clp) > 0) || (data.get('costo') === 'acordar' && s.precio_clp == null)) &&
       (data.get('precio') === '' || (s.precio_clp != null && Number(s.precio_clp) <= Number(data.get('precio'))))
     );
-    list.innerHTML = rows.length ? rows.map(s => `<article class="service-card">${cover(s)}<div class="service-card-body"><span class="service-label">${escape(categories[s.categoria]?.[0] || 'Servicio')}${demo ? ' · Ejemplo' : ''}</span><h3>${escape(s.titulo)}</h3><p class="service-muted">${escape(s.prestador)}</p><p class="service-muted">⌖ ${escape(s.zona)} · ${escape(modalities[s.modalidad])}</p><div class="service-card-footer"><span class="service-price">${escape(price(s))}</span><button type="button" class="button button-dark" data-service-open="${escape(s.id)}">Ver servicio</button></div></div></article>`).join('')
-      : empty((demo || services.some(s => s.publicado)) ? 'No encontramos coincidencias' : 'Aquí comienzan los cuidados del barrio', (demo || services.some(s => s.publicado)) ? 'Prueba con otra categoría, zona o precio. Los servicios a convenir no aparecen al fijar un precio máximo.' : 'Cuando se publique la primera prestación aparecerá aquí. También puedes explorar los ejemplos del diseño.');
+    list.innerHTML = rows.length ? rows.map(s => `<article class="service-card">${cover(s)}<div class="service-card-body"><span class="service-label">${escape(categories[s.categoria]?.[0] || 'Servicio')}</span><h3>${escape(s.titulo)}</h3><p class="service-muted">${escape(s.prestador)}</p><p class="service-muted">⌖ ${escape(s.zona)} · ${escape(modalities[s.modalidad])}</p><div class="service-card-footer"><span class="service-price">${escape(price(s))}</span><button type="button" class="button button-dark" data-service-open="${escape(s.id)}">Ver servicio</button></div></div></article>`).join('')
+      : empty(services.some(s => s.publicado) ? 'No encontramos coincidencias' : 'Aquí comienzan los cuidados del barrio', services.some(s => s.publicado) ? 'Prueba con otra categoría, zona o precio. Los servicios a convenir no aparecen al fijar un precio máximo.' : 'Cuando se publique la primera prestación aparecerá aquí. Puedes ofrecer tus cuidados con el botón “Ofrecer un servicio”.');
     wireImages(list);
   }
 
   async function load() {
     const version = ++epoch;
     ready = false;
-    if (!demo) status.textContent = 'Cargando servicios…';
+    status.textContent = 'Cargando servicios…';
     try {
       if (!db) throw new Error('Sin conexión');
       const result = await db.from('servicios').select('*').order('creado_en', { ascending: false }).limit(200);
       if (version !== epoch) return;
       if (result.error) throw result.error;
       services = result.data || []; ready = true;
-      if (!demo) status.textContent = `${services.filter(s => s.publicado).length} servicios publicados${services.length === 200 ? ' · Se muestran las 200 publicaciones más recientes.' : ''}`;
+      status.textContent = `${services.filter(s => s.publicado).length} servicios publicados${services.length === 200 ? ' · Se muestran las 200 publicaciones más recientes.' : ''}`;
     } catch (error) {
       if (version !== epoch) return;
       services = [];
-      if (!demo) status.textContent = errorText(error, 'No pudimos cargar los servicios. Revisa tu conexión y pulsa “Actualizar servicios”.');
+      status.textContent = errorText(error, 'No pudimos cargar los servicios. Revisa tu conexión y pulsa “Actualizar servicios”.');
     }
     renderCatalog();
     if (panel === 'consultas') await loadAccount();
   }
 
   function openService(id, from) {
-    selected = (demo ? examples : services).find(s => s.id === id);
+    selected = services.find(s => s.id === id);
     if (!selected) return;
     renderDetail(); show(dialog, from);
   }
@@ -288,7 +281,7 @@
       if (result.error || !result.data?.id) throw result.error || Error('No pudimos confirmar el guardado. Revisa tu bandeja antes de volver a intentarlo.');
       if (actor !== userId() || generation !== editorGeneration) return;
       const oldPath = editing?.foto_path;
-      stagedPhoto = null; close(publishDialog); resetEditor(); demo = false;
+      stagedPhoto = null; close(publishDialog); resetEditor();
       if (oldPath && oldPath !== payload.foto_path) await removeUnusedPhoto(oldPath);
       await load(); setPanel('consultas');
     } catch (error) {
@@ -338,7 +331,6 @@
     if (target.dataset.serviceOpen) openService(target.dataset.serviceOpen, target);
     if (target.dataset.servicesPanel) setPanel(target.dataset.servicesPanel);
     if (target.hasAttribute('data-services-retry')) load();
-    if (target.hasAttribute('data-services-demo')) { demo = !demo; if (!demo) load(); else renderCatalog(); }
     if (target.dataset.serviceToggle) toggleOffer(target);
     if (target.dataset.serviceEdit) {
       const service = ownedServices.find(s => s.id === target.dataset.serviceEdit);
