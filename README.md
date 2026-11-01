@@ -328,6 +328,12 @@ El parche de sesión usa una sola instancia para `auraClient` y `auraLadraDb`; e
 La escucha de Auth empieza antes de cargar mapa y red, y las fichas abiertas actualizan Seguir/Guardar al cambiar de sesión.
 Pruebas de regresión: `tests/sesion-perfil.test.mjs`. La sección «Mi espacio» se describe a continuación.
 
+La cookie compartida admite una pieza, partes numeradas y partes con contador `.chunks`.
+Ladra escribe sesiones grandes en fragmentos de hasta 3000 caracteres y limpia fragmentos antiguos al reemplazarla o salir.
+Se reprodujo con supabase-js 2.118.0 y una sesión ficticia en `dev.ladra.convergenciaaura.cl`:
+al cambiar de pestaña, el lector anterior perdía la sesión fragmentada; con el nuevo lector la conserva.
+También se verificó el cierre explícito sin recuperación accidental. Pruebas: `tests/sesion-fragmentada.test.mjs`.
+
 ## Mi espacio
 
 Reemplaza «Perfil» en menú y barra inferior con la propuesta de gestión privada: mascotas, publicaciones,

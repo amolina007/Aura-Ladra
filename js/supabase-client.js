@@ -17,27 +17,8 @@
   // usando el almacenamiento normal del navegador, porque ahí la cookie no funciona.
   const enDominioAura = /(^|\.)convergenciaaura\.cl$/.test(window.location.hostname);
 
-  // Mismo formato exacto que aura-auth.js: así Core y los demás sitios se entienden.
-  const cookieStorage = {
-    getItem: (key) => {
-      const match = document.cookie.match(
-        new RegExp('(?:^|; )' + key.replace(/[.$?*|{}()[\]\\/+^]/g, '\\$&') + '=([^;]*)')
-      );
-      return match ? decodeURIComponent(match[1]) : null;
-    },
-    setItem: (key, value) => {
-      const maxAge = 60 * 60 * 24 * 30;
-      const compact = window.auraLadraSesionCookie.compactar(value);
-      if (encodeURIComponent(compact).length > 3700) throw new Error('La sesión es demasiado grande para guardarla en este navegador.');
-      document.cookie =
-        `${key}=${encodeURIComponent(compact)}; domain=${COOKIE_DOMAIN}; path=/; max-age=${maxAge}; SameSite=Lax; Secure`;
-      if (cookieStorage.getItem(key) !== compact) throw new Error('El navegador no permitió guardar la sesión.');
-    },
-    removeItem: (key) => {
-      document.cookie =
-        `${key}=; domain=${COOKIE_DOMAIN}; path=/; max-age=0; SameSite=Lax; Secure`;
-    },
-  };
+  // Compatible con cookies simples y fragmentadas de los otros sitios Aura.
+  const cookieStorage = window.auraLadraSesionCookie.crear(COOKIE_DOMAIN);
 
   // Recuperar una sesión anterior una sola vez. La sesión común tiene prioridad.
   // Borrar el respaldo evita que reaparezca después de cerrar sesión en otro sitio.
