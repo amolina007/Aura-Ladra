@@ -1,0 +1,433 @@
+/* Propuesta móvil de Ladra: se conserva la navegación y los datos existentes. */
+body { --navy: #063d24; --navy-deep: #042c1a; --ink: #173d2c; --muted: #596d60; --amber: #ec8f1c; --cream: #fff3df; --line: rgba(6,61,36,.14); }
+.home-heading { margin: 2px 0 18px; }
+.home-location { color: var(--muted); font-size: .76rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; }
+.home-heading h1 { margin: 0 0 6px; font: 800 clamp(1.7rem, 5.8vw, 2.4rem)/1.12 'Nunito', sans-serif; letter-spacing: -.04em; }
+.home-heading p { margin: 0; }
+.home-heading .home-location { margin-bottom: 9px; }
+.home-heading > p:last-child { color: var(--muted); line-height: 1.45; }
+.home-help { margin: 12px 0 22px; padding: 17px; border: 1px solid #f7d6a6; border-radius: 18px; background: #fff1dc; }
+.home-help h2 { margin: 0 0 12px; font: 800 1.05rem/1.35 'Nunito', sans-serif; letter-spacing: -.02em; color: #8b4900; }
+.home-help-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.home-help-actions a { display: grid; place-items: center; min-height: 46px; border: 1px solid #b96a09; border-radius: 11px; text-decoration: none; font-weight: 800; color: #8b4900; background: #fffdf9; }
+.home-help-actions a:last-child { background: var(--logo-verde); color: white; border-color: var(--logo-verde); }
+.home-community { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--line); margin-bottom: 12px; }
+.home-community h2 { margin: 0; font: 800 1.1rem 'Nunito', sans-serif; letter-spacing: -.02em; }
+.home-community a { font-size: .8rem; font-weight: 700; text-underline-offset: 4px; }
+.feed-demo { flex-basis: 100%; padding: 10px 12px; border-radius: 10px; background: #f2f4ef; line-height: 1.45; font-size: .75rem; }
+.fd-post { border-radius: 20px; box-shadow: 0 4px 18px rgba(6,61,36,.04); }
+.fd-quien small { font-size: .75rem; color: var(--muted); }
+/* Las publicaciones sin foto son texto, no grandes bloques vacíos. */
+.fd-medio:has(.fd-glifo) { aspect-ratio: auto; min-height: 100px; max-height: 140px; background: #edf3ec; color: var(--logo-verde); }
+.fd-glifo { font-size: 2.5rem; }
+.fd-texto { padding: 14px 16px 4px; }
+.fd-denunciar { font-size: .75rem; }
+.fd-btn { min-height: 44px; }
+.map-search { display: block; margin-bottom: 14px; }
+.map-search input { width: 100%; min-height: 50px; padding: 12px 16px; border: 1px solid var(--line); border-radius: 15px; color: var(--ink); background: #fff; font: inherit; box-shadow: 0 3px 12px rgba(6,61,36,.04); }
+.map-filters { display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 8px; padding: 2px 2px 8px; scrollbar-width: thin; }
+.map-filter { flex: none; min-height: 44px; }
+.map-filter.is-active { background: var(--logo-verde); border-color: var(--logo-verde); }
+.map-layout { box-shadow: 0 8px 28px rgba(6,61,36,.06); }
+.animal-network .section-heading h2, .map-section .section-heading h2 { font-family: 'Nunito', sans-serif; font-weight: 800; letter-spacing: -.035em; }
+.animal-network-summary { margin: 0 0 16px; }
+.animal-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.animal-tile { display: flex; flex-direction: column; aspect-ratio: auto; border: 1px solid var(--line); border-radius: 20px; background: #fff; color: var(--logo-verde); }
+.animal-tile-photo { position: relative; inset: auto; width: 100%; aspect-ratio: 4 / 3; overflow: hidden; background: #e7eee5; color: var(--logo-verde); }
+.animal-tile-photo img { display: block; }
+.animal-tile-name { position: static; padding: 14px 16px 4px; background: none; color: inherit; font: 800 1.3rem/1.25 'Nunito', sans-serif; white-space: normal; overflow-wrap: anywhere; }
+.animal-tile-meta { display: block; padding: 0 16px 14px; color: var(--muted); font-size: .82rem; overflow-wrap: anywhere; }
+.animal-tile-cta { display: block; align-self: stretch; margin: auto 16px 16px; padding: 11px 14px; text-align: center; border-radius: 11px; background: var(--logo-verde); color: #fff; font-size: .85rem; font-weight: 800; }
+.animal-tile-badge { top: 12px; left: 12px; font-size: .7rem; padding: 6px 10px; }
+.animal-tile.is-memorial { background: #f5f1fa; }
+.animal-tile:hover { transform: translateY(-2px); }
+/* Misiones en la cabecera: deja de cubrir las fotos y el mapa. */
+.nav-shell > .mis-wrap { position: static; margin-left: auto; z-index: auto; }
+.mis-boton { width: 40px; height: 40px; box-shadow: none; background: #fff; border: 1px solid var(--line); }
+.mis-panel { position: fixed; top: 86px; bottom: auto; right: 16px; max-height: calc(100dvh - 180px); overflow-y: auto; }
+.home-help a:focus-visible, .home-community a:focus-visible, .map-search input:focus-visible { outline: 3px solid #b96a09; outline-offset: 3px; }
+@media (max-width: 760px) {
+  .paw-backdrop { opacity: .25; }
+  .nav-shell { height: 68px; gap: 12px; }
+  .brand-group { gap: 8px; }
+  .brand-icono { width: 38px; height: 38px; }
+  .brand-palabra { height: 20px; }
+  .menu-button { width: 40px; height: 40px; padding: 9px; flex: none; }
+  .feed { padding: 20px 0 24px; }
+  .feed-historias { gap: 12px; }
+  .fd-historia { width: 66px; }
+  .fd-aro { width: 62px; height: 62px; }
+  .fd-medio { max-height: 430px; aspect-ratio: 4 / 3; }
+  .tabbar { background: #fffdf9; padding-top: 8px; box-shadow: 0 -4px 20px rgba(6,61,36,.05); }
+  .tabbar a { position: relative; gap: 5px; min-height: 49px; border-bottom: 0; font-size: .68rem; }
+  .tabbar a[aria-current="true"] { color: var(--logo-verde); border-bottom: 0; }
+  .tabbar a[aria-current="true"] svg { box-sizing: content-box; margin-top: -4px; margin-bottom: -4px; padding: 4px 14px; border-radius: 999px; background: var(--logo-verde); color: #fff; }
+  .map-section, .animal-network { padding: 22px 0; }
+  .map-section .section-heading { display: block; margin-bottom: 18px; }
+  .map-section .section-heading h2, .animal-network .section-heading h2 { font-size: 2rem; }
+  .map-section .section-heading > p, .animal-network .section-heading > p { margin-top: 8px; font-size: .9rem; line-height: 1.5; }
+  .animal-network .section-heading { gap: 8px; margin-bottom: 18px; }
+  .map-filters-toggle { display: none; }
+  .map-filters, .map-filters.is-open { display: flex; margin-bottom: 10px; }
+  .map-toolbar { margin-bottom: 10px; }
+  .community-map { height: 42dvh; min-height: 300px; }
+  .place-list { max-height: 380px; border-left: 0; border-top: 1px solid var(--line); padding: 14px; }
+  .map-layout { border-radius: 20px; }
+  .animal-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  [data-animal-grid="mi-red"] { grid-template-columns: 1fr; }
+  .animal-tile-name { font-size: 1.15rem; padding: 12px 12px 4px; }
+  .animal-tile-meta { padding: 0 12px 12px; font-size: .75rem; }
+  .animal-tile-cta { margin: auto 12px 12px; }
+  .red-tabs { display: flex; }
+  .red-tabs .mapa-tab { flex: 1; padding-inline: 14px; }
+  .desc-filtros { gap: 10px; }
+}
+@media (max-width: 360px) {
+  .brand-palabra { height: 17px; }
+  .nav-shell { gap: 8px; }
+  .animal-grid { grid-template-columns: 1fr; }
+  .home-help { padding: 13px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .animal-tile { transition: none; }
+  .animal-tile:hover { transform: none; }
+}
+.network-filters { margin: 0 0 18px; border: 1px solid var(--line); border-radius: 15px; background: #fff; }
+.network-filters > summary { padding: 12px 16px; min-height: 48px; cursor: pointer; font-weight: 700; color: var(--logo-verde); }
+.network-filters > summary:focus-visible { outline: 3px solid #b96a09; outline-offset: 2px; border-radius: 15px; }
+.network-filters .desc-filtros { border: 0; margin: 0; box-shadow: none; }
+.network-privacy { margin: -6px 0 16px; color: var(--muted); font-size: .8rem; }
+.network-privacy summary { cursor: pointer; padding: 8px 0; min-height: 40px; }
+.network-privacy p { margin: 4px 0 10px; }
+/* Las categorías abiertas conservan su altura: el scroll pertenece a la lista. */
+.place-list { display: flex; flex-direction: column; min-height: 0; overflow-y: auto; }
+.place-category { flex: 0 0 auto; }
+/* Confirmación de patrocinios y evidencia: accesibles también en celular. */
+[data-patrocinio-ac] form { display: grid; gap: 12px; margin-top: 16px; }
+[data-patrocinio-ac] label { display: grid; gap: 6px; font-size: .9rem; font-weight: 700; }
+[data-patrocinio-ac] input:not([type=checkbox]), [data-patrocinio-ac] textarea { width: 100%; min-width: 0; min-height: 46px; border: 1px solid var(--line); border-radius: 10px; padding: 10px; background: #fff; color: var(--ink); font: inherit; }
+[data-patrocinio-ac] button { min-height: 44px; }
+.ac-estado { font-weight: 800; color: var(--logo-verde); }
+.ac-resumen { margin: 16px 0; font-size: .85rem; }
+.ac-resumen div { display: flex; justify-content: space-between; gap: 10px; margin: 8px 0; }
+.ac-resumen dd { margin: 0; font-weight: 800; }
+.ac-confirmacion { padding: 14px; border-radius: 12px; background: #fff3df; }
+.ac-confirmacion button { width: 100%; margin-top: 8px; }
+.ac-actualizar { padding: 8px 0; border: 0; background: transparent; color: var(--logo-verde); text-decoration: underline; font: inherit; font-size: .8rem; cursor: pointer; }
+.ac-hito { padding-block: 14px; border-top: 1px solid var(--line); overflow-wrap: anywhere; }
+[data-patrocinio-ac] .ac-check { display: flex; align-items: flex-start; gap: 8px; font-size: .8rem; font-weight: 500; }
+.ac-check input { flex: none; margin-top: 4px; }
+[data-patrocinio-ac] { --verde: #063d24; --crema-2: #edf3ec; --apagado: #596d60; background: #fffdf9; color: #173d2c; }
+[data-patrocinio-ac] .pz-cifra strong { color: #063d24; }
+[data-patrocinio-ac] .button-verde, #comida-agua [data-patrocinio-ac] .button-verde { display: inline-flex; justify-content: center; align-items: center; min-height: 46px; padding: 10px 16px; border: 0; border-radius: 12px; background: #063d24; color: #fff; font: inherit; font-weight: 700; text-decoration: none; }
+[data-patrocinio-ac] .button-borde { min-height: 44px; padding: 8px 14px; border: 1px solid #607281; border-radius: 12px; background: #fff; color: #063d24; font: inherit; }
+[data-patrocinio-ac] details, [data-patrocinio-ac] a, #comida-agua [data-patrocinio-ac] details, #comida-agua [data-patrocinio-ac] a { color: #063d24; }
+#comida-agua [data-patrocinio-ac] a.button-verde { color: #fff; }
+[data-patrocinio-ac] .progreso { background: #edf3ec; }
+[data-patrocinio-ac] .progreso span { background: #063d24; }
+[data-patrocinio-ac] :focus-visible { outline: 3px solid #b96a09; outline-offset: 3px; }
+[data-patrocinio-ac] button:disabled { opacity: .55; cursor: wait; }
+#comida-agua [data-patrocinio-ac] h4 { color: #063d24; }
+#comida-agua [data-patrocinio-ac] .button-borde { background: #fff; color: #063d24; border-color: #607281; }
+#comida-agua [data-patrocinio-ac] .progreso { background: #edf3ec; }
+#comida-agua [data-patrocinio-ac] .progreso > span { background: #063d24; }
+/* Sección 4: causas comunitarias y tienda en una misma vista. */
+.use-ac { padding-top: 42px; }
+.use-ac-heading { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 24px; }
+.use-ac-heading h2 { margin: 0 0 10px; font: 800 clamp(2rem,5vw,3.3rem)/1.05 'Nunito',sans-serif; letter-spacing: -.04em; }
+.use-ac-heading p { margin: 0; color: var(--muted); max-width: 620px; }
+.use-ac-heading .kicker { margin-bottom: 10px; color: #8b4900; }
+.market-wallet { flex: none; display: inline-flex; gap: 12px; align-items: center; padding: 10px 16px; min-height: 44px; border: 1px solid var(--line); border-radius: 999px; font-weight: 700; text-decoration: none; background: #fff; }
+.market-categories { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 30px; }
+.market-categories a { display: flex; align-items: center; gap: 14px; padding: 20px; border: 1px solid var(--line); border-radius: 18px; background: #fff; text-decoration: none; }
+.market-categories a:first-child { background: #fff1dc; border-color: #f0d6af; }
+.market-categories a > span:nth-child(2) { flex: 1; }
+.market-categories strong, .market-categories small { display: block; }
+.market-categories strong { font: 800 1.05rem 'Nunito',sans-serif; }
+.market-categories small { margin-top: 4px; color: var(--muted); font-size: .8rem; line-height: 1.4; }
+.market-category-icon { display: grid; place-items: center; flex: none; width: 42px; height: 42px; border-radius: 13px; background: #e8efe7; color: #063d24; font-size: 1.8rem; }
+.use-ac-grid { display: grid; grid-template-columns: 1fr 1fr; align-items: start; gap: 28px; }
+.use-ac-grid[hidden] { display: none; }
+.use-ac-panel { min-width: 0; scroll-margin-top: 8px; }
+.market-section-heading { margin-bottom: 20px; }
+.market-section-heading h3 { margin: 3px 0 6px; font: 800 1.6rem 'Nunito',sans-serif; letter-spacing: -.03em; }
+.market-section-heading p { margin: 0; color: var(--muted); font-size: .9rem; }
+.market-eyebrow { color: #8b4900; font-size: .72rem; text-transform: uppercase; font-weight: 800; letter-spacing: .08em; }
+.use-ac-panel .puestos-resumen { margin: 0 0 16px; padding: 16px; border-color: var(--line); }
+.use-ac-panel .puestos-resumen .ayudar-lista { grid-template-columns: 1fr; }
+.use-ac-panel .puestos-resumen .section-heading { margin-bottom: 14px; }
+.use-ac-panel .puestos-resumen .section-heading .kicker { margin: 0; }
+.use-ac-panel .puestos-resumen .section-heading h3 { font: 800 1.2rem 'Nunito',sans-serif; }
+.use-ac-panel .puestos-resumen .section-heading p:last-child { margin-top: 8px; font-size: .85rem; }
+.market-more-causes { padding: 14px 16px; border: 1px solid var(--line); border-radius: 16px; background: #fff; }
+.market-more-causes > summary { font-weight: 700; cursor: pointer; min-height: 30px; }
+.market-more-causes .ayudar-sub { margin-top: 18px; }
+.shop-search { display: flex; gap: 8px; align-items: center; margin-bottom: 14px; }
+.shop-search label { flex: 1; min-width: 0; }
+.shop-search input { width: 100%; min-height: 48px; padding: 10px 14px; border: 1px solid var(--line); border-radius: 13px; background: #fff; color: var(--ink); font: inherit; }
+.shop-clear { flex: none; min-height: 44px; border: 0; background: none; color: #063d24; font: inherit; font-size: .8rem; cursor: pointer; }
+.shop-project { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 14px; font-size: .75rem; color: var(--muted); }
+.shop-project-tag { display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 999px; background: #e8efe7; color: #063d24; font-size: .74rem; font-weight: 800; }
+.shop-grid { display: grid; gap: 18px; }
+.shop-card { min-width: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 20px; background: #fff; box-shadow: 0 5px 20px rgba(6,61,36,.04); }
+.shop-card-image { display: block; position: relative; width: 100%; padding: 0; border: 0; background: #f3eee5; cursor: pointer; }
+.shop-card-image img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; }
+.shop-image-label { position: absolute; bottom: 10px; left: 10px; padding: 3px 8px; border-radius: 999px; background: #fffdf9; color: var(--muted); font-size: .68rem; }
+.shop-card-content { padding: 18px; }
+.shop-card-content h4 { margin: 10px 0 8px; }
+.shop-card-content h4 button { border: 0; padding: 0; background: none; text-align: left; color: #063d24; font: 800 1.25rem/1.3 'Nunito',sans-serif; cursor: pointer; }
+.shop-price, .use-ac .shop-price { margin: 8px 0 14px; color: #a85300; font: 800 1.85rem/1.2 'Nunito',sans-serif; }
+.shop-price span { font-size: 1.1rem; }
+.shop-seller { display: flex; align-items: center; gap: 10px; padding: 12px 0; color: #063d24; text-decoration: none; border-top: 1px solid var(--line); }
+.shop-seller > span:nth-child(2) { flex: 1; }
+.shop-seller small, .shop-seller strong { display: block; line-height: 1.4; }
+.shop-seller small { font-size: .75rem; color: var(--muted); }
+.shop-avatar { display: grid; place-items: center; flex: none; width: 38px; height: 38px; border-radius: 50%; background: #e8efe7; color: #063d24; font-weight: 800; }
+.shop-primary { display: flex; justify-content: center; align-items: center; gap: 14px; width: 100%; min-height: 48px; padding: 12px 16px; border: 0; border-radius: 12px; background: #063d24; color: #fff; font: inherit; font-weight: 700; text-decoration: none; cursor: pointer; }
+.shop-dialog { position: relative; width: min(640px,calc(100% - 24px)); max-height: calc(100dvh - 24px); padding: 0; border: 0; border-radius: 22px; overflow-y: auto; color: #173d2c; background: #fffdf9; box-shadow: 0 24px 90px rgba(0,0,0,.25); }
+.shop-dialog::backdrop { background: rgba(4,35,21,.65); }
+.shop-dialog-close { position: absolute; right: 12px; top: 12px; z-index: 2; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 1px solid var(--line); border-radius: 50%; background: #fffdf9; color: #063d24; font-size: 1.6rem; cursor: pointer; }
+.shop-detail-photo { position: relative; margin: 0; }
+.shop-detail-photo img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; }
+.shop-detail-photo figcaption { position: absolute; left: 12px; bottom: 12px; padding: 4px 8px; border-radius: 8px; background: #fffdf9; color: var(--muted); font-size: .7rem; }
+.shop-detail-body { padding: 24px; }
+.shop-detail-body h3 { margin: 12px 0; font: 800 clamp(1.45rem,4vw,2rem)/1.2 'Nunito',sans-serif; letter-spacing: -.025em; }
+.shop-detail-body h4 { margin: 0 0 8px; font-size: 1rem; }
+.shop-detail-body p { font-size: .95rem; }
+.shop-includes { margin: 16px 0; padding: 16px; border-radius: 14px; background: #f2f3ec; }
+.shop-includes ul { list-style: none; margin: 0; padding: 0; }
+.shop-includes li + li { margin-top: 6px; }
+.shop-detail-body .shop-tag-note { color: var(--muted); font-size: .78rem; }
+.shop-contact { margin-top: 18px; }
+.market-categories a:focus-visible, .shop-primary:focus-visible, .shop-seller:focus-visible, .shop-card-image:focus-visible, .shop-card h4 button:focus-visible { outline: 3px solid #b96a09; outline-offset: 3px; }
+@media (max-width: 760px) {
+  .use-ac { padding: 24px 0 40px; }
+  .use-ac-heading { align-items: flex-start; gap: 10px; }
+  .use-ac-heading h2 { font-size: 2rem; }
+  .use-ac-heading p { font-size: .9rem; line-height: 1.5; }
+  .market-wallet { padding: 8px 10px; font-size: .75rem; }
+  .market-categories { gap: 10px; margin-bottom: 26px; }
+  .market-categories a { display: block; padding: 13px; }
+  .market-categories a > span:last-child { display: none; }
+  .market-category-icon { width: 32px; height: 32px; margin-bottom: 10px; border-radius: 10px; font-size: 1.5rem; }
+  .market-categories strong { font-size: .95rem; line-height: 1.3; }
+  .market-categories small { font-size: .73rem; }
+  .use-ac-grid { grid-template-columns: 1fr; gap: 32px; }
+  .shop-card-content { padding: 16px; }
+  .shop-detail-body { padding: 18px; }
+  .shop-dialog { max-height: calc(100dvh - 16px); }
+}
+.shop-dialog { position: fixed; inset: 0; margin: auto; height: fit-content; overscroll-behavior: contain; }
+.shop-dialog-close { position: sticky; top: 12px; margin: 12px 12px -56px auto; }
+.shop-detail-body .shop-price { font-size: 1.85rem; }
+body:has(.shop-dialog[open]) { overflow: hidden; }
+@media (min-width: 901px) and (max-width: 1100px) {
+  .nav-shell { gap: 16px; }
+  .site-nav { gap: 16px; }
+  .site-nav a { font-size: .86rem; }
+}
+
+.market-return { display: inline-flex; align-items: center; min-height: 44px; margin-bottom: 12px; font-weight: 700; text-underline-offset: 4px; }
+/* Interruptor de la sección 4: una sola categoría visible. */
+.market-categories { display: flex; width: min(100%, 360px); gap: 4px; padding: 4px; margin: 0 0 24px; border-radius: 999px; background: #e8eee7; }
+.market-categories a, .market-categories a:first-child { display: flex; flex: 1; justify-content: center; align-items: center; min-height: 38px; padding: 6px 18px; border: 0; border-radius: 999px; color: #063d24; background: transparent; font: 800 .92rem/1.3 'Nunito',sans-serif; }
+.market-categories a[aria-selected="true"] { background: #063d24; color: #fff; box-shadow: 0 2px 6px rgba(6,61,36,.1); }
+.use-ac-grid { display: block; }
+.use-ac-panel[hidden], .use-ac-grid[hidden] { display: none; }
+.use-ac[data-market-view="tienda"] .ayudar-personal { display: none; }
+.shop-grid { grid-template-columns: repeat(auto-fill,minmax(min(100%,280px),1fr)); }
+.shop-payment { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--line); }
+.shop-payment h4 { margin: 0 0 12px; }
+.shop-payment label { display: grid; gap: 6px; font-weight: 700; font-size: .9rem; }
+.shop-payment select { width: 100%; min-height: 46px; margin-bottom: 12px; border: 1px solid var(--line); border-radius: 10px; padding: 10px; background: #fff; color: var(--ink); font: inherit; }
+.shop-payment .shop-primary { margin-top: 12px; }
+.shop-payment .shop-payment-secondary { display: block; width: 100%; min-height: 44px; margin-top: 8px; border: 1px solid var(--line); border-radius: 10px; padding: 10px; background: #fff; color: #063d24; font: inherit; font-weight: 700; cursor: pointer; }
+.shop-payment button:disabled { opacity: .55; cursor: not-allowed; }
+.shop-payment [role="status"]:empty { display: none; }
+.shop-payment .shop-payment-summary { padding: 14px; border-radius: 12px; background: #f2f3ec; }
+.shop-payment-summary { margin: 0; }
+.shop-payment-summary div { display: flex; gap: 12px; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--line); }
+.shop-payment-summary div:last-child { border: 0; }
+.shop-payment-summary dd { margin: 0; max-width: 65%; text-align: right; font-weight: 700; overflow-wrap: anywhere; }
+.shop-payment .shop-payment-note { font-size: .82rem; color: var(--muted); }
+.shop-payment .shop-receipt { overflow-wrap: anywhere; padding: 14px; border-radius: 12px; background: #e8f2e7; }
+.shop-contact-link { display: block; margin: 16px 0 0; text-align: center; color: #063d24; font-weight: 700; text-underline-offset: 4px; }
+@media (max-width:760px) { .market-categories { width: 100%; max-width: 360px; } }
+/* Dashboard de causas: resumen breve y una jerarquía clara por campaña. */
+.use-ac-panel .puestos-resumen { padding: 0; border: 0; background: transparent; }
+.cause-overview { display: grid; grid-template-columns: 1fr 1fr; padding: 18px 0; margin-bottom: 22px; border: 1px solid var(--line); border-radius: 16px; background: #edf2e9; }
+.cause-overview > div { display: flex; flex-direction: column; gap: 3px; padding: 0 18px; }
+.cause-overview > div + div { border-left: 1px solid var(--line); }
+.cause-overview strong { font: 800 1.75rem/1.15 'Nunito',sans-serif; color: #063d24; overflow-wrap: anywhere; }
+.cause-overview strong small { font-size: .85rem; }
+.cause-overview span { color: var(--muted); font-size: .8rem; }
+.cause-list-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+.cause-list-heading h3 { margin: 0; font: 800 1.1rem 'Nunito',sans-serif; }
+.cause-list-heading a { display: inline-flex; align-items: center; min-height: 36px; font-size: .8rem; font-weight: 800; white-space: nowrap; text-underline-offset: 3px; }
+.cause-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,290px),1fr)); gap: 16px; }
+.cause-card { display: flex; flex-direction: column; min-width: 0; padding: 20px; background: #fff; border: 1px solid var(--line); border-radius: 18px; box-shadow: 0 4px 16px rgba(6,61,36,.035); }
+.cause-card-top { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+.cause-icon { display: grid; place-items: center; flex: none; width: 38px; height: 38px; border-radius: 12px; background: #eff3eb; font-size: 1rem; }
+.cause-status { margin-left: auto; color: #476749; background: #edf4e9; padding: 5px 9px; border-radius: 8px; font-size: .69rem; font-weight: 800; }
+.cause-card h4 { margin: 0 0 4px; font: 800 1.25rem/1.25 'Nunito',sans-serif; letter-spacing: -.02em; overflow-wrap: anywhere; }
+.cause-card .cause-location { margin: 0 0 18px; color: var(--muted); font-size: .8rem; }
+.cause-funding { margin-top: auto; }
+.cause-funding > p { display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px; margin: 0 0 10px; }
+.cause-funding strong { font: 800 1.6rem 'Nunito',sans-serif; }
+.cause-funding strong small { font-size: .95rem; }
+.cause-funding p > span, .cause-progress-caption, .cause-pending { font-size: .78rem; color: var(--muted); }
+.cause-funding .progreso { height: 7px; border-radius: 99px; background: #e9eee5; }
+.cause-funding .progreso > span { background: #26774d; }
+.cause-progress-caption { display: flex; justify-content: space-between; gap: 8px; margin: 8px 0 16px; }
+.cause-card .cause-open { display: flex; align-items: center; justify-content: space-between; width: 100%; min-height: 46px; margin-top: 6px; padding: 11px 14px; border-radius: 11px; font-size: .85rem; }
+@media (max-width:760px) {
+  .use-ac { padding-top: 18px; }
+  .use-ac-heading { align-items: center; margin-bottom: 18px; gap: 12px; }
+  .use-ac-heading h2 { margin-bottom: 5px; font-size: 1.75rem; }
+  .use-ac-heading p { max-width: 190px; font-size: .78rem; line-height: 1.4; }
+  .use-ac-heading .market-wallet { font-size: .73rem; padding: 9px 11px; min-height: 38px; }
+  .market-categories { margin-bottom: 22px; }
+  .cause-heading { margin-bottom: 14px; }
+  .cause-heading h3 { font-size: 1.25rem; }
+  .cause-heading p { font-size: .8rem; }
+  .cause-overview { padding: 14px 0; margin-bottom: 18px; }
+  .cause-overview strong { font-size: 1.55rem; }
+  .cause-card { padding: 16px; }
+  .market-more-causes { margin-top: 18px; }
+}
+
+@media (max-width:760px) {
+  .cause-heading { margin-bottom: 12px; }
+  .cause-heading p { display: none; }
+  .cause-overview { padding: 12px 0; margin-bottom: 12px; }
+  .cause-overview strong { font-size: 1.4rem; }
+  .cause-overview span { font-size: .75rem; }
+  .cause-list-heading { margin-bottom: 8px; }
+  .cause-card-top { margin-bottom: 10px; }
+  .cause-icon { width: 32px; height: 32px; }
+  .cause-card h4 { font-size: 1.15rem; }
+  .cause-card .cause-location { margin-bottom: 14px; }
+  .cause-progress-caption { margin-bottom: 12px; }
+}
+@media (max-width:760px) {
+  .use-ac[data-market-view="causas"] .use-ac-heading p { display: none; }
+  .use-ac[data-market-view="causas"] .use-ac-heading h2 { margin: 0; }
+  .use-ac[data-market-view="causas"] .market-categories { margin-bottom: 16px; }
+  .cause-heading { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+}
+@media (max-width:760px) {
+  .use-ac[data-market-view="causas"] .use-ac-heading { margin-bottom: 12px; }
+  .use-ac[data-market-view="causas"] .market-categories { margin-bottom: 12px; }
+  .cause-overview { padding: 10px 0; margin-bottom: 8px; }
+  .cause-overview span { line-height: 1.2; }
+  .cause-list-heading a { min-height: 28px; }
+}
+/* Acciones por financiar: apoyos del barrio, con filtros recogidos. */
+.market-more-causes { padding: 0; border: 0; border-radius: 20px; background: #f1eee5; overflow: hidden; }
+.market-more-causes > summary { display: list-item; padding: 17px 18px; color: #244b38; background: #eeeae0; font-size: .9rem; }
+.market-more-causes[open] > summary { border-bottom: 1px solid rgba(6,61,36,.1); }
+.funding-heading { padding: 22px 20px 16px; }
+.funding-eyebrow { color: #8a6033; font-size: .67rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 800; }
+.market-more-causes .funding-heading .ayudar-sub { margin: 7px 0 8px; font: 800 1.6rem/1.15 'Nunito',sans-serif; letter-spacing: -.035em; }
+.funding-heading p { margin: 0 0 12px; font-size: .82rem; line-height: 1.5; color: #637164; }
+.funding-demo { display: inline-block; padding: 5px 8px; border: 1px solid #ddcfac; border-radius: 6px; font-size: .66rem; font-weight: 700; color: #765320; background: #faf4e4; }
+.market-more-causes .ayd-dash { margin: 0 20px 16px; padding: 0; border: 0; background: transparent; border-radius: 0; }
+.market-more-causes .ayd-tiles { grid-template-columns: repeat(3,minmax(0,1fr)); gap: 0; margin: 0; padding: 14px 0; border-top: 1px solid #d9ddcf; border-bottom: 1px solid #d9ddcf; }
+.market-more-causes .ayd-tile { min-width: 0; padding: 0 10px; border-radius: 0; background: none; }
+.market-more-causes .ayd-tile:first-child { padding-left: 0; }
+.market-more-causes .ayd-tile + .ayd-tile { border-left: 1px solid #d9ddcf; }
+.market-more-causes .ayd-tile strong { font-size: 1.55rem; }
+.market-more-causes .ayd-tile span { font-size: .65rem; line-height: 1.35; font-weight: 600; }
+.funding-states { margin-top: 10px; }
+.funding-states > summary { color: #627265; font-size: .72rem; cursor: pointer; padding: 6px 0; }
+.funding-states .ayd-barra { height: 6px; margin-top: 8px; }
+.funding-states .ayd-leyenda { font-size: .7rem; gap: 8px 12px; }
+.funding-filters { margin: 0 20px 16px; border-bottom: 1px solid #d9ddcf; }
+.funding-filters > summary { display: flex; align-items: center; justify-content: space-between; min-height: 44px; list-style: none; font-size: .8rem; font-weight: 700; cursor: pointer; }
+.funding-filters > summary::-webkit-details-marker { display: none; }
+.funding-filters[open] > summary { margin-bottom: 8px; }
+.funding-filters[open] > summary span { transform: rotate(45deg); }
+.funding-filters .ayudar-filtros { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 0 10px; }
+.market-more-causes > .ayudar-lista { padding: 0 14px 16px; gap: 14px; grid-template-columns: repeat(auto-fit,minmax(min(100%,280px),1fr)); }
+.funding-card { display: flex; flex-direction: column; padding: 20px; min-width: 0; border-radius: 16px; background: #fffefa; border: 1px solid #e0e3d8; box-shadow: 0 3px 12px rgba(40,50,30,.025); }
+.funding-card-top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; align-items: center; margin-bottom: 15px; }
+.funding-category { color: #836535; text-transform: uppercase; letter-spacing: .08em; font-size: .62rem; font-weight: 800; }
+.funding-state { padding: 4px 7px; border-radius: 5px; background: #eaf0e5; font-size: .62rem; font-weight: 700; color: #456447; }
+.funding-card h5 { margin: 0 0 5px; font: 800 1.25rem/1.25 'Nunito',sans-serif; color: #173d2c; letter-spacing: -.025em; overflow-wrap: anywhere; }
+.funding-card .funding-location { margin: 0 0 13px; font-size: .71rem; color: #738071; }
+.funding-card .funding-description { margin: 0 0 16px; font-size: .81rem; line-height: 1.55; color: #5f6c5f; }
+.funding-card .funding-urgency { align-self: flex-start; margin: 0 0 12px; color: #935c24; font-size: .68rem; font-weight: 700; }
+.funding-amount { display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px; margin-top: auto; }
+.funding-amount strong { font: 800 1.6rem 'Nunito',sans-serif; color: #173d2c; }
+.funding-amount > span { font-size: .72rem; color: #74816f; }
+.funding-progress { appearance: none; width: 100%; height: 5px; border: 0; border-radius: 99px; overflow: hidden; margin: 10px 0 8px; background: #e7ecdf; color: #557b43; }
+.funding-progress::-webkit-progress-bar { background: #e7ecdf; border-radius: 99px; }
+.funding-progress::-webkit-progress-value { background: #557b43; border-radius: 99px; }
+.funding-progress::-moz-progress-bar { background: #557b43; border-radius: 99px; }
+.funding-caption { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 5px; font-size: .66rem; color: #738071; }
+.funding-card footer { display: flex; justify-content: space-between; gap: 8px; align-items: center; border-top: 1px solid #edf0e6; padding-top: 10px; margin-top: 16px; }
+.funding-card footer > span { font-size: .65rem; color: #78816f; }
+.funding-card footer button { display: inline-flex; align-items: center; justify-content: space-between; gap: 18px; min-height: 42px; padding: 8px 13px; border: 0; border-radius: 9px; background: #153f2b; color: #fffefa; font: 800 .75rem 'Nunito',sans-serif; cursor: pointer; }
+.funding-card footer button:focus-visible, .funding-empty a:focus-visible { outline: 3px solid #b07933; outline-offset: 3px; }
+.funding-empty { padding: 28px 20px; text-align: center; border: 1px dashed #c9d1be; border-radius: 16px; background: #faf9f2; }
+.funding-empty-icon { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; margin: 0 auto 14px; background: #e6ecdd; font-size: 1.6rem; color: #4b6c3f; }
+.funding-empty h5 { margin: 0 0 10px; font: 800 1.12rem/1.3 'Nunito',sans-serif; color: #23472e; }
+.funding-empty p { margin: 0 0 16px; font-size: .8rem; line-height: 1.55; color: #6e7b66; }
+.funding-empty a { display: inline-flex; gap: 18px; align-items: center; min-height: 44px; font-size: .8rem; font-weight: 800; text-underline-offset: 4px; }
+@media (max-width:380px) {
+  .funding-heading { padding: 20px 16px 14px; }
+  .market-more-causes .ayd-dash, .funding-filters { margin-left: 16px; margin-right: 16px; }
+  .funding-card { padding: 16px; }
+}
+.shop-storefront { margin: 0 0 18px; padding: 16px; border: 1px solid var(--line); border-radius: 16px; background: #edf2e9; }
+.shop-storefront[hidden] { display: none; }
+.shop-storefront-top { display: flex; align-items: center; gap: 12px; }
+.shop-storefront h4 { margin: 0 0 5px; font: 800 1.05rem 'Nunito',sans-serif; }
+.shop-storefront a { font-size: .76rem; text-underline-offset: 3px; }
+.shop-storefront-delivery { margin: 12px 0 0; padding-top: 12px; border-top: 1px solid var(--line); font-size: .8rem; line-height: 1.5; }
+.shop-card-labels { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+.shop-stock { display: inline-flex; padding: 4px 8px; border-radius: 6px; background: #f2efe3; color: #6a582d; font-size: .7rem; font-weight: 700; }
+.shop-stock.is-empty { background: #eee; color: #626262; }
+.shop-card-image.is-catalog, .shop-detail-photo.is-catalog { background: #fff; }
+.shop-card-image.is-catalog img, .shop-detail-photo.is-catalog img { object-fit: contain; background: #fff; }
+
+/* Repertorio público de trucos y medios compartidos en el perfil animal. */
+.trick-repertoire { background: #f8f5ed; }
+.trick-search { max-width: 520px; margin: 0 auto 22px; }
+.trick-catalog, .trick-community-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 12px; }
+.trick-guide-card { min-height: 150px; padding: 18px; border: 1px solid rgba(6,61,36,.12); border-radius: 18px; background: #fff; }
+.trick-guide-card h3 { margin: 8px 0 6px; color: #063d24; font-size: 1.05rem; }
+.trick-guide-card p { margin: 0; color: #5f6e63; font-size: .9rem; line-height: 1.5; }
+.trick-category { display: inline-flex; padding: 4px 9px; border-radius: 99px; background: #e8efe7; color: #28533a; font-size: .72rem; font-weight: 800; }
+.trick-community-heading { display: flex; justify-content: space-between; align-items: end; gap: 14px; margin: 38px 0 16px; }
+.trick-community-heading h3 { margin: 0; color: #063d24; font: 650 1.7rem/1.1 "Fraunces", serif; }
+.trick-community-heading > span { color: #627267; font-size: .86rem; }
+.trick-video-card { overflow: hidden; border: 1px solid rgba(6,61,36,.12); border-radius: 18px; background: #fff; }
+.trick-video-card video { display: block; width: 100%; aspect-ratio: 16 / 10; background: #17231b; object-fit: contain; }
+.trick-video-copy { display: grid; grid-template-columns: 1fr auto; gap: 5px 10px; padding: 13px 15px 16px; }
+.trick-video-copy h5 { margin: 0; color: #183d28; font-size: 1rem; }
+.trick-state { align-self: start; padding: 4px 8px; border-radius: 99px; background: #fff0d8; color: #81521c; font-size: .7rem; font-weight: 800; }
+.trick-state.is-learned { background: #e3f0e3; color: #24613b; }
+.trick-video-pet, .trick-video-description { grid-column: 1 / -1; margin: 0; color: #68766b; font-size: .84rem; }
+.trick-video-description { margin-top: 3px; }
+.pet-community-media { background: #fcfbf7; }
+.pet-public-gallery { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.pet-public-photo { overflow: hidden; margin: 0; border-radius: 14px; background: #e8ede6; }
+.pet-public-photo img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; }
+.media-upload-button { position: relative; display: inline-flex; align-items: center; justify-content: center; min-height: 42px; padding: 9px 14px; border-radius: 12px; cursor: pointer; }
+.media-upload-button input { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.trick-upload-form { display: grid; gap: 12px; margin: 12px 0 18px; padding: 16px; border: 1px solid rgba(6,61,36,.14); border-radius: 16px; background: #fff; }
+.trick-upload-form[hidden] { display: none; }
+.trick-upload-form > .button { width: 100%; }
+.pet-trick-videos { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 235px), 1fr)); gap: 12px; }
+.pet-profile-dialog .pet-community-media .pet-section-heading { align-items: center; }
+.pet-profile-dialog .pet-community-media .pet-section-heading h4 { margin-bottom: 2px; }
+.pet-community-media > .pet-health-note { margin: 0 0 13px; }
+@media (max-width: 600px) {
+  .trick-community-heading { align-items: start; flex-direction: column; }
+  .trick-community-grid, .pet-trick-videos { grid-template-columns: 1fr; }
+  .pet-public-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pet-public-photo:first-child { grid-column: 1 / -1; }
+  .pet-profile-dialog .pet-community-media { padding: 15px; }
+  .pet-profile-dialog .pet-community-media .pet-section-heading { align-items: flex-start; }
+}

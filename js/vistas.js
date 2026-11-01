@@ -4,7 +4,7 @@
   'use strict';
 
   const VISTA_INICIAL = 'inicio';
-  const VISTAS = ['inicio', 'acciones', 'most-wanted', 'mapa', 'red', 'ayudar', 'comida-agua', 'cuenta'];
+  const VISTAS = ['inicio', 'acciones', 'most-wanted', 'mapa', 'red', 'trucos', 'servicios', 'ayudar', 'comida-agua', 'cuenta'];
   // A qué vista lleva cada ancla (#id) de la página.
   const VISTA_DE_ID = {
     inicio: 'inicio',
@@ -15,14 +15,31 @@
     'most-wanted': 'most-wanted',
     mapa: 'mapa',
     red: 'red',
+    repertorio: 'trucos',
+    servicios: 'servicios',
     ayudar: 'ayudar',
+    causas: 'ayudar',
+    tienda: 'ayudar',
     cuenta: 'cuenta',
     'mi-perfil': 'cuenta',
+    'mi-espacio': 'cuenta',
   };
   // Botón de la barra de abajo → vista
   const VISTA_DE_TABBAR = { inicio: 'inicio', mapa: 'mapa', red: 'red', ayudar: 'ayudar', perfil: 'cuenta' };
 
   let actual = null;
+  let mercado = window.location.hash === '#tienda' ? 'tienda' : 'causas';
+  const mostrarMercado = (id) => {
+    if (id === 'tienda' || id === 'causas') mercado = id;
+    document.querySelector('.use-ac')?.setAttribute('data-market-view', mercado);
+    document.querySelectorAll('[data-market-tab]').forEach((tab) => {
+      const seleccionado = tab.dataset.marketTab === mercado;
+      tab.setAttribute('aria-selected', String(seleccionado));
+      tab.tabIndex = seleccionado ? 0 : -1;
+    });
+    document.querySelectorAll('[data-market-panel]').forEach((panel) => { panel.hidden = panel.dataset.marketPanel !== mercado; });
+    document.dispatchEvent(new CustomEvent('mercado:cambio', {detail:{panel:mercado}}));
+  };
 
   const prefiereMenosMovimiento = () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches === true;
 
@@ -32,19 +49,19 @@
   const marcarActivos = (vista) => {
     document.querySelectorAll('[data-nav] a[href^="#"]').forEach((link) => {
       const id = idDeHash(link.getAttribute('href'));
-      if (vistaDeId(id) === vista) link.setAttribute('aria-current', 'page');
+      if (vistaDeId(id) === vista || (id === 'ayudar' && vista === 'comida-agua')) link.setAttribute('aria-current', 'page');
       else link.removeAttribute('aria-current');
     });
     document.querySelectorAll('[data-tabbar-link]').forEach((link) => {
-      link.setAttribute('aria-current', String(VISTA_DE_TABBAR[link.dataset.tabbarLink] === vista));
+      link.setAttribute('aria-current', String(VISTA_DE_TABBAR[link.dataset.tabbarLink] === vista || (link.dataset.tabbarLink === 'ayudar' && vista === 'comida-agua')));
     });
   };
 
   // Muestra una vista. «destino» puede ser el nombre de la vista o el id de un ancla (ej. "mi-perfil").
   const mostrar = (destino, { desplazar = true } = {}) => {
     let id = String(destino || '');
-    // «Mi perfil» solo existe con sesión iniciada; sin ella, el destino es «Mi cuenta».
-    if (id === 'mi-perfil' && document.getElementById('mi-perfil')?.hidden) id = 'cuenta';
+    // Compatibilidad con enlaces anteriores al cambio a Mi espacio.
+    if (id === 'mi-perfil') id = 'mi-espacio';
     const vista = vistaDeId(id) || VISTA_INICIAL;
     const cambio = vista !== actual;
 
@@ -53,10 +70,15 @@
       const suyas = pieza.dataset.vistaDe.split(/\s+/);
       pieza.classList.toggle('vista-oculta', !suyas.includes(vista));
     });
+    if (vista === 'ayudar') mostrarMercado(id);
     marcarActivos(vista);
     actual = vista;
     if (cambio) document.dispatchEvent(new CustomEvent('vista:cambio', { detail: { vista } }));
 
+    if (desplazar && ['causas', 'tienda'].includes(id)) {
+      if (cambio) window.scrollTo({top:0,behavior:'instant'});
+      return vista;
+    }
     if (desplazar) {
       const ancla = document.getElementById(id);
       const visible = ancla && !ancla.hidden && !ancla.closest('.vista-oculta') && id !== vista && !['inicio', 'reportes'].includes(id);
@@ -77,6 +99,14 @@
     mostrar(id);
   });
 
+  document.querySelectorAll('[data-market-tab]').forEach((tab) => tab.addEventListener('keydown', (event) => {
+    if (!['ArrowLeft','ArrowRight','Home','End'].includes(event.key)) return;
+    event.preventDefault();
+    const tabs = [...document.querySelectorAll('[data-market-tab]')];
+    const target = event.key === 'Home' ? tabs[0] : event.key === 'End' ? tabs[tabs.length-1] : tabs.find(t => t !== tab);
+    target?.focus(); target?.click();
+  }));
+
   const alCambiarHistorial = () => mostrar(idDeHash(window.location.hash));
   window.addEventListener('popstate', alCambiarHistorial);
   window.addEventListener('hashchange', alCambiarHistorial);
@@ -90,6 +120,11 @@
   };
 
   window.auraLadraVistas = { mostrar, ir, actual: () => actual, vistas: VISTAS };
+
+  const hashInicial = window.location.hash;
+  window.addEventListener('load', () => {
+    if (window.location.hash === hashInicial && ['#causas','#tienda','#servicios'].includes(hashInicial)) window.scrollTo({top:0,behavior:'instant'});
+  }, {once:true});
 
   // Vista inicial según la dirección (#red, #cuenta…); sin ancla, la portada.
   // El script va al final de la página, así que las secciones ya existen: se aplica de inmediato (sin parpadeo)

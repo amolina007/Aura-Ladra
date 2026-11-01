@@ -11,7 +11,7 @@
   const TIPOS = { paseo: 'Paseo coordinado', junta_canil: 'Junta de canil', jornada_adopcion: 'Jornada de adopción', campana: 'Campaña', mantenimiento_estacion: 'Mantenimiento de estación', otro: 'Otro' };
   const faltaBackend = (e) => /PGRST20[25]|PGRST106|schema cache|Could not find|does not exist|404/i.test(`${e?.code || ''} ${e?.message || ''} ${e?.status || ''}`);
   const hayCuenta = () => !!window.auraLadraRed?.sesion?.()?.user;
-  const MSG_NO = 'Los encuentros todavía no están disponibles: falta aplicar la actualización en el servidor.';
+  const MSG_NO = 'Los encuentros comunitarios estarán disponibles próximamente. Puedes guardar tus eventos personales en este navegador.';
 
   let disponible = true;
   let confirmarCancelar = null;

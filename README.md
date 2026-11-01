@@ -174,14 +174,22 @@ bucket público `core-avatars`); AuraLadra no la guarda ni la modifica.
 **Pendiente:** una función de servidor que entregue el responsable real de cada mascota y las mascotas que otra
 persona decida compartir (hoy solo la demo muestra a «Cate (ejemplo)»).
 «Aportes a la comunidad» cuenta Cuidados y Encuentros desde Historia y Ayuda desde los aportes a acciones (simulados),
-con los eventos `arbol:cambio` y `ayuda:cambio`. Misiones y recompensas **no** existen: la gamificación está fuera del MVP.
+con los eventos `arbol:cambio` y `ayuda:cambio`. Las recompensas **no** existen: la gamificación está fuera del MVP.
 
-## Inicio: feed multimedia (modo demo)
+### Misiones de LadraAura (botón «i»)
+`js/misiones.js` agrega un botón «i» flotante, justo encima del globo de mensajes, con 3 misiones guía: agregar tu mascota (se marca sola al tener una mascota viva), invitar a un amigo (se marca al compartir el enlace; no se puede verificar que lo abra alguien) y apoyar Comida y agua (me gusta o comentario, evento `puestos:interaccion`). Cada misión dice cuánto paga en AC: crear una mascota paga desde 350 AC (lo paga el trigger `trg_aporte_creacion` de `ladra.animales`, valor de `aura_coin.parametro` al 16-oct-2026, constante `PAGO_MASCOTA_AC`); invitar y apoyar la campaña no tienen pago definido. Muestra la equivalencia en pesos (`fn_ac_resumen_publico`) y las misiones abiertas de Convergencia (`fn_ac_misiones_comunidad`), ambas públicas. El botón «Ver todas las misiones» abre `/misiones` en el mismo origen que `aura-hub.js` (en dev: el de dev; en producción solo existirá cuando Convergencia suba su página de misiones). Este sitio no mueve AC. El avance de las dos últimas se recuerda solo en este navegador (localStorage, por usuario). Es la versión de Ladra; el menú común `aura-hub.js` no trae misiones y vive en el repo de Convergencia.
 
-Inicio es solo un feed: barra de historias (duran 24 h) y publicaciones de mascotas. El dueño publica en nombre
-de su mascota (`js/feed.js`), se publica al instante y cualquiera puede denunciar. **Por ahora es demo**: se guarda
-en `localStorage` (imágenes reducidas a 960 px), con ejemplos «(ejemplo)». Falta el servidor (tabla, Storage y
-revisión de denuncias por moderación). Evento `feed:cambio`; `window.auraLadraFeed.posts()`.
+## Inicio: publicaciones compartidas
+
+Publicaciones e historias se guardan en `ladra.publicaciones_feed` y las fotos en el bucket `ladra-feed`.
+La migración `20261031232711_ladra_feed_compartido.sql` se aplicó el 31 de octubre de 2026; la interfaz se prepara en `dev`.
+Cada persona publica con sus mascotas de perfil público. Sus publicaciones ofrecen Editar y Eliminar con confirmación.
+La vista previa permite arrastrar, centrar, acercar y elegir formato; el archivo final usa el mismo recorte y hasta 960 px.
+Las historias dejan de aparecer en el feed después de 24 horas; los archivos del bucket público no caducan automáticamente.
+No se generan publicaciones de ejemplo y se retiran las semillas demo almacenadas anteriormente.
+Las fotos reales antiguas se conservan en el navegador original: «Compartir entre dispositivos» las copia al servidor sin duplicarlas.
+Los me gusta, las vistas y las ocultaciones siguen siendo preferencias locales; no hay revisión de denuncias por moderación.
+Pruebas: `node --test tests/feed-fotos.test.mjs tests/feed-db.test.mjs`. Evento `feed:cambio`; `window.auraLadraFeed.posts()`.
 
 ## Mi red y Descubrir (etapa 1)
 
@@ -226,6 +234,61 @@ En la cabecera: (Se quitaron de la cabecera los tres iconos de Avisos, Mensajes 
 Se probó un prototipo demo de «acciones concretas con Aura Coins» (`js/tareas.js`, ya **sin cargar**). No se muestra en el sitio:
 no se simulan movimientos de Aura Coin ni se inventan reglas económicas hasta tener la definición vigente del sistema.
 
+## Comida y agua: avisos de puestos (primera migración aplicada en Supabase)
+
+Archivo `supabase/migrations/20261015120000_avisos_de_puestos.sql` (prueba de base de datos: `supabase/tests/avisos_puestos_prueba.sql`, 43 de 43 en una base
+local desechable). Una persona con cuenta propone un puesto (para qué se piden fondos, qué cubre, plazo de habilitación, qué se documentará) y un moderador
+lo aprueba antes de publicarlo. Esta primera migración **ya está aplicada** en Supabase (se comprobó que existen la tabla y las funciones).
+
+`js/puestos.js` ya lo usa **si las funciones existen**: lista los avisos publicados, permite «Proponer un puesto» y muestra «Mis propuestas» (enviar a revisión,
+retirar, motivo de rechazo). **Si las funciones no existen, cae a la demostración** (un puesto de ejemplo guardado solo en el navegador), igual que Acciones por
+financiar. Probado con un navegador simulado (jsdom) y un servidor falso que imita las funciones (37 de 37) y con una revisión automática de que los nombres de
+funciones, parámetros y columnas del sitio coinciden con la migración; **no verificado contra Supabase real**.
+
+**Moderación:** quien está en `ladra.moderadores` ve, dentro de la sección, el bloque «Propuestas por revisar» (con el alias público de quien propone) y puede
+aprobar y publicar o rechazar con un motivo de al menos 10 caracteres. Quien no es moderador no ve ese bloque (lo decide el servidor, no el navegador). Hoy quien
+modera puede aprobar sus propias propuestas. Probado con jsdom y un servidor falso (16 de 16); **no verificado contra Supabase real**.
+
+No mueve Auracoins ni dinero (`movimiento_ac` es siempre `ninguno`): las reglas de entrega por hitos y de devolución que aparecen en la demo son solo una propuesta
+por aprobar. **Pendiente:** editar una propuesta, registrar avances (fabricación, instalación, recargas), fotos de evidencia (falta almacenamiento privado),
+anotarse como cuidador de un aviso publicado y cualquier movimiento real de Auracoins.
+
+### Campañas de financiamiento (migración `20261015220000_campanas_de_puestos.sql`, SIN aplicar)
+
+Un aviso puede ser una **campaña**: etapa 1 = juntar una meta en Auracoins (ej. 100.000 AC) en **máximo 60 días**; etapa 2 = al alcanzar la meta se define
+el emplazamiento, la mantención, la calidad de la comida, etc. (hasta entonces pueden quedar «por definir»). La campaña indica en cuántos días queda listo el puesto
+desde que se alcanza la meta (**máximo 60**). El plazo de financiamiento empieza a correr cuando moderación publica el aviso (`recaudacion_hasta`). La ficha
+muestra la persona responsable (quien publica) y a las demás personas del proyecto (`ladra.aviso_integrantes`), siempre por alias público. Prueba:
+`supabase/tests/campanas_puestos_prueba.sql` (en una base local desechable, junto con la prueba anterior de 43). Sigue sin haber aportes ni movimiento de
+Auracoins. **Pendiente:** formulario para crear campañas desde el sitio (la función `crear_campana_puesto` ya existe), aportes en Auracoins (falta la definición vigente),
+que otras personas se sumen al equipo con su consentimiento y el paso de etapa al alcanzar la meta.
+
+**Aspecto de la sección (Comida y agua):** tema nocturno solo dentro de `#comida-agua` (estilos `pz-*` al final de `css/styles.css`): lista de iniciativas a la
+izquierda, ficha al centro y, si es una campaña, columna de meta/condiciones/permiso/equipo a la derecha (en pantallas angostas la meta sube bajo el título). Basado
+en una maqueta de referencia, **sin copiar sus cifras**: la barra muestra 0 de la meta real, «Patrocinar» y «Mi aporte» están deshabilitados («próximamente») hasta que
+exista el sistema de Auracoins, y la foto es un espacio «pendiente» hasta tener una real. Probado con jsdom (demo y servidor falso) y con capturas en Chromium
+(escritorio y móvil).
+
+Inspirado en una segunda maqueta («Aportar»): título «Pequeños aportes. Cambios visibles.», buscador, filtros en píldoras (Todas, Por completar, Agua, Comida,
+Mis propuestas), resumen «Tus propuestas» (conteo real) y «Actividad reciente» con hechos reales de las campañas (apertura y cierre del financiamiento). No se
+copiaron saldos ni cifras de la maqueta. Quedó fuera «Cerca de ti» (pediría la ubicación) y «Finalizadas» (aún no existen).
+
+### Me gusta, comentarios y compartir (migración `20261015230000_interacciones_de_avisos.sql`, SIN aplicar)
+
+Cada campaña publicada tiene **Me gusta**, **Comentar** y **Compartir**. Me gusta y comentarios necesitan cuenta y viven en el servidor (tablas `avisos_me_gusta` y
+`avisos_comentarios`, solo accesibles por funciones); leer los contadores y comentarios es público. Los comentarios usan el alias público (si no hay: «Persona de la
+comunidad»), no admiten enlaces, tienen límite de 5 cada 10 minutos por persona y pueden ocultarse por quien los escribió, por quien publicó la campaña y por moderación
+(se ocultan, no se borran). **Compartir** no usa base de datos: abre el menú de compartir del teléfono o copia el enlace directo `?puesto=ID#comida-agua`. Si la migración
+no está aplicada, la ficha muestra solo «Compartir» y el resto del sitio sigue igual. Prueba SQL: `supabase/tests/interacciones_avisos_prueba.sql` (32 de 32, junto con
+las migraciones anteriores); pantalla probada con jsdom (17 comprobaciones) y capturas en Chromium. **Pendiente:** denunciar un comentario, notificar a quien publicó
+la campaña, y fotos reales.
+
+El panel «Así va la ayuda» de Aportar cuenta cada campaña de Comida y agua que está juntando su meta como **Recaudando** y dentro de «Acciones publicadas» (se actualiza cuando cargan los puestos).
+
+Las tarjetas de campañas también muestran **Me gusta · Comentar · Compartir** en la vista Aportar (y en la lista de Comida y agua); «Comentar» abre la ficha con el cursor en el cuadro de comentario.
+
+La ficha de una campaña se rediseñó para que tenga menos texto: foto, título, acciones sociales y meta arriba; «Qué se hará con la meta» y «Condiciones» van plegados.
+
 ## Ayudar: panel de resumen
 
 Arriba de la lista de Ayudar hay un panel («Así va la ayuda») con acciones publicadas, ya financiadas, completadas y total aportado
@@ -243,3 +306,47 @@ Las fuentes se leen de `window.auraLadraAcciones`, `window.auraLadraAlertas` y `
 Comentarios, seguidores, chat, marketplace, pagos reales (los aportes
 de Acciones por financiar son solo simulación), reputación, gamificación, GPS en tiempo real público e integración oficial
 obligatoria con terceros.
+
+## Patrocinio con AC en campañas (implementación en dev)
+
+El nuevo flujo conecta las campañas de Comida y agua a reservas de la billetera AC: confirmación del patrocinador, meta máxima, devolución automática de lo no liberado al vencer/retirar y entrega por hitos aprobados por otro moderador. Las acciones en CLP y las propuestas sin meta mantienen su funcionamiento previo.
+
+La migración `20261024194611_patrocinio_ac_campanas.sql` se aplicó al proyecto Aura el 24 de octubre de 2026 con autorización explícita del propietario. Las campañas publicadas con meta en AC ya pueden recibir patrocinios desde dev. Los apartados anteriores describen las etapas previas del proyecto; las reglas nuevas y la verificación están en [docs/PATROCINIO_AC.md](docs/PATROCINIO_AC.md).
+
+## Usar AC → Causas comunitarias y Tienda
+
+La sección 4 alterna causas y tienda con un interruptor compacto y accesos `#causas` y `#tienda`. El catálogo inicial incluye la publicación de Alejandro: AirTag + porta AirTag para collar a 30.000 AC, etiquetada con Ladra. La ficha permite transferir AC al vendedor tras revisar monto y destinatario, con la opción «Entrega acordada con el comprador». Los reintentos conservan la clave para evitar duplicados. Detalles y pruebas: [docs/TIENDA.md](docs/TIENDA.md).
+
+## Servicios para mascotas
+
+Sin sesión, Mi cuenta y la ventana de acceso de la cabecera ofrecen «Continuar con Google» junto al enlace por correo.
+Google usa el cliente propio de Ladra y vuelve al mismo origen. La cookie compartida conserva los tokens de Supabase,
+sin guardar tokens de Google ni los datos de identidad duplicados. Pruebas: `tests/login-google.test.mjs`.
+La apertura del proveedor se verifica por separado de completar el acceso con una cuenta personal de Google.
+
+El parche de sesión usa una sola instancia para `auraClient` y `auraLadraDb`; el menú y Ladra comparten la renovación.
+La escucha de Auth empieza antes de cargar mapa y red, y las fichas abiertas actualizan Seguir/Guardar al cambiar de sesión.
+Pruebas de regresión: `tests/sesion-perfil.test.mjs`. La sección «Mi espacio» se describe a continuación.
+
+La cookie compartida admite una pieza, partes numeradas y partes con contador `.chunks`.
+Ladra escribe sesiones grandes en fragmentos de hasta 3000 caracteres y limpia fragmentos antiguos al reemplazarla o salir.
+Se reprodujo con supabase-js 2.118.0 y una sesión ficticia en `dev.ladra.convergenciaaura.cl`:
+al cambiar de pestaña, el lector anterior perdía la sesión fragmentada; con el nuevo lector la conserva.
+También se verificó el cierre explícito sin recuperación accidental. Pruebas: `tests/sesion-fragmentada.test.mjs`.
+
+## Mi espacio
+
+Reemplaza «Perfil» en menú y barra inferior con la propuesta de gestión privada: mascotas, publicaciones,
+historias activas, guardados, consultas, actividad, vínculos y privacidad. `#mi-espacio` conserva los accesos
+anteriores desde `#mi-perfil` y `#cuenta`. El acceso a la cuenta usa el botón superior; no se duplica el formulario.
+Las publicaciones propias se consultan por autor y conservan edición, eliminación y recorte del feed.
+Las imágenes de mascotas y miniaturas provienen de sus registros reales; los estados vacíos no añaden ejemplos.
+Código de interfaz: `js/mi-espacio.js`, `css/mi-espacio.css`. Destino inicial de publicación: `dev`.
+
+Nueva vista `#servicios`: catálogo, fichas, consultas vinculadas a una mascota y bandeja de prestadores,
+integrados con Inicio, el menú, los trucos y las fichas propias. Destino de publicación: rama `dev`.
+La migración de guardado se aplicó a Supabase el 27 de octubre de 2026 y se verificó con escrituras revertidas.
+Los ejemplos se abren voluntariamente y no aceptan envíos. Detalles y verificación: [docs/SERVICIOS.md](docs/SERVICIOS.md).
+
+La ampliación del 28 de octubre permite elegir fotos desde el celular y editar los servicios propios, conservando
+las consultas. Las imágenes se optimizan antes de subir y se guardan en un contenedor exclusivo de Ladra.

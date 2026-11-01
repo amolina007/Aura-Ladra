@@ -221,15 +221,19 @@
       <div class="progreso-texto"><span><strong>${clp.format(rec)}</strong> de ${clp.format(meta)}</span><span>Faltan ${clp.format(Math.max(0, meta - rec))} · ${pct}%</span></div>`;
   };
 
-  const tarjeta = (a) => `<article class="accion-card">
-    <div class="accion-meta">${a.ejemplo ? chip('Demo', 'is-gris') : ''}${chip(CATEGORIAS[a.categoria] || a.categoria)}${a.urgencia !== 'normal' ? chip(URGENCIAS[a.urgencia], 'is-ambar') : ''}${chip(ESTADOS[a.estado] || a.estado, claseEstado(a.estado))}${a.ejemplo ? chip('Datos de ejemplo', 'is-sim') : ''}</div>
-    <h3>${esc(a.titulo)}</h3>
-    <p>${esc(a.descripcion.length > 120 ? `${a.descripcion.slice(0, 117)}…` : a.descripcion)}</p>
-    ${progresoHtml(a.recaudado_clp, a.meta_clp)}
-    <p>${esc(a.comuna)} · Límite ${esc(fecha(a.fecha_limite))} · ${esc(a.responsable_alias)}</p>
-    <div class="accion-meta">${chip(VERIFICACION[a.verificacion] || a.verificacion, a.verificacion === 'verificado' ? '' : 'is-ambar')}</div>
-    <button class="button-verde" type="button" data-abrir="${esc(a.id)}">Ver acción</button>
-  </article>`;
+  const tarjeta = (a) => {
+    const pct = a.meta_clp > 0 ? Math.min(100, Math.round(a.recaudado_clp / a.meta_clp * 100)) : 0;
+    return `<article class="funding-card">
+      <div class="funding-card-top"><span class="funding-category">${esc(CATEGORIAS[a.categoria] || a.categoria)}</span><span class="funding-state">${esc(ESTADOS[a.estado] || a.estado)}</span></div>
+      <h5>${esc(a.titulo)}</h5><p class="funding-location">${esc(a.comuna)}${a.responsable_alias ? ` · ${esc(a.responsable_alias)}` : ''}</p>
+      <p class="funding-description">${esc(a.descripcion.length > 120 ? `${a.descripcion.slice(0,117)}…` : a.descripcion)}</p>
+      ${a.urgencia !== 'normal' ? `<p class="funding-urgency">${esc(URGENCIAS[a.urgencia] || a.urgencia)}</p>` : ''}
+      <div class="funding-amount"><strong>${clp.format(a.recaudado_clp)}</strong><span>de ${clp.format(a.meta_clp)} CLP</span></div>
+      <progress class="funding-progress" value="${pct}" max="100" aria-label="Recaudación de ${esc(a.titulo)}: ${pct}%">${pct}%</progress>
+      <div class="funding-caption"><span>${pct}% de la meta</span><span>Hasta ${esc(fecha(a.fecha_limite))}</span></div>
+      <footer><span>${esc(VERIFICACION[a.verificacion] || a.verificacion)}</span><button type="button" data-abrir="${esc(a.id)}">Ver acción <span aria-hidden="true">↗</span></button></footer>
+    </article>`;
+  };
 
   // ---------- Panel de resumen: cuántas acciones se han financiado y completado ----------
   const ESTADOS_DASH = [
@@ -242,10 +246,10 @@
     let todas = [];
     try { todas = await api.listar({}); } catch { box.hidden = true; return; }
     box.hidden = false;
+    const totalIniciativas = todas.length;
     const n = (e) => todas.filter((a) => a.estado === e).length;
     const financiadas = todas.filter((a) => ['meta_alcanzada', 'programada', 'en_ejecucion', 'completada'].includes(a.estado)).length;
-    const total = todas.reduce((s, a) => s + (Number(a.recaudado_clp) || 0), 0);
-    const tiles = [[String(todas.length), 'Acciones publicadas'], [String(financiadas), 'Ya financiadas'], [String(n('completada')), 'Completadas']];
+    const tiles = [[String(totalIniciativas), 'Acciones publicadas'], [String(financiadas), 'Ya financiadas'], [String(n('completada')), 'Completadas']];
     const cont = box.querySelector('[data-ayd-tiles]');
     cont.replaceChildren(...tiles.map(([v, t]) => {
       const d = document.createElement('div'); d.className = 'ayd-tile';
@@ -258,9 +262,9 @@
     barra.replaceChildren(); ley.replaceChildren();
     ESTADOS_DASH.forEach(([e, txt, cls]) => {
       const c = n(e);
-      if (c && todas.length) {
+      if (c && totalIniciativas) {
         const seg = document.createElement('span'); seg.className = `ayd-seg ${cls}`;
-        seg.style.width = `${(c / todas.length) * 100}%`; barra.append(seg);
+        seg.style.width = `${(c / totalIniciativas) * 100}%`; barra.append(seg);
       }
       const li = document.createElement('li');
       const pt = document.createElement('span'); pt.className = `ayd-pt ${cls}`; pt.setAttribute('aria-hidden', 'true');
@@ -268,7 +272,7 @@
     });
     box.querySelector('.ayd-demo')?.remove();
     if (todas.some((a) => a.ejemplo)) { const nota = document.createElement('p'); nota.className = 'ayd-demo'; nota.textContent = 'Incluye datos de demo.'; box.append(nota); }
-    barra.setAttribute('aria-label', `De ${todas.length} acciones: ${ESTADOS_DASH.map(([e, t]) => `${t.toLowerCase()} ${n(e)}`).join(', ')}`);
+    barra.setAttribute('aria-label', `De ${totalIniciativas} acciones: ${ESTADOS_DASH.map(([e, t]) => `${t.toLowerCase()} ${n(e)}`).join(', ')}`);
   };
 
   const cargarLista = async () => {
@@ -278,7 +282,7 @@
       const items = await api.listar(filtros());
       el.lista.innerHTML = items.length
         ? items.map(tarjeta).join('')
-        : '<p class="ayudar-vacio">Todavía no hay acciones con estos filtros. Prueba otros filtros o propón una desde Mi perfil → Mis acciones.</p>';
+        : '<div class="funding-empty"><span class="funding-empty-icon" aria-hidden="true">♡</span><h5>Aún no hay acciones aquí</h5><p>No hay acciones con estos filtros. Puedes cambiarlos o proponer una desde Mi espacio.</p><a href="#mi-espacio">Ir a Mi espacio <span aria-hidden="true">→</span></a></div>';
     } catch (e) {
       el.lista.innerHTML = `<p class="ayudar-vacio">No pudimos cargar las acciones. ${esc(mensajeError(e))}</p>`;
     }

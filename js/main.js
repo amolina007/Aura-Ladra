@@ -43,6 +43,8 @@
   // Los puestos de comida y agua los entrega js/puestos.js (modo demo); se suman a los lugares del mapa.
   const puestosComoLugares = () => window.auraLadraPuestos?.lugares?.() || [];
   let activePlaceFilter = 'todos';
+  let placeSearch = '';
+  const normalizePlaceSearch = (text) => String(text || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('es').trim();
   let publicAnimals = [];
   let ownAnimals = [];
   // Relación de quien tiene la sesión con cada mascota (propia, vinculada, amistad, seguida, bloqueada).
@@ -193,6 +195,9 @@
   }));
 
   const scrollToMapWithFilter = (filter) => {
+    const search = document.querySelector('[data-map-search]');
+    if (search) search.value = '';
+    placeSearch = '';
     const filterButton = document.querySelector(`[data-place-filter="${filter}"]`);
     filterButton?.click();
     window.auraLadraVistas?.ir('mapa');
@@ -489,6 +494,7 @@
   };
 
   const placeMatchesFilter = (place) => {
+    if (placeSearch && !normalizePlaceSearch([place.nombre, place.direccion_publica, placeCategoryLabels[place.categoria]].join(' ')).includes(placeSearch)) return false;
     if (activePlaceFilter === 'todos') return true;
     if (activePlaceFilter === 'urgencia') return place.categoria === 'veterinaria' && place.servicio_urgencia;
     if (activePlaceFilter === 'tienda') return ['tienda_mascotas', 'alimento', 'juguetes_accesorios', 'comercio'].includes(place.categoria);
@@ -664,7 +670,7 @@
     if (!cardsByCategory.size) {
       const empty = document.createElement('p');
       empty.className = 'empty-state';
-      empty.textContent = activePlaceFilter === 'mascota_perdida'
+      empty.textContent = placeSearch ? 'No encontramos lugares con esa búsqueda. Prueba otro nombre o categoría.' : activePlaceFilter === 'mascota_perdida'
         ? 'No hay alertas activas de mascotas perdidas en el mapa.'
         : 'Todavía no hay lugares publicados en esta categoría.';
       container.replaceChildren(empty);
@@ -763,11 +769,22 @@
 
   document.querySelectorAll('[data-place-filter]').forEach((button) => button.addEventListener('click', () => {
     activePlaceFilter = button.dataset.placeFilter;
-    document.querySelectorAll('[data-place-filter]').forEach((item) => item.classList.toggle('is-active', item === button));
+    document.querySelectorAll('[data-place-filter]').forEach((item) => {
+      item.classList.toggle('is-active', item === button);
+      item.setAttribute('aria-pressed', String(item === button));
+    });
     const filterLabel = document.querySelector('[data-map-filters-label]');
     if (filterLabel) filterLabel.textContent = activePlaceFilter === 'todos' ? 'Filtros' : `Filtros · ${button.textContent.trim()}`;
     setMapFiltersOpen(false);
     renderPlaces();
+  }));
+
+  document.querySelector('[data-map-search]')?.addEventListener('input', (event) => {
+    placeSearch = normalizePlaceSearch(event.target.value);
+    renderPlaces();
+  });
+  document.querySelectorAll('[data-home-action]').forEach((link) => link.addEventListener('click', () => {
+    document.querySelector(`[data-action="${link.dataset.homeAction}"]`)?.click();
   }));
 
   const fillSelect = (select, rows, placeholder) => {
@@ -808,7 +825,13 @@
     const name = document.createElement('span');
     name.className = 'animal-tile-name';
     name.textContent = animal.nombre;
-    tile.append(photo, name);
+    const meta = document.createElement('span');
+    meta.className = 'animal-tile-meta';
+    meta.textContent = [animal.especie, animal.zona_publica].filter(Boolean).join(' · ');
+    const cta = document.createElement('span');
+    cta.className = 'animal-tile-cta';
+    cta.textContent = 'Ver ficha →';
+    tile.append(photo, name, meta, cta);
     if (animal.estado_seguridad === 'extraviada') {
       const lostBadge = document.createElement('span');
       lostBadge.className = 'animal-tile-badge';
@@ -869,7 +892,7 @@
     if (networkGroup) networkGroup.hidden = !hasUser;
     // Tus mascotas van con su ficha completa; las demás, con la ficha pública.
     const network = [...ownAnimals, ...publicAnimals.filter((animal) => !ownIds.has(animal.id) && inNetwork(animal))];
-    fillAnimalGrid(document.querySelector('[data-animal-grid="mi-red"]'), network, 'Todavía no tienes mascotas. Crea su ficha en “Mi cuenta”.');
+    fillAnimalGrid(document.querySelector('[data-animal-grid="mi-red"]'), network, 'Todavía no tienes mascotas. Crea su ficha en “Mi espacio”.');
     const allDiscover = publicAnimals.filter((animal) => !ownIds.has(animal.id) && !inNetwork(animal));
     // Los filtros de Descubrir (js/descubrir.js) solo reducen lo que se muestra.
     const discover = allDiscover.filter((animal) => window.auraLadraRed?.filtro?.(animal) ?? true);
@@ -1113,7 +1136,7 @@
       const name = document.createElement('strong');
       name.textContent = animal.nombre;
       const hint = document.createElement('small');
-      hint.textContent = 'Ver ficha';
+      hint.textContent = 'Ficha y cuidados  ›';
       tile.append(photo, name, hint);
       return tile;
     });
@@ -1198,11 +1221,12 @@
     if (!target) return;
     section.scrollIntoView({ block: 'start' });
     if (focus) target.querySelector('h3, h4')?.focus({ preventScroll: true });
+    document.dispatchEvent(new CustomEvent('espacio:panel', { detail: { panel: target.dataset.myProfilePanel } }));
   };
 
-  // Lleva a una pantalla de Mi perfil desde otro lugar (por ejemplo, desde el diálogo de una ficha).
+  // Lleva a una pantalla de Mi espacio desde otro lugar (por ejemplo, desde el diálogo de una ficha).
   const openMyProfileScreen = (name) => {
-    window.auraLadraVistas?.ir('mi-perfil');
+    window.auraLadraVistas?.ir('mi-espacio');
     selectMyProfileTab(name, false);
   };
 
@@ -1460,6 +1484,7 @@
     form.hidden = true;
     view.hidden = false;
     const isOwned = ownAnimals.some((item) => item.id === animal.id);
+    const canShareMedia = isOwned && animal.estado === 'publicado' && animal.mostrar_en_red !== false;
     const health = animal.salud && typeof animal.salud === 'object' ? animal.salud : {};
     const skills = Array.isArray(animal.habilidades) ? animal.habilidades.filter((skill) => petSkillLabels[skill]) : [];
     const characterScore = animal.caracter_puntaje === null || animal.caracter_puntaje === undefined || animal.caracter_puntaje === '' ? null : Number(animal.caracter_puntaje);
@@ -1477,6 +1502,8 @@
       <dl class="pet-profile-facts">${summaryBlocks.map((key) => `<div><dt>${escapeHtml(petSummaryLabels[key])}</dt><dd>${escapeHtml(petSummaryValue(animal, key))}</dd></div>`).join('')}</dl>
       ${isOwned && animal.numero_registro ? `<p class="pet-private-detail"><strong>N.º de registro:</strong> ${escapeHtml(animal.numero_registro)}</p>` : ''}
       ${animal.senas_particulares ? `<div class="pet-profile-notes"><strong>Señas particulares</strong><p>${escapeHtml(animal.senas_particulares)}</p></div>` : ''}
+      <section class="pet-profile-section pet-community-media"><div class="pet-section-heading"><div><p class="kicker">Momentos</p><h4>Galería de fotos</h4></div>${canShareMedia ? '<label class="button button-dark media-upload-button">Subir fotos<input type="file" data-pet-photo-upload accept="image/jpeg,image/png,image/webp" multiple></label>' : ''}</div><p class="pet-health-note">Al compartir, los archivos serán públicos y aparecerán en este perfil.${isOwned && !canShareMedia ? ' Publica la ficha y hazla visible en Red animal para compartir contenido.' : ''}</p><div class="pet-public-gallery" data-pet-public-gallery><p class="empty-state">Cargando galería…</p></div><p class="form-message" data-pet-photo-message aria-live="polite"></p></section>
+      <section class="pet-profile-section pet-community-media"><div class="pet-section-heading"><div><p class="kicker">Aprendizaje</p><h4>Mis trucos</h4></div>${canShareMedia ? '<button class="button button-dark" type="button" data-open-trick-upload>Subir video</button>' : ''}</div>${canShareMedia ? `<form class="trick-upload-form" data-trick-upload-form hidden><label class="field"><span>Video del truco</span><input type="file" name="video" accept="video/mp4,video/webm,video/quicktime" required><small>MP4, WebM o MOV · máximo 50 MB y 90 segundos.</small></label><label class="field"><span>Nombre del truco</span><input name="titulo" maxlength="80" placeholder="Ej.: Dar la pata" required></label><label class="field"><span>Estado</span><select name="estado"><option value="practicando">En práctica</option><option value="aprendido">Aprendido</option></select></label><label class="field"><span>Descripción (opcional)</span><input name="descripcion" maxlength="180" placeholder="Una nota breve sobre el video"></label><p class="pet-health-note">El video será público y aparecerá en este perfil y en el repertorio.</p><button class="button button-primary" type="submit" data-trick-submit>Publicar video</button><button class="text-button" type="button" data-cancel-trick-upload>Cancelar</button><p class="form-message" data-trick-upload-message aria-live="polite"></p></form>` : ''}<div class="pet-trick-videos" data-pet-trick-videos><p class="empty-state">Cargando videos…</p></div><a class="text-button trick-repertoire-link" href="#repertorio">Explorar repertorio completo →</a></section>
       <div class="pet-profile-sections">
         ${isOwned || hasPetField(animal, 'salud') ? `<section class="pet-profile-section is-private"><div class="pet-section-heading"><div><h4>Ficha de salud</h4><span class="privacy-badge">${isOwned ? 'Privada' : 'Compartida con amistades'}</span></div>${isOwned ? '<button class="section-edit-button" type="button" data-edit-pet-section="salud">Editar</button>' : ''}</div>${healthSummaryCardHtml(health, !isOwned)}<dl class="pet-health-summary">
           <div><dt>Antropometría</dt><dd>${animal.peso_kg ? `${Number(animal.peso_kg).toLocaleString('es-CL')} kg` : 'Peso sin registrar'}${health.altura_cm ? ` · ${escapeHtml(health.altura_cm)} cm` : ''}${health.condicion_corporal ? ` · condición corporal ${escapeHtml(health.condicion_corporal)}/9` : ''}</dd></div>
@@ -1503,6 +1530,7 @@
     renderPetPhotos(view.querySelector('[data-pet-profile-gallery]'), animal);
     loadPetConnections(animal.id, view.querySelector('[data-pet-connections]'));
     bindProfileReportForm(view);
+    document.dispatchEvent(new CustomEvent('mascota:perfil', { detail: { animal, puedeEditar: isOwned } }));
     if (!dialog.open) dialog.showModal();
   };
 
@@ -2355,9 +2383,10 @@
     currentSession = session;
     currentUserIsModerator = false;
     updateSessionChip(session);
+    document.dispatchEvent(new CustomEvent('sesion:cambio', { detail: { session } }));
     const signedOut = document.querySelector('[data-signed-out]');
     const signedIn = document.querySelector('[data-signed-in]');
-    // Con sesión iniciada, «Cuenta personal · Mi cuenta» no se muestra: Mi perfil ocupa su lugar.
+    // Con sesión iniciada, «Cuenta personal · Mi cuenta» no se muestra: Mi espacio ocupa su lugar.
     const hasSession = Boolean(session?.user);
     document.querySelector('[data-account-card]')?.classList.toggle('is-session', hasSession);
     const accountHeading = document.querySelector('[data-account-heading]');
@@ -2630,6 +2659,7 @@
   document.querySelector('[data-pet-profile-dialog]')?.addEventListener('click', (event) => {
     const dialog = event.currentTarget;
     if (event.target === dialog || event.target.closest('[data-pet-profile-close]')) dialog.close();
+    if (event.target.closest('a[href="#repertorio"]')) dialog.close();
     const jumpButton = event.target.closest('[data-health-jump]');
     if (jumpButton && activePetProfile && ownAnimals.some((item) => item.id === activePetProfile.id)) {
       startPetProfileEdit('salud');
@@ -3456,14 +3486,24 @@
       setMessage(reportMessage, 'El sistema de reportes no está disponible temporalmente.', 'error');
       return;
     }
+    // Escuchar antes de iniciar consultas: una respuesta inicial lenta con null
+    // no debe reemplazar una sesión que llegó mientras cargaba el mapa.
+    let versionSesion = 0;
+    db.auth.onAuthStateChange((_event, session) => {
+      const version = ++versionSesion;
+      window.setTimeout(async () => {
+        if (version !== versionSesion) return;
+        await syncSession(session);
+        if (version === versionSesion) completeMagicLinkReturn(session);
+      }, 0);
+    });
+    const versionInicial = versionSesion;
     const [{ data }] = await Promise.all([db.auth.getSession(), verifyBackend(), loadPlaces(), loadAnimalNetwork()]);
-    await syncSession(data.session);
-    completeMagicLinkReturn(data.session);
+    if (versionInicial === versionSesion) {
+      await syncSession(data.session);
+      if (versionInicial === versionSesion) completeMagicLinkReturn(data.session);
+    }
     try { await refreshWanted(); } catch (error) { console.warn('AuraLadra: Most Wanted no cargó.', error); }
-    db.auth.onAuthStateChange((_event, session) => window.setTimeout(async () => {
-      await syncSession(session);
-      completeMagicLinkReturn(session);
-    }, 0));
   }
 
   // La barra de abajo y el menú los maneja js/vistas.js (una sección a la vez).

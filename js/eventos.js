@@ -10,7 +10,7 @@
   const $ = (s, r = root) => r.querySelector(s);
   const KEY = 'auraladra.demo.eventos.v1';
   const TIPOS = {
-    ayudar: 'Ayudar', perdida: 'Mascota perdida', puesto: 'Comida y agua', encuentro: 'Encuentro', propio: 'Mi evento (demo)',
+    ayudar: 'Ayudar', perdida: 'Mascota perdida', puesto: 'Comida y agua', encuentro: 'Encuentro', propio: 'Evento personal',
   };
   const MESES = new Intl.DateTimeFormat('es-CL', { month: 'long', year: 'numeric' });
   const DIA_LARGO = new Intl.DateTimeFormat('es-CL', { weekday: 'long', day: 'numeric', month: 'long' });
