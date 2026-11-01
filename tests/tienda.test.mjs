@@ -15,7 +15,7 @@ async function app(hash='#ayudar',fail=false){
  let requests=[];w.fetch=async(url)=>{requests.push(url);if(fail){fail=false;throw Error('Sin conexión');}return {ok:true,json:async()=>structuredClone(catalog)};};
  w.eval(views);w.eval(source);await flush();return {dom,w,requests,doc:w.document};
 }
-test('Usar AC muestra Causas y Tienda; enlace directo a tienda conserva la sección 4',async()=>{
+test('Aportar muestra Causas y Tienda; enlace directo a tienda conserva la sección 4',async()=>{
  const a=await app('#tienda');try{
   assert.equal(a.doc.body.dataset.vista,'ayudar');
   assert.equal(a.doc.querySelector('#causas').hidden,true);
@@ -26,7 +26,7 @@ test('Usar AC muestra Causas y Tienda; enlace directo a tienda conserva la secci
   a.doc.querySelector('[data-market-tab=causas]').dispatchEvent(new a.w.KeyboardEvent('keydown',{key:'ArrowRight',bubbles:true}));
   assert.equal(a.doc.querySelector('#tienda').hidden,false);
   assert.equal(a.doc.querySelector('[data-market-tab=tienda]').getAttribute('aria-selected'),'true');
-  assert.equal(a.doc.querySelector('[data-tabbar-link=ayudar]').textContent.trim(),'Usar AC');
+  assert.equal(a.doc.querySelector('[data-tabbar-link=ayudar]').textContent.trim(),'Aportar');
   assert.equal(a.doc.querySelector('[data-tabbar-link=ayudar]').getAttribute('aria-current'),'true');
   assert.equal(a.doc.querySelector('#causas-title').textContent,'Causas comunitarias');
   assert.equal(a.doc.querySelector('#tienda-title').textContent,'Tienda');
