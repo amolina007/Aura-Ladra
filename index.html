@@ -73,7 +73,7 @@
         <div class="home-heading"><p class="home-location">Comunidad de Maipú</p><h1 id="feed-title">Tu barrio, más conectado.</h1><p>Historias y cuidados que nos acercan.</p></div>
         <aside class="home-help" aria-label="Únete a la comunidad"><h2>Tu mascota también tiene un lugar aquí</h2><p>Crea su ficha, comparte sus momentos y conecta con quienes la cuidan.</p><a class="button button-dark" href="#mi-espacio">Crear la ficha de mi mascota</a></aside>
         <div class="feed-historias" data-feed-historias role="list" aria-label="Historias de las mascotas"></div>
-        <aside class="home-help" aria-labelledby="home-help-title"><h2 id="home-help-title">¿Una mascota necesita ayuda?</h2><div class="home-help-actions"><a href="#acciones" data-home-action="perdida">La perdí</a><a href="#acciones" data-home-action="encontrada">La encontré</a></div></aside>
+        <aside class="home-help" aria-labelledby="home-help-title"><h2 id="home-help-title">¿Una mascota necesita ayuda?</h2><div class="home-help-actions"><a href="#acciones" data-home-action="perdida">La perdí</a><a href="#acciones" data-home-action="encontrada">La encontré</a><button type="button" data-externo-nuevo>Importar afiche externo</button></div></aside>
         <div class="home-community"><h2>Mi comunidad</h2><a href="#mapa">Explorar el mapa <span aria-hidden="true">→</span></a></div>
         <a class="services-home" href="#servicios"><span class="services-home-icon" aria-hidden="true">✂</span><span><strong>Cuidados cerca de ti</strong><small>Estética, entrenamiento, paseos y más</small></span><span aria-hidden="true">→</span></a>
         <div class="feed-barra">
@@ -175,6 +175,13 @@
           <p class="empty-state">Cargando afiches…</p>
         </div>
 
+        <section class="card" aria-labelledby="externos-title">
+          <h3 id="externos-title">Avisos de otros medios</h3>
+          <p>Compartidos por la comunidad. Información según la fuente, sin confirmar con el responsable.</p>
+          <button class="button button-primary" type="button" data-externo-nuevo>Agregar aviso externo</button>
+          <p data-externos-mensaje role="status"></p>
+          <div class="wanted-grid" data-externos-lista></div>
+        </section>
         <div class="wanted-forms">
           <article class="card wanted-publish">
             <div class="card-heading compact">
@@ -433,6 +440,7 @@
             <section class="my-profile" id="mi-espacio" data-my-profile hidden aria-labelledby="my-profile-title">
               <div class="mp-screen space-home" data-my-profile-panel="perfil">
                 <header class="mp-top"><div><h3 id="my-profile-title" tabindex="-1">Mi espacio</h3><p class="space-subtitle">Tu vida con ellos, en un solo lugar.</p></div><button type="button" class="space-settings" data-my-profile-tab="privacidad" aria-label="Privacidad y ajustes">⚙</button></header>
+                <section class="space-section"><h4>Avisos externos que comparto</h4><button class="button button-primary" type="button" data-externo-nuevo>Importar afiche externo</button><div data-externos-propios></div></section>
                 <section class="space-section" aria-labelledby="mp-mascotas-title">
                   <div class="mp-card-head"><h4 id="mp-mascotas-title">Mis mascotas</h4><button type="button" class="mp-link" data-my-profile-tab="animales">Ver todas <span aria-hidden="true">›</span></button></div>
                   <div class="mp-pets" data-my-profile-pets></div><p class="form-message" data-account-animal-message aria-live="polite"></p>
@@ -973,6 +981,8 @@
 <script src="js/tienda.js?v=stock-vendedor-1"></script>
 <script src="js/servicios-fotos.js?v=1"></script>
 <script src="js/servicios.js?v=3"></script>
+<script src="js/afiche-lector.js?v=1"></script>
+<script src="js/avisos-externos.js?v=3"></script>
 <script src="js/mi-espacio.js"></script>
 <script defer src="js/aura-hub-loader.js"></script><!-- Menú común de Convergencia Aura: vive en Core (una sola versión para todos los sitios) -->
 <script defer src="https://core.convergenciaaura.cl/js/globo.js" data-margen-movil="76" data-sitio="ladra"></script>

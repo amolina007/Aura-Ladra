@@ -9,8 +9,8 @@ body { --navy: #063d24; --navy-deep: #042c1a; --ink: #173d2c; --muted: #596d60; 
 .home-help { margin: 12px 0 22px; padding: 17px; border: 1px solid #f7d6a6; border-radius: 18px; background: #fff1dc; }
 .home-help h2 { margin: 0 0 12px; font: 800 1.05rem/1.35 'Nunito', sans-serif; letter-spacing: -.02em; color: #8b4900; }
 .home-help-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.home-help-actions a { display: grid; place-items: center; min-height: 46px; border: 1px solid #b96a09; border-radius: 11px; text-decoration: none; font-weight: 800; color: #8b4900; background: #fffdf9; }
-.home-help-actions a:last-child { background: var(--logo-verde); color: white; border-color: var(--logo-verde); }
+.home-help-actions a, .home-help-actions button { display: grid; place-items: center; min-height: 46px; border: 1px solid #b96a09; border-radius: 11px; text-decoration: none; font-weight: 800; color: #8b4900; background: #fffdf9; }
+.home-help-actions a[data-home-action="encontrada"] { background: var(--logo-verde); color: white; border-color: var(--logo-verde); }
 .home-community { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--line); margin-bottom: 12px; }
 .home-community h2 { margin: 0; font: 800 1.1rem 'Nunito', sans-serif; letter-spacing: -.02em; }
 .home-community a { font-size: .8rem; font-weight: 700; text-underline-offset: 4px; }
@@ -431,3 +431,6 @@ body:has(.shop-dialog[open]) { overflow: hidden; }
   .pet-profile-dialog .pet-community-media { padding: 15px; }
   .pet-profile-dialog .pet-community-media .pet-section-heading { align-items: flex-start; }
 }
+
+.home-help-actions button { grid-column: 1 / -1; font: inherit; font-weight: 800; cursor: pointer; padding: 10px; }
+.home-help-actions button:focus-visible { outline: 3px solid #b96a09; outline-offset: 3px; }
