@@ -16,6 +16,25 @@
     });
     return library;
   }
+  async function prepareImage(file, inverted = false) {
+    const bitmap = await createImageBitmap(file);
+    try {
+      const scale = Math.min(2, 2600 / Math.max(bitmap.width, bitmap.height));
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.round(bitmap.width * scale); canvas.height = Math.round(bitmap.height * scale);
+      const ctx = canvas.getContext('2d', {willReadFrequently:true});
+      ctx.fillStyle = 'white'; ctx.fillRect(0,0,canvas.width,canvas.height);
+      ctx.drawImage(bitmap,0,0,canvas.width,canvas.height);
+      const pixels = ctx.getImageData(0,0,canvas.width,canvas.height);
+      for (let i=0;i<pixels.data.length;i+=4) {
+        const gray = Math.round(.299*pixels.data[i]+.587*pixels.data[i+1]+.114*pixels.data[i+2]);
+        const value = inverted ? 255-gray : gray;
+        pixels.data[i]=pixels.data[i+1]=pixels.data[i+2]=value;
+      }
+      ctx.putImageData(pixels,0,0);
+      return canvas;
+    } finally { bitmap.close(); }
+  }
   function parse(text) {
     text = String(text).replace(/\r/g, '').trim();
     const result = {descripcion: text.slice(0, 4000)};
@@ -24,7 +43,15 @@
       const value = labeled(labels); if (value) result[key] = value;
     }
     result.nombre ||= text.match(/\b(?:se llama|responde al nombre de)\s+[“"']?([\p{L}][\p{L} -]{0,50})/iu)?.[1]?.trim();
-    const phone = text.match(/(?<!\d)(?:\+?56[ .-]*)?9(?:[ .-]*\d){8}(?!\d)/u)?.[0];
+    const narrative = text.split('\n').filter(line => /[\p{L}]{4}/u.test(line)).join(' ').replace(/\s+/g,' ');
+    result.nombre ||= narrative.match(/\b([\p{L}]{2,40})\s+se\s+(?:perdi[oó]|extravi[oó])(?=\s|$)/iu)?.[1];
+    if (!result.zona) {
+      const location = narrative.match(/\b(?:en\s+la\s+calle|perdid[oa]\s+en)\s+(.{5,240}?)(?:\)\s*\.|[.!]|\s+(?:si lo ves|favor avisar|macho castrado|hembra))/iu)?.[1];
+      if (location) result.zona = location.trim() + (location.includes('(') && !location.includes(')') ? ')' : '');
+    }
+    const partialDate = narrative.match(/\b(?:noche del|desde el|perdid[oa] el)\s+(\d{1,2}\s+de\s+(?:enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre))(?!\s+de\s+\d{4})/iu)?.[1];
+    if (partialDate && !result.tiempo_aproximado) result.tiempo_aproximado = partialDate + ' (revisar año en la fuente)';
+    const phone = text.match(/(?<!\d)(?:\+?56[ \t.\u00a0-]*)?9(?:[ \t.\u00a0-]*\d){8}(?!\d)/u)?.[0];
     if (phone) result.celular = '+56' + phone.replace(/\D/g, '').slice(-9);
     if (/\b(?:gato|gata|gatito|gatita)\b/iu.test(text)) result.especie = 'Gato';
     else if (/\b(?:perro|perra|perrito|perrita)\b/iu.test(text)) result.especie = 'Perro';
@@ -96,7 +123,17 @@
         });
         if (turn !== token) { await created.terminate(); return; }
         worker = created;
-        const {data} = await worker.recognize(file);
+        await worker.setParameters({tessedit_pageseg_mode: '11', tessedit_do_invert: '1'});
+        const prepared = await prepareImage(file);
+        if (turn !== token) return;
+        const {data} = await worker.recognize(prepared);
+        if (turn !== token) return;
+        if (!parse(data.text).celular) {
+          const inverted = await prepareImage(file, true);
+          if (turn !== token) return;
+          const second = await worker.recognize(inverted);
+          data.text = [...new Set((data.text + '\n' + second.data.text).split('\n').map(line => line.trim()).filter(Boolean))].join('\n');
+        }
         if (turn !== token) return;
         get('text').value = data.text.slice(0,12000);
         get('status').textContent = data.text.trim() ? 'Texto listo. Revísalo y pulsa «Completar campos vacíos».' : 'No se encontró texto. Prueba una imagen más nítida o pega el texto.';

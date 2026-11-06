@@ -5,6 +5,8 @@ import {JSDOM} from 'jsdom';
 const code=readFileSync(new URL('../js/afiche-lector.js',import.meta.url),'utf8');
 function setup() {
  const dom=new JSDOM('<dialog><form><input name="nombre" maxlength="120"><input name="celular"><input name="domicilio"><input name="zona"><input name="especie"><input name="fuente"><input name="fecha_extravio" max="2026-11-06"><textarea name="descripcion"></textarea><button type="submit">Publicar</button></form></dialog>',{runScripts:'outside-only'});
+ dom.window.createImageBitmap=async()=>({width:10,height:10,close(){}});
+ dom.window.HTMLCanvasElement.prototype.getContext=()=>({fillRect(){},drawImage(){},getImageData:()=>({data:new Uint8ClampedArray([255,0,0,255])}),putImageData(){}});
  dom.window.eval(code); return dom;
 }
 test('Extrae campos explícitos y teléfono chileno sin inventar datos',()=>{
@@ -25,13 +27,20 @@ test('Completa solo campos vacíos, omite fecha futura y no publica',()=>{
 test('Lectura, error y cancelación liberan el formulario e ignoran resultados tardíos',async()=>{
  const dom=setup();try{
  const w=dom.window,f=w.document.querySelector('form');let resolve,terminated=0;
- w.Tesseract={createWorker:async()=>({recognize:()=>new Promise(r=>resolve=r),terminate:async()=>terminated++})};
+ w.Tesseract={createWorker:async()=>({setParameters:async()=>{},recognize:()=>new Promise(r=>resolve=r),terminate:async()=>terminated++})};
  w.auraLadraAfiche.attach(f,w.document.querySelector('dialog'));
  Object.defineProperty(f.querySelector('[data-ocr-file]'),'files',{value:[new w.File(['image'],'afiche.png',{type:'image/png'})]});
  const tick=()=>new Promise(r=>setTimeout(r,0));
  f.querySelector('[data-ocr-read]').click();await tick();assert.equal(f.querySelector('[type=submit]').disabled,true);
  f.querySelector('[data-ocr-cancel]').click();resolve({data:{text:'Nombre: Tardío'}});await tick();assert.equal(f.querySelector('[data-ocr-text]').value,'');assert.equal(terminated,1);
- f.querySelector('[data-ocr-read]').click();await tick();resolve({data:{text:'Nombre: Luna'}});await tick();assert.equal(f.querySelector('[data-ocr-text]').value,'Nombre: Luna');assert.equal(f.querySelector('[type=submit]').disabled,false);
+ f.querySelector('[data-ocr-read]').click();await tick();resolve({data:{text:'Nombre: Luna\n+56 9 1234 5678'}});await tick();assert.equal(f.querySelector('[data-ocr-text]').value,'Nombre: Luna\n+56 9 1234 5678');assert.equal(f.querySelector('[type=submit]').disabled,false);
  w.Tesseract.createWorker=async()=>{throw Error('offline');};f.querySelector('[data-ocr-read]').click();await tick();assert.match(f.querySelector('[data-ocr-status]').textContent,/No se pudo/);assert.equal(f.dataset.ocrReading,'false');
+ }finally{dom.window.close();}
+});
+
+test('Relato de afiche: separa sector de domicilio y no inventa año ni corrige dígitos dudosos',()=>{
+ const dom=setup();try {
+ const p=dom.window.auraLadraAfiche.parse('PERRO PERDIDO\nMailo se perdió la\nnoche del 9 de enero en\nla calle 4 poniente con\n"Te\nns *\nLautaro (Villa El\nAbrazo, Maipú).\n+069 7815 1135');
+ assert.equal(p.nombre,'Mailo');assert.equal(p.zona,'4 poniente con Lautaro (Villa El Abrazo, Maipú)');assert.equal(p.domicilio,undefined);assert.equal(p.fecha_extravio,undefined);assert.match(p.tiempo_aproximado,/revisar año/);assert.equal(p.celular,undefined);
  }finally{dom.window.close();}
 });
