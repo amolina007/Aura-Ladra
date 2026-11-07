@@ -434,3 +434,6 @@ body:has(.shop-dialog[open]) { overflow: hidden; }
 
 .home-help-actions button { grid-column: 1 / -1; font: inherit; font-weight: 800; cursor: pointer; padding: 10px; }
 .home-help-actions button:focus-visible { outline: 3px solid #b96a09; outline-offset: 3px; }
+
+.sosafe-card img { width: 100%; max-height: 320px; object-fit: contain; }
+.sosafe-description { white-space: pre-wrap; overflow-wrap: anywhere; }
