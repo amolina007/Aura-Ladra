@@ -1,0 +1,66 @@
+{
+  "989c1890-f575-5c91-984d-c8bc2e935ca5": {
+    "sha256": "8d8c3e47eb1cabb549da4a5a5142f9841ed4b3970e6ee5f88971e60365389af9",
+    "encuadre": [
+      0.13,
+      0.1,
+      0.76,
+      0.83
+    ]
+  },
+  "e664c626-30d6-52bb-8f45-40c99a38e44d": {
+    "sha256": "624ce3b4226ab13e01281cf78ef0c44dd12a1de84a7aeb0a93ad0df5589a118b",
+    "encuadre": [
+      0,
+      0.33,
+      0.73,
+      0.75
+    ]
+  },
+  "1a4acc01-2a97-53ea-b48b-ebc4811d84f4": {
+    "sha256": "dab508b5cf16928b4bcb224be0f7088678525268bf69510e5cd2441319466ec5",
+    "nombres": [
+      {
+        "etiqueta": "Nombre de la mascota",
+        "nombre": "Cloe",
+        "evidencia": "Ella es la Cloe (revisado visualmente en el afiche)"
+      }
+    ]
+  },
+  "37587bd9-c895-571c-9fc5-608baea0a72c": {
+    "sha256": "de61f0dbdb68dba4fb62dacbd1565ad04c7883133144ff632d6e7a429f46706e",
+    "encuadre": [
+      0.23,
+      0.46,
+      0.52,
+      0.56
+    ]
+  },
+  "0e259ca0-a8e5-532f-8f3a-5dd446317415": {
+    "sha256": "2497b080c4276cb95c203547421e230e26d0c62f14311297873663ad1d948d03",
+    "encuadre": [
+      0,
+      0.04,
+      1,
+      0.92
+    ]
+  },
+  "225ff1ec-e159-5248-9e06-7dca3f1e618d": {
+    "sha256": "558926157f09a911173409e0a1b4ca95f35c6060c99b7dbb5512bfc9265231b1",
+    "encuadre": [
+      0.18,
+      0.09,
+      0.59,
+      0.76
+    ]
+  },
+  "b4fce2a4-488c-5215-af4e-4abcb7cb6c49": {
+    "sha256": "31a0742002a6c5ac0ca98d7f07b95875ea2393b5d243a9015c6614541e1c5ce7",
+    "encuadre": [
+      0.33,
+      0.62,
+      0.65,
+      0.74
+    ]
+  }
+}

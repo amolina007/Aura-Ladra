@@ -437,3 +437,8 @@ body:has(.shop-dialog[open]) { overflow: hidden; }
 
 .sosafe-card img { width: 100%; max-height: 320px; object-fit: contain; }
 .sosafe-description { white-space: pre-wrap; overflow-wrap: anywhere; }
+
+.sosafe-map-photo { width: 100%; max-height: 180px; object-fit: contain; }
+.sosafe-ocr { border-left: 3px solid #ad6710; padding-left: .75rem; }
+
+.map-pin.is-sosafe span { filter: grayscale(1) brightness(0) invert(1); }

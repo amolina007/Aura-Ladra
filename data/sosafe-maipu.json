@@ -11,7 +11,23 @@
       "celulares": [],
       "foto": "https://api.sosafeapp.com/reports/media_1793923155651_OLQQ9B.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/c8517126-9c75-58a2-a1ca-28d653d67abd?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.537440385919,
+        "lng": -70.787527933717,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "kitty",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": "J\no\n——\nY\n=\n™ (4\nO\nwe he,\n4\nat pill\nREPORTADO EN\nOSOSAFE",
+        "celulares": [],
+        "nombres": [],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/02f94259a57a916724ac3675.jpg"
     },
     {
       "id": "1fdf7cc6-881e-5158-960d-4f4a911a42fd",
@@ -22,7 +38,23 @@
       "celulares": [],
       "foto": "https://api.sosafeapp.com/reports/media_1793922200028_O80E4C.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/1fdf7cc6-881e-5158-960d-4f4a911a42fd?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.505038635412,
+        "lng": -70.788560248911,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": "-\n=\npe\nqe,\n3\nee.\nbe\nA\n2\t1\t9\t0\t0\t0\t803\t737\t25\t20\t-1\t\n3\t1\t9\t1\t0\t0\t803\t737\t25\t20\t-1\t\n4\t1\t9\t1\t1\t0\t803\t737\t25\t20\t-1\t\n5\t1\t9\t1\t1\t1\t803\t737\t25\t20\t50.950195\twe\n2\t1\t10\t0\t0\t0\t492\t793\t11\t9\t-1\t\n3\t1\t10\t1\t0\t0\t492\t793\t11\t9\t-1\t\n4\t1\t10\t1\t1\t0\t492\t793\t11\t9\t-1\t\n5\t1\t10\t1\t1\t1\t492\t793\t11\t9\t36.958817\tOY\n2\t1\t11\t0\t0\t0\t1100\t958\t3\t9\t-1\t\n3\t1\t11\t1\t0\t0\t1100\t958\t3\t9\t-1\t\n4\t1\t11\t1\t1\t0\t1100\t958\t3\t9\t-1\t\n5\t1\t11\t1\t1\t1\t1100\t958\t3\t9\t39.202782\tÍ\n2\t1\t12\t0\t0\t0\t1138\t941\t6\t9\t-1\t\n3\t1\t12\t1\t0\t0\t1138\t941\t6\t9\t-1\t\n4\t1\t12\t1\t1\t0\t1138\t941\t6\t9\t-1\t\n5\t1\t12\t1\t1\t1\t1138\t941\t6\t9\t27.558432\tA\n2\t1\t13\t0\t0\t0\t1128\t973\t7\t7\t-1\t\n3\t1\t13\t1\t0\t0\t1128\t973\t7\t7\t-1\t\n4\t1\t13\t1\t1\t0\t1128\t973\t7\t7\t-1\t\n5\t1\t13\t1\t1\t1\t1128\t973\t7\t7\t37.604401\te\n2\t1\t14\t0\t0\t0\t1152\t949\t14\t22\t-1\t\n3\t1\t14\t1\t0\t0\t1152\t949\t14\t22\t-1\t\n4\t1\t14\t1\t1\t0\t1152\t949\t14\t22\t-1\t\n5\t1\t14\t1\t1\t1\t1152\t949\t14\t22\t75.018379\t€\n2\t1\t15\t0\t0\t0\t1331\t965\t9\t11\t-1\t\n3\t1\t15\t1\t0\t0\t1331\t965\t9\t11\t-1\t\n4\t1\t15\t1\t1\t0\t1331\t965\t9\t11\t-1\t\n5\t1\t15\t1\t1\t1\t1331\t965\t9\t11\t30.210238\tx\n2\t1\t16\t0\t0\t0\t740\t991\t41\t47\t-1\t\n3\t1\t16\t1\t0\t0\t740\t991\t41\t47\t-1\t\n4\t1\t16\t1\t1\t0\t740\t991\t41\t47\t-1\t\n5\t1\t16\t1\t1\t1\t740\t991\t41\t47\t24.793091\teS\n2\t1\t17\t0\t0\t0\t521\t1044\t13\t15\t-1\t\n3\t1\t17\t1\t0\t0\t521\t1044\t13\t15\t-1\t\n4\t1\t17\t1\t1\t0\t521\t1044\t13\t15\t-1\t\n5\t1\t17\t1\t1\t1\t521\t1044\t13\t15\t26.391106\tE\n2\t1\t18\t0\t0\t0\t1071\t984\t398\t94\t-1\t\n3\t1\t18\t1\t0\t0\t1071\t984\t398\t94\t-1\t\n4\t1\t18\t1\t1\t0\t1071\t984\t398\t94\t-1\t\n5\t1\t18\t1\t1\t1\t1071\t984\t333\t94\t24.568567\t¡REBORTADO:\n5\t1\t18\t1\t1\t2\t1404\t1019\t65\t30\t73.701851\t‘EN\n2\t1\t19\t0\t0\t0\t503\t1131\t21\t17\t-1\t\n3\t1\t19\t1\t0\t0\t503\t1131\t21\t17\t-1\t\n4\t1\t19\t1\t1\t0\t503\t1131\t21\t17\t-1\t\n5\t1\t19\t1\t1\t1\t503\t1131\t21\t17\t51.279099\ta\n2\t1\t20\t0\t0\t0\t189\t1187\t21\t12\t-1\t\n3\t1\t20\t1\t0\t0\t189\t1187\t21\t12\t-1\t\n4\t1\t20\t1\t1\t0\t189\t1187\t21\t12\t-1\t\n5\t1\t20\t1\t1\t1\t189\t1187\t21\t12\t28.255243\tsy\n2\t1\t21\t0\t0\t0\t1001\t1012\t598\t192\t-1\t\n3\t1\t21\t1\t0\t0\t1001\t1012\t598\t192\t-1\t\n4\t1\t21\t1\t1\t0\t1001\t1012\t598\t192\t-1\t\n5\t1\t21\t1\t1\t1\t1001\t1012\t598\t192\t0.000000\t“@sosare\n",
+        "celulares": [],
+        "nombres": [],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/df4e6a9eef33c53a2fa12cb7.jpg"
     },
     {
       "id": "989c1890-f575-5c91-984d-c8bc2e935ca5",
@@ -33,7 +65,23 @@
       "celulares": [],
       "foto": "https://api.sosafeapp.com/reports/media_1793921817767_FOMZJI.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/989c1890-f575-5c91-984d-c8bc2e935ca5?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.505267040315,
+        "lng": -70.778862386942,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": "mz\n8\nSN\nya,\nwo\nE\no\n-\nae\n2,\ni\ny\nmend\n¿di\noe\nthy\nSee\noh\nge\nRERORTADO EN.\ne\nYA\ne\nPrep.\n“YO SOSAFE",
+        "celulares": [],
+        "nombres": [],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/fbd355bb138f1067d1a355e1.jpg"
     },
     {
       "id": "e664c626-30d6-52bb-8f45-40c99a38e44d",
@@ -44,7 +92,23 @@
       "celulares": [],
       "foto": "https://api.sosafeapp.com/reports/media_1793921107058_UST3OI.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/e664c626-30d6-52bb-8f45-40c99a38e44d?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.51144101302,
+        "lng": -70.745714977384,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": "a\nNe\nho\nEd\nE\nfy\nie\nhd\nPE\nat\nay\nNW\n)\nVi\nA,\nSÁ\nsa\nAAA oe\na\nSe\nMes (\nte\nit\nties\nis\nav\ne)\nmí\n, Cee\n“\nEs\nEd\ne\n> 7? a\ni)\ni}\nad |\n— y\n|\nMia\n= Y\nla\nREPO\nled\n®\nÑ\n1}\ny\na -\nq\nwri\n5 1a\nE",
+        "celulares": [],
+        "nombres": [],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/ef1f318d7e9782b7ecb8bb45.jpg"
     },
     {
       "id": "637bf209-c478-594f-9a94-99381444ce4c",
@@ -55,7 +119,23 @@
       "celulares": [],
       "foto": "https://api.sosafeapp.com/reports/media_1793920967760_NVRPL.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/637bf209-c478-594f-9a94-99381444ce4c?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.473025445122,
+        "lng": -70.752446242826,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": ">\nA\nY\nREPORTADO. EN\nY\nO sosAFE",
+        "celulares": [],
+        "nombres": [],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/d2d13d411e04db675e589432.jpg"
     },
     {
       "id": "758d11c2-dca5-55ac-aed5-9bdc5f42a75d",
@@ -66,7 +146,17 @@
       "celulares": [],
       "foto": "",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/758d11c2-dca5-55ac-aed5-9bdc5f42a75d?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.487904033308,
+        "lng": -70.750998593867,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "",
+      "lectura_foto": {
+        "estado": "sin_foto"
+      }
     },
     {
       "id": "54c23452-abaf-5417-bfaa-9db683d72f10",
@@ -77,7 +167,23 @@
       "celulares": [],
       "foto": "https://api.sosafeapp.com/reports/media_1793920105581_PDD18P.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/54c23452-abaf-5417-bfaa-9db683d72f10?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.466924600097,
+        "lng": -70.754387900233,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": "re\nver\nrey\nE\nFie\nee\nSS\nne\nE\nme\ne\na\nEs\nAE\nEz\ntee\nce\no\n=\noe\nSi\nee\npss\n23\nes\nts\na\na\nme\nE\nne\nOS\nze\nE\nZi\nue\nee\nee\nae:\noF\n2\nE\nES\n=\nat\nE\nE\nE\nret\nee\nnea:\nSar\noe\nEe\nBe\noe\n=\nsae\nFa\nnee\n=\nBoss\nLR\nce\nae\nE\nE\nos\nSES\nte\nLa\nee\nee\nE\neee\nes\nee\noi\na\nSs\neS\nae\nSS\nSS\nSa,\nFone\nae\naa\nsip\noy\nSe\nae\neat\nSi\nte\nae\noS\nie\nE\nabe\nde\n2\nee\n$\nje\n5\nE\nSS\nBe\nete\nbes\nES\nNES\nat\nBeen\nalae\na\ny\na\nwat\noo\noe\nRise\noe\nee\na\n=\na\n©\nSoke\nes\nBe\nSee\n=\nES\nE\nse:\na\nEat\nce\n2\nEa\na\nES\noe\nsem\nE\npee\nie\nzo\nee\n=\nE\nE\nE\nE\n=\nes\nse\noe\nLS,\noF\nES\nEx\nta)\nE\nZo\nae\nCee\nee\nfos\n=\nas\nES\n=\nSS\n5\nie\n>\noe\na\nSeni\na\nE\nie\nSe\nee\nEh\n=\nSs\n=\neS\n=\nES\nae\nay\n=\nSe\nSs\nne\nES\nSo\neee\nEE\nSs\nA\nSe\nSS\na\na\nNS\n=\noe\n=\n3%\nees\nae\nBee\nSe\noe\n4\nhee\nees\nSe\neee\nSs\nsat\neee\nES\n2\npac\na\nPS\neras\nee\na\nES\n=\nAE\nae\nae\nBe\nE\nse\nSeite\n=\nes\ne\nae\nSe\nas\nEE\na\nss\net\na\nae\n=\nES\nZi\nE\na\nA\nSes\nSS\neee.\nBe\nS\na\nga\nES\nSoe\nas\nHES\nZs\nget:\nae\nSees\n=e\n2\n=\nss\nas\nae\nPee\na\nES\ne\n=\nE\nss\nZN\nSt\nss\nvt\nE\nes\nLaa\nas\nae\na\nSS\noe\nse\nee\nqe\n5%\n3\nES\nSa,\n2\na\nae\nE\nE\ntes\nie\nE\nwe\ngore\n>\nde\nor\nZe\nZe\nES\nx\n2%\nat\nx\nse\na\ntiter\nPe\naS\nas\na\na\na\nAble\nEP\nBed,\nE\nEn\nE\noy\nee\na,\nSnes\nAe\nos\n>\nq\ne\nhe\noa\nrs\nae\nee\na\nEs:\ne\na\nia\nES\nss\noy\nes\nbb\nsn\noe\n<a\nah\nss\n=\nah\n=\nao\ne\noe\ne:\nne\nay\nGy\n$7\ne\nmS\nSas\nwe\ny\nos\nES\ns\nES\nsites\nSS\nBH\nE\na\nES\nSS\ncS\nx\n2s\nat\noe\nAe:\na\nE\ne\noe\nSe\ndE\n2%\n3)\n=p\naR\nE\nE\na\nmy\nees\nvs\na\na\ntea:\nee\nes\noe\nShite\nE\n09:\nS\nES\nOS\ny\nSS\nay\nme\nG2\nay\nES\nNS\ny\nds\nÑ\nay\n3\nwt\nas\n“se\neS\na\n$\nas\nee\nes\nSs\nE\n5,\n2.\na.\nde\nEa\n‘ia\nWo\nE\nBS\nDe\n<\ney:\ne.\npa\nfos\nie\nE\nai\noa,\nde\nsi,\net\nAP\neee\ngh\nShs\n(aot\nia\nby,\nae\nE\nOs:\nE\nES\n0\n2\n=\nES\nES\nYas\nTa\nx\n=\nZF\na\nae\naie\nqe\nE\nee\nen\nE",
+        "celulares": [],
+        "nombres": [],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/73b98c26fff647f322091cb1.jpg"
     },
     {
       "id": "70ce479c-6d1d-5fad-9650-4e5e45e0c70f",
@@ -88,7 +194,23 @@
       "celulares": [],
       "foto": "https://api.sosafeapp.com/reports/media_1793917143123_2DCSYV.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/70ce479c-6d1d-5fad-9650-4e5e45e0c70f?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.507876181094,
+        "lng": -70.766332782805,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": "Wf\nSs\n|\n1\n=\n\\|\nSy\n»\nia\nDE\nf\n4%\nAy\n=\nN\n3 7\n“E\n“ST\nNR\n»\na,\ny\na\na\nXN\nE\n{JZ\nla\na\n2)\nJ\nes\n- =\ne\nve: ¥\na\nI~,\nYe\ni\nPot\nS\nNS\nw\npi\nNS\nfei\ne\n5\n—<\nAN\ne\n“Y\nSots.\n~~\nFf,\nVey\n¥\nPY\nY\nMy\ny\nA)\nfee\nAY\nMia\napps\nff\nfof\nY\n<\n«y\n,\nde\noe\nA\nAe\ny\n“2\n1\niN\n\\\nNi\nEN\nAS\nre\note\no\nLAN\nYu\na\nNa\nSee\nNt\nyl\nIN\nNoé:\nee\non\nyn\ny hy\nVien\nesa\n1%\nAK\nfi\n\\\nak\nay\nE\ny\nach\nCes\nY)\nPo\nE\nnx\nKy\nvey\nar\ndo.\n/|\nY\n*",
+        "celulares": [],
+        "nombres": [],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/747d222965931d39de8f4c94.jpg"
     },
     {
       "id": "1a4acc01-2a97-53ea-b48b-ebc4811d84f4",
@@ -99,7 +221,42 @@
       "celulares": [],
       "foto": "https://api.sosafeapp.com/reports/media_1793915278287_0VIM1B.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/1a4acc01-2a97-53ea-b48b-ebc4811d84f4?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.474372672141,
+        "lng": -70.750796087086,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": "Por favor, nunca pido\nnada\nSE BUSCA\nSÍ\nJj\nBs\n==\nPe\n\\\n=\nElla — la Cloe, lleva perdida ya 3 dias y no\nhemos podido saber nada de ella, maulla\nmucho y pareciera que en sus ojitos tiene un\ndelineado. Se perdió por Avenida Hugo Bravo,\ncerda de la villa de Tomas moro\nPor favor si ni cerca viven por favor ayuda.\nMartin:+56 9 5398 9253 Camila: +56 9 8508\n8853\nREPORTADO EN\nOSOSAFE",
+        "celulares": [
+          "+56953989253",
+          "+56985088853"
+        ],
+        "nombres": [
+          {
+            "etiqueta": "Contacto del afiche",
+            "nombre": "Martin",
+            "evidencia": "Martin:+56 9"
+          },
+          {
+            "etiqueta": "Contacto del afiche",
+            "nombre": "Camila",
+            "evidencia": "Camila: +56 9"
+          },
+          {
+            "etiqueta": "Nombre de la mascota",
+            "nombre": "Cloe",
+            "evidencia": "Ella es la Cloe (revisado visualmente en el afiche)"
+          }
+        ],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/50d8c4623a692e46e80f9ceb.jpg"
     },
     {
       "id": "dd05a24e-5941-5ce3-807a-763c61118f43",
@@ -110,7 +267,23 @@
       "celulares": [],
       "foto": "https://api.sosafeapp.com/reports/media_1793914648012_QV6YK9.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/dd05a24e-5941-5ce3-807a-763c61118f43?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.509079943303,
+        "lng": -70.786822512746,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "luna",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": "'\nA\nbe\nsin eae?\nEs,\n|\nLG\nSe perdió: su rastro y el día\nLo Tae con Las Naciones en Maipú\n2\t1\t10\t0\t0\t0\t16\t610\t147\t81\t-1\t\n3\t1\t10\t1\t0\t0\t16\t610\t147\t81\t-1\t\n4\t1\t10\t1\t1\t0\t16\t610\t147\t81\t-1\t\n5\t1\t10\t1\t1\t1\t16\t610\t27\t81\t30.133429\ty\n5\t1\t10\t1\t1\t2\t83\t610\t80\t81\t32.965576\tBis\n2\t1\t11\t0\t0\t0\t204\t656\t562\t54\t-1\t\n3\t1\t11\t1\t0\t0\t204\t656\t562\t54\t-1\t\n4\t1\t11\t1\t1\t0\t204\t656\t562\t54\t-1\t\n5\t1\t11\t1\t1\t1\t204\t656\t416\t54\t96.717361\taproximadamente\n5\t1\t11\t1\t1\t2\t618\t652\t27\t62\t95.848526\ta\n5\t1\t11\t1\t1\t3\t681\t656\t85\t42\t91.944023\tlas\n5\t1\t11\t1\t1\t4\t747\t652\t22\t62\t88.890892\t'\n2\t1\t12\t0\t0\t0\t1138\t635\t48\t57\t-1\t\n3\t1\t12\t1\t0\t0\t1138\t635\t48\t57\t-1\t\n4\t1\t12\t1\t1\t0\t1138\t635\t48\t57\t-1\t\n5\t1\t12\t1\t1\t1\t1138\t635\t48\t57\t67.269798\tY\n2\t1\t13\t0\t0\t0\t162\t691\t905\t84\t-1\t\n3\t1\t13\t1\t0\t0\t162\t691\t905\t84\t-1\t\n4\t1\t13\t1\t1\t0\t162\t691\t905\t84\t-1\t\n5\t1\t13\t1\t1\t1\t162\t726\t55\t35\t95.170456\tIba\n5\t1\t13\t1\t1\t2\t232\t736\t20\t25\t95.170456\ta\n5\t1\t13\t1\t1\t3\t269\t725\t32\t36\t96.968399\tla\n5\t1\t13\t1\t1\t4\t318\t722\t199\t53\t96.929390\tpeluquería\n5\t1\t13\t1\t1\t5\t532\t733\t20\t35\t97.022331\ty\n5\t1\t13\t1\t1\t6\t565\t732\t38\t26\t96.882858\tse\n5\t1\t13\t1\t1\t7\t618\t723\t78\t52\t96.882858\tbajó\n5\t1\t13\t1\t1\t8\t711\t724\t184\t36\t96.873253\tcorriendo\n5\t1\t13\t1\t1\t9\t910\t725\t58\t36\t96.882919\tdel\n5\t1\t13\t1\t1\t10\t983\t691\t84\t71\t0.000000\t0%\n2\t1\t14\t0\t0\t0\t385\t767\t466\t74\t-1\t\n3\t1\t14\t1\t0\t0\t385\t767\t466\t74\t-1\t\n4\t1\t14\t1\t1\t0\t385\t767\t466\t74\t-1\t\n5\t1\t14\t1\t1\t1\t385\t779\t44\t25\t96.223755\ten\n5\t1\t14\t1\t1\t2\t445\t767\t178\t36\t96.606323\tdirección\n5\t1\t14\t1\t1\t3\t640\t767\t152\t74\t0.000000\tBlgispna\n5\t1\t14\t1\t1\t4\t820\t779\t31\t25\t87.128532\ta.\n2\t1\t15\t0\t0\t0\t66\t836\t387\t64\t-1\t\n3\t1\t15\t1\t0\t0\t66\t836\t387\t64\t-1\t\n4\t1\t15\t1\t1\t0\t66\t836\t387\t64\t-1\t\n5\t1\t15\t1\t1\t1\t66\t845\t184\t55\t96.991104\tResponde\n5\t1\t15\t1\t1\t2\t266\t841\t34\t38\t96.994476\tal\n5\t1\t15\t1\t1\t3\t314\t836\t139\t40\t96.892387\tnombre\n2\t1\t16\t0\t0\t0\t722\t840\t158\t36\t-1\t\n3\t1\t16\t1\t0\t0\t722\t840\t158\t36\t-1\t\n4\t1\t16\t1\t1\t0\t722\t840\t158\t36\t-1\t\n5\t1\t16\t1\t1\t1\t722\t850\t2\t3\t36.828339\t>\n5\t1\t16\t1\t1\t2\t756\t840\t124\t36\t74.772774\tTiene:\n2\t1\t17\t0\t0\t0\t92\t914\t54\t42\t-1\t\n3\t1\t17\t1\t0\t0\t92\t914\t54\t42\t-1\t\n4\t1\t17\t1\t1\t0\t92\t914\t54\t42\t-1\t\n5\t1\t17\t1\t1\t1\t92\t914\t54\t42\t96.829720\tde\n2\t1\t18\t0\t0\t0\t759\t901\t252\t83\t-1\t\n3\t1\t18\t1\t0\t0\t759\t901\t252\t83\t-1\t\n4\t1\t18\t1\t1\t0\t759\t901\t252\t83\t-1\t\n5\t1\t18\t1\t1\t1\t759\t903\t46\t37\t97.011604\tEs\n5\t1\t18\t1\t1\t2\t804\t901\t148\t83\t0.000000\tmeee\n5\t1\t18\t1\t1\t3\t966\t913\t45\t28\t0.000000\tse\n2\t1\t19\t0\t0\t0\t1130\t893\t45\t49\t-1\t\n3\t1\t19\t1\t0\t0\t1130\t893\t45\t49\t-1\t\n4\t1\t19\t1\t1\t0\t1130\t893\t45\t49\t-1\t\n5\t1\t19\t1\t1\t1\t1130\t893\t45\t49\t56.892681\t0\n2\t1\t20\t0\t0\t0\t17\t1029\t57\t58\t-1\t\n3\t1\t20\t1\t0\t0\t17\t1029\t57\t58\t-1\t\n4\t1\t20\t1\t1\t0\t17\t1029\t57\t58\t-1\t\n5\t1\t20\t1\t1\t1\t17\t1029\t57\t58\t56.738075\tY,\n2\t1\t21\t0\t0\t0\t299\t1027\t580\t73\t-1\t\n3\t1\t21\t1\t0\t0\t299\t1027\t580\t73\t-1\t\n4\t1\t21\t1\t1\t0\t299\t1027\t580\t73\t-1\t\n5\t1\t21\t1\t1\t1\t299\t1063\t258\t37\t95.872993\tComunicarse\n5\t1\t21\t1\t1\t2\t572\t1074\t21\t26\t96.682480\ta\n5\t1\t21\t1\t1\t3\t610\t1063\t55\t37\t96.682480\tlos\n5\t1\t21\t1\t1\t4\t680\t1027\t199\t73\t0.000000\tteléfono:\n2\t1\t22\t0\t0\t0\t868\t1123\t48\t18\t-1\t\n3\t1\t22\t1\t0\t0\t868\t1123\t48\t18\t-1\t\n4\t1\t22\t1\t1\t0\t868\t1123\t48\t18\t-1\t\n5\t1\t22\t1\t1\t1\t868\t1123\t48\t18\t45.067535\tojo\n2\t1\t23\t0\t0\t0\t60\t1071\t125\t106\t-1\t\n3\t1\t23\t1\t0\t0\t60\t1071\t125\t106\t-1\t\n4\t1\t23\t1\t1\t0\t60\t1071\t125\t106\t-1\t\n5\t1\t23\t1\t1\t1\t60\t1071\t125\t106\t51.692753\tSs\n2\t1\t24\t0\t0\t0\t199\t1110\t682\t120\t-1\t\n3\t1\t24\t1\t0\t0\t199\t1110\t682\t120\t-1\t\n4\t1\t24\t1\t1\t0\t199\t1110\t682\t120\t-1\t\n5\t1\t24\t1\t1\t1\t199\t1113\t107\t59\t96.002739\t+56\n5\t1\t24\t1\t1\t2\t325\t1113\t33\t59\t96.002739\t9\n5\t1\t24\t1\t1\t3\t379\t1113\t147\t105\t95.802910\t8548\n5\t1\t24\t1\t1\t4\t549\t1114\t143\t58\t93.235687\t8688\n5\t1\t24\t1\t1\t5\t707\t1110\t29\t66\t93.235161\t/\n5\t1\t24\t1\t1\t6\t750\t1114\t131\t116\t15.971870\t+58\n2\t1\t25\t0\t0\t0\t975\t1114\t185\t152\t-1\t\n3\t1\t25\t1\t0\t0\t975\t1114\t185\t152\t-1\t\n4\t1\t25\t1\t1\t0\t975\t1114\t185\t152\t-1\t\n5\t1\t25\t1\t1\t1\t975\t1114\t185\t152\t33.393799\tTee\n",
+        "celulares": [],
+        "nombres": [],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/8e7a2165d4b63b77e3b5f9b7.jpg"
     },
     {
       "id": "2627b0d3-e66d-529b-ae21-e97d625fdf53",
@@ -121,18 +294,26 @@
       "celulares": [],
       "foto": "https://api.sosafeapp.com/reports/media_1793914235357_ttsSv.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/2627b0d3-e66d-529b-ae21-e97d625fdf53?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
-    },
-    {
-      "id": "646a1b74-3f82-57fc-af6a-47e0b3207d9a",
-      "descripcion": "Buenas tardes, vuelvo a publicar este hermoso juguete ( gatito) , se nota que era de una niñita pequeña, lo encontré en Silva Carvallo con cuatro poniente,frente a la Shell, me gustaría que regresara con su dueña .\n\nPD : no sé porqué cambiaron la categoría de \" buena acción\" a \" mascota perdida \" 🤦",
-      "publicado_en": "2026-11-05T17:43:00-03:00",
-      "zona": "Maipú",
-      "autor_publicacion": "Paula infinito",
-      "celulares": [],
-      "foto": "https://api.sosafeapp.com/reports/media_1793911383381_I5PHHG.jpg",
-      "fuente_url": "https://www.widgets.sosafeapp.com/report/646a1b74-3f82-57fc-af6a-47e0b3207d9a?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.513892986804,
+        "lng": -70.783246030167,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": "al\nx\nSe perdió su rastro el a\nLo infants con Las Naciones en Maipú\nqe.\nv\naproximadamente a las\nIba a la peluquería y se bajó corriendo del auto\nen dirección Rinconada.\nResponde al nombre\n” Tiene\nde\nEs miedosa\n>\nComunicarse a los tolátonor\nGis\n6 9 8548 8688 / +56993616979\nMuchas gracias por su ayuda lt LO",
+        "celulares": [
+          "+56985488688",
+          "+56993616979"
+        ],
+        "nombres": [],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/5251d8c127f39d164fd8a788.jpg"
     },
     {
       "id": "37587bd9-c895-571c-9fc5-608baea0a72c",
@@ -143,7 +324,23 @@
       "celulares": [],
       "foto": "https://api.sosafeapp.com/reports/media_1793909740643_WoH4v.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/37587bd9-c895-571c-9fc5-608baea0a72c?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.545422936249,
+        "lng": -70.776342759644,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": "atl 5G >\n7 online\nPsje. Adriana Pérez llona E...\nD)\nJS\n- Esteban\nAnda un poodle negro con conar\nrojo será del pasaje?\n- Esteban\nki €\nIO\nWir\ny\n,\n\\\nnet\n|\nAA}\npee\n09:06\nmi\nA\nCA\n|\ny\nEsos\niy)\n\\\nge.\nIO Y\nhel",
+        "celulares": [],
+        "nombres": [],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/64d4e7b3d9f1bcfb3b8ee16a.jpg"
     },
     {
       "id": "0a7eabec-2caa-5d31-bffc-237b3ce7c49d",
@@ -154,7 +351,17 @@
       "celulares": [],
       "foto": "",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/0a7eabec-2caa-5d31-bffc-237b3ce7c49d?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.514320109268,
+        "lng": -70.763321924254,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "",
+      "lectura_foto": {
+        "estado": "sin_foto"
+      }
     },
     {
       "id": "80b92a8c-10f8-5a27-82eb-8fd0fc72cebd",
@@ -167,7 +374,23 @@
       ],
       "foto": "https://api.sosafeapp.com/reports/media_1793905798892_9KNV08.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/80b92a8c-10f8-5a27-82eb-8fd0fc72cebd?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.512840404231,
+        "lng": -70.792057178915,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": "e al\ndu\nk\nA\nvt\ntd\n5\nea\nyy\nA\ncory\n$\nBie\n=\n“3;\nEZ\nES an\nRe\nEL\nsy\neS\nLS\n&\nrt\nPu\ne\nfey\nLA\n0) S\n-~<\nee\n“7\na\nLR\nron\nA\nhy\nbf\nCA)\n%\nWy\nLidia\nrn Abr\naor\nLj\nTE\nGas\nie)\ny\nae\nan\nMi\n»\ndm\nYe\na8:\nE\nSa\nCF\nie\nop\nGy\nLy\nWi;\nE\nse\nPUE\nce\nos\n¡pea\nSN\noF\n(as\na\nny\nAS\nSoe\nEN\no\n4g:\na\nfe\ny\nih\nse\nLA\nANO\nSede\nSES\nee\nWA\n2\ney\nie\nE\natte\n1\ncrs\nes\n‘se\ney\nky\n2%\nwh\nii\na\nA,\n3%\nxy\nMuy\ne\n44:\nY\nSS\nBe\nLe\nE\nBs\neA\nWace\ni\nya\nLE ser\nFind\nfe\nae\nge\nARA\nEe\ners\nA\n2s\nrat\nth",
+        "celulares": [],
+        "nombres": [],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/02fb7356536b8453daf0d064.jpg"
     },
     {
       "id": "26cf78f2-9ad9-5b93-8c39-f26096f3abac",
@@ -178,7 +401,17 @@
       "celulares": [],
       "foto": "",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/26cf78f2-9ad9-5b93-8c39-f26096f3abac?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.5540567102,
+        "lng": -70.774226888994,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "",
+      "lectura_foto": {
+        "estado": "sin_foto"
+      }
     },
     {
       "id": "910a1af3-573f-567b-bcf8-05851e26b630",
@@ -189,7 +422,23 @@
       "celulares": [],
       "foto": "https://api.sosafeapp.com/reports/media_1793902587938_99Dbq.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/910a1af3-573f-567b-bcf8-05851e26b630?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.52304094616,
+        "lng": -70.776566673975,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": "e\nq.\nDA\ne\nq.\n>) que\nes\nSEA\npd\n=,\n7\noe\n0\nEM\n4)\nTAZ\nTiene 6 meses, es un gatito regalon, tiene\nuna plaquita negra con una huella al darla\nvuelta tiene un QR con sus datos y los\nnuestros, porfavor llamar a los siguientes\nnúmero, ayúdanos a que Taz vuelva a su\nhogar Olimpo 936\nL%\nAgradecemos cualquier igpenacion=E",
+        "celulares": [],
+        "nombres": [],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/9681b5ea80c3a9507ab64b1f.jpg"
     },
     {
       "id": "347869ba-498f-581c-9169-566bbe32594e",
@@ -200,7 +449,23 @@
       "celulares": [],
       "foto": "https://api.sosafeapp.com/reports/media_1793902532817_2jPxX.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/347869ba-498f-581c-9169-566bbe32594e?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.520320818218,
+        "lng": -70.775606127604,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": "e\nq.\nDA\ne\nq.\n>) que\nes\nSEA\npd\n=,\n7\noe\n0\nEM\n4)\nTAZ\nTiene 6 meses, es un gatito regalon, tiene\nuna plaquita negra con una huella al darla\nvuelta tiene un QR con sus datos y los\nnuestros, porfavor llamar a los siguientes\nnúmero, ayúdanos a que Taz vuelva a su\nhogar Olimpo 936\nL%\nAgradecemos cualquier igpenacion=E",
+        "celulares": [],
+        "nombres": [],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/2b60e04a1f58358bbff2c951.jpg"
     },
     {
       "id": "115e49c2-b6a6-5bbb-9243-ae6957ce0576",
@@ -211,7 +476,31 @@
       "celulares": [],
       "foto": "https://api.sosafeapp.com/reports/media_1793902456406_YzEkj.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/115e49c2-b6a6-5bbb-9243-ae6957ce0576?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.4712017943,
+        "lng": -70.738212826118,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": "Perrito perdid\nPorfavorr dar\ninformación si lo\nvieron.... Si alguien lo\ntiene porfavor devolver\nes muy dependiente!!!\nDar aviso porfavor el\ntoma medicamentos y\nlleva 1 día sin ellos, nos\npreocupa su salud..\nNecesita cuidados\nespeciales su nombre es\nZoro, tiene chip\nNúmeros de contacto\n+569 73480944 +569\nS30S2008:\nFRA\nam\nPia\nPa\nWAS\nY\nNi\n=\nTEN\nA\n(8.2\n17\na\ny,\nYe\nsan\na",
+        "celulares": [
+          "+56973480944"
+        ],
+        "nombres": [
+          {
+            "etiqueta": "Nombre de la mascota",
+            "nombre": "Zoro",
+            "evidencia": "su nombre es\nZoro"
+          }
+        ],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/31d69b26895d51676f39e098.jpg"
     },
     {
       "id": "48ad9659-d19f-5362-9adc-7b02ca2ae8e2",
@@ -222,7 +511,31 @@
       "celulares": [],
       "foto": "https://api.sosafeapp.com/reports/media_1793902395455_P9JuM.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/48ad9659-d19f-5362-9adc-7b02ca2ae8e2?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.4714619346,
+        "lng": -70.740583089085,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": "Perrito perdid\nPorfavorr dar\ninformación si lo\nvieron.... Si alguien lo\ntiene porfavor devolver\nes muy dependiente!!!\nDar aviso porfavor el\ntoma medicamentos y\nlleva 1 día sin ellos, nos\npreocupa su salud..\nNecesita cuidados\nespeciales su nombre es\nZoro, tiene chip\nNúmeros de contacto\n+569 73480944 +569\nS30S2008:\nFRA\nam\nPia\nPa\nWAS\nY\nNi\n=\nTEN\nA\n(8.2\n17\na\ny,\nYe\nsan\na",
+        "celulares": [
+          "+56973480944"
+        ],
+        "nombres": [
+          {
+            "etiqueta": "Nombre de la mascota",
+            "nombre": "Zoro",
+            "evidencia": "su nombre es\nZoro"
+          }
+        ],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/edeb7205276fdcd661457f36.jpg"
     },
     {
       "id": "7ecd222c-f2bb-588b-9236-f0f4244f2d81",
@@ -233,7 +546,31 @@
       "celulares": [],
       "foto": "https://api.sosafeapp.com/reports/media_1793902435083_HJ36v.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/7ecd222c-f2bb-588b-9236-f0f4244f2d81?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.469044410094,
+        "lng": -70.742558098627,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": "Perrito perdid\nPorfavorr dar\ninformación si lo\nvieron.... Si alguien lo\ntiene porfavor devolver\nes muy dependiente!!!\nDar aviso porfavor el\ntoma medicamentos y\nlleva 1 día sin ellos, nos\npreocupa su salud..\nNecesita cuidados\nespeciales su nombre es\nZoro, tiene chip\nNúmeros de contacto\n+569 73480944 +569\nS30S2008:\nFRA\nam\nPia\nPa\nWAS\nY\nNi\n=\nTEN\nA\n(8.2\n17\na\ny,\nYe\nsan\na",
+        "celulares": [
+          "+56973480944"
+        ],
+        "nombres": [
+          {
+            "etiqueta": "Nombre de la mascota",
+            "nombre": "Zoro",
+            "evidencia": "su nombre es\nZoro"
+          }
+        ],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/173127d979a1ffc24a530464.jpg"
     },
     {
       "id": "4e0d1a6b-a24b-5125-9da5-440266087b53",
@@ -244,7 +581,31 @@
       "celulares": [],
       "foto": "https://api.sosafeapp.com/reports/media_1793902302771_LCC37.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/4e0d1a6b-a24b-5125-9da5-440266087b53?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.469828122343,
+        "lng": -70.739839602455,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": "Perrito perdid\nPorfavorr dar\ninformación si lo\nvieron.... Si alguien lo\ntiene porfavor devolver\nes muy dependiente!!!\nDar aviso porfavor el\ntoma medicamentos y\nlleva 1 día sin ellos, nos\npreocupa su salud..\nNecesita cuidados\nespeciales su nombre es\nZoro, tiene chip\nNúmeros de contacto\n+569 73480944 +569\nS30S2008:\nFRA\nam\nPia\nPa\nWAS\nY\nNi\n=\nTEN\nA\n(8.2\n17\na\ny,\nYe\nsan\na",
+        "celulares": [
+          "+56973480944"
+        ],
+        "nombres": [
+          {
+            "etiqueta": "Nombre de la mascota",
+            "nombre": "Zoro",
+            "evidencia": "su nombre es\nZoro"
+          }
+        ],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/51991acc7100c64e740f0cbd.jpg"
     },
     {
       "id": "a5aa8f9d-b9e1-5734-a633-aeeb327e4fdf",
@@ -257,7 +618,23 @@
       ],
       "foto": "https://api.sosafeapp.com/reports/media_1793901732352_6tNl4.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/a5aa8f9d-b9e1-5734-a633-aeeb327e4fdf?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.520416719472,
+        "lng": -70.775469152426,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": "ms\naS\nom\n_—\ny\nA\nAS\n4d\n0\n-\n=$\n>\n7, }\na 8",
+        "celulares": [],
+        "nombres": [],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/b9061c7afbebdf1355453118.jpg"
     },
     {
       "id": "73c5c738-8256-55a7-9ed6-0791470fbec9",
@@ -268,7 +645,23 @@
       "celulares": [],
       "foto": "https://api.sosafeapp.com/reports/media_1793899953597_BQXP7U.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/73c5c738-8256-55a7-9ed6-0791470fbec9?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.514680599972,
+        "lng": -70.781126841903,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": "'\nA\nbe\nsin eae?\nEs,\n|\nLG\nSe perdió: su rastro y el día\nLo Tae con Las Naciones en Maipú\n2\t1\t10\t0\t0\t0\t16\t610\t147\t81\t-1\t\n3\t1\t10\t1\t0\t0\t16\t610\t147\t81\t-1\t\n4\t1\t10\t1\t1\t0\t16\t610\t147\t81\t-1\t\n5\t1\t10\t1\t1\t1\t16\t610\t27\t81\t30.133429\ty\n5\t1\t10\t1\t1\t2\t83\t610\t80\t81\t32.965576\tBis\n2\t1\t11\t0\t0\t0\t204\t656\t562\t54\t-1\t\n3\t1\t11\t1\t0\t0\t204\t656\t562\t54\t-1\t\n4\t1\t11\t1\t1\t0\t204\t656\t562\t54\t-1\t\n5\t1\t11\t1\t1\t1\t204\t656\t416\t54\t96.717361\taproximadamente\n5\t1\t11\t1\t1\t2\t618\t652\t27\t62\t95.848526\ta\n5\t1\t11\t1\t1\t3\t681\t656\t85\t42\t91.944023\tlas\n5\t1\t11\t1\t1\t4\t747\t652\t22\t62\t88.890892\t'\n2\t1\t12\t0\t0\t0\t1138\t635\t48\t57\t-1\t\n3\t1\t12\t1\t0\t0\t1138\t635\t48\t57\t-1\t\n4\t1\t12\t1\t1\t0\t1138\t635\t48\t57\t-1\t\n5\t1\t12\t1\t1\t1\t1138\t635\t48\t57\t67.269798\tY\n2\t1\t13\t0\t0\t0\t162\t691\t905\t84\t-1\t\n3\t1\t13\t1\t0\t0\t162\t691\t905\t84\t-1\t\n4\t1\t13\t1\t1\t0\t162\t691\t905\t84\t-1\t\n5\t1\t13\t1\t1\t1\t162\t726\t55\t35\t95.170456\tIba\n5\t1\t13\t1\t1\t2\t232\t736\t20\t25\t95.170456\ta\n5\t1\t13\t1\t1\t3\t269\t725\t32\t36\t96.968399\tla\n5\t1\t13\t1\t1\t4\t318\t722\t199\t53\t96.929390\tpeluquería\n5\t1\t13\t1\t1\t5\t532\t733\t20\t35\t97.022331\ty\n5\t1\t13\t1\t1\t6\t565\t732\t38\t26\t96.882858\tse\n5\t1\t13\t1\t1\t7\t618\t723\t78\t52\t96.882858\tbajó\n5\t1\t13\t1\t1\t8\t711\t724\t184\t36\t96.873253\tcorriendo\n5\t1\t13\t1\t1\t9\t910\t725\t58\t36\t96.882919\tdel\n5\t1\t13\t1\t1\t10\t983\t691\t84\t71\t0.000000\t0%\n2\t1\t14\t0\t0\t0\t385\t767\t466\t74\t-1\t\n3\t1\t14\t1\t0\t0\t385\t767\t466\t74\t-1\t\n4\t1\t14\t1\t1\t0\t385\t767\t466\t74\t-1\t\n5\t1\t14\t1\t1\t1\t385\t779\t44\t25\t96.223755\ten\n5\t1\t14\t1\t1\t2\t445\t767\t178\t36\t96.606323\tdirección\n5\t1\t14\t1\t1\t3\t640\t767\t152\t74\t0.000000\tBlgispna\n5\t1\t14\t1\t1\t4\t820\t779\t31\t25\t87.128532\ta.\n2\t1\t15\t0\t0\t0\t66\t836\t387\t64\t-1\t\n3\t1\t15\t1\t0\t0\t66\t836\t387\t64\t-1\t\n4\t1\t15\t1\t1\t0\t66\t836\t387\t64\t-1\t\n5\t1\t15\t1\t1\t1\t66\t845\t184\t55\t96.991104\tResponde\n5\t1\t15\t1\t1\t2\t266\t841\t34\t38\t96.994476\tal\n5\t1\t15\t1\t1\t3\t314\t836\t139\t40\t96.892387\tnombre\n2\t1\t16\t0\t0\t0\t722\t840\t158\t36\t-1\t\n3\t1\t16\t1\t0\t0\t722\t840\t158\t36\t-1\t\n4\t1\t16\t1\t1\t0\t722\t840\t158\t36\t-1\t\n5\t1\t16\t1\t1\t1\t722\t850\t2\t3\t36.828339\t>\n5\t1\t16\t1\t1\t2\t756\t840\t124\t36\t74.772774\tTiene:\n2\t1\t17\t0\t0\t0\t92\t914\t54\t42\t-1\t\n3\t1\t17\t1\t0\t0\t92\t914\t54\t42\t-1\t\n4\t1\t17\t1\t1\t0\t92\t914\t54\t42\t-1\t\n5\t1\t17\t1\t1\t1\t92\t914\t54\t42\t96.829720\tde\n2\t1\t18\t0\t0\t0\t759\t901\t252\t83\t-1\t\n3\t1\t18\t1\t0\t0\t759\t901\t252\t83\t-1\t\n4\t1\t18\t1\t1\t0\t759\t901\t252\t83\t-1\t\n5\t1\t18\t1\t1\t1\t759\t903\t46\t37\t97.011604\tEs\n5\t1\t18\t1\t1\t2\t804\t901\t148\t83\t0.000000\tmeee\n5\t1\t18\t1\t1\t3\t966\t913\t45\t28\t0.000000\tse\n2\t1\t19\t0\t0\t0\t1130\t893\t45\t49\t-1\t\n3\t1\t19\t1\t0\t0\t1130\t893\t45\t49\t-1\t\n4\t1\t19\t1\t1\t0\t1130\t893\t45\t49\t-1\t\n5\t1\t19\t1\t1\t1\t1130\t893\t45\t49\t56.892681\t0\n2\t1\t20\t0\t0\t0\t17\t1029\t57\t58\t-1\t\n3\t1\t20\t1\t0\t0\t17\t1029\t57\t58\t-1\t\n4\t1\t20\t1\t1\t0\t17\t1029\t57\t58\t-1\t\n5\t1\t20\t1\t1\t1\t17\t1029\t57\t58\t56.738075\tY,\n2\t1\t21\t0\t0\t0\t299\t1027\t580\t73\t-1\t\n3\t1\t21\t1\t0\t0\t299\t1027\t580\t73\t-1\t\n4\t1\t21\t1\t1\t0\t299\t1027\t580\t73\t-1\t\n5\t1\t21\t1\t1\t1\t299\t1063\t258\t37\t95.872993\tComunicarse\n5\t1\t21\t1\t1\t2\t572\t1074\t21\t26\t96.682480\ta\n5\t1\t21\t1\t1\t3\t610\t1063\t55\t37\t96.682480\tlos\n5\t1\t21\t1\t1\t4\t680\t1027\t199\t73\t0.000000\tteléfono:\n2\t1\t22\t0\t0\t0\t868\t1123\t48\t18\t-1\t\n3\t1\t22\t1\t0\t0\t868\t1123\t48\t18\t-1\t\n4\t1\t22\t1\t1\t0\t868\t1123\t48\t18\t-1\t\n5\t1\t22\t1\t1\t1\t868\t1123\t48\t18\t45.067535\tojo\n2\t1\t23\t0\t0\t0\t60\t1071\t125\t106\t-1\t\n3\t1\t23\t1\t0\t0\t60\t1071\t125\t106\t-1\t\n4\t1\t23\t1\t1\t0\t60\t1071\t125\t106\t-1\t\n5\t1\t23\t1\t1\t1\t60\t1071\t125\t106\t51.692753\tSs\n2\t1\t24\t0\t0\t0\t199\t1110\t682\t120\t-1\t\n3\t1\t24\t1\t0\t0\t199\t1110\t682\t120\t-1\t\n4\t1\t24\t1\t1\t0\t199\t1110\t682\t120\t-1\t\n5\t1\t24\t1\t1\t1\t199\t1113\t107\t59\t96.002739\t+56\n5\t1\t24\t1\t1\t2\t325\t1113\t33\t59\t96.002739\t9\n5\t1\t24\t1\t1\t3\t379\t1113\t147\t105\t95.802910\t8548\n5\t1\t24\t1\t1\t4\t549\t1114\t143\t58\t93.235687\t8688\n5\t1\t24\t1\t1\t5\t707\t1110\t29\t66\t93.235161\t/\n5\t1\t24\t1\t1\t6\t750\t1114\t131\t116\t15.971870\t+58\n2\t1\t25\t0\t0\t0\t975\t1114\t185\t152\t-1\t\n3\t1\t25\t1\t0\t0\t975\t1114\t185\t152\t-1\t\n4\t1\t25\t1\t1\t0\t975\t1114\t185\t152\t-1\t\n5\t1\t25\t1\t1\t1\t975\t1114\t185\t152\t33.393799\tTee\n",
+        "celulares": [],
+        "nombres": [],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/18a0362d750840160a3d0a04.jpg"
     },
     {
       "id": "771dfdec-346c-51b6-af85-6ee306911bf6",
@@ -279,7 +672,23 @@
       "celulares": [],
       "foto": "https://api.sosafeapp.com/reports/media_1793896616346_KXjAc.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/771dfdec-346c-51b6-af85-6ee306911bf6?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.509980227235,
+        "lng": -70.795667309012,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": "==\nSS\nW\nMy\nIN\nMh\nYN\nS\nNN\n~\nIN\na\nNY\n«.\nPp)\nNN\nWi\nih\nA\n2\t1\t20\t0\t0\t0\t479\t680\t13\t19\t-1\t\n3\t1\t20\t1\t0\t0\t479\t680\t13\t19\t-1\t\n4\t1\t20\t1\t1\t0\t479\t680\t13\t19\t-1\t\n5\t1\t20\t1\t1\t1\t479\t680\t13\t19\t22.890659\tWw\n2\t1\t21\t0\t0\t0\t227\t704\t11\t12\t-1\t\n3\t1\t21\t1\t0\t0\t227\t704\t11\t12\t-1\t\n4\t1\t21\t1\t1\t0\t227\t704\t11\t12\t-1\t\n5\t1\t21\t1\t1\t1\t227\t704\t11\t12\t21.991825\t10\n2\t1\t22\t0\t0\t0\t243\t706\t25\t16\t-1\t\n3\t1\t22\t1\t0\t0\t243\t706\t25\t16\t-1\t\n4\t1\t22\t1\t1\t0\t243\t706\t25\t16\t-1\t\n5\t1\t22\t1\t1\t1\t243\t706\t25\t16\t56.136585\t¡VAN\n2\t1\t23\t0\t0\t0\t552\t699\t20\t14\t-1\t\n3\t1\t23\t1\t0\t0\t552\t699\t20\t14\t-1\t\n4\t1\t23\t1\t1\t0\t552\t699\t20\t14\t-1\t\n5\t1\t23\t1\t1\t1\t552\t699\t20\t14\t45.504070\tUe\n2\t1\t24\t0\t0\t0\t562\t709\t26\t16\t-1\t\n3\t1\t24\t1\t0\t0\t562\t709\t26\t16\t-1\t\n4\t1\t24\t1\t1\t0\t562\t709\t26\t16\t-1\t\n5\t1\t24\t1\t1\t1\t562\t709\t26\t16\t20.128235\teS\n2\t1\t25\t0\t0\t0\t429\t742\t44\t11\t-1\t\n3\t1\t25\t1\t0\t0\t429\t742\t44\t11\t-1\t\n4\t1\t25\t1\t1\t0\t429\t742\t44\t11\t-1\t\n5\t1\t25\t1\t1\t1\t429\t742\t44\t11\t89.868759\tREPG\n2\t1\t26\t0\t0\t0\t554\t739\t22\t14\t-1\t\n3\t1\t26\t1\t0\t0\t554\t739\t22\t14\t-1\t\n4\t1\t26\t1\t1\t0\t554\t739\t22\t14\t-1\t\n5\t1\t26\t1\t1\t1\t554\t739\t22\t14\t38.111618\taN\n2\t1\t27\t0\t0\t0\t548\t770\t78\t33\t-1\t\n3\t1\t27\t1\t0\t0\t548\t770\t78\t33\t-1\t\n4\t1\t27\t1\t1\t0\t548\t770\t78\t33\t-1\t\n5\t1\t27\t1\t1\t1\t548\t770\t78\t33\t78.014206\tAFE\n",
+        "celulares": [],
+        "nombres": [],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/766b354d02db842333babb25.jpg"
     },
     {
       "id": "7c451ef2-078c-56a6-ad67-2eee4d0db8de",
@@ -290,7 +699,23 @@
       "celulares": [],
       "foto": "https://api.sosafeapp.com/reports/media_1793896354996_6T5XIM.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/7c451ef2-078c-56a6-ad67-2eee4d0db8de?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.508578703898,
+        "lng": -70.78197542578,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "chimuelo",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": "Th\n\\\nY\n2\t1\t4\t0\t0\t0\t587\t712\t50\t27\t-1\t\n3\t1\t4\t1\t0\t0\t587\t712\t50\t27\t-1\t\n4\t1\t4\t1\t1\t0\t587\t712\t50\t27\t-1\t\n5\t1\t4\t1\t1\t1\t587\t712\t50\t27\t26.595335\tNIP\n2\t1\t5\t0\t0\t0\t665\t696\t14\t39\t-1\t\n3\t1\t5\t1\t0\t0\t665\t696\t14\t39\t-1\t\n4\t1\t5\t1\t1\t0\t665\t696\t14\t39\t-1\t\n5\t1\t5\t1\t1\t1\t665\t696\t14\t39\t26.141949\ti\n2\t1\t6\t0\t0\t0\t336\t710\t70\t46\t-1\t\n3\t1\t6\t1\t0\t0\t336\t710\t70\t46\t-1\t\n4\t1\t6\t1\t1\t0\t336\t710\t70\t46\t-1\t\n5\t1\t6\t1\t1\t1\t336\t710\t70\t46\t31.964893\ta\n2\t1\t7\t0\t0\t0\t644\t779\t23\t25\t-1\t\n3\t1\t7\t1\t0\t0\t644\t779\t23\t25\t-1\t\n4\t1\t7\t1\t1\t0\t644\t779\t23\t25\t-1\t\n5\t1\t7\t1\t1\t1\t644\t779\t23\t25\t45.382160\tWh\n2\t1\t8\t0\t0\t0\t830\t807\t62\t8\t-1\t\n3\t1\t8\t1\t0\t0\t830\t807\t62\t8\t-1\t\n4\t1\t8\t1\t1\t0\t830\t807\t62\t8\t-1\t\n5\t1\t8\t1\t1\t1\t830\t807\t12\t7\t66.293846\t.\n5\t1\t8\t1\t1\t2\t881\t808\t11\t7\t26.786423\t«€\n2\t1\t9\t0\t0\t0\t381\t810\t99\t55\t-1\t\n3\t1\t9\t1\t0\t0\t381\t810\t99\t55\t-1\t\n4\t1\t9\t1\t1\t0\t381\t810\t99\t55\t-1\t\n5\t1\t9\t1\t1\t1\t381\t813\t38\t52\t40.226170\ty\n5\t1\t9\t1\t1\t2\t434\t806\t46\t63\t63.958160\tMe\n2\t1\t10\t0\t0\t0\t598\t836\t39\t28\t-1\t\n3\t1\t10\t1\t0\t0\t598\t836\t39\t28\t-1\t\n4\t1\t10\t1\t1\t0\t598\t836\t39\t28\t-1\t\n5\t1\t10\t1\t1\t1\t598\t836\t39\t28\t26.452480\tE\n2\t1\t11\t0\t0\t0\t786\t828\t125\t37\t-1\t\n3\t1\t11\t1\t0\t0\t786\t828\t125\t37\t-1\t\n4\t1\t11\t1\t1\t0\t786\t828\t125\t37\t-1\t\n5\t1\t11\t1\t1\t1\t786\t828\t125\t37\t68.643936\tDe\n5\t1\t11\t1\t1\t2\t888\t824\t26\t51\t27.086548\t<\n2\t1\t12\t0\t0\t0\t421\t900\t34\t45\t-1\t\n3\t1\t12\t1\t0\t0\t421\t900\t54\t45\t-1\t\n4\t1\t12\t1\t1\t0\t421\t900\t34\t45\t-1\t\n5\t1\t12\t1\t1\t1\t421\t900\t34\t45\t27.325607\tae\n2\t1\t13\t0\t0\t0\t770\t885\t104\t29\t-1\t\n3\t1\t13\t1\t0\t0\t770\t885\t104\t29\t-1\t\n4\t1\t13\t1\t1\t0\t770\t885\t104\t29\t-1\t\n5\t1\t13\t1\t1\t1\t770\t885\t104\t29\t0.000000\tPUE,\n",
+        "celulares": [],
+        "nombres": [],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/e00950068617c5cd83dd5677.jpg"
     },
     {
       "id": "ed3dfc58-2c16-54d9-a932-20956fa6fd6a",
@@ -303,7 +728,23 @@
       ],
       "foto": "https://api.sosafeapp.com/reports/media_1793894830097_y7aNS.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/ed3dfc58-2c16-54d9-a932-20956fa6fd6a?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.510238761113,
+        "lng": -70.748878307706,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": "Se busca gatita llamada\nATENEA\nEs blanca y su pelaje tiene\nmanchas anaranjadas con gris\nau\nYe\n>.\nS\n4\nno\nA\nwd\n\\\nEs muy ti\nida, esta esteri\nada, ultima vez vista en Av. Segunda\ntransversal 2390, maipú.\nCualquier información contactar a +569°46648380 6 por\nInstagram @nomoreakalove aah:",
+        "celulares": [],
+        "nombres": [],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/a3256a3ff46434302f0c5682.jpg"
     },
     {
       "id": "6927ae62-1cb1-51eb-848e-58e952ea70dd",
@@ -316,7 +757,23 @@
       ],
       "foto": "https://api.sosafeapp.com/reports/media_1793893654256_T2DEVQ.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/6927ae62-1cb1-51eb-848e-58e952ea70dd?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.472206641575,
+        "lng": -70.734965018928,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": "y\ntom\nY\nANN\ne\nHa\nE\n-\nTeg.\nve,\nad",
+        "celulares": [],
+        "nombres": [],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/1e3b473880c228510305ddc6.jpg"
     },
     {
       "id": "65790e6c-ac8d-551b-a647-5bafc6c9e6e3",
@@ -327,7 +784,23 @@
       "celulares": [],
       "foto": "https://api.sosafeapp.com/reports/media_1793893551982_lIgIi.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/65790e6c-ac8d-551b-a647-5bafc6c9e6e3?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.490048063493,
+        "lng": -70.772688687927,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": "re\nNS\n\\\n(”\nSO\nÚ\n/\nIN\ny\nES)\nMJ\nip’\nF y\n1",
+        "celulares": [],
+        "nombres": [],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/5894adaf3e72ed08885af057.jpg"
     },
     {
       "id": "b9fa9b96-0ad7-58d0-b375-84d23609dcef",
@@ -338,7 +811,17 @@
       "celulares": [],
       "foto": "",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/b9fa9b96-0ad7-58d0-b375-84d23609dcef?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.489995706345,
+        "lng": -70.772595858219,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "",
+      "lectura_foto": {
+        "estado": "sin_foto"
+      }
     },
     {
       "id": "28eb6261-6298-51b5-82a9-630a2f5ae754",
@@ -349,7 +832,23 @@
       "celulares": [],
       "foto": "https://api.sosafeapp.com/reports/media_1793891631082_X7pIv.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/28eb6261-6298-51b5-82a9-630a2f5ae754?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.506045817046,
+        "lng": -70.746659179906,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "Atenea",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": "Se busca gatita llamada\nATENEA\nEs blanca y su pelaje tiene\nmanchas anaranjadas con gris\nau\nYe\n>.\nS\n4\nno\nA\nwd\n\\\nEs muy ti\nida, esta esteri\nada, ultima vez vista en Av. Segunda\ntransversal 2390, maipú.\nCualquier información contactar a +569°46648380 6 por\nInstagram @nomoreakalove aah:",
+        "celulares": [],
+        "nombres": [],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/fbeb4e766e890915bf16145e.jpg"
     },
     {
       "id": "f7053f20-7cc1-5357-a766-152e2220eac5",
@@ -360,7 +859,23 @@
       "celulares": [],
       "foto": "https://api.sosafeapp.com/reports/media_1793889568492_RH2JJA.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/f7053f20-7cc1-5357-a766-152e2220eac5?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.481108415491,
+        "lng": -70.754145495594,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": "| FA\n4p\ny\n|\nhe\nel\nfod\nley\nE\n/\nLee\nVas)\npe\nLE\ne.\nA\nhd\n- (40\npy\n2\nsty\nme\nyd /\nWI\nAe\nCm\ne\nqa\nde\nSag\n2)\nES\nPay\nSG,\nFe\nWy\nVE\n8.4\n«y\nYe\nR\nZA\niD\n4\nTE\nNY\na\nE\n»\nSr\nÁ\nCe\ny\ncs\n')\ney |\nY\nA)\n>\ne:\n.3\nid\nce\nZ\nie\nwee)\nES\nLS\ne\nCy\nAY\neK\n8\nRose\nREPORTADO EN\nOSOSAFE",
+        "celulares": [],
+        "nombres": [],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/35db82e7c5c13366df872711.jpg"
     },
     {
       "id": "f85df456-798e-5792-8c1c-0b0205742c9b",
@@ -371,7 +886,23 @@
       "celulares": [],
       "foto": "https://api.sosafeapp.com/reports/media_1793887851531_c2cqQ.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/f85df456-798e-5792-8c1c-0b0205742c9b?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.518978220283,
+        "lng": -70.795329386063,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "Aslan",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": "co\n> Ay\na\nepee,\ny",
+        "celulares": [],
+        "nombres": [],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/a845fdacddb9856f4aec6e08.jpg"
     },
     {
       "id": "345181e3-b236-5f27-9194-00a5f2eec7a1",
@@ -384,7 +915,23 @@
       ],
       "foto": "https://api.sosafeapp.com/reports/media_1793887628525_gOvT2.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/345181e3-b236-5f27-9194-00a5f2eec7a1?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.512581059281,
+        "lng": -70.751019269624,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": "Cy\n‘a ite\nay\n.\nein gt\nis\ny\n2 e\ne\na, 0\ne\n0090\nPt\nww\na\n<a\nW\nSON\nSs\nMON\n7\nás\nY\ny\n(WN\nFADO EN\nAFE",
+        "celulares": [],
+        "nombres": [],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/d85c61b00e713a0e57abf951.jpg"
     },
     {
       "id": "41b96fc9-6f4d-57b6-b9f1-4db60ef557c6",
@@ -395,7 +942,23 @@
       "celulares": [],
       "foto": "https://api.sosafeapp.com/reports/media_1793884435509_60Mtj.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/41b96fc9-6f4d-57b6-b9f1-4db60ef557c6?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.516089940927,
+        "lng": -70.754666184474,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": "(Se\nil\nOS\nA\nlid\n3,\nae\n=\ne\n7,\nea\nPs\n=\nee\n> 052\n>\nBe\ny\nse\npe\n~\nUS\noes\nE\nA\nre\nAS\n=\ncee\nSt\nae\n4\npe\nue",
+        "celulares": [],
+        "nombres": [],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/c6c54c69503aab014d963a79.jpg"
     },
     {
       "id": "0e259ca0-a8e5-532f-8f3a-5dd446317415",
@@ -406,7 +969,23 @@
       "celulares": [],
       "foto": "https://api.sosafeapp.com/reports/media_1793881222542_ZPPR71.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/0e259ca0-a8e5-532f-8f3a-5dd446317415?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.510018117009,
+        "lng": -70.755412168801,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": "dls\n¡NS\npod",
+        "celulares": [],
+        "nombres": [],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/8a416fb88a1e8884b68a5418.jpg"
     },
     {
       "id": "4f3084f4-0159-5377-bbb6-101af4547799",
@@ -417,7 +996,23 @@
       "celulares": [],
       "foto": "https://api.sosafeapp.com/reports/media_1793881125946_B2j4z.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/4f3084f4-0159-5377-bbb6-101af4547799?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.475198005357,
+        "lng": -70.740320133111,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": "na\ne\nqa\nis\nir\npes\ng\nyak\nrg?\nZA\ne\nO\nsa?\nnee\noS\nea\nbY,\nAn\nvie\nSs\nES\n2),\nCES\nES\n>\nBy\nch\n46\nN\n4\nbh:\nHy\nOey,",
+        "celulares": [],
+        "nombres": [],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/5c8e4d5af3f025e7410ad0e0.jpg"
     },
     {
       "id": "8f3bc974-01b6-58d4-82f4-fa040057318c",
@@ -428,7 +1023,23 @@
       "celulares": [],
       "foto": "https://api.sosafeapp.com/reports/media_1793881194236_mJvTp.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/8f3bc974-01b6-58d4-82f4-fa040057318c?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.498525155589,
+        "lng": -70.757417163017,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": "[Pa\nY\na\n=\nSs\n:\nsa.\nA\ned\nQz\nES\nee\n, ve?\nLA\nA\nee\n2\t1\t17\t0\t0\t0\t172\t368\t37\t20\t-1\t\n3\t1\t17\t1\t0\t0\t172\t368\t37\t20\t-1\t\n4\t1\t17\t1\t1\t0\t172\t368\t37\t20\t-1\t\n5\t1\t17\t1\t1\t1\t172\t368\t37\t20\t64.023178\ter,\n2\t1\t18\t0\t0\t0\t550\t454\t33\t15\t-1\t\n3\t1\t18\t1\t0\t0\t550\t454\t33\t15\t-1\t\n4\t1\t18\t1\t1\t0\t550\t454\t33\t15\t-1\t\n5\t1\t18\t1\t1\t1\t550\t454\t33\t15\t17.044601\tEN\n2\t1\t19\t0\t0\t0\t200\t493\t97\t29\t-1\t\n3\t1\t19\t1\t0\t0\t200\t493\t97\t29\t-1\t\n4\t1\t19\t1\t1\t0\t200\t493\t97\t29\t-1\t\n5\t1\t19\t1\t1\t1\t200\t493\t97\t29\t31.668215\tos\n2\t1\t20\t0\t0\t0\t411\t737\t30\t23\t-1\t\n3\t1\t20\t1\t0\t0\t411\t737\t30\t23\t-1\t\n4\t1\t20\t1\t1\t0\t411\t737\t30\t23\t-1\t\n5\t1\t20\t1\t1\t1\t411\t737\t30\t23\t30.175476\tE\n2\t1\t21\t0\t0\t0\t440\t757\t136\t24\t-1\t\n3\t1\t21\t1\t0\t0\t440\t757\t136\t24\t-1\t\n4\t1\t21\t1\t1\t0\t440\t757\t136\t24\t-1\t\n5\t1\t21\t1\t1\t1\t440\t757\t13\t23\t9.562311\ta\n5\t1\t21\t1\t1\t2\t493\t768\t83\t13\t49.492790\tBA:\n2\t1\t22\t0\t0\t0\t302\t837\t36\t17\t-1\t\n3\t1\t22\t1\t0\t0\t302\t837\t36\t17\t-1\t\n4\t1\t22\t1\t1\t0\t302\t837\t36\t17\t-1\t\n5\t1\t22\t1\t1\t1\t302\t837\t36\t17\t26.763786\tE\n",
+        "celulares": [],
+        "nombres": [],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/16637ff4c9085bed0e4c25a6.jpg"
     },
     {
       "id": "c23f8168-c8a1-5290-adfb-92ee618d4025",
@@ -439,7 +1050,23 @@
       "celulares": [],
       "foto": "https://api.sosafeapp.com/reports/media_1793880211335_C0IWKM.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/c23f8168-c8a1-5290-adfb-92ee618d4025?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.499348726575,
+        "lng": -70.744466409087,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": "a\nkeds\nyh\n4%\na\n4\nAN\na\ne Y\nLO Aa\ner '\\ jl\noom hems\nA\nsue\n¿Y\nÑ\nJ\nwi\na,\na\nPA\ne\nr\nA\ny 4",
+        "celulares": [],
+        "nombres": [],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/8780f9a4e57db27fb2864832.jpg"
     },
     {
       "id": "7968834f-75c1-57bf-89fd-82b1f6ee5a50",
@@ -450,7 +1077,23 @@
       "celulares": [],
       "foto": "https://api.sosafeapp.com/reports/media_1793853050929_9ZY3HI.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/7968834f-75c1-57bf-89fd-82b1f6ee5a50?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.507495983327,
+        "lng": -70.747119113803,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "Atenea",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": "S\nEY\nA\nY\ner\nDO EN\nOSAR",
+        "celulares": [],
+        "nombres": [],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/77483c6527cae19cd09151d3.jpg"
     },
     {
       "id": "0c363df5-09b5-50cf-85b1-e09aa2d59d7c",
@@ -463,7 +1106,23 @@
       ],
       "foto": "https://api.sosafeapp.com/reports/media_1793847763314_azf6x.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/0c363df5-09b5-50cf-85b1-e09aa2d59d7c?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.508068673804,
+        "lng": -70.747189397043,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "Atenea",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": "—\nel\nÑ\ni\nLN\nREPORTADO EN\nOSOSAFE",
+        "celulares": [],
+        "nombres": [],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/d9267c895796838ebb9a47a5.jpg"
     },
     {
       "id": "572d521f-d34d-5542-abd5-03a4336d2e62",
@@ -474,7 +1133,23 @@
       "celulares": [],
       "foto": "https://api.sosafeapp.com/reports/media_1793845991993_NNV4C7.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/572d521f-d34d-5542-abd5-03a4336d2e62?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.513214987731,
+        "lng": -70.791951566935,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "Tai",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": "de\n>\n>.\n<\nfy\nae\na\n“agcy\n=\nNes\nES\nus\neS\nnace\nsy\nMS\nLa\nae\nEN\nY\n>\nEN\nMN\nE\nE\nEA\npn PR\n'Ui\n—\n—\n—\ne\n——\ned\n<=\",\nse,\nTÍ\nLE,\n7\nMak\nVez\nÑ\noN\n2\n=\nUf\ncs\n%\nhe\nWns’\nHr”\nTF\nA\ngy:\n7,\nJA\nge\nY\nhy\nWipe\nY\natt\nEos,\nit\nHie\ne\n7)\nFL.\n77,\ne\nE\nE\nHy)\ny\nse\na\nWeis\ni\\\nfF\nAid\no\nBe\noe\nes\nAN\nPee\ney\nE\nA\nAÑ\nRS\nire\nyes\nSea\nae\nberets,\ns\n= ni\nSve\nLES\nai\nen\nchp\nATG\nsh\nbie\nCie\nPa\nse\n77\nA\neS\n18\nq\nRo\" See\nane\nJi\n{ses\noy\n+\nae\n£\nas\nti\ney\npas\nLIES,\nE\nped\nib\nE\n$\nSh\ne\nbein\noy",
+        "celulares": [],
+        "nombres": [],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/c5ece96b1cb0d534cf9b6b4f.jpg"
     },
     {
       "id": "15f1ec60-f74c-5e88-b652-b1b309c6a121",
@@ -485,7 +1160,23 @@
       "celulares": [],
       "foto": "https://api.sosafeapp.com/reports/media_1793844539495_3BVMTW.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/15f1ec60-f74c-5e88-b652-b1b309c6a121?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.474666039968,
+        "lng": -70.75083296746,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": ". ESTO\nESPERO PUEDAS AYUDARME\nPERDIDO!\nESTO SOY YO:\n+ Me llaman luky\ne Perro macho\ne Pug\ne Color café claro\nPERDIDO DESDE\n+ 4 de noviembre\nZON\n(\n© Maipú. Longitudinal con\nHugo bravo Serca del mall\n0\nchino\nPOR FAVOR LLaMa aL\nps L,\nNN\n(+569129775",
+        "celulares": [],
+        "nombres": [],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/a2e88bc06deb93267bfbe7b4.jpg"
     },
     {
       "id": "3df42afa-94f0-56fc-b411-d524671e6de1",
@@ -496,7 +1187,32 @@
       "celulares": [],
       "foto": "https://api.sosafeapp.com/reports/media_1793843960934_HMUYTR.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/3df42afa-94f0-56fc-b411-d524671e6de1?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.515537648764,
+        "lng": -70.777436457574,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": "NY\ni\nHola, me llamo Luna y me\narranque, corri por\ncamino Rinconada en\ndirección a la carretera\ndel sol, no se andar en la\ncalle y soy muy nerviosa.\nPor favor si me\n4,\n7)\nencuentran cuidenme y\nllamen a mi mamá\nJ\nta\n<a:\nhumana se llama\nSs\nAlejandra +56985488688\nES\nGe\n+56993616979\nMuchas gracias.\n&\nSS Y\n=",
+        "celulares": [
+          "+56985488688",
+          "+56993616979"
+        ],
+        "nombres": [
+          {
+            "etiqueta": "Nombre de la mascota",
+            "nombre": "Ss",
+            "evidencia": "se llama\nSs"
+          }
+        ],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/f8101a1dfff16563263dc6e6.jpg"
     },
     {
       "id": "225ff1ec-e159-5248-9e06-7dca3f1e618d",
@@ -507,7 +1223,23 @@
       "celulares": [],
       "foto": "https://api.sosafeapp.com/reports/media_1793842893903_FZzpw.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/225ff1ec-e159-5248-9e06-7dca3f1e618d?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.542419534874,
+        "lng": -70.781806879211,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": "",
+        "celulares": [],
+        "nombres": [],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/229b6b36143973a4d069efa6.jpg"
     },
     {
       "id": "915153fc-4822-5cc6-8fcf-161d83e3d8bb",
@@ -518,7 +1250,23 @@
       "celulares": [],
       "foto": "https://api.sosafeapp.com/reports/media_1793841887981_7ZVH9X.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/915153fc-4822-5cc6-8fcf-161d83e3d8bb?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.510634801336,
+        "lng": -70.782158151269,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": "EM\nA\nbia\nAis\nmi\nE\nFS fee a\nfe\nye\nHe\n‘i\nwae\nfe\nme\npie\niq\nNN\nIN\nfy:\nWM,\nigi\nif\nLi]\ne\nes\ntL he}\nHy\nweal!\ney\nA\nTO\nMM\nAnge\nAvy!\n#4\nip\ni)\n‘i\nii\nAN\na}\nLe\nLi\niif\nMedi\nvi\ndes\n4\nus\nee\nPE\naye\nva\nae\nie\ni\nEN\naN\nap\n(ui\nye\nEL\nza\nY\noy\nW\nif\nChie\nA\n7\nPAY\nMah REIR | of.\npe\nson\nW\nsyst\nAl)\nay\nGi\nwy,\nTa\nAN\nVe Ae\nNY,\nY\ni\nsl Whe\nve\nHy,\nLd\nJe\ne)\ne\nif\ni!\nby,\n(ify\nay\nif\ndl\nYY\nEVA\nll\naps\n.\nFe\na\nde\nDi\ne\nYA\nhs\nq\nj Jef\nie 4\nPE)\nA\nJE\ny\nY\nBy\nHe\nav\nBz,\nhs\naN 4\nLip\n1 At\nsh\ni\ny\nY\nA\n78)\nMT\nYN\nbs\nHi)\nLif;\nUf\nij)\nHi,\nAbi\nLif\nÓN\nwe\nef\n4\nA\nif\nhaf\nFA\nae\nif\nMe,\ni\n/\ni\n\\\n{|\nHf\nIRNEPORTADO EN\nif\ni,\nÑ",
+        "celulares": [],
+        "nombres": [],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/a84e1c70fb4294027cd00c16.jpg"
     },
     {
       "id": "dd68c06b-89d5-58c5-af11-e149be913afb",
@@ -529,7 +1277,23 @@
       "celulares": [],
       "foto": "https://api.sosafeapp.com/reports/media_1793841770310_8W8UU.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/dd68c06b-89d5-58c5-af11-e149be913afb?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.526442011177,
+        "lng": -70.795034305878,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": "¡ar\nda\na ma\nay\nAS\nSS\nmee\n=e\n==\nef\nfi\nPSE\nAAA\nis\n—\nee\nA open\nERES\npr\ndi cd\nua es\nwee\nSer sz!\neen\na yates\n<9\nhoes\nES\nee\nme\n—\n=\nmae\ney\nSry\nali\n2037\no\n=\n—\nSa\nSA\nds\n—\nSG\noe\npe\ne\n_—E\nA\ni\nTy\nBisa,\nE\ndá\n—1]\nee\ncm\nim Ue\n”\naa\n»\no\n'O'SOSAFE",
+        "celulares": [],
+        "nombres": [],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/4236c6430e9999f0fa18c50a.jpg"
     },
     {
       "id": "b4fce2a4-488c-5215-af4e-4abcb7cb6c49",
@@ -540,7 +1304,23 @@
       "celulares": [],
       "foto": "https://api.sosafeapp.com/reports/media_1793840015558_m7fWw.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/b4fce2a4-488c-5215-af4e-4abcb7cb6c49?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.494759084427,
+        "lng": -70.760267073995,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": "|\njor ©\nNW\n} Al it | i) yi\neee\"\n28\n3)\nAÚN\ni |\nAMM.\naa\nti\nWn\nBee\nBi\nES El\nA\nBe\nPA!\nBB\nHALA\nBee\nSeep\nae\na2\nge\na2\nge\na PE\nA]\nene\nA\nA\nSi\n\n2\t1\t36\t0\t0\t0\t114\t584\t14\t8\t-1\t\n3\t1\t36\t1\t0\t0\t114\t584\t14\t8\t-1\t\n4\t1\t36\t1\t1\t0\t114\t584\t14\t8\t-1\t\n5\t1\t36\t1\t1\t1\t114\t584\t14\t8\t28.929916\twe\n2\t1\t37\t0\t0\t0\t184\t579\t18\t9\t-1\t\n3\t1\t37\t1\t0\t0\t184\t579\t18\t9\t-1\t\n4\t1\t37\t1\t1\t0\t184\t579\t18\t9\t-1\t\n5\t1\t37\t1\t1\t1\t184\t579\t18\t9\t60.088772\t‘he\n2\t1\t38\t0\t0\t0\t117\t605\t47\t15\t-1\t\n3\t1\t38\t1\t0\t0\t117\t605\t47\t15\t-1\t\n4\t1\t38\t1\t1\t0\t117\t605\t47\t15\t-1\t\n5\t1\t38\t1\t1\t1\t117\t605\t23\t15\t20.378675\tow\n5\t1\t38\t1\t1\t2\t158\t606\t6\t7\t30.987625\taad\n2\t1\t39\t0\t0\t0\t381\t589\t24\t14\t-1\t\n3\t1\t39\t1\t0\t0\t381\t589\t24\t14\t-1\t\n4\t1\t39\t1\t1\t0\t381\t589\t24\t14\t-1\t\n5\t1\t39\t1\t1\t1\t381\t589\t24\t14\t43.466850\ty\n",
+        "celulares": [],
+        "nombres": [],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/2c7801b956c6fd86b310fb02.jpg"
     },
     {
       "id": "e2189d68-da70-5b5d-a8a2-92f65caa1c8b",
@@ -551,7 +1331,23 @@
       "celulares": [],
       "foto": "https://api.sosafeapp.com/reports/media_1793839732158_W8v3q.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/e2189d68-da70-5b5d-a8a2-92f65caa1c8b?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.485329973942,
+        "lng": -70.734692539909,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": "tha\nee\nwoh\nWN:\nay\nY\ne,\nhal\nde\nLe\nY\nÑ\nL\nHao\ndt\nait\n“eee\nbet a\nhe\nSES\nPe\nEES,\nhier?\nAS\nBr\nCa\nIRA:\nse\ncae\npa\nA\nve\nMs\na\nscl\nLe y\nPA\n>\nya\n155%\nESA",
+        "celulares": [],
+        "nombres": [],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/925aa994df4f0f1de6643342.jpg"
     },
     {
       "id": "781e37e7-e7f1-5ffa-9c34-2243a273b8e4",
@@ -562,7 +1358,23 @@
       "celulares": [],
       "foto": "https://api.sosafeapp.com/reports/media_1793839639533_8YRDVP.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/781e37e7-e7f1-5ffa-9c34-2243a273b8e4?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.515241903597,
+        "lng": -70.777942053974,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": "a\no\n4\na\noo\nNotes\nP\na /,\nde\nES\nSd\nES\n1%,\noom\nbe\nAS\nwe\n\\\nSs\n“e\nA\nie\na\ny\nry\na\nSe\n%\nAs\nES\nwae\ny\nAR\ndl\nUS\nbys\nnee\nAR\nae\noe\nny\npe\nSS\nSE\nAS\nee\nSs\nok\neee\nye\nAN\n=\nls\nos\nne\nst\nEN\n>\nNE\nKe\n=e\nee\na\nSN\nns\nMy\nhe\nRat?\ne\n;\ny\nbit\nIe\nays\nar\nES\nPES\nSass\nSS\nRa\ni A\na\nCO\nE\n3\nea\nwiry\nte\nve,\nhat\nteat\nSha |\nies\nSy\nGe\nMer\nWig\nAN\nNes\ntn.\na\nwR\nSS\newe\nWs\nae\nE\naS\n=\nAS\ny\n=\nEN\nHE\nie\nSa\nfs\na\nA\nSA\nae\nSees\nA\nie\nwy\nQ\ne\noo\nae\nva\nS\naye\n0\nSS\nAS\nye\naS\nNi\nA\nÑ\nsexe\nNN\nis\n2:\nAÍTO\nAE\nAy\na\naa\na\n(Re\nRah\né&\nSe\nNe\nSe\nPAN\nNS\nie\nre\nVat\nON\n8\nNOS\nA\nEN\no\nSO\nA\nAv\nAS\nnee\nlal\noN\ne\n:\nNet\n$\nY\ne\nE\nSra ka\nANY\n‘t\n|\n\\\nÑ\n(3)\nS\nSN\nBON,\nNy\nSee\nANN\nS\nNu\nMN\nDM\nwk\nEN\nwe\n5\n2\ne\neh\nSS\nEN\na\n&\n:\nA\ne\nSN\nde\npaño |\nti\nhy,\ni\n.\nyl\nht\nIN\n‘\ni\ni\nud\nit\ne\nSE\nA\nNO\nx\nfe\nSY\nSS\nMy\nAX\n‘i\nES\nS\nE\nES\nahd\na,\nHK\na\nhi\n17\nMy\nShen\nwe\npo\nco\nne\nLe\nIN\nRN\nE\nÚS\nai\nPa\nPa\nS\n(Y\nSM\nAé\nha\naa\nNO:\nzy\nv\nÑ\nWe\na\ni\nsu\nte\nint\ny\nÑ\nne\nWe\nELA\nyA\ny\na\nY\nCe\na\n»\nsy\nne\nYY\nee\nE\nul\naq\na\neh\nin\nEN\n‘i\nah\ney\nA\npa\nNa\nSd\ny\nie\nÑ\n7\n+\nY\nHi\ny\nes\nKS\nhy\nSs\nA A\ny\ndi\nme\nhi\n7 hh\nif\n1\nWe\n==\n“y\nMi”\nsi\nE\nde\nAA\nA\nof\nne\n>\nyy\npape,\nHer ta ths\nrag",
+        "celulares": [],
+        "nombres": [],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/507d7e0c4df2d3cefe16f088.jpg"
     },
     {
       "id": "e5ed0819-4bbc-5d53-b8e3-df764c769598",
@@ -575,7 +1387,23 @@
       ],
       "foto": "https://api.sosafeapp.com/reports/media_1793839417780_jpNd3.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/e5ed0819-4bbc-5d53-b8e3-df764c769598?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.530124493237,
+        "lng": -70.794631480534,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "Charlotte",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": "a.\nu\nB\nos.\nlj\nt/t\nVi\nA",
+        "celulares": [],
+        "nombres": [],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/2cf651fb61622c75d86ce217.jpg"
     },
     {
       "id": "3bd2bbfd-6b8d-5f0e-8b2c-e964133b5bd1",
@@ -586,7 +1414,23 @@
       "celulares": [],
       "foto": "https://api.sosafeapp.com/reports/media_1793838413470_LGcVw.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/3bd2bbfd-6b8d-5f0e-8b2c-e964133b5bd1?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.522137207421,
+        "lng": -70.778310868946,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": "y\nSS\n4h ty\na\na\nig pee\na\neu\n+\nNy\nSe,\n2\nco:\nve\nen\nwie\nbr\n[$\nlas\nA\na\ntae\n9\ne\navd\nDe\ntee\nay)\na\nbe\nae\nist\nNt\nae\nnh\ni\nog\nBe\nly\nif\naan\nY\nEN\n45\n=i;\n(2\n0\ncv\ni\n¿A\nNN\nA\nNa\ny\n1%\nY\nENE\nSie\nNy\n'ÓBTADO E\ney\nyy\nOSOSAFE",
+        "celulares": [],
+        "nombres": [],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/eb804d4a5adc86f987c3efa7.jpg"
     },
     {
       "id": "b9a35c56-d32b-552b-9b29-923288278a4e",
@@ -599,7 +1443,23 @@
       ],
       "foto": "https://api.sosafeapp.com/reports/media_1793839072950_P2LVTZ.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/b9a35c56-d32b-552b-9b29-923288278a4e?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.534864555269,
+        "lng": -70.791500620544,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": "A\n\\)\not\na\nBe\nPME\nae\no EN\niw\nWe scsare",
+        "celulares": [],
+        "nombres": [],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/9ee076237cb8f39021b8c373.jpg"
     },
     {
       "id": "18699cca-dcdb-549a-840e-280c12eb9833",
@@ -610,7 +1470,17 @@
       "celulares": [],
       "foto": "",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/18699cca-dcdb-549a-840e-280c12eb9833?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.501678217795,
+        "lng": -70.763398236108,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "",
+      "lectura_foto": {
+        "estado": "sin_foto"
+      }
     },
     {
       "id": "950298ac-ae73-5e36-9317-fe3ec76777a2",
@@ -621,7 +1491,23 @@
       "celulares": [],
       "foto": "https://api.sosafeapp.com/reports/media_1793837123885_VK3de.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/950298ac-ae73-5e36-9317-fe3ec76777a2?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.479096433797,
+        "lng": -70.740839259264,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "",
+      "lectura_foto": {
+        "estado": "leida",
+        "texto": "I,\n{\nfay tL\nle\n>\nKs\nA\nES\nREPORTADO EN\nOSOSAFE",
+        "celulares": [],
+        "nombres": [],
+        "requiere_revision": true
+      },
+      "recorte_estado": "recortada",
+      "foto_mascota": "data/sosafe-fotos/c1e335a41e9428c88e1c7e94.jpg"
     },
     {
       "id": "e3ce1ba3-1e23-5a2a-a460-65e8d5be28a1",
@@ -632,7 +1518,20 @@
       "celulares": [],
       "foto": "https://api.sosafeapp.com/reports/media_1793836935688_FBIFW7.jpg",
       "fuente_url": "https://www.widgets.sosafeapp.com/report/e3ce1ba3-1e23-5a2a-a460-65e8d5be28a1?l=es",
-      "verificado_en": "2026-11-06T21:18:50.095017-03:00"
+      "verificado_en": "2026-11-06T21:18:50.095017-03:00",
+      "ubicacion_reporte": {
+        "lat": -33.494486063134,
+        "lng": -70.735987611115,
+        "precision": "aproximada",
+        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
+      },
+      "nombre_mascota": "",
+      "lectura_foto": {
+        "estado": "error",
+        "detalle": "HTTP Error 403: Forbidden"
+      },
+      "foto_mascota": "",
+      "recorte_estado": "pendiente"
     }
   ]
 }

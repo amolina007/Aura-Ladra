@@ -74,7 +74,7 @@
     if (button && !busy) { retainedPhotos.splice(Number(button.dataset.quitarFoto), 1); renderPhotos(); }
   });
   function render() {
-    document.querySelector('[data-externos-lista]').innerHTML = rows.filter(r => r.estado !== 'retirado').map(card).join('') || '<p>No hay avisos externos publicados todavía.</p>';
+    document.querySelector('[data-externos-lista]').innerHTML = rows.filter(r => r.estado !== 'retirado').map(card).join('') || '<p>No hay avisos manuales publicados. Los avisos de SOSAFE aparecen a continuación.</p>';
     document.querySelector('[data-externos-propios]').innerHTML = rows.filter(r => r.autor_id === user).map(card).join('') || '<p>Aquí aparecerán los avisos que compartas.</p>';
   }
   async function refresh() {

@@ -4,6 +4,8 @@ import datetime as dt
 import json
 import pathlib
 import re
+import sys
+from sosafe_imagenes import enrich
 import unicodedata
 import urllib.request
 import urllib.error
@@ -33,6 +35,8 @@ def convert(report, now):
     if not dt.timedelta(0) <= now - published <= dt.timedelta(days=30):
         return None
     description = report.get('description', '').strip()
+    if re.search(r'juguete\s*\(\s*gatito', normalize(description)):
+        return None
     if not re.search(r'perdid|extrav|encontr|apareci|busc|desorient|retener|escap|abandon|adopci', normalize(description)):
         return None
     image = report.get('image', '')
@@ -51,11 +55,26 @@ def convert(report, now):
 
 def main():
     now = dt.datetime.now(ZoneInfo('America/Santiago'))
+    if '--enrich-only' in sys.argv:
+        data = json.loads(DEST.read_text())
+        data['avisos'] = enrich(data['avisos'])
+        temp = DEST.with_suffix('.tmp')
+        temp.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n')
+        temp.replace(DEST)
+        print('Imágenes procesadas:', len(data['avisos']))
+        return
     feed = get_json(FEED)
     if not isinstance(feed.get('features'), list) or not feed['features']:
         raise RuntimeError('Archivo diario vacío o incompatible; se conserva la versión anterior.')
     previous = json.loads(DEST.read_text()) if DEST.exists() else {'avisos': []}
     ids = {r['id'] for r in previous['avisos']}
+    coordinates = {r['id']: r.get('ubicacion_reporte') for r in previous['avisos']}
+    for item in feed['features']:
+        p = item['properties']
+        if p['type'] == 32:
+            lon, lat = map(float, item['geometry']['coordinates'])
+            if -70.95 < lon < -70.70 and -33.65 < lat < -33.45:
+                coordinates[p['uuid']] = {'lat': lat, 'lng': lon, 'precision': 'aproximada', 'fuente': FEED}
     # Prefiltro amplio: la comuna se confirma después en el detalle oficial.
     for item in feed['features']:
         p = item['properties']
@@ -74,7 +93,10 @@ def main():
             raise
         if not data.get('success') or not data.get('report'):
             raise RuntimeError('Detalle no disponible')
-        return convert(data['report'], now)
+        row = convert(data['report'], now)
+        if row:
+            row['ubicacion_reporte'] = coordinates.get(uid)
+        return row
     with concurrent.futures.ThreadPoolExecutor(max_workers=3) as pool:
         futures = {pool.submit(fetch, uid): uid for uid in sorted(ids)}
         for future in concurrent.futures.as_completed(futures):
@@ -93,7 +115,7 @@ def main():
     for row in sorted(rows, key=lambda r: r['publicado_en'], reverse=True):
         key = re.sub(r'\s+', ' ', normalize(row['descripcion'])).strip()
         unique.setdefault(key, row)
-    result = {'actualizado_en': now.isoformat(), 'cobertura': 'Archivo diario público; acumulado desde el 6 de noviembre de 2026. No incluye todo el historial anterior.', 'avisos': list(unique.values())}
+    result = {'actualizado_en': now.isoformat(), 'cobertura': 'Archivo diario público; acumulado desde el 6 de noviembre de 2026. No incluye todo el historial anterior.', 'avisos': enrich(list(unique.values()))}
     DEST.parent.mkdir(parents=True, exist_ok=True)
     temp = DEST.with_suffix('.tmp')
     temp.write_text(json.dumps(result, ensure_ascii=False, indent=2) + '\n')
