@@ -1528,7 +1528,7 @@
       "nombre_mascota": "",
       "lectura_foto": {
         "estado": "error",
-        "detalle": "HTTP Error 403: Forbidden"
+        "detalle": "<urlopen error [Errno 8] nodename nor servname provided, or not known>"
       },
       "foto_mascota": "",
       "recorte_estado": "pendiente"

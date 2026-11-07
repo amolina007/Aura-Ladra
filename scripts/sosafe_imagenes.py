@@ -80,6 +80,10 @@ def enrich(rows):
                     subprocess.run([str(BINARY), str(ROOT / 'scripts/sosafe-recorte-revisado.py'), str(raw), str(dest), json.dumps(reviewed['encuadre'])], check=True, timeout=20)
                     result['crop_status'] = 'recortada'
                 row['lectura_foto']['nombres'].extend(reviewed.get('nombres', []))
+            if result['crop_status'] == 'recortada' and not (reviewed.get('sha256') == hashlib.sha256(raw.read_bytes()).hexdigest() and reviewed.get('recorte_sha256') == hashlib.sha256(dest.read_bytes()).hexdigest()):
+                check = subprocess.run([str(BINARY), str(ROOT / 'scripts/sosafe-validar-recorte.py'), str(dest)], capture_output=True, text=True, check=True, timeout=20)
+                if json.loads(check.stdout)['posible_logo']:
+                    result['crop_status'] = 'revision_visual_pendiente'
             row['recorte_estado'] = result['crop_status']
             row['foto_mascota'] = 'data/sosafe-fotos/' + dest.name if result['crop_status'] == 'recortada' else ''
         except Exception as error:
