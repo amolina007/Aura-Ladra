@@ -1200,6 +1200,7 @@
     } }));
     if (!hasUser) return;
     const alias = ownPublicProfile?.alias;
+    if(!section.querySelector('[data-site-profile-open]')){const edit=document.createElement('button');edit.type='button';edit.dataset.siteProfileOpen='';edit.textContent='Mi foto y nick en Ladra';section.querySelector('[data-my-profile-alias]').after(edit);}
     section.querySelector('[data-my-profile-alias]').textContent = alias || 'Sin alias todavía';
     const avatarEl = section.querySelector('[data-my-profile-initials]');
     if (coreAvatarUrl) {
