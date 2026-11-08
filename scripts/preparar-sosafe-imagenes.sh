@@ -20,3 +20,7 @@ fi
 if [ ! -s output/sosafe/tessdata/eng.traineddata ]; then
   cp /opt/homebrew/share/tessdata/eng.traineddata output/sosafe/tessdata/eng.traineddata
 fi
+
+if [ ! -s output/sosafe/yolo11s-seg.pt ]; then
+  curl -fLsS --max-time 120 https://github.com/ultralytics/assets/releases/download/v8.3.0/yolo11s-seg.pt -o output/sosafe/yolo11s-seg.pt
+fi

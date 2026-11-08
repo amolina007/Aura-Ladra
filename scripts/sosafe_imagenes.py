@@ -90,4 +90,7 @@ def enrich(rows):
             row['lectura_foto'] = {'estado':'error', 'detalle':str(error)[:180]}
             row['foto_mascota'] = ''
             row['recorte_estado'] = 'pendiente'
-    return rows
+    batch = ROOT / 'output/sosafe/segmentacion-lote.json'
+    batch.write_text(json.dumps({'avisos': rows}, ensure_ascii=False))
+    subprocess.run([str(BINARY), str(ROOT / 'scripts/sosafe-sin-fondo.py'), str(batch)], check=True, timeout=1800)
+    return json.loads(batch.read_text())['avisos']

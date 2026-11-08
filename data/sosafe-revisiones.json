@@ -118,7 +118,13 @@
       0.8460574150085449,
       0.3484379438189086
     ],
-    "recorte_sha256": "299658cf8e43cc8b3018da19e0a6959055e46d03f34642db360e938fb92a012b"
+    "recorte_sha256": "299658cf8e43cc8b3018da19e0a6959055e46d03f34642db360e938fb92a012b",
+    "segmentacion": {
+      "original_sha256": "497f587cffb07e3806476196558c7de2fbb2e62a239bc03b08fe9c98f569f5b6",
+      "imagen_sha256": "526b15e1d68d50e41d44e33d0e03b27e34554ff2c3b3c6063e8fa92118fe7576",
+      "estado": "rechazada",
+      "motivo": "Revisión visual: texto, fondo residual o silueta incompleta; conservar original."
+    }
   },
   "347869ba-498f-581c-9169-566bbe32594e": {
     "sha256": "497f587cffb07e3806476196558c7de2fbb2e62a239bc03b08fe9c98f569f5b6",
@@ -128,7 +134,13 @@
       0.8460574150085449,
       0.3484379438189086
     ],
-    "recorte_sha256": "299658cf8e43cc8b3018da19e0a6959055e46d03f34642db360e938fb92a012b"
+    "recorte_sha256": "299658cf8e43cc8b3018da19e0a6959055e46d03f34642db360e938fb92a012b",
+    "segmentacion": {
+      "original_sha256": "497f587cffb07e3806476196558c7de2fbb2e62a239bc03b08fe9c98f569f5b6",
+      "imagen_sha256": "526b15e1d68d50e41d44e33d0e03b27e34554ff2c3b3c6063e8fa92118fe7576",
+      "estado": "rechazada",
+      "motivo": "Revisión visual: texto, fondo residual o silueta incompleta; conservar original."
+    }
   },
   "115e49c2-b6a6-5bbb-9243-ae6957ce0576": {
     "sha256": "9b55945d6a02208e5c67f638c77716f22872f84f9ac05f3a22452e6fc21b4bb7",
@@ -198,7 +210,13 @@
       0.8914578437805176,
       0.8642647616989946
     ],
-    "recorte_sha256": "a983bc3c40803e238b7f208b16586074813034a09b22cff7954f1e1b3814d2cf"
+    "recorte_sha256": "a983bc3c40803e238b7f208b16586074813034a09b22cff7954f1e1b3814d2cf",
+    "segmentacion": {
+      "original_sha256": "4d49aa9d516ce79a1671aecc00da0308b28648a11cf832ef3143bed35b91b4d0",
+      "imagen_sha256": "0f77d03ae54a2ed23965f7f16e0526b9924df16621590a996733c2d87f1e3e70",
+      "estado": "rechazada",
+      "motivo": "Revisión visual: texto, fondo residual o silueta incompleta; conservar original."
+    }
   },
   "7c451ef2-078c-56a6-ad67-2eee4d0db8de": {
     "sha256": "72ab77be2e6dc753acf3082a9ae561ff0529c88657ab47324e8f7900a256bf91",
@@ -310,11 +328,23 @@
   },
   "c23f8168-c8a1-5290-adfb-92ee618d4025": {
     "sha256": "16404d8522b4d463d450bec7743f9d0e6be71f19c2a49e87805f0269dfe4b33d",
-    "recorte_sha256": "107a61fcfba8cbf201af778ab4937d0cee47daed483cb89cbca778e60d1cac87"
+    "recorte_sha256": "107a61fcfba8cbf201af778ab4937d0cee47daed483cb89cbca778e60d1cac87",
+    "segmentacion": {
+      "original_sha256": "16404d8522b4d463d450bec7743f9d0e6be71f19c2a49e87805f0269dfe4b33d",
+      "imagen_sha256": "59be4f298c02fe0daf76b85d5f9637ba917b77944d70839cf064cc684f5f932c",
+      "estado": "rechazada",
+      "motivo": "Revisión visual: texto, fondo residual o silueta incompleta; conservar original."
+    }
   },
   "0c363df5-09b5-50cf-85b1-e09aa2d59d7c": {
     "sha256": "65bdecfe7ff68ad71c6dccfd7d02561c0989cb9c7f05a268dd9a6c07ae63759b",
-    "recorte_sha256": "a818d21779d50e9d68065e6a79c6f348dd43232eacff49860ce92876c8c6c6f5"
+    "recorte_sha256": "a818d21779d50e9d68065e6a79c6f348dd43232eacff49860ce92876c8c6c6f5",
+    "segmentacion": {
+      "original_sha256": "65bdecfe7ff68ad71c6dccfd7d02561c0989cb9c7f05a268dd9a6c07ae63759b",
+      "imagen_sha256": "038dcc73974fb0b9de618003b847d9fd359f01159d0dfb16c5879853088a1472",
+      "estado": "rechazada",
+      "motivo": "Revisión visual: texto, fondo residual o silueta incompleta; conservar original."
+    }
   },
   "572d521f-d34d-5542-abd5-03a4336d2e62": {
     "sha256": "40578cd724fd19dcb7dc2ef25e24e1d7a94af3035ccff9ca4c0165cec3bec151",
@@ -362,7 +392,13 @@
   },
   "c5a7c2c0-e894-5c08-8f27-7cf1f1ea1a57": {
     "sha256": "93e4bccc2b8a9408ab45d539fccf39c24d4b2a412a81fecc13795e0609eaca2c",
-    "recorte_sha256": "092ee53a81dbe5fde7156189380ae6df992cc43cdaf7dce76346f4934cabf890"
+    "recorte_sha256": "092ee53a81dbe5fde7156189380ae6df992cc43cdaf7dce76346f4934cabf890",
+    "segmentacion": {
+      "original_sha256": "93e4bccc2b8a9408ab45d539fccf39c24d4b2a412a81fecc13795e0609eaca2c",
+      "imagen_sha256": "932985c41b3c455e77cef31769a13eb693d50604ded8402ff137a624f01deaae",
+      "estado": "rechazada",
+      "motivo": "Revisión visual: texto, fondo residual o silueta incompleta; conservar original."
+    }
   },
   "79b1f04e-675a-531f-a5bf-4354909e143b": {
     "sha256": "268c2e577c9d41ab88231b14eed48f21a1057c318b5e58326740c03d7a2550ae",
@@ -454,6 +490,68 @@
   },
   "b156820b-5965-5255-9c5c-005f07c954fa": {
     "sha256": "2d65c3b88f96f7be881e6df29a017b91d789895f43f1cf36f9580c072803bfaf",
-    "recorte_sha256": "9793eeff8fa4f9e8426c3412489d599430a74fe3d7ce875accba44f48a8d0cd4"
+    "recorte_sha256": "9793eeff8fa4f9e8426c3412489d599430a74fe3d7ce875accba44f48a8d0cd4",
+    "segmentacion": {
+      "original_sha256": "2d65c3b88f96f7be881e6df29a017b91d789895f43f1cf36f9580c072803bfaf",
+      "imagen_sha256": "e04cd339836b9d173a13c3b3407cd8dea4da8977e55715964831cdf8b707b2c3",
+      "estado": "rechazada",
+      "motivo": "Revisión visual: texto, fondo residual o silueta incompleta; conservar original."
+    }
+  },
+  "1045705b-d7a2-596f-a8f6-0574cf2ea3fc": {
+    "segmentacion": {
+      "original_sha256": "6c967f0febff242fd57219f916307938dad0ddcac3fab9e554c38d665f8a4c5f",
+      "imagen_sha256": "56e435358bc871a194131479cd3ad6d0785cd423512bb406d2fd82307b6186e5",
+      "estado": "rechazada",
+      "motivo": "Revisión visual: texto, fondo residual o silueta incompleta; conservar original."
+    }
+  },
+  "73c813cd-5822-513d-a9a8-9604727c94d7": {
+    "segmentacion": {
+      "original_sha256": "6fdea4682480ce8eed8f87b8ae39b6a2578f6f5070a243815e64a07094a5dc3f",
+      "imagen_sha256": "a26aabef83776e0d51793c33317c245b1466caae4c652aefbc84015931999090",
+      "estado": "rechazada",
+      "motivo": "Revisión visual: texto, fondo residual o silueta incompleta; conservar original."
+    }
+  },
+  "642cf763-bdb8-510e-8433-f23d87281f02": {
+    "segmentacion": {
+      "original_sha256": "497f587cffb07e3806476196558c7de2fbb2e62a239bc03b08fe9c98f569f5b6",
+      "imagen_sha256": "526b15e1d68d50e41d44e33d0e03b27e34554ff2c3b3c6063e8fa92118fe7576",
+      "estado": "rechazada",
+      "motivo": "Revisión visual: texto, fondo residual o silueta incompleta; conservar original."
+    }
+  },
+  "d23aa0bd-d109-593c-92b1-f3e82a93f7a4": {
+    "segmentacion": {
+      "original_sha256": "497f587cffb07e3806476196558c7de2fbb2e62a239bc03b08fe9c98f569f5b6",
+      "imagen_sha256": "526b15e1d68d50e41d44e33d0e03b27e34554ff2c3b3c6063e8fa92118fe7576",
+      "estado": "rechazada",
+      "motivo": "Revisión visual: texto, fondo residual o silueta incompleta; conservar original."
+    }
+  },
+  "9f6a2d4e-bc15-5559-b3ca-19e0f421a47e": {
+    "segmentacion": {
+      "original_sha256": "3d1f26ec8fbab6b9c6fc2df9f8eeea9cf2af6eca3dc82cea200a5d9ba6af2174",
+      "imagen_sha256": "911f0b239d6c22e37dd131a6622c83ba636fdd9ab004c72131dc5ff9202002b1",
+      "estado": "rechazada",
+      "motivo": "Revisión visual: texto, fondo residual o silueta incompleta; conservar original."
+    }
+  },
+  "0df92049-2498-52a5-955c-170a0af03ba5": {
+    "segmentacion": {
+      "original_sha256": "71de631183dd7b70888622c80c37918bc1185e0a97a15eb6fbfc564521407d33",
+      "imagen_sha256": "d8c4431865586fb027d1b8a8f789dcc207318af28b1dff884abedbbd2d9874ca",
+      "estado": "rechazada",
+      "motivo": "Revisión visual: texto, fondo residual o silueta incompleta; conservar original."
+    }
+  },
+  "460595ed-1d65-5e37-9b74-21fd4b6f0e5c": {
+    "segmentacion": {
+      "original_sha256": "3d1f26ec8fbab6b9c6fc2df9f8eeea9cf2af6eca3dc82cea200a5d9ba6af2174",
+      "imagen_sha256": "911f0b239d6c22e37dd131a6622c83ba636fdd9ab004c72131dc5ff9202002b1",
+      "estado": "rechazada",
+      "motivo": "Revisión visual: texto, fondo residual o silueta incompleta; conservar original."
+    }
   }
 }

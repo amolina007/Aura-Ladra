@@ -30,12 +30,12 @@
       <p>${esc(data.cobertura)} El autor puede ser un vecino, no necesariamente el dueño. El estado actual de cada mascota no está confirmado.</p>
       <div class="wanted-grid">${rows.map(row => {
         const original = safe(row.foto, 'https://api.sosafeapp.com', '/reports/');
-        const photo = /^data\/sosafe-fotos\/[a-f0-9]+\.jpg$/.test(row.foto_mascota || '') ? row.foto_mascota : '';
+        const photo = /^data\/sosafe-fotos\/[a-f0-9]+\.(?:jpg|png)$/.test(row.foto_mascota || '') ? row.foto_mascota : '';
         const reading = row.lectura_foto || {};
         const ocrPhones = (reading.celulares || []).filter(p => /^\+569\d{8}$/.test(p) && !row.celulares.includes(p));
         const source = safe(row.fuente_url, 'https://www.widgets.sosafeapp.com', '/report/');
         return `<article class="card sosafe-card"><small>Aviso externo · SOSAFE · estado sin verificar</small>
-          ${photo ? `<img src="${esc(photo)}" alt="Foto del aviso de mascota en ${esc(row.zona)}" loading="lazy" referrerpolicy="no-referrer">` : (original ? '<p>Recorte de mascota pendiente de revisión.</p>' : '<p>La fuente no entrega foto.</p>')}
+          ${photo ? `<img src="${esc(photo)}" alt="Foto del aviso de mascota en ${esc(row.zona)}" loading="lazy" referrerpolicy="no-referrer">` : (original ? '<p>No se pudo separar la mascota sin alterar la foto. Puedes ver el afiche original completo.</p>' : '<p>La fuente no entrega foto.</p>')}
           <h4>${esc(row.nombre_mascota || "Mascota")} · ${esc(row.zona)}</h4><p>Publicado: ${esc(date(row.publicado_en))}</p>
           <p class="sosafe-description">${esc(row.descripcion)}</p>
           ${row.autor_publicacion ? `<p>Publicado por: ${esc(row.autor_publicacion)}</p>` : ''}

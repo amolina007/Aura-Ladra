@@ -6,7 +6,7 @@ const script=readFileSync(new URL('../js/sosafe-avisos.js',import.meta.url),'utf
 test('shows verified dates, safe photo and contact, escapes text and excludes expired notices', async()=>{
  const dom=new JSDOM('<div data-sosafe-avisos></div>',{runScripts:'outside-only'});
  const now=new Date().toISOString();
- const row={foto_mascota:'data/sosafe-fotos/abc123.jpg',ubicacion_reporte:{lat:-33.51,lng:-70.76},lectura_foto:{estado:'leida',celulares:['+56987654321'],nombres:[{etiqueta:'Contacto',nombre:'Ana'}]},publicado_en:now,descripcion:'<img src=x onerror=alert(1)>',zona:'Maipú',autor_publicacion:'Vecina',foto:'https://api.sosafeapp.com/reports/test.jpg',fuente_url:'https://www.widgets.sosafeapp.com/report/test',celulares:['+56912345678','javascript:bad']};
+ const row={foto_mascota:'data/sosafe-fotos/abc123.png',ubicacion_reporte:{lat:-33.51,lng:-70.76},lectura_foto:{estado:'leida',celulares:['+56987654321'],nombres:[{etiqueta:'Contacto',nombre:'Ana'}]},publicado_en:now,descripcion:'<img src=x onerror=alert(1)>',zona:'Maipú',autor_publicacion:'Vecina',foto:'https://api.sosafeapp.com/reports/test.jpg',fuente_url:'https://www.widgets.sosafeapp.com/report/test',celulares:['+56912345678','javascript:bad']};
  dom.window.fetch=async()=>({ok:true,json:async()=>({actualizado_en:now,cobertura:'Parcial',avisos:[row,{...row,publicado_en:'2020-01-01',descripcion:'Old'}]})});
  dom.window.eval(script); await new Promise(r=>setTimeout(r,10));
  const doc=dom.window.document;
@@ -17,6 +17,7 @@ test('shows verified dates, safe photo and contact, escapes text and excludes ex
  assert.match(doc.body.textContent,/Contacto: Ana/);
  assert.equal(doc.querySelector('a[href="tel:+56987654321"]'),null);
  assert.equal(doc.querySelectorAll('img').length,1);
+ assert.equal(doc.querySelector('img').getAttribute('src'),'data/sosafe-fotos/abc123.png');
  assert.equal(doc.querySelector('a[href^="tel:"]').getAttribute('href'),'tel:+56912345678');
  assert.match(doc.body.textContent,/Publicado por: Vecina/);
  assert.equal(doc.querySelector('[onerror]'),null);

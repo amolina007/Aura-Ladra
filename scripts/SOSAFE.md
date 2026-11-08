@@ -16,3 +16,5 @@ Los originales, modelos y cachés quedan en `output/sosafe/` y no se deben publi
 La automatización de Codex “Mascotas SOSAFE Maipú” ejecuta este flujo a las 09:00 de Chile y publica solo en dev. Necesita este Mac y las herramientas locales disponibles. Después de modificar datos debe verificar pruebas, despliegue, Most Wanted y mapa. Si una imagen está bloqueada, no debe intentar sortear la restricción; avisar y conservar el enlace original.
 
 No presentar el mapa como ubicación exacta de extravío: es el punto público del reporte. No afirmar que el historial anterior al inicio de la recopilación esté completo.
+
+Se aplica `sosafe-sin-fondo.py` al final del enriquecimiento: segmentación local YOLO11s, transparencia PNG sin generar píxeles ni reconstruir partes del animal. OCR siempre se realiza sobre el afiche original. Si el sello cruza la silueta o no hay detección fiable, se conserva el acceso al original. Revisar visualmente las siluetas antes de publicar. Los PNG referenciados también se incluyen en el commit diario.

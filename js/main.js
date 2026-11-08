@@ -631,7 +631,7 @@
       details.append(source);
     }
     article.append(top);
-    if (place.foto_mascota && /^data\/sosafe-fotos\/[a-f0-9]+\.jpg$/.test(place.foto_mascota)) {
+    if (place.foto_mascota && /^data\/sosafe-fotos\/[a-f0-9]+\.(?:jpg|png)$/.test(place.foto_mascota)) {
       const photo = document.createElement('img'); photo.src = place.foto_mascota;
       photo.alt = place.nombre; photo.loading = 'lazy'; photo.className = 'sosafe-map-photo'; article.append(photo);
     }
@@ -669,7 +669,7 @@
         popupMeta.textContent = `${placeCategoryLabels[place.categoria] || place.categoria}${place.servicio_urgencia ? ' · Urgencias' : ''}`;
         popup.append(popupTitle, popupMeta);
         if (place.categoria === 'aviso_sosafe') {
-          if (/^data\/sosafe-fotos\/[a-f0-9]+\.jpg$/.test(place.foto_mascota || '')) {
+          if (/^data\/sosafe-fotos\/[a-f0-9]+\.(?:jpg|png)$/.test(place.foto_mascota || '')) {
             const image = document.createElement('img'); image.src = place.foto_mascota; image.alt = place.nombre; image.className = 'sosafe-map-photo'; popup.append(image);
           }
           const note = document.createElement('p'); note.textContent = 'Ubicación aproximada del reporte; no confirma el lugar exacto del extravío.'; popup.append(note);
@@ -3200,7 +3200,7 @@
     const board = document.querySelector('[data-wanted-board]');
     if (!board) return;
     if (!rows.length) {
-      board.innerHTML = '<p class="empty-state">Todavía no hay afiches en esta cinta. Si alguien se pierde, lo pegamos aquí.</p>';
+      board.innerHTML = '<p class="empty-state">No hay afiches de mascotas registradas en este filtro. Más abajo puedes consultar los avisos externos de SOSAFE.</p>';
       return;
     }
     board.replaceChildren(...rows.map((aviso) => {
