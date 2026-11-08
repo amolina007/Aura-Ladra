@@ -485,3 +485,10 @@ body:has(.shop-dialog[open]) { overflow: hidden; }
 .pet-popup-pane .leaflet-popup {left:50% !important;bottom:14px !important;transform:translateX(-50%) !important;margin:0;pointer-events:auto;max-width:calc(100% - 24px);}
 .pet-popup-pane .leaflet-popup-tip-container {display:none;}
 .pet-popup-pane .leaflet-popup-content-wrapper {max-width:100%;}
+
+/* Ficha breve: la foto se adapta para mantener el contacto a la vista. */
+.pet-map-popup .leaflet-popup-content {margin:16px;width:240px !important;}
+.pet-map-card {display:flex;flex-direction:column;gap:10px;}
+.pet-map-card > strong {padding-right:14px;font-size:17px;line-height:1.2;}
+.pet-map-card .pet-map-card-photo {display:block;width:100%;height:clamp(80px,22vh,180px);object-fit:contain;border-radius:10px;}
+.pet-map-card > .button {display:block;flex-shrink:0;width:100%;min-height:44px;margin:0;}

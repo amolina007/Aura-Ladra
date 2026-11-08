@@ -704,17 +704,18 @@
         if (['mascota_perdida', 'mascota_encontrada', 'mascota_sin_clasificar'].includes(place.categoria)) { const distance=window.auraLadraDistancia?.crear(place); if (distance) popup.append(distance); }
         if (place.tipo_aviso_texto) popupMeta.textContent = place.tipo_aviso_texto;
         if (place.origen === 'sosafe') {
-          if (sosafePhoto(place)) {
-            const image = document.createElement('img'); image.src = sosafePhoto(place); image.referrerPolicy = 'no-referrer'; image.alt = place.nombre; image.className = 'sosafe-map-photo'; popup.append(image);
+          popup.className = 'pet-map-card';
+          popupTitle.textContent = place.nombre_mascota || 'Mascota sin nombre informado';
+          popup.replaceChildren(popupTitle);
+          if (petPhoto) {
+            const image = document.createElement('img'); image.src = petPhoto; image.referrerPolicy = 'no-referrer'; image.alt = popupTitle.textContent; image.className = 'pet-map-card-photo'; popup.append(image);
           }
-          if (place.fecha_extravio_texto) { const when = document.createElement('p'); when.textContent = place.fecha_extravio_texto; popup.append(when); }
-          const note = document.createElement('p'); note.textContent = 'Ubicación aproximada del reporte; no confirma el lugar exacto del extravío.'; popup.append(note);
           const contact = document.createElement('button'); contact.type = 'button'; contact.className = 'button button-dark'; contact.textContent = 'Contactar';
           contact.addEventListener('click', () => window.auraLadraSosafe?.contactar(place.id.replace(/^sosafe-/, '')));
           popup.append(contact);
         }
         marker = window.L.marker([Number(place.latitud), Number(place.longitud)], { icon: pin, title: place.nombre, alt: place.nombre })
-          .bindPopup(popup, { pane: petPhoto && window.innerWidth <= 1024 ? 'petPopupPane' : 'popupPane', autoPan: !petPhoto, maxWidth: 280, maxHeight: Math.max(160, Math.min(340, window.innerHeight - 180)) })
+          .bindPopup(popup, { pane: petPhoto && window.innerWidth <= 1024 ? 'petPopupPane' : 'popupPane', autoPan: !petPhoto, className: place.origen === 'sosafe' ? 'pet-map-popup' : '', maxWidth: 280, maxHeight: place.origen === 'sosafe' ? undefined : Math.max(160, Math.min(340, window.innerHeight - 180)) })
           .on('add', function () {
             if (!petPhoto) return;
             const icon=this.getElement();
