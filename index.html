@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="js/vendor/leaflet-markercluster/MarkerCluster.css">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23f2a93b'/%3E%3Cpath d='M20 30c-5-1-7 5-4 8 3 3 7 0 7-3 0-2-1-4-3-5Zm24 0c5-1 7 5 4 8-3 3-7 0-7-3 0-2 1-4 3-5ZM27 21c-4-3-8 2-6 6 2 4 7 2 8-1 1-2 0-4-2-5Zm10 0c4-3 8 2 6 6-2 4-7 2-8-1-1-2 0-4 2-5Zm-5 9c-7 0-13 8-10 14 2 5 8 3 10 1 2 2 8 4 10-1 3-6-3-14-10-14Z' fill='%23102a43'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="css/mobile-refresh.css?v=avisos-distancia-1">
+  <link rel="stylesheet" href="css/mobile-refresh.css?v=avisos-cercania-1">
   <link rel="stylesheet" href="css/mi-espacio.css">
   <link rel="stylesheet" href="css/servicios.css?v=3">
   <link rel="stylesheet" href="css/login.css?v=1">
@@ -182,7 +182,7 @@
           <button class="button button-primary" type="button" data-externo-nuevo>Agregar aviso externo</button>
           <p data-externos-mensaje role="status"></p>
           <div class="wanted-grid" data-externos-lista></div>
-          <h3>Avisos externos · Maipú</h3><div class="pet-location-control"><button type="button" class="button button-light" data-use-location>Usar mi ubicación</button><small data-distance-status role="status">Ver qué tan cerca está cada mascota.</small></div><p><a href="#mapa">Ver ubicaciones aproximadas en el mapa</a></p>
+          <h3>Avisos externos · Maipú</h3><div class="pet-location-control"><small data-distance-status role="status">Solicitando ubicación para mostrar las mascotas más cercanas.</small></div><p><a href="#mapa">Ver ubicaciones aproximadas en el mapa</a></p>
           <div data-sosafe-avisos aria-live="polite">Cargando avisos externos…</div>
         </section>
         <div class="wanted-forms">
@@ -230,7 +230,7 @@
           <button class="map-filters-toggle" type="button" aria-expanded="false" aria-controls="map-filters" data-map-filters-toggle>
             <span aria-hidden="true">☰</span> <span data-map-filters-label>Filtros</span>
           </button>
-          <div class="pet-location-control"><button type="button" class="button button-light" data-use-location>Usar mi ubicación</button><small data-distance-status role="status">Ver qué tan cerca está cada mascota.</small></div>
+          <div class="pet-location-control"><small data-distance-status role="status">Solicitando ubicación para mostrar las mascotas más cercanas.</small></div>
           <p class="map-summary" data-map-summary aria-live="polite">Cargando lugares públicos de Maipú…</p>
         </div>
 
@@ -968,8 +968,8 @@
 <script src="js/supabase-client.js?v=fragmentos-3"></script>
 <script src="js/aura-acceso-secundario.js"></script>
 <script src="js/visitas.js"></script>
-<script src="js/distancia-mascotas.js?v=1"></script>
-<script src="js/main.js?v=avisos-mapa-11"></script>
+<script src="js/distancia-mascotas.js?v=2"></script>
+<script src="js/main.js?v=avisos-mapa-12"></script>
 <script src="js/patrocinio-ac.js?v=1"></script>
 <script src="js/puestos.js?v=causas-dashboard-1"></script>
 <script src="js/misiones.js"></script>
@@ -989,7 +989,8 @@
 <script src="js/servicios.js?v=3"></script>
 <script src="js/afiche-lector.js?v=2"></script>
 <script src="js/avisos-externos.js?v=6"></script>
-<script src="js/sosafe-avisos.js?v=13"></script>
+<script src="js/antiguedad-avisos.js?v=1"></script>
+<script src="js/sosafe-avisos.js?v=14"></script>
 <script src="js/mi-espacio.js"></script>
 <script defer src="js/aura-hub-loader.js"></script><!-- Menú común de Convergencia Aura: vive en Core (una sola versión para todos los sitios) -->
 <script defer src="https://core.convergenciaaura.cl/js/globo.js" data-margen-movil="76" data-sitio="ladra"></script>

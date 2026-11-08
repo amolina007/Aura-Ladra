@@ -44,7 +44,7 @@
     };
     window.auraLadraSosafe = { contactar, lugares: () => rows.filter(r => Number.isFinite(r.ubicacion_reporte?.lat) && Number.isFinite(r.ubicacion_reporte?.lng) && r.ubicacion_reporte.lat >= -33.65 && r.ubicacion_reporte.lat <= -33.45 && r.ubicacion_reporte.lng >= -70.95 && r.ubicacion_reporte.lng <= -70.70).map(r => ({
       id: 'sosafe-' + r.id, nombre: (r.nombre_mascota || 'Mascota') + ' · ' + typeLabel(r), categoria: 'mascota_perdida', origen: 'sosafe',
-      tipo_aviso: r.tipo_aviso, tipo_aviso_texto: typeLabel(r), fecha_extravio_texto: noticeDate(r), descripcion: display(r.descripcion), comuna: 'Maipú', direccion_publica: 'Ubicación aproximada del aviso externo',
+      antiguedad_texto: window.auraLadraAntiguedad?.(r) || '', tipo_aviso: r.tipo_aviso, tipo_aviso_texto: typeLabel(r), fecha_extravio_texto: noticeDate(r), descripcion: display(r.descripcion), comuna: 'Maipú', direccion_publica: 'Ubicación aproximada del aviso externo',
       latitud: r.ubicacion_reporte.lat, longitud: r.ubicacion_reporte.lng, precision_ubicacion: 'aproximada',
       estado_verificacion: 'comunitario', fuente_nombre: 'Aviso externo · estado sin verificar', fuente_url: '',
       foto_mascota: r.foto_mascota, telefono_publico: r.celulares[0] || '',
@@ -58,7 +58,7 @@
         const photo = /^data\/sosafe-fotos\/[a-f0-9]+\.(?:jpg|png)$/.test(row.foto_mascota || '') ? row.foto_mascota : '';
         const reading = row.lectura_foto || {};
         const ocrPhones = (reading.celulares || []).filter(p => /^\+569\d{8}$/.test(p) && !row.celulares.includes(p));
-        return `<article class="card sosafe-card"><strong class="aviso-tipo" data-tipo="${esc(row.tipo_aviso || 'por_confirmar')}">${esc(typeLabel(row))}</strong><small>Aviso externo · estado sin verificar</small>
+        return `<article class="card sosafe-card has-pet-age"><span class="pet-age">${esc(window.auraLadraAntiguedad?.(row) || '')}</span><strong class="aviso-tipo" data-tipo="${esc(row.tipo_aviso || 'por_confirmar')}">${esc(typeLabel(row))}</strong><small>Aviso externo · estado sin verificar</small>
           <img src="${esc(photo)}" alt="Foto del aviso de mascota en ${esc(row.zona)}" loading="lazy" referrerpolicy="no-referrer">
           <h4>${esc(row.nombre_mascota || "Mascota sin nombre informado")}</h4>${Number.isFinite(row.ubicacion_reporte?.lat) && Number.isFinite(row.ubicacion_reporte?.lng) ? `<span class="pet-distance" hidden data-distance-lat="${row.ubicacion_reporte.lat}" data-distance-lng="${row.ubicacion_reporte.lng}"></span>` : ''}<p>${esc(row.zona)}</p>
           <p class="fecha-extravio">${esc(noticeDate(row))}</p>

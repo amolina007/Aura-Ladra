@@ -632,6 +632,7 @@
       details.append(source);
     }
     article.append(top);
+    if (place.antiguedad_texto) { const age=document.createElement('span');age.className='pet-age';age.textContent=place.antiguedad_texto;article.append(age);article.classList.add('has-pet-age'); }
     if (place.categoria === 'mascota_perdida') { const distance=window.auraLadraDistancia?.crear(place); if (distance) article.append(distance); }
     if (sosafePhoto(place)) {
       const photo = document.createElement('img'); photo.src = sosafePhoto(place); photo.referrerPolicy = 'no-referrer';
@@ -665,7 +666,7 @@
     if (!container || !communityMap || !markerLayer) return;
     markerLayer.clearLayers();
     petClusterLayer?.clearLayers();
-    const filtered = publicPlaces.filter(placeMatchesFilter);
+    const filtered = publicPlaces.filter(placeMatchesFilter).sort((a,b) => (window.auraLadraDistancia?.distanceTo(a.latitud,a.longitud) ?? Infinity) - (window.auraLadraDistancia?.distanceTo(b.latitud,b.longitud) ?? Infinity));
     const visibleCoordinates = [];
     const cardsByCategory = new Map();
     filtered.forEach((place) => {
@@ -699,6 +700,7 @@
         const popupMeta = document.createElement('small');
         popupMeta.textContent = `${placeCategoryLabels[place.categoria] || place.categoria}${place.servicio_urgencia ? ' · Urgencias' : ''}`;
         popup.append(popupTitle, popupMeta);
+        if (place.antiguedad_texto) { const age=document.createElement('span');age.className='pet-age';age.textContent=place.antiguedad_texto;popup.append(age);popup.classList.add('has-pet-age'); }
         if (place.categoria === 'mascota_perdida') { const distance=window.auraLadraDistancia?.crear(place); if (distance) popup.append(distance); }
         if (place.tipo_aviso_texto) popupMeta.textContent = place.tipo_aviso_texto;
         if (place.origen === 'sosafe') {
@@ -746,6 +748,8 @@
       communityMap.fitBounds(visibleCoordinates, { padding: [32, 32], maxZoom: 14 });
     }
   };
+
+  document.addEventListener('ubicacion:cambio', () => renderPlaces());
 
   document.addEventListener('vista:cambio', (event) => {
     if (event.detail?.vista !== 'mapa') return;
