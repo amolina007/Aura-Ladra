@@ -112,7 +112,7 @@ class PublicableTest(unittest.TestCase):
             photo.parent.mkdir(parents=True)
             photo.write_bytes(b'photo')
             rows = [{'id': 'ok', 'foto_mascota': 'data/sosafe-fotos/abc123.jpg'},
-                    {'id': 'no-photo'}, {'id': 'raw', 'foto': 'https://api.sosafeapp.com/reports/a.jpg'},
+                    {'id': 'reunited', 'tipo_aviso':'reencuentro', 'foto_mascota':'data/sosafe-fotos/abc123.jpg'}, {'id': 'no-photo'}, {'id': 'raw', 'foto': 'https://api.sosafeapp.com/reports/a.jpg'},
                     {'id': 'missing', 'foto_mascota': 'data/sosafe-fotos/aaaa.png'},
                     {'id': 'escape', 'foto_mascota': '../abc123.jpg'}]
             with patch.object(module, 'ROOT', root):
@@ -130,3 +130,11 @@ class NoticeTypeTest(unittest.TestCase):
         a=row('Perro perdido');review={'a':{'tipo_aviso':{'descripcion_sha256':signature(a),'valor':'encontrada'}}}
         self.assertEqual(classify(a,review),'encontrada')
         self.assertEqual(classify(row('Busco a mi perro'),review),'perdida')
+
+class FoundStatusTest(unittest.TestCase):
+    def test_deceased_is_found_with_explicit_status(self):
+        from sosafe_duplicados import consolidate
+        rows = [{'id':'deceased-test','descripcion':'Perrito fallecido', 'publicado_en':'2026-11-08T12:00:00-03:00','celulares':[],'foto':''}]
+        result = consolidate(rows, [])[0]
+        self.assertEqual(result['tipo_aviso'], 'encontrada')
+        self.assertEqual(result['estado_mascota'], 'fallecida')

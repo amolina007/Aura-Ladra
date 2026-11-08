@@ -11,7 +11,7 @@
   };
   const date = value => new Date(value).toLocaleString('es-CL', {timeZone: 'America/Santiago'});
   const types = {perdida:'Mascota perdida · la están buscando', encontrada:'Mascota encontrada o avistada · buscan a su familia', por_confirmar:'Tipo de aviso por confirmar', reencuentro:'Reencuentro informado', fallecida:'Mascota fallecida · aviso a su familia'};
-  const typeLabel = row => types[row.tipo_aviso] || types.por_confirmar;
+  const typeLabel = row => row.estado_mascota === 'fallecida' ? 'Mascota encontrada · fallecida · aviso a su familia' : types[row.tipo_aviso] || types.por_confirmar;
   const noticeDate = row => row.tipo_aviso === 'perdida' ? lossDate(row.fecha_extravio_info) : `Fecha del aviso: ${date(row.publicado_en)}`;
   fetch('data/sosafe-maipu.json', {cache: 'no-cache'}).then(r => {
     if (!r.ok) throw Error('No disponible');
@@ -19,7 +19,7 @@
   }).then(data => {
     const rows = data.avisos.filter(r => {
       const age = Date.now() - Date.parse(r.publicado_en);
-      return /^data\/sosafe-fotos\/[a-f0-9]+\.(?:jpg|png)$/.test(r.foto_mascota || '') && Number.isFinite(age) && age >= 0 && age <= 30 * 86400000;
+      return r.tipo_aviso !== 'reencuentro' && /^data\/sosafe-fotos\/[a-f0-9]+\.(?:jpg|png)$/.test(r.foto_mascota || '') && Number.isFinite(age) && age >= 0 && age <= 30 * 86400000;
     });
     window.auraLadraSosafe = { lugares: () => rows.filter(r => Number.isFinite(r.ubicacion_reporte?.lat) && Number.isFinite(r.ubicacion_reporte?.lng) && r.ubicacion_reporte.lat >= -33.65 && r.ubicacion_reporte.lat <= -33.45 && r.ubicacion_reporte.lng >= -70.95 && r.ubicacion_reporte.lng <= -70.70).map(r => ({
       id: 'sosafe-' + r.id, nombre: (r.nombre_mascota || 'Mascota') + ' · ' + typeLabel(r), categoria: 'mascota_perdida', origen: 'sosafe',

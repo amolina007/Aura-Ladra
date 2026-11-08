@@ -57,11 +57,13 @@ test('distinguishes found notices without inventing loss dates or exposing sourc
  const dom=new JSDOM('<div data-sosafe-avisos></div>',{runScripts:'outside-only'});
  const now=new Date().toISOString();
  const row={id:'found',tipo_aviso:'encontrada',publicado_en:now,descripcion:'Encontré un perro perdido',zona:'Maipú',celulares:[],foto_mascota:'data/sosafe-fotos/abc123.jpg',fuente_url:'https://www.widgets.sosafeapp.com/report/a',ubicacion_reporte:{lat:-33.51,lng:-70.76},fecha_extravio_info:{fecha:'2026-11-02',precision:'estimada'}};
- dom.window.fetch=async()=>({ok:true,json:async()=>({actualizado_en:now,cobertura:'Parcial',avisos:[row,{...row,id:'unclear',tipo_aviso:'por_confirmar'},{...row,id:'closed',tipo_aviso:'reencuentro'}]})});
+ dom.window.fetch=async()=>({ok:true,json:async()=>({actualizado_en:now,cobertura:'Parcial',avisos:[row,{...row,id:'unclear',tipo_aviso:'por_confirmar'},{...row,id:'closed',tipo_aviso:'reencuentro'},{...row,id:'deceased',tipo_aviso:'encontrada',estado_mascota:'fallecida'}]})});
  dom.window.eval(script);await new Promise(r=>setTimeout(r,10));
  assert.match(dom.window.document.body.textContent,/Mascota encontrada o avistada/);
  assert.match(dom.window.document.body.textContent,/Tipo de aviso por confirmar/);
- assert.match(dom.window.document.body.textContent,/Reencuentro informado/);
+ assert.doesNotMatch(dom.window.document.body.textContent,/Reencuentro informado/);
+ assert.equal(dom.window.document.querySelectorAll('article').length,3);
+ assert.match(dom.window.document.body.textContent,/Mascota encontrada · fallecida/);
  assert.doesNotMatch(dom.window.document.body.textContent,/Extravío:/);
  assert.equal(dom.window.document.querySelectorAll('a[href*="sosafe"]').length,0);
  assert.equal(dom.window.auraLadraSosafe.lugares()[0].fuente_url,'');

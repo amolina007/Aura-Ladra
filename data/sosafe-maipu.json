@@ -35,7 +35,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/d650c145-30c8-57a7-b688-73338a910178?l=es"
       },
-      "tipo_aviso": "encontrada"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "df60f528-a913-5dee-98bb-de09ecb235ba",
@@ -74,7 +75,8 @@
         "evidencia": "el 25 de octubre",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/df60f528-a913-5dee-98bb-de09ecb235ba?l=es"
       },
-      "tipo_aviso": "perdida"
+      "tipo_aviso": "perdida",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "e1580aa3-612a-5656-9f93-47f931ce4487",
@@ -110,7 +112,8 @@
         "evidencia": "anoche lo mas probable, nunca se habia escapado asi que no sabe andar en la calle , si alguien",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/e1580aa3-612a-5656-9f93-47f931ce4487?l=es"
       },
-      "tipo_aviso": "perdida"
+      "tipo_aviso": "perdida",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "5b0b8daa-b0cc-5112-8091-6d4508929282",
@@ -145,7 +148,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/5b0b8daa-b0cc-5112-8091-6d4508929282?l=es"
       },
-      "tipo_aviso": "encontrada"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "5eef044b-b093-5153-9332-4d9d9baad92b",
@@ -180,7 +184,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/5eef044b-b093-5153-9332-4d9d9baad92b?l=es"
       },
-      "tipo_aviso": "encontrada"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "131413c1-4dd5-55b0-8feb-d34961fb21b6",
@@ -215,7 +220,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/131413c1-4dd5-55b0-8feb-d34961fb21b6?l=es"
       },
-      "tipo_aviso": "por_confirmar"
+      "tipo_aviso": "por_confirmar",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "94c19985-ce0f-5688-9d91-344631984c2d",
@@ -617,6 +623,7 @@
       ],
       "ultima_publicacion_en": "2026-11-07T17:27:00-03:00",
       "tipo_aviso": "perdida",
+      "estado_mascota": "sin_confirmar",
       "fecha_extravio_info": {
         "fecha": "2026-11-06",
         "precision": "estimada",
@@ -662,7 +669,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/d681c9bb-87ef-58ab-a26d-4b1e17347112?l=es"
       },
-      "tipo_aviso": "encontrada"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "649385ca-9e10-53c8-9b97-c6358c09244d",
@@ -784,6 +792,7 @@
       ],
       "ultima_publicacion_en": "2026-11-07T16:48:00-03:00",
       "tipo_aviso": "perdida",
+      "estado_mascota": "sin_confirmar",
       "fecha_extravio_info": {
         "fecha": "2026-11-07",
         "precision": "estimada",
@@ -824,7 +833,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/d4f32268-ce3e-5c3a-ab46-a54b4268da70?l=es"
       },
-      "tipo_aviso": "encontrada"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "0c363df5-09b5-50cf-85b1-e09aa2d59d7c",
@@ -1033,6 +1043,7 @@
       ],
       "ultima_publicacion_en": "2026-11-07T15:29:00-03:00",
       "tipo_aviso": "perdida",
+      "estado_mascota": "sin_confirmar",
       "fecha_extravio_info": {
         "fecha": "2026-11-05",
         "precision": "estimada",
@@ -1073,7 +1084,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/73c813cd-5822-513d-a9a8-9604727c94d7?l=es"
       },
-      "tipo_aviso": "encontrada"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "a5aa8f9d-b9e1-5734-a633-aeeb327e4fdf",
@@ -1250,6 +1262,7 @@
       ],
       "ultima_publicacion_en": "2026-11-07T15:17:00-03:00",
       "tipo_aviso": "perdida",
+      "estado_mascota": "sin_confirmar",
       "fecha_extravio_info": {
         "fecha": "2026-11-05",
         "precision": "estimada",
@@ -1350,6 +1363,7 @@
       ],
       "ultima_publicacion_en": "2026-11-07T15:10:00-03:00",
       "tipo_aviso": "perdida",
+      "estado_mascota": "sin_confirmar",
       "fecha_extravio_info": {
         "fecha": "2026-10-27",
         "precision": "indicada",
@@ -1391,7 +1405,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/6d302696-1517-591c-abf9-f8fc050b1d69?l=es"
       },
-      "tipo_aviso": "encontrada"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "aaaff875-7d7f-5036-a32b-ef6220bc66ff",
@@ -1428,7 +1443,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/aaaff875-7d7f-5036-a32b-ef6220bc66ff?l=es"
       },
-      "tipo_aviso": "encontrada"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "15871b90-92eb-5d70-9a4c-80e404b3cd15",
@@ -1465,7 +1481,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/15871b90-92eb-5d70-9a4c-80e404b3cd15?l=es"
       },
-      "tipo_aviso": "encontrada"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "4ea5f77e-36b8-5543-9278-70d41f9e80ec",
@@ -1503,7 +1520,8 @@
         "evidencia": "el martes 13 de octubre en la farfana, maipu",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/4ea5f77e-36b8-5543-9278-70d41f9e80ec?l=es"
       },
-      "tipo_aviso": "perdida"
+      "tipo_aviso": "perdida",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "850f51b6-35f7-5d4b-ad01-4183656d0f64",
@@ -1538,7 +1556,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/850f51b6-35f7-5d4b-ad01-4183656d0f64?l=es"
       },
-      "tipo_aviso": "perdida"
+      "tipo_aviso": "perdida",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "31a20de1-a438-5b6f-86e7-bd6d55870428",
@@ -1573,7 +1592,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/31a20de1-a438-5b6f-86e7-bd6d55870428?l=es"
       },
-      "tipo_aviso": "encontrada"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "5026a7b9-f9d3-578f-8501-2ab880c5be5e",
@@ -1662,6 +1682,7 @@
       ],
       "ultima_publicacion_en": "2026-11-07T13:09:00-03:00",
       "tipo_aviso": "perdida",
+      "estado_mascota": "sin_confirmar",
       "fecha_extravio_info": {
         "fecha": "2026-11-07",
         "precision": "estimada",
@@ -1702,7 +1723,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/f4febc3d-39b7-5c54-8b6d-593f68f59cdc?l=es"
       },
-      "tipo_aviso": "encontrada"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "41523987-9120-5f16-97c3-456f3ae866c3",
@@ -1737,7 +1759,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/41523987-9120-5f16-97c3-456f3ae866c3?l=es"
       },
-      "tipo_aviso": "perdida"
+      "tipo_aviso": "perdida",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "71d0cb7b-1e68-5e64-bf6c-7daef1f5dd4f",
@@ -1772,7 +1795,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/71d0cb7b-1e68-5e64-bf6c-7daef1f5dd4f?l=es"
       },
-      "tipo_aviso": "encontrada"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "292f3ec4-74d8-5aa1-b61b-f7673d24e945",
@@ -1807,7 +1831,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/292f3ec4-74d8-5aa1-b61b-f7673d24e945?l=es"
       },
-      "tipo_aviso": "perdida"
+      "tipo_aviso": "perdida",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "048d05c7-a262-5a3d-a79c-ac8c3d552e54",
@@ -1996,6 +2021,7 @@
       ],
       "ultima_publicacion_en": "2026-11-07T11:36:00-03:00",
       "tipo_aviso": "perdida",
+      "estado_mascota": "sin_confirmar",
       "fecha_extravio_info": {
         "fecha": "2026-11-02",
         "precision": "indicada",
@@ -2037,7 +2063,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/dbd830b9-6152-5544-90e0-24258245b66c?l=es"
       },
-      "tipo_aviso": "encontrada"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "19d58c4e-eb44-5f3b-8646-4ad2f67e3c8d",
@@ -2072,7 +2099,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/19d58c4e-eb44-5f3b-8646-4ad2f67e3c8d?l=es"
       },
-      "tipo_aviso": "encontrada"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "7642788a-e406-5e26-ae97-7a6e3a4a6adb",
@@ -2107,7 +2135,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/7642788a-e406-5e26-ae97-7a6e3a4a6adb?l=es"
       },
-      "tipo_aviso": "perdida"
+      "tipo_aviso": "perdida",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "ae9c4432-41db-5e05-979e-8cc376171c87",
@@ -2144,7 +2173,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/ae9c4432-41db-5e05-979e-8cc376171c87?l=es"
       },
-      "tipo_aviso": "perdida"
+      "tipo_aviso": "perdida",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "7f858af6-3154-59d7-b6ae-32227a472755",
@@ -2181,7 +2211,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/7f858af6-3154-59d7-b6ae-32227a472755?l=es"
       },
-      "tipo_aviso": "encontrada"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "a3843bcc-409e-55cc-a6a7-e89ec8365b9a",
@@ -2219,7 +2250,8 @@
         "evidencia": "el 22 de octubre,  vivo en valle de achibueno 2257 , mi nombre es floky , soy indoor , estoy c",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/a3843bcc-409e-55cc-a6a7-e89ec8365b9a?l=es"
       },
-      "tipo_aviso": "perdida"
+      "tipo_aviso": "perdida",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "9b187d35-9c0d-5ce0-a53e-ff6c10e82e0d",
@@ -2262,7 +2294,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/9b187d35-9c0d-5ce0-a53e-ff6c10e82e0d?l=es"
       },
-      "tipo_aviso": "perdida"
+      "tipo_aviso": "perdida",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "126f95bc-52b7-5b3d-a873-1b4493c6187c",
@@ -2301,7 +2334,8 @@
         "evidencia": "el 4 de octubre en el descanso, maipu (calle tierra fertil)",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/126f95bc-52b7-5b3d-a873-1b4493c6187c?l=es"
       },
-      "tipo_aviso": "perdida"
+      "tipo_aviso": "perdida",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "0df92049-2498-52a5-955c-170a0af03ba5",
@@ -2336,7 +2370,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/0df92049-2498-52a5-955c-170a0af03ba5?l=es"
       },
-      "tipo_aviso": "perdida"
+      "tipo_aviso": "perdida",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "ef39ab32-b687-5e43-aa8f-2b729115c241",
@@ -2459,6 +2494,7 @@
       ],
       "ultima_publicacion_en": "2026-11-06T22:27:00-03:00",
       "tipo_aviso": "perdida",
+      "estado_mascota": "sin_confirmar",
       "fecha_extravio_info": {
         "fecha": "2026-11-06",
         "precision": "estimada",
@@ -2581,6 +2617,7 @@
       ],
       "ultima_publicacion_en": "2026-11-06T20:28:00-03:00",
       "tipo_aviso": "perdida",
+      "estado_mascota": "sin_confirmar",
       "fecha_extravio_info": {
         "fecha": "2026-11-05",
         "precision": "estimada",
@@ -2623,7 +2660,8 @@
         "evidencia": "desde ayer desde av",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/f02e6208-d7c3-5d17-aeef-ef5b7bf71609?l=es"
       },
-      "tipo_aviso": "perdida"
+      "tipo_aviso": "perdida",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "9337a290-bdea-591f-9fdb-98954dd0d3d3",
@@ -2658,7 +2696,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/9337a290-bdea-591f-9fdb-98954dd0d3d3?l=es"
       },
-      "tipo_aviso": "encontrada"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "c5a7c2c0-e894-5c08-8f27-7cf1f1ea1a57",
@@ -2693,7 +2732,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/c5a7c2c0-e894-5c08-8f27-7cf1f1ea1a57?l=es"
       },
-      "tipo_aviso": "por_confirmar"
+      "tipo_aviso": "por_confirmar",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "79b1f04e-675a-531f-a5bf-4354909e143b",
@@ -2728,7 +2768,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/79b1f04e-675a-531f-a5bf-4354909e143b?l=es"
       },
-      "tipo_aviso": "por_confirmar"
+      "tipo_aviso": "por_confirmar",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "1983ad53-ac8a-5e0d-9e88-c0d0532d32d2",
@@ -2765,7 +2806,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/1983ad53-ac8a-5e0d-9e88-c0d0532d32d2?l=es"
       },
-      "tipo_aviso": "perdida"
+      "tipo_aviso": "perdida",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "f7d24f15-e8e1-529c-b1c8-e50a6dee3b71",
@@ -2803,7 +2845,8 @@
         "evidencia": "mi gatita llamada luna el dia  jueves 5 de noviembre salido del departamento ubicado en inca d",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/f7d24f15-e8e1-529c-b1c8-e50a6dee3b71?l=es"
       },
-      "tipo_aviso": "perdida"
+      "tipo_aviso": "perdida",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "b28b9ce0-9c5c-5b28-b128-cbcb17bb2bbf",
@@ -2928,6 +2971,7 @@
       ],
       "ultima_publicacion_en": "2026-11-06T16:54:00-03:00",
       "tipo_aviso": "perdida",
+      "estado_mascota": "sin_confirmar",
       "fecha_extravio_info": {
         "fecha": "2026-11-06",
         "precision": "indicada",
@@ -2969,7 +3013,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/cdec6aa4-383f-509a-b508-d826f47a5ea8?l=es"
       },
-      "tipo_aviso": "encontrada"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "44152f85-4f63-5fb0-8a9d-a6e44c3dbb13",
@@ -3058,6 +3103,7 @@
       ],
       "ultima_publicacion_en": "2026-11-06T15:56:00-03:00",
       "tipo_aviso": "perdida",
+      "estado_mascota": "sin_confirmar",
       "fecha_extravio_info": {
         "fecha": "2026-11-06",
         "precision": "estimada",
@@ -3098,7 +3144,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/0e72efe0-dd4c-50f0-bc6a-05cd7294a8ab?l=es"
       },
-      "tipo_aviso": "encontrada"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "48188793-0a4d-575c-8f03-c21d3cb8043d",
@@ -3133,7 +3180,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/48188793-0a4d-575c-8f03-c21d3cb8043d?l=es"
       },
-      "tipo_aviso": "encontrada"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "e8f4af8e-b4a8-5bd8-9e27-69a50b7a80bd",
@@ -3168,7 +3216,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/e8f4af8e-b4a8-5bd8-9e27-69a50b7a80bd?l=es"
       },
-      "tipo_aviso": "encontrada"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "58fefb7b-2e30-5740-8a1f-004310018f0e",
@@ -3257,6 +3306,7 @@
       ],
       "ultima_publicacion_en": "2026-11-06T15:26:00-03:00",
       "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar",
       "fecha_extravio_info": {
         "fecha": "2026-11-06",
         "precision": "estimada",
@@ -3297,7 +3347,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/31aad4ab-8fec-5d16-b487-a04e865f5e09?l=es"
       },
-      "tipo_aviso": "encontrada"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "a9498102-93a0-597c-9682-ae2708c72c12",
@@ -3332,44 +3383,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/a9498102-93a0-597c-9682-ae2708c72c12?l=es"
       },
-      "tipo_aviso": "encontrada"
-    },
-    {
-      "id": "95c46ef6-f423-5f22-8695-39ff8ddc7148",
-      "descripcion": "22:00 HRS FAMILIA ENCONTRADA ❤️ GRACIAS A TODOS POR DIFUNDIR. FELICIDADES CHOFI\n_____________\n\n14:00 hrs Buscamos a sus dueños. Perrita. Encontrada en Plaza Maipú.  Mediana, de aprox 10-12 kg. Juguetona. Tiene collar, sin identificación. Contacto +56992786467.\nPor favor comparte con tus contactos de WhatsApp, Instagram, Facebook, X, Tik Tok y cualquier medio digital que conozcas. Muchas gracias 😊",
-      "publicado_en": "2026-11-06T14:29:00-03:00",
-      "zona": "Maipú",
-      "autor_publicacion": "Vecin@",
-      "celulares": [
-        "+56992786467"
-      ],
-      "foto": "https://api.sosafeapp.com/reports/media_1793986150904_NEJL9E.jpg",
-      "fuente_url": "https://www.widgets.sosafeapp.com/report/95c46ef6-f423-5f22-8695-39ff8ddc7148?l=es",
-      "verificado_en": "2026-11-08T09:37:31.885482-03:00",
-      "ubicacion_reporte": {
-        "lat": -33.509971432205,
-        "lng": -70.758993923664,
-        "precision": "aproximada",
-        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
-      },
-      "nombre_mascota": "",
-      "lectura_foto": {
-        "estado": "leida",
-        "texto": "a\n=>\n=\nOna\nS\n——\ni\nA\nee\nSi\n£\n+\ntra\nNo,\nA\nNX\n=\nnd\n<>\nei,\nSS\nDA\nA\n¿e\nee\nFS\nAn\n‘4",
-        "celulares": [],
-        "nombres": [],
-        "requiere_revision": true
-      },
-      "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/1d21f2a4a72ae9137fa7b0da.png",
-      "imagen_original_sha256": "8cefd32ca5c1dbfc17739ef879630911e9ad47bc001dbdc6897e49cadda8ab6f",
-      "fecha_extravio_info": {
-        "fecha": "2026-11-06",
-        "precision": "estimada",
-        "criterio": "primera publicacion disponible",
-        "fuente_url": "https://www.widgets.sosafeapp.com/report/95c46ef6-f423-5f22-8695-39ff8ddc7148?l=es"
-      },
-      "tipo_aviso": "reencuentro"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "51b6a9f9-ff00-588c-8de3-1123ca0ff166",
@@ -3407,7 +3422,8 @@
         "evidencia": "el 18 de septiembre +56 9 8642 0050\nlugar: sector de nueva san martin con las naciones (barrio",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/51b6a9f9-ff00-588c-8de3-1123ca0ff166?l=es"
       },
-      "tipo_aviso": "perdida"
+      "tipo_aviso": "perdida",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "7922fb1e-09ea-53e2-8bd4-179bc155bd3d",
@@ -3442,7 +3458,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/7922fb1e-09ea-53e2-8bd4-179bc155bd3d?l=es"
       },
-      "tipo_aviso": "encontrada"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "969dea71-9a1a-55f0-ad4a-31b196d22524",
@@ -3480,7 +3497,8 @@
         "evidencia": "el viernes 2 de octubre, aprox",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/969dea71-9a1a-55f0-ad4a-31b196d22524?l=es"
       },
-      "tipo_aviso": "perdida"
+      "tipo_aviso": "perdida",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "7cdeb933-5f39-51c0-9fe7-8baf39fa832b",
@@ -3517,7 +3535,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/7cdeb933-5f39-51c0-9fe7-8baf39fa832b?l=es"
       },
-      "tipo_aviso": "perdida"
+      "tipo_aviso": "perdida",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "a5e0872f-5bc6-5f23-bc34-c8f768afb431",
@@ -3606,6 +3625,7 @@
       ],
       "ultima_publicacion_en": "2026-11-06T12:26:00-03:00",
       "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar",
       "fecha_extravio_info": {
         "fecha": "2026-11-06",
         "precision": "estimada",
@@ -3646,7 +3666,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/62211edc-ece9-5ed6-a49c-d26bf30d6602?l=es"
       },
-      "tipo_aviso": "encontrada"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "62cee0ae-f1a1-5a86-851a-1cce82831ac3",
@@ -3681,7 +3702,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/62cee0ae-f1a1-5a86-851a-1cce82831ac3?l=es"
       },
-      "tipo_aviso": "encontrada"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "dcd01313-bd71-560e-becd-36d9499ba811",
@@ -3716,7 +3738,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/dcd01313-bd71-560e-becd-36d9499ba811?l=es"
       },
-      "tipo_aviso": "encontrada"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "182309ae-0fc5-574e-9d5f-bae07b91de85",
@@ -3751,7 +3774,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/182309ae-0fc5-574e-9d5f-bae07b91de85?l=es"
       },
-      "tipo_aviso": "encontrada"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "df7906d3-4a44-5167-a369-5872eab413d9",
@@ -3786,7 +3810,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/df7906d3-4a44-5167-a369-5872eab413d9?l=es"
       },
-      "tipo_aviso": "encontrada"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "fbfa36f7-5c37-5233-aebc-21d209742a22",
@@ -3821,7 +3846,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/fbfa36f7-5c37-5233-aebc-21d209742a22?l=es"
       },
-      "tipo_aviso": "encontrada"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "b1a0913a-ec42-5ba2-ad99-14874193be61",
@@ -3856,7 +3882,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/b1a0913a-ec42-5ba2-ad99-14874193be61?l=es"
       },
-      "tipo_aviso": "encontrada"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "35ec49f8-3518-5738-baff-a807347433e8",
@@ -3891,7 +3918,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/35ec49f8-3518-5738-baff-a807347433e8?l=es"
       },
-      "tipo_aviso": "encontrada"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "e5c3a8af-e5c4-5f07-a56a-44e58472bc7f",
@@ -3926,7 +3954,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/e5c3a8af-e5c4-5f07-a56a-44e58472bc7f?l=es"
       },
-      "tipo_aviso": "encontrada"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "5f8993e1-df26-5f49-8488-bd173155cf57",
@@ -4081,6 +4110,7 @@
       ],
       "ultima_publicacion_en": "2026-11-05T23:04:00-03:00",
       "tipo_aviso": "perdida",
+      "estado_mascota": "sin_confirmar",
       "fecha_extravio_info": {
         "fecha": "2026-11-05",
         "precision": "estimada",
@@ -4123,7 +4153,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/18c1f5ea-989f-5a8c-9fc9-e779eb58994e?l=es"
       },
-      "tipo_aviso": "encontrada"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "b156820b-5965-5255-9c5c-005f07c954fa",
@@ -4158,7 +4189,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/b156820b-5965-5255-9c5c-005f07c954fa?l=es"
       },
-      "tipo_aviso": "encontrada"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "d918d722-6e67-5bba-96c5-d3eab16018ee",
@@ -4193,7 +4225,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/d918d722-6e67-5bba-96c5-d3eab16018ee?l=es"
       },
-      "tipo_aviso": "fallecida"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "fallecida"
     },
     {
       "id": "1fdf7cc6-881e-5158-960d-4f4a911a42fd",
@@ -4282,6 +4315,7 @@
       ],
       "ultima_publicacion_en": "2026-11-05T20:43:00-03:00",
       "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar",
       "fecha_extravio_info": {
         "fecha": "2026-11-05",
         "precision": "estimada",
@@ -4322,7 +4356,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/e664c626-30d6-52bb-8f45-40c99a38e44d?l=es"
       },
-      "tipo_aviso": "encontrada"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "637bf209-c478-594f-9a94-99381444ce4c",
@@ -4357,7 +4392,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/637bf209-c478-594f-9a94-99381444ce4c?l=es"
       },
-      "tipo_aviso": "encontrada"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "54c23452-abaf-5417-bfaa-9db683d72f10",
@@ -4392,7 +4428,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/54c23452-abaf-5417-bfaa-9db683d72f10?l=es"
       },
-      "tipo_aviso": "encontrada"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "70ce479c-6d1d-5fad-9650-4e5e45e0c70f",
@@ -4427,7 +4464,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/70ce479c-6d1d-5fad-9650-4e5e45e0c70f?l=es"
       },
-      "tipo_aviso": "perdida"
+      "tipo_aviso": "perdida",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "2627b0d3-e66d-529b-ae21-e97d625fdf53",
@@ -4550,6 +4588,7 @@
       ],
       "ultima_publicacion_en": "2026-11-05T18:37:00-03:00",
       "tipo_aviso": "perdida",
+      "estado_mascota": "sin_confirmar",
       "fecha_extravio_info": {
         "fecha": "2026-11-04",
         "precision": "indicada",
@@ -4591,7 +4630,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/37587bd9-c895-571c-9fc5-608baea0a72c?l=es"
       },
-      "tipo_aviso": "encontrada"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "80b92a8c-10f8-5a27-82eb-8fd0fc72cebd",
@@ -4684,6 +4724,7 @@
       ],
       "ultima_publicacion_en": "2026-11-05T16:10:00-03:00",
       "tipo_aviso": "perdida",
+      "estado_mascota": "sin_confirmar",
       "fecha_extravio_info": {
         "fecha": "2026-11-04",
         "precision": "estimada",
@@ -4874,6 +4915,7 @@
       ],
       "ultima_publicacion_en": "2026-11-05T15:14:00-03:00",
       "tipo_aviso": "perdida",
+      "estado_mascota": "sin_confirmar",
       "fecha_extravio_info": {
         "fecha": "2026-11-05",
         "precision": "estimada",
@@ -4915,7 +4957,8 @@
         "evidencia": "ayer por la manana, es tamano mediano y no tiene collar ya que no le gustan:( \nes mas amarilla",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/771dfdec-346c-51b6-af85-6ee306911bf6?l=es"
       },
-      "tipo_aviso": "perdida"
+      "tipo_aviso": "perdida",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "7c451ef2-078c-56a6-ad67-2eee4d0db8de",
@@ -4950,7 +4993,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/7c451ef2-078c-56a6-ad67-2eee4d0db8de?l=es"
       },
-      "tipo_aviso": "perdida"
+      "tipo_aviso": "perdida",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "6927ae62-1cb1-51eb-848e-58e952ea70dd",
@@ -4987,7 +5031,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/6927ae62-1cb1-51eb-848e-58e952ea70dd?l=es"
       },
-      "tipo_aviso": "encontrada"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "65790e6c-ac8d-551b-a647-5bafc6c9e6e3",
@@ -5022,7 +5067,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/65790e6c-ac8d-551b-a647-5bafc6c9e6e3?l=es"
       },
-      "tipo_aviso": "encontrada"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "f7053f20-7cc1-5357-a766-152e2220eac5",
@@ -5057,7 +5103,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/f7053f20-7cc1-5357-a766-152e2220eac5?l=es"
       },
-      "tipo_aviso": "encontrada"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "f85df456-798e-5792-8c1c-0b0205742c9b",
@@ -5092,7 +5139,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/f85df456-798e-5792-8c1c-0b0205742c9b?l=es"
       },
-      "tipo_aviso": "perdida"
+      "tipo_aviso": "perdida",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "41b96fc9-6f4d-57b6-b9f1-4db60ef557c6",
@@ -5127,7 +5175,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/41b96fc9-6f4d-57b6-b9f1-4db60ef557c6?l=es"
       },
-      "tipo_aviso": "encontrada"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "0e259ca0-a8e5-532f-8f3a-5dd446317415",
@@ -5162,7 +5211,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/0e259ca0-a8e5-532f-8f3a-5dd446317415?l=es"
       },
-      "tipo_aviso": "fallecida"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "fallecida"
     },
     {
       "id": "8f3bc974-01b6-58d4-82f4-fa040057318c",
@@ -5197,7 +5247,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/8f3bc974-01b6-58d4-82f4-fa040057318c?l=es"
       },
-      "tipo_aviso": "encontrada"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "4f3084f4-0159-5377-bbb6-101af4547799",
@@ -5232,7 +5283,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/4f3084f4-0159-5377-bbb6-101af4547799?l=es"
       },
-      "tipo_aviso": "encontrada"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "c23f8168-c8a1-5290-adfb-92ee618d4025",
@@ -5267,7 +5319,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/c23f8168-c8a1-5290-adfb-92ee618d4025?l=es"
       },
-      "tipo_aviso": "encontrada"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "15f1ec60-f74c-5e88-b652-b1b309c6a121",
@@ -5302,7 +5355,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/15f1ec60-f74c-5e88-b652-b1b309c6a121?l=es"
       },
-      "tipo_aviso": "perdida"
+      "tipo_aviso": "perdida",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "3df42afa-94f0-56fc-b411-d524671e6de1",
@@ -5346,7 +5400,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/3df42afa-94f0-56fc-b411-d524671e6de1?l=es"
       },
-      "tipo_aviso": "perdida"
+      "tipo_aviso": "perdida",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "225ff1ec-e159-5248-9e06-7dca3f1e618d",
@@ -5381,7 +5436,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/225ff1ec-e159-5248-9e06-7dca3f1e618d?l=es"
       },
-      "tipo_aviso": "encontrada"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "915153fc-4822-5cc6-8fcf-161d83e3d8bb",
@@ -5416,7 +5472,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/915153fc-4822-5cc6-8fcf-161d83e3d8bb?l=es"
       },
-      "tipo_aviso": "encontrada"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "dd68c06b-89d5-58c5-af11-e149be913afb",
@@ -5452,7 +5509,8 @@
         "evidencia": ", se fue hoy en la tarde y no ha vuelto, si alguien sabe algo",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/dd68c06b-89d5-58c5-af11-e149be913afb?l=es"
       },
-      "tipo_aviso": "perdida"
+      "tipo_aviso": "perdida",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "b4fce2a4-488c-5215-af4e-4abcb7cb6c49",
@@ -5487,7 +5545,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/b4fce2a4-488c-5215-af4e-4abcb7cb6c49?l=es"
       },
-      "tipo_aviso": "fallecida"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "fallecida"
     },
     {
       "id": "e2189d68-da70-5b5d-a8a2-92f65caa1c8b",
@@ -5522,7 +5581,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/e2189d68-da70-5b5d-a8a2-92f65caa1c8b?l=es"
       },
-      "tipo_aviso": "por_confirmar"
+      "tipo_aviso": "por_confirmar",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "781e37e7-e7f1-5ffa-9c34-2243a273b8e4",
@@ -5557,7 +5617,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/781e37e7-e7f1-5ffa-9c34-2243a273b8e4?l=es"
       },
-      "tipo_aviso": "encontrada"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "e5ed0819-4bbc-5d53-b8e3-df764c769598",
@@ -5594,7 +5655,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/e5ed0819-4bbc-5d53-b8e3-df764c769598?l=es"
       },
-      "tipo_aviso": "perdida"
+      "tipo_aviso": "perdida",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "3bd2bbfd-6b8d-5f0e-8b2c-e964133b5bd1",
@@ -5629,7 +5691,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/3bd2bbfd-6b8d-5f0e-8b2c-e964133b5bd1?l=es"
       },
-      "tipo_aviso": "encontrada"
+      "tipo_aviso": "encontrada",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "b9a35c56-d32b-552b-9b29-923288278a4e",
@@ -5666,7 +5729,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/b9a35c56-d32b-552b-9b29-923288278a4e?l=es"
       },
-      "tipo_aviso": "perdida"
+      "tipo_aviso": "perdida",
+      "estado_mascota": "sin_confirmar"
     },
     {
       "id": "950298ac-ae73-5e36-9317-fe3ec76777a2",
@@ -5701,7 +5765,8 @@
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/950298ac-ae73-5e36-9317-fe3ec76777a2?l=es"
       },
-      "tipo_aviso": "por_confirmar"
+      "tipo_aviso": "por_confirmar",
+      "estado_mascota": "sin_confirmar"
     }
   ]
 }

@@ -70,7 +70,9 @@ def consolidate(rows, rules=None):
             reading['celulares']=sorted({p for r in group for p in r.get('lectura_foto',{}).get('celulares',[])})
             names={json.dumps(n,sort_keys=True,ensure_ascii=False):n for r in group for n in r.get('lectura_foto',{}).get('nombres',[])}
             reading['nombres']=list(names.values());reading['requiere_revision']=True
-        best['tipo_aviso'] = classify(best, revisions)
+        classified = classify(best, revisions)
+        best['tipo_aviso'] = 'encontrada' if classified == 'fallecida' else classified
+        best['estado_mascota'] = 'fallecida' if classified == 'fallecida' else 'sin_confirmar'
         best['fecha_extravio_info']=group_date(group,revisions)
         output.append(best)
     return sorted(output,key=lambda r:(r.get('ultima_publicacion_en',r.get('publicado_en','')),r['id']),reverse=True)
