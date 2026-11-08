@@ -28,6 +28,8 @@ def process(rows):
             else:
                 im=ImageOps.exif_transpose(Image.open(raw)).convert('RGB');im.thumbnail((1600,1600))
                 pred=model(im,device='cpu',classes=[15,16],conf=.6,retina_masks=True,verbose=False)[0]
+                if pred.masks is None:
+                    pred=model(im,device='cpu',classes=[15,16],conf=.4,imgsz=1024,retina_masks=True,verbose=False)[0]
                 result={'estado':'sin_deteccion','original_sha256':digest}
                 if pred.masks is not None:
                     masks=pred.masks.data.cpu().numpy()
@@ -46,12 +48,13 @@ def process(rows):
                             if region.any(): blocked=True
                     pink=(arr[:,:,0]>180)&(arr[:,:,2]>70)&(arr[:,:,1]<145)&(arr[:,:,0]>arr[:,:,1]*1.35)&a
                     if pink.sum()>max(30,a.sum()*.003): blocked=True
-                    if blocked: result['estado']='marca_superpuesta'
-                    elif a.sum()>1000 and alpha.getbbox():
+                    if a.sum()>1000 and alpha.getbbox():
                         out=im.convert('RGBA');out.putalpha(alpha);out=out.crop(alpha.getbbox());out.save(target)
-                        result.update(estado='sin_fondo',foto='data/sosafe-fotos/'+target.name)
+                        result.update(estado='revision_color_o_texto' if blocked else 'sin_fondo',foto='' if blocked else 'data/sosafe-fotos/'+target.name, candidato='data/sosafe-fotos/'+target.name)
                 record.write_text(json.dumps(result))
             review=revisions.get(row['id'], {}).get('segmentacion', {})
+            if review.get('estado') == 'aprobada' and review.get('original_sha256') == digest and target.exists() and review.get('imagen_sha256') == hashlib.sha256(target.read_bytes()).hexdigest():
+                result=dict(result, estado='sin_fondo', foto='data/sosafe-fotos/'+target.name)
             if review.get('original_sha256') == digest and target.exists() and review.get('imagen_sha256') == hashlib.sha256(target.read_bytes()).hexdigest() and review.get('estado') == 'rechazada':
                 result=dict(result, estado='silueta_no_fiable', foto='')
             row['recorte_estado']=result['estado']

@@ -7,7 +7,13 @@
       0.76,
       0.83
     ],
-    "recorte_sha256": "5e98b59c1c0bfd1eb9bd88058091e0261019b18c5947c3e846e898a742401248"
+    "recorte_sha256": "5e98b59c1c0bfd1eb9bd88058091e0261019b18c5947c3e846e898a742401248",
+    "segmentacion": {
+      "original_sha256": "8d8c3e47eb1cabb549da4a5a5142f9841ed4b3970e6ee5f88971e60365389af9",
+      "imagen_sha256": "6b1a0bde82e65f3dba9970661a0616267d4e8b1f68d5def5321d94444d70b485",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    }
   },
   "e664c626-30d6-52bb-8f45-40c99a38e44d": {
     "sha256": "624ce3b4226ab13e01281cf78ef0c44dd12a1de84a7aeb0a93ad0df5589a118b",
@@ -38,7 +44,13 @@
       0.52,
       0.56
     ],
-    "recorte_sha256": "2c7a07639f785c704fc698e86b0f4d43ddc7cb7c4354d1dc4ce4eefe8d5fd149"
+    "recorte_sha256": "2c7a07639f785c704fc698e86b0f4d43ddc7cb7c4354d1dc4ce4eefe8d5fd149",
+    "segmentacion": {
+      "original_sha256": "de61f0dbdb68dba4fb62dacbd1565ad04c7883133144ff632d6e7a429f46706e",
+      "imagen_sha256": "89ab866fd93cf3982a90e86fa8b67c694ecf0be9d65a7367710828ab65ce426c",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
   },
   "0e259ca0-a8e5-532f-8f3a-5dd446317415": {
     "sha256": "2497b080c4276cb95c203547421e230e26d0c62f14311297873663ad1d948d03",
@@ -48,7 +60,13 @@
       1,
       0.92
     ],
-    "recorte_sha256": "a0797f2236268b952249c93aa10a1c82c29a59409ec75e57205085141f82a403"
+    "recorte_sha256": "a0797f2236268b952249c93aa10a1c82c29a59409ec75e57205085141f82a403",
+    "segmentacion": {
+      "original_sha256": "2497b080c4276cb95c203547421e230e26d0c62f14311297873663ad1d948d03",
+      "imagen_sha256": "8e5eac226e410d357463dc7779d746a74386c8cee383beae2289af8c20c89c32",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    }
   },
   "225ff1ec-e159-5248-9e06-7dca3f1e618d": {
     "sha256": "558926157f09a911173409e0a1b4ca95f35c6060c99b7dbb5512bfc9265231b1",
@@ -58,7 +76,13 @@
       0.59,
       0.76
     ],
-    "recorte_sha256": "b350697e0a1ac5f36bde7fe79ac1bece9c697efdc868230b8bbd21c86fd31d38"
+    "recorte_sha256": "b350697e0a1ac5f36bde7fe79ac1bece9c697efdc868230b8bbd21c86fd31d38",
+    "segmentacion": {
+      "original_sha256": "558926157f09a911173409e0a1b4ca95f35c6060c99b7dbb5512bfc9265231b1",
+      "imagen_sha256": "20b8d3673d73dc80d188729d26f74e9f71fb27f7e2459e253b9d0f519ea1bab1",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    }
   },
   "b4fce2a4-488c-5215-af4e-4abcb7cb6c49": {
     "sha256": "31a0742002a6c5ac0ca98d7f07b95875ea2393b5d243a9015c6614541e1c5ce7",
@@ -78,7 +102,13 @@
       0.7896000671386719,
       0.7903431128821895
     ],
-    "recorte_sha256": "c61d799c26dddd82dc8a40da02f4a960997f3f36dc1a1f79dd4365faf19a4a1a"
+    "recorte_sha256": "c61d799c26dddd82dc8a40da02f4a960997f3f36dc1a1f79dd4365faf19a4a1a",
+    "segmentacion": {
+      "original_sha256": "8910c845a4aadebb7a3e41448eb96b5a5205f0de0f861068c35547dc94bc7392",
+      "imagen_sha256": "82a1dfbff049411e54722c9c1f076a41885c81c001e972187fbea8fff3cfdf90",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    }
   },
   "70ce479c-6d1d-5fad-9650-4e5e45e0c70f": {
     "sha256": "25c1d5fe2bb770dae9ca6e1de700bccba70aa4b5e48fa09543e03a10e0d78cba",
@@ -98,7 +128,13 @@
       0.4333530506837159,
       0.34790306556515577
     ],
-    "recorte_sha256": "338cab60922732472cc59f12d7c8ecf53a11a540d7d5740910b33c25b7b83502"
+    "recorte_sha256": "338cab60922732472cc59f12d7c8ecf53a11a540d7d5740910b33c25b7b83502",
+    "segmentacion": {
+      "original_sha256": "a04baf451c3c40b8463c316b70d313b5ce1706575188b348bfc40a86e4443f89",
+      "imagen_sha256": "db2f95d06d09e2b82e8721ece32347fd6ea4d63ce2bfdd244facf41e7eae5003",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
   },
   "2627b0d3-e66d-529b-ae21-e97d625fdf53": {
     "sha256": "05de61e845b2b7c2b53a2b81f27becfc41029abd6ef172d23a2313f94ab218f4",
@@ -108,7 +144,13 @@
       0.9842571258544922,
       0.31471393481811
     ],
-    "recorte_sha256": "c15333f08aee682097a2729cd902eecdf1370f016e62ae80e447dd874a7e5d08"
+    "recorte_sha256": "c15333f08aee682097a2729cd902eecdf1370f016e62ae80e447dd874a7e5d08",
+    "segmentacion": {
+      "original_sha256": "05de61e845b2b7c2b53a2b81f27becfc41029abd6ef172d23a2313f94ab218f4",
+      "imagen_sha256": "24069928aadbf1aca1f73560e10d04b415c772392b27c21463d6a5dadc30e892",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
   },
   "910a1af3-573f-567b-bcf8-05851e26b630": {
     "sha256": "497f587cffb07e3806476196558c7de2fbb2e62a239bc03b08fe9c98f569f5b6",
@@ -123,7 +165,7 @@
       "original_sha256": "497f587cffb07e3806476196558c7de2fbb2e62a239bc03b08fe9c98f569f5b6",
       "imagen_sha256": "526b15e1d68d50e41d44e33d0e03b27e34554ff2c3b3c6063e8fa92118fe7576",
       "estado": "rechazada",
-      "motivo": "Revisión visual: texto, fondo residual o silueta incompleta; conservar original."
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
     }
   },
   "347869ba-498f-581c-9169-566bbe32594e": {
@@ -139,7 +181,7 @@
       "original_sha256": "497f587cffb07e3806476196558c7de2fbb2e62a239bc03b08fe9c98f569f5b6",
       "imagen_sha256": "526b15e1d68d50e41d44e33d0e03b27e34554ff2c3b3c6063e8fa92118fe7576",
       "estado": "rechazada",
-      "motivo": "Revisión visual: texto, fondo residual o silueta incompleta; conservar original."
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
     }
   },
   "115e49c2-b6a6-5bbb-9243-ae6957ce0576": {
@@ -150,7 +192,13 @@
       0.8235355377197265,
       0.9125085907786927
     ],
-    "recorte_sha256": "ebab13a5fa2bee1a83aca645b6eaf5c97068187bb95ac67db59fc917d26fa838"
+    "recorte_sha256": "ebab13a5fa2bee1a83aca645b6eaf5c97068187bb95ac67db59fc917d26fa838",
+    "segmentacion": {
+      "original_sha256": "9b55945d6a02208e5c67f638c77716f22872f84f9ac05f3a22452e6fc21b4bb7",
+      "imagen_sha256": "a1ac2d942ca168897a7a319ef0b70da6f2631d54b68fd135f33e98c447c5756e",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
   },
   "48ad9659-d19f-5362-9adc-7b02ca2ae8e2": {
     "sha256": "9b55945d6a02208e5c67f638c77716f22872f84f9ac05f3a22452e6fc21b4bb7",
@@ -160,7 +208,13 @@
       0.8235355377197265,
       0.9125085907786927
     ],
-    "recorte_sha256": "ebab13a5fa2bee1a83aca645b6eaf5c97068187bb95ac67db59fc917d26fa838"
+    "recorte_sha256": "ebab13a5fa2bee1a83aca645b6eaf5c97068187bb95ac67db59fc917d26fa838",
+    "segmentacion": {
+      "original_sha256": "9b55945d6a02208e5c67f638c77716f22872f84f9ac05f3a22452e6fc21b4bb7",
+      "imagen_sha256": "a1ac2d942ca168897a7a319ef0b70da6f2631d54b68fd135f33e98c447c5756e",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
   },
   "7ecd222c-f2bb-588b-9236-f0f4244f2d81": {
     "sha256": "9b55945d6a02208e5c67f638c77716f22872f84f9ac05f3a22452e6fc21b4bb7",
@@ -170,7 +224,13 @@
       0.8235355377197265,
       0.9125085907786927
     ],
-    "recorte_sha256": "ebab13a5fa2bee1a83aca645b6eaf5c97068187bb95ac67db59fc917d26fa838"
+    "recorte_sha256": "ebab13a5fa2bee1a83aca645b6eaf5c97068187bb95ac67db59fc917d26fa838",
+    "segmentacion": {
+      "original_sha256": "9b55945d6a02208e5c67f638c77716f22872f84f9ac05f3a22452e6fc21b4bb7",
+      "imagen_sha256": "a1ac2d942ca168897a7a319ef0b70da6f2631d54b68fd135f33e98c447c5756e",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
   },
   "4e0d1a6b-a24b-5125-9da5-440266087b53": {
     "sha256": "9b55945d6a02208e5c67f638c77716f22872f84f9ac05f3a22452e6fc21b4bb7",
@@ -180,7 +240,13 @@
       0.8235355377197265,
       0.9125085907786927
     ],
-    "recorte_sha256": "ebab13a5fa2bee1a83aca645b6eaf5c97068187bb95ac67db59fc917d26fa838"
+    "recorte_sha256": "ebab13a5fa2bee1a83aca645b6eaf5c97068187bb95ac67db59fc917d26fa838",
+    "segmentacion": {
+      "original_sha256": "9b55945d6a02208e5c67f638c77716f22872f84f9ac05f3a22452e6fc21b4bb7",
+      "imagen_sha256": "a1ac2d942ca168897a7a319ef0b70da6f2631d54b68fd135f33e98c447c5756e",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
   },
   "a5aa8f9d-b9e1-5734-a633-aeeb327e4fdf": {
     "sha256": "c2f62e9c8aab36c18a1d5087d9a0e814759378e990452cb6a4f8a75a0d5a57fc",
@@ -200,7 +266,13 @@
       0.4333530506837159,
       0.34790306556515577
     ],
-    "recorte_sha256": "338cab60922732472cc59f12d7c8ecf53a11a540d7d5740910b33c25b7b83502"
+    "recorte_sha256": "338cab60922732472cc59f12d7c8ecf53a11a540d7d5740910b33c25b7b83502",
+    "segmentacion": {
+      "original_sha256": "a04baf451c3c40b8463c316b70d313b5ce1706575188b348bfc40a86e4443f89",
+      "imagen_sha256": "db2f95d06d09e2b82e8721ece32347fd6ea4d63ce2bfdd244facf41e7eae5003",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
   },
   "771dfdec-346c-51b6-af85-6ee306911bf6": {
     "sha256": "4d49aa9d516ce79a1671aecc00da0308b28648a11cf832ef3143bed35b91b4d0",
@@ -215,7 +287,7 @@
       "original_sha256": "4d49aa9d516ce79a1671aecc00da0308b28648a11cf832ef3143bed35b91b4d0",
       "imagen_sha256": "0f77d03ae54a2ed23965f7f16e0526b9924df16621590a996733c2d87f1e3e70",
       "estado": "rechazada",
-      "motivo": "Revisión visual: texto, fondo residual o silueta incompleta; conservar original."
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
     }
   },
   "7c451ef2-078c-56a6-ad67-2eee4d0db8de": {
@@ -226,7 +298,13 @@
       1.0,
       0.8835849990844727
     ],
-    "recorte_sha256": "31a42bab97aaf5e0db8643c3dd9e7d4b2f83e09072fdf17350870f5abda6eea4"
+    "recorte_sha256": "31a42bab97aaf5e0db8643c3dd9e7d4b2f83e09072fdf17350870f5abda6eea4",
+    "segmentacion": {
+      "original_sha256": "72ab77be2e6dc753acf3082a9ae561ff0529c88657ab47324e8f7900a256bf91",
+      "imagen_sha256": "0698792ce9a50bc67b475f0c1f3f5e1aee1fa0c213afee992cda4a397ecaae83",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
   },
   "ed3dfc58-2c16-54d9-a932-20956fa6fd6a": {
     "sha256": "d985ab2254f5845269209ec14402c017815080f6e3f61a203f54e8c56c433ace",
@@ -256,7 +334,13 @@
       0.9497673034667968,
       0.8452879638671874
     ],
-    "recorte_sha256": "208060f810d46b69fe5c08b19a841061e8c8ca13f5cdcf784f5e00ca16e13993"
+    "recorte_sha256": "208060f810d46b69fe5c08b19a841061e8c8ca13f5cdcf784f5e00ca16e13993",
+    "segmentacion": {
+      "original_sha256": "30dbeb5aa1f7718964ff7ef463fb3a09e56bb57fa67f3da73fb329eeeff66234",
+      "imagen_sha256": "65c24b2cb981f99339251568310eac1129e0a5b51866dd996ce428b657d03d7a",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
   },
   "915153fc-4822-5cc6-8fcf-161d83e3d8bb": {
     "sha256": "748f63b7439a95bb9b267c0c2fbd8e96fbc001da01707a836a4af0bacb968ce5",
@@ -276,7 +360,13 @@
       1.0,
       0.8112840505059487
     ],
-    "recorte_sha256": "11c3fb7699b5d1aba4039806eaa022eeb0eaf91a67eebcaedd1a521880f1e7bd"
+    "recorte_sha256": "11c3fb7699b5d1aba4039806eaa022eeb0eaf91a67eebcaedd1a521880f1e7bd",
+    "segmentacion": {
+      "original_sha256": "2cfa882717cea2f2f20e36c21c50a28c369671ad66bf2cd4fa8337899957e1ae",
+      "imagen_sha256": "9db0512e43764d88c366f521a30569c459aab6dcdd09fae0f4e364b974c31536",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
   },
   "c8517126-9c75-58a2-a1ca-28d653d67abd": {
     "sha256": "aeda0c15f07a99e520b51e484c60a6f7fc8badc70e4cd3bb9c7d3609b86dce56",
@@ -304,7 +394,13 @@
   },
   "f7053f20-7cc1-5357-a766-152e2220eac5": {
     "sha256": "ef72fd2730acd8957a1f787d73388c3110d5c2df7c4efcb2bcbaa94670a112cb",
-    "recorte_sha256": "23c63427e4bda9530ae6c3fbf3a611de092325e466d795a2f78dd8e0edf935bb"
+    "recorte_sha256": "23c63427e4bda9530ae6c3fbf3a611de092325e466d795a2f78dd8e0edf935bb",
+    "segmentacion": {
+      "original_sha256": "ef72fd2730acd8957a1f787d73388c3110d5c2df7c4efcb2bcbaa94670a112cb",
+      "imagen_sha256": "56f1901a8f4d9c006ee8a6071acad971f15eb099659e8b6ebf88c44cae359e27",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    }
   },
   "f85df456-798e-5792-8c1c-0b0205742c9b": {
     "sha256": "dbf166004120f8f6b824b875750369a4d8e279db090612e7adc070c8658e5ded",
@@ -312,7 +408,13 @@
   },
   "345181e3-b236-5f27-9194-00a5f2eec7a1": {
     "sha256": "605783d2f16c2814949505695b0717343c188f91ac80d47af82f33f04e3795e4",
-    "recorte_sha256": "b5fb03c724c210135cdb8090b9ae610060e814b93ebdcfc68183a2705dd99609"
+    "recorte_sha256": "b5fb03c724c210135cdb8090b9ae610060e814b93ebdcfc68183a2705dd99609",
+    "segmentacion": {
+      "original_sha256": "605783d2f16c2814949505695b0717343c188f91ac80d47af82f33f04e3795e4",
+      "imagen_sha256": "19aa7c15352f439ec4fdfd911fca4f497d40a3375a9976e4c137ea7b0754497a",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
   },
   "41b96fc9-6f4d-57b6-b9f1-4db60ef557c6": {
     "sha256": "25ec207c676754add43a572a1c245b93bd0df5b912a3b31cf71efab74b79760c",
@@ -333,7 +435,7 @@
       "original_sha256": "16404d8522b4d463d450bec7743f9d0e6be71f19c2a49e87805f0269dfe4b33d",
       "imagen_sha256": "59be4f298c02fe0daf76b85d5f9637ba917b77944d70839cf064cc684f5f932c",
       "estado": "rechazada",
-      "motivo": "Revisión visual: texto, fondo residual o silueta incompleta; conservar original."
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
     }
   },
   "0c363df5-09b5-50cf-85b1-e09aa2d59d7c": {
@@ -343,7 +445,7 @@
       "original_sha256": "65bdecfe7ff68ad71c6dccfd7d02561c0989cb9c7f05a268dd9a6c07ae63759b",
       "imagen_sha256": "038dcc73974fb0b9de618003b847d9fd359f01159d0dfb16c5879853088a1472",
       "estado": "rechazada",
-      "motivo": "Revisión visual: texto, fondo residual o silueta incompleta; conservar original."
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
     }
   },
   "572d521f-d34d-5542-abd5-03a4336d2e62": {
@@ -356,15 +458,33 @@
   },
   "3df42afa-94f0-56fc-b411-d524671e6de1": {
     "sha256": "263cd4698143e82f0af2505c14d104248cd719d9982a9e25fa01fd83162e3129",
-    "recorte_sha256": "b066130dfe4028e96e16c8480f9906498ac9fa124d4519b4c53534ca6c7b28f3"
+    "recorte_sha256": "b066130dfe4028e96e16c8480f9906498ac9fa124d4519b4c53534ca6c7b28f3",
+    "segmentacion": {
+      "original_sha256": "263cd4698143e82f0af2505c14d104248cd719d9982a9e25fa01fd83162e3129",
+      "imagen_sha256": "820606bde50e418cdf5488e3d8fe1f5e4d29a6485ade565b6f28bebadbe8206e",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    }
   },
   "dd68c06b-89d5-58c5-af11-e149be913afb": {
     "sha256": "145c532f49963937dad840f82a2a6ddf13560a690d573092f45b1b5152f8c1ef",
-    "recorte_sha256": "9fe86c886ac4196b8583bebda9576400905cd188118599e08641b735051831c3"
+    "recorte_sha256": "9fe86c886ac4196b8583bebda9576400905cd188118599e08641b735051831c3",
+    "segmentacion": {
+      "original_sha256": "145c532f49963937dad840f82a2a6ddf13560a690d573092f45b1b5152f8c1ef",
+      "imagen_sha256": "a6d367c495973cdd84bcf359169028574ba12fe6cb2205d19f075d518484f143",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    }
   },
   "e2189d68-da70-5b5d-a8a2-92f65caa1c8b": {
     "sha256": "281e44283d54afcf73efe36c2950c1ad571003e469c983281c9ad47c1ae8a77b",
-    "recorte_sha256": "7bcf2975a243cb1bcb4d74b41cfa7a7e7162096cd9d909153439909da1c4b4ef"
+    "recorte_sha256": "7bcf2975a243cb1bcb4d74b41cfa7a7e7162096cd9d909153439909da1c4b4ef",
+    "segmentacion": {
+      "original_sha256": "281e44283d54afcf73efe36c2950c1ad571003e469c983281c9ad47c1ae8a77b",
+      "imagen_sha256": "b75836bef920c2b5c995f2c909af377fd228720e718c265ed248f77a2118fd36",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    }
   },
   "781e37e7-e7f1-5ffa-9c34-2243a273b8e4": {
     "sha256": "9c8aa5a33a99418c14ae188a7e421c9ad80c2ced9e9936c8a945fbe35e511c8b",
@@ -372,7 +492,13 @@
   },
   "3bd2bbfd-6b8d-5f0e-8b2c-e964133b5bd1": {
     "sha256": "820724d3224e40e6e42e3597eeb56c9bc24e574d2559154752fbf0aeced84d84",
-    "recorte_sha256": "7cc3090937d58a3fff5c3311bcaa75e7df4877e4b8c27e830807a382ae573c20"
+    "recorte_sha256": "7cc3090937d58a3fff5c3311bcaa75e7df4877e4b8c27e830807a382ae573c20",
+    "segmentacion": {
+      "original_sha256": "820724d3224e40e6e42e3597eeb56c9bc24e574d2559154752fbf0aeced84d84",
+      "imagen_sha256": "7bfc86948900ddd60fe38561b86acaab72bfbc0fba29be884582c8480bba6b00",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    }
   },
   "b9a35c56-d32b-552b-9b29-923288278a4e": {
     "sha256": "69364ad3e70075caf156ad0f6294b0e2f17527a213f7f494cee43bdee24acc25",
@@ -397,12 +523,18 @@
       "original_sha256": "93e4bccc2b8a9408ab45d539fccf39c24d4b2a412a81fecc13795e0609eaca2c",
       "imagen_sha256": "932985c41b3c455e77cef31769a13eb693d50604ded8402ff137a624f01deaae",
       "estado": "rechazada",
-      "motivo": "Revisión visual: texto, fondo residual o silueta incompleta; conservar original."
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
     }
   },
   "79b1f04e-675a-531f-a5bf-4354909e143b": {
     "sha256": "268c2e577c9d41ab88231b14eed48f21a1057c318b5e58326740c03d7a2550ae",
-    "recorte_sha256": "9a7b9744df89b87d19f816eee36d2753f2c7ccdf4570715891f661c37b97d553"
+    "recorte_sha256": "9a7b9744df89b87d19f816eee36d2753f2c7ccdf4570715891f661c37b97d553",
+    "segmentacion": {
+      "original_sha256": "268c2e577c9d41ab88231b14eed48f21a1057c318b5e58326740c03d7a2550ae",
+      "imagen_sha256": "27cf297e623e032fe9018292d997e5568afaff7ff95d6e4f2b86a7cfaab1b756",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
   },
   "17d93426-eac2-5eb6-ab6e-47caa5be178a": {
     "sha256": "034fe285fa1e3c79c3cf335340fbf70111e70935971d261fbb7ff11a0358c753",
@@ -414,11 +546,23 @@
   },
   "3e3e59fb-abbb-5dd4-be6d-219487f04d47": {
     "sha256": "d5f7bf56208f66c600adc531bdc2858461c285cec99062ae834d1bc9f0d498af",
-    "recorte_sha256": "a442f742e4ed1e84e43f637080f22fa2b995205dc7a5add83448f4e716d86536"
+    "recorte_sha256": "a442f742e4ed1e84e43f637080f22fa2b995205dc7a5add83448f4e716d86536",
+    "segmentacion": {
+      "original_sha256": "d5f7bf56208f66c600adc531bdc2858461c285cec99062ae834d1bc9f0d498af",
+      "imagen_sha256": "7a7f72aff284348fa4eba17d05445d72871706a2e7aec172d2d1f3468b58411f",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
   },
   "44152f85-4f63-5fb0-8a9d-a6e44c3dbb13": {
     "sha256": "d5f7bf56208f66c600adc531bdc2858461c285cec99062ae834d1bc9f0d498af",
-    "recorte_sha256": "a442f742e4ed1e84e43f637080f22fa2b995205dc7a5add83448f4e716d86536"
+    "recorte_sha256": "a442f742e4ed1e84e43f637080f22fa2b995205dc7a5add83448f4e716d86536",
+    "segmentacion": {
+      "original_sha256": "d5f7bf56208f66c600adc531bdc2858461c285cec99062ae834d1bc9f0d498af",
+      "imagen_sha256": "7a7f72aff284348fa4eba17d05445d72871706a2e7aec172d2d1f3468b58411f",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
   },
   "0e72efe0-dd4c-50f0-bc6a-05cd7294a8ab": {
     "sha256": "54bc3d85449149e0c7ee76338107ad0f5928048ff75077303beb8adb5a732bbc",
@@ -446,7 +590,13 @@
   },
   "969dea71-9a1a-55f0-ad4a-31b196d22524": {
     "sha256": "1b644b75ebfd5405597304b228fe03919bcaeb4e74dade82b8928cca4d255969",
-    "recorte_sha256": "74b5e876d2eaed59efa94022dd4319e8f9a960e839565892a27557a396528337"
+    "recorte_sha256": "74b5e876d2eaed59efa94022dd4319e8f9a960e839565892a27557a396528337",
+    "segmentacion": {
+      "original_sha256": "1b644b75ebfd5405597304b228fe03919bcaeb4e74dade82b8928cca4d255969",
+      "imagen_sha256": "bc65104682762f437ea1ec741abaaa9702077a3c71249e8bea3f4f6e5ed7e70c",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    }
   },
   "5121d0c5-8ff4-57b6-aed1-c73b525dd4c8": {
     "sha256": "40ffe5880cae8c853a86fca05c45a3a5f3d9cda075fe7ead0c88c69b2ab0ce79",
@@ -470,7 +620,13 @@
   },
   "182309ae-0fc5-574e-9d5f-bae07b91de85": {
     "sha256": "6d8c187675e7fdecf0046a6a7976181b03b63c322a7efe6d9f02d0b494b27b99",
-    "recorte_sha256": "4360e366fb5615a9c472456f84cadd9eb2e362985b8beddd24445327cf8b9c37"
+    "recorte_sha256": "4360e366fb5615a9c472456f84cadd9eb2e362985b8beddd24445327cf8b9c37",
+    "segmentacion": {
+      "original_sha256": "6d8c187675e7fdecf0046a6a7976181b03b63c322a7efe6d9f02d0b494b27b99",
+      "imagen_sha256": "bdf3b283b8838ee711418185c353df5604824877deaa0cdc59b6d7d380a19e05",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
   },
   "df7906d3-4a44-5167-a369-5872eab413d9": {
     "sha256": "03051c8a23bd338bd414052a7b2bcca7ecb63525ffce8a06a227b4dce4753f43",
@@ -495,7 +651,7 @@
       "original_sha256": "2d65c3b88f96f7be881e6df29a017b91d789895f43f1cf36f9580c072803bfaf",
       "imagen_sha256": "e04cd339836b9d173a13c3b3407cd8dea4da8977e55715964831cdf8b707b2c3",
       "estado": "rechazada",
-      "motivo": "Revisión visual: texto, fondo residual o silueta incompleta; conservar original."
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
     }
   },
   "1045705b-d7a2-596f-a8f6-0574cf2ea3fc": {
@@ -503,7 +659,7 @@
       "original_sha256": "6c967f0febff242fd57219f916307938dad0ddcac3fab9e554c38d665f8a4c5f",
       "imagen_sha256": "56e435358bc871a194131479cd3ad6d0785cd423512bb406d2fd82307b6186e5",
       "estado": "rechazada",
-      "motivo": "Revisión visual: texto, fondo residual o silueta incompleta; conservar original."
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
     }
   },
   "73c813cd-5822-513d-a9a8-9604727c94d7": {
@@ -511,7 +667,7 @@
       "original_sha256": "6fdea4682480ce8eed8f87b8ae39b6a2578f6f5070a243815e64a07094a5dc3f",
       "imagen_sha256": "a26aabef83776e0d51793c33317c245b1466caae4c652aefbc84015931999090",
       "estado": "rechazada",
-      "motivo": "Revisión visual: texto, fondo residual o silueta incompleta; conservar original."
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
     }
   },
   "642cf763-bdb8-510e-8433-f23d87281f02": {
@@ -519,7 +675,7 @@
       "original_sha256": "497f587cffb07e3806476196558c7de2fbb2e62a239bc03b08fe9c98f569f5b6",
       "imagen_sha256": "526b15e1d68d50e41d44e33d0e03b27e34554ff2c3b3c6063e8fa92118fe7576",
       "estado": "rechazada",
-      "motivo": "Revisión visual: texto, fondo residual o silueta incompleta; conservar original."
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
     }
   },
   "d23aa0bd-d109-593c-92b1-f3e82a93f7a4": {
@@ -527,7 +683,7 @@
       "original_sha256": "497f587cffb07e3806476196558c7de2fbb2e62a239bc03b08fe9c98f569f5b6",
       "imagen_sha256": "526b15e1d68d50e41d44e33d0e03b27e34554ff2c3b3c6063e8fa92118fe7576",
       "estado": "rechazada",
-      "motivo": "Revisión visual: texto, fondo residual o silueta incompleta; conservar original."
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
     }
   },
   "9f6a2d4e-bc15-5559-b3ca-19e0f421a47e": {
@@ -535,7 +691,7 @@
       "original_sha256": "3d1f26ec8fbab6b9c6fc2df9f8eeea9cf2af6eca3dc82cea200a5d9ba6af2174",
       "imagen_sha256": "911f0b239d6c22e37dd131a6622c83ba636fdd9ab004c72131dc5ff9202002b1",
       "estado": "rechazada",
-      "motivo": "Revisión visual: texto, fondo residual o silueta incompleta; conservar original."
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
     }
   },
   "0df92049-2498-52a5-955c-170a0af03ba5": {
@@ -543,7 +699,7 @@
       "original_sha256": "71de631183dd7b70888622c80c37918bc1185e0a97a15eb6fbfc564521407d33",
       "imagen_sha256": "d8c4431865586fb027d1b8a8f789dcc207318af28b1dff884abedbbd2d9874ca",
       "estado": "rechazada",
-      "motivo": "Revisión visual: texto, fondo residual o silueta incompleta; conservar original."
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
     }
   },
   "460595ed-1d65-5e37-9b74-21fd4b6f0e5c": {
@@ -551,7 +707,295 @@
       "original_sha256": "3d1f26ec8fbab6b9c6fc2df9f8eeea9cf2af6eca3dc82cea200a5d9ba6af2174",
       "imagen_sha256": "911f0b239d6c22e37dd131a6622c83ba636fdd9ab004c72131dc5ff9202002b1",
       "estado": "rechazada",
-      "motivo": "Revisión visual: texto, fondo residual o silueta incompleta; conservar original."
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
+  },
+  "df60f528-a913-5dee-98bb-de09ecb235ba": {
+    "segmentacion": {
+      "original_sha256": "4d2d33d31fb9018f90327bfa7adab744cb767ad8a6f1781f6f1fe608c6885e87",
+      "imagen_sha256": "57f9ebd728eba30a59e433ab1aeaa935454ac705452dddcbbf76bc845c43d991",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    }
+  },
+  "438dbbc4-4f7f-5667-a4ed-c155db29e23d": {
+    "segmentacion": {
+      "original_sha256": "ec72e56ec3c7dc5188b7a2c9d3833b31a6aae78ed4ae99407d104e94d41016b2",
+      "imagen_sha256": "2262154c54bfc0c46a4a35e576fc9513a562d27c006b858c4ae2a9ddb1d59180",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    }
+  },
+  "649385ca-9e10-53c8-9b97-c6358c09244d": {
+    "segmentacion": {
+      "original_sha256": "ec72e56ec3c7dc5188b7a2c9d3833b31a6aae78ed4ae99407d104e94d41016b2",
+      "imagen_sha256": "2262154c54bfc0c46a4a35e576fc9513a562d27c006b858c4ae2a9ddb1d59180",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    }
+  },
+  "d4f32268-ce3e-5c3a-ab46-a54b4268da70": {
+    "segmentacion": {
+      "original_sha256": "ca5ff158f1a113f05cc859f6b377777cabcf4f3e8651f8b504a9207b25f4f34c",
+      "imagen_sha256": "a8f86d873a41ba17da4a574df98e3616c3813d2a2a8ffbac90d91d44cc3345f9",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    }
+  },
+  "aaaff875-7d7f-5036-a32b-ef6220bc66ff": {
+    "segmentacion": {
+      "original_sha256": "8373e7b92548bc038b9ff57c0dc566cab84b4ccfaf5d93c81eda3b3b23423f3d",
+      "imagen_sha256": "56ff6eb8fb9b61d348f4be3c9a1c87346da50784536ba910aa061a12e64f1497",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    }
+  },
+  "15871b90-92eb-5d70-9a4c-80e404b3cd15": {
+    "segmentacion": {
+      "original_sha256": "a8a8c6eeaee5e2701cbea45db9bc96961eadf58b481f587c7647693940165d5b",
+      "imagen_sha256": "b1d6527077abc28ba3953da70ceb8edca4eede594b9958a799985381cff7f081",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    }
+  },
+  "4ea5f77e-36b8-5543-9278-70d41f9e80ec": {
+    "segmentacion": {
+      "original_sha256": "226b0cba4c4b5634ffc02f4b9e8255fac14091d1591ca707dff4749ca6abf3dd",
+      "imagen_sha256": "988374363ab0beebc1a70c448706622e9eacff538a58906b2c412635c37f6374",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    }
+  },
+  "5026a7b9-f9d3-578f-8501-2ab880c5be5e": {
+    "segmentacion": {
+      "original_sha256": "c83683581e502e200c16efa14f3de576ac128ba5252288247d51f7836d465ebf",
+      "imagen_sha256": "122bf5138a03a222888ebfdfcce31ee2d48d6b0c9b117b866d37db2d0a9ae97d",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
+  },
+  "41523987-9120-5f16-97c3-456f3ae866c3": {
+    "segmentacion": {
+      "original_sha256": "a0f5e8b11398db1b732b13b7a29e1270837dfbbae20ffc7992066eb708eb2206",
+      "imagen_sha256": "1efa8b9baa5372a75857666259611074e15c097bc9eeb8961095c3c7404a1b83",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
+  },
+  "8c829621-05b3-51fa-b30c-115a11ad8de2": {
+    "segmentacion": {
+      "original_sha256": "c83683581e502e200c16efa14f3de576ac128ba5252288247d51f7836d465ebf",
+      "imagen_sha256": "122bf5138a03a222888ebfdfcce31ee2d48d6b0c9b117b866d37db2d0a9ae97d",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
+  },
+  "be04edaf-f03b-54b1-a957-3ec3867c6372": {
+    "segmentacion": {
+      "original_sha256": "b3b63883f08139dbb1225fff0008f35081c28c235a44de5c4e2ffd10c2ebf4ff",
+      "imagen_sha256": "31438409dbe38cb610e446f8fa4449ab7ffa6a43cb572c7979c63113523f9e2e",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
+  },
+  "7642788a-e406-5e26-ae97-7a6e3a4a6adb": {
+    "segmentacion": {
+      "original_sha256": "b093dea4e2bc6b4984f61cd89dedcabc93062ae4fcf69a60a32a22c0db39679e",
+      "imagen_sha256": "97e56723184d631cfe638ca4f1e9364c001e761cbf4ac9da0a004930c22f6021",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
+  },
+  "ae9c4432-41db-5e05-979e-8cc376171c87": {
+    "segmentacion": {
+      "original_sha256": "9a419541a9b2928c623df4a6b415ff2781ffb52927bb43ea184d7bc58bc0845b",
+      "imagen_sha256": "bab0dc98b46c5aea319fdd880ebb9db0d37c3c791178d6945271a5b7453a5621",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
+  },
+  "bac2de9f-1bc9-5bf4-9d47-79ecb294de07": {
+    "segmentacion": {
+      "original_sha256": "fee86a7b3e382746e5ed4950c56f3bb23dad395ad4fc54b048b9ab2839f5bcc7",
+      "imagen_sha256": "cab55a8ead52b9245325c29e778eeaf17ec7f16f59018f7ead35f80a44e2c4eb",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    }
+  },
+  "985cf71a-34e4-5f23-9a26-7c7df2f1203d": {
+    "segmentacion": {
+      "original_sha256": "fee86a7b3e382746e5ed4950c56f3bb23dad395ad4fc54b048b9ab2839f5bcc7",
+      "imagen_sha256": "cab55a8ead52b9245325c29e778eeaf17ec7f16f59018f7ead35f80a44e2c4eb",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    }
+  },
+  "a3843bcc-409e-55cc-a6a7-e89ec8365b9a": {
+    "segmentacion": {
+      "original_sha256": "94f78c5da88c008ee696ec0b6860a8289842abd6f35416613ea27e4d036940d2",
+      "imagen_sha256": "5b908eb3db81663a272acaacadd66594a19dc3d31b159d4c6dbf7e074260f0d6",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    }
+  },
+  "0501c668-63d4-5d33-85e4-8c17a7ddfa62": {
+    "segmentacion": {
+      "original_sha256": "95759032b85de84747a12faa900ea0d20bed9bfeec0a1e323a6af7bcf974ec3d",
+      "imagen_sha256": "2af35bcd9f9accb8345a34ea64417af40b20cd5313a9680bc76ece623785753a",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    }
+  },
+  "2755d4c2-842a-50a4-9709-2d36b2e6dd4b": {
+    "segmentacion": {
+      "original_sha256": "f0a948a474cdedac9619f1cd3f5aa9b08e95c76f29e6702ca714fdcc2f89cc0e",
+      "imagen_sha256": "7de347c872ce2763a9dc1026036767e20b146ccff761cce8d555ca709c28b681",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    }
+  },
+  "42467f82-6218-5e2b-93db-a57b42a3833b": {
+    "segmentacion": {
+      "original_sha256": "f0a948a474cdedac9619f1cd3f5aa9b08e95c76f29e6702ca714fdcc2f89cc0e",
+      "imagen_sha256": "7de347c872ce2763a9dc1026036767e20b146ccff761cce8d555ca709c28b681",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    }
+  },
+  "94c19985-ce0f-5688-9d91-344631984c2d": {
+    "segmentacion": {
+      "original_sha256": "87c6232039ca6662e1eddd791d1ec4188f5966e6019e6887fcb5e1b2c5b944e2",
+      "imagen_sha256": "1f773d25e0fca18f8cec20521ebf62069234cbc8efe94428af27df3a5d83eb24",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    }
+  },
+  "5dbc080d-351a-5cd9-9fc3-d6bc41a7eb96": {
+    "segmentacion": {
+      "original_sha256": "b3b63883f08139dbb1225fff0008f35081c28c235a44de5c4e2ffd10c2ebf4ff",
+      "imagen_sha256": "31438409dbe38cb610e446f8fa4449ab7ffa6a43cb572c7979c63113523f9e2e",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
+  },
+  "048d05c7-a262-5a3d-a79c-ac8c3d552e54": {
+    "segmentacion": {
+      "original_sha256": "b3b63883f08139dbb1225fff0008f35081c28c235a44de5c4e2ffd10c2ebf4ff",
+      "imagen_sha256": "31438409dbe38cb610e446f8fa4449ab7ffa6a43cb572c7979c63113523f9e2e",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
+  },
+  "0637ec04-30f6-52e0-b75f-2f1a9ceb5f67": {
+    "segmentacion": {
+      "original_sha256": "a0d9ab3859bb0b01c304ed7913794f1082eac6a04e852cd5ff19619da3654581",
+      "imagen_sha256": "75bcabab78eeb08194acc8188c91e79f3a8fee44af74e0eb4716a2ebabad1005",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
+  },
+  "686c8312-d233-54b2-8a01-adb3268a8591": {
+    "segmentacion": {
+      "original_sha256": "a0d9ab3859bb0b01c304ed7913794f1082eac6a04e852cd5ff19619da3654581",
+      "imagen_sha256": "75bcabab78eeb08194acc8188c91e79f3a8fee44af74e0eb4716a2ebabad1005",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
+  },
+  "2df5269f-3d48-5d5d-bbc3-b9289c720aad": {
+    "segmentacion": {
+      "original_sha256": "a0d9ab3859bb0b01c304ed7913794f1082eac6a04e852cd5ff19619da3654581",
+      "imagen_sha256": "75bcabab78eeb08194acc8188c91e79f3a8fee44af74e0eb4716a2ebabad1005",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
+  },
+  "f02e6208-d7c3-5d17-aeef-ef5b7bf71609": {
+    "segmentacion": {
+      "original_sha256": "8fa8a87f1489f0dbf550a9e16d25e6fa32ddcb00066a519b145d4489fdc9da1a",
+      "imagen_sha256": "4dba8b6d141f2944c707bb7067e3d17a066e6ab9dc99cda8f6ebc9c156b13346",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    }
+  },
+  "f7d24f15-e8e1-529c-b1c8-e50a6dee3b71": {
+    "segmentacion": {
+      "original_sha256": "f262ed08eba75d1fae118bc3834a51e8b84b29fa84003036fdde0895b4dccf5e",
+      "imagen_sha256": "b05cdd0d4ce633319db1bdfbb77792c584a044d020e110c9e106a5fecf8a11ff",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
+  },
+  "a9498102-93a0-597c-9682-ae2708c72c12": {
+    "segmentacion": {
+      "original_sha256": "f8456d29a10512c98d1192dc1f4160e3fe7944a1cd69bf6197dc68094fed9f41",
+      "imagen_sha256": "5c1e6d180180cacc1a6a9bb5eb0ef5bc25c3bbe2c4aaa18945704e041873257a",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    }
+  },
+  "7922fb1e-09ea-53e2-8bd4-179bc155bd3d": {
+    "segmentacion": {
+      "original_sha256": "54fd5d907e5047ee9bab7a1fb2a387bafe9eaf31726f7bc3cd6e9265295952b5",
+      "imagen_sha256": "083219eb2cff55269a1bcce480eb42730e7382b1449262a9233b3e505795822a",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
+  },
+  "7cdeb933-5f39-51c0-9fe7-8baf39fa832b": {
+    "segmentacion": {
+      "original_sha256": "5f28c64465035ba138ed9de2c6bad63491e12926e14d24d9e4c9eaf56b174490",
+      "imagen_sha256": "bb06d603f52c197a479ae3f79ab6dca56199e1bcc78317027e39a10edd36baf2",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
+  },
+  "58fefb7b-2e30-5740-8a1f-004310018f0e": {
+    "segmentacion": {
+      "original_sha256": "828374ca7b032be7dd3e2bbc38b40befca63c06de624a3363edaeda971c5f6b2",
+      "imagen_sha256": "1b54d5209e84244f5516c1af80b86787ef4650c095609287da2a80c1ecd16ea4",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    }
+  },
+  "dcd01313-bd71-560e-becd-36d9499ba811": {
+    "segmentacion": {
+      "original_sha256": "a0da18deab9c62274010d4fb7dbe62a862f37c6c5e916511c9e214f28598e5a9",
+      "imagen_sha256": "b302a1fcd852655ae658616c70587bed8c3175a1927529cf3a354261d0a1b807",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    }
+  },
+  "d2448296-26f9-5a11-87ec-042fb2a4e316": {
+    "segmentacion": {
+      "original_sha256": "68ee032cdb88975a1a3e875c0803550e2f7ede9f5082d96f91a8af987796bdcd",
+      "imagen_sha256": "559ee4d5028bd03f43c63ab658fb66a71824c8701c2f64b9ea96ddae13a70742",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
+  },
+  "cdc70484-9d35-5569-9995-fc7deb6dfdda": {
+    "segmentacion": {
+      "original_sha256": "68ee032cdb88975a1a3e875c0803550e2f7ede9f5082d96f91a8af987796bdcd",
+      "imagen_sha256": "559ee4d5028bd03f43c63ab658fb66a71824c8701c2f64b9ea96ddae13a70742",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
+  },
+  "6dc12ed4-cfde-59ed-88e4-0046cb8fc5b2": {
+    "segmentacion": {
+      "original_sha256": "61ddba313e4087702ac9bd511a65752c7189f00ac06c028c32202b6e34b3acc9",
+      "imagen_sha256": "665eaa37107c038ee7877c175a15cdf58afb527e41009042fdfc53d29168eeb0",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
+  },
+  "5f8993e1-df26-5f49-8488-bd173155cf57": {
+    "segmentacion": {
+      "original_sha256": "68ee032cdb88975a1a3e875c0803550e2f7ede9f5082d96f91a8af987796bdcd",
+      "imagen_sha256": "559ee4d5028bd03f43c63ab658fb66a71824c8701c2f64b9ea96ddae13a70742",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
     }
   }
 }

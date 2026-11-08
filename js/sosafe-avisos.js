@@ -17,11 +17,11 @@
       return Number.isFinite(age) && age >= 0 && age <= 30 * 86400000;
     });
     window.auraLadraSosafe = { lugares: () => rows.filter(r => Number.isFinite(r.ubicacion_reporte?.lat) && Number.isFinite(r.ubicacion_reporte?.lng) && r.ubicacion_reporte.lat >= -33.65 && r.ubicacion_reporte.lat <= -33.45 && r.ubicacion_reporte.lng >= -70.95 && r.ubicacion_reporte.lng <= -70.70).map(r => ({
-      id: 'sosafe-' + r.id, nombre: (r.nombre_mascota || 'Mascota') + ' · SOSAFE', categoria: 'aviso_sosafe',
+      id: 'sosafe-' + r.id, nombre: (r.nombre_mascota || 'Mascota') + ' · SOSAFE', categoria: 'mascota_perdida', origen: 'sosafe',
       descripcion: r.descripcion, comuna: 'Maipú', direccion_publica: 'Ubicación aproximada del reporte de SOSAFE',
       latitud: r.ubicacion_reporte.lat, longitud: r.ubicacion_reporte.lng, precision_ubicacion: 'aproximada',
       estado_verificacion: 'comunitario', fuente_nombre: 'SOSAFE · estado sin verificar', fuente_url: r.fuente_url,
-      foto_mascota: r.foto_mascota, telefono_publico: r.celulares[0] || '',
+      foto_mascota: r.foto_mascota, foto_original: safe(r.foto, 'https://api.sosafeapp.com', '/reports/'), telefono_publico: r.celulares[0] || '',
     })) };
     document.dispatchEvent(new CustomEvent('sosafe:cambio'));
     document.querySelectorAll('[data-sosafe-acceso]').forEach(link => { link.textContent = `Ver ${rows.length} avisos de SOSAFE en Most Wanted`; });
@@ -35,7 +35,7 @@
         const ocrPhones = (reading.celulares || []).filter(p => /^\+569\d{8}$/.test(p) && !row.celulares.includes(p));
         const source = safe(row.fuente_url, 'https://www.widgets.sosafeapp.com', '/report/');
         return `<article class="card sosafe-card"><small>Aviso externo · SOSAFE · estado sin verificar</small>
-          ${photo ? `<img src="${esc(photo)}" alt="Foto del aviso de mascota en ${esc(row.zona)}" loading="lazy" referrerpolicy="no-referrer">` : (original ? '<p>No se pudo separar la mascota sin alterar la foto. Puedes ver el afiche original completo.</p>' : '<p>La fuente no entrega foto.</p>')}
+          ${photo ? `<img src="${esc(photo)}" alt="Foto del aviso de mascota en ${esc(row.zona)}" loading="lazy" referrerpolicy="no-referrer">` : (original ? `<img src="${esc(original)}" alt="Afiche original de mascota en ${esc(row.zona)}" loading="lazy" referrerpolicy="no-referrer"><p>Afiche original · conservamos la imagen completa.</p>` : '<p>La fuente no entrega foto.</p>')}
           <h4>${esc(row.nombre_mascota || "Mascota")} · ${esc(row.zona)}</h4><p>Publicado: ${esc(date(row.publicado_en))}</p>
           <p class="sosafe-description">${esc(row.descripcion)}</p>
           ${row.autor_publicacion ? `<p>Publicado por: ${esc(row.autor_publicacion)}</p>` : ''}

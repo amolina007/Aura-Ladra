@@ -12,7 +12,7 @@ test('shows verified dates, safe photo and contact, escapes text and excludes ex
  const doc=dom.window.document;
  assert.equal(doc.querySelectorAll('article').length,1);
  assert.equal(dom.window.auraLadraSosafe.lugares().length,1);
- assert.equal(dom.window.auraLadraSosafe.lugares()[0].categoria,'aviso_sosafe');
+ assert.equal(dom.window.auraLadraSosafe.lugares()[0].categoria,'mascota_perdida');
  assert.match(doc.body.textContent,/Leído del afiche/);
  assert.match(doc.body.textContent,/Contacto: Ana/);
  assert.equal(doc.querySelector('a[href="tel:+56987654321"]'),null);
@@ -23,5 +23,18 @@ test('shows verified dates, safe photo and contact, escapes text and excludes ex
  assert.equal(doc.querySelector('[onerror]'),null);
  doc.querySelector('img').dispatchEvent(new dom.window.Event('error'));
  assert.match(doc.body.textContent,/foto no está disponible/);
+ dom.window.close();
+});
+
+test('uses the real public poster when no reliable cutout exists and rejects other origins', async()=>{
+ const dom=new JSDOM('<div data-sosafe-avisos></div>',{runScripts:'outside-only'});
+ const now=new Date().toISOString();
+ const row={id:'poster',publicado_en:now,descripcion:'Aviso',zona:'Maipú',celulares:[],ubicacion_reporte:{lat:-33.51,lng:-70.76},foto:'https://api.sosafeapp.com/reports/real.jpg'};
+ dom.window.fetch=async()=>({ok:true,json:async()=>({actualizado_en:now,cobertura:'Parcial',avisos:[row,{...row,id:'unsafe',foto:'https://example.com/private.jpg'}]})});
+ dom.window.eval(script);await new Promise(r=>setTimeout(r,10));
+ assert.equal(dom.window.document.querySelectorAll('img').length,1);
+ assert.equal(dom.window.document.querySelector('img').getAttribute('src'),row.foto);
+ assert.equal(dom.window.auraLadraSosafe.lugares()[0].foto_original,row.foto);
+ assert.equal(dom.window.auraLadraSosafe.lugares()[1].foto_original,'');
  dom.window.close();
 });

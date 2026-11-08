@@ -27,7 +27,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/8a1b1c20674c570d22107fe7.png",
+      "foto_mascota": "data/sosafe-fotos/d8cb6fce0f35ace2b576a04b.png",
       "imagen_original_sha256": "6828f079f77cee13d269cb6f9635d2b1853b0fb1b5bc5d8ea9dc3c0260247f2e"
     },
     {
@@ -78,8 +78,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
-      "foto_mascota": "",
+      "recorte_estado": "sin_fondo",
+      "foto_mascota": "data/sosafe-fotos/41641f7374711bd8da0decf7.png",
       "imagen_original_sha256": "4d2d33d31fb9018f90327bfa7adab744cb767ad8a6f1781f6f1fe608c6885e87"
     },
     {
@@ -107,7 +107,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/617e597a05778a918ed40f04.png",
+      "foto_mascota": "data/sosafe-fotos/fbceab8a0c61e3070dca5311.png",
       "imagen_original_sha256": "3fe2809ded3636fbcc5b735f5689fa06a80ede71c04167373bacd42f7ed4f988"
     },
     {
@@ -135,7 +135,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/45a34b5dea57426ee0903482.png",
+      "foto_mascota": "data/sosafe-fotos/61b5b1a79027b7c3f90a4542.png",
       "imagen_original_sha256": "7e30da15a821b54099681183a0cb71dd891d691af5a6fe022cc57f0c9d16694c"
     },
     {
@@ -184,7 +184,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/ae305731d6211fbe6df2d259.png",
+      "foto_mascota": "data/sosafe-fotos/f19fec37a2306182c6d91262.png",
       "imagen_original_sha256": "20790448c211ab30d1dca77ee7b3ddbbccc40eba56e1e60d0dfb5fd58babb54f"
     },
     {
@@ -212,7 +212,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/f2400fd7f930bd27854c5993.png",
+      "foto_mascota": "data/sosafe-fotos/57aa41794195ddbbaf825c8a.png",
       "imagen_original_sha256": "f4f64cb14bae0563216e05e5f51437f128956bc86505188dab7a98d8153f49f1"
     },
     {
@@ -276,7 +276,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/382e5de2789a72cd5c15614f.png",
+      "foto_mascota": "data/sosafe-fotos/44d013b38e875c41dd9cdf99.png",
       "imagen_original_sha256": "12cf406da27b62799a3d18ca75ae7353cad064f122f9456323d8042934426daf"
     },
     {
@@ -314,8 +314,8 @@
         ],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
-      "foto_mascota": "",
+      "recorte_estado": "sin_fondo",
+      "foto_mascota": "data/sosafe-fotos/9eaca164c9a88070f06c732f.png",
       "imagen_original_sha256": "ec72e56ec3c7dc5188b7a2c9d3833b31a6aae78ed4ae99407d104e94d41016b2"
     },
     {
@@ -353,8 +353,8 @@
         ],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
-      "foto_mascota": "",
+      "recorte_estado": "sin_fondo",
+      "foto_mascota": "data/sosafe-fotos/9eaca164c9a88070f06c732f.png",
       "imagen_original_sha256": "ec72e56ec3c7dc5188b7a2c9d3833b31a6aae78ed4ae99407d104e94d41016b2"
     },
     {
@@ -381,8 +381,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
-      "foto_mascota": "",
+      "recorte_estado": "sin_fondo",
+      "foto_mascota": "data/sosafe-fotos/7f681bfe9e6ab31b4249f58b.png",
       "imagen_original_sha256": "ca5ff158f1a113f05cc859f6b377777cabcf4f3e8651f8b504a9207b25f4f34c"
     },
     {
@@ -410,7 +410,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/7b457590f5679372871ffb36.png",
+      "foto_mascota": "data/sosafe-fotos/1a87df3163fb90610102e4a7.png",
       "imagen_original_sha256": "f24856ef1184ffc914685c6a69a9bea851759057db60c0965cb96b9657fb4bdd"
     },
     {
@@ -550,7 +550,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/949e8a2b4a3ff39ac837718e.png",
+      "foto_mascota": "data/sosafe-fotos/8200f175a60740f9988674f3.png",
       "imagen_original_sha256": "79b3c0744106944d81915fae6bc9ee0c611c04f6042957b1534796a3916f8fcf"
     },
     {
@@ -607,8 +607,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
-      "foto_mascota": "",
+      "recorte_estado": "sin_fondo",
+      "foto_mascota": "data/sosafe-fotos/4f12d42a0b6eb3b58c180d24.png",
       "imagen_original_sha256": "8373e7b92548bc038b9ff57c0dc566cab84b4ccfaf5d93c81eda3b3b23423f3d"
     },
     {
@@ -636,7 +636,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/949e8a2b4a3ff39ac837718e.png",
+      "foto_mascota": "data/sosafe-fotos/8200f175a60740f9988674f3.png",
       "imagen_original_sha256": "79b3c0744106944d81915fae6bc9ee0c611c04f6042957b1534796a3916f8fcf"
     },
     {
@@ -665,8 +665,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
-      "foto_mascota": "",
+      "recorte_estado": "sin_fondo",
+      "foto_mascota": "data/sosafe-fotos/48afa61817550c5b573a7043.png",
       "imagen_original_sha256": "a8a8c6eeaee5e2701cbea45db9bc96961eadf58b481f587c7647693940165d5b"
     },
     {
@@ -695,8 +695,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
-      "foto_mascota": "",
+      "recorte_estado": "sin_fondo",
+      "foto_mascota": "data/sosafe-fotos/41a115fb98b230746b4737b1.png",
       "imagen_original_sha256": "226b0cba4c4b5634ffc02f4b9e8255fac14091d1591ca707dff4749ca6abf3dd"
     },
     {
@@ -724,7 +724,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/4cafda582d0b391491f40a41.png",
+      "foto_mascota": "data/sosafe-fotos/a6c48cb07cbc65c98b522845.png",
       "imagen_original_sha256": "84770663d35cecbc006f7f909ab2ede78fb9dd6ba4b4c05898572a0445b3bc6d"
     },
     {
@@ -752,7 +752,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/a4b1c8eaba556236dcf2faa1.png",
+      "foto_mascota": "data/sosafe-fotos/5a54becd5e622929bfcaec69.png",
       "imagen_original_sha256": "029a2095b1ae809f80f3fa76eb31080e11f5c40be6a662365a9593c2903fd655"
     },
     {
@@ -779,7 +779,7 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
+      "recorte_estado": "silueta_no_fiable",
       "foto_mascota": "",
       "imagen_original_sha256": "c83683581e502e200c16efa14f3de576ac128ba5252288247d51f7836d465ebf"
     },
@@ -808,7 +808,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/a8b2c2c9f21855f7a651cfd1.png",
+      "foto_mascota": "data/sosafe-fotos/b4f00e1245dadd3f739200df.png",
       "imagen_original_sha256": "5d770821962fd0603391b2493c8c5c323f36aeecef4c451104031798dae938a7"
     },
     {
@@ -835,7 +835,7 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
+      "recorte_estado": "silueta_no_fiable",
       "foto_mascota": "",
       "imagen_original_sha256": "a0f5e8b11398db1b732b13b7a29e1270837dfbbae20ffc7992066eb708eb2206"
     },
@@ -863,7 +863,7 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
+      "recorte_estado": "silueta_no_fiable",
       "foto_mascota": "",
       "imagen_original_sha256": "c83683581e502e200c16efa14f3de576ac128ba5252288247d51f7836d465ebf"
     },
@@ -892,7 +892,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/9160b8cec8a0be54dea58daa.png",
+      "foto_mascota": "data/sosafe-fotos/25e61895cf754a92115b1886.png",
       "imagen_original_sha256": "1db3d151f74e95d5a7df25e96d3484e44e66aca870a78cbf4197f72056bfa0c2"
     },
     {
@@ -949,7 +949,7 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "sin_deteccion",
+      "recorte_estado": "silueta_no_fiable",
       "foto_mascota": "",
       "imagen_original_sha256": "b3b63883f08139dbb1225fff0008f35081c28c235a44de5c4e2ffd10c2ebf4ff"
     },
@@ -999,7 +999,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/abf25d4d2278d5cc456d971e.png",
+      "foto_mascota": "data/sosafe-fotos/37155987d4110fbeac9ca06b.png",
       "imagen_original_sha256": "7ef0c13c7164405e2c11666d78a69cbfde4c45271b53beed706d664fff269c32"
     },
     {
@@ -1054,7 +1054,7 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
+      "recorte_estado": "silueta_no_fiable",
       "foto_mascota": "",
       "imagen_original_sha256": "b093dea4e2bc6b4984f61cd89dedcabc93062ae4fcf69a60a32a22c0db39679e"
     },
@@ -1084,7 +1084,7 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
+      "recorte_estado": "silueta_no_fiable",
       "foto_mascota": "",
       "imagen_original_sha256": "9a419541a9b2928c623df4a6b415ff2781ffb52927bb43ea184d7bc58bc0845b"
     },
@@ -1115,7 +1115,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/7e710702558e05445785f754.png",
+      "foto_mascota": "data/sosafe-fotos/a4e5e3fb7a3b86830fc6c9bb.png",
       "imagen_original_sha256": "b74be82ceb66d80b33a7b0c1aae59f03ea9a87e4d757a20c7766aa998baa35ca"
     },
     {
@@ -1142,8 +1142,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
-      "foto_mascota": "",
+      "recorte_estado": "sin_fondo",
+      "foto_mascota": "data/sosafe-fotos/d8d8f757f2330e5b6d15901e.png",
       "imagen_original_sha256": "fee86a7b3e382746e5ed4950c56f3bb23dad395ad4fc54b048b9ab2839f5bcc7"
     },
     {
@@ -1170,8 +1170,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
-      "foto_mascota": "",
+      "recorte_estado": "sin_fondo",
+      "foto_mascota": "data/sosafe-fotos/d8d8f757f2330e5b6d15901e.png",
       "imagen_original_sha256": "fee86a7b3e382746e5ed4950c56f3bb23dad395ad4fc54b048b9ab2839f5bcc7"
     },
     {
@@ -1224,8 +1224,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
-      "foto_mascota": "",
+      "recorte_estado": "sin_fondo",
+      "foto_mascota": "data/sosafe-fotos/148afb60fe8722d88ab97479.png",
       "imagen_original_sha256": "94f78c5da88c008ee696ec0b6860a8289842abd6f35416613ea27e4d036940d2"
     },
     {
@@ -1261,7 +1261,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/ad1fd3bcd7fa4e3b99cb4642.png",
+      "foto_mascota": "data/sosafe-fotos/c480418ef3b561c677c9e062.png",
       "imagen_original_sha256": "e7fb1a77f4e483dd722d50c50d0f45e5bcf978a8189754184c3f908ef73b438c"
     },
     {
@@ -1294,8 +1294,8 @@
         ],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
-      "foto_mascota": "",
+      "recorte_estado": "sin_fondo",
+      "foto_mascota": "data/sosafe-fotos/76312005e5ebc28bd4847de7.png",
       "imagen_original_sha256": "95759032b85de84747a12faa900ea0d20bed9bfeec0a1e323a6af7bcf974ec3d"
     },
     {
@@ -1324,8 +1324,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
-      "foto_mascota": "",
+      "recorte_estado": "sin_fondo",
+      "foto_mascota": "data/sosafe-fotos/1a99f59b02da14475090bcaa.png",
       "imagen_original_sha256": "f0a948a474cdedac9619f1cd3f5aa9b08e95c76f29e6702ca714fdcc2f89cc0e"
     },
     {
@@ -1352,8 +1352,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
-      "foto_mascota": "",
+      "recorte_estado": "sin_fondo",
+      "foto_mascota": "data/sosafe-fotos/1a99f59b02da14475090bcaa.png",
       "imagen_original_sha256": "f0a948a474cdedac9619f1cd3f5aa9b08e95c76f29e6702ca714fdcc2f89cc0e"
     },
     {
@@ -1382,8 +1382,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
-      "foto_mascota": "",
+      "recorte_estado": "sin_fondo",
+      "foto_mascota": "data/sosafe-fotos/3dadc06190a0fb6dc6a7287a.png",
       "imagen_original_sha256": "87c6232039ca6662e1eddd791d1ec4188f5966e6019e6887fcb5e1b2c5b944e2"
     },
     {
@@ -1414,7 +1414,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/2076640edbf637a8c17d46dd.png",
+      "foto_mascota": "data/sosafe-fotos/2e65ddf835cf6bba461dff2a.png",
       "imagen_original_sha256": "cfa85a9c430cf9a97d98722314acbea73f585cbad1abe50b9c2e37fe05ff6e46"
     },
     {
@@ -1471,7 +1471,7 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "sin_deteccion",
+      "recorte_estado": "silueta_no_fiable",
       "foto_mascota": "",
       "imagen_original_sha256": "b3b63883f08139dbb1225fff0008f35081c28c235a44de5c4e2ffd10c2ebf4ff"
     },
@@ -1527,7 +1527,7 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "sin_deteccion",
+      "recorte_estado": "silueta_no_fiable",
       "foto_mascota": "",
       "imagen_original_sha256": "b3b63883f08139dbb1225fff0008f35081c28c235a44de5c4e2ffd10c2ebf4ff"
     },
@@ -1556,7 +1556,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/7b1acb5fba60bafebf6d4361.png",
+      "foto_mascota": "data/sosafe-fotos/2f119a281d42bfd6c92d8716.png",
       "imagen_original_sha256": "18f84624597c989da35cec9746533f22ff22d850db8a270fe88f20dfa7ccbacc"
     },
     {
@@ -1584,7 +1584,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/7155e1344805106be37481bb.png",
+      "foto_mascota": "data/sosafe-fotos/a49a00eb8351e6bed1002f5c.png",
       "imagen_original_sha256": "3a325cadb2b7ecf343e122bbdff587540e8b4942a37f27803b34cc4df68c381a"
     },
     {
@@ -1614,7 +1614,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/7155e1344805106be37481bb.png",
+      "foto_mascota": "data/sosafe-fotos/a49a00eb8351e6bed1002f5c.png",
       "imagen_original_sha256": "3a325cadb2b7ecf343e122bbdff587540e8b4942a37f27803b34cc4df68c381a"
     },
     {
@@ -1644,7 +1644,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/7155e1344805106be37481bb.png",
+      "foto_mascota": "data/sosafe-fotos/a49a00eb8351e6bed1002f5c.png",
       "imagen_original_sha256": "3a325cadb2b7ecf343e122bbdff587540e8b4942a37f27803b34cc4df68c381a"
     },
     {
@@ -1693,7 +1693,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/949e8a2b4a3ff39ac837718e.png",
+      "foto_mascota": "data/sosafe-fotos/8200f175a60740f9988674f3.png",
       "imagen_original_sha256": "79b3c0744106944d81915fae6bc9ee0c611c04f6042957b1534796a3916f8fcf"
     },
     {
@@ -1720,7 +1720,7 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
+      "recorte_estado": "silueta_no_fiable",
       "foto_mascota": "",
       "imagen_original_sha256": "a0d9ab3859bb0b01c304ed7913794f1082eac6a04e852cd5ff19619da3654581"
     },
@@ -1748,7 +1748,7 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
+      "recorte_estado": "silueta_no_fiable",
       "foto_mascota": "",
       "imagen_original_sha256": "a0d9ab3859bb0b01c304ed7913794f1082eac6a04e852cd5ff19619da3654581"
     },
@@ -1776,7 +1776,7 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
+      "recorte_estado": "silueta_no_fiable",
       "foto_mascota": "",
       "imagen_original_sha256": "a0d9ab3859bb0b01c304ed7913794f1082eac6a04e852cd5ff19619da3654581"
     },
@@ -1804,8 +1804,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
-      "foto_mascota": "",
+      "recorte_estado": "sin_fondo",
+      "foto_mascota": "data/sosafe-fotos/ee7f264142f2073aebb67554.png",
       "imagen_original_sha256": "8fa8a87f1489f0dbf550a9e16d25e6fa32ddcb00066a519b145d4489fdc9da1a"
     },
     {
@@ -1833,7 +1833,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/483705e52b8309a745ac5df2.png",
+      "foto_mascota": "data/sosafe-fotos/9647bb54535d442873b99a09.png",
       "imagen_original_sha256": "7fbe3c9b246ec9430e571f95cb6b622ff7f87e9a8c54b395c51555985d69d5d6"
     },
     {
@@ -1888,7 +1888,7 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "sin_deteccion",
+      "recorte_estado": "silueta_no_fiable",
       "foto_mascota": "",
       "imagen_original_sha256": "268c2e577c9d41ab88231b14eed48f21a1057c318b5e58326740c03d7a2550ae"
     },
@@ -1919,7 +1919,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/db2dbb0f738ec67155130c35.png",
+      "foto_mascota": "data/sosafe-fotos/8aef5c3d8778f8131a75825a.png",
       "imagen_original_sha256": "15c8c462e985a67644ccf0bbc42e1a64e99ab94414bc45ad0e493718325420a6"
     },
     {
@@ -1974,7 +1974,7 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
+      "recorte_estado": "silueta_no_fiable",
       "foto_mascota": "",
       "imagen_original_sha256": "f262ed08eba75d1fae118bc3834a51e8b84b29fa84003036fdde0895b4dccf5e"
     },
@@ -2005,7 +2005,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/81d23e3563c38db08f9c58fd.png",
+      "foto_mascota": "data/sosafe-fotos/c833b25388676a71708eec34.png",
       "imagen_original_sha256": "034fe285fa1e3c79c3cf335340fbf70111e70935971d261fbb7ff11a0358c753"
     },
     {
@@ -2078,7 +2078,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/206138b90cba79d94f35c241.png",
+      "foto_mascota": "data/sosafe-fotos/49863345e4f717e98dc4e72c.png",
       "imagen_original_sha256": "e68f0c2e2aae7fd2ecb3f8a1be99326ee66bce403d8b2fd2f2d464b395a59a34"
     },
     {
@@ -2106,7 +2106,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/ede99feaec2c0b1417dd336a.png",
+      "foto_mascota": "data/sosafe-fotos/e6bc7c1a14cd3b7c67974742.png",
       "imagen_original_sha256": "670098dde2109f18b263998b55669662ffbff507d58988ce63f979fc542ca4c0"
     },
     {
@@ -2133,7 +2133,7 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
+      "recorte_estado": "silueta_no_fiable",
       "foto_mascota": "",
       "imagen_original_sha256": "d5f7bf56208f66c600adc531bdc2858461c285cec99062ae834d1bc9f0d498af"
     },
@@ -2161,7 +2161,7 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
+      "recorte_estado": "silueta_no_fiable",
       "foto_mascota": "",
       "imagen_original_sha256": "d5f7bf56208f66c600adc531bdc2858461c285cec99062ae834d1bc9f0d498af"
     },
@@ -2190,7 +2190,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/308ce0e5148c89bc0a049c40.png",
+      "foto_mascota": "data/sosafe-fotos/7e29a80ce9ab8d89c2a2cd86.png",
       "imagen_original_sha256": "54bc3d85449149e0c7ee76338107ad0f5928048ff75077303beb8adb5a732bbc"
     },
     {
@@ -2218,7 +2218,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/474300cc5c3b775e1f9591a6.png",
+      "foto_mascota": "data/sosafe-fotos/0658ef886a044a6b947cf282.png",
       "imagen_original_sha256": "355d33964b77738957524d6486b77dda0135c134ae2d74fc20abaa2db2159d13"
     },
     {
@@ -2246,7 +2246,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/0e9aa58fae69cefe6fcfe640.png",
+      "foto_mascota": "data/sosafe-fotos/01c5e53d6cbb117cdeed1b0f.png",
       "imagen_original_sha256": "43810b3786ee3dbfffef7d6cd1d0adcee6d68d42360aa483794a9899e85405db"
     },
     {
@@ -2274,7 +2274,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/ad34a5a95329a285b22441ee.png",
+      "foto_mascota": "data/sosafe-fotos/754a65ab040e7af7a96899bc.png",
       "imagen_original_sha256": "be7333db8631582be995789098e6d69a76d17b2be3816ceb6cff4fe987a6b098"
     },
     {
@@ -2302,7 +2302,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/3a3284c7a7cc56585cbb1f62.png",
+      "foto_mascota": "data/sosafe-fotos/ca54894d8ccf985ade991dd9.png",
       "imagen_original_sha256": "ee70bdcf344f92b1275f881aefad1661bbed8b402d3c7fbced2f31063ac575bb"
     },
     {
@@ -2332,7 +2332,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/69febeff80127b334926a1b6.png",
+      "foto_mascota": "data/sosafe-fotos/a067c2590e04af68ca636d19.png",
       "imagen_original_sha256": "ac446313c65ac823d682a66b4c6637afb27113d21636c2e42440cc85dd7ea8df"
     },
     {
@@ -2359,8 +2359,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "sin_deteccion",
-      "foto_mascota": "",
+      "recorte_estado": "sin_fondo",
+      "foto_mascota": "data/sosafe-fotos/89f0705393cfade53d77feb8.png",
       "imagen_original_sha256": "f8456d29a10512c98d1192dc1f4160e3fe7944a1cd69bf6197dc68094fed9f41"
     },
     {
@@ -2390,7 +2390,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/19b7cd489b381dcdc6f0c54f.png",
+      "foto_mascota": "data/sosafe-fotos/1d21f2a4a72ae9137fa7b0da.png",
       "imagen_original_sha256": "8cefd32ca5c1dbfc17739ef879630911e9ad47bc001dbdc6897e49cadda8ab6f"
     },
     {
@@ -2420,7 +2420,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/de83e684879c6550a59746a5.png",
+      "foto_mascota": "data/sosafe-fotos/5f92306f449db4281baaf437.png",
       "imagen_original_sha256": "6670d477001714b91e4ee35ea10174cccddaecbbfb18e57690fb74f217676b1e"
     },
     {
@@ -2447,7 +2447,7 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
+      "recorte_estado": "silueta_no_fiable",
       "foto_mascota": "",
       "imagen_original_sha256": "54fd5d907e5047ee9bab7a1fb2a387bafe9eaf31726f7bc3cd6e9265295952b5"
     },
@@ -2477,8 +2477,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
-      "foto_mascota": "",
+      "recorte_estado": "sin_fondo",
+      "foto_mascota": "data/sosafe-fotos/68d3067665c5e0880459927a.png",
       "imagen_original_sha256": "1b644b75ebfd5405597304b228fe03919bcaeb4e74dade82b8928cca4d255969"
     },
     {
@@ -2528,7 +2528,7 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
+      "recorte_estado": "silueta_no_fiable",
       "foto_mascota": "",
       "imagen_original_sha256": "5f28c64465035ba138ed9de2c6bad63491e12926e14d24d9e4c9eaf56b174490"
     },
@@ -2556,8 +2556,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
-      "foto_mascota": "",
+      "recorte_estado": "sin_fondo",
+      "foto_mascota": "data/sosafe-fotos/0304d0ceb3568855033c3db0.png",
       "imagen_original_sha256": "828374ca7b032be7dd3e2bbc38b40befca63c06de624a3363edaeda971c5f6b2"
     },
     {
@@ -2585,7 +2585,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/50ac48c90bef2e2364416d34.png",
+      "foto_mascota": "data/sosafe-fotos/f82ae88a4a62bcb9fe9d7a5f.png",
       "imagen_original_sha256": "2cd75e2144612bfd394e327212360807bb58afae9ad21707f1a4773c8b689c15"
     },
     {
@@ -2613,7 +2613,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/f66be9875487a033fb176089.png",
+      "foto_mascota": "data/sosafe-fotos/d11712f041347c8e37421b57.png",
       "imagen_original_sha256": "a11945bf24b2d8806054cda010e6f0e72dee9e65190d6523e5c616a16abd9d8d"
     },
     {
@@ -2641,7 +2641,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/dc0dcfec4cc9b5c8b9831bcc.png",
+      "foto_mascota": "data/sosafe-fotos/28394857aedac60b7eadc0c3.png",
       "imagen_original_sha256": "36406b523c435056b42edf62a28d7c4627669c171e6a42b1035e1069f34d6314"
     },
     {
@@ -2700,7 +2700,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/618a243016de44f8e3e545c2.png",
+      "foto_mascota": "data/sosafe-fotos/6ea2d629eeafbca19621141d.png",
       "imagen_original_sha256": "bda5cf93b1d2cd7da51d5982cb28f907b7dfefa1ebfce38ae7d14a58a049e360"
     },
     {
@@ -2727,8 +2727,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
-      "foto_mascota": "",
+      "recorte_estado": "sin_fondo",
+      "foto_mascota": "data/sosafe-fotos/69ab762987506dce7ec82dd3.png",
       "imagen_original_sha256": "a0da18deab9c62274010d4fb7dbe62a862f37c6c5e916511c9e214f28598e5a9"
     },
     {
@@ -2758,7 +2758,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/e2600a349830a96e60af6911.png",
+      "foto_mascota": "data/sosafe-fotos/264445d7b236cf0c41fb442b.png",
       "imagen_original_sha256": "f401d2379df0d7f04d505da2b18f3fdfdfd02e3e7aa62a467d5e6a8cbd361e42"
     },
     {
@@ -2806,7 +2806,7 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "sin_deteccion",
+      "recorte_estado": "silueta_no_fiable",
       "foto_mascota": "",
       "imagen_original_sha256": "6d8c187675e7fdecf0046a6a7976181b03b63c322a7efe6d9f02d0b494b27b99"
     },
@@ -2835,7 +2835,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/89ab83ca6085e26447fd09c3.png",
+      "foto_mascota": "data/sosafe-fotos/7ae9ad87052605ae72e0907e.png",
       "imagen_original_sha256": "03051c8a23bd338bd414052a7b2bcca7ecb63525ffce8a06a227b4dce4753f43"
     },
     {
@@ -2863,7 +2863,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/c458e78a8160fef85ddeaceb.png",
+      "foto_mascota": "data/sosafe-fotos/7293d48972d270876c003d3c.png",
       "imagen_original_sha256": "f3dce9ddd4010a80cce17407511b7ebaf4277989045d6a419b4ab317c97be295"
     },
     {
@@ -2940,7 +2940,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/bf5a8ca974117bc5c0949ddd.png",
+      "foto_mascota": "data/sosafe-fotos/4f79f95eaf3c82d449f10c89.png",
       "imagen_original_sha256": "16245530e8ffcefe565fb24b67f9bfd3ef4773247acbb9cfc5ee8842093704a9"
     },
     {
@@ -2968,7 +2968,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/3d200bd00bfb1de87b49e3af.png",
+      "foto_mascota": "data/sosafe-fotos/ed4e564ffad8b46c36c3d190.png",
       "imagen_original_sha256": "4a9242d8378edbba5a008e7b8823abb18da81bdb9c9f264fa0d36275332b7b43"
     },
     {
@@ -2997,7 +2997,7 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
+      "recorte_estado": "silueta_no_fiable",
       "foto_mascota": "",
       "imagen_original_sha256": "68ee032cdb88975a1a3e875c0803550e2f7ede9f5082d96f91a8af987796bdcd"
     },
@@ -3027,7 +3027,7 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
+      "recorte_estado": "silueta_no_fiable",
       "foto_mascota": "",
       "imagen_original_sha256": "68ee032cdb88975a1a3e875c0803550e2f7ede9f5082d96f91a8af987796bdcd"
     },
@@ -3057,7 +3057,7 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
+      "recorte_estado": "silueta_no_fiable",
       "foto_mascota": "",
       "imagen_original_sha256": "61ddba313e4087702ac9bd511a65752c7189f00ac06c028c32202b6e34b3acc9"
     },
@@ -3087,7 +3087,7 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
+      "recorte_estado": "silueta_no_fiable",
       "foto_mascota": "",
       "imagen_original_sha256": "68ee032cdb88975a1a3e875c0803550e2f7ede9f5082d96f91a8af987796bdcd"
     },
@@ -3118,7 +3118,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/0e4320c66dbefb22a95817ce.png",
+      "foto_mascota": "data/sosafe-fotos/1a074a3ea621fa61c07f6c0a.png",
       "imagen_original_sha256": "59f5a5b3c70c28ef35f35b0efe99ff0d2dce0f91f7c965d5788cd5eeaa4fda82"
     },
     {
@@ -3245,8 +3245,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
-      "foto_mascota": "",
+      "recorte_estado": "sin_fondo",
+      "foto_mascota": "data/sosafe-fotos/6e31bae4e5d7dd0dcede21e3.png",
       "imagen_original_sha256": "8910c845a4aadebb7a3e41448eb96b5a5205f0de0f861068c35547dc94bc7392"
     },
     {
@@ -3273,8 +3273,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
-      "foto_mascota": "",
+      "recorte_estado": "sin_fondo",
+      "foto_mascota": "data/sosafe-fotos/49c717b322d387d30e84b9e1.png",
       "imagen_original_sha256": "8d8c3e47eb1cabb549da4a5a5142f9841ed4b3970e6ee5f88971e60365389af9"
     },
     {
@@ -3302,7 +3302,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/5de89155068f41e231ebd81b.png",
+      "foto_mascota": "data/sosafe-fotos/78954b450fa1cb8c9f1fac4d.png",
       "imagen_original_sha256": "624ce3b4226ab13e01281cf78ef0c44dd12a1de84a7aeb0a93ad0df5589a118b"
     },
     {
@@ -3330,7 +3330,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/47bd54aa46060a28d7768dd1.png",
+      "foto_mascota": "data/sosafe-fotos/58255403240b4a75b51c4f82.png",
       "imagen_original_sha256": "7fc9d4bdcd04e4d0256aa1622ea929b73bfe9bc0b55cb36e235ceb62f2696f88"
     },
     {
@@ -3379,7 +3379,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/386bd0c3296eb4f92864b810.png",
+      "foto_mascota": "data/sosafe-fotos/11087df878b0c4078c17e239.png",
       "imagen_original_sha256": "2b292b4b0f294779ea6a2625a844cf8d334512eb18b0072b6b14aa502c90013a"
     },
     {
@@ -3407,7 +3407,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/87b67d49ded0d708c02b8690.png",
+      "foto_mascota": "data/sosafe-fotos/ed26193d3cfdf484bdd9f612.png",
       "imagen_original_sha256": "25c1d5fe2bb770dae9ca6e1de700bccba70aa4b5e48fa09543e03a10e0d78cba"
     },
     {
@@ -3454,7 +3454,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/fea034f5e5f78e50b30fcca8.png",
+      "foto_mascota": "data/sosafe-fotos/1629f459520abda850d19af4.png",
       "imagen_original_sha256": "dab508b5cf16928b4bcb224be0f7088678525268bf69510e5cd2441319466ec5"
     },
     {
@@ -3481,7 +3481,7 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
+      "recorte_estado": "silueta_no_fiable",
       "foto_mascota": "",
       "imagen_original_sha256": "a04baf451c3c40b8463c316b70d313b5ce1706575188b348bfc40a86e4443f89"
     },
@@ -3512,7 +3512,7 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
+      "recorte_estado": "silueta_no_fiable",
       "foto_mascota": "",
       "imagen_original_sha256": "05de61e845b2b7c2b53a2b81f27becfc41029abd6ef172d23a2313f94ab218f4"
     },
@@ -3540,7 +3540,7 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "sin_deteccion",
+      "recorte_estado": "silueta_no_fiable",
       "foto_mascota": "",
       "imagen_original_sha256": "de61f0dbdb68dba4fb62dacbd1565ad04c7883133144ff632d6e7a429f46706e"
     },
@@ -3592,7 +3592,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/f4c8d70a4a96e6d299bc1801.png",
+      "foto_mascota": "data/sosafe-fotos/855e9122f2015710f520a20e.png",
       "imagen_original_sha256": "43ff8eb859b19377de3fa5fe7062d988d337c49eab5a64df49e3447365bb31bf"
     },
     {
@@ -3704,7 +3704,7 @@
         ],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
+      "recorte_estado": "silueta_no_fiable",
       "foto_mascota": "",
       "imagen_original_sha256": "9b55945d6a02208e5c67f638c77716f22872f84f9ac05f3a22452e6fc21b4bb7"
     },
@@ -3740,7 +3740,7 @@
         ],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
+      "recorte_estado": "silueta_no_fiable",
       "foto_mascota": "",
       "imagen_original_sha256": "9b55945d6a02208e5c67f638c77716f22872f84f9ac05f3a22452e6fc21b4bb7"
     },
@@ -3776,7 +3776,7 @@
         ],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
+      "recorte_estado": "silueta_no_fiable",
       "foto_mascota": "",
       "imagen_original_sha256": "9b55945d6a02208e5c67f638c77716f22872f84f9ac05f3a22452e6fc21b4bb7"
     },
@@ -3812,7 +3812,7 @@
         ],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
+      "recorte_estado": "silueta_no_fiable",
       "foto_mascota": "",
       "imagen_original_sha256": "9b55945d6a02208e5c67f638c77716f22872f84f9ac05f3a22452e6fc21b4bb7"
     },
@@ -3843,7 +3843,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/6e3cb64563f20b170bc519b1.png",
+      "foto_mascota": "data/sosafe-fotos/ca5066e91a69de4c8cc6c88b.png",
       "imagen_original_sha256": "c2f62e9c8aab36c18a1d5087d9a0e814759378e990452cb6a4f8a75a0d5a57fc"
     },
     {
@@ -3870,7 +3870,7 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
+      "recorte_estado": "silueta_no_fiable",
       "foto_mascota": "",
       "imagen_original_sha256": "a04baf451c3c40b8463c316b70d313b5ce1706575188b348bfc40a86e4443f89"
     },
@@ -3926,7 +3926,7 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
+      "recorte_estado": "silueta_no_fiable",
       "foto_mascota": "",
       "imagen_original_sha256": "72ab77be2e6dc753acf3082a9ae561ff0529c88657ab47324e8f7900a256bf91"
     },
@@ -3957,7 +3957,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/80bc8d1cba3de13ee478c018.png",
+      "foto_mascota": "data/sosafe-fotos/bf2ab8e67a1bb08449b9fe3c.png",
       "imagen_original_sha256": "d985ab2254f5845269209ec14402c017815080f6e3f61a203f54e8c56c433ace"
     },
     {
@@ -3987,7 +3987,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/0034b73c4b970c8d9af6ccf3.png",
+      "foto_mascota": "data/sosafe-fotos/b37c10c2fbcb9f05eb82a2a9.png",
       "imagen_original_sha256": "21b14232ceb19392cf1e78705535deacc87d097c1811a146bbdcb7682c8ce982"
     },
     {
@@ -4015,7 +4015,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/093a868f298e092d49beb88f.png",
+      "foto_mascota": "data/sosafe-fotos/f4fc7ef2dde7ad3b142801f1.png",
       "imagen_original_sha256": "1e2f2da786a38d5aa6d90fbe93cef409833bee20d0639aab248e41b6d736d68c"
     },
     {
@@ -4064,7 +4064,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/80bc8d1cba3de13ee478c018.png",
+      "foto_mascota": "data/sosafe-fotos/bf2ab8e67a1bb08449b9fe3c.png",
       "imagen_original_sha256": "d985ab2254f5845269209ec14402c017815080f6e3f61a203f54e8c56c433ace"
     },
     {
@@ -4091,8 +4091,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
-      "foto_mascota": "",
+      "recorte_estado": "sin_fondo",
+      "foto_mascota": "data/sosafe-fotos/9dc6fb06cce4a2a6f969a583.png",
       "imagen_original_sha256": "ef72fd2730acd8957a1f787d73388c3110d5c2df7c4efcb2bcbaa94670a112cb"
     },
     {
@@ -4149,7 +4149,7 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
+      "recorte_estado": "silueta_no_fiable",
       "foto_mascota": "",
       "imagen_original_sha256": "605783d2f16c2814949505695b0717343c188f91ac80d47af82f33f04e3795e4"
     },
@@ -4178,7 +4178,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/2991b9766217f96330f36b09.png",
+      "foto_mascota": "data/sosafe-fotos/78406d9e053b4dcd03f28d7f.png",
       "imagen_original_sha256": "25ec207c676754add43a572a1c245b93bd0df5b912a3b31cf71efab74b79760c"
     },
     {
@@ -4205,8 +4205,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "sin_deteccion",
-      "foto_mascota": "",
+      "recorte_estado": "sin_fondo",
+      "foto_mascota": "data/sosafe-fotos/e727a4584304c5e85797f92a.png",
       "imagen_original_sha256": "2497b080c4276cb95c203547421e230e26d0c62f14311297873663ad1d948d03"
     },
     {
@@ -4234,7 +4234,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/78865e6537e8371c4d6f277c.png",
+      "foto_mascota": "data/sosafe-fotos/9e6590c87093ccff8eaeb2ae.png",
       "imagen_original_sha256": "97471150cefb6163893b42a76f1dda7d4aabb0e9d6c64cbe5a073e3f1501b718"
     },
     {
@@ -4262,7 +4262,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/67fbd56958c524e37aa76af1.png",
+      "foto_mascota": "data/sosafe-fotos/67d66567afc75a69c74144cd.png",
       "imagen_original_sha256": "c31e377baa43a830c2922643f596cce18462559bbdfddd4be2c68919b6d1ecaa"
     },
     {
@@ -4317,7 +4317,7 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
+      "recorte_estado": "silueta_no_fiable",
       "foto_mascota": "",
       "imagen_original_sha256": "30dbeb5aa1f7718964ff7ef463fb3a09e56bb57fa67f3da73fb329eeeff66234"
     },
@@ -4376,7 +4376,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/866738e54886d82b6a14f04d.png",
+      "foto_mascota": "data/sosafe-fotos/94c9e9068e87d433429cb5ce.png",
       "imagen_original_sha256": "40578cd724fd19dcb7dc2ef25e24e1d7a94af3035ccff9ca4c0165cec3bec151"
     },
     {
@@ -4404,7 +4404,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/084e22df98adde556a7fb7fc.png",
+      "foto_mascota": "data/sosafe-fotos/a1cf53d670be26467a994b21.png",
       "imagen_original_sha256": "64d5d632bea5272dbbbcc78d29a14bd658f069ce90e9bcbf227a2f5977c6856c"
     },
     {
@@ -4440,8 +4440,8 @@
         ],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
-      "foto_mascota": "",
+      "recorte_estado": "sin_fondo",
+      "foto_mascota": "data/sosafe-fotos/c24e157ad20dbc6539a0e649.png",
       "imagen_original_sha256": "263cd4698143e82f0af2505c14d104248cd719d9982a9e25fa01fd83162e3129"
     },
     {
@@ -4468,8 +4468,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "sin_deteccion",
-      "foto_mascota": "",
+      "recorte_estado": "sin_fondo",
+      "foto_mascota": "data/sosafe-fotos/cadefa3e19a6ad51bc186e8f.png",
       "imagen_original_sha256": "558926157f09a911173409e0a1b4ca95f35c6060c99b7dbb5512bfc9265231b1"
     },
     {
@@ -4497,7 +4497,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/9dc37fec96d8308ec07be042.png",
+      "foto_mascota": "data/sosafe-fotos/9da52b7dc23a318aef914f82.png",
       "imagen_original_sha256": "748f63b7439a95bb9b267c0c2fbd8e96fbc001da01707a836a4af0bacb968ce5"
     },
     {
@@ -4524,8 +4524,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
-      "foto_mascota": "",
+      "recorte_estado": "sin_fondo",
+      "foto_mascota": "data/sosafe-fotos/34686319c2ceb30f1dce0a26.png",
       "imagen_original_sha256": "145c532f49963937dad840f82a2a6ddf13560a690d573092f45b1b5152f8c1ef"
     },
     {
@@ -4553,7 +4553,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/8aa7137ada281007ffd0faf5.png",
+      "foto_mascota": "data/sosafe-fotos/906da1e698e463ba335bfbca.png",
       "imagen_original_sha256": "31a0742002a6c5ac0ca98d7f07b95875ea2393b5d243a9015c6614541e1c5ce7"
     },
     {
@@ -4580,8 +4580,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "sin_deteccion",
-      "foto_mascota": "",
+      "recorte_estado": "sin_fondo",
+      "foto_mascota": "data/sosafe-fotos/467cc9240dfc339ac10d7aa6.png",
       "imagen_original_sha256": "281e44283d54afcf73efe36c2950c1ad571003e469c983281c9ad47c1ae8a77b"
     },
     {
@@ -4609,7 +4609,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/65a1294b9b087a32ab58160f.png",
+      "foto_mascota": "data/sosafe-fotos/8a2535ec4f44811983475401.png",
       "imagen_original_sha256": "9c8aa5a33a99418c14ae188a7e421c9ad80c2ced9e9936c8a945fbe35e511c8b"
     },
     {
@@ -4638,7 +4638,7 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
+      "recorte_estado": "silueta_no_fiable",
       "foto_mascota": "",
       "imagen_original_sha256": "2cfa882717cea2f2f20e36c21c50a28c369671ad66bf2cd4fa8337899957e1ae"
     },
@@ -4666,8 +4666,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "marca_superpuesta",
-      "foto_mascota": "",
+      "recorte_estado": "sin_fondo",
+      "foto_mascota": "data/sosafe-fotos/d9ae74110a798e4812c30afb.png",
       "imagen_original_sha256": "820724d3224e40e6e42e3597eeb56c9bc24e574d2559154752fbf0aeced84d84"
     },
     {
@@ -4697,7 +4697,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/ee0db73eb927a7b3dc1d23f9.png",
+      "foto_mascota": "data/sosafe-fotos/4e9df86e58c95dc1d015a2ef.png",
       "imagen_original_sha256": "69364ad3e70075caf156ad0f6294b0e2f17527a213f7f494cee43bdee24acc25"
     },
     {
@@ -4746,7 +4746,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "sin_fondo",
-      "foto_mascota": "data/sosafe-fotos/cbc6942cb8f5d3a5b3d4d589.png",
+      "foto_mascota": "data/sosafe-fotos/728699fcc5d5610279ef014f.png",
       "imagen_original_sha256": "38feb4c966d917bd3ad31af7799408db1ee0381f69029a58917402ddede1fd46"
     },
     {

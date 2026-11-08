@@ -18,3 +18,5 @@ La automatización de Codex “Mascotas SOSAFE Maipú” ejecuta este flujo a la
 No presentar el mapa como ubicación exacta de extravío: es el punto público del reporte. No afirmar que el historial anterior al inicio de la recopilación esté completo.
 
 Se aplica `sosafe-sin-fondo.py` al final del enriquecimiento: segmentación local YOLO11s, transparencia PNG sin generar píxeles ni reconstruir partes del animal. OCR siempre se realiza sobre el afiche original. Si el sello cruza la silueta o no hay detección fiable, se conserva el acceso al original. Revisar visualmente las siluetas antes de publicar. Los PNG referenciados también se incluyen en el commit diario.
+
+Las marcas detectadas por color o texto producen candidatos para revisión, no una eliminación de píxeles. Una revisión visual puede marcar `segmentacion.estado` como `aprobada` o `rechazada`, siempre con `original_sha256` e `imagen_sha256`. Sin silueta fiable se muestra el afiche original público; si la fuente lo bloquea se informa que no está disponible. En el mapa todos los avisos externos se agrupan en Mascotas perdidas, conservando origen SOSAFE en la ficha.

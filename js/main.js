@@ -16,9 +16,9 @@
   const placeCategoryLabels = {
     canil: 'Canil', parque: 'Parque', puesto: 'Comida y agua', veterinaria: 'Veterinaria', refugio: 'Refugio', casa_acogida: 'Casa de acogida', tienda_mascotas: 'Tienda de mascotas',
     alimento: 'Comida', juguetes_accesorios: 'Juguetes y accesorios', animal_comunitario: 'Animal comunitario',
-    aviso_sosafe: 'Mascotas · SOSAFE', mascota_perdida: 'Mascota perdida', servicio: 'Servicio', comercio: 'Comercio', otro: 'Otro',
+    mascota_perdida: 'Mascotas perdidas', servicio: 'Servicio', comercio: 'Comercio', otro: 'Otro',
   };
-  const placeIcons = { canil: '🐾', parque: '🌳', puesto: '💧', veterinaria: '✚', refugio: '⌂', casa_acogida: '♡', tienda_mascotas: '◆', alimento: '●', juguetes_accesorios: '◈', animal_comunitario: '♥', aviso_sosafe: '🐾', mascota_perdida: '!', servicio: '＋', comercio: '◇', otro: '⌖' };
+  const placeIcons = { canil: '🐾', parque: '🌳', puesto: '💧', veterinaria: '✚', refugio: '⌂', casa_acogida: '♡', tienda_mascotas: '◆', alimento: '●', juguetes_accesorios: '◈', animal_comunitario: '♥', mascota_perdida: '!', servicio: '＋', comercio: '◇', otro: '⌖' };
   const petSkillLabels = {
     reconoce_nombre: 'Reconoce su nombre', contacto_visual: 'Hace contacto visual', sentarse: 'Se sienta', dar_patita: 'Da la patita', echarse: 'Se echa',
     esperar: 'Espera', venir_llamado: 'Acude al llamado', soltar: 'Suelta objetos', paseo_correa: 'Pasea con correa', higiene: 'Hace sus necesidades en lugar indicado', socializa: 'Socializa con otros animales',
@@ -524,7 +524,7 @@
     label.textContent = placeCategoryLabels[categoria] || categoria;
     const count = document.createElement('span');
     count.className = 'place-category-count';
-    count.textContent = categoria === 'aviso_sosafe' ? `${cards.length} avisos` : (cards.length === 1 ? '1 sitio' : `${cards.length} sitios`);
+    count.textContent = categoria === 'mascota_perdida' ? `${cards.length} avisos` : (cards.length === 1 ? '1 sitio' : `${cards.length} sitios`);
     const chevron = document.createElement('span');
     chevron.className = 'place-category-chevron';
     chevron.setAttribute('aria-hidden', 'true');
@@ -631,8 +631,8 @@
       details.append(source);
     }
     article.append(top);
-    if (place.foto_mascota && /^data\/sosafe-fotos\/[a-f0-9]+\.(?:jpg|png)$/.test(place.foto_mascota)) {
-      const photo = document.createElement('img'); photo.src = place.foto_mascota;
+    if (sosafePhoto(place)) {
+      const photo = document.createElement('img'); photo.src = sosafePhoto(place); photo.referrerPolicy = 'no-referrer';
       photo.alt = place.nombre; photo.loading = 'lazy'; photo.className = 'sosafe-map-photo'; article.append(photo);
     }
     article.append(description, address, tags, details);
@@ -647,6 +647,15 @@
     return article;
   };
 
+  const sosafePhoto = (place) => {
+    if (/^data\/sosafe-fotos\/[a-f0-9]+\.(?:jpg|png)$/.test(place.foto_mascota || '')) return place.foto_mascota;
+    try {
+      const url = new URL(place.foto_original);
+      if (url.origin === 'https://api.sosafeapp.com' && url.pathname.startsWith('/reports/')) return url.href;
+    } catch {}
+    return '';
+  };
+
   const renderPlaces = () => {
     const container = document.querySelector('[data-place-list]');
     const summary = document.querySelector('[data-map-summary]');
@@ -659,7 +668,7 @@
       let marker = null;
       if (place.latitud !== null && place.longitud !== null) {
         const pin = window.L.divIcon({
-          className: '', html: `<div class="map-pin ${place.categoria === 'mascota_perdida' ? 'is-lost' : place.categoria === 'aviso_sosafe' ? 'is-sosafe' : ''}"><span>${placeIcons[place.categoria] || '⌖'}</span></div>`,
+          className: '', html: `<div class="map-pin ${place.categoria === 'mascota_perdida' ? 'is-lost' : ''}"><span>${placeIcons[place.categoria] || '⌖'}</span></div>`,
           iconSize: [36, 36], iconAnchor: [18, 34], popupAnchor: [0, -32],
         });
         const popup = document.createElement('div');
@@ -668,9 +677,9 @@
         const popupMeta = document.createElement('small');
         popupMeta.textContent = `${placeCategoryLabels[place.categoria] || place.categoria}${place.servicio_urgencia ? ' · Urgencias' : ''}`;
         popup.append(popupTitle, popupMeta);
-        if (place.categoria === 'aviso_sosafe') {
-          if (/^data\/sosafe-fotos\/[a-f0-9]+\.(?:jpg|png)$/.test(place.foto_mascota || '')) {
-            const image = document.createElement('img'); image.src = place.foto_mascota; image.alt = place.nombre; image.className = 'sosafe-map-photo'; popup.append(image);
+        if (place.origen === 'sosafe') {
+          if (sosafePhoto(place)) {
+            const image = document.createElement('img'); image.src = sosafePhoto(place); image.referrerPolicy = 'no-referrer'; image.alt = place.nombre; image.className = 'sosafe-map-photo'; popup.append(image);
           }
           const note = document.createElement('p'); note.textContent = 'Ubicación aproximada del reporte; no confirma el lugar exacto del extravío.'; popup.append(note);
           const link = document.createElement('a'); link.href = '#most-wanted'; link.textContent = 'Ver afiches y contactos'; popup.append(link);
