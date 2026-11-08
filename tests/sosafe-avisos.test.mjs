@@ -6,14 +6,18 @@ const script=readFileSync(new URL('../js/sosafe-avisos.js',import.meta.url),'utf
 test('shows verified dates, safe photo and contact, escapes text and excludes expired notices', async()=>{
  const dom=new JSDOM('<div data-sosafe-avisos></div>',{runScripts:'outside-only'});
  const now=new Date().toISOString();
- const row={tipo_aviso:'perdida',fecha_extravio_info:{fecha:'2026-11-02',precision:'estimada',criterio:'primera publicacion disponible'},foto_mascota:'data/sosafe-fotos/abc123.png',ubicacion_reporte:{lat:-33.51,lng:-70.76},lectura_foto:{estado:'leida',celulares:['+56987654321'],nombres:[{etiqueta:'Contacto',nombre:'Ana'}]},publicado_en:now,descripcion:'<img src=x onerror=alert(1)>',zona:'Maipú',autor_publicacion:'Vecina',foto:'https://api.sosafeapp.com/reports/test.jpg',fuente_url:'https://www.widgets.sosafeapp.com/report/test',celulares:['+56912345678','javascript:bad']};
+ const row={id:'contact-test',tipo_aviso:'perdida',fecha_extravio_info:{fecha:'2026-11-02',precision:'estimada',criterio:'primera publicacion disponible'},foto_mascota:'data/sosafe-fotos/abc123.png',ubicacion_reporte:{lat:-33.51,lng:-70.76},lectura_foto:{estado:'leida',celulares:['+56987654321'],nombres:[{etiqueta:'Contacto',nombre:'Ana'}]},publicado_en:now,descripcion:'<img src=x onerror=alert(1)>',zona:'Maipú',autor_publicacion:'Vecina',foto:'https://api.sosafeapp.com/reports/test.jpg',fuente_url:'https://www.widgets.sosafeapp.com/report/test',celulares:['+56912345678','javascript:bad']};
  dom.window.fetch=async()=>({ok:true,json:async()=>({actualizado_en:now,cobertura:'Parcial',avisos:[row,{...row,publicado_en:'2020-01-01',descripcion:'Old'}]})});
  dom.window.eval(script); await new Promise(r=>setTimeout(r,10));
  const doc=dom.window.document;
+ assert.equal(doc.querySelectorAll('.sosafe-card a[href^="tel:"]').length,0);
+ dom.window.HTMLDialogElement.prototype.showModal=function(){this.setAttribute('open','');};
+ doc.querySelector('[data-contactar]').click();
+ assert.ok(doc.querySelector('dialog[open]'));
  assert.equal(doc.querySelectorAll('article').length,1);
  assert.equal(dom.window.auraLadraSosafe.lugares().length,1);
  assert.equal(dom.window.auraLadraSosafe.lugares()[0].categoria,'mascota_perdida');
- assert.match(doc.body.textContent,/Leído del afiche/);
+ assert.match(doc.body.textContent,/Teléfonos leídos del afiche/);
  assert.match(doc.body.textContent,/Contacto: Ana/);
  assert.equal(doc.querySelector('a[href="tel:+56987654321"]'),null);
  assert.equal(doc.querySelectorAll('img').length,1);
@@ -47,7 +51,7 @@ test('one consolidated card retains descriptions without external links', async(
  dom.window.fetch=async()=>({ok:true,json:async()=>({actualizado_en:now,cobertura:'Parcial',avisos:[row]})});
  dom.window.eval(script);await new Promise(r=>setTimeout(r,10));
  const doc=dom.window.document;assert.equal(doc.querySelectorAll('article').length,1);
- assert.match(doc.querySelector('summary').textContent,/2 publicaciones reunidas/);
+ assert.match(doc.querySelector('.avisos-reunidos summary').textContent,/2 publicaciones reunidas/);
  assert.match(doc.querySelector('details').textContent,/Collar azul/);
  assert.match(doc.querySelector('details').textContent,/Visto en el parque/);
  assert.equal(doc.querySelectorAll('details a').length,0);dom.window.close();

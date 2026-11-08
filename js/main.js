@@ -705,7 +705,9 @@
           }
           if (place.fecha_extravio_texto) { const when = document.createElement('p'); when.textContent = place.fecha_extravio_texto; popup.append(when); }
           const note = document.createElement('p'); note.textContent = 'Ubicación aproximada del reporte; no confirma el lugar exacto del extravío.'; popup.append(note);
-          const link = document.createElement('a'); link.href = '#most-wanted'; link.textContent = 'Ver afiches y contactos'; popup.append(link);
+          const contact = document.createElement('button'); contact.type = 'button'; contact.className = 'button button-dark'; contact.textContent = 'Contactar';
+          contact.addEventListener('click', () => window.auraLadraSosafe?.contactar(place.id.replace(/^sosafe-/, '')));
+          popup.append(contact);
         }
         marker = window.L.marker([Number(place.latitud), Number(place.longitud)], { icon: pin, title: place.nombre, alt: place.nombre })
           .bindPopup(popup)

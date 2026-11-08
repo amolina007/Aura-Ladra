@@ -21,7 +21,28 @@
       const age = Date.now() - Date.parse(r.publicado_en);
       return r.tipo_aviso !== 'reencuentro' && /^data\/sosafe-fotos\/[a-f0-9]+\.(?:jpg|png)$/.test(r.foto_mascota || '') && Number.isFinite(age) && age >= 0 && age <= 30 * 86400000;
     });
-    window.auraLadraSosafe = { lugares: () => rows.filter(r => Number.isFinite(r.ubicacion_reporte?.lat) && Number.isFinite(r.ubicacion_reporte?.lng) && r.ubicacion_reporte.lat >= -33.65 && r.ubicacion_reporte.lat <= -33.45 && r.ubicacion_reporte.lng >= -70.95 && r.ubicacion_reporte.lng <= -70.70).map(r => ({
+    const contactDialog = document.createElement('dialog');
+    contactDialog.className = 'pet-contact-dialog';
+    contactDialog.setAttribute('aria-label', 'Contactar por la mascota');
+    document.body.append(contactDialog);
+    const contactar = id => {
+      const row = rows.find(row => row.id === id);
+      if (!row) return;
+      const phones = (row.celulares || []).filter(p => /^\+569\d{8}$/.test(p));
+      const reading = row.lectura_foto || {};
+      const ocr = (reading.celulares || []).filter(p => /^\+569\d{8}$/.test(p) && !phones.includes(p));
+      const names = (reading.nombres || []).filter(n => /contacto|responsable|dueñ/i.test(n.etiqueta || ''));
+      contactDialog.innerHTML = `<h3>${esc(row.nombre_mascota || 'Mascota sin nombre informado')}</h3>
+        ${row.autor_publicacion ? `<p>Publicado por: <strong>${esc(row.autor_publicacion)}</strong></p>` : ''}
+        ${names.map(n => `<p>${esc(n.etiqueta)}: ${esc(n.nombre)} <small>· leído del afiche, sin verificar</small></p>`).join('')}
+        ${!names.length ? '<p>Nombre de la persona de contacto no informado.</p>' : ''}
+        ${phones.map(phone => `<p><a class="pet-call" href="tel:${esc(phone)}">Llamar al ${esc(phone)}</a></p>`).join('')}
+        ${ocr.length ? `<p>Teléfonos leídos del afiche · sin verificar</p>${ocr.map(phone => `<p>${esc(phone)}</p>`).join('')}` : ''}
+        ${!phones.length && !ocr.length ? '<p>Este aviso no tiene teléfono disponible.</p>' : ''}
+        <form method="dialog"><button class="button button-dark">Cerrar</button></form>`;
+      contactDialog.showModal();
+    };
+    window.auraLadraSosafe = { contactar, lugares: () => rows.filter(r => Number.isFinite(r.ubicacion_reporte?.lat) && Number.isFinite(r.ubicacion_reporte?.lng) && r.ubicacion_reporte.lat >= -33.65 && r.ubicacion_reporte.lat <= -33.45 && r.ubicacion_reporte.lng >= -70.95 && r.ubicacion_reporte.lng <= -70.70).map(r => ({
       id: 'sosafe-' + r.id, nombre: (r.nombre_mascota || 'Mascota') + ' · ' + typeLabel(r), categoria: 'mascota_perdida', origen: 'sosafe',
       tipo_aviso: r.tipo_aviso, tipo_aviso_texto: typeLabel(r), fecha_extravio_texto: noticeDate(r), descripcion: display(r.descripcion), comuna: 'Maipú', direccion_publica: 'Ubicación aproximada del aviso externo',
       latitud: r.ubicacion_reporte.lat, longitud: r.ubicacion_reporte.lng, precision_ubicacion: 'aproximada',
@@ -39,18 +60,20 @@
         const ocrPhones = (reading.celulares || []).filter(p => /^\+569\d{8}$/.test(p) && !row.celulares.includes(p));
         return `<article class="card sosafe-card"><strong class="aviso-tipo" data-tipo="${esc(row.tipo_aviso || 'por_confirmar')}">${esc(typeLabel(row))}</strong><small>Aviso externo · estado sin verificar</small>
           <img src="${esc(photo)}" alt="Foto del aviso de mascota en ${esc(row.zona)}" loading="lazy" referrerpolicy="no-referrer">
-          <h4>${esc(row.nombre_mascota || "Mascota")} · ${esc(row.zona)}</h4><p>Publicado: ${esc(date(row.publicado_en))}</p>
+          <h4>${esc(row.nombre_mascota || "Mascota sin nombre informado")}</h4><p>${esc(row.zona)}</p>
           <p class="fecha-extravio">${esc(noticeDate(row))}</p>
+          <button type="button" class="button button-dark pet-contact" data-contactar="${esc(row.id)}">Contactar</button>
+          <details class="pet-details"><summary>Ver detalles</summary>
+          <p>Publicado: ${esc(date(row.publicado_en))}</p>
           <p class="sosafe-description">${esc(display(row.descripcion))}</p>
-          ${row.autor_publicacion ? `<p>Publicado por: ${esc(row.autor_publicacion)}</p>` : ''}
-          ${row.celulares.filter(p => /^\+569\d{8}$/.test(p)).map(p => `<p>Contacto del aviso: <a href="tel:${esc(p)}">${esc(p)}</a></p>`).join('')}
-          ${(ocrPhones.length || reading.nombres?.length) ? `<div class="sosafe-ocr"><strong>Leído del afiche · dato sin verificar</strong>${ocrPhones.map(p => `<p>Teléfono: ${esc(p)}</p>`).join('')}${(reading.nombres || []).map(n => `<p>${esc(n.etiqueta)}: ${esc(n.nombre)}</p>`).join('')}</div>` : ''}
           ${row.publicaciones?.length > 1 ? `<details class="avisos-reunidos"><summary>${row.publicaciones.length} publicaciones reunidas · ver antecedentes</summary>${row.publicaciones.map(p => {
             return `<section><p>Publicado: ${esc(date(p.publicado_en))}</p><p>${esc(display(p.descripcion))}</p></section>`;
           }).join('')}</details>` : ''}
           ${reading.estado === 'error' ? '<p>Lectura del afiche pendiente.</p>' : ''}
+          </details>
         </article>`;
       }).join('') || '<p>No hay avisos disponibles para este período.</p>'}</div>`;
+    root.querySelectorAll('[data-contactar]').forEach(button => button.addEventListener('click', () => contactar(button.dataset.contactar)));
     root.querySelectorAll('img').forEach(img => img.addEventListener('error', () => {
       const fallback = document.createElement('p'); fallback.textContent = 'La foto no está disponible.'; img.replaceWith(fallback);
     }, {once: true}));
