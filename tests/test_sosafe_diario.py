@@ -75,5 +75,28 @@ class DedupTest(unittest.TestCase):
         self.assertEqual([r['id'] for r in result],['b'])
         self.assertNotIn('publicaciones',result[0])
 
+
+class LossDatesTest(unittest.TestCase):
+    def row(self,text,date='2026-11-07T12:00:00-03:00'):
+        return {'id':'test','descripcion':text,'publicado_en':date,'fuente_url':'https://example.test'}
+    def test_explicit_relative_and_publication_are_distinct(self):
+        from sosafe_fechas import group_date
+        explicit=group_date([self.row('Se perdió el 25 de octubre')]);self.assertEqual(explicit['fecha'],'2026-10-25');self.assertEqual(explicit['precision'],'indicada')
+        relative=group_date([self.row('Se escapó ayer')]);self.assertEqual(relative['fecha'],'2026-11-06');self.assertEqual(relative['precision'],'estimada')
+        fallback=group_date([self.row('Perro perdido'),self.row('Sigue perdido','2026-11-06T12:00:00-03:00')]);self.assertEqual(fallback['fecha'],'2026-11-06');self.assertEqual(fallback['criterio'],'primera publicacion disponible')
+    def test_streets_ranges_and_grooming_are_not_loss_dates(self):
+        from sosafe_fechas import event_date
+        for text in ['Perrito perdido en la plaza, acá en 5 de abril con Pajaritos','Se perdió mi gato, hace como 5-6 días','Está perdido asustado por favor devolver, le corté el pelito ayer']:
+            self.assertIsNone(event_date(self.row(text)),text)
+    def test_conflicting_dates_are_not_presented_as_certain(self):
+        from sosafe_fechas import group_date
+        info=group_date([self.row('Se perdió el 2 de noviembre'),self.row('Se perdió el 3 de noviembre')]);self.assertTrue(info['requiere_revision']);self.assertEqual(info['precision'],'estimada')
+    def test_poster_date_requires_matching_original_hash(self):
+        from sosafe_fechas import event_date
+        row=self.row('Se busca gato');row['imagen_original_sha256']='abc'
+        review={'test':{'fecha_extravio':{'fecha':'2026-11-02','original_sha256':'other','evidencia':'afiche'}}}
+        self.assertIsNone(event_date(row,review));review['test']['fecha_extravio']['original_sha256']='abc'
+        self.assertEqual(event_date(row,review)['fecha'],'2026-11-02')
+
 if __name__ == '__main__':
     unittest.main()

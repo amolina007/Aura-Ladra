@@ -63,5 +63,75 @@
       "5f8993e1-df26-5f49-8488-bd173155cf57"
     ],
     "evidencia": "Revisión de publicaciones: fotos coincidentes, nombre y antecedentes compatibles; contactos cuando están disponibles."
+  },
+  {
+    "nombre": "Roberto",
+    "ids": [
+      "17d93426-eac2-5eb6-ab6e-47caa5be178a",
+      "5882da4f-5a74-582b-ad7a-2bbdf9098f28",
+      "b28b9ce0-9c5c-5b28-b128-cbcb17bb2bbf"
+    ],
+    "evidencia": "Mismo teléfono visible en los afiches, nombre y escape desde veterinaria municipal; dos afiches con fotografías compatibles."
+  },
+  {
+    "nombre": "Luna",
+    "ids": [
+      "2627b0d3-e66d-529b-ae21-e97d625fdf53",
+      "73c5c738-8256-55a7-9ed6-0791470fbec9",
+      "dd05a24e-5941-5ce3-807a-763c61118f43"
+    ],
+    "evidencia": "Mismo afiche con distinta compresión y mismo extravío el 4 de noviembre en Rinconada."
+  },
+  {
+    "nombre": "",
+    "ids": [
+      "a5e0872f-5bc6-5f23-bc34-c8f768afb431",
+      "de5a33d4-2cc7-5a2e-ae49-3862db265c15"
+    ],
+    "evidencia": "Misma fotografía del perro junto a sillas blancas; ambos reportan Plaza de Maipú."
+  },
+  {
+    "nombre": "",
+    "ids": [
+      "58fefb7b-2e30-5740-8a1f-004310018f0e",
+      "a893cef9-aecc-5974-874e-41a17ec65986"
+    ],
+    "evidencia": "La segunda publicación es una captura de la misma fotografía; ambas indican retenida en Villa del Sol."
+  },
+  {
+    "nombre": "",
+    "ids": [
+      "1fdf7cc6-881e-5158-960d-4f4a911a42fd",
+      "989c1890-f575-5c91-984d-c8bc2e935ca5"
+    ],
+    "evidencia": "Fotos consecutivas del mismo perro con marcas coincidentes; mismo autor, seis minutos y misma situación."
+  },
+  {
+    "nombre": "Cloe",
+    "ids": [
+      "048d05c7-a262-5a3d-a79c-ac8c3d552e54",
+      "1a4acc01-2a97-53ea-b48b-ebc4811d84f4",
+      "5dbc080d-351a-5cd9-9fc3-d6bc41a7eb96",
+      "be04edaf-f03b-54b1-a957-3ec3867c6372"
+    ],
+    "evidencia": "Misma fotografía, nombre y ambos teléfonos coincidentes en afiches; 02/11 y tres días en publicación del 05/11."
+  },
+  {
+    "nombre": "Rolfi",
+    "ids": [
+      "0501c668-63d4-5d33-85e4-8c17a7ddfa62",
+      "0e3b2ea9-daf2-54bc-858b-c5b3bc47f282",
+      "1045705b-d7a2-596f-a8f6-0574cf2ea3fc",
+      "2755d4c2-842a-50a4-9709-2d36b2e6dd4b",
+      "42467f82-6218-5e2b-93db-a57b42a3833b",
+      "5e4c7866-6b10-5142-bff3-b380036bf756",
+      "94c19985-ce0f-5688-9d91-344631984c2d",
+      "985cf71a-34e4-5f23-9a26-7c7df2f1203d",
+      "b3b35b83-b3aa-581f-8c2d-2b4360136ae7",
+      "bac2de9f-1bc9-5bf4-9d47-79ecb294de07",
+      "ddf4233e-fb2b-5d46-9bd8-4cbffee5024c",
+      "e300899d-a786-59ee-91b0-7e25c3d9dd52"
+    ],
+    "evidencia": "La fotografía del perro en camino Melipilla coincide con la incluida en las publicaciones ya agrupadas de Rolfi."
   }
 ]

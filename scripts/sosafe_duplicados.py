@@ -5,6 +5,7 @@ import pathlib
 import re
 import unicodedata
 from difflib import SequenceMatcher
+from sosafe_fechas import group_date
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 
 def norm(value):
@@ -22,6 +23,8 @@ def consolidate(rows, rules=None):
     if rules is None:
         path=ROOT/'data/sosafe-duplicados.json'
         rules=json.loads(path.read_text()) if path.exists() else []
+    revision_path=ROOT/'data/sosafe-revisiones.json'
+    revisions=json.loads(revision_path.read_text()) if revision_path.exists() else {}
     parent=list(range(len(rows)))
     def find(i):
         while parent[i]!=i:
@@ -66,5 +69,6 @@ def consolidate(rows, rules=None):
             reading['celulares']=sorted({p for r in group for p in r.get('lectura_foto',{}).get('celulares',[])})
             names={json.dumps(n,sort_keys=True,ensure_ascii=False):n for r in group for n in r.get('lectura_foto',{}).get('nombres',[])}
             reading['nombres']=list(names.values());reading['requiere_revision']=True
+        best['fecha_extravio_info']=group_date(group,revisions)
         output.append(best)
     return sorted(output,key=lambda r:(r.get('ultima_publicacion_en',r.get('publicado_en','')),r['id']),reverse=True)

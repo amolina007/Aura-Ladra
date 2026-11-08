@@ -538,7 +538,12 @@
   },
   "17d93426-eac2-5eb6-ab6e-47caa5be178a": {
     "sha256": "034fe285fa1e3c79c3cf335340fbf70111e70935971d261fbb7ff11a0358c753",
-    "recorte_sha256": "99519db86f8771fa30987f5b6276b7f1d8ab26807eeed8434f0ed0e2ce0b369a"
+    "recorte_sha256": "99519db86f8771fa30987f5b6276b7f1d8ab26807eeed8434f0ed0e2ce0b369a",
+    "fecha_extravio": {
+      "fecha": "2026-11-06",
+      "original_sha256": "034fe285fa1e3c79c3cf335340fbf70111e70935971d261fbb7ff11a0358c753",
+      "evidencia": "Afiche: PERDIDO 06-11-2026."
+    }
   },
   "cdec6aa4-383f-509a-b508-d826f47a5ea8": {
     "sha256": "e68f0c2e2aae7fd2ecb3f8a1be99326ee66bce403d8b2fd2f2d464b395a59a34",
@@ -884,6 +889,11 @@
       "imagen_sha256": "31438409dbe38cb610e446f8fa4449ab7ffa6a43cb572c7979c63113523f9e2e",
       "estado": "rechazada",
       "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "fecha_extravio": {
+      "fecha": "2026-11-02",
+      "original_sha256": "b3b63883f08139dbb1225fff0008f35081c28c235a44de5c4e2ffd10c2ebf4ff",
+      "evidencia": "Afiche: No la vemos desde el lunes 02/11."
     }
   },
   "0637ec04-30f6-52e0-b75f-2f1a9ceb5f67": {

@@ -4,6 +4,11 @@
   if (!root) return;
   const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const display = value => String(value ?? '').replace(/\bsosafe\b/gi, 'la fuente original');
+  const lossDate = info => {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(info?.fecha || '')) return '';
+    const day = info.fecha.split('-').reverse().join('/');
+    return `Extravío: ${day} · ${info.precision === 'indicada' ? 'fecha indicada en el aviso' : info.criterio === 'referencia relativa del aviso' ? 'estimada según el aviso' : 'estimada por la primera publicación'}${info.requiere_revision ? ' · fechas contradictorias por revisar' : ''}`;
+  };
   const date = value => new Date(value).toLocaleString('es-CL', {timeZone: 'America/Santiago'});
   const safe = (value, origin, prefix) => {
     try { const url = new URL(value); return url.origin === origin && url.pathname.startsWith(prefix) ? url.href : ''; }
@@ -19,7 +24,7 @@
     });
     window.auraLadraSosafe = { lugares: () => rows.filter(r => Number.isFinite(r.ubicacion_reporte?.lat) && Number.isFinite(r.ubicacion_reporte?.lng) && r.ubicacion_reporte.lat >= -33.65 && r.ubicacion_reporte.lat <= -33.45 && r.ubicacion_reporte.lng >= -70.95 && r.ubicacion_reporte.lng <= -70.70).map(r => ({
       id: 'sosafe-' + r.id, nombre: (r.nombre_mascota || 'Mascota') + ' · Aviso externo', categoria: 'mascota_perdida', origen: 'sosafe',
-      descripcion: display(r.descripcion), comuna: 'Maipú', direccion_publica: 'Ubicación aproximada del aviso externo',
+      fecha_extravio_texto: lossDate(r.fecha_extravio_info), descripcion: display(r.descripcion), comuna: 'Maipú', direccion_publica: 'Ubicación aproximada del aviso externo',
       latitud: r.ubicacion_reporte.lat, longitud: r.ubicacion_reporte.lng, precision_ubicacion: 'aproximada',
       estado_verificacion: 'comunitario', fuente_nombre: 'Aviso externo · estado sin verificar', fuente_url: r.fuente_url,
       foto_mascota: r.foto_mascota, foto_original: safe(r.foto, 'https://api.sosafeapp.com', '/reports/'), telefono_publico: r.celulares[0] || '',
@@ -38,6 +43,7 @@
         return `<article class="card sosafe-card"><small>Aviso externo · estado sin verificar</small>
           ${photo ? `<img src="${esc(photo)}" alt="Foto del aviso de mascota en ${esc(row.zona)}" loading="lazy" referrerpolicy="no-referrer">` : (original ? `<img src="${esc(original)}" alt="Afiche original de mascota en ${esc(row.zona)}" loading="lazy" referrerpolicy="no-referrer"><p>Afiche original · conservamos la imagen completa.</p>` : '<p>La fuente no entrega foto.</p>')}
           <h4>${esc(row.nombre_mascota || "Mascota")} · ${esc(row.zona)}</h4><p>Publicado: ${esc(date(row.publicado_en))}</p>
+          ${row.fecha_extravio_info ? `<p class="fecha-extravio">${esc(lossDate(row.fecha_extravio_info))}</p>` : ''}
           <p class="sosafe-description">${esc(display(row.descripcion))}</p>
           ${row.autor_publicacion ? `<p>Publicado por: ${esc(row.autor_publicacion)}</p>` : ''}
           ${row.celulares.filter(p => /^\+569\d{8}$/.test(p)).map(p => `<p>Contacto del aviso: <a href="tel:${esc(p)}">${esc(p)}</a></p>`).join('')}

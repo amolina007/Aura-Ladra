@@ -635,6 +635,7 @@
       const photo = document.createElement('img'); photo.src = sosafePhoto(place); photo.referrerPolicy = 'no-referrer';
       photo.alt = place.nombre; photo.loading = 'lazy'; photo.className = 'sosafe-map-photo'; article.append(photo);
     }
+    if (place.fecha_extravio_texto) { const when = document.createElement('p'); when.textContent = place.fecha_extravio_texto; article.append(when); }
     article.append(description, address, tags, details);
     if (marker) {
       const focusMarker = () => {
@@ -681,6 +682,7 @@
           if (sosafePhoto(place)) {
             const image = document.createElement('img'); image.src = sosafePhoto(place); image.referrerPolicy = 'no-referrer'; image.alt = place.nombre; image.className = 'sosafe-map-photo'; popup.append(image);
           }
+          if (place.fecha_extravio_texto) { const when = document.createElement('p'); when.textContent = place.fecha_extravio_texto; popup.append(when); }
           const note = document.createElement('p'); note.textContent = 'Ubicación aproximada del reporte; no confirma el lugar exacto del extravío.'; popup.append(note);
           const link = document.createElement('a'); link.href = '#most-wanted'; link.textContent = 'Ver afiches y contactos'; popup.append(link);
         }
