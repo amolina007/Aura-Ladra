@@ -38,3 +38,15 @@ test('uses the real public poster when no reliable cutout exists and rejects oth
  assert.equal(dom.window.auraLadraSosafe.lugares()[1].foto_original,'');
  dom.window.close();
 });
+
+test('one consolidated card retains additional descriptions and safe source links', async()=>{
+ const dom=new JSDOM('<div data-sosafe-avisos></div>',{runScripts:'outside-only'});
+ const now=new Date().toISOString();const row={id:'group',publicado_en:now,descripcion:'Ficha principal',zona:'Maipú',celulares:[],publicaciones:[{publicado_en:now,descripcion:'Collar azul',fuente_url:'https://www.widgets.sosafeapp.com/report/a'},{publicado_en:now,descripcion:'Visto en el parque',fuente_url:'javascript:bad'}]};
+ dom.window.fetch=async()=>({ok:true,json:async()=>({actualizado_en:now,cobertura:'Parcial',avisos:[row]})});
+ dom.window.eval(script);await new Promise(r=>setTimeout(r,10));
+ const doc=dom.window.document;assert.equal(doc.querySelectorAll('article').length,1);
+ assert.match(doc.querySelector('summary').textContent,/2 publicaciones reunidas/);
+ assert.match(doc.querySelector('details').textContent,/Collar azul/);
+ assert.match(doc.querySelector('details').textContent,/Visto en el parque/);
+ assert.equal(doc.querySelectorAll('details a').length,1);dom.window.close();
+});

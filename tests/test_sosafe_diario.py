@@ -43,5 +43,37 @@ class CollectorTest(unittest.TestCase):
         row = collector.convert(self.report | {'image': 'https://evil.example/photo.jpg'}, self.now)
         self.assertEqual(row['foto'], '')
 
+
+class DedupTest(unittest.TestCase):
+    def row(self, uid, **patch):
+        return dict(id=uid, descripcion='Mascota perdida', publicado_en='2026-11-08T12:00:00-03:00',celulares=[],foto='',**patch)
+
+    def test_exact_photo_preserves_every_source_and_contacts_idempotently(self):
+        from sosafe_duplicados import consolidate, expand
+        a=self.row('a', imagen_original_sha256='same')
+        b=self.row('b', imagen_original_sha256='same')
+        b.update(descripcion='Mascota perdida en el parque, collar azul.',celulares=['+56912345678'])
+        out=consolidate([a,b],[])
+        self.assertEqual(len(out),1);self.assertEqual(out[0]['id'],'b')
+        self.assertEqual(out[0]['celulares'],b['celulares'])
+        self.assertEqual({x['id'] for x in expand(out)},{'a','b'})
+        self.assertEqual(consolidate(out,[]),out)
+
+    def test_name_or_phone_alone_does_not_merge(self):
+        from sosafe_duplicados import consolidate
+        a=self.row('a',nombre_mascota='Luna');b=self.row('b',nombre_mascota='Luna')
+        self.assertEqual(len(consolidate([a,b],[])),2)
+        a.update(celulares=['+56912345678'],nombre_mascota='Luna',descripcion='Gata gris')
+        b.update(celulares=['+56912345678'],nombre_mascota='Rolfi',descripcion='Perro blanco')
+        self.assertEqual(len(consolidate([a,b],[])),2)
+
+    def test_reviewed_links_and_expired_member_not_resurrected(self):
+        from sosafe_duplicados import consolidate
+        a=self.row('a');b=self.row('b');rules=[{'ids':['a','b'],'nombre':'Taz'}]
+        self.assertEqual(len(consolidate([a,b],rules)),1)
+        result=consolidate([b],rules)
+        self.assertEqual([r['id'] for r in result],['b'])
+        self.assertNotIn('publicaciones',result[0])
+
 if __name__ == '__main__':
     unittest.main()

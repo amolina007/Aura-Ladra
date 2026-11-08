@@ -42,6 +42,10 @@
           ${row.autor_publicacion ? `<p>Publicado por: ${esc(row.autor_publicacion)}</p>` : ''}
           ${row.celulares.filter(p => /^\+569\d{8}$/.test(p)).map(p => `<p>Contacto del aviso: <a href="tel:${esc(p)}">${esc(p)}</a></p>`).join('')}
           ${(ocrPhones.length || reading.nombres?.length) ? `<div class="sosafe-ocr"><strong>Leído del afiche · revisar en el original</strong>${ocrPhones.map(p => `<p>Teléfono: ${esc(p)}</p>`).join('')}${(reading.nombres || []).map(n => `<p>${esc(n.etiqueta)}: ${esc(n.nombre)}</p>`).join('')}</div>` : ''}
+          ${row.publicaciones?.length > 1 ? `<details class="avisos-reunidos"><summary>${row.publicaciones.length} publicaciones reunidas · ver antecedentes</summary>${row.publicaciones.map(p => {
+            const link = safe(p.fuente_url, 'https://www.widgets.sosafeapp.com', '/report/');
+            return `<section><p>Publicado: ${esc(date(p.publicado_en))}</p><p>${esc(display(p.descripcion))}</p>${link ? `<a href="${esc(link)}" target="_blank" rel="noopener noreferrer">Ver publicación original</a>` : ''}</section>`;
+          }).join('')}</details>` : ''}
           ${reading.estado === 'error' ? '<p>Lectura del afiche pendiente. Consulta el original.</p>' : ''}
           ${original ? `<p><a href="${esc(original)}" target="_blank" rel="noopener noreferrer">Ver afiche original completo</a></p>` : ''}
           ${source ? `<a href="${esc(source)}" target="_blank" rel="noopener noreferrer">Ver aviso original</a>` : ''}
