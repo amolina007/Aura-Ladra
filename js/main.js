@@ -3209,7 +3209,7 @@
     const board = document.querySelector('[data-wanted-board]');
     if (!board) return;
     if (!rows.length) {
-      board.innerHTML = '<p class="empty-state">No hay afiches de mascotas registradas en este filtro. Más abajo puedes consultar los avisos externos de SOSAFE.</p>';
+      board.innerHTML = '<p class="empty-state">No hay afiches de mascotas registradas en este filtro. Más abajo puedes consultar los avisos externos externos.</p>';
       return;
     }
     board.replaceChildren(...rows.map((aviso) => {

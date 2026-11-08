@@ -29,7 +29,7 @@
     <label class="field">Fecha del extravío, si se conoce<input name="fecha_extravio" type="date"></label>
     <label class="field">Tiempo aproximado, si no sabes la fecha<input name="tiempo_aproximado" maxlength="120" placeholder="Ej. unas dos semanas según el aviso"></label>
     <label class="field">Descripción y otros antecedentes<textarea name="descripcion" maxlength="4000" rows="4"></textarea></label>
-    <label class="field">Plataforma o medio de origen<input name="fuente" required maxlength="160" placeholder="SOSAFE, Facebook, Instagram, afiche en la calle…"></label>
+    <label class="field">Plataforma o medio de origen<input name="fuente" required maxlength="160" placeholder="Red social, sitio web, afiche en la calle…"></label>
     <label class="field">Enlace del aviso original (opcional)<input name="fuente_url" type="url" maxlength="2000" placeholder="https://…"></label>
     <label class="field">Estado según la fuente<select name="estado"><option value="extraviada">Extraviada</option><option value="encontrada">Encontrada</option><option value="retirado">Retirar de la lista pública</option></select></label>
     <p>El celular, el domicilio, la zona y las fotos serán públicos. Completa los datos disponibles en el anuncio original.</p>
@@ -60,8 +60,8 @@
       ${phone ? `<p>Celular: <a href="tel:${esc(phone)}">${esc(row.celular)}</a></p>` : ''}
       ${row.domicilio ? `<p style="overflow-wrap:anywhere">Domicilio: ${esc(row.domicilio)}</p>` : ''}
       <p>${esc(elapsed(row))}</p>${row.dueno ? `<p>Dueño según el aviso: ${esc(row.dueno)}</p>` : ''}
-      <p style="white-space:pre-wrap;overflow-wrap:anywhere">${esc(row.descripcion)}</p>
-      <p>Fuente: ${esc(row.fuente)}${url ? ` · <a href="${esc(url)}" target="_blank" rel="noopener noreferrer">Ver original</a>` : ''}</p>
+      <p style="white-space:pre-wrap;overflow-wrap:anywhere">${esc(String(row.descripcion || '').replace(/\bsosafe\b/gi, 'la fuente original'))}</p>
+      <p>Fuente: ${esc(String(row.fuente || '').replace(/\bsosafe\b/gi, 'Aviso externo'))}${url ? ` · <a href="${esc(url)}" target="_blank" rel="noopener noreferrer">Ver original</a>` : ''}</p>
       ${row.autor_id === user ? `<button type="button" class="button button-ghost" data-externo-editar="${esc(row.id)}">Editar / retirar aviso</button>` : ''}</article>`;
   }
   function renderPhotos() {
@@ -74,7 +74,7 @@
     if (button && !busy) { retainedPhotos.splice(Number(button.dataset.quitarFoto), 1); renderPhotos(); }
   });
   function render() {
-    document.querySelector('[data-externos-lista]').innerHTML = rows.filter(r => r.estado !== 'retirado').map(card).join('') || '<p>No hay avisos manuales publicados. Los avisos de SOSAFE aparecen a continuación.</p>';
+    document.querySelector('[data-externos-lista]').innerHTML = rows.filter(r => r.estado !== 'retirado').map(card).join('') || '<p>No hay avisos manuales publicados. Los avisos externos aparecen a continuación.</p>';
     document.querySelector('[data-externos-propios]').innerHTML = rows.filter(r => r.autor_id === user).map(card).join('') || '<p>Aquí aparecerán los avisos que compartas.</p>';
   }
   async function refresh() {
