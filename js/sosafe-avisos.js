@@ -20,7 +20,7 @@
   }).then(data => {
     const rows = data.avisos.filter(r => {
       const age = Date.now() - Date.parse(r.publicado_en);
-      return Number.isFinite(age) && age >= 0 && age <= 30 * 86400000;
+      return /^data\/sosafe-fotos\/[a-f0-9]+\.(?:jpg|png)$/.test(r.foto_mascota || '') && Number.isFinite(age) && age >= 0 && age <= 30 * 86400000;
     });
     window.auraLadraSosafe = { lugares: () => rows.filter(r => Number.isFinite(r.ubicacion_reporte?.lat) && Number.isFinite(r.ubicacion_reporte?.lng) && r.ubicacion_reporte.lat >= -33.65 && r.ubicacion_reporte.lat <= -33.45 && r.ubicacion_reporte.lng >= -70.95 && r.ubicacion_reporte.lng <= -70.70).map(r => ({
       id: 'sosafe-' + r.id, nombre: (r.nombre_mascota || 'Mascota') + ' · Aviso externo', categoria: 'mascota_perdida', origen: 'sosafe',
@@ -41,7 +41,7 @@
         const ocrPhones = (reading.celulares || []).filter(p => /^\+569\d{8}$/.test(p) && !row.celulares.includes(p));
         const source = safe(row.fuente_url, 'https://www.widgets.sosafeapp.com', '/report/');
         return `<article class="card sosafe-card"><small>Aviso externo · estado sin verificar</small>
-          ${photo ? `<img src="${esc(photo)}" alt="Foto del aviso de mascota en ${esc(row.zona)}" loading="lazy" referrerpolicy="no-referrer">` : (original ? `<img src="${esc(original)}" alt="Afiche original de mascota en ${esc(row.zona)}" loading="lazy" referrerpolicy="no-referrer"><p>Afiche original · conservamos la imagen completa.</p>` : '<p>La fuente no entrega foto.</p>')}
+          <img src="${esc(photo)}" alt="Foto del aviso de mascota en ${esc(row.zona)}" loading="lazy" referrerpolicy="no-referrer">
           <h4>${esc(row.nombre_mascota || "Mascota")} · ${esc(row.zona)}</h4><p>Publicado: ${esc(date(row.publicado_en))}</p>
           ${row.fecha_extravio_info ? `<p class="fecha-extravio">${esc(lossDate(row.fecha_extravio_info))}</p>` : ''}
           <p class="sosafe-description">${esc(display(row.descripcion))}</p>

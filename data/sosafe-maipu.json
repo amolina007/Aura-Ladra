@@ -75,33 +75,6 @@
       }
     },
     {
-      "id": "b8bb1085-14af-54c8-8606-2e64c4599232",
-      "descripcion": "Perrito de color negro anda por Las Naciones con Diego Barros. Debe estar perdido porque está muy limpio y asustado. No se deja que lo\ntomen .\nSe fue por las Naciones rumbo a San Martín.",
-      "publicado_en": "2026-11-07T20:39:00-03:00",
-      "zona": "Maipú",
-      "autor_publicacion": "Jjj",
-      "celulares": [],
-      "foto": "",
-      "fuente_url": "https://www.widgets.sosafeapp.com/report/b8bb1085-14af-54c8-8606-2e64c4599232?l=es",
-      "verificado_en": "2026-11-08T09:37:31.885482-03:00",
-      "ubicacion_reporte": {
-        "lat": -33.522733105845,
-        "lng": -70.786923436241,
-        "precision": "aproximada",
-        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
-      },
-      "nombre_mascota": "",
-      "lectura_foto": {
-        "estado": "sin_foto"
-      },
-      "fecha_extravio_info": {
-        "fecha": "2026-11-07",
-        "precision": "estimada",
-        "criterio": "primera publicacion disponible",
-        "fuente_url": "https://www.widgets.sosafeapp.com/report/b8bb1085-14af-54c8-8606-2e64c4599232?l=es"
-      }
-    },
-    {
       "id": "e1580aa3-612a-5656-9f93-47f931ce4487",
       "descripcion": "Busco a mi niño🥺 se llama LEVI, se escapo anoche lo mas probable, nunca se habia escapado asi que no sabe andar en la calle , si alguien lo a visto, favor avisar😔😔",
       "publicado_en": "2026-11-07T20:35:00-03:00",
@@ -168,33 +141,6 @@
         "precision": "estimada",
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/5b0b8daa-b0cc-5112-8091-6d4508929282?l=es"
-      }
-    },
-    {
-      "id": "3b163f43-d474-5745-a4c5-cad15a9cb812",
-      "descripcion": "Vi un perro al parecer poodle tamaño mediano corriendo por la calle de 4 poniente y llevaba collar azul al parecer, pasó súper rápido corriendo :(\nPor si lo andan buscando o se arrancó, 😭",
-      "publicado_en": "2026-11-07T19:51:00-03:00",
-      "zona": "Maipú",
-      "autor_publicacion": "Fernanda ",
-      "celulares": [],
-      "foto": "",
-      "fuente_url": "https://www.widgets.sosafeapp.com/report/3b163f43-d474-5745-a4c5-cad15a9cb812?l=es",
-      "verificado_en": "2026-11-08T09:37:31.885482-03:00",
-      "ubicacion_reporte": {
-        "lat": -33.536250955524,
-        "lng": -70.792001326589,
-        "precision": "aproximada",
-        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
-      },
-      "nombre_mascota": "",
-      "lectura_foto": {
-        "estado": "sin_foto"
-      },
-      "fecha_extravio_info": {
-        "fecha": "2026-11-07",
-        "precision": "estimada",
-        "criterio": "primera publicacion disponible",
-        "fuente_url": "https://www.widgets.sosafeapp.com/report/3b163f43-d474-5745-a4c5-cad15a9cb812?l=es"
       }
     },
     {
@@ -340,7 +286,7 @@
             ],
             "requiere_revision": true
           },
-          "recorte_estado": "silueta_no_fiable",
+          "recorte_estado": "encuadre_pendiente",
           "foto_mascota": "",
           "imagen_original_sha256": "6c967f0febff242fd57219f916307938dad0ddcac3fab9e554c38d665f8a4c5f"
         },
@@ -896,8 +842,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "silueta_no_fiable",
-      "foto_mascota": "",
+      "recorte_estado": "afiche_recortado",
+      "foto_mascota": "data/sosafe-fotos/5bfd3d1d7bb80aa044e1d40e.jpg",
       "imagen_original_sha256": "65bdecfe7ff68ad71c6dccfd7d02561c0989cb9c7f05a268dd9a6c07ae63759b",
       "publicaciones": [
         {
@@ -1012,7 +958,7 @@
             "nombres": [],
             "requiere_revision": true
           },
-          "recorte_estado": "silueta_no_fiable",
+          "recorte_estado": "encuadre_pendiente",
           "foto_mascota": "",
           "imagen_original_sha256": "605783d2f16c2814949505695b0717343c188f91ac80d47af82f33f04e3795e4"
         },
@@ -1040,7 +986,7 @@
             "nombres": [],
             "requiere_revision": true
           },
-          "recorte_estado": "silueta_no_fiable",
+          "recorte_estado": "encuadre_pendiente",
           "foto_mascota": "",
           "imagen_original_sha256": "30dbeb5aa1f7718964ff7ef463fb3a09e56bb57fa67f3da73fb329eeeff66234"
         },
@@ -1070,8 +1016,8 @@
             "nombres": [],
             "requiere_revision": true
           },
-          "recorte_estado": "silueta_no_fiable",
-          "foto_mascota": "",
+          "recorte_estado": "afiche_recortado",
+          "foto_mascota": "data/sosafe-fotos/5bfd3d1d7bb80aa044e1d40e.jpg",
           "imagen_original_sha256": "65bdecfe7ff68ad71c6dccfd7d02561c0989cb9c7f05a268dd9a6c07ae63759b"
         }
       ],
@@ -1107,8 +1053,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "silueta_no_fiable",
-      "foto_mascota": "",
+      "recorte_estado": "afiche_recortado",
+      "foto_mascota": "data/sosafe-fotos/702efe7bb92f1f1fde576e09.jpg",
       "imagen_original_sha256": "6fdea4682480ce8eed8f87b8ae39b6a2578f6f5070a243815e64a07094a5dc3f",
       "fecha_extravio_info": {
         "fecha": "2026-11-07",
@@ -1171,7 +1117,7 @@
             "nombres": [],
             "requiere_revision": true
           },
-          "recorte_estado": "silueta_no_fiable",
+          "recorte_estado": "encuadre_pendiente",
           "foto_mascota": "",
           "imagen_original_sha256": "497f587cffb07e3806476196558c7de2fbb2e62a239bc03b08fe9c98f569f5b6"
         },
@@ -1199,7 +1145,7 @@
             "nombres": [],
             "requiere_revision": true
           },
-          "recorte_estado": "silueta_no_fiable",
+          "recorte_estado": "encuadre_pendiente",
           "foto_mascota": "",
           "imagen_original_sha256": "497f587cffb07e3806476196558c7de2fbb2e62a239bc03b08fe9c98f569f5b6"
         },
@@ -1227,7 +1173,7 @@
             "nombres": [],
             "requiere_revision": true
           },
-          "recorte_estado": "silueta_no_fiable",
+          "recorte_estado": "encuadre_pendiente",
           "foto_mascota": "",
           "imagen_original_sha256": "497f587cffb07e3806476196558c7de2fbb2e62a239bc03b08fe9c98f569f5b6"
         },
@@ -1255,7 +1201,7 @@
             "nombres": [],
             "requiere_revision": true
           },
-          "recorte_estado": "silueta_no_fiable",
+          "recorte_estado": "encuadre_pendiente",
           "foto_mascota": "",
           "imagen_original_sha256": "497f587cffb07e3806476196558c7de2fbb2e62a239bc03b08fe9c98f569f5b6"
         },
@@ -1325,8 +1271,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "silueta_no_fiable",
-      "foto_mascota": "",
+      "recorte_estado": "afiche_recortado",
+      "foto_mascota": "data/sosafe-fotos/e926899d41b4f3b930499818.jpg",
       "imagen_original_sha256": "3d1f26ec8fbab6b9c6fc2df9f8eeea9cf2af6eca3dc82cea200a5d9ba6af2174",
       "publicaciones": [
         {
@@ -1353,8 +1299,8 @@
             "nombres": [],
             "requiere_revision": true
           },
-          "recorte_estado": "silueta_no_fiable",
-          "foto_mascota": "",
+          "recorte_estado": "afiche_recortado",
+          "foto_mascota": "data/sosafe-fotos/e926899d41b4f3b930499818.jpg",
           "imagen_original_sha256": "3d1f26ec8fbab6b9c6fc2df9f8eeea9cf2af6eca3dc82cea200a5d9ba6af2174"
         },
         {
@@ -1384,8 +1330,8 @@
             "nombres": [],
             "requiere_revision": true
           },
-          "recorte_estado": "silueta_no_fiable",
-          "foto_mascota": "",
+          "recorte_estado": "afiche_recortado",
+          "foto_mascota": "data/sosafe-fotos/e926899d41b4f3b930499818.jpg",
           "imagen_original_sha256": "3d1f26ec8fbab6b9c6fc2df9f8eeea9cf2af6eca3dc82cea200a5d9ba6af2174"
         }
       ],
@@ -1422,8 +1368,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "sin_deteccion",
-      "foto_mascota": "",
+      "recorte_estado": "afiche_recortado",
+      "foto_mascota": "data/sosafe-fotos/48f04056c36b876597e8ee79.jpg",
       "imagen_original_sha256": "ed1c97f778a4462f721585c5e29c9632a2f31e3efdf0e2740c9aff75af6e7d7f",
       "fecha_extravio_info": {
         "fecha": "2026-11-07",
@@ -1633,8 +1579,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "silueta_no_fiable",
-      "foto_mascota": "",
+      "recorte_estado": "afiche_recortado",
+      "foto_mascota": "data/sosafe-fotos/4c147f7509dc52a2efd5f740.jpg",
       "imagen_original_sha256": "c83683581e502e200c16efa14f3de576ac128ba5252288247d51f7836d465ebf",
       "publicaciones": [
         {
@@ -1661,8 +1607,8 @@
             "nombres": [],
             "requiere_revision": true
           },
-          "recorte_estado": "silueta_no_fiable",
-          "foto_mascota": "",
+          "recorte_estado": "afiche_recortado",
+          "foto_mascota": "data/sosafe-fotos/4c147f7509dc52a2efd5f740.jpg",
           "imagen_original_sha256": "c83683581e502e200c16efa14f3de576ac128ba5252288247d51f7836d465ebf"
         },
         {
@@ -1689,8 +1635,8 @@
             "nombres": [],
             "requiere_revision": true
           },
-          "recorte_estado": "silueta_no_fiable",
-          "foto_mascota": "",
+          "recorte_estado": "afiche_recortado",
+          "foto_mascota": "data/sosafe-fotos/4c147f7509dc52a2efd5f740.jpg",
           "imagen_original_sha256": "c83683581e502e200c16efa14f3de576ac128ba5252288247d51f7836d465ebf"
         }
       ],
@@ -1760,8 +1706,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "silueta_no_fiable",
-      "foto_mascota": "",
+      "recorte_estado": "afiche_recortado",
+      "foto_mascota": "data/sosafe-fotos/d5c698cdd1eb2df6b4a10bfa.jpg",
       "imagen_original_sha256": "a0f5e8b11398db1b732b13b7a29e1270837dfbbae20ffc7992066eb708eb2206",
       "fecha_extravio_info": {
         "fecha": "2026-11-07",
@@ -1828,8 +1774,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "sin_deteccion",
-      "foto_mascota": "",
+      "recorte_estado": "afiche_recortado",
+      "foto_mascota": "data/sosafe-fotos/4b317882000d5749faa26811.jpg",
       "imagen_original_sha256": "79cde938496ecc3ba3b816549b639005640b84fc5fc567c2e14a9315cf5653e8",
       "fecha_extravio_info": {
         "fecha": "2026-11-07",
@@ -1881,8 +1827,8 @@
         ],
         "requiere_revision": true
       },
-      "recorte_estado": "silueta_no_fiable",
-      "foto_mascota": "",
+      "recorte_estado": "afiche_recortado",
+      "foto_mascota": "data/sosafe-fotos/51161fea8502e39218ff9b97.jpg",
       "imagen_original_sha256": "b3b63883f08139dbb1225fff0008f35081c28c235a44de5c4e2ffd10c2ebf4ff",
       "publicaciones": [
         {
@@ -1911,8 +1857,8 @@
             "nombres": [],
             "requiere_revision": true
           },
-          "recorte_estado": "silueta_no_fiable",
-          "foto_mascota": "",
+          "recorte_estado": "afiche_recortado",
+          "foto_mascota": "data/sosafe-fotos/51161fea8502e39218ff9b97.jpg",
           "imagen_original_sha256": "b3b63883f08139dbb1225fff0008f35081c28c235a44de5c4e2ffd10c2ebf4ff"
         },
         {
@@ -1941,8 +1887,8 @@
             "nombres": [],
             "requiere_revision": true
           },
-          "recorte_estado": "silueta_no_fiable",
-          "foto_mascota": "",
+          "recorte_estado": "afiche_recortado",
+          "foto_mascota": "data/sosafe-fotos/51161fea8502e39218ff9b97.jpg",
           "imagen_original_sha256": "b3b63883f08139dbb1225fff0008f35081c28c235a44de5c4e2ffd10c2ebf4ff"
         },
         {
@@ -1971,8 +1917,8 @@
             "nombres": [],
             "requiere_revision": true
           },
-          "recorte_estado": "silueta_no_fiable",
-          "foto_mascota": "",
+          "recorte_estado": "afiche_recortado",
+          "foto_mascota": "data/sosafe-fotos/51161fea8502e39218ff9b97.jpg",
           "imagen_original_sha256": "b3b63883f08139dbb1225fff0008f35081c28c235a44de5c4e2ffd10c2ebf4ff"
         },
         {
@@ -2033,33 +1979,6 @@
       }
     },
     {
-      "id": "8036bfc8-0dce-5cc5-ab80-db9bb532d72e",
-      "descripcion": "Anda un perrito mediano grande de manchas con collar verde llorando y corriendo  , parece estar perdido . En los ducados",
-      "publicado_en": "2026-11-07T11:26:00-03:00",
-      "zona": "Maipú",
-      "autor_publicacion": "Casaaa",
-      "celulares": [],
-      "foto": "",
-      "fuente_url": "https://www.widgets.sosafeapp.com/report/8036bfc8-0dce-5cc5-ab80-db9bb532d72e?l=es",
-      "verificado_en": "2026-11-08T09:37:31.885482-03:00",
-      "ubicacion_reporte": {
-        "lat": -33.471528636538,
-        "lng": -70.734784330587,
-        "precision": "aproximada",
-        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
-      },
-      "nombre_mascota": "",
-      "lectura_foto": {
-        "estado": "sin_foto"
-      },
-      "fecha_extravio_info": {
-        "fecha": "2026-11-07",
-        "precision": "estimada",
-        "criterio": "primera publicacion disponible",
-        "fuente_url": "https://www.widgets.sosafeapp.com/report/8036bfc8-0dce-5cc5-ab80-db9bb532d72e?l=es"
-      }
-    },
-    {
       "id": "dbd830b9-6152-5544-90e0-24258245b66c",
       "descripcion": "Otro perro desorientado en el mall, cortenlaaaa.",
       "publicado_en": "2026-11-07T11:20:00-03:00",
@@ -2117,8 +2036,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "sin_deteccion",
-      "foto_mascota": "",
+      "recorte_estado": "afiche_recortado",
+      "foto_mascota": "data/sosafe-fotos/5a58476fc408c80aa369ce4d.jpg",
       "imagen_original_sha256": "7c0837e345bd2e11b275ea59294f74c6d9c4af24b046c9ca51a5c7641d6d4f6c",
       "fecha_extravio_info": {
         "fecha": "2026-11-07",
@@ -2151,8 +2070,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "silueta_no_fiable",
-      "foto_mascota": "",
+      "recorte_estado": "afiche_recortado",
+      "foto_mascota": "data/sosafe-fotos/eca189e8831faabba3c28a25.jpg",
       "imagen_original_sha256": "b093dea4e2bc6b4984f61cd89dedcabc93062ae4fcf69a60a32a22c0db39679e",
       "fecha_extravio_info": {
         "fecha": "2026-11-07",
@@ -2187,8 +2106,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "silueta_no_fiable",
-      "foto_mascota": "",
+      "recorte_estado": "afiche_recortado",
+      "foto_mascota": "data/sosafe-fotos/22f35a645d8ef29f24f4d188.jpg",
       "imagen_original_sha256": "9a419541a9b2928c623df4a6b415ff2781ffb52927bb43ea184d7bc58bc0845b",
       "fecha_extravio_info": {
         "fecha": "2026-11-07",
@@ -2231,121 +2150,6 @@
         "precision": "estimada",
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/7f858af6-3154-59d7-b6ae-32227a472755?l=es"
-      }
-    },
-    {
-      "id": "8900ee3d-8241-5901-8895-a12fa98076db",
-      "descripcion": "Yashi esta perdida última vez vista ayer  en la sinfonia, vecinos comentaron que en una camioneta negra, cualquier información al 56936471696",
-      "publicado_en": "2026-11-06T17:54:00-03:00",
-      "zona": "Maipú",
-      "autor_publicacion": "Dannay",
-      "celulares": [
-        "+56936471696"
-      ],
-      "foto": "https://api.sosafeapp.com/reports/media_1793998458378_LSEDKV.jpg",
-      "fuente_url": "https://www.widgets.sosafeapp.com/report/8900ee3d-8241-5901-8895-a12fa98076db?l=es",
-      "verificado_en": "2026-11-08T09:37:31.885482-03:00",
-      "ubicacion_reporte": {
-        "lat": -33.490199412247,
-        "lng": -70.768214687705,
-        "precision": "aproximada",
-        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
-      },
-      "nombre_mascota": "",
-      "lectura_foto": {
-        "estado": "error",
-        "detalle": "HTTP Error 403: Forbidden",
-        "celulares": [],
-        "nombres": [],
-        "requiere_revision": true
-      },
-      "foto_mascota": "",
-      "recorte_estado": "pendiente",
-      "publicaciones": [
-        {
-          "id": "fd2e39bc-750d-516a-9ff5-39b8af78bc88",
-          "descripcion": "Ayudanis a encontrar a Yashi",
-          "publicado_en": "2026-11-07T09:03:00-03:00",
-          "zona": "Maipú",
-          "autor_publicacion": "Dannay",
-          "celulares": [],
-          "foto": "https://api.sosafeapp.com/reports/media_1794053002842_RKRAWI.jpg",
-          "fuente_url": "https://www.widgets.sosafeapp.com/report/fd2e39bc-750d-516a-9ff5-39b8af78bc88?l=es",
-          "verificado_en": "2026-11-08T09:37:31.885482-03:00",
-          "ubicacion_reporte": {
-            "lat": -33.488456283159,
-            "lng": -70.762767456472,
-            "precision": "aproximada",
-            "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
-          },
-          "nombre_mascota": "",
-          "lectura_foto": {
-            "estado": "error",
-            "detalle": "HTTP Error 403: Forbidden"
-          },
-          "foto_mascota": "",
-          "recorte_estado": "pendiente"
-        },
-        {
-          "id": "69cffb2c-a818-528a-82b3-9f9dcda377fb",
-          "descripcion": "Yashi se perdio, ayudanos a encontrarla 56936471696",
-          "publicado_en": "2026-11-06T23:30:00-03:00",
-          "zona": "Maipú",
-          "autor_publicacion": "Dannay",
-          "celulares": [
-            "+56936471696"
-          ],
-          "foto": "https://api.sosafeapp.com/reports/media_1794018598116_X76B77.jpg",
-          "fuente_url": "https://www.widgets.sosafeapp.com/report/69cffb2c-a818-528a-82b3-9f9dcda377fb?l=es",
-          "verificado_en": "2026-11-08T09:37:31.885482-03:00",
-          "ubicacion_reporte": {
-            "lat": -33.488419653025,
-            "lng": -70.778079517186,
-            "precision": "aproximada",
-            "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
-          },
-          "nombre_mascota": "",
-          "lectura_foto": {
-            "estado": "error",
-            "detalle": "HTTP Error 403: Forbidden"
-          },
-          "foto_mascota": "",
-          "recorte_estado": "pendiente"
-        },
-        {
-          "id": "8900ee3d-8241-5901-8895-a12fa98076db",
-          "descripcion": "Yashi esta perdida última vez vista ayer  en la sinfonia, vecinos comentaron que en una camioneta negra, cualquier información al 56936471696",
-          "publicado_en": "2026-11-06T17:54:00-03:00",
-          "zona": "Maipú",
-          "autor_publicacion": "Dannay",
-          "celulares": [
-            "+56936471696"
-          ],
-          "foto": "https://api.sosafeapp.com/reports/media_1793998458378_LSEDKV.jpg",
-          "fuente_url": "https://www.widgets.sosafeapp.com/report/8900ee3d-8241-5901-8895-a12fa98076db?l=es",
-          "verificado_en": "2026-11-08T09:37:31.885482-03:00",
-          "ubicacion_reporte": {
-            "lat": -33.490199412247,
-            "lng": -70.768214687705,
-            "precision": "aproximada",
-            "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
-          },
-          "nombre_mascota": "",
-          "lectura_foto": {
-            "estado": "error",
-            "detalle": "HTTP Error 403: Forbidden"
-          },
-          "foto_mascota": "",
-          "recorte_estado": "pendiente"
-        }
-      ],
-      "ultima_publicacion_en": "2026-11-07T09:03:00-03:00",
-      "fecha_extravio_info": {
-        "fecha": "2026-11-05",
-        "precision": "estimada",
-        "criterio": "referencia relativa del aviso",
-        "evidencia": "ultima vez vista ayer  en la sinfonia, vecinos comentaron que en una camioneta negra, cualquie",
-        "fuente_url": "https://www.widgets.sosafeapp.com/report/8900ee3d-8241-5901-8895-a12fa98076db?l=es"
       }
     },
     {
@@ -2489,8 +2293,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "silueta_no_fiable",
-      "foto_mascota": "",
+      "recorte_estado": "afiche_recortado",
+      "foto_mascota": "data/sosafe-fotos/0ead38f465ad66f9866594d5.jpg",
       "imagen_original_sha256": "71de631183dd7b70888622c80c37918bc1185e0a97a15eb6fbfc564521407d33",
       "fecha_extravio_info": {
         "fecha": "2026-11-06",
@@ -2627,33 +2431,6 @@
       }
     },
     {
-      "id": "da161268-a937-5054-8f97-434afe7a9bbd",
-      "descripcion": "Encontramos estos perritos perdidos!! Uno negro y otro café claro, se nota que son de casa 🥺🥺",
-      "publicado_en": "2026-11-06T21:49:00-03:00",
-      "zona": "Maipú",
-      "autor_publicacion": "Camila",
-      "celulares": [],
-      "foto": "",
-      "fuente_url": "https://www.widgets.sosafeapp.com/report/da161268-a937-5054-8f97-434afe7a9bbd?l=es",
-      "verificado_en": "2026-11-08T09:37:31.885482-03:00",
-      "ubicacion_reporte": {
-        "lat": -33.536170606279,
-        "lng": -70.779069298537,
-        "precision": "aproximada",
-        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
-      },
-      "nombre_mascota": "",
-      "lectura_foto": {
-        "estado": "sin_foto"
-      },
-      "fecha_extravio_info": {
-        "fecha": "2026-11-06",
-        "precision": "estimada",
-        "criterio": "primera publicacion disponible",
-        "fuente_url": "https://www.widgets.sosafeapp.com/report/da161268-a937-5054-8f97-434afe7a9bbd?l=es"
-      }
-    },
-    {
       "id": "2df5269f-3d48-5d5d-bbc3-b9289c720aad",
       "descripcion": "GATITA PERDIDA 📢📢📢📢📢 \nSu nombre es PANDORA, esta castrada.\nNo llega a casa desde ayer a las 9PM.\nAvisar si la ven por favor.",
       "publicado_en": "2026-11-06T20:26:00-03:00",
@@ -2677,8 +2454,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "silueta_no_fiable",
-      "foto_mascota": "",
+      "recorte_estado": "afiche_recortado",
+      "foto_mascota": "data/sosafe-fotos/cdf9f932034e2ddb4b91e753.jpg",
       "imagen_original_sha256": "a0d9ab3859bb0b01c304ed7913794f1082eac6a04e852cd5ff19619da3654581",
       "publicaciones": [
         {
@@ -2705,8 +2482,8 @@
             "nombres": [],
             "requiere_revision": true
           },
-          "recorte_estado": "silueta_no_fiable",
-          "foto_mascota": "",
+          "recorte_estado": "afiche_recortado",
+          "foto_mascota": "data/sosafe-fotos/cdf9f932034e2ddb4b91e753.jpg",
           "imagen_original_sha256": "a0d9ab3859bb0b01c304ed7913794f1082eac6a04e852cd5ff19619da3654581"
         },
         {
@@ -2733,8 +2510,8 @@
             "nombres": [],
             "requiere_revision": true
           },
-          "recorte_estado": "silueta_no_fiable",
-          "foto_mascota": "",
+          "recorte_estado": "afiche_recortado",
+          "foto_mascota": "data/sosafe-fotos/cdf9f932034e2ddb4b91e753.jpg",
           "imagen_original_sha256": "a0d9ab3859bb0b01c304ed7913794f1082eac6a04e852cd5ff19619da3654581"
         },
         {
@@ -2761,8 +2538,8 @@
             "nombres": [],
             "requiere_revision": true
           },
-          "recorte_estado": "silueta_no_fiable",
-          "foto_mascota": "",
+          "recorte_estado": "afiche_recortado",
+          "foto_mascota": "data/sosafe-fotos/cdf9f932034e2ddb4b91e753.jpg",
           "imagen_original_sha256": "a0d9ab3859bb0b01c304ed7913794f1082eac6a04e852cd5ff19619da3654581"
         }
       ],
@@ -2868,8 +2645,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "silueta_no_fiable",
-      "foto_mascota": "",
+      "recorte_estado": "afiche_recortado",
+      "foto_mascota": "data/sosafe-fotos/cf352a76eb069a35903622ce.jpg",
       "imagen_original_sha256": "93e4bccc2b8a9408ab45d539fccf39c24d4b2a412a81fecc13795e0609eaca2c",
       "fecha_extravio_info": {
         "fecha": "2026-11-06",
@@ -2902,8 +2679,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "silueta_no_fiable",
-      "foto_mascota": "",
+      "recorte_estado": "afiche_recortado",
+      "foto_mascota": "data/sosafe-fotos/575d064381e390099690cf04.jpg",
       "imagen_original_sha256": "268c2e577c9d41ab88231b14eed48f21a1057c318b5e58326740c03d7a2550ae",
       "fecha_extravio_info": {
         "fecha": "2026-11-06",
@@ -2974,8 +2751,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "silueta_no_fiable",
-      "foto_mascota": "",
+      "recorte_estado": "afiche_recortado",
+      "foto_mascota": "data/sosafe-fotos/c4eeef08404243829849d581.jpg",
       "imagen_original_sha256": "f262ed08eba75d1fae118bc3834a51e8b84b29fa84003036fdde0895b4dccf5e",
       "fecha_extravio_info": {
         "fecha": "2026-11-05",
@@ -3116,64 +2893,6 @@
       }
     },
     {
-      "id": "7a676e95-85b8-586b-a2b1-972c2aaa22f5",
-      "descripcion": "Ayuda a buscar a mi perrita es de apoyo emocional, la ultima vez que fue viste es ayer a las 15 hrs",
-      "publicado_en": "2026-11-06T16:46:00-03:00",
-      "zona": "Maipú",
-      "autor_publicacion": "Dannay",
-      "celulares": [],
-      "foto": "https://api.sosafeapp.com/reports/media_1793994373538_FAXY65.jpg",
-      "fuente_url": "https://www.widgets.sosafeapp.com/report/7a676e95-85b8-586b-a2b1-972c2aaa22f5?l=es",
-      "verificado_en": "2026-11-08T09:37:31.885482-03:00",
-      "ubicacion_reporte": {
-        "lat": -33.489672338898,
-        "lng": -70.764400586486,
-        "precision": "aproximada",
-        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
-      },
-      "nombre_mascota": "",
-      "lectura_foto": {
-        "estado": "error",
-        "detalle": "HTTP Error 403: Forbidden"
-      },
-      "foto_mascota": "",
-      "recorte_estado": "pendiente",
-      "fecha_extravio_info": {
-        "fecha": "2026-11-05",
-        "precision": "estimada",
-        "criterio": "referencia relativa del aviso",
-        "evidencia": "que fue viste es ayer a las 15 hrs",
-        "fuente_url": "https://www.widgets.sosafeapp.com/report/7a676e95-85b8-586b-a2b1-972c2aaa22f5?l=es"
-      }
-    },
-    {
-      "id": "3e140231-597e-5c59-9c27-e50d5141e054",
-      "descripcion": "Perrito similar a Poodle gris, tamaño mediano. Entro a la iglesia pero anda por el midmall ¿estará perdido o es de una casa de por aquí?",
-      "publicado_en": "2026-11-06T16:46:00-03:00",
-      "zona": "Maipú",
-      "autor_publicacion": "Flor",
-      "celulares": [],
-      "foto": "",
-      "fuente_url": "https://www.widgets.sosafeapp.com/report/3e140231-597e-5c59-9c27-e50d5141e054?l=es",
-      "verificado_en": "2026-11-08T09:37:31.885482-03:00",
-      "ubicacion_reporte": {
-        "lat": -33.538610136824,
-        "lng": -70.772919925139,
-        "precision": "aproximada",
-        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
-      },
-      "nombre_mascota": "",
-      "lectura_foto": {
-        "estado": "sin_foto"
-      },
-      "fecha_extravio_info": {
-        "fecha": "2026-11-06",
-        "precision": "estimada",
-        "criterio": "primera publicacion disponible",
-        "fuente_url": "https://www.widgets.sosafeapp.com/report/3e140231-597e-5c59-9c27-e50d5141e054?l=es"
-      }
-    },
-    {
       "id": "cdec6aa4-383f-509a-b508-d826f47a5ea8",
       "descripcion": "Anda este perrito con una capa azul, se veía súper desorientado, se paseaba por la calle corriendo:c",
       "publicado_en": "2026-11-06T16:38:00-03:00",
@@ -3231,8 +2950,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "silueta_no_fiable",
-      "foto_mascota": "",
+      "recorte_estado": "afiche_recortado",
+      "foto_mascota": "data/sosafe-fotos/b341b0f2f4ef67e41dd91950.jpg",
       "imagen_original_sha256": "d5f7bf56208f66c600adc531bdc2858461c285cec99062ae834d1bc9f0d498af",
       "publicaciones": [
         {
@@ -3259,8 +2978,8 @@
             "nombres": [],
             "requiere_revision": true
           },
-          "recorte_estado": "silueta_no_fiable",
-          "foto_mascota": "",
+          "recorte_estado": "afiche_recortado",
+          "foto_mascota": "data/sosafe-fotos/b341b0f2f4ef67e41dd91950.jpg",
           "imagen_original_sha256": "d5f7bf56208f66c600adc531bdc2858461c285cec99062ae834d1bc9f0d498af"
         },
         {
@@ -3287,8 +3006,8 @@
             "nombres": [],
             "requiere_revision": true
           },
-          "recorte_estado": "silueta_no_fiable",
-          "foto_mascota": "",
+          "recorte_estado": "afiche_recortado",
+          "foto_mascota": "data/sosafe-fotos/b341b0f2f4ef67e41dd91950.jpg",
           "imagen_original_sha256": "d5f7bf56208f66c600adc531bdc2858461c285cec99062ae834d1bc9f0d498af"
         }
       ],
@@ -3660,8 +3379,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "silueta_no_fiable",
-      "foto_mascota": "",
+      "recorte_estado": "afiche_recortado",
+      "foto_mascota": "data/sosafe-fotos/fc906f3a20a379f57b5fd304.jpg",
       "imagen_original_sha256": "54fd5d907e5047ee9bab7a1fb2a387bafe9eaf31726f7bc3cd6e9265295952b5",
       "fecha_extravio_info": {
         "fecha": "2026-11-06",
@@ -3708,33 +3427,6 @@
       }
     },
     {
-      "id": "9d0e941b-cbdd-51eb-8432-690c1e60d541",
-      "descripcion": "Pardja de prros chow chow aparentemente perdidos",
-      "publicado_en": "2026-11-06T13:27:00-03:00",
-      "zona": "Maipú",
-      "autor_publicacion": "Patty",
-      "celulares": [],
-      "foto": "",
-      "fuente_url": "https://www.widgets.sosafeapp.com/report/9d0e941b-cbdd-51eb-8432-690c1e60d541?l=es",
-      "verificado_en": "2026-11-08T09:37:31.885482-03:00",
-      "ubicacion_reporte": {
-        "lat": -33.541463133775,
-        "lng": -70.771364942193,
-        "precision": "aproximada",
-        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
-      },
-      "nombre_mascota": "",
-      "lectura_foto": {
-        "estado": "sin_foto"
-      },
-      "fecha_extravio_info": {
-        "fecha": "2026-11-06",
-        "precision": "estimada",
-        "criterio": "primera publicacion disponible",
-        "fuente_url": "https://www.widgets.sosafeapp.com/report/9d0e941b-cbdd-51eb-8432-690c1e60d541?l=es"
-      }
-    },
-    {
       "id": "7cdeb933-5f39-51c0-9fe7-8baf39fa832b",
       "descripcion": "Perrito extraviado, su familia lo está buscando si alguien lo llega a ver porfavor dar aviso al número +56978059318 si fuera posible que lo pudieran retener en el lugar porfavor, están en sus último años de vida y necesita cuidados, su familia lo está buscando",
       "publicado_en": "2026-11-06T13:05:00-03:00",
@@ -3760,8 +3452,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "silueta_no_fiable",
-      "foto_mascota": "",
+      "recorte_estado": "afiche_recortado",
+      "foto_mascota": "data/sosafe-fotos/26808c79ba43ae8d92e82465.jpg",
       "imagen_original_sha256": "5f28c64465035ba138ed9de2c6bad63491e12926e14d24d9e4c9eaf56b174490",
       "fecha_extravio_info": {
         "fecha": "2026-11-06",
@@ -3966,33 +3658,6 @@
       }
     },
     {
-      "id": "c3a3e6bf-db58-562b-8816-7984ca9c7270",
-      "descripcion": "Perrito corriendo por Primo de Rivera hacia Las Golondrinas, se veía como perdido",
-      "publicado_en": "2026-11-06T09:42:00-03:00",
-      "zona": "Maipú",
-      "autor_publicacion": "Odalis",
-      "celulares": [],
-      "foto": "",
-      "fuente_url": "https://www.widgets.sosafeapp.com/report/c3a3e6bf-db58-562b-8816-7984ca9c7270?l=es",
-      "verificado_en": "2026-11-08T09:37:31.885482-03:00",
-      "ubicacion_reporte": {
-        "lat": -33.49205107562,
-        "lng": -70.739571653613,
-        "precision": "aproximada",
-        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
-      },
-      "nombre_mascota": "",
-      "lectura_foto": {
-        "estado": "sin_foto"
-      },
-      "fecha_extravio_info": {
-        "fecha": "2026-11-06",
-        "precision": "estimada",
-        "criterio": "primera publicacion disponible",
-        "fuente_url": "https://www.widgets.sosafeapp.com/report/c3a3e6bf-db58-562b-8816-7984ca9c7270?l=es"
-      }
-    },
-    {
       "id": "182309ae-0fc5-574e-9d5f-bae07b91de85",
       "descripcion": "Buen día, Sera de alguien este perrito que anda en nva San Martin con catolica y está llorando quizás lo buscan ahora está acostadito en toda la esquina",
       "publicado_en": "2026-11-06T09:12:00-03:00",
@@ -4016,8 +3681,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "silueta_no_fiable",
-      "foto_mascota": "",
+      "recorte_estado": "afiche_recortado",
+      "foto_mascota": "data/sosafe-fotos/23bcc156dd867e7f90c790b7.jpg",
       "imagen_original_sha256": "6d8c187675e7fdecf0046a6a7976181b03b63c322a7efe6d9f02d0b494b27b99",
       "fecha_extravio_info": {
         "fecha": "2026-11-06",
@@ -4095,33 +3760,6 @@
       }
     },
     {
-      "id": "680e9277-80e3-5bfc-9777-a165ac281bb2",
-      "descripcion": "Hay un perrito negro pequeño ASUSTADO, con su colita entre las patas, parece perdido como si esperara a alguien 😞 😭, estaba en el paradero",
-      "publicado_en": "2026-11-06T08:13:00-03:00",
-      "zona": "Maipú",
-      "autor_publicacion": "Anonimo",
-      "celulares": [],
-      "foto": "",
-      "fuente_url": "https://www.widgets.sosafeapp.com/report/680e9277-80e3-5bfc-9777-a165ac281bb2?l=es",
-      "verificado_en": "2026-11-08T09:37:31.885482-03:00",
-      "ubicacion_reporte": {
-        "lat": -33.505905945623,
-        "lng": -70.786519399584,
-        "precision": "aproximada",
-        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
-      },
-      "nombre_mascota": "",
-      "lectura_foto": {
-        "estado": "sin_foto"
-      },
-      "fecha_extravio_info": {
-        "fecha": "2026-11-06",
-        "precision": "estimada",
-        "criterio": "primera publicacion disponible",
-        "fuente_url": "https://www.widgets.sosafeapp.com/report/680e9277-80e3-5bfc-9777-a165ac281bb2?l=es"
-      }
-    },
-    {
       "id": "b1a0913a-ec42-5ba2-ad99-14874193be61",
       "descripcion": "Perrito anda muy asustado no lo puedo retener",
       "publicado_en": "2026-11-06T07:57:00-03:00",
@@ -4145,8 +3783,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "sin_deteccion",
-      "foto_mascota": "",
+      "recorte_estado": "afiche_recortado",
+      "foto_mascota": "data/sosafe-fotos/5ad45fe2fad9cb68c861f7d1.jpg",
       "imagen_original_sha256": "dbb657a5c152146194caa282040fa4d7be1714321e5a6c6cf650db26b673cecd",
       "fecha_extravio_info": {
         "fecha": "2026-11-06",
@@ -4249,8 +3887,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "silueta_no_fiable",
-      "foto_mascota": "",
+      "recorte_estado": "afiche_recortado",
+      "foto_mascota": "data/sosafe-fotos/3eee23727b807b6d09f44d42.jpg",
       "imagen_original_sha256": "68ee032cdb88975a1a3e875c0803550e2f7ede9f5082d96f91a8af987796bdcd",
       "publicaciones": [
         {
@@ -4279,8 +3917,8 @@
             "nombres": [],
             "requiere_revision": true
           },
-          "recorte_estado": "silueta_no_fiable",
-          "foto_mascota": "",
+          "recorte_estado": "afiche_recortado",
+          "foto_mascota": "data/sosafe-fotos/3eee23727b807b6d09f44d42.jpg",
           "imagen_original_sha256": "68ee032cdb88975a1a3e875c0803550e2f7ede9f5082d96f91a8af987796bdcd"
         },
         {
@@ -4309,8 +3947,8 @@
             "nombres": [],
             "requiere_revision": true
           },
-          "recorte_estado": "silueta_no_fiable",
-          "foto_mascota": "",
+          "recorte_estado": "afiche_recortado",
+          "foto_mascota": "data/sosafe-fotos/3eee23727b807b6d09f44d42.jpg",
           "imagen_original_sha256": "68ee032cdb88975a1a3e875c0803550e2f7ede9f5082d96f91a8af987796bdcd"
         },
         {
@@ -4339,7 +3977,7 @@
             "nombres": [],
             "requiere_revision": true
           },
-          "recorte_estado": "silueta_no_fiable",
+          "recorte_estado": "encuadre_pendiente",
           "foto_mascota": "",
           "imagen_original_sha256": "61ddba313e4087702ac9bd511a65752c7189f00ac06c028c32202b6e34b3acc9"
         },
@@ -4369,8 +4007,8 @@
             "nombres": [],
             "requiere_revision": true
           },
-          "recorte_estado": "silueta_no_fiable",
-          "foto_mascota": "",
+          "recorte_estado": "afiche_recortado",
+          "foto_mascota": "data/sosafe-fotos/3eee23727b807b6d09f44d42.jpg",
           "imagen_original_sha256": "68ee032cdb88975a1a3e875c0803550e2f7ede9f5082d96f91a8af987796bdcd"
         }
       ],
@@ -4419,62 +4057,6 @@
       }
     },
     {
-      "id": "501cf733-99ae-5e95-854e-2458bbf1306c",
-      "descripcion": "Perrito negro mediano, con correa y arnés va por el descanso hacia pajaritos, no lo pude retener.  Compartir para que sus dueños lo alcancen por favor.",
-      "publicado_en": "2026-11-05T22:43:00-03:00",
-      "zona": "Maipú",
-      "autor_publicacion": "S",
-      "celulares": [],
-      "foto": "",
-      "fuente_url": "https://www.widgets.sosafeapp.com/report/501cf733-99ae-5e95-854e-2458bbf1306c?l=es",
-      "verificado_en": "2026-11-08T09:37:31.885482-03:00",
-      "ubicacion_reporte": {
-        "lat": -33.473610507863,
-        "lng": -70.739602383985,
-        "precision": "aproximada",
-        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
-      },
-      "nombre_mascota": "",
-      "lectura_foto": {
-        "estado": "sin_foto"
-      },
-      "fecha_extravio_info": {
-        "fecha": "2026-11-05",
-        "precision": "estimada",
-        "criterio": "primera publicacion disponible",
-        "fuente_url": "https://www.widgets.sosafeapp.com/report/501cf733-99ae-5e95-854e-2458bbf1306c?l=es"
-      }
-    },
-    {
-      "id": "904d9353-bc6c-59f9-9fc0-5fdff55a02dd",
-      "descripcion": "Hola buenas noches. Se escapo mi perrito. Es un bull dog ingles cafe, anda junto a un quiltro negro con blanco. Cualquier información a este numero xfa\n981784960",
-      "publicado_en": "2026-11-05T22:39:00-03:00",
-      "zona": "Maipú",
-      "autor_publicacion": "Lucas",
-      "celulares": [
-        "+56981784960"
-      ],
-      "foto": "",
-      "fuente_url": "https://www.widgets.sosafeapp.com/report/904d9353-bc6c-59f9-9fc0-5fdff55a02dd?l=es",
-      "verificado_en": "2026-11-08T09:37:31.885482-03:00",
-      "ubicacion_reporte": {
-        "lat": -33.499444314796,
-        "lng": -70.751199270548,
-        "precision": "aproximada",
-        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
-      },
-      "nombre_mascota": "",
-      "lectura_foto": {
-        "estado": "sin_foto"
-      },
-      "fecha_extravio_info": {
-        "fecha": "2026-11-05",
-        "precision": "estimada",
-        "criterio": "primera publicacion disponible",
-        "fuente_url": "https://www.widgets.sosafeapp.com/report/904d9353-bc6c-59f9-9fc0-5fdff55a02dd?l=es"
-      }
-    },
-    {
       "id": "b156820b-5965-5255-9c5c-005f07c954fa",
       "descripcion": "Este perrito está perdido, será de alguien? O alguna persona que pueda ser hogar temporal?",
       "publicado_en": "2026-11-05T22:06:00-03:00",
@@ -4498,8 +4080,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "silueta_no_fiable",
-      "foto_mascota": "",
+      "recorte_estado": "afiche_recortado",
+      "foto_mascota": "data/sosafe-fotos/ad4a42725a0ba80ae19c3b1c.jpg",
       "imagen_original_sha256": "2d65c3b88f96f7be881e6df29a017b91d789895f43f1cf36f9580c072803bfaf",
       "fecha_extravio_info": {
         "fecha": "2026-11-05",
@@ -4532,8 +4114,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "sin_deteccion",
-      "foto_mascota": "",
+      "recorte_estado": "afiche_recortado",
+      "foto_mascota": "data/sosafe-fotos/5fbf036ba33e29b652bfba89.jpg",
       "imagen_original_sha256": "b0dcf8b1440480f9aef6db5ad8aed3309c153fde4e16ae390d190c1345e88fb4",
       "fecha_extravio_info": {
         "fecha": "2026-11-05",
@@ -4704,33 +4286,6 @@
       }
     },
     {
-      "id": "758d11c2-dca5-55ac-aed5-9bdc5f42a75d",
-      "descripcion": "Perrito desorientado",
-      "publicado_en": "2026-11-05T20:12:00-03:00",
-      "zona": "Maipú",
-      "autor_publicacion": "Andrea",
-      "celulares": [],
-      "foto": "",
-      "fuente_url": "https://www.widgets.sosafeapp.com/report/758d11c2-dca5-55ac-aed5-9bdc5f42a75d?l=es",
-      "verificado_en": "2026-11-08T09:37:31.885482-03:00",
-      "ubicacion_reporte": {
-        "lat": -33.487904033308,
-        "lng": -70.750998593867,
-        "precision": "aproximada",
-        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
-      },
-      "nombre_mascota": "",
-      "lectura_foto": {
-        "estado": "sin_foto"
-      },
-      "fecha_extravio_info": {
-        "fecha": "2026-11-05",
-        "precision": "estimada",
-        "criterio": "primera publicacion disponible",
-        "fuente_url": "https://www.widgets.sosafeapp.com/report/758d11c2-dca5-55ac-aed5-9bdc5f42a75d?l=es"
-      }
-    },
-    {
       "id": "54c23452-abaf-5417-bfaa-9db683d72f10",
       "descripcion": "Perrito perdido ha estado todo el día en la plaza del boston, tiene un collar \nEs muy juguetón, le gusta q le tiren la piedra para ir a buscarla y luego traerla de vuelta 🥺\nPor si alguien puede ser temporal o si tiene dueños para q avisen y retenerlo",
       "publicado_en": "2026-11-05T20:08:00-03:00",
@@ -4825,8 +4380,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "silueta_no_fiable",
-      "foto_mascota": "",
+      "recorte_estado": "afiche_recortado",
+      "foto_mascota": "data/sosafe-fotos/be2453a0733d68afed90579e.jpg",
       "imagen_original_sha256": "05de61e845b2b7c2b53a2b81f27becfc41029abd6ef172d23a2313f94ab218f4",
       "publicaciones": [
         {
@@ -4853,7 +4408,7 @@
             "nombres": [],
             "requiere_revision": true
           },
-          "recorte_estado": "silueta_no_fiable",
+          "recorte_estado": "encuadre_pendiente",
           "foto_mascota": "",
           "imagen_original_sha256": "a04baf451c3c40b8463c316b70d313b5ce1706575188b348bfc40a86e4443f89"
         },
@@ -4884,8 +4439,8 @@
             "nombres": [],
             "requiere_revision": true
           },
-          "recorte_estado": "silueta_no_fiable",
-          "foto_mascota": "",
+          "recorte_estado": "afiche_recortado",
+          "foto_mascota": "data/sosafe-fotos/be2453a0733d68afed90579e.jpg",
           "imagen_original_sha256": "05de61e845b2b7c2b53a2b81f27becfc41029abd6ef172d23a2313f94ab218f4"
         },
         {
@@ -4912,7 +4467,7 @@
             "nombres": [],
             "requiere_revision": true
           },
-          "recorte_estado": "silueta_no_fiable",
+          "recorte_estado": "encuadre_pendiente",
           "foto_mascota": "",
           "imagen_original_sha256": "a04baf451c3c40b8463c316b70d313b5ce1706575188b348bfc40a86e4443f89"
         }
@@ -4950,41 +4505,14 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "silueta_no_fiable",
-      "foto_mascota": "",
+      "recorte_estado": "afiche_recortado",
+      "foto_mascota": "data/sosafe-fotos/d22f2b2925b9b86aa5a0d934.jpg",
       "imagen_original_sha256": "de61f0dbdb68dba4fb62dacbd1565ad04c7883133144ff632d6e7a429f46706e",
       "fecha_extravio_info": {
         "fecha": "2026-11-05",
         "precision": "estimada",
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/37587bd9-c895-571c-9fc5-608baea0a72c?l=es"
-      }
-    },
-    {
-      "id": "0a7eabec-2caa-5d31-bffc-237b3ce7c49d",
-      "descripcion": "Hay un perro negro completo grande desorientado en la calle, casi lo atropellan no sabe andar será de alguien ?",
-      "publicado_en": "2026-11-05T16:50:00-03:00",
-      "zona": "Maipú",
-      "autor_publicacion": "Karma",
-      "celulares": [],
-      "foto": "",
-      "fuente_url": "https://www.widgets.sosafeapp.com/report/0a7eabec-2caa-5d31-bffc-237b3ce7c49d?l=es",
-      "verificado_en": "2026-11-08T09:37:31.885482-03:00",
-      "ubicacion_reporte": {
-        "lat": -33.514320109268,
-        "lng": -70.763321924254,
-        "precision": "aproximada",
-        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
-      },
-      "nombre_mascota": "",
-      "lectura_foto": {
-        "estado": "sin_foto"
-      },
-      "fecha_extravio_info": {
-        "fecha": "2026-11-05",
-        "precision": "estimada",
-        "criterio": "primera publicacion disponible",
-        "fuente_url": "https://www.widgets.sosafeapp.com/report/0a7eabec-2caa-5d31-bffc-237b3ce7c49d?l=es"
       }
     },
     {
@@ -5085,33 +4613,6 @@
       }
     },
     {
-      "id": "26cf78f2-9ad9-5b93-8c39-f26096f3abac",
-      "descripcion": "Perro galgo negro con collar \nhola iba un perro galgo negro caminando por la calle husares de la muerte en dirección hacia camino melipilla, cerca del autoplanet, por si alguien lo anda buscando",
-      "publicado_en": "2026-11-05T15:59:00-03:00",
-      "zona": "Maipú",
-      "autor_publicacion": "Pía ",
-      "celulares": [],
-      "foto": "",
-      "fuente_url": "https://www.widgets.sosafeapp.com/report/26cf78f2-9ad9-5b93-8c39-f26096f3abac?l=es",
-      "verificado_en": "2026-11-08T09:37:31.885482-03:00",
-      "ubicacion_reporte": {
-        "lat": -33.5540567102,
-        "lng": -70.774226888994,
-        "precision": "aproximada",
-        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
-      },
-      "nombre_mascota": "",
-      "lectura_foto": {
-        "estado": "sin_foto"
-      },
-      "fecha_extravio_info": {
-        "fecha": "2026-11-05",
-        "precision": "estimada",
-        "criterio": "primera publicacion disponible",
-        "fuente_url": "https://www.widgets.sosafeapp.com/report/26cf78f2-9ad9-5b93-8c39-f26096f3abac?l=es"
-      }
-    },
-    {
       "id": "7ecd222c-f2bb-588b-9236-f0f4244f2d81",
       "descripcion": "Porfavor urgente algún dato de su paradero!!! Es muy dependiente y me preocupa su salud!!! Perdido en pudahuel sur teniente cruz…necesita de sus medicamentos porfavor contactarse ante cualquier dato, si lo tiene devolver ya que debe estar muy apenado y cuenta con chip!!!",
       "publicado_en": "2026-11-05T15:13:00-03:00",
@@ -5143,8 +4644,8 @@
         ],
         "requiere_revision": true
       },
-      "recorte_estado": "silueta_no_fiable",
-      "foto_mascota": "",
+      "recorte_estado": "afiche_recortado",
+      "foto_mascota": "data/sosafe-fotos/4db0195e937c9ace6d1dd344.jpg",
       "imagen_original_sha256": "9b55945d6a02208e5c67f638c77716f22872f84f9ac05f3a22452e6fc21b4bb7",
       "publicaciones": [
         {
@@ -5179,8 +4680,8 @@
             ],
             "requiere_revision": true
           },
-          "recorte_estado": "silueta_no_fiable",
-          "foto_mascota": "",
+          "recorte_estado": "afiche_recortado",
+          "foto_mascota": "data/sosafe-fotos/4db0195e937c9ace6d1dd344.jpg",
           "imagen_original_sha256": "9b55945d6a02208e5c67f638c77716f22872f84f9ac05f3a22452e6fc21b4bb7"
         },
         {
@@ -5215,8 +4716,8 @@
             ],
             "requiere_revision": true
           },
-          "recorte_estado": "silueta_no_fiable",
-          "foto_mascota": "",
+          "recorte_estado": "afiche_recortado",
+          "foto_mascota": "data/sosafe-fotos/4db0195e937c9ace6d1dd344.jpg",
           "imagen_original_sha256": "9b55945d6a02208e5c67f638c77716f22872f84f9ac05f3a22452e6fc21b4bb7"
         },
         {
@@ -5251,8 +4752,8 @@
             ],
             "requiere_revision": true
           },
-          "recorte_estado": "silueta_no_fiable",
-          "foto_mascota": "",
+          "recorte_estado": "afiche_recortado",
+          "foto_mascota": "data/sosafe-fotos/4db0195e937c9ace6d1dd344.jpg",
           "imagen_original_sha256": "9b55945d6a02208e5c67f638c77716f22872f84f9ac05f3a22452e6fc21b4bb7"
         },
         {
@@ -5287,8 +4788,8 @@
             ],
             "requiere_revision": true
           },
-          "recorte_estado": "silueta_no_fiable",
-          "foto_mascota": "",
+          "recorte_estado": "afiche_recortado",
+          "foto_mascota": "data/sosafe-fotos/4db0195e937c9ace6d1dd344.jpg",
           "imagen_original_sha256": "9b55945d6a02208e5c67f638c77716f22872f84f9ac05f3a22452e6fc21b4bb7"
         }
       ],
@@ -5324,8 +4825,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "silueta_no_fiable",
-      "foto_mascota": "",
+      "recorte_estado": "afiche_recortado",
+      "foto_mascota": "data/sosafe-fotos/6b9cb04cd5e12777999f54ec.jpg",
       "imagen_original_sha256": "4d49aa9d516ce79a1671aecc00da0308b28648a11cf832ef3143bed35b91b4d0",
       "fecha_extravio_info": {
         "fecha": "2026-11-04",
@@ -5359,8 +4860,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "silueta_no_fiable",
-      "foto_mascota": "",
+      "recorte_estado": "afiche_recortado",
+      "foto_mascota": "data/sosafe-fotos/74ffe06cc62648caf8f10b79.jpg",
       "imagen_original_sha256": "72ab77be2e6dc753acf3082a9ae561ff0529c88657ab47324e8f7900a256bf91",
       "fecha_extravio_info": {
         "fecha": "2026-11-05",
@@ -5440,33 +4941,6 @@
       }
     },
     {
-      "id": "b9fa9b96-0ad7-58d0-b375-84d23609dcef",
-      "descripcion": "Yorkshire perdido están en la Planta de agua de La Farfana",
-      "publicado_en": "2026-11-05T12:28:00-03:00",
-      "zona": "Maipú",
-      "autor_publicacion": "Anónimo",
-      "celulares": [],
-      "foto": "",
-      "fuente_url": "https://www.widgets.sosafeapp.com/report/b9fa9b96-0ad7-58d0-b375-84d23609dcef?l=es",
-      "verificado_en": "2026-11-08T09:37:31.885482-03:00",
-      "ubicacion_reporte": {
-        "lat": -33.489995706345,
-        "lng": -70.772595858219,
-        "precision": "aproximada",
-        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
-      },
-      "nombre_mascota": "",
-      "lectura_foto": {
-        "estado": "sin_foto"
-      },
-      "fecha_extravio_info": {
-        "fecha": "2026-11-05",
-        "precision": "estimada",
-        "criterio": "primera publicacion disponible",
-        "fuente_url": "https://www.widgets.sosafeapp.com/report/b9fa9b96-0ad7-58d0-b375-84d23609dcef?l=es"
-      }
-    },
-    {
       "id": "f7053f20-7cc1-5357-a766-152e2220eac5",
       "descripcion": "Estaba por el mall arauco maipu, corrio hacia vespucio, no la pude retener",
       "publicado_en": "2026-11-05T11:39:00-03:00",
@@ -5524,8 +4998,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "sin_deteccion",
-      "foto_mascota": "",
+      "recorte_estado": "afiche_recortado",
+      "foto_mascota": "data/sosafe-fotos/6209a4733286c69c2f206e63.jpg",
       "imagen_original_sha256": "dbf166004120f8f6b824b875750369a4d8e279db090612e7adc070c8658e5ded",
       "fecha_extravio_info": {
         "fecha": "2026-11-05",
@@ -5694,8 +5168,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "silueta_no_fiable",
-      "foto_mascota": "",
+      "recorte_estado": "afiche_recortado",
+      "foto_mascota": "data/sosafe-fotos/c5996461bb6b225f73df2a28.jpg",
       "imagen_original_sha256": "16404d8522b4d463d450bec7743f9d0e6be71f19c2a49e87805f0269dfe4b33d",
       "fecha_extravio_info": {
         "fecha": "2026-11-05",
@@ -6012,8 +5486,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "silueta_no_fiable",
-      "foto_mascota": "",
+      "recorte_estado": "afiche_recortado",
+      "foto_mascota": "data/sosafe-fotos/0b5c47aa88356b89e6105dbd.jpg",
       "imagen_original_sha256": "2cfa882717cea2f2f20e36c21c50a28c369671ad66bf2cd4fa8337899957e1ae",
       "fecha_extravio_info": {
         "fecha": "2026-11-04",
@@ -6093,33 +5567,6 @@
       }
     },
     {
-      "id": "18699cca-dcdb-549a-840e-280c12eb9833",
-      "descripcion": "A alguien se le perdió una perrita salchicha color café? He estado buscando anuncios y no encuentro",
-      "publicado_en": "2026-11-04T21:11:00-03:00",
-      "zona": "Maipú",
-      "autor_publicacion": "Anónimo",
-      "celulares": [],
-      "foto": "",
-      "fuente_url": "https://www.widgets.sosafeapp.com/report/18699cca-dcdb-549a-840e-280c12eb9833?l=es",
-      "verificado_en": "2026-11-08T09:37:31.885482-03:00",
-      "ubicacion_reporte": {
-        "lat": -33.501678217795,
-        "lng": -70.763398236108,
-        "precision": "aproximada",
-        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
-      },
-      "nombre_mascota": "",
-      "lectura_foto": {
-        "estado": "sin_foto"
-      },
-      "fecha_extravio_info": {
-        "fecha": "2026-11-04",
-        "precision": "estimada",
-        "criterio": "primera publicacion disponible",
-        "fuente_url": "https://www.widgets.sosafeapp.com/report/18699cca-dcdb-549a-840e-280c12eb9833?l=es"
-      }
-    },
-    {
       "id": "950298ac-ae73-5e36-9317-fe3ec76777a2",
       "descripcion": "Perrito perdido en santa rosa",
       "publicado_en": "2026-11-04T21:05:00-03:00",
@@ -6151,36 +5598,6 @@
         "precision": "estimada",
         "criterio": "primera publicacion disponible",
         "fuente_url": "https://www.widgets.sosafeapp.com/report/950298ac-ae73-5e36-9317-fe3ec76777a2?l=es"
-      }
-    },
-    {
-      "id": "e3ce1ba3-1e23-5a2a-a460-65e8d5be28a1",
-      "descripcion": "Perrito perdido en la plaza del jardin frente al anglo",
-      "publicado_en": "2026-11-04T21:02:00-03:00",
-      "zona": "Maipú",
-      "autor_publicacion": "La",
-      "celulares": [],
-      "foto": "https://api.sosafeapp.com/reports/media_1793836935688_FBIFW7.jpg",
-      "fuente_url": "https://www.widgets.sosafeapp.com/report/e3ce1ba3-1e23-5a2a-a460-65e8d5be28a1?l=es",
-      "verificado_en": "2026-11-08T09:37:31.885482-03:00",
-      "ubicacion_reporte": {
-        "lat": -33.494486063134,
-        "lng": -70.735987611115,
-        "precision": "aproximada",
-        "fuente": "https://live-backend.s3-us-west-2.amazonaws.com/reports/reports.json"
-      },
-      "nombre_mascota": "",
-      "lectura_foto": {
-        "estado": "error",
-        "detalle": "HTTP Error 403: Forbidden"
-      },
-      "foto_mascota": "",
-      "recorte_estado": "pendiente",
-      "fecha_extravio_info": {
-        "fecha": "2026-11-04",
-        "precision": "estimada",
-        "criterio": "primera publicacion disponible",
-        "fuente_url": "https://www.widgets.sosafeapp.com/report/e3ce1ba3-1e23-5a2a-a460-65e8d5be28a1?l=es"
       }
     }
   ]

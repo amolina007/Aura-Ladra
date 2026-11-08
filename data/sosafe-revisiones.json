@@ -50,6 +50,16 @@
       "imagen_sha256": "89ab866fd93cf3982a90e86fa8b67c694ecf0be9d65a7367710828ab65ce426c",
       "estado": "rechazada",
       "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "de61f0dbdb68dba4fb62dacbd1565ad04c7883133144ff632d6e7a429f46706e",
+      "encuadre": [
+        0.12,
+        0.24,
+        0.54,
+        0.66
+      ],
+      "motivo": "Encuadre rectangular revisado: sello fuera del marco, sin reconstruir ni modificar rasgos."
     }
   },
   "0e259ca0-a8e5-532f-8f3a-5dd446317415": {
@@ -150,6 +160,16 @@
       "imagen_sha256": "24069928aadbf1aca1f73560e10d04b415c772392b27c21463d6a5dadc30e892",
       "estado": "rechazada",
       "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "05de61e845b2b7c2b53a2b81f27becfc41029abd6ef172d23a2313f94ab218f4",
+      "encuadre": [
+        0,
+        0,
+        1,
+        0.91
+      ],
+      "motivo": "Encuadre rectangular revisado: sello fuera del marco, sin reconstruir ni modificar rasgos."
     }
   },
   "910a1af3-573f-567b-bcf8-05851e26b630": {
@@ -230,6 +250,16 @@
       "imagen_sha256": "a1ac2d942ca168897a7a319ef0b70da6f2631d54b68fd135f33e98c447c5756e",
       "estado": "rechazada",
       "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "9b55945d6a02208e5c67f638c77716f22872f84f9ac05f3a22452e6fc21b4bb7",
+      "encuadre": [
+        0,
+        0,
+        1,
+        0.91
+      ],
+      "motivo": "Encuadre rectangular revisado: sello fuera del marco, sin reconstruir ni modificar rasgos."
     }
   },
   "4e0d1a6b-a24b-5125-9da5-440266087b53": {
@@ -288,6 +318,16 @@
       "imagen_sha256": "0f77d03ae54a2ed23965f7f16e0526b9924df16621590a996733c2d87f1e3e70",
       "estado": "rechazada",
       "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "4d49aa9d516ce79a1671aecc00da0308b28648a11cf832ef3143bed35b91b4d0",
+      "encuadre": [
+        0,
+        0,
+        1,
+        0.89
+      ],
+      "motivo": "Encuadre rectangular revisado: sello fuera del marco, sin reconstruir ni modificar rasgos."
     }
   },
   "7c451ef2-078c-56a6-ad67-2eee4d0db8de": {
@@ -304,6 +344,16 @@
       "imagen_sha256": "0698792ce9a50bc67b475f0c1f3f5e1aee1fa0c213afee992cda4a397ecaae83",
       "estado": "rechazada",
       "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "72ab77be2e6dc753acf3082a9ae561ff0529c88657ab47324e8f7900a256bf91",
+      "encuadre": [
+        0,
+        0,
+        1,
+        0.89
+      ],
+      "motivo": "Encuadre rectangular revisado: sello fuera del marco, sin reconstruir ni modificar rasgos."
     }
   },
   "ed3dfc58-2c16-54d9-a932-20956fa6fd6a": {
@@ -366,6 +416,16 @@
       "imagen_sha256": "9db0512e43764d88c366f521a30569c459aab6dcdd09fae0f4e364b974c31536",
       "estado": "rechazada",
       "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "2cfa882717cea2f2f20e36c21c50a28c369671ad66bf2cd4fa8337899957e1ae",
+      "encuadre": [
+        0,
+        0,
+        1,
+        0.88
+      ],
+      "motivo": "Encuadre rectangular revisado: sello fuera del marco, sin reconstruir ni modificar rasgos."
     }
   },
   "c8517126-9c75-58a2-a1ca-28d653d67abd": {
@@ -404,7 +464,17 @@
   },
   "f85df456-798e-5792-8c1c-0b0205742c9b": {
     "sha256": "dbf166004120f8f6b824b875750369a4d8e279db090612e7adc070c8658e5ded",
-    "recorte_sha256": "57bed5584a32fc40d7103876c18e77bd2f73932f1fd9dd72d7779133881cab16"
+    "recorte_sha256": "57bed5584a32fc40d7103876c18e77bd2f73932f1fd9dd72d7779133881cab16",
+    "afiche_recortado": {
+      "original_sha256": "dbf166004120f8f6b824b875750369a4d8e279db090612e7adc070c8658e5ded",
+      "encuadre": [
+        0,
+        0,
+        1,
+        0.88
+      ],
+      "motivo": "Encuadre rectangular revisado: sello fuera del marco, sin reconstruir ni modificar rasgos."
+    }
   },
   "345181e3-b236-5f27-9194-00a5f2eec7a1": {
     "sha256": "605783d2f16c2814949505695b0717343c188f91ac80d47af82f33f04e3795e4",
@@ -436,6 +506,16 @@
       "imagen_sha256": "59be4f298c02fe0daf76b85d5f9637ba917b77944d70839cf064cc684f5f932c",
       "estado": "rechazada",
       "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "16404d8522b4d463d450bec7743f9d0e6be71f19c2a49e87805f0269dfe4b33d",
+      "encuadre": [
+        0,
+        0,
+        1,
+        0.93
+      ],
+      "motivo": "Encuadre rectangular revisado: sello fuera del marco, sin reconstruir ni modificar rasgos."
     }
   },
   "0c363df5-09b5-50cf-85b1-e09aa2d59d7c": {
@@ -446,6 +526,16 @@
       "imagen_sha256": "038dcc73974fb0b9de618003b847d9fd359f01159d0dfb16c5879853088a1472",
       "estado": "rechazada",
       "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "65bdecfe7ff68ad71c6dccfd7d02561c0989cb9c7f05a268dd9a6c07ae63759b",
+      "encuadre": [
+        0,
+        0,
+        1,
+        0.89
+      ],
+      "motivo": "Encuadre rectangular revisado: sello fuera del marco, sin reconstruir ni modificar rasgos."
     }
   },
   "572d521f-d34d-5542-abd5-03a4336d2e62": {
@@ -524,6 +614,16 @@
       "imagen_sha256": "932985c41b3c455e77cef31769a13eb693d50604ded8402ff137a624f01deaae",
       "estado": "rechazada",
       "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "93e4bccc2b8a9408ab45d539fccf39c24d4b2a412a81fecc13795e0609eaca2c",
+      "encuadre": [
+        0.45,
+        0.29,
+        0.65,
+        0.45
+      ],
+      "motivo": "Encuadre rectangular revisado: sello fuera del marco, sin reconstruir ni modificar rasgos."
     }
   },
   "79b1f04e-675a-531f-a5bf-4354909e143b": {
@@ -534,6 +634,16 @@
       "imagen_sha256": "27cf297e623e032fe9018292d997e5568afaff7ff95d6e4f2b86a7cfaab1b756",
       "estado": "rechazada",
       "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "268c2e577c9d41ab88231b14eed48f21a1057c318b5e58326740c03d7a2550ae",
+      "encuadre": [
+        0,
+        0,
+        1,
+        0.9
+      ],
+      "motivo": "Encuadre rectangular revisado: sello fuera del marco, sin reconstruir ni modificar rasgos."
     }
   },
   "17d93426-eac2-5eb6-ab6e-47caa5be178a": {
@@ -567,6 +677,16 @@
       "imagen_sha256": "7a7f72aff284348fa4eba17d05445d72871706a2e7aec172d2d1f3468b58411f",
       "estado": "rechazada",
       "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "d5f7bf56208f66c600adc531bdc2858461c285cec99062ae834d1bc9f0d498af",
+      "encuadre": [
+        0,
+        0,
+        1,
+        0.9
+      ],
+      "motivo": "Encuadre rectangular revisado: sello fuera del marco, sin reconstruir ni modificar rasgos."
     }
   },
   "0e72efe0-dd4c-50f0-bc6a-05cd7294a8ab": {
@@ -631,6 +751,16 @@
       "imagen_sha256": "bdf3b283b8838ee711418185c353df5604824877deaa0cdc59b6d7d380a19e05",
       "estado": "rechazada",
       "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "6d8c187675e7fdecf0046a6a7976181b03b63c322a7efe6d9f02d0b494b27b99",
+      "encuadre": [
+        0.64,
+        0.35,
+        0.78,
+        0.66
+      ],
+      "motivo": "Encuadre rectangular revisado: sello fuera del marco, sin reconstruir ni modificar rasgos."
     }
   },
   "df7906d3-4a44-5167-a369-5872eab413d9": {
@@ -657,6 +787,16 @@
       "imagen_sha256": "e04cd339836b9d173a13c3b3407cd8dea4da8977e55715964831cdf8b707b2c3",
       "estado": "rechazada",
       "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "2d65c3b88f96f7be881e6df29a017b91d789895f43f1cf36f9580c072803bfaf",
+      "encuadre": [
+        0,
+        0,
+        1,
+        0.9
+      ],
+      "motivo": "Encuadre rectangular revisado: sello fuera del marco, sin reconstruir ni modificar rasgos."
     }
   },
   "1045705b-d7a2-596f-a8f6-0574cf2ea3fc": {
@@ -673,6 +813,16 @@
       "imagen_sha256": "a26aabef83776e0d51793c33317c245b1466caae4c652aefbc84015931999090",
       "estado": "rechazada",
       "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "6fdea4682480ce8eed8f87b8ae39b6a2578f6f5070a243815e64a07094a5dc3f",
+      "encuadre": [
+        0.33,
+        0.3,
+        0.49,
+        0.46
+      ],
+      "motivo": "Encuadre rectangular revisado: sello fuera del marco, sin reconstruir ni modificar rasgos."
     }
   },
   "642cf763-bdb8-510e-8433-f23d87281f02": {
@@ -705,6 +855,16 @@
       "imagen_sha256": "d8c4431865586fb027d1b8a8f789dcc207318af28b1dff884abedbbd2d9874ca",
       "estado": "rechazada",
       "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "71de631183dd7b70888622c80c37918bc1185e0a97a15eb6fbfc564521407d33",
+      "encuadre": [
+        0,
+        0,
+        1,
+        0.88
+      ],
+      "motivo": "Encuadre rectangular revisado: sello fuera del marco, sin reconstruir ni modificar rasgos."
     }
   },
   "460595ed-1d65-5e37-9b74-21fd4b6f0e5c": {
@@ -713,6 +873,16 @@
       "imagen_sha256": "911f0b239d6c22e37dd131a6622c83ba636fdd9ab004c72131dc5ff9202002b1",
       "estado": "rechazada",
       "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "3d1f26ec8fbab6b9c6fc2df9f8eeea9cf2af6eca3dc82cea200a5d9ba6af2174",
+      "encuadre": [
+        0,
+        0,
+        1,
+        0.89
+      ],
+      "motivo": "Encuadre rectangular revisado: sello fuera del marco, sin reconstruir ni modificar rasgos."
     }
   },
   "df60f528-a913-5dee-98bb-de09ecb235ba": {
@@ -777,6 +947,16 @@
       "imagen_sha256": "122bf5138a03a222888ebfdfcce31ee2d48d6b0c9b117b866d37db2d0a9ae97d",
       "estado": "rechazada",
       "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "c83683581e502e200c16efa14f3de576ac128ba5252288247d51f7836d465ebf",
+      "encuadre": [
+        0,
+        0,
+        1,
+        0.91
+      ],
+      "motivo": "Encuadre rectangular revisado: sello fuera del marco, sin reconstruir ni modificar rasgos."
     }
   },
   "41523987-9120-5f16-97c3-456f3ae866c3": {
@@ -785,6 +965,16 @@
       "imagen_sha256": "1efa8b9baa5372a75857666259611074e15c097bc9eeb8961095c3c7404a1b83",
       "estado": "rechazada",
       "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "a0f5e8b11398db1b732b13b7a29e1270837dfbbae20ffc7992066eb708eb2206",
+      "encuadre": [
+        0,
+        0,
+        1,
+        0.91
+      ],
+      "motivo": "Encuadre rectangular revisado: sello fuera del marco, sin reconstruir ni modificar rasgos."
     }
   },
   "8c829621-05b3-51fa-b30c-115a11ad8de2": {
@@ -809,6 +999,16 @@
       "imagen_sha256": "97e56723184d631cfe638ca4f1e9364c001e761cbf4ac9da0a004930c22f6021",
       "estado": "rechazada",
       "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "b093dea4e2bc6b4984f61cd89dedcabc93062ae4fcf69a60a32a22c0db39679e",
+      "encuadre": [
+        0,
+        0,
+        1,
+        0.9
+      ],
+      "motivo": "Encuadre rectangular revisado: sello fuera del marco, sin reconstruir ni modificar rasgos."
     }
   },
   "ae9c4432-41db-5e05-979e-8cc376171c87": {
@@ -817,6 +1017,16 @@
       "imagen_sha256": "bab0dc98b46c5aea319fdd880ebb9db0d37c3c791178d6945271a5b7453a5621",
       "estado": "rechazada",
       "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "9a419541a9b2928c623df4a6b415ff2781ffb52927bb43ea184d7bc58bc0845b",
+      "encuadre": [
+        0,
+        0,
+        1,
+        0.91
+      ],
+      "motivo": "Encuadre rectangular revisado: sello fuera del marco, sin reconstruir ni modificar rasgos."
     }
   },
   "bac2de9f-1bc9-5bf4-9d47-79ecb294de07": {
@@ -894,6 +1104,16 @@
       "fecha": "2026-11-02",
       "original_sha256": "b3b63883f08139dbb1225fff0008f35081c28c235a44de5c4e2ffd10c2ebf4ff",
       "evidencia": "Afiche: No la vemos desde el lunes 02/11."
+    },
+    "afiche_recortado": {
+      "original_sha256": "b3b63883f08139dbb1225fff0008f35081c28c235a44de5c4e2ffd10c2ebf4ff",
+      "encuadre": [
+        0,
+        0,
+        1,
+        0.85
+      ],
+      "motivo": "Encuadre rectangular revisado: sello fuera del marco, sin reconstruir ni modificar rasgos."
     }
   },
   "0637ec04-30f6-52e0-b75f-2f1a9ceb5f67": {
@@ -918,6 +1138,16 @@
       "imagen_sha256": "75bcabab78eeb08194acc8188c91e79f3a8fee44af74e0eb4716a2ebabad1005",
       "estado": "rechazada",
       "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "a0d9ab3859bb0b01c304ed7913794f1082eac6a04e852cd5ff19619da3654581",
+      "encuadre": [
+        0,
+        0,
+        1,
+        0.9
+      ],
+      "motivo": "Encuadre rectangular revisado: sello fuera del marco, sin reconstruir ni modificar rasgos."
     }
   },
   "f02e6208-d7c3-5d17-aeef-ef5b7bf71609": {
@@ -934,6 +1164,16 @@
       "imagen_sha256": "b05cdd0d4ce633319db1bdfbb77792c584a044d020e110c9e106a5fecf8a11ff",
       "estado": "rechazada",
       "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "f262ed08eba75d1fae118bc3834a51e8b84b29fa84003036fdde0895b4dccf5e",
+      "encuadre": [
+        0,
+        0,
+        1,
+        0.9
+      ],
+      "motivo": "Encuadre rectangular revisado: sello fuera del marco, sin reconstruir ni modificar rasgos."
     }
   },
   "a9498102-93a0-597c-9682-ae2708c72c12": {
@@ -950,6 +1190,16 @@
       "imagen_sha256": "083219eb2cff55269a1bcce480eb42730e7382b1449262a9233b3e505795822a",
       "estado": "rechazada",
       "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "54fd5d907e5047ee9bab7a1fb2a387bafe9eaf31726f7bc3cd6e9265295952b5",
+      "encuadre": [
+        0,
+        0,
+        1,
+        0.89
+      ],
+      "motivo": "Encuadre rectangular revisado: sello fuera del marco, sin reconstruir ni modificar rasgos."
     }
   },
   "7cdeb933-5f39-51c0-9fe7-8baf39fa832b": {
@@ -958,6 +1208,16 @@
       "imagen_sha256": "bb06d603f52c197a479ae3f79ab6dca56199e1bcc78317027e39a10edd36baf2",
       "estado": "rechazada",
       "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "5f28c64465035ba138ed9de2c6bad63491e12926e14d24d9e4c9eaf56b174490",
+      "encuadre": [
+        0,
+        0,
+        0.5,
+        0.97
+      ],
+      "motivo": "Encuadre rectangular revisado: sello fuera del marco, sin reconstruir ni modificar rasgos."
     }
   },
   "58fefb7b-2e30-5740-8a1f-004310018f0e": {
@@ -1006,6 +1266,76 @@
       "imagen_sha256": "559ee4d5028bd03f43c63ab658fb66a71824c8701c2f64b9ea96ddae13a70742",
       "estado": "rechazada",
       "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "68ee032cdb88975a1a3e875c0803550e2f7ede9f5082d96f91a8af987796bdcd",
+      "encuadre": [
+        0,
+        0,
+        1,
+        0.79
+      ],
+      "motivo": "Encuadre rectangular revisado: sello fuera del marco, sin reconstruir ni modificar rasgos."
+    }
+  },
+  "6d302696-1517-591c-abf9-f8fc050b1d69": {
+    "afiche_recortado": {
+      "original_sha256": "ed1c97f778a4462f721585c5e29c9632a2f31e3efdf0e2740c9aff75af6e7d7f",
+      "encuadre": [
+        0,
+        0,
+        1,
+        0.91
+      ],
+      "motivo": "Encuadre rectangular revisado: sello fuera del marco, sin reconstruir ni modificar rasgos."
+    }
+  },
+  "292f3ec4-74d8-5aa1-b61b-f7673d24e945": {
+    "afiche_recortado": {
+      "original_sha256": "79cde938496ecc3ba3b816549b639005640b84fc5fc567c2e14a9315cf5653e8",
+      "encuadre": [
+        0,
+        0.3,
+        1,
+        0.86
+      ],
+      "motivo": "Encuadre rectangular revisado: sello fuera del marco, sin reconstruir ni modificar rasgos."
+    }
+  },
+  "19d58c4e-eb44-5f3b-8646-4ad2f67e3c8d": {
+    "afiche_recortado": {
+      "original_sha256": "7c0837e345bd2e11b275ea59294f74c6d9c4af24b046c9ca51a5c7641d6d4f6c",
+      "encuadre": [
+        0,
+        0.19,
+        1,
+        0.81
+      ],
+      "motivo": "Encuadre rectangular revisado: sello fuera del marco, sin reconstruir ni modificar rasgos."
+    }
+  },
+  "b1a0913a-ec42-5ba2-ad99-14874193be61": {
+    "afiche_recortado": {
+      "original_sha256": "dbb657a5c152146194caa282040fa4d7be1714321e5a6c6cf650db26b673cecd",
+      "encuadre": [
+        0,
+        0,
+        1,
+        0.91
+      ],
+      "motivo": "Encuadre rectangular revisado: sello fuera del marco, sin reconstruir ni modificar rasgos."
+    }
+  },
+  "d918d722-6e67-5bba-96c5-d3eab16018ee": {
+    "afiche_recortado": {
+      "original_sha256": "b0dcf8b1440480f9aef6db5ad8aed3309c153fde4e16ae390d190c1345e88fb4",
+      "encuadre": [
+        0,
+        0,
+        1,
+        0.9
+      ],
+      "motivo": "Encuadre rectangular revisado: sello fuera del marco, sin reconstruir ni modificar rasgos."
     }
   }
 }

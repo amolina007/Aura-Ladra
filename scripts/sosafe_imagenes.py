@@ -93,4 +93,5 @@ def enrich(rows):
     batch = ROOT / 'output/sosafe/segmentacion-lote.json'
     batch.write_text(json.dumps({'avisos': rows}, ensure_ascii=False))
     subprocess.run([str(BINARY), str(ROOT / 'scripts/sosafe-sin-fondo.py'), str(batch)], check=True, timeout=1800)
+    subprocess.run([str(BINARY), str(ROOT / 'scripts/sosafe_afiches.py'), str(batch)], check=True, timeout=120)
     return json.loads(batch.read_text())['avisos']

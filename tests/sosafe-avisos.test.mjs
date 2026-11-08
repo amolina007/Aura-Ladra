@@ -28,22 +28,22 @@ test('shows verified dates, safe photo and contact, escapes text and excludes ex
  dom.window.close();
 });
 
-test('uses the real public poster when no reliable cutout exists and rejects other origins', async()=>{
+test('only reviewed local photos reach cards and map; raw posters never replace them', async()=>{
  const dom=new JSDOM('<div data-sosafe-avisos></div>',{runScripts:'outside-only'});
  const now=new Date().toISOString();
- const row={id:'poster',publicado_en:now,descripcion:'Aviso',zona:'Maipú',celulares:[],ubicacion_reporte:{lat:-33.51,lng:-70.76},foto:'https://api.sosafeapp.com/reports/real.jpg'};
- dom.window.fetch=async()=>({ok:true,json:async()=>({actualizado_en:now,cobertura:'Parcial',avisos:[row,{...row,id:'unsafe',foto:'https://example.com/private.jpg'}]})});
+ const row={id:'poster',publicado_en:now,descripcion:'Aviso',zona:'Maipú',celulares:[],ubicacion_reporte:{lat:-33.51,lng:-70.76},foto_mascota:'data/sosafe-fotos/abc123.jpg',foto:'https://api.sosafeapp.com/reports/real.jpg'};
+ dom.window.fetch=async()=>({ok:true,json:async()=>({actualizado_en:now,cobertura:'Parcial',avisos:[row,{...row,id:'missing',foto_mascota:''},{...row,id:'unsafe',foto_mascota:'https://example.com/private.jpg'},{...row,id:'no-photo',foto:'',foto_mascota:''}]})});
  dom.window.eval(script);await new Promise(r=>setTimeout(r,10));
- assert.equal(dom.window.document.querySelectorAll('img').length,1);
- assert.equal(dom.window.document.querySelector('img').getAttribute('src'),row.foto);
- assert.equal(dom.window.auraLadraSosafe.lugares()[0].foto_original,row.foto);
- assert.equal(dom.window.auraLadraSosafe.lugares()[1].foto_original,'');
+ assert.equal(dom.window.document.querySelectorAll('article').length,1);
+ assert.equal(dom.window.document.querySelector('img').getAttribute('src'),row.foto_mascota);
+ assert.equal(dom.window.auraLadraSosafe.lugares().length,1);
+ assert.equal(dom.window.document.querySelector('a[href="'+row.foto+'"]').textContent,'Ver afiche original completo');
  dom.window.close();
 });
 
 test('one consolidated card retains additional descriptions and safe source links', async()=>{
  const dom=new JSDOM('<div data-sosafe-avisos></div>',{runScripts:'outside-only'});
- const now=new Date().toISOString();const row={id:'group',publicado_en:now,descripcion:'Ficha principal',zona:'Maipú',celulares:[],publicaciones:[{publicado_en:now,descripcion:'Collar azul',fuente_url:'https://www.widgets.sosafeapp.com/report/a'},{publicado_en:now,descripcion:'Visto en el parque',fuente_url:'javascript:bad'}]};
+ const now=new Date().toISOString();const row={id:'group',foto_mascota:'data/sosafe-fotos/abc123.jpg',publicado_en:now,descripcion:'Ficha principal',zona:'Maipú',celulares:[],publicaciones:[{publicado_en:now,descripcion:'Collar azul',fuente_url:'https://www.widgets.sosafeapp.com/report/a'},{publicado_en:now,descripcion:'Visto en el parque',fuente_url:'javascript:bad'}]};
  dom.window.fetch=async()=>({ok:true,json:async()=>({actualizado_en:now,cobertura:'Parcial',avisos:[row]})});
  dom.window.eval(script);await new Promise(r=>setTimeout(r,10));
  const doc=dom.window.document;assert.equal(doc.querySelectorAll('article').length,1);

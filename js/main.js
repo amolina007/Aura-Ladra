@@ -650,10 +650,6 @@
 
   const sosafePhoto = (place) => {
     if (/^data\/sosafe-fotos\/[a-f0-9]+\.(?:jpg|png)$/.test(place.foto_mascota || '')) return place.foto_mascota;
-    try {
-      const url = new URL(place.foto_original);
-      if (url.origin === 'https://api.sosafeapp.com' && url.pathname.startsWith('/reports/')) return url.href;
-    } catch {}
     return '';
   };
 

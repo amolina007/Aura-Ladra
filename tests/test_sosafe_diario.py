@@ -100,3 +100,20 @@ class LossDatesTest(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+class PublicableTest(unittest.TestCase):
+    def test_only_existing_local_images_are_published(self):
+        import tempfile
+        from unittest.mock import patch
+        import sosafe_publicables as module
+        with tempfile.TemporaryDirectory() as folder:
+            root = pathlib.Path(folder)
+            photo = root / 'data/sosafe-fotos/abc123.jpg'
+            photo.parent.mkdir(parents=True)
+            photo.write_bytes(b'photo')
+            rows = [{'id': 'ok', 'foto_mascota': 'data/sosafe-fotos/abc123.jpg'},
+                    {'id': 'no-photo'}, {'id': 'raw', 'foto': 'https://api.sosafeapp.com/reports/a.jpg'},
+                    {'id': 'missing', 'foto_mascota': 'data/sosafe-fotos/aaaa.png'},
+                    {'id': 'escape', 'foto_mascota': '../abc123.jpg'}]
+            with patch.object(module, 'ROOT', root):
+                self.assertEqual([r['id'] for r in module.publicables(rows)], ['ok'])

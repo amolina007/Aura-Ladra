@@ -7,6 +7,7 @@ import re
 import sys
 from sosafe_imagenes import enrich
 from sosafe_duplicados import consolidate, expand
+from sosafe_publicables import publicables
 import unicodedata
 import urllib.request
 import urllib.error
@@ -54,11 +55,20 @@ def convert(report, now):
                 celulares=phones, foto=image, fuente_url='https://www.widgets.sosafeapp.com/report/' + report['uuid'] + '?l=es',
                 verificado_en=now.isoformat())
 
+def prepare(rows):
+    groups = consolidate(enrich(rows))
+    visible = publicables(groups)
+    ids = {row['id'] for row in visible}
+    pending = ROOT / 'output/sosafe/pendientes-imagen.json'
+    pending.parent.mkdir(parents=True, exist_ok=True)
+    pending.write_text(json.dumps({'avisos': [r for r in groups if r['id'] not in ids]}, ensure_ascii=False, indent=2))
+    return visible
+
 def main():
     now = dt.datetime.now(ZoneInfo('America/Santiago'))
     if '--enrich-only' in sys.argv:
         data = json.loads(DEST.read_text())
-        data['avisos'] = consolidate(enrich(expand(data['avisos'])))
+        data['avisos'] = prepare(expand(data['avisos']))
         temp = DEST.with_suffix('.tmp')
         temp.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n')
         temp.replace(DEST)
@@ -68,6 +78,9 @@ def main():
     if not isinstance(feed.get('features'), list) or not feed['features']:
         raise RuntimeError('Archivo diario vacío o incompatible; se conserva la versión anterior.')
     previous = json.loads(DEST.read_text()) if DEST.exists() else {'avisos': []}
+    pending = ROOT / 'output/sosafe/pendientes-imagen.json'
+    if pending.exists():
+        previous['avisos'].extend(json.loads(pending.read_text()).get('avisos', []))
     previous['avisos'] = expand(previous['avisos'])
     ids = {r['id'] for r in previous['avisos']}
     coordinates = {r['id']: r.get('ubicacion_reporte') for r in previous['avisos']}
@@ -113,7 +126,7 @@ def main():
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(json.dumps(errors, indent=2))
         raise RuntimeError(f'{len(errors)} detalles fallaron; no se reemplaza el archivo publicado. Revisar output/sosafe/errores.json')
-    consolidated = consolidate(enrich(rows))
+    consolidated = prepare(rows)
     result = {'actualizado_en': now.isoformat(), 'cobertura': 'Archivo diario público; acumulado desde el 6 de noviembre de 2026. No incluye todo el historial anterior.', 'avisos': consolidated}
     DEST.parent.mkdir(parents=True, exist_ok=True)
     temp = DEST.with_suffix('.tmp')
