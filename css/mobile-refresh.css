@@ -442,3 +442,7 @@ body:has(.shop-dialog[open]) { overflow: hidden; }
 .sosafe-ocr { border-left: 3px solid #ad6710; padding-left: .75rem; }
 
 .map-pin.is-sosafe span { filter: grayscale(1) brightness(0) invert(1); }
+
+.aviso-tipo {display:block;padding:.6rem .75rem;margin-bottom:.6rem;border-radius:.5rem;background:#eee9df;color:#423d32;line-height:1.35;}
+.aviso-tipo[data-tipo="perdida"] {background:#fff0d6;color:#744300;border-left:4px solid #bb7400;}
+.aviso-tipo[data-tipo="encontrada"] {background:#e1f2ec;color:#145840;border-left:4px solid #26815f;}

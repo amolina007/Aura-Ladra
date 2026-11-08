@@ -618,7 +618,7 @@
       details.append(helpLink);
     }
     const sourceUrl = cleanUrl(place.fuente_url);
-    if (sourceUrl && place.fuente_nombre) {
+    if (sourceUrl && place.fuente_nombre && !/(^|\.)sosafeapp\.com$/i.test(new URL(sourceUrl).hostname)) {
       const source = document.createElement('a');
       source.className = 'place-source';
       source.href = sourceUrl;
@@ -674,6 +674,7 @@
         const popupMeta = document.createElement('small');
         popupMeta.textContent = `${placeCategoryLabels[place.categoria] || place.categoria}${place.servicio_urgencia ? ' · Urgencias' : ''}`;
         popup.append(popupTitle, popupMeta);
+        if (place.tipo_aviso_texto) popupMeta.textContent = place.tipo_aviso_texto;
         if (place.origen === 'sosafe') {
           if (sosafePhoto(place)) {
             const image = document.createElement('img'); image.src = sosafePhoto(place); image.referrerPolicy = 'no-referrer'; image.alt = place.nombre; image.className = 'sosafe-map-photo'; popup.append(image);

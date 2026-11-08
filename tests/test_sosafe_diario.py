@@ -117,3 +117,16 @@ class PublicableTest(unittest.TestCase):
                     {'id': 'escape', 'foto_mascota': '../abc123.jpg'}]
             with patch.object(module, 'ROOT', root):
                 self.assertEqual([r['id'] for r in module.publicables(rows)], ['ok'])
+
+class NoticeTypeTest(unittest.TestCase):
+    def test_search_found_uncertain_and_review_invalidation(self):
+        from sosafe_tipos import classify, signature
+        def row(text): return {'id':'a', 'descripcion':text}
+        self.assertEqual(classify(row('Busco a mi gatito'), {}),'perdida')
+        self.assertEqual(classify(row('Encontré este perrito perdido'), {}),'encontrada')
+        self.assertEqual(classify(row('Perro perdido'), {}),'por_confirmar')
+        self.assertEqual(classify(row('FAMILIA ENCONTRADA gracias'), {}),'reencuentro')
+        self.assertEqual(classify(row('Perrito fallecido'), {}),'fallecida')
+        a=row('Perro perdido');review={'a':{'tipo_aviso':{'descripcion_sha256':signature(a),'valor':'encontrada'}}}
+        self.assertEqual(classify(a,review),'encontrada')
+        self.assertEqual(classify(row('Busco a mi perro'),review),'perdida')

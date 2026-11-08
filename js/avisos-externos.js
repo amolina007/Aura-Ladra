@@ -51,7 +51,8 @@
     return `${days} ${days === 1 ? 'día' : 'días'} desde el extravío · ${row.fecha_extravio}`;
   }
   function card(row) {
-    const url = safeUrl(row.fuente_url);
+    const candidate = safeUrl(row.fuente_url);
+    const url = candidate && !/(^|\.)sosafeapp\.com$/i.test(new URL(candidate).hostname) ? candidate : '';
     const photos = photoPaths(row).map(path => db.storage.from(bucket).getPublicUrl(path).data.publicUrl);
     const phone = String(row.celular || '').replace(/[^+0-9]/g, '');
     return `<article class="card"><small>Aviso externo · sin confirmar con el responsable</small>

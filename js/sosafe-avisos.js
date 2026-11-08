@@ -10,10 +10,9 @@
     return `Extravío: ${day} · ${info.precision === 'indicada' ? 'fecha indicada en el aviso' : info.criterio === 'referencia relativa del aviso' ? 'estimada según el aviso' : 'estimada por la primera publicación'}${info.requiere_revision ? ' · fechas contradictorias por revisar' : ''}`;
   };
   const date = value => new Date(value).toLocaleString('es-CL', {timeZone: 'America/Santiago'});
-  const safe = (value, origin, prefix) => {
-    try { const url = new URL(value); return url.origin === origin && url.pathname.startsWith(prefix) ? url.href : ''; }
-    catch { return ''; }
-  };
+  const types = {perdida:'Mascota perdida · la están buscando', encontrada:'Mascota encontrada o avistada · buscan a su familia', por_confirmar:'Tipo de aviso por confirmar', reencuentro:'Reencuentro informado', fallecida:'Mascota fallecida · aviso a su familia'};
+  const typeLabel = row => types[row.tipo_aviso] || types.por_confirmar;
+  const noticeDate = row => row.tipo_aviso === 'perdida' ? lossDate(row.fecha_extravio_info) : `Fecha del aviso: ${date(row.publicado_en)}`;
   fetch('data/sosafe-maipu.json', {cache: 'no-cache'}).then(r => {
     if (!r.ok) throw Error('No disponible');
     return r.json();
@@ -23,11 +22,11 @@
       return /^data\/sosafe-fotos\/[a-f0-9]+\.(?:jpg|png)$/.test(r.foto_mascota || '') && Number.isFinite(age) && age >= 0 && age <= 30 * 86400000;
     });
     window.auraLadraSosafe = { lugares: () => rows.filter(r => Number.isFinite(r.ubicacion_reporte?.lat) && Number.isFinite(r.ubicacion_reporte?.lng) && r.ubicacion_reporte.lat >= -33.65 && r.ubicacion_reporte.lat <= -33.45 && r.ubicacion_reporte.lng >= -70.95 && r.ubicacion_reporte.lng <= -70.70).map(r => ({
-      id: 'sosafe-' + r.id, nombre: (r.nombre_mascota || 'Mascota') + ' · Aviso externo', categoria: 'mascota_perdida', origen: 'sosafe',
-      fecha_extravio_texto: lossDate(r.fecha_extravio_info), descripcion: display(r.descripcion), comuna: 'Maipú', direccion_publica: 'Ubicación aproximada del aviso externo',
+      id: 'sosafe-' + r.id, nombre: (r.nombre_mascota || 'Mascota') + ' · ' + typeLabel(r), categoria: 'mascota_perdida', origen: 'sosafe',
+      tipo_aviso: r.tipo_aviso, tipo_aviso_texto: typeLabel(r), fecha_extravio_texto: noticeDate(r), descripcion: display(r.descripcion), comuna: 'Maipú', direccion_publica: 'Ubicación aproximada del aviso externo',
       latitud: r.ubicacion_reporte.lat, longitud: r.ubicacion_reporte.lng, precision_ubicacion: 'aproximada',
-      estado_verificacion: 'comunitario', fuente_nombre: 'Aviso externo · estado sin verificar', fuente_url: r.fuente_url,
-      foto_mascota: r.foto_mascota, foto_original: safe(r.foto, 'https://api.sosafeapp.com', '/reports/'), telefono_publico: r.celulares[0] || '',
+      estado_verificacion: 'comunitario', fuente_nombre: 'Aviso externo · estado sin verificar', fuente_url: '',
+      foto_mascota: r.foto_mascota, telefono_publico: r.celulares[0] || '',
     })) };
     document.dispatchEvent(new CustomEvent('sosafe:cambio'));
     document.querySelectorAll('[data-sosafe-acceso]').forEach(link => { link.textContent = `Ver ${rows.length} avisos externos en Most Wanted`; });
@@ -38,25 +37,22 @@
         const photo = /^data\/sosafe-fotos\/[a-f0-9]+\.(?:jpg|png)$/.test(row.foto_mascota || '') ? row.foto_mascota : '';
         const reading = row.lectura_foto || {};
         const ocrPhones = (reading.celulares || []).filter(p => /^\+569\d{8}$/.test(p) && !row.celulares.includes(p));
-        const source = safe(row.fuente_url, 'https://www.widgets.sosafeapp.com', '/report/');
-        return `<article class="card sosafe-card"><small>Aviso externo · estado sin verificar</small>
+        return `<article class="card sosafe-card"><strong class="aviso-tipo" data-tipo="${esc(row.tipo_aviso || 'por_confirmar')}">${esc(typeLabel(row))}</strong><small>Aviso externo · estado sin verificar</small>
           <img src="${esc(photo)}" alt="Foto del aviso de mascota en ${esc(row.zona)}" loading="lazy" referrerpolicy="no-referrer">
           <h4>${esc(row.nombre_mascota || "Mascota")} · ${esc(row.zona)}</h4><p>Publicado: ${esc(date(row.publicado_en))}</p>
-          ${row.fecha_extravio_info ? `<p class="fecha-extravio">${esc(lossDate(row.fecha_extravio_info))}</p>` : ''}
+          <p class="fecha-extravio">${esc(noticeDate(row))}</p>
           <p class="sosafe-description">${esc(display(row.descripcion))}</p>
           ${row.autor_publicacion ? `<p>Publicado por: ${esc(row.autor_publicacion)}</p>` : ''}
           ${row.celulares.filter(p => /^\+569\d{8}$/.test(p)).map(p => `<p>Contacto del aviso: <a href="tel:${esc(p)}">${esc(p)}</a></p>`).join('')}
-          ${(ocrPhones.length || reading.nombres?.length) ? `<div class="sosafe-ocr"><strong>Leído del afiche · revisar en el original</strong>${ocrPhones.map(p => `<p>Teléfono: ${esc(p)}</p>`).join('')}${(reading.nombres || []).map(n => `<p>${esc(n.etiqueta)}: ${esc(n.nombre)}</p>`).join('')}</div>` : ''}
+          ${(ocrPhones.length || reading.nombres?.length) ? `<div class="sosafe-ocr"><strong>Leído del afiche · dato sin verificar</strong>${ocrPhones.map(p => `<p>Teléfono: ${esc(p)}</p>`).join('')}${(reading.nombres || []).map(n => `<p>${esc(n.etiqueta)}: ${esc(n.nombre)}</p>`).join('')}</div>` : ''}
           ${row.publicaciones?.length > 1 ? `<details class="avisos-reunidos"><summary>${row.publicaciones.length} publicaciones reunidas · ver antecedentes</summary>${row.publicaciones.map(p => {
-            const link = safe(p.fuente_url, 'https://www.widgets.sosafeapp.com', '/report/');
-            return `<section><p>Publicado: ${esc(date(p.publicado_en))}</p><p>${esc(display(p.descripcion))}</p>${link ? `<a href="${esc(link)}" target="_blank" rel="noopener noreferrer">Ver publicación original</a>` : ''}</section>`;
+            return `<section><p>Publicado: ${esc(date(p.publicado_en))}</p><p>${esc(display(p.descripcion))}</p></section>`;
           }).join('')}</details>` : ''}
-          ${reading.estado === 'error' ? '<p>Lectura del afiche pendiente. Consulta el original.</p>' : ''}
-          ${source ? `<a href="${esc(source)}" target="_blank" rel="noopener noreferrer">Ver aviso original</a>` : ''}
+          ${reading.estado === 'error' ? '<p>Lectura del afiche pendiente.</p>' : ''}
         </article>`;
       }).join('') || '<p>No hay avisos disponibles para este período.</p>'}</div>`;
     root.querySelectorAll('img').forEach(img => img.addEventListener('error', () => {
-      const fallback = document.createElement('p'); fallback.textContent = 'La foto no está disponible. Consulta el aviso original.'; img.replaceWith(fallback);
+      const fallback = document.createElement('p'); fallback.textContent = 'La foto no está disponible.'; img.replaceWith(fallback);
     }, {once: true}));
   }).catch(() => { root.textContent = 'No pudimos cargar los avisos externos. Recarga la página para reintentar.'; });
 })();
