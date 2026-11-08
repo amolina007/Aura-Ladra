@@ -37,7 +37,7 @@ test('only reviewed local photos reach cards and map; raw posters never replace 
  assert.equal(dom.window.document.querySelectorAll('article').length,1);
  assert.equal(dom.window.document.querySelector('img').getAttribute('src'),row.foto_mascota);
  assert.equal(dom.window.auraLadraSosafe.lugares().length,1);
- assert.equal(dom.window.document.querySelector('a[href="'+row.foto+'"]').textContent,'Ver afiche original completo');
+ assert.equal(dom.window.document.querySelector('a[href="'+row.foto+'"]'),null);
  dom.window.close();
 });
 

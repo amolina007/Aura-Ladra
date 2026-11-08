@@ -35,7 +35,6 @@
     root.innerHTML = `<p>${rows.length} avisos · Última consulta: ${esc(date(data.actualizado_en))}${stale ? ' · Actualización pendiente' : ''}</p>
       <p>${esc(data.cobertura)} El autor puede ser un vecino, no necesariamente el dueño. El estado actual de cada mascota no está confirmado.</p>
       <div class="wanted-grid">${rows.map(row => {
-        const original = safe(row.foto, 'https://api.sosafeapp.com', '/reports/');
         const photo = /^data\/sosafe-fotos\/[a-f0-9]+\.(?:jpg|png)$/.test(row.foto_mascota || '') ? row.foto_mascota : '';
         const reading = row.lectura_foto || {};
         const ocrPhones = (reading.celulares || []).filter(p => /^\+569\d{8}$/.test(p) && !row.celulares.includes(p));
@@ -53,7 +52,6 @@
             return `<section><p>Publicado: ${esc(date(p.publicado_en))}</p><p>${esc(display(p.descripcion))}</p>${link ? `<a href="${esc(link)}" target="_blank" rel="noopener noreferrer">Ver publicación original</a>` : ''}</section>`;
           }).join('')}</details>` : ''}
           ${reading.estado === 'error' ? '<p>Lectura del afiche pendiente. Consulta el original.</p>' : ''}
-          ${original ? `<p><a href="${esc(original)}" target="_blank" rel="noopener noreferrer">Ver afiche original completo</a></p>` : ''}
           ${source ? `<a href="${esc(source)}" target="_blank" rel="noopener noreferrer">Ver aviso original</a>` : ''}
         </article>`;
       }).join('') || '<p>No hay avisos disponibles para este período.</p>'}</div>`;

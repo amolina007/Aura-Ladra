@@ -35,3 +35,27 @@ class AficheTest(unittest.TestCase):
                 self.assertEqual(crop.size,(100,80))
                 self.assertEqual(crop.getpixel((50,79)),(255,255,255))
                 self.assertEqual(out['recorte_estado'],'afiche_recortado')
+
+    def test_saved_silhouette_requires_matching_original_and_asset_hash(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = pathlib.Path(folder)
+            for name in ['scripts', 'data/sosafe-fotos', 'output/sosafe/imagenes']:
+                (root / name).mkdir(parents=True)
+            (root / 'scripts/sosafe-imagen.py').write_text('test')
+            row = {'id':'example', 'foto':'https://example.test/photo'}
+            key = hashlib.sha256((row['foto'] + 'test').encode()).hexdigest()[:24]
+            raw = root / 'output/sosafe/imagenes' / (key + '.original')
+            Image.new('RGB', (10,10), 'white').save(raw, format='PNG')
+            asset = root / 'data/sosafe-fotos/abc123.png'
+            Image.new('RGBA', (10,10), (20,30,40,128)).save(asset)
+            review = {'original_sha256':hashlib.sha256(raw.read_bytes()).hexdigest(),
+                      'imagen_sha256':'wrong', 'foto':'data/sosafe-fotos/abc123.png'}
+            path = root / 'data/sosafe-revisiones.json'
+            with patch.object(afiches, 'ROOT', root):
+                path.write_text(json.dumps({'example':{'presentacion_revisada':review}}))
+                self.assertFalse(afiches.process([dict(row)])[0].get('foto_mascota'))
+                review['imagen_sha256'] = hashlib.sha256(asset.read_bytes()).hexdigest()
+                path.write_text(json.dumps({'example':{'presentacion_revisada':review}}))
+                self.assertEqual(afiches.process([dict(row)])[0]['foto_mascota'],review['foto'])
+                raw.write_bytes(b'changed original')
+                self.assertFalse(afiches.process([dict(row)])[0].get('foto_mascota'))

@@ -843,7 +843,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "afiche_recortado",
-      "foto_mascota": "data/sosafe-fotos/5bfd3d1d7bb80aa044e1d40e.jpg",
+      "foto_mascota": "data/sosafe-fotos/4fb6ba127e5a11bb2de0f7d7.jpg",
       "imagen_original_sha256": "65bdecfe7ff68ad71c6dccfd7d02561c0989cb9c7f05a268dd9a6c07ae63759b",
       "publicaciones": [
         {
@@ -1017,7 +1017,7 @@
             "requiere_revision": true
           },
           "recorte_estado": "afiche_recortado",
-          "foto_mascota": "data/sosafe-fotos/5bfd3d1d7bb80aa044e1d40e.jpg",
+          "foto_mascota": "data/sosafe-fotos/4fb6ba127e5a11bb2de0f7d7.jpg",
           "imagen_original_sha256": "65bdecfe7ff68ad71c6dccfd7d02561c0989cb9c7f05a268dd9a6c07ae63759b"
         }
       ],
@@ -1272,7 +1272,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "afiche_recortado",
-      "foto_mascota": "data/sosafe-fotos/e926899d41b4f3b930499818.jpg",
+      "foto_mascota": "data/sosafe-fotos/2ffe0b28d59bbf342072a893.jpg",
       "imagen_original_sha256": "3d1f26ec8fbab6b9c6fc2df9f8eeea9cf2af6eca3dc82cea200a5d9ba6af2174",
       "publicaciones": [
         {
@@ -1300,7 +1300,7 @@
             "requiere_revision": true
           },
           "recorte_estado": "afiche_recortado",
-          "foto_mascota": "data/sosafe-fotos/e926899d41b4f3b930499818.jpg",
+          "foto_mascota": "data/sosafe-fotos/2ffe0b28d59bbf342072a893.jpg",
           "imagen_original_sha256": "3d1f26ec8fbab6b9c6fc2df9f8eeea9cf2af6eca3dc82cea200a5d9ba6af2174"
         },
         {
@@ -1331,7 +1331,7 @@
             "requiere_revision": true
           },
           "recorte_estado": "afiche_recortado",
-          "foto_mascota": "data/sosafe-fotos/e926899d41b4f3b930499818.jpg",
+          "foto_mascota": "data/sosafe-fotos/2ffe0b28d59bbf342072a893.jpg",
           "imagen_original_sha256": "3d1f26ec8fbab6b9c6fc2df9f8eeea9cf2af6eca3dc82cea200a5d9ba6af2174"
         }
       ],
@@ -1369,7 +1369,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "afiche_recortado",
-      "foto_mascota": "data/sosafe-fotos/48f04056c36b876597e8ee79.jpg",
+      "foto_mascota": "data/sosafe-fotos/ed2cfc8111be16cc7d4bb874.jpg",
       "imagen_original_sha256": "ed1c97f778a4462f721585c5e29c9632a2f31e3efdf0e2740c9aff75af6e7d7f",
       "fecha_extravio_info": {
         "fecha": "2026-11-07",
@@ -1580,7 +1580,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "afiche_recortado",
-      "foto_mascota": "data/sosafe-fotos/4c147f7509dc52a2efd5f740.jpg",
+      "foto_mascota": "data/sosafe-fotos/390e09308cce39d62585b98b.jpg",
       "imagen_original_sha256": "c83683581e502e200c16efa14f3de576ac128ba5252288247d51f7836d465ebf",
       "publicaciones": [
         {
@@ -1608,7 +1608,7 @@
             "requiere_revision": true
           },
           "recorte_estado": "afiche_recortado",
-          "foto_mascota": "data/sosafe-fotos/4c147f7509dc52a2efd5f740.jpg",
+          "foto_mascota": "data/sosafe-fotos/390e09308cce39d62585b98b.jpg",
           "imagen_original_sha256": "c83683581e502e200c16efa14f3de576ac128ba5252288247d51f7836d465ebf"
         },
         {
@@ -1636,7 +1636,7 @@
             "requiere_revision": true
           },
           "recorte_estado": "afiche_recortado",
-          "foto_mascota": "data/sosafe-fotos/4c147f7509dc52a2efd5f740.jpg",
+          "foto_mascota": "data/sosafe-fotos/390e09308cce39d62585b98b.jpg",
           "imagen_original_sha256": "c83683581e502e200c16efa14f3de576ac128ba5252288247d51f7836d465ebf"
         }
       ],
@@ -1706,8 +1706,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "afiche_recortado",
-      "foto_mascota": "data/sosafe-fotos/d5c698cdd1eb2df6b4a10bfa.jpg",
+      "recorte_estado": "sin_fondo",
+      "foto_mascota": "data/sosafe-fotos/3f9b0a4d260fab6daf7f7673.png",
       "imagen_original_sha256": "a0f5e8b11398db1b732b13b7a29e1270837dfbbae20ffc7992066eb708eb2206",
       "fecha_extravio_info": {
         "fecha": "2026-11-07",
@@ -1775,7 +1775,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "afiche_recortado",
-      "foto_mascota": "data/sosafe-fotos/4b317882000d5749faa26811.jpg",
+      "foto_mascota": "data/sosafe-fotos/9c022c6652b58b872698363d.jpg",
       "imagen_original_sha256": "79cde938496ecc3ba3b816549b639005640b84fc5fc567c2e14a9315cf5653e8",
       "fecha_extravio_info": {
         "fecha": "2026-11-07",
@@ -1828,7 +1828,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "afiche_recortado",
-      "foto_mascota": "data/sosafe-fotos/51161fea8502e39218ff9b97.jpg",
+      "foto_mascota": "data/sosafe-fotos/d61efc945aa8cd64873ab356.jpg",
       "imagen_original_sha256": "b3b63883f08139dbb1225fff0008f35081c28c235a44de5c4e2ffd10c2ebf4ff",
       "publicaciones": [
         {
@@ -1858,7 +1858,7 @@
             "requiere_revision": true
           },
           "recorte_estado": "afiche_recortado",
-          "foto_mascota": "data/sosafe-fotos/51161fea8502e39218ff9b97.jpg",
+          "foto_mascota": "data/sosafe-fotos/d61efc945aa8cd64873ab356.jpg",
           "imagen_original_sha256": "b3b63883f08139dbb1225fff0008f35081c28c235a44de5c4e2ffd10c2ebf4ff"
         },
         {
@@ -1888,7 +1888,7 @@
             "requiere_revision": true
           },
           "recorte_estado": "afiche_recortado",
-          "foto_mascota": "data/sosafe-fotos/51161fea8502e39218ff9b97.jpg",
+          "foto_mascota": "data/sosafe-fotos/d61efc945aa8cd64873ab356.jpg",
           "imagen_original_sha256": "b3b63883f08139dbb1225fff0008f35081c28c235a44de5c4e2ffd10c2ebf4ff"
         },
         {
@@ -1918,7 +1918,7 @@
             "requiere_revision": true
           },
           "recorte_estado": "afiche_recortado",
-          "foto_mascota": "data/sosafe-fotos/51161fea8502e39218ff9b97.jpg",
+          "foto_mascota": "data/sosafe-fotos/d61efc945aa8cd64873ab356.jpg",
           "imagen_original_sha256": "b3b63883f08139dbb1225fff0008f35081c28c235a44de5c4e2ffd10c2ebf4ff"
         },
         {
@@ -2037,7 +2037,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "afiche_recortado",
-      "foto_mascota": "data/sosafe-fotos/5a58476fc408c80aa369ce4d.jpg",
+      "foto_mascota": "data/sosafe-fotos/5b1e73b4ee8799437c4d0272.jpg",
       "imagen_original_sha256": "7c0837e345bd2e11b275ea59294f74c6d9c4af24b046c9ca51a5c7641d6d4f6c",
       "fecha_extravio_info": {
         "fecha": "2026-11-07",
@@ -2071,7 +2071,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "afiche_recortado",
-      "foto_mascota": "data/sosafe-fotos/eca189e8831faabba3c28a25.jpg",
+      "foto_mascota": "data/sosafe-fotos/e56fcd34ce8eebb9417cdf98.jpg",
       "imagen_original_sha256": "b093dea4e2bc6b4984f61cd89dedcabc93062ae4fcf69a60a32a22c0db39679e",
       "fecha_extravio_info": {
         "fecha": "2026-11-07",
@@ -2107,7 +2107,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "afiche_recortado",
-      "foto_mascota": "data/sosafe-fotos/22f35a645d8ef29f24f4d188.jpg",
+      "foto_mascota": "data/sosafe-fotos/ef8d522143ea3ef28cc1ec29.jpg",
       "imagen_original_sha256": "9a419541a9b2928c623df4a6b415ff2781ffb52927bb43ea184d7bc58bc0845b",
       "fecha_extravio_info": {
         "fecha": "2026-11-07",
@@ -2294,7 +2294,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "afiche_recortado",
-      "foto_mascota": "data/sosafe-fotos/0ead38f465ad66f9866594d5.jpg",
+      "foto_mascota": "data/sosafe-fotos/39cb19453b78334f7d337473.jpg",
       "imagen_original_sha256": "71de631183dd7b70888622c80c37918bc1185e0a97a15eb6fbfc564521407d33",
       "fecha_extravio_info": {
         "fecha": "2026-11-06",
@@ -2455,7 +2455,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "afiche_recortado",
-      "foto_mascota": "data/sosafe-fotos/cdf9f932034e2ddb4b91e753.jpg",
+      "foto_mascota": "data/sosafe-fotos/6d37de21f532570c28e5f3f7.jpg",
       "imagen_original_sha256": "a0d9ab3859bb0b01c304ed7913794f1082eac6a04e852cd5ff19619da3654581",
       "publicaciones": [
         {
@@ -2483,7 +2483,7 @@
             "requiere_revision": true
           },
           "recorte_estado": "afiche_recortado",
-          "foto_mascota": "data/sosafe-fotos/cdf9f932034e2ddb4b91e753.jpg",
+          "foto_mascota": "data/sosafe-fotos/6d37de21f532570c28e5f3f7.jpg",
           "imagen_original_sha256": "a0d9ab3859bb0b01c304ed7913794f1082eac6a04e852cd5ff19619da3654581"
         },
         {
@@ -2511,7 +2511,7 @@
             "requiere_revision": true
           },
           "recorte_estado": "afiche_recortado",
-          "foto_mascota": "data/sosafe-fotos/cdf9f932034e2ddb4b91e753.jpg",
+          "foto_mascota": "data/sosafe-fotos/6d37de21f532570c28e5f3f7.jpg",
           "imagen_original_sha256": "a0d9ab3859bb0b01c304ed7913794f1082eac6a04e852cd5ff19619da3654581"
         },
         {
@@ -2539,7 +2539,7 @@
             "requiere_revision": true
           },
           "recorte_estado": "afiche_recortado",
-          "foto_mascota": "data/sosafe-fotos/cdf9f932034e2ddb4b91e753.jpg",
+          "foto_mascota": "data/sosafe-fotos/6d37de21f532570c28e5f3f7.jpg",
           "imagen_original_sha256": "a0d9ab3859bb0b01c304ed7913794f1082eac6a04e852cd5ff19619da3654581"
         }
       ],
@@ -2645,8 +2645,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "afiche_recortado",
-      "foto_mascota": "data/sosafe-fotos/cf352a76eb069a35903622ce.jpg",
+      "recorte_estado": "sin_fondo",
+      "foto_mascota": "data/sosafe-fotos/3f2494453bfa353186d1e798.png",
       "imagen_original_sha256": "93e4bccc2b8a9408ab45d539fccf39c24d4b2a412a81fecc13795e0609eaca2c",
       "fecha_extravio_info": {
         "fecha": "2026-11-06",
@@ -2680,7 +2680,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "afiche_recortado",
-      "foto_mascota": "data/sosafe-fotos/575d064381e390099690cf04.jpg",
+      "foto_mascota": "data/sosafe-fotos/d5d73490fb9b0f30a36d494f.jpg",
       "imagen_original_sha256": "268c2e577c9d41ab88231b14eed48f21a1057c318b5e58326740c03d7a2550ae",
       "fecha_extravio_info": {
         "fecha": "2026-11-06",
@@ -2752,7 +2752,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "afiche_recortado",
-      "foto_mascota": "data/sosafe-fotos/c4eeef08404243829849d581.jpg",
+      "foto_mascota": "data/sosafe-fotos/d8083e18337902c1ca179194.jpg",
       "imagen_original_sha256": "f262ed08eba75d1fae118bc3834a51e8b84b29fa84003036fdde0895b4dccf5e",
       "fecha_extravio_info": {
         "fecha": "2026-11-05",
@@ -2950,8 +2950,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "afiche_recortado",
-      "foto_mascota": "data/sosafe-fotos/b341b0f2f4ef67e41dd91950.jpg",
+      "recorte_estado": "sin_fondo",
+      "foto_mascota": "data/sosafe-fotos/d5138175128ed53f5278c96c.png",
       "imagen_original_sha256": "d5f7bf56208f66c600adc531bdc2858461c285cec99062ae834d1bc9f0d498af",
       "publicaciones": [
         {
@@ -2978,8 +2978,8 @@
             "nombres": [],
             "requiere_revision": true
           },
-          "recorte_estado": "afiche_recortado",
-          "foto_mascota": "data/sosafe-fotos/b341b0f2f4ef67e41dd91950.jpg",
+          "recorte_estado": "sin_fondo",
+          "foto_mascota": "data/sosafe-fotos/d5138175128ed53f5278c96c.png",
           "imagen_original_sha256": "d5f7bf56208f66c600adc531bdc2858461c285cec99062ae834d1bc9f0d498af"
         },
         {
@@ -3006,8 +3006,8 @@
             "nombres": [],
             "requiere_revision": true
           },
-          "recorte_estado": "afiche_recortado",
-          "foto_mascota": "data/sosafe-fotos/b341b0f2f4ef67e41dd91950.jpg",
+          "recorte_estado": "sin_fondo",
+          "foto_mascota": "data/sosafe-fotos/d5138175128ed53f5278c96c.png",
           "imagen_original_sha256": "d5f7bf56208f66c600adc531bdc2858461c285cec99062ae834d1bc9f0d498af"
         }
       ],
@@ -3380,7 +3380,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "afiche_recortado",
-      "foto_mascota": "data/sosafe-fotos/fc906f3a20a379f57b5fd304.jpg",
+      "foto_mascota": "data/sosafe-fotos/3e4407145828e7fea3c18656.jpg",
       "imagen_original_sha256": "54fd5d907e5047ee9bab7a1fb2a387bafe9eaf31726f7bc3cd6e9265295952b5",
       "fecha_extravio_info": {
         "fecha": "2026-11-06",
@@ -3453,7 +3453,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "afiche_recortado",
-      "foto_mascota": "data/sosafe-fotos/26808c79ba43ae8d92e82465.jpg",
+      "foto_mascota": "data/sosafe-fotos/f5df8db2787fcc7f6000b24a.jpg",
       "imagen_original_sha256": "5f28c64465035ba138ed9de2c6bad63491e12926e14d24d9e4c9eaf56b174490",
       "fecha_extravio_info": {
         "fecha": "2026-11-06",
@@ -3783,8 +3783,8 @@
         "nombres": [],
         "requiere_revision": true
       },
-      "recorte_estado": "afiche_recortado",
-      "foto_mascota": "data/sosafe-fotos/5ad45fe2fad9cb68c861f7d1.jpg",
+      "recorte_estado": "sin_fondo",
+      "foto_mascota": "data/sosafe-fotos/6c8127d760953ba2c8cd553f.png",
       "imagen_original_sha256": "dbb657a5c152146194caa282040fa4d7be1714321e5a6c6cf650db26b673cecd",
       "fecha_extravio_info": {
         "fecha": "2026-11-06",
@@ -3888,7 +3888,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "afiche_recortado",
-      "foto_mascota": "data/sosafe-fotos/3eee23727b807b6d09f44d42.jpg",
+      "foto_mascota": "data/sosafe-fotos/9e994284c6d5d8d7ac975de8.jpg",
       "imagen_original_sha256": "68ee032cdb88975a1a3e875c0803550e2f7ede9f5082d96f91a8af987796bdcd",
       "publicaciones": [
         {
@@ -3918,7 +3918,7 @@
             "requiere_revision": true
           },
           "recorte_estado": "afiche_recortado",
-          "foto_mascota": "data/sosafe-fotos/3eee23727b807b6d09f44d42.jpg",
+          "foto_mascota": "data/sosafe-fotos/9e994284c6d5d8d7ac975de8.jpg",
           "imagen_original_sha256": "68ee032cdb88975a1a3e875c0803550e2f7ede9f5082d96f91a8af987796bdcd"
         },
         {
@@ -3948,7 +3948,7 @@
             "requiere_revision": true
           },
           "recorte_estado": "afiche_recortado",
-          "foto_mascota": "data/sosafe-fotos/3eee23727b807b6d09f44d42.jpg",
+          "foto_mascota": "data/sosafe-fotos/9e994284c6d5d8d7ac975de8.jpg",
           "imagen_original_sha256": "68ee032cdb88975a1a3e875c0803550e2f7ede9f5082d96f91a8af987796bdcd"
         },
         {
@@ -4008,7 +4008,7 @@
             "requiere_revision": true
           },
           "recorte_estado": "afiche_recortado",
-          "foto_mascota": "data/sosafe-fotos/3eee23727b807b6d09f44d42.jpg",
+          "foto_mascota": "data/sosafe-fotos/9e994284c6d5d8d7ac975de8.jpg",
           "imagen_original_sha256": "68ee032cdb88975a1a3e875c0803550e2f7ede9f5082d96f91a8af987796bdcd"
         }
       ],
@@ -4081,7 +4081,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "afiche_recortado",
-      "foto_mascota": "data/sosafe-fotos/ad4a42725a0ba80ae19c3b1c.jpg",
+      "foto_mascota": "data/sosafe-fotos/c8701e4e82cbd0b5601cbc3f.jpg",
       "imagen_original_sha256": "2d65c3b88f96f7be881e6df29a017b91d789895f43f1cf36f9580c072803bfaf",
       "fecha_extravio_info": {
         "fecha": "2026-11-05",
@@ -4115,7 +4115,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "afiche_recortado",
-      "foto_mascota": "data/sosafe-fotos/5fbf036ba33e29b652bfba89.jpg",
+      "foto_mascota": "data/sosafe-fotos/f6ad1c56051e21c4862c4f10.jpg",
       "imagen_original_sha256": "b0dcf8b1440480f9aef6db5ad8aed3309c153fde4e16ae390d190c1345e88fb4",
       "fecha_extravio_info": {
         "fecha": "2026-11-05",
@@ -4381,7 +4381,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "afiche_recortado",
-      "foto_mascota": "data/sosafe-fotos/be2453a0733d68afed90579e.jpg",
+      "foto_mascota": "data/sosafe-fotos/e1f6357477fb1d123f41c3ba.jpg",
       "imagen_original_sha256": "05de61e845b2b7c2b53a2b81f27becfc41029abd6ef172d23a2313f94ab218f4",
       "publicaciones": [
         {
@@ -4440,7 +4440,7 @@
             "requiere_revision": true
           },
           "recorte_estado": "afiche_recortado",
-          "foto_mascota": "data/sosafe-fotos/be2453a0733d68afed90579e.jpg",
+          "foto_mascota": "data/sosafe-fotos/e1f6357477fb1d123f41c3ba.jpg",
           "imagen_original_sha256": "05de61e845b2b7c2b53a2b81f27becfc41029abd6ef172d23a2313f94ab218f4"
         },
         {
@@ -4506,7 +4506,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "afiche_recortado",
-      "foto_mascota": "data/sosafe-fotos/d22f2b2925b9b86aa5a0d934.jpg",
+      "foto_mascota": "data/sosafe-fotos/76c7c7d7c4725854c27d0a7f.jpg",
       "imagen_original_sha256": "de61f0dbdb68dba4fb62dacbd1565ad04c7883133144ff632d6e7a429f46706e",
       "fecha_extravio_info": {
         "fecha": "2026-11-05",
@@ -4645,7 +4645,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "afiche_recortado",
-      "foto_mascota": "data/sosafe-fotos/4db0195e937c9ace6d1dd344.jpg",
+      "foto_mascota": "data/sosafe-fotos/9d477d449a75b41e273c20e3.jpg",
       "imagen_original_sha256": "9b55945d6a02208e5c67f638c77716f22872f84f9ac05f3a22452e6fc21b4bb7",
       "publicaciones": [
         {
@@ -4681,7 +4681,7 @@
             "requiere_revision": true
           },
           "recorte_estado": "afiche_recortado",
-          "foto_mascota": "data/sosafe-fotos/4db0195e937c9ace6d1dd344.jpg",
+          "foto_mascota": "data/sosafe-fotos/9d477d449a75b41e273c20e3.jpg",
           "imagen_original_sha256": "9b55945d6a02208e5c67f638c77716f22872f84f9ac05f3a22452e6fc21b4bb7"
         },
         {
@@ -4717,7 +4717,7 @@
             "requiere_revision": true
           },
           "recorte_estado": "afiche_recortado",
-          "foto_mascota": "data/sosafe-fotos/4db0195e937c9ace6d1dd344.jpg",
+          "foto_mascota": "data/sosafe-fotos/9d477d449a75b41e273c20e3.jpg",
           "imagen_original_sha256": "9b55945d6a02208e5c67f638c77716f22872f84f9ac05f3a22452e6fc21b4bb7"
         },
         {
@@ -4753,7 +4753,7 @@
             "requiere_revision": true
           },
           "recorte_estado": "afiche_recortado",
-          "foto_mascota": "data/sosafe-fotos/4db0195e937c9ace6d1dd344.jpg",
+          "foto_mascota": "data/sosafe-fotos/9d477d449a75b41e273c20e3.jpg",
           "imagen_original_sha256": "9b55945d6a02208e5c67f638c77716f22872f84f9ac05f3a22452e6fc21b4bb7"
         },
         {
@@ -4789,7 +4789,7 @@
             "requiere_revision": true
           },
           "recorte_estado": "afiche_recortado",
-          "foto_mascota": "data/sosafe-fotos/4db0195e937c9ace6d1dd344.jpg",
+          "foto_mascota": "data/sosafe-fotos/9d477d449a75b41e273c20e3.jpg",
           "imagen_original_sha256": "9b55945d6a02208e5c67f638c77716f22872f84f9ac05f3a22452e6fc21b4bb7"
         }
       ],
@@ -4826,7 +4826,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "afiche_recortado",
-      "foto_mascota": "data/sosafe-fotos/6b9cb04cd5e12777999f54ec.jpg",
+      "foto_mascota": "data/sosafe-fotos/6e624dc84ae924d243b7fdd5.jpg",
       "imagen_original_sha256": "4d49aa9d516ce79a1671aecc00da0308b28648a11cf832ef3143bed35b91b4d0",
       "fecha_extravio_info": {
         "fecha": "2026-11-04",
@@ -4861,7 +4861,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "afiche_recortado",
-      "foto_mascota": "data/sosafe-fotos/74ffe06cc62648caf8f10b79.jpg",
+      "foto_mascota": "data/sosafe-fotos/2f82fc7b2fb23e7ecc800a2a.jpg",
       "imagen_original_sha256": "72ab77be2e6dc753acf3082a9ae561ff0529c88657ab47324e8f7900a256bf91",
       "fecha_extravio_info": {
         "fecha": "2026-11-05",
@@ -4999,7 +4999,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "afiche_recortado",
-      "foto_mascota": "data/sosafe-fotos/6209a4733286c69c2f206e63.jpg",
+      "foto_mascota": "data/sosafe-fotos/3f70bd8fc6abd70b8f5d44ea.jpg",
       "imagen_original_sha256": "dbf166004120f8f6b824b875750369a4d8e279db090612e7adc070c8658e5ded",
       "fecha_extravio_info": {
         "fecha": "2026-11-05",
@@ -5169,7 +5169,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "afiche_recortado",
-      "foto_mascota": "data/sosafe-fotos/c5996461bb6b225f73df2a28.jpg",
+      "foto_mascota": "data/sosafe-fotos/689a17b07585a4130e40c622.jpg",
       "imagen_original_sha256": "16404d8522b4d463d450bec7743f9d0e6be71f19c2a49e87805f0269dfe4b33d",
       "fecha_extravio_info": {
         "fecha": "2026-11-05",
@@ -5487,7 +5487,7 @@
         "requiere_revision": true
       },
       "recorte_estado": "afiche_recortado",
-      "foto_mascota": "data/sosafe-fotos/0b5c47aa88356b89e6105dbd.jpg",
+      "foto_mascota": "data/sosafe-fotos/71602d087a3f3e3474106a79.jpg",
       "imagen_original_sha256": "2cfa882717cea2f2f20e36c21c50a28c369671ad66bf2cd4fa8337899957e1ae",
       "fecha_extravio_info": {
         "fecha": "2026-11-04",

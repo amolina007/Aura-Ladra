@@ -2,6 +2,7 @@
 import hashlib
 import json
 import pathlib
+import re
 import sys
 from PIL import Image, ImageOps
 
@@ -11,15 +12,26 @@ def process(rows):
     revisions = json.loads((ROOT / 'data/sosafe-revisiones.json').read_text())
     approved = {v['afiche_recortado']['original_sha256']: v['afiche_recortado']
                 for v in revisions.values() if v.get('afiche_recortado')}
+    presentations = {v['presentacion_revisada']['original_sha256']: v['presentacion_revisada']
+                     for v in revisions.values() if v.get('presentacion_revisada')}
     source = (ROOT / 'scripts/sosafe-imagen.py').read_text()
     for row in rows:
-        if row.get('foto_mascota') or not row.get('foto'):
+        if not row.get('foto'):
             continue
         key = hashlib.sha256((row['foto'] + source).encode()).hexdigest()[:24]
         raw = ROOT / 'output/sosafe/imagenes' / (key + '.original')
         if not raw.exists():
             continue
         digest = hashlib.sha256(raw.read_bytes()).hexdigest()
+        presentation = presentations.get(digest, {})
+        photo = presentation.get('foto', '')
+        if re.fullmatch(r'data/sosafe-fotos/[a-f0-9]+\.png', photo):
+            asset = ROOT / photo
+            if asset.is_file() and hashlib.sha256(asset.read_bytes()).hexdigest() == presentation.get('imagen_sha256'):
+                row.update(foto_mascota=photo, recorte_estado='sin_fondo', imagen_original_sha256=digest)
+                continue
+        if row.get('foto_mascota'):
+            continue
         review = approved.get(digest)
         if not review:
             row['recorte_estado'] = 'encuadre_pendiente'
