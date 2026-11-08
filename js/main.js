@@ -632,6 +632,7 @@
       details.append(source);
     }
     article.append(top);
+    if (place.categoria === 'mascota_perdida') { const distance=window.auraLadraDistancia?.crear(place); if (distance) article.append(distance); }
     if (sosafePhoto(place)) {
       const photo = document.createElement('img'); photo.src = sosafePhoto(place); photo.referrerPolicy = 'no-referrer';
       photo.alt = place.nombre; photo.loading = 'lazy'; photo.className = 'sosafe-map-photo'; article.append(photo);
@@ -698,6 +699,7 @@
         const popupMeta = document.createElement('small');
         popupMeta.textContent = `${placeCategoryLabels[place.categoria] || place.categoria}${place.servicio_urgencia ? ' · Urgencias' : ''}`;
         popup.append(popupTitle, popupMeta);
+        if (place.categoria === 'mascota_perdida') { const distance=window.auraLadraDistancia?.crear(place); if (distance) popup.append(distance); }
         if (place.tipo_aviso_texto) popupMeta.textContent = place.tipo_aviso_texto;
         if (place.origen === 'sosafe') {
           if (sosafePhoto(place)) {

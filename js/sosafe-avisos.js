@@ -60,7 +60,7 @@
         const ocrPhones = (reading.celulares || []).filter(p => /^\+569\d{8}$/.test(p) && !row.celulares.includes(p));
         return `<article class="card sosafe-card"><strong class="aviso-tipo" data-tipo="${esc(row.tipo_aviso || 'por_confirmar')}">${esc(typeLabel(row))}</strong><small>Aviso externo · estado sin verificar</small>
           <img src="${esc(photo)}" alt="Foto del aviso de mascota en ${esc(row.zona)}" loading="lazy" referrerpolicy="no-referrer">
-          <h4>${esc(row.nombre_mascota || "Mascota sin nombre informado")}</h4><p>${esc(row.zona)}</p>
+          <h4>${esc(row.nombre_mascota || "Mascota sin nombre informado")}</h4>${Number.isFinite(row.ubicacion_reporte?.lat) && Number.isFinite(row.ubicacion_reporte?.lng) ? `<span class="pet-distance" hidden data-distance-lat="${row.ubicacion_reporte.lat}" data-distance-lng="${row.ubicacion_reporte.lng}"></span>` : ''}<p>${esc(row.zona)}</p>
           <p class="fecha-extravio">${esc(noticeDate(row))}</p>
           <button type="button" class="button button-dark pet-contact" data-contactar="${esc(row.id)}">Contactar</button>
           <details class="pet-details"><summary>Ver detalles</summary>

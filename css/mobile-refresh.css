@@ -463,3 +463,7 @@ body:has(.shop-dialog[open]) { overflow: hidden; }
 .pet-contact-dialog {width:min(440px,calc(100vw - 32px));max-height:80vh;overflow:auto;border:0;border-radius:18px;padding:24px;color:#183c30;box-sizing:border-box;}
 .pet-contact-dialog::backdrop {background:#102b2580;}
 .pet-call {display:inline-block;padding:12px 0;font-weight:700;}
+
+.pet-distance:not([hidden]) {display:inline-flex;align-items:center;justify-content:center;width:64px;height:64px;border-radius:50%;background:#e1f2ec;border:2px solid #26815f;color:#145840;font-size:13px;font-weight:700;margin:8px 0;flex-shrink:0;}
+.pet-location-control {display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin:12px 0;}
+.pet-location-control small {max-width:480px;}
