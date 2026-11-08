@@ -54,11 +54,16 @@
     const stale = Date.now() - Date.parse(data.actualizado_en) > 48 * 3600000;
     root.innerHTML = `<p>${rows.length} avisos · Última consulta: ${esc(date(data.actualizado_en))}${stale ? ' · Actualización pendiente' : ''}</p>
       <p>${esc(data.cobertura)} El autor puede ser un vecino, no necesariamente el dueño. El estado actual de cada mascota no está confirmado.</p>
+      <div class="pet-wanted-filters" role="group" aria-label="Filtrar mascotas en Most Wanted">
+        <button type="button" data-wanted-type="todas" aria-pressed="true">Todas</button>
+        <button type="button" data-wanted-type="perdida" aria-pressed="false">Mascotas perdidas</button>
+        <button type="button" data-wanted-type="encontrada" aria-pressed="false">Mascotas encontradas</button>
+      </div><p data-wanted-count role="status">${rows.length} avisos</p>
       <div class="wanted-grid">${rows.map(row => {
         const photo = /^data\/sosafe-fotos\/[a-f0-9]+\.(?:jpg|png)$/.test(row.foto_mascota || '') ? row.foto_mascota : '';
         const reading = row.lectura_foto || {};
         const ocrPhones = (reading.celulares || []).filter(p => /^\+569\d{8}$/.test(p) && !row.celulares.includes(p));
-        return `<article class="card sosafe-card has-pet-age"><span class="pet-age">${esc(window.auraLadraAntiguedad?.(row) || '')}</span><strong class="aviso-tipo" data-tipo="${esc(row.tipo_aviso || 'por_confirmar')}">${esc(typeLabel(row))}</strong><small>Aviso externo · estado sin verificar</small>
+        return `<article class="card sosafe-card has-pet-age" data-notice-type="${esc(row.tipo_aviso || 'por_confirmar')}"><span class="pet-age">${esc(window.auraLadraAntiguedad?.(row) || '')}</span><strong class="aviso-tipo" data-tipo="${esc(row.tipo_aviso || 'por_confirmar')}">${esc(typeLabel(row))}</strong><small>Aviso externo · estado sin verificar</small>
           <img src="${esc(photo)}" alt="Foto del aviso de mascota en ${esc(row.zona)}" loading="lazy" referrerpolicy="no-referrer">
           <h4>${esc(row.nombre_mascota || "Mascota sin nombre informado")}</h4>${Number.isFinite(row.ubicacion_reporte?.lat) && Number.isFinite(row.ubicacion_reporte?.lng) ? `<span class="pet-distance" hidden data-distance-lat="${row.ubicacion_reporte.lat}" data-distance-lng="${row.ubicacion_reporte.lng}"></span>` : ''}<p>${esc(row.zona)}</p>
           <p class="fecha-extravio">${esc(noticeDate(row))}</p>
@@ -73,6 +78,16 @@
           </details>
         </article>`;
       }).join('') || '<p>No hay avisos disponibles para este período.</p>'}</div>`;
+    root.querySelectorAll('[data-wanted-type]').forEach(button => button.addEventListener('click', () => {
+      const type=button.dataset.wantedType;
+      root.querySelectorAll('[data-wanted-type]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));
+      let count=0;
+      root.querySelectorAll('.sosafe-card').forEach(card=>{
+        card.hidden=type!=='todas' && card.dataset.noticeType!==type;
+        if (!card.hidden) count++;
+      });
+      root.querySelector('[data-wanted-count]').textContent=count ? `${count} avisos` : 'No hay avisos en este grupo.';
+    }));
     root.querySelectorAll('[data-contactar]').forEach(button => button.addEventListener('click', () => contactar(button.dataset.contactar)));
     root.querySelectorAll('img').forEach(img => img.addEventListener('error', () => {
       const fallback = document.createElement('p'); fallback.textContent = 'La foto no está disponible.'; img.replaceWith(fallback);

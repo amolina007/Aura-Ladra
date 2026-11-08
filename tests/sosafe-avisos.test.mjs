@@ -75,3 +75,19 @@ test('distinguishes found notices without inventing loss dates or exposing sourc
  assert.match(dom.window.auraLadraSosafe.lugares()[0].nombre,/encontrada o avistada/);
  dom.window.close();
 });
+
+test('Most Wanted filters keep nearest-first order and do not filter map data', async()=>{
+ const dom=new JSDOM('<p data-distance-status></p><div data-sosafe-avisos></div>',{runScripts:'outside-only'});
+ Object.defineProperty(dom.window.navigator,'geolocation',{value:{getCurrentPosition(ok){ok({coords:{latitude:-33.51,longitude:-70.76}});}}});
+ dom.window.eval(readFileSync(new URL('../js/distancia-mascotas.js',import.meta.url),'utf8'));
+ const now=new Date().toISOString();const base={publicado_en:now,zona:'Maipú',celulares:[],foto_mascota:'data/sosafe-fotos/abc123.jpg',descripcion:'Aviso'};
+ const rows=[{...base,id:'far',nombre_mascota:'Lejana',tipo_aviso:'perdida',ubicacion_reporte:{lat:-33.60,lng:-70.76}},{...base,id:'found',nombre_mascota:'Encontrada',tipo_aviso:'encontrada',ubicacion_reporte:{lat:-33.52,lng:-70.76}},{...base,id:'near',nombre_mascota:'Cercana',tipo_aviso:'perdida',ubicacion_reporte:{lat:-33.515,lng:-70.76}}];
+ dom.window.fetch=async()=>({ok:true,json:async()=>({actualizado_en:now,cobertura:'Parcial',avisos:rows})});dom.window.eval(script);
+ await new Promise(r=>setTimeout(r,30));const doc=dom.window.document;
+ const visible=()=>Array.from(doc.querySelectorAll('.sosafe-card:not([hidden]) h4'),h=>h.textContent);
+ assert.deepEqual(visible(),['Cercana','Encontrada','Lejana']);
+ doc.querySelector('[data-wanted-type="perdida"]').click();assert.deepEqual(visible(),['Cercana','Lejana']);
+ doc.querySelector('[data-wanted-type="encontrada"]').click();assert.deepEqual(visible(),['Encontrada']);
+ assert.equal(dom.window.auraLadraSosafe.lugares().length,3);
+ doc.querySelector('[data-wanted-type="todas"]').click();assert.deepEqual(visible(),['Cercana','Encontrada','Lejana']);dom.window.close();
+});

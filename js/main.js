@@ -679,7 +679,7 @@
         if (petPhoto) {
           pinContent.className = 'map-pet-photo' + (place.tipo_aviso === 'encontrada' ? ' is-found' : '');
           const image = document.createElement('img');
-          image.src = petPhoto; image.alt = place.nombre; image.referrerPolicy = 'no-referrer';
+          image.src = petPhoto; image.alt = place.nombre; image.draggable = false; image.referrerPolicy = 'no-referrer';
           image.addEventListener('error', () => { pinContent.textContent = '🐾'; }, {once:true});
           pinContent.append(image);
         } else {
@@ -714,7 +714,16 @@
           popup.append(contact);
         }
         marker = window.L.marker([Number(place.latitud), Number(place.longitud)], { icon: pin, title: place.nombre, alt: place.nombre })
-          .bindPopup(popup)
+          .bindPopup(popup, { autoPan: !petPhoto, maxWidth: 280, maxHeight: Math.max(160, Math.min(340, window.innerHeight - 180)) })
+          .on('add', function () {
+            if (!petPhoto) return;
+            const icon=this.getElement();
+            if (!icon || icon.dataset.petTouchReady) return;
+            icon.dataset.petTouchReady='true';
+            icon.draggable=false;
+            // Un gesto iniciado sobre una foto elige la mascota, no arrastra el mapa.
+            ['touchstart','pointerdown','mousedown'].forEach(type => icon.addEventListener(type, event => event.stopPropagation(), {passive:true}));
+          })
           .addTo(['mascota_perdida', 'mascota_encontrada', 'mascota_sin_clasificar'].includes(place.categoria) ? petClusterLayer : markerLayer);
         visibleCoordinates.push([Number(place.latitud), Number(place.longitud)]);
       }

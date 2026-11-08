@@ -473,3 +473,10 @@ body:has(.shop-dialog[open]) { overflow: hidden; }
 .sosafe-card.has-pet-age > .aviso-tipo {padding-right:125px;min-height:48px;}
 .leaflet-popup-content .has-pet-age {padding-top:35px;}
 .place-card.has-pet-age {padding-top:42px;}
+
+.pet-wanted-filters {display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 8px;}
+.pet-wanted-filters button {padding:10px 16px;border-radius:24px;border:1px solid #aac9ba;background:#fff;color:#185c49;cursor:pointer;font:inherit;}
+.pet-wanted-filters button[aria-pressed="true"] {background:#185c49;color:#fff;}
+.sosafe-card[hidden] {display:none !important;}
+.map-pet-photo {touch-action:manipulation;user-select:none;-webkit-user-select:none;}
+.map-pet-photo img {pointer-events:none;-webkit-user-drag:none;}
