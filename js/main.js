@@ -16,9 +16,9 @@
   const placeCategoryLabels = {
     canil: 'Canil', parque: 'Parque', puesto: 'Comida y agua', veterinaria: 'Veterinaria', refugio: 'Refugio', casa_acogida: 'Casa de acogida', tienda_mascotas: 'Tienda de mascotas',
     alimento: 'Comida', juguetes_accesorios: 'Juguetes y accesorios', animal_comunitario: 'Animal comunitario',
-    mascota_perdida: 'Mascotas perdidas', servicio: 'Servicio', comercio: 'Comercio', otro: 'Otro',
+    mascota_perdida: 'Mascotas perdidas', mascota_encontrada: 'Mascotas encontradas', mascota_sin_clasificar: 'Mascotas por clasificar', servicio: 'Servicio', comercio: 'Comercio', otro: 'Otro',
   };
-  const placeIcons = { canil: '🐾', parque: '🌳', puesto: '💧', veterinaria: '✚', refugio: '⌂', casa_acogida: '♡', tienda_mascotas: '◆', alimento: '●', juguetes_accesorios: '◈', animal_comunitario: '♥', mascota_perdida: '!', servicio: '＋', comercio: '◇', otro: '⌖' };
+  const placeIcons = { canil: '🐾', parque: '🌳', puesto: '💧', veterinaria: '✚', refugio: '⌂', casa_acogida: '♡', tienda_mascotas: '◆', alimento: '●', juguetes_accesorios: '◈', animal_comunitario: '♥', mascota_perdida: '🐾', mascota_encontrada: '🐾', mascota_sin_clasificar: '🐾', servicio: '＋', comercio: '◇', otro: '⌖' };
   const petSkillLabels = {
     reconoce_nombre: 'Reconoce su nombre', contacto_visual: 'Hace contacto visual', sentarse: 'Se sienta', dar_patita: 'Da la patita', echarse: 'Se echa',
     esperar: 'Espera', venir_llamado: 'Acude al llamado', soltar: 'Suelta objetos', paseo_correa: 'Pasea con correa', higiene: 'Hace sus necesidades en lugar indicado', socializa: 'Socializa con otros animales',
@@ -525,7 +525,7 @@
     label.textContent = placeCategoryLabels[categoria] || categoria;
     const count = document.createElement('span');
     count.className = 'place-category-count';
-    count.textContent = categoria === 'mascota_perdida' ? `${cards.length} avisos` : (cards.length === 1 ? '1 sitio' : `${cards.length} sitios`);
+    count.textContent = categoria.startsWith('mascota_') ? `${cards.length} avisos` : (cards.length === 1 ? '1 sitio' : `${cards.length} sitios`);
     const chevron = document.createElement('span');
     chevron.className = 'place-category-chevron';
     chevron.setAttribute('aria-hidden', 'true');
@@ -588,7 +588,7 @@
     details.className = 'place-details';
     if (place.horario_publico) {
       const hours = document.createElement('p');
-      hours.textContent = place.categoria === 'mascota_perdida'
+      hours.textContent = ['mascota_perdida', 'mascota_encontrada', 'mascota_sin_clasificar'].includes(place.categoria)
         ? place.horario_publico
         : `Horario publicado: ${place.horario_publico}`;
       details.append(hours);
@@ -633,7 +633,7 @@
     }
     article.append(top);
     if (place.antiguedad_texto) { const age=document.createElement('span');age.className='pet-age';age.textContent=place.antiguedad_texto;article.append(age);article.classList.add('has-pet-age'); }
-    if (place.categoria === 'mascota_perdida') { const distance=window.auraLadraDistancia?.crear(place); if (distance) article.append(distance); }
+    if (['mascota_perdida', 'mascota_encontrada', 'mascota_sin_clasificar'].includes(place.categoria)) { const distance=window.auraLadraDistancia?.crear(place); if (distance) article.append(distance); }
     if (sosafePhoto(place)) {
       const photo = document.createElement('img'); photo.src = sosafePhoto(place); photo.referrerPolicy = 'no-referrer';
       photo.alt = place.nombre; photo.loading = 'lazy'; photo.className = 'sosafe-map-photo'; article.append(photo);
@@ -672,7 +672,7 @@
     filtered.forEach((place) => {
       let marker = null;
       if (place.latitud !== null && place.longitud !== null) {
-        const petPhoto = place.categoria === 'mascota_perdida'
+        const petPhoto = ['mascota_perdida', 'mascota_encontrada', 'mascota_sin_clasificar'].includes(place.categoria)
           ? sosafePhoto(place) || cleanUrl(publicAnimals.find(animal => animal.id === place.animal_id)?.foto_url)
           : '';
         const pinContent = document.createElement('div');
@@ -685,7 +685,7 @@
         } else {
           pinContent.className = 'map-pin';
           const symbol = document.createElement('span');
-          symbol.textContent = place.categoria === 'mascota_perdida' ? '🐾' : placeIcons[place.categoria] || '⌖';
+          symbol.textContent = ['mascota_perdida', 'mascota_encontrada', 'mascota_sin_clasificar'].includes(place.categoria) ? '🐾' : placeIcons[place.categoria] || '⌖';
           pinContent.append(symbol);
         }
         const pin = window.L.divIcon({
@@ -701,7 +701,7 @@
         popupMeta.textContent = `${placeCategoryLabels[place.categoria] || place.categoria}${place.servicio_urgencia ? ' · Urgencias' : ''}`;
         popup.append(popupTitle, popupMeta);
         if (place.antiguedad_texto) { const age=document.createElement('span');age.className='pet-age';age.textContent=place.antiguedad_texto;popup.append(age);popup.classList.add('has-pet-age'); }
-        if (place.categoria === 'mascota_perdida') { const distance=window.auraLadraDistancia?.crear(place); if (distance) popup.append(distance); }
+        if (['mascota_perdida', 'mascota_encontrada', 'mascota_sin_clasificar'].includes(place.categoria)) { const distance=window.auraLadraDistancia?.crear(place); if (distance) popup.append(distance); }
         if (place.tipo_aviso_texto) popupMeta.textContent = place.tipo_aviso_texto;
         if (place.origen === 'sosafe') {
           if (sosafePhoto(place)) {
@@ -715,7 +715,7 @@
         }
         marker = window.L.marker([Number(place.latitud), Number(place.longitud)], { icon: pin, title: place.nombre, alt: place.nombre })
           .bindPopup(popup)
-          .addTo(place.categoria === 'mascota_perdida' ? petClusterLayer : markerLayer);
+          .addTo(['mascota_perdida', 'mascota_encontrada', 'mascota_sin_clasificar'].includes(place.categoria) ? petClusterLayer : markerLayer);
         visibleCoordinates.push([Number(place.latitud), Number(place.longitud)]);
       }
       const categoria = place.categoria || 'otro';
@@ -1782,7 +1782,7 @@
 
   // Puente para el calendario (js/eventos.js, js/encuentros.js): lugares públicos y enfocar el mapa.
   window.auraLadraMapa = {
-    lugares: () => publicPlaces.filter((p) => p.id && p.latitud !== null && p.longitud !== null && !['mascota_perdida'].includes(p.categoria)).map((p) => ({ id: p.id, nombre: p.nombre, categoria: p.categoria })),
+    lugares: () => publicPlaces.filter((p) => p.id && p.latitud !== null && p.longitud !== null && !['mascota_perdida', 'mascota_encontrada', 'mascota_sin_clasificar'].includes(p.categoria)).map((p) => ({ id: p.id, nombre: p.nombre, categoria: p.categoria })),
     lugar: (id) => publicPlaces.find((p) => p.id === id) || null,
     // Centra el mapa en un lugar (por id) y abre un globo con el título; se llama tras mostrar la pestaña Mapa.
     enfocar: (id, titulo) => {

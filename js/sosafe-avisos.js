@@ -43,7 +43,7 @@
       contactDialog.showModal();
     };
     window.auraLadraSosafe = { contactar, lugares: () => rows.filter(r => Number.isFinite(r.ubicacion_reporte?.lat) && Number.isFinite(r.ubicacion_reporte?.lng) && r.ubicacion_reporte.lat >= -33.65 && r.ubicacion_reporte.lat <= -33.45 && r.ubicacion_reporte.lng >= -70.95 && r.ubicacion_reporte.lng <= -70.70).map(r => ({
-      id: 'sosafe-' + r.id, nombre: (r.nombre_mascota || 'Mascota') + ' · ' + typeLabel(r), categoria: 'mascota_perdida', origen: 'sosafe',
+      id: 'sosafe-' + r.id, nombre: (r.nombre_mascota || 'Mascota') + ' · ' + typeLabel(r), categoria: r.tipo_aviso === 'perdida' ? 'mascota_perdida' : r.tipo_aviso === 'encontrada' ? 'mascota_encontrada' : 'mascota_sin_clasificar', origen: 'sosafe',
       antiguedad_texto: window.auraLadraAntiguedad?.(r) || '', tipo_aviso: r.tipo_aviso, tipo_aviso_texto: typeLabel(r), fecha_extravio_texto: noticeDate(r), descripcion: display(r.descripcion), comuna: 'Maipú', direccion_publica: 'Ubicación aproximada del aviso externo',
       latitud: r.ubicacion_reporte.lat, longitud: r.ubicacion_reporte.lng, precision_ubicacion: 'aproximada',
       estado_verificacion: 'comunitario', fuente_nombre: 'Aviso externo · estado sin verificar', fuente_url: '',

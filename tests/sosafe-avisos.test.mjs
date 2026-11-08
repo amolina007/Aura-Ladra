@@ -71,6 +71,7 @@ test('distinguishes found notices without inventing loss dates or exposing sourc
  assert.doesNotMatch(dom.window.document.body.textContent,/Extravío:/);
  assert.equal(dom.window.document.querySelectorAll('a[href*="sosafe"]').length,0);
  assert.equal(dom.window.auraLadraSosafe.lugares()[0].fuente_url,'');
+ assert.deepEqual(Array.from(dom.window.auraLadraSosafe.lugares(),p=>p.categoria),['mascota_encontrada','mascota_sin_clasificar','mascota_encontrada']);
  assert.match(dom.window.auraLadraSosafe.lugares()[0].nombre,/encontrada o avistada/);
  dom.window.close();
 });
