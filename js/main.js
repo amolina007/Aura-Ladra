@@ -664,9 +664,27 @@
     filtered.forEach((place) => {
       let marker = null;
       if (place.latitud !== null && place.longitud !== null) {
+        const petPhoto = place.categoria === 'mascota_perdida'
+          ? sosafePhoto(place) || cleanUrl(publicAnimals.find(animal => animal.id === place.animal_id)?.foto_url)
+          : '';
+        const pinContent = document.createElement('div');
+        if (petPhoto) {
+          pinContent.className = 'map-pet-photo' + (place.tipo_aviso === 'encontrada' ? ' is-found' : '');
+          const image = document.createElement('img');
+          image.src = petPhoto; image.alt = place.nombre; image.referrerPolicy = 'no-referrer';
+          image.addEventListener('error', () => { pinContent.textContent = '🐾'; }, {once:true});
+          pinContent.append(image);
+        } else {
+          pinContent.className = 'map-pin';
+          const symbol = document.createElement('span');
+          symbol.textContent = place.categoria === 'mascota_perdida' ? '🐾' : placeIcons[place.categoria] || '⌖';
+          pinContent.append(symbol);
+        }
         const pin = window.L.divIcon({
-          className: '', html: `<div class="map-pin ${place.categoria === 'mascota_perdida' ? 'is-lost' : ''}"><span>${placeIcons[place.categoria] || '⌖'}</span></div>`,
-          iconSize: [36, 36], iconAnchor: [18, 34], popupAnchor: [0, -32],
+          className: '', html: pinContent,
+          iconSize: petPhoto ? [54, 54] : [36, 36],
+          iconAnchor: petPhoto ? [27, 50] : [18, 34],
+          popupAnchor: petPhoto ? [0, -48] : [0, -32],
         });
         const popup = document.createElement('div');
         const popupTitle = document.createElement('strong');
@@ -683,7 +701,7 @@
           const note = document.createElement('p'); note.textContent = 'Ubicación aproximada del reporte; no confirma el lugar exacto del extravío.'; popup.append(note);
           const link = document.createElement('a'); link.href = '#most-wanted'; link.textContent = 'Ver afiches y contactos'; popup.append(link);
         }
-        marker = window.L.marker([Number(place.latitud), Number(place.longitud)], { icon: pin })
+        marker = window.L.marker([Number(place.latitud), Number(place.longitud)], { icon: pin, title: place.nombre, alt: place.nombre })
           .bindPopup(popup)
           .addTo(markerLayer);
         visibleCoordinates.push([Number(place.latitud), Number(place.longitud)]);
