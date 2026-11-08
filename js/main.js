@@ -37,6 +37,7 @@
   let currentUserIsModerator = false;
   let communityMap = null;
   let markerLayer = null;
+  let petClusterLayer = null;
   let lastFitCoordinates = [];
   let publicPlaces = [];
   let basePlaces = []; // lugares y alertas que vienen de la base de datos (sin los puestos de comida y agua)
@@ -639,8 +640,12 @@
     article.append(description, address, tags, details);
     if (marker) {
       const focusMarker = () => {
-        communityMap.setView(marker.getLatLng(), Math.max(communityMap.getZoom(), 16));
-        marker.openPopup();
+        if (petClusterLayer?.hasLayer(marker)) {
+          petClusterLayer.zoomToShowLayer(marker, () => marker.openPopup());
+        } else {
+          communityMap.setView(marker.getLatLng(), Math.max(communityMap.getZoom(), 16));
+          marker.openPopup();
+        }
       };
       article.addEventListener('click', focusMarker);
       article.addEventListener('keydown', (event) => { if (event.key === 'Enter' || event.key === ' ') focusMarker(); });
@@ -658,6 +663,7 @@
     const summary = document.querySelector('[data-map-summary]');
     if (!container || !communityMap || !markerLayer) return;
     markerLayer.clearLayers();
+    petClusterLayer?.clearLayers();
     const filtered = publicPlaces.filter(placeMatchesFilter);
     const visibleCoordinates = [];
     const cardsByCategory = new Map();
@@ -703,7 +709,7 @@
         }
         marker = window.L.marker([Number(place.latitud), Number(place.longitud)], { icon: pin, title: place.nombre, alt: place.nombre })
           .bindPopup(popup)
-          .addTo(markerLayer);
+          .addTo(place.categoria === 'mascota_perdida' ? petClusterLayer : markerLayer);
         visibleCoordinates.push([Number(place.latitud), Number(place.longitud)]);
       }
       const categoria = place.categoria || 'otro';
@@ -758,6 +764,24 @@
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     }).addTo(communityMap);
     markerLayer = window.L.layerGroup().addTo(communityMap);
+    petClusterLayer = window.L.markerClusterGroup({
+      maxClusterRadius: 70,
+      showCoverageOnHover: false,
+      spiderfyOnMaxZoom: true,
+      spiderfyDistanceMultiplier: 2,
+      zoomToBoundsOnClick: true,
+      iconCreateFunction: cluster => {
+        const count = cluster.getChildCount();
+        const content = document.createElement('div');
+        content.className = 'pet-cluster-count';
+        content.title = `${count} mascotas cercanas. Pulsa para acercar y separarlas.`;
+        content.setAttribute('aria-label', content.title);
+        const number = document.createElement('strong'); number.textContent = String(count);
+        const label = document.createElement('small'); label.textContent = 'mascotas';
+        content.append(number, label);
+        return window.L.divIcon({html:content, className:'pet-cluster', iconSize:[60,60], iconAnchor:[30,30]});
+      },
+    }).addTo(communityMap);
   };
 
   async function loadPlaces() {
