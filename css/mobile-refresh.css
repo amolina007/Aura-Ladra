@@ -480,3 +480,8 @@ body:has(.shop-dialog[open]) { overflow: hidden; }
 .sosafe-card[hidden] {display:none !important;}
 .map-pet-photo {touch-action:manipulation;user-select:none;-webkit-user-select:none;}
 .map-pet-photo img {pointer-events:none;-webkit-user-drag:none;}
+
+.pet-popup-pane {position:absolute;inset:0;z-index:650;pointer-events:none;}
+.pet-popup-pane .leaflet-popup {left:50% !important;bottom:14px !important;transform:translateX(-50%) !important;margin:0;pointer-events:auto;max-width:calc(100% - 24px);}
+.pet-popup-pane .leaflet-popup-tip-container {display:none;}
+.pet-popup-pane .leaflet-popup-content-wrapper {max-width:100%;}

@@ -714,7 +714,7 @@
           popup.append(contact);
         }
         marker = window.L.marker([Number(place.latitud), Number(place.longitud)], { icon: pin, title: place.nombre, alt: place.nombre })
-          .bindPopup(popup, { autoPan: !petPhoto, maxWidth: 280, maxHeight: Math.max(160, Math.min(340, window.innerHeight - 180)) })
+          .bindPopup(popup, { pane: petPhoto && window.innerWidth <= 1024 ? 'petPopupPane' : 'popupPane', autoPan: !petPhoto, maxWidth: 280, maxHeight: Math.max(160, Math.min(340, window.innerHeight - 180)) })
           .on('add', function () {
             if (!petPhoto) return;
             const icon=this.getElement();
@@ -776,6 +776,7 @@
   const initializeMap = () => {
     if (!window.L || communityMap || !document.querySelector('#community-map')) return;
     communityMap = window.L.map('community-map', { scrollWheelZoom: false }).setView([-33.51, -70.76], 13);
+    communityMap.createPane('petPopupPane', communityMap.getContainer()).classList.add('pet-popup-pane');
     window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
