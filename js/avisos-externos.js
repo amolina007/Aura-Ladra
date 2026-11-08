@@ -76,7 +76,7 @@
   });
   function render() {
     document.querySelector('[data-externos-lista]').innerHTML = rows.filter(r => r.estado !== 'retirado').map(card).join('') || '<p>No hay avisos manuales publicados. Los avisos externos aparecen a continuación.</p>';
-    document.querySelector('[data-externos-propios]').innerHTML = rows.filter(r => r.autor_id === user).map(card).join('') || '<p>Aquí aparecerán los avisos que compartas.</p>';
+    document.querySelector('[data-externos-propios]').innerHTML = rows.filter(r => r.autor_id === user && r.estado === 'retirado').map(r => `<p>${esc(r.nombre)} <button type="button" class="button button-ghost" data-externo-editar="${esc(r.id)}">Editar aviso retirado</button></p>`).join('') || '<p>No tienes avisos retirados.</p>';
   }
   async function refresh() {
     const turn = ++generation;
