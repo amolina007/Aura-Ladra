@@ -53,5 +53,34 @@
     if (error) throw error;
     if (post.ruta) { try { await db().storage.from(bucket).remove([post.ruta]); } catch { /* La publicación ya se eliminó. */ } }
   };
-  window.auraLadraFeedDatos = { cargar, guardar, eliminar };
+  const cargarComentarios = async (destino, incluirAutor = false) => {
+    const campo = destino?.publicacionId ? 'publicacion_id' : destino?.medioId ? 'medio_id' : null;
+    const id = destino?.publicacionId || destino?.medioId;
+    if (!campo || !id) return [];
+    const columnas = incluirAutor ? 'id,publicacion_id,medio_id,autor_id,texto,creado_en' : 'id,publicacion_id,medio_id,texto,creado_en';
+    const { data, error } = await db().from('comentarios_feed')
+      .select(columnas)
+      .eq(campo, id).order('creado_en', { ascending: true }).limit(200);
+    if (error) throw error;
+    return data || [];
+  };
+  const comentar = async (destino, texto) => {
+    const { data: auth, error: authError } = await db().auth.getUser();
+    if (authError || !auth.user) throw Error('Inicia sesión para comentar.');
+    const referencia = destino?.publicacionId
+      ? { publicacion_id: destino.publicacionId }
+      : destino?.medioId ? { medio_id: destino.medioId } : null;
+    if (!referencia) throw Error('Esta publicación no admite comentarios compartidos.');
+    const limpio = String(texto || '').trim();
+    if (!limpio || limpio.length > 500) throw Error('Escribe un comentario de hasta 500 caracteres.');
+    const { error } = await db().from('comentarios_feed').insert({ ...referencia, autor_id: auth.user.id, texto: limpio });
+    if (error) throw error;
+  };
+  const eliminarComentario = async id => {
+    const { data: auth, error: authError } = await db().auth.getUser();
+    if (authError || !auth.user) throw Error('Inicia sesión para continuar.');
+    const { error } = await db().from('comentarios_feed').delete().eq('id', id).eq('autor_id', auth.user.id);
+    if (error) throw error;
+  };
+  window.auraLadraFeedDatos = { cargar, guardar, eliminar, cargarComentarios, comentar, eliminarComentario };
 })();

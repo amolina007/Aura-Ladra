@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html data-aura-site="auraladra" lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,11 +10,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,650;9..144,750&family=Nunito:wght@600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="js/vendor/leaflet-markercluster/MarkerCluster.css">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23f2a93b'/%3E%3Cpath d='M20 30c-5-1-7 5-4 8 3 3 7 0 7-3 0-2-1-4-3-5Zm24 0c5-1 7 5 4 8-3 3-7 0-7-3 0-2 1-4 3-5ZM27 21c-4-3-8 2-6 6 2 4 7 2 8-1 1-2 0-4-2-5Zm10 0c4-3 8 2 6 6-2 4-7 2-8-1-1-2 0-4 2-5Zm-5 9c-7 0-13 8-10 14 2 5 8 3 10 1 2 2 8 4 10-1 3-6-3-14-10-14Z' fill='%23102a43'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="css/mobile-refresh.css?v=galeria-trucos-1">
+  <link rel="stylesheet" href="css/styles.css?v=feed-comments-1">
+  <link rel="stylesheet" href="css/mobile-refresh.css?v=portada-limpia-1">
   <link rel="stylesheet" href="css/mi-espacio.css">
-  <link rel="stylesheet" href="css/servicios.css?v=3">
+  <link rel="stylesheet" href="css/servicios.css?v=4">
   <link rel="stylesheet" href="css/login.css?v=1">
 </head>
 <body>
@@ -36,10 +37,7 @@
         </a>
       </div>
 
-<div class="mis-wrap" data-misiones>
-  <button type="button" class="mis-boton" data-misiones-boton aria-haspopup="dialog" aria-expanded="false" aria-controls="misiones-panel" aria-label="Misiones de LadraAura" title="Misiones de LadraAura">i</button>
-  <div class="mis-panel" id="misiones-panel" role="dialog" aria-label="Misiones de LadraAura" data-misiones-panel hidden></div>
-</div>
+
       <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav" data-menu-button>
         <span class="sr-only">Abrir menú</span>
         <span></span><span></span><span></span>
@@ -71,11 +69,8 @@
     <section class="feed" id="inicio" data-vista-de="inicio" data-feed aria-labelledby="feed-title">
       <div class="feed-shell">
         <div class="home-heading"><p class="home-location">Comunidad de Maipú</p><h1 id="feed-title">Tu barrio, más conectado.</h1><p>Historias y cuidados que nos acercan.</p></div>
-        <aside class="home-help" aria-label="Únete a la comunidad"><h2>Tu mascota también tiene un lugar aquí</h2><p>Crea su ficha, comparte sus momentos y conecta con quienes la cuidan.</p><a class="button button-dark" href="#mi-espacio">Crear la ficha de mi mascota</a></aside>
         <div class="feed-historias" data-feed-historias role="list" aria-label="Historias de las mascotas"></div>
-        <aside class="home-help" aria-labelledby="home-help-title"><h2 id="home-help-title">¿Una mascota necesita ayuda?</h2><div class="home-help-actions"><a href="#acciones" data-home-action="perdida">La perdí</a><a href="#acciones" data-home-action="encontrada">La encontré</a></div></aside>
         <div class="home-community"><h2>Mi comunidad</h2><a href="#mapa">Explorar el mapa <span aria-hidden="true">→</span></a></div>
-        <a class="services-home" href="#servicios"><span class="services-home-icon" aria-hidden="true">✂</span><span><strong>Cuidados cerca de ti</strong><small>Estética, entrenamiento, paseos y más</small></span><span aria-hidden="true">→</span></a>
         <div class="feed-barra">
           <button type="button" class="feed-publicar" data-feed-publicar hidden>＋ Publicar</button>
           <p class="feed-demo" data-feed-demo hidden role="status"></p>
@@ -175,6 +170,15 @@
           <p class="empty-state">Cargando afiches…</p>
         </div>
 
+        <section class="card" aria-labelledby="externos-title">
+          <h3 id="externos-title">Avisos de otros medios</h3>
+          <p>Compartidos por la comunidad. Información según la fuente, sin confirmar con el responsable.</p>
+          <button class="button button-primary" type="button" data-externo-nuevo>Agregar aviso externo</button>
+          <p data-externos-mensaje role="status"></p>
+          <div class="wanted-grid" data-externos-lista></div><details><summary>Administrar mis avisos retirados</summary><div data-externos-propios></div></details>
+          <h3>Avisos externos · Maipú</h3><div class="pet-location-control"><small data-distance-status role="status">Solicitando ubicación para mostrar las mascotas más cercanas.</small></div><p><a href="#mapa">Ver ubicaciones aproximadas en el mapa</a></p>
+          <div data-sosafe-avisos aria-live="polite">Cargando avisos externos…</div>
+        </section>
         <div class="wanted-forms">
           <article class="card wanted-publish">
             <div class="card-heading compact">
@@ -220,6 +224,7 @@
           <button class="map-filters-toggle" type="button" aria-expanded="false" aria-controls="map-filters" data-map-filters-toggle>
             <span aria-hidden="true">☰</span> <span data-map-filters-label>Filtros</span>
           </button>
+          <div class="pet-location-control"><small data-distance-status role="status">Solicitando ubicación para mostrar las mascotas más cercanas.</small></div>
           <p class="map-summary" data-map-summary aria-live="polite">Cargando lugares públicos de Maipú…</p>
         </div>
 
@@ -234,6 +239,7 @@
           <button class="map-filter" type="button" data-place-filter="tienda" aria-pressed="false">Tiendas</button>
           <button class="map-filter" type="button" data-place-filter="animal_comunitario" aria-pressed="false">Animales comunitarios</button>
           <button class="map-filter" type="button" data-place-filter="mascota_perdida" aria-pressed="false">Mascotas perdidas</button>
+          <button class="map-filter" type="button" data-place-filter="mascota_encontrada" aria-pressed="false">Mascotas encontradas</button>
         </div>
 
         <div class="map-layout">
@@ -433,6 +439,7 @@
             <section class="my-profile" id="mi-espacio" data-my-profile hidden aria-labelledby="my-profile-title">
               <div class="mp-screen space-home" data-my-profile-panel="perfil">
                 <header class="mp-top"><div><h3 id="my-profile-title" tabindex="-1">Mi espacio</h3><p class="space-subtitle">Tu vida con ellos, en un solo lugar.</p></div><button type="button" class="space-settings" data-my-profile-tab="privacidad" aria-label="Privacidad y ajustes">⚙</button></header>
+                <section class="space-section"><h4>Mis avisos</h4><p>Consulta y administra tus anuncios en Most Wanted.</p><a class="button button-ghost" href="#most-wanted">Ir a Most Wanted</a></section>
                 <section class="space-section" aria-labelledby="mp-mascotas-title">
                   <div class="mp-card-head"><h4 id="mp-mascotas-title">Mis mascotas</h4><button type="button" class="mp-link" data-my-profile-tab="animales">Ver todas <span aria-hidden="true">›</span></button></div>
                   <div class="mp-pets" data-my-profile-pets></div><p class="form-message" data-account-animal-message aria-live="polite"></p>
@@ -458,9 +465,9 @@
 <div class="mp-screen" data-my-profile-panel="publicaciones" hidden><header class="mp-sub"><button type="button" class="mp-back" data-my-profile-tab="perfil" aria-label="Volver a Mi espacio">‹</button><h4 tabindex="-1">Mis publicaciones</h4></header><button class="space-create" type="button" data-space-crear="post">＋ Crear publicación</button><div class="space-posts" data-space-contenido="post" aria-live="polite"></div></div>
 <div class="mp-screen" data-my-profile-panel="historias" hidden><header class="mp-sub"><button type="button" class="mp-back" data-my-profile-tab="perfil" aria-label="Volver a Mi espacio">‹</button><h4 tabindex="-1">Mis historias</h4></header><button class="space-create" type="button" data-space-crear="historia">＋ Crear historia</button><div class="space-posts" data-space-contenido="historia" aria-live="polite"></div></div>
 <div class="mp-screen" data-my-profile-panel="privacidad" hidden><header class="mp-sub"><button type="button" class="mp-back" data-my-profile-tab="perfil" aria-label="Volver a Mi espacio">‹</button><h4 tabindex="-1">Privacidad y ajustes</h4></header>                <div class="mp-identity">
-                  <span class="mp-avatar" data-my-profile-initials aria-hidden="true">?</span>
+                  <span class="mp-avatar" data-my-profile-initials data-site-profile-photo aria-hidden="true">?</span>
                   <div class="mp-identity-text">
-                    <strong data-my-profile-alias>Sin alias todavía</strong>
+                    <strong data-my-profile-alias data-site-profile-name>Sin alias todavía</strong>
                     <span class="mp-place">Del barrio de Maipú</span>
                     <p class="mp-tagline" data-my-profile-bio></p>
                     <small data-my-profile-visibility></small>
@@ -949,19 +956,20 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0"></script>
 <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="js/vendor/leaflet-markercluster/leaflet.markercluster.js"></script>
 <script src="https://core.convergenciaaura.cl/js/aura-pwa-auth.js"></script>
 <script src="https://core.convergenciaaura.cl/js/aura-nav.js"></script>
 <script src="js/sesion-cookie.js?v=fragmentos-2"></script>
 <script src="js/supabase-client.js?v=fragmentos-3"></script>
 <script src="js/aura-acceso-secundario.js"></script>
 <script src="js/visitas.js"></script>
-<script src="js/main.js"></script>
+<script src="js/distancia-mascotas.js?v=2"></script>
+<script src="js/main.js?v=portada-limpia-1"></script>
 <script src="js/patrocinio-ac.js?v=1"></script>
 <script src="js/puestos.js?v=causas-dashboard-1"></script>
-<script src="js/misiones.js"></script>
 <script src="js/feed-fotos.js"></script>
-<script src="js/feed-datos.js"></script>
-<script src="js/feed.js"></script>
+<script src="js/feed-datos.js?v=feed-comments-1"></script>
+<script src="js/feed.js?v=feed-comments-1"></script>
 <script src="js/eventos.js"></script>
 <script src="js/descubrir.js"></script>
 <script src="js/trucos.js?v=galeria-trucos-1"></script>
@@ -973,8 +981,12 @@
 <script src="js/tienda.js?v=stock-vendedor-1"></script>
 <script src="js/servicios-fotos.js?v=1"></script>
 <script src="js/servicios.js?v=3"></script>
+<script src="js/afiche-lector.js?v=2"></script>
+<script src="js/avisos-externos.js?v=7"></script>
+<script src="js/antiguedad-avisos.js?v=1"></script>
+<script src="js/sosafe-avisos.js?v=17"></script>
 <script src="js/mi-espacio.js"></script>
-<script defer src="https://core.convergenciaaura.cl/js/aura-hub.js"></script><!-- Menú común de Convergencia Aura: vive en Core (una sola versión para todos los sitios) -->
+<script defer src="js/aura-hub-loader.js"></script><!-- Menú común de Convergencia Aura: vive en Core (una sola versión para todos los sitios) -->
 <script defer src="https://core.convergenciaaura.cl/js/globo.js" data-margen-movil="76" data-sitio="ladra"></script>
 </body>
 </html>

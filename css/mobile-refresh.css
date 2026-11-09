@@ -6,11 +6,6 @@ body { --navy: #063d24; --navy-deep: #042c1a; --ink: #173d2c; --muted: #596d60; 
 .home-heading p { margin: 0; }
 .home-heading .home-location { margin-bottom: 9px; }
 .home-heading > p:last-child { color: var(--muted); line-height: 1.45; }
-.home-help { margin: 12px 0 22px; padding: 17px; border: 1px solid #f7d6a6; border-radius: 18px; background: #fff1dc; }
-.home-help h2 { margin: 0 0 12px; font: 800 1.05rem/1.35 'Nunito', sans-serif; letter-spacing: -.02em; color: #8b4900; }
-.home-help-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.home-help-actions a { display: grid; place-items: center; min-height: 46px; border: 1px solid #b96a09; border-radius: 11px; text-decoration: none; font-weight: 800; color: #8b4900; background: #fffdf9; }
-.home-help-actions a:last-child { background: var(--logo-verde); color: white; border-color: var(--logo-verde); }
 .home-community { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--line); margin-bottom: 12px; }
 .home-community h2 { margin: 0; font: 800 1.1rem 'Nunito', sans-serif; letter-spacing: -.02em; }
 .home-community a { font-size: .8rem; font-weight: 700; text-underline-offset: 4px; }
@@ -45,7 +40,7 @@ body { --navy: #063d24; --navy-deep: #042c1a; --ink: #173d2c; --muted: #596d60; 
 .nav-shell > .mis-wrap { position: static; margin-left: auto; z-index: auto; }
 .mis-boton { width: 40px; height: 40px; box-shadow: none; background: #fff; border: 1px solid var(--line); }
 .mis-panel { position: fixed; top: 86px; bottom: auto; right: 16px; max-height: calc(100dvh - 180px); overflow-y: auto; }
-.home-help a:focus-visible, .home-community a:focus-visible, .map-search input:focus-visible { outline: 3px solid #b96a09; outline-offset: 3px; }
+.home-community a:focus-visible, .map-search input:focus-visible { outline: 3px solid #b96a09; outline-offset: 3px; }
 @media (max-width: 760px) {
   .paw-backdrop { opacity: .25; }
   .nav-shell { height: 68px; gap: 12px; }
@@ -86,7 +81,6 @@ body { --navy: #063d24; --navy-deep: #042c1a; --ink: #173d2c; --muted: #596d60; 
   .brand-palabra { height: 17px; }
   .nav-shell { gap: 8px; }
   .animal-grid { grid-template-columns: 1fr; }
-  .home-help { padding: 13px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .animal-tile { transition: none; }
@@ -431,3 +425,62 @@ body:has(.shop-dialog[open]) { overflow: hidden; }
   .pet-profile-dialog .pet-community-media { padding: 15px; }
   .pet-profile-dialog .pet-community-media .pet-section-heading { align-items: flex-start; }
 }
+
+
+.sosafe-card img { width: 100%; max-height: 320px; object-fit: contain; }
+.sosafe-description { white-space: pre-wrap; overflow-wrap: anywhere; }
+
+.sosafe-map-photo { width: 100%; max-height: 180px; object-fit: contain; }
+.sosafe-ocr { border-left: 3px solid #ad6710; padding-left: .75rem; }
+
+.map-pin.is-sosafe span { filter: grayscale(1) brightness(0) invert(1); }
+
+.aviso-tipo {display:block;padding:.6rem .75rem;margin-bottom:.6rem;border-radius:.5rem;background:#eee9df;color:#423d32;line-height:1.35;}
+.aviso-tipo[data-tipo="perdida"] {background:#fff0d6;color:#744300;border-left:4px solid #bb7400;}
+.aviso-tipo[data-tipo="encontrada"] {background:#e1f2ec;color:#145840;border-left:4px solid #26815f;}
+
+.map-pet-photo {box-sizing:border-box;width:54px;height:54px;padding:2px;display:grid;place-items:center;border:3px solid #bb7400;border-radius:12px;background:#fff;box-shadow:0 3px 9px #0005;overflow:hidden;}
+.map-pet-photo.is-found {border-color:#26815f;}
+.map-pet-photo img {display:block;width:100%;height:100%;min-height:0;object-fit:contain;border-radius:7px;}
+.leaflet-marker-icon:focus-visible .map-pet-photo {outline:3px solid #16394b;outline-offset:3px;}
+
+.pet-cluster-count {box-sizing:border-box;width:60px;height:60px;border:4px solid #fff;border-radius:50%;display:flex;flex-direction:column;justify-content:center;align-items:center;background:#185c49;color:#fff;box-shadow:0 2px 10px #0005;}
+.pet-cluster-count strong {font-size:20px;line-height:1.1;}
+.pet-cluster-count small {font-size:10px;line-height:1.3;}
+.pet-cluster:focus-visible {outline:3px solid #bb7400;border-radius:50%;outline-offset:3px;}
+
+.pet-contact {margin:.6rem 0;}
+.pet-details {margin-top:.75rem;}
+.pet-details > summary {cursor:pointer;font-weight:600;padding:.5rem 0;}
+.pet-contact-dialog {width:min(440px,calc(100vw - 32px));max-height:80vh;overflow:auto;border:0;border-radius:18px;padding:24px;color:#183c30;box-sizing:border-box;}
+.pet-contact-dialog::backdrop {background:#102b2580;}
+.pet-call {display:inline-block;padding:12px 0;font-weight:700;}
+
+.pet-distance:not([hidden]) {display:inline-flex;align-items:center;justify-content:center;width:64px;height:64px;border-radius:50%;background:#e1f2ec;border:2px solid #26815f;color:#145840;font-size:13px;font-weight:700;margin:8px 0;flex-shrink:0;}
+.pet-location-control {display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin:12px 0;}
+.pet-location-control small {max-width:480px;}
+
+.has-pet-age {position:relative;}
+.pet-age {position:absolute;right:10px;top:10px;z-index:1;max-width:120px;padding:5px 8px;border-radius:12px;background:#f3eee3;color:#51452d;font-size:11px;line-height:1.3;font-weight:700;text-align:center;}
+.sosafe-card.has-pet-age > .aviso-tipo {padding-right:125px;min-height:48px;}
+.leaflet-popup-content .has-pet-age {padding-top:35px;}
+.place-card.has-pet-age {padding-top:42px;}
+
+.pet-wanted-filters {display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 8px;}
+.pet-wanted-filters button {padding:10px 16px;border-radius:24px;border:1px solid #aac9ba;background:#fff;color:#185c49;cursor:pointer;font:inherit;}
+.pet-wanted-filters button[aria-pressed="true"] {background:#185c49;color:#fff;}
+.sosafe-card[hidden] {display:none !important;}
+.map-pet-photo {touch-action:manipulation;user-select:none;-webkit-user-select:none;}
+.map-pet-photo img {pointer-events:none;-webkit-user-drag:none;}
+
+.pet-popup-pane {position:absolute;inset:0;z-index:650;pointer-events:none;}
+.pet-popup-pane .leaflet-popup {left:50% !important;bottom:14px !important;transform:translateX(-50%) !important;margin:0;pointer-events:auto;max-width:calc(100% - 24px);}
+.pet-popup-pane .leaflet-popup-tip-container {display:none;}
+.pet-popup-pane .leaflet-popup-content-wrapper {max-width:100%;}
+
+/* Ficha breve: la foto se adapta para mantener el contacto a la vista. */
+.pet-map-popup .leaflet-popup-content {margin:16px;width:240px !important;}
+.pet-map-card {display:flex;flex-direction:column;gap:10px;}
+.pet-map-card > strong {padding-right:14px;font-size:17px;line-height:1.2;}
+.pet-map-card .pet-map-card-photo {display:block;width:100%;height:clamp(80px,22vh,180px);object-fit:contain;border-radius:10px;}
+.pet-map-card > .button {display:block;flex-shrink:0;width:100%;min-height:44px;margin:0;}

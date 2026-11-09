@@ -16,9 +16,9 @@
   const placeCategoryLabels = {
     canil: 'Canil', parque: 'Parque', puesto: 'Comida y agua', veterinaria: 'Veterinaria', refugio: 'Refugio', casa_acogida: 'Casa de acogida', tienda_mascotas: 'Tienda de mascotas',
     alimento: 'Comida', juguetes_accesorios: 'Juguetes y accesorios', animal_comunitario: 'Animal comunitario',
-    mascota_perdida: 'Mascota perdida', servicio: 'Servicio', comercio: 'Comercio', otro: 'Otro',
+    mascota_perdida: 'Mascotas perdidas', mascota_encontrada: 'Mascotas encontradas', mascota_sin_clasificar: 'Mascotas por clasificar', servicio: 'Servicio', comercio: 'Comercio', otro: 'Otro',
   };
-  const placeIcons = { canil: '🐾', parque: '🌳', puesto: '💧', veterinaria: '✚', refugio: '⌂', casa_acogida: '♡', tienda_mascotas: '◆', alimento: '●', juguetes_accesorios: '◈', animal_comunitario: '♥', mascota_perdida: '!', servicio: '＋', comercio: '◇', otro: '⌖' };
+  const placeIcons = { canil: '🐾', parque: '🌳', puesto: '💧', veterinaria: '✚', refugio: '⌂', casa_acogida: '♡', tienda_mascotas: '◆', alimento: '●', juguetes_accesorios: '◈', animal_comunitario: '♥', mascota_perdida: '🐾', mascota_encontrada: '🐾', mascota_sin_clasificar: '🐾', servicio: '＋', comercio: '◇', otro: '⌖' };
   const petSkillLabels = {
     reconoce_nombre: 'Reconoce su nombre', contacto_visual: 'Hace contacto visual', sentarse: 'Se sienta', dar_patita: 'Da la patita', echarse: 'Se echa',
     esperar: 'Espera', venir_llamado: 'Acude al llamado', soltar: 'Suelta objetos', paseo_correa: 'Pasea con correa', higiene: 'Hace sus necesidades en lugar indicado', socializa: 'Socializa con otros animales',
@@ -37,11 +37,17 @@
   let currentUserIsModerator = false;
   let communityMap = null;
   let markerLayer = null;
+  let petClusterLayer = null;
   let lastFitCoordinates = [];
   let publicPlaces = [];
   let basePlaces = []; // lugares y alertas que vienen de la base de datos (sin los puestos de comida y agua)
   // Los puestos de comida y agua los entrega js/puestos.js (modo demo); se suman a los lugares del mapa.
   const puestosComoLugares = () => window.auraLadraPuestos?.lugares?.() || [];
+  const sosafeComoLugares = () => window.auraLadraSosafe?.lugares?.() || [];
+  document.addEventListener('sosafe:cambio', () => {
+    publicPlaces = [...basePlaces, ...puestosComoLugares(), ...sosafeComoLugares()];
+    renderPlaces();
+  });
   let activePlaceFilter = 'todos';
   let placeSearch = '';
   const normalizePlaceSearch = (text) => String(text || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('es').trim();
@@ -519,7 +525,7 @@
     label.textContent = placeCategoryLabels[categoria] || categoria;
     const count = document.createElement('span');
     count.className = 'place-category-count';
-    count.textContent = cards.length === 1 ? '1 sitio' : `${cards.length} sitios`;
+    count.textContent = categoria.startsWith('mascota_') ? `${cards.length} avisos` : (cards.length === 1 ? '1 sitio' : `${cards.length} sitios`);
     const chevron = document.createElement('span');
     chevron.className = 'place-category-chevron';
     chevron.setAttribute('aria-hidden', 'true');
@@ -582,7 +588,7 @@
     details.className = 'place-details';
     if (place.horario_publico) {
       const hours = document.createElement('p');
-      hours.textContent = place.categoria === 'mascota_perdida'
+      hours.textContent = ['mascota_perdida', 'mascota_encontrada', 'mascota_sin_clasificar'].includes(place.categoria)
         ? place.horario_publico
         : `Horario publicado: ${place.horario_publico}`;
       details.append(hours);
@@ -613,7 +619,7 @@
       details.append(helpLink);
     }
     const sourceUrl = cleanUrl(place.fuente_url);
-    if (sourceUrl && place.fuente_nombre) {
+    if (sourceUrl && place.fuente_nombre && !/(^|\.)sosafeapp\.com$/i.test(new URL(sourceUrl).hostname)) {
       const source = document.createElement('a');
       source.className = 'place-source';
       source.href = sourceUrl;
@@ -625,11 +631,23 @@
       source.textContent = `Fuente pública: ${place.fuente_nombre}${consulted}`;
       details.append(source);
     }
-    article.append(top, description, address, tags, details);
+    article.append(top);
+    if (place.antiguedad_texto) { const age=document.createElement('span');age.className='pet-age';age.textContent=place.antiguedad_texto;article.append(age);article.classList.add('has-pet-age'); }
+    if (['mascota_perdida', 'mascota_encontrada', 'mascota_sin_clasificar'].includes(place.categoria)) { const distance=window.auraLadraDistancia?.crear(place); if (distance) article.append(distance); }
+    if (sosafePhoto(place)) {
+      const photo = document.createElement('img'); photo.src = sosafePhoto(place); photo.referrerPolicy = 'no-referrer';
+      photo.alt = place.nombre; photo.loading = 'lazy'; photo.className = 'sosafe-map-photo'; article.append(photo);
+    }
+    if (place.fecha_extravio_texto) { const when = document.createElement('p'); when.textContent = place.fecha_extravio_texto; article.append(when); }
+    article.append(description, address, tags, details);
     if (marker) {
       const focusMarker = () => {
-        communityMap.setView(marker.getLatLng(), Math.max(communityMap.getZoom(), 16));
-        marker.openPopup();
+        if (petClusterLayer?.hasLayer(marker)) {
+          petClusterLayer.zoomToShowLayer(marker, () => marker.openPopup());
+        } else {
+          communityMap.setView(marker.getLatLng(), Math.max(communityMap.getZoom(), 16));
+          marker.openPopup();
+        }
       };
       article.addEventListener('click', focusMarker);
       article.addEventListener('keydown', (event) => { if (event.key === 'Enter' || event.key === ' ') focusMarker(); });
@@ -637,20 +655,44 @@
     return article;
   };
 
+  const sosafePhoto = (place) => {
+    if (/^data\/sosafe-fotos\/[a-f0-9]+\.(?:jpg|png)$/.test(place.foto_mascota || '')) return place.foto_mascota;
+    return '';
+  };
+
   const renderPlaces = () => {
     const container = document.querySelector('[data-place-list]');
     const summary = document.querySelector('[data-map-summary]');
     if (!container || !communityMap || !markerLayer) return;
     markerLayer.clearLayers();
-    const filtered = publicPlaces.filter(placeMatchesFilter);
+    petClusterLayer?.clearLayers();
+    const filtered = publicPlaces.filter(placeMatchesFilter).sort((a,b) => (window.auraLadraDistancia?.distanceTo(a.latitud,a.longitud) ?? Infinity) - (window.auraLadraDistancia?.distanceTo(b.latitud,b.longitud) ?? Infinity));
     const visibleCoordinates = [];
     const cardsByCategory = new Map();
     filtered.forEach((place) => {
       let marker = null;
       if (place.latitud !== null && place.longitud !== null) {
+        const petPhoto = ['mascota_perdida', 'mascota_encontrada', 'mascota_sin_clasificar'].includes(place.categoria)
+          ? sosafePhoto(place) || cleanUrl(publicAnimals.find(animal => animal.id === place.animal_id)?.foto_url)
+          : '';
+        const pinContent = document.createElement('div');
+        if (petPhoto) {
+          pinContent.className = 'map-pet-photo' + (place.tipo_aviso === 'encontrada' ? ' is-found' : '');
+          const image = document.createElement('img');
+          image.src = petPhoto; image.alt = place.nombre; image.draggable = false; image.referrerPolicy = 'no-referrer';
+          image.addEventListener('error', () => { pinContent.textContent = '🐾'; }, {once:true});
+          pinContent.append(image);
+        } else {
+          pinContent.className = 'map-pin';
+          const symbol = document.createElement('span');
+          symbol.textContent = ['mascota_perdida', 'mascota_encontrada', 'mascota_sin_clasificar'].includes(place.categoria) ? '🐾' : placeIcons[place.categoria] || '⌖';
+          pinContent.append(symbol);
+        }
         const pin = window.L.divIcon({
-          className: '', html: `<div class="map-pin ${place.categoria === 'mascota_perdida' ? 'is-lost' : ''}"><span>${placeIcons[place.categoria] || '⌖'}</span></div>`,
-          iconSize: [36, 36], iconAnchor: [18, 34], popupAnchor: [0, -32],
+          className: '', html: pinContent,
+          iconSize: petPhoto ? [54, 54] : [36, 36],
+          iconAnchor: petPhoto ? [27, 50] : [18, 34],
+          popupAnchor: petPhoto ? [0, -48] : [0, -32],
         });
         const popup = document.createElement('div');
         const popupTitle = document.createElement('strong');
@@ -658,9 +700,32 @@
         const popupMeta = document.createElement('small');
         popupMeta.textContent = `${placeCategoryLabels[place.categoria] || place.categoria}${place.servicio_urgencia ? ' · Urgencias' : ''}`;
         popup.append(popupTitle, popupMeta);
-        marker = window.L.marker([Number(place.latitud), Number(place.longitud)], { icon: pin })
-          .bindPopup(popup)
-          .addTo(markerLayer);
+        if (place.antiguedad_texto) { const age=document.createElement('span');age.className='pet-age';age.textContent=place.antiguedad_texto;popup.append(age);popup.classList.add('has-pet-age'); }
+        if (['mascota_perdida', 'mascota_encontrada', 'mascota_sin_clasificar'].includes(place.categoria)) { const distance=window.auraLadraDistancia?.crear(place); if (distance) popup.append(distance); }
+        if (place.tipo_aviso_texto) popupMeta.textContent = place.tipo_aviso_texto;
+        if (place.origen === 'sosafe') {
+          popup.className = 'pet-map-card';
+          popupTitle.textContent = place.nombre_mascota || 'Mascota sin nombre informado';
+          popup.replaceChildren(popupTitle);
+          if (petPhoto) {
+            const image = document.createElement('img'); image.src = petPhoto; image.referrerPolicy = 'no-referrer'; image.alt = popupTitle.textContent; image.className = 'pet-map-card-photo'; popup.append(image);
+          }
+          const contact = document.createElement('button'); contact.type = 'button'; contact.className = 'button button-dark'; contact.textContent = 'Contactar';
+          contact.addEventListener('click', () => window.auraLadraSosafe?.contactar(place.id.replace(/^sosafe-/, '')));
+          popup.append(contact);
+        }
+        marker = window.L.marker([Number(place.latitud), Number(place.longitud)], { icon: pin, title: place.nombre, alt: place.nombre })
+          .bindPopup(popup, { pane: petPhoto && window.innerWidth <= 1024 ? 'petPopupPane' : 'popupPane', autoPan: !petPhoto, className: place.origen === 'sosafe' ? 'pet-map-popup' : '', maxWidth: 280, maxHeight: place.origen === 'sosafe' ? undefined : Math.max(160, Math.min(340, window.innerHeight - 180)) })
+          .on('add', function () {
+            if (!petPhoto) return;
+            const icon=this.getElement();
+            if (!icon || icon.dataset.petTouchReady) return;
+            icon.dataset.petTouchReady='true';
+            icon.draggable=false;
+            // Un gesto iniciado sobre una foto elige la mascota, no arrastra el mapa.
+            ['touchstart','pointerdown','mousedown'].forEach(type => icon.addEventListener(type, event => event.stopPropagation(), {passive:true}));
+          })
+          .addTo(['mascota_perdida', 'mascota_encontrada', 'mascota_sin_clasificar'].includes(place.categoria) ? petClusterLayer : markerLayer);
         visibleCoordinates.push([Number(place.latitud), Number(place.longitud)]);
       }
       const categoria = place.categoria || 'otro';
@@ -694,6 +759,8 @@
     }
   };
 
+  document.addEventListener('ubicacion:cambio', () => renderPlaces());
+
   document.addEventListener('vista:cambio', (event) => {
     if (event.detail?.vista !== 'mapa') return;
     // El mapa se calculó con la sección oculta (tamaño 0): al mostrarse hay que recalcularlo
@@ -710,11 +777,30 @@
   const initializeMap = () => {
     if (!window.L || communityMap || !document.querySelector('#community-map')) return;
     communityMap = window.L.map('community-map', { scrollWheelZoom: false }).setView([-33.51, -70.76], 13);
+    communityMap.createPane('petPopupPane', communityMap.getContainer()).classList.add('pet-popup-pane');
     window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     }).addTo(communityMap);
     markerLayer = window.L.layerGroup().addTo(communityMap);
+    petClusterLayer = window.L.markerClusterGroup({
+      maxClusterRadius: 70,
+      showCoverageOnHover: false,
+      spiderfyOnMaxZoom: true,
+      spiderfyDistanceMultiplier: 2,
+      zoomToBoundsOnClick: true,
+      iconCreateFunction: cluster => {
+        const count = cluster.getChildCount();
+        const content = document.createElement('div');
+        content.className = 'pet-cluster-count';
+        content.title = `${count} mascotas cercanas. Pulsa para acercar y separarlas.`;
+        content.setAttribute('aria-label', content.title);
+        const number = document.createElement('strong'); number.textContent = String(count);
+        const label = document.createElement('small'); label.textContent = 'mascotas';
+        content.append(number, label);
+        return window.L.divIcon({html:content, className:'pet-cluster', iconSize:[60,60], iconAnchor:[30,30]});
+      },
+    }).addTo(communityMap);
   };
 
   async function loadPlaces() {
@@ -748,13 +834,13 @@
     window.auraLadraAlertas = alertsResult.error ? [] : (alertsResult.data || []);
     document.dispatchEvent(new CustomEvent('alertas:cambio'));
     basePlaces = [...alerts, ...places];
-    publicPlaces = [...basePlaces, ...puestosComoLugares()];
+    publicPlaces = [...basePlaces, ...puestosComoLugares(), ...sosafeComoLugares()];
     renderPlaces();
   }
 
   // Si los puestos cambian (o cargan después que el mapa), se actualizan los pines.
   document.addEventListener('puestos:cambio', () => {
-    publicPlaces = [...basePlaces, ...puestosComoLugares()];
+    publicPlaces = [...basePlaces, ...puestosComoLugares(), ...sosafeComoLugares()];
     renderPlaces();
   });
 
@@ -783,10 +869,6 @@
     placeSearch = normalizePlaceSearch(event.target.value);
     renderPlaces();
   });
-  document.querySelectorAll('[data-home-action]').forEach((link) => link.addEventListener('click', () => {
-    document.querySelector(`[data-action="${link.dataset.homeAction}"]`)?.click();
-  }));
-
   const fillSelect = (select, rows, placeholder) => {
     if (!select) return;
     const first = document.createElement('option');
@@ -1183,6 +1265,7 @@
     } }));
     if (!hasUser) return;
     const alias = ownPublicProfile?.alias;
+    if(!section.querySelector('[data-site-profile-open]')){const edit=document.createElement('button');edit.type='button';edit.dataset.siteProfileOpen='';edit.textContent='Mi foto y nick en Ladra';section.querySelector('[data-my-profile-alias]').after(edit);}
     section.querySelector('[data-my-profile-alias]').textContent = alias || 'Sin alias todavía';
     const avatarEl = section.querySelector('[data-my-profile-initials]');
     if (coreAvatarUrl) {
@@ -1706,7 +1789,7 @@
 
   // Puente para el calendario (js/eventos.js, js/encuentros.js): lugares públicos y enfocar el mapa.
   window.auraLadraMapa = {
-    lugares: () => publicPlaces.filter((p) => p.id && p.latitud !== null && p.longitud !== null && !['mascota_perdida'].includes(p.categoria)).map((p) => ({ id: p.id, nombre: p.nombre, categoria: p.categoria })),
+    lugares: () => publicPlaces.filter((p) => p.id && p.latitud !== null && p.longitud !== null && !['mascota_perdida', 'mascota_encontrada', 'mascota_sin_clasificar'].includes(p.categoria)).map((p) => ({ id: p.id, nombre: p.nombre, categoria: p.categoria })),
     lugar: (id) => publicPlaces.find((p) => p.id === id) || null,
     // Centra el mapa en un lugar (por id) y abre un globo con el título; se llama tras mostrar la pestaña Mapa.
     enfocar: (id, titulo) => {
@@ -3182,7 +3265,7 @@
     const board = document.querySelector('[data-wanted-board]');
     if (!board) return;
     if (!rows.length) {
-      board.innerHTML = '<p class="empty-state">Todavía no hay afiches en esta cinta. Si alguien se pierde, lo pegamos aquí.</p>';
+      board.innerHTML = '<p class="empty-state">No hay afiches de mascotas registradas en este filtro. Más abajo puedes consultar los avisos externos externos.</p>';
       return;
     }
     board.replaceChildren(...rows.map((aviso) => {

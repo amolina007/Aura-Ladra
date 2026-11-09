@@ -1,0 +1,1960 @@
+{
+  "989c1890-f575-5c91-984d-c8bc2e935ca5": {
+    "sha256": "8d8c3e47eb1cabb549da4a5a5142f9841ed4b3970e6ee5f88971e60365389af9",
+    "encuadre": [
+      0.13,
+      0.1,
+      0.76,
+      0.83
+    ],
+    "recorte_sha256": "5e98b59c1c0bfd1eb9bd88058091e0261019b18c5947c3e846e898a742401248",
+    "segmentacion": {
+      "original_sha256": "8d8c3e47eb1cabb549da4a5a5142f9841ed4b3970e6ee5f88971e60365389af9",
+      "imagen_sha256": "6b1a0bde82e65f3dba9970661a0616267d4e8b1f68d5def5321d94444d70b485",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    }
+  },
+  "e664c626-30d6-52bb-8f45-40c99a38e44d": {
+    "sha256": "624ce3b4226ab13e01281cf78ef0c44dd12a1de84a7aeb0a93ad0df5589a118b",
+    "encuadre": [
+      0,
+      0.33,
+      0.73,
+      0.75
+    ],
+    "recorte_sha256": "4b54f99feb37d2b1bdf6a7d10d7be3736f58e9386735f7286dccb769ad34210f",
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "0f76cc2c28605de1366ad729cde79bb4797482616a315beaa83f33547d0fd791",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "1a4acc01-2a97-53ea-b48b-ebc4811d84f4": {
+    "sha256": "dab508b5cf16928b4bcb224be0f7088678525268bf69510e5cd2441319466ec5",
+    "nombres": [
+      {
+        "etiqueta": "Nombre de la mascota",
+        "nombre": "Cloe",
+        "evidencia": "Ella es la Cloe (revisado visualmente en el afiche)"
+      }
+    ],
+    "recorte_sha256": "5a25193bdd8ee5e8fc08124d7f74ec6412d92338b5e93893241a41c0daaf3120"
+  },
+  "37587bd9-c895-571c-9fc5-608baea0a72c": {
+    "sha256": "de61f0dbdb68dba4fb62dacbd1565ad04c7883133144ff632d6e7a429f46706e",
+    "encuadre": [
+      0.23,
+      0.46,
+      0.52,
+      0.56
+    ],
+    "recorte_sha256": "2c7a07639f785c704fc698e86b0f4d43ddc7cb7c4354d1dc4ce4eefe8d5fd149",
+    "segmentacion": {
+      "original_sha256": "de61f0dbdb68dba4fb62dacbd1565ad04c7883133144ff632d6e7a429f46706e",
+      "imagen_sha256": "89ab866fd93cf3982a90e86fa8b67c694ecf0be9d65a7367710828ab65ce426c",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "de61f0dbdb68dba4fb62dacbd1565ad04c7883133144ff632d6e7a429f46706e",
+      "encuadre": [
+        0.2124,
+        0.45,
+        0.393,
+        0.5802
+      ],
+      "motivo": "Comparación visual de máscara y original: se conserva foto real con encuadre cercano sin sello; máscara descartada por cortes o fondo residual."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "d9482d9ce4888efa4b366cb9698ecc61fab5f01ad734b95fec828ca3436d92ff",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "0e259ca0-a8e5-532f-8f3a-5dd446317415": {
+    "sha256": "2497b080c4276cb95c203547421e230e26d0c62f14311297873663ad1d948d03",
+    "encuadre": [
+      0,
+      0.04,
+      1,
+      0.92
+    ],
+    "recorte_sha256": "a0797f2236268b952249c93aa10a1c82c29a59409ec75e57205085141f82a403",
+    "segmentacion": {
+      "original_sha256": "2497b080c4276cb95c203547421e230e26d0c62f14311297873663ad1d948d03",
+      "imagen_sha256": "8e5eac226e410d357463dc7779d746a74386c8cee383beae2289af8c20c89c32",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    },
+    "tipo_aviso": {
+      "valor": "fallecida",
+      "descripcion_sha256": "6e7c88eed808c762b8331d38100db293821376e7e2255a3f1503cf19f980887d",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "225ff1ec-e159-5248-9e06-7dca3f1e618d": {
+    "sha256": "558926157f09a911173409e0a1b4ca95f35c6060c99b7dbb5512bfc9265231b1",
+    "encuadre": [
+      0.18,
+      0.09,
+      0.59,
+      0.76
+    ],
+    "recorte_sha256": "b350697e0a1ac5f36bde7fe79ac1bece9c697efdc868230b8bbd21c86fd31d38",
+    "segmentacion": {
+      "original_sha256": "558926157f09a911173409e0a1b4ca95f35c6060c99b7dbb5512bfc9265231b1",
+      "imagen_sha256": "20b8d3673d73dc80d188729d26f74e9f71fb27f7e2459e253b9d0f519ea1bab1",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "debb41b8ce969b6dec835001817f06418562ac96e09ad72228bd8d41e975bed5",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "b4fce2a4-488c-5215-af4e-4abcb7cb6c49": {
+    "sha256": "31a0742002a6c5ac0ca98d7f07b95875ea2393b5d243a9015c6614541e1c5ce7",
+    "encuadre": [
+      0.33,
+      0.62,
+      0.65,
+      0.74
+    ],
+    "recorte_sha256": "da7cd5f2418208c395bea311cc70a9e76c15f7a7b797e8e00af7938a452c5cd8",
+    "tipo_aviso": {
+      "valor": "fallecida",
+      "descripcion_sha256": "0b36b0f3a307e2f4acea50f305c73f0d21715211b8ef0476132a0555cdbdb140",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "1fdf7cc6-881e-5158-960d-4f4a911a42fd": {
+    "sha256": "8910c845a4aadebb7a3e41448eb96b5a5205f0de0f861068c35547dc94bc7392",
+    "encuadre": [
+      0.09968840599060058,
+      0.036687502433295265,
+      0.7896000671386719,
+      0.7903431128821895
+    ],
+    "recorte_sha256": "c61d799c26dddd82dc8a40da02f4a960997f3f36dc1a1f79dd4365faf19a4a1a",
+    "segmentacion": {
+      "original_sha256": "8910c845a4aadebb7a3e41448eb96b5a5205f0de0f861068c35547dc94bc7392",
+      "imagen_sha256": "82a1dfbff049411e54722c9c1f076a41885c81c001e972187fbea8fff3cfdf90",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "94f26a91115906151d82c9836f2710c932bf0e487ff249f69cdbedcecb14bc41",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "70ce479c-6d1d-5fad-9650-4e5e45e0c70f": {
+    "sha256": "25c1d5fe2bb770dae9ca6e1de700bccba70aa4b5e48fa09543e03a10e0d78cba",
+    "encuadre": [
+      0.2183029850323995,
+      0.17605677247047424,
+      0.9719951152801514,
+      0.8846479481458663
+    ],
+    "recorte_sha256": "42d74525f9362fc4345b65573a6c544a556d81551cb5cdbec3ebcfe0bd5d7566",
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "371244a8132bd619556adb72e5e5b6efb4e1cdf96c55cc9735b799bd0fbc74b1",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "dd05a24e-5941-5ce3-807a-763c61118f43": {
+    "sha256": "a04baf451c3c40b8463c316b70d313b5ce1706575188b348bfc40a86e4443f89",
+    "encuadre": [
+      0.08755372900879313,
+      0.126023176239758,
+      0.4333530506837159,
+      0.34790306556515577
+    ],
+    "recorte_sha256": "338cab60922732472cc59f12d7c8ecf53a11a540d7d5740910b33c25b7b83502",
+    "segmentacion": {
+      "original_sha256": "a04baf451c3c40b8463c316b70d313b5ce1706575188b348bfc40a86e4443f89",
+      "imagen_sha256": "db2f95d06d09e2b82e8721ece32347fd6ea4d63ce2bfdd244facf41e7eae5003",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
+  },
+  "2627b0d3-e66d-529b-ae21-e97d625fdf53": {
+    "sha256": "05de61e845b2b7c2b53a2b81f27becfc41029abd6ef172d23a2313f94ab218f4",
+    "encuadre": [
+      0.0800118863582611,
+      0.09377099443944477,
+      0.9842571258544922,
+      0.31471393481811
+    ],
+    "recorte_sha256": "c15333f08aee682097a2729cd902eecdf1370f016e62ae80e447dd874a7e5d08",
+    "segmentacion": {
+      "original_sha256": "05de61e845b2b7c2b53a2b81f27becfc41029abd6ef172d23a2313f94ab218f4",
+      "imagen_sha256": "24069928aadbf1aca1f73560e10d04b415c772392b27c21463d6a5dadc30e892",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "05de61e845b2b7c2b53a2b81f27becfc41029abd6ef172d23a2313f94ab218f4",
+      "encuadre": [
+        0.5,
+        0.091,
+        0.98,
+        0.3276
+      ],
+      "motivo": "Comparación visual de máscara y original: se conserva foto real con encuadre cercano sin sello; máscara descartada por cortes o fondo residual."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "e6fe08e5f40d4e8141ad40f394e987e3aa33f200f16cfcfee99bb7b895716a94",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "910a1af3-573f-567b-bcf8-05851e26b630": {
+    "sha256": "497f587cffb07e3806476196558c7de2fbb2e62a239bc03b08fe9c98f569f5b6",
+    "encuadre": [
+      0.15617038011550904,
+      0.0,
+      0.8460574150085449,
+      0.3484379438189086
+    ],
+    "recorte_sha256": "299658cf8e43cc8b3018da19e0a6959055e46d03f34642db360e938fb92a012b",
+    "segmentacion": {
+      "original_sha256": "497f587cffb07e3806476196558c7de2fbb2e62a239bc03b08fe9c98f569f5b6",
+      "imagen_sha256": "526b15e1d68d50e41d44e33d0e03b27e34554ff2c3b3c6063e8fa92118fe7576",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
+  },
+  "347869ba-498f-581c-9169-566bbe32594e": {
+    "sha256": "497f587cffb07e3806476196558c7de2fbb2e62a239bc03b08fe9c98f569f5b6",
+    "encuadre": [
+      0.15617038011550904,
+      0.0,
+      0.8460574150085449,
+      0.3484379438189086
+    ],
+    "recorte_sha256": "299658cf8e43cc8b3018da19e0a6959055e46d03f34642db360e938fb92a012b",
+    "segmentacion": {
+      "original_sha256": "497f587cffb07e3806476196558c7de2fbb2e62a239bc03b08fe9c98f569f5b6",
+      "imagen_sha256": "526b15e1d68d50e41d44e33d0e03b27e34554ff2c3b3c6063e8fa92118fe7576",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
+  },
+  "115e49c2-b6a6-5bbb-9243-ae6957ce0576": {
+    "sha256": "9b55945d6a02208e5c67f638c77716f22872f84f9ac05f3a22452e6fc21b4bb7",
+    "encuadre": [
+      0.0534822404384613,
+      0.4167239385246183,
+      0.8235355377197265,
+      0.9125085907786927
+    ],
+    "recorte_sha256": "ebab13a5fa2bee1a83aca645b6eaf5c97068187bb95ac67db59fc917d26fa838",
+    "segmentacion": {
+      "original_sha256": "9b55945d6a02208e5c67f638c77716f22872f84f9ac05f3a22452e6fc21b4bb7",
+      "imagen_sha256": "a1ac2d942ca168897a7a319ef0b70da6f2631d54b68fd135f33e98c447c5756e",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
+  },
+  "48ad9659-d19f-5362-9adc-7b02ca2ae8e2": {
+    "sha256": "9b55945d6a02208e5c67f638c77716f22872f84f9ac05f3a22452e6fc21b4bb7",
+    "encuadre": [
+      0.0534822404384613,
+      0.4167239385246183,
+      0.8235355377197265,
+      0.9125085907786927
+    ],
+    "recorte_sha256": "ebab13a5fa2bee1a83aca645b6eaf5c97068187bb95ac67db59fc917d26fa838",
+    "segmentacion": {
+      "original_sha256": "9b55945d6a02208e5c67f638c77716f22872f84f9ac05f3a22452e6fc21b4bb7",
+      "imagen_sha256": "a1ac2d942ca168897a7a319ef0b70da6f2631d54b68fd135f33e98c447c5756e",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
+  },
+  "7ecd222c-f2bb-588b-9236-f0f4244f2d81": {
+    "sha256": "9b55945d6a02208e5c67f638c77716f22872f84f9ac05f3a22452e6fc21b4bb7",
+    "encuadre": [
+      0.0534822404384613,
+      0.4167239385246183,
+      0.8235355377197265,
+      0.9125085907786927
+    ],
+    "recorte_sha256": "ebab13a5fa2bee1a83aca645b6eaf5c97068187bb95ac67db59fc917d26fa838",
+    "segmentacion": {
+      "original_sha256": "9b55945d6a02208e5c67f638c77716f22872f84f9ac05f3a22452e6fc21b4bb7",
+      "imagen_sha256": "a1ac2d942ca168897a7a319ef0b70da6f2631d54b68fd135f33e98c447c5756e",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "9b55945d6a02208e5c67f638c77716f22872f84f9ac05f3a22452e6fc21b4bb7",
+      "encuadre": [
+        0,
+        0.3913,
+        0.88,
+        0.91
+      ],
+      "motivo": "Comparación visual de máscara y original: se conserva foto real con encuadre cercano sin sello; máscara descartada por cortes o fondo residual."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "8c897eb60222bcc41f6960109f7be42909e452b53551d20bbeedeb8d9b0afeee",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "4e0d1a6b-a24b-5125-9da5-440266087b53": {
+    "sha256": "9b55945d6a02208e5c67f638c77716f22872f84f9ac05f3a22452e6fc21b4bb7",
+    "encuadre": [
+      0.0534822404384613,
+      0.4167239385246183,
+      0.8235355377197265,
+      0.9125085907786927
+    ],
+    "recorte_sha256": "ebab13a5fa2bee1a83aca645b6eaf5c97068187bb95ac67db59fc917d26fa838",
+    "segmentacion": {
+      "original_sha256": "9b55945d6a02208e5c67f638c77716f22872f84f9ac05f3a22452e6fc21b4bb7",
+      "imagen_sha256": "a1ac2d942ca168897a7a319ef0b70da6f2631d54b68fd135f33e98c447c5756e",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
+  },
+  "a5aa8f9d-b9e1-5734-a633-aeeb327e4fdf": {
+    "sha256": "c2f62e9c8aab36c18a1d5087d9a0e814759378e990452cb6a4f8a75a0d5a57fc",
+    "encuadre": [
+      0.0,
+      0.2461793707461212,
+      0.7799861431121826,
+      0.8492358741492242
+    ],
+    "recorte_sha256": "fcc8647f460a56d72b092dc964d4994feca2cde109444fc99aa7a3f29ed603dc",
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "1ee858fba079d0fac1437681cc4d9a7f4788ca485a45eb1e3880cd4e59234737",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "73c5c738-8256-55a7-9ed6-0791470fbec9": {
+    "sha256": "a04baf451c3c40b8463c316b70d313b5ce1706575188b348bfc40a86e4443f89",
+    "encuadre": [
+      0.08755372900879313,
+      0.126023176239758,
+      0.4333530506837159,
+      0.34790306556515577
+    ],
+    "recorte_sha256": "338cab60922732472cc59f12d7c8ecf53a11a540d7d5740910b33c25b7b83502",
+    "segmentacion": {
+      "original_sha256": "a04baf451c3c40b8463c316b70d313b5ce1706575188b348bfc40a86e4443f89",
+      "imagen_sha256": "db2f95d06d09e2b82e8721ece32347fd6ea4d63ce2bfdd244facf41e7eae5003",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
+  },
+  "771dfdec-346c-51b6-af85-6ee306911bf6": {
+    "sha256": "4d49aa9d516ce79a1671aecc00da0308b28648a11cf832ef3143bed35b91b4d0",
+    "encuadre": [
+      0.034648197889328006,
+      0.053773916861861226,
+      0.8914578437805176,
+      0.8642647616989946
+    ],
+    "recorte_sha256": "a983bc3c40803e238b7f208b16586074813034a09b22cff7954f1e1b3814d2cf",
+    "segmentacion": {
+      "original_sha256": "4d49aa9d516ce79a1671aecc00da0308b28648a11cf832ef3143bed35b91b4d0",
+      "imagen_sha256": "0f77d03ae54a2ed23965f7f16e0526b9924df16621590a996733c2d87f1e3e70",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "4d49aa9d516ce79a1671aecc00da0308b28648a11cf832ef3143bed35b91b4d0",
+      "encuadre": [
+        0,
+        0.0,
+        1,
+        0.89
+      ],
+      "motivo": "Comparación visual de máscara y original: se conserva foto real con encuadre cercano sin sello; máscara descartada por cortes o fondo residual."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "4b845f1b6ae4e206b133ef883e29411e95a3133084fcd5816c32c8e63c594fc2",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "7c451ef2-078c-56a6-ad67-2eee4d0db8de": {
+    "sha256": "72ab77be2e6dc753acf3082a9ae561ff0529c88657ab47324e8f7900a256bf91",
+    "encuadre": [
+      0.0,
+      0.1684642791748047,
+      1.0,
+      0.8835849990844727
+    ],
+    "recorte_sha256": "31a42bab97aaf5e0db8643c3dd9e7d4b2f83e09072fdf17350870f5abda6eea4",
+    "segmentacion": {
+      "original_sha256": "72ab77be2e6dc753acf3082a9ae561ff0529c88657ab47324e8f7900a256bf91",
+      "imagen_sha256": "0698792ce9a50bc67b475f0c1f3f5e1aee1fa0c213afee992cda4a397ecaae83",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "72ab77be2e6dc753acf3082a9ae561ff0529c88657ab47324e8f7900a256bf91",
+      "encuadre": [
+        0,
+        0.0,
+        1,
+        0.89
+      ],
+      "motivo": "Comparación visual de máscara y original: se conserva foto real con encuadre cercano sin sello; máscara descartada por cortes o fondo residual."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "2be94be7269a2a75ddcb8a619a3088ec6a908542d67a84321ca0abb3db0c78e9",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "ed3dfc58-2c16-54d9-a932-20956fa6fd6a": {
+    "sha256": "d985ab2254f5845269209ec14402c017815080f6e3f61a203f54e8c56c433ace",
+    "encuadre": [
+      0.17104430198669435,
+      0.23647905349731446,
+      0.8686061859130859,
+      0.7741774082183838
+    ],
+    "recorte_sha256": "42db7d8ebd8de48a3df45e7e98194aee02be627cf00071c567b97a28818b8aef"
+  },
+  "28eb6261-6298-51b5-82a9-630a2f5ae754": {
+    "sha256": "d985ab2254f5845269209ec14402c017815080f6e3f61a203f54e8c56c433ace",
+    "encuadre": [
+      0.17104430198669435,
+      0.23647905349731446,
+      0.8686061859130859,
+      0.7741774082183838
+    ],
+    "recorte_sha256": "42db7d8ebd8de48a3df45e7e98194aee02be627cf00071c567b97a28818b8aef"
+  },
+  "7968834f-75c1-57bf-89fd-82b1f6ee5a50": {
+    "sha256": "30dbeb5aa1f7718964ff7ef463fb3a09e56bb57fa67f3da73fb329eeeff66234",
+    "encuadre": [
+      0.21645352045694988,
+      0.036474418640136716,
+      0.9497673034667968,
+      0.8452879638671874
+    ],
+    "recorte_sha256": "208060f810d46b69fe5c08b19a841061e8c8ca13f5cdcf784f5e00ca16e13993",
+    "segmentacion": {
+      "original_sha256": "30dbeb5aa1f7718964ff7ef463fb3a09e56bb57fa67f3da73fb329eeeff66234",
+      "imagen_sha256": "65c24b2cb981f99339251568310eac1129e0a5b51866dd996ce428b657d03d7a",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
+  },
+  "915153fc-4822-5cc6-8fcf-161d83e3d8bb": {
+    "sha256": "748f63b7439a95bb9b267c0c2fbd8e96fbc001da01707a836a4af0bacb968ce5",
+    "encuadre": [
+      0.34134551520245765,
+      0.09254909206081081,
+      0.7646805135431175,
+      0.8299583641258446
+    ],
+    "recorte_sha256": "56884a255d0d4996159d5e4592e61364524a30d17f7b01074182daf04966f8f6",
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "a8d3e7e7ca97aa1f4df79dc92d6aa34dbd95e393a902461cd6f786493d873458",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "e5ed0819-4bbc-5d53-b8e3-df764c769598": {
+    "sha256": "2cfa882717cea2f2f20e36c21c50a28c369671ad66bf2cd4fa8337899957e1ae",
+    "encuadre": [
+      0.015122956037521363,
+      0.06280364364874168,
+      1.0,
+      0.8112840505059487
+    ],
+    "recorte_sha256": "11c3fb7699b5d1aba4039806eaa022eeb0eaf91a67eebcaedd1a521880f1e7bd",
+    "segmentacion": {
+      "original_sha256": "2cfa882717cea2f2f20e36c21c50a28c369671ad66bf2cd4fa8337899957e1ae",
+      "imagen_sha256": "9db0512e43764d88c366f521a30569c459aab6dcdd09fae0f4e364b974c31536",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "2cfa882717cea2f2f20e36c21c50a28c369671ad66bf2cd4fa8337899957e1ae",
+      "encuadre": [
+        0,
+        0.0,
+        1,
+        0.88
+      ],
+      "motivo": "Comparación visual de máscara y original: se conserva foto real con encuadre cercano sin sello; máscara descartada por cortes o fondo residual."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "7c4c2451718608b26177d7cf0d1d883406f150b03af528cfce6fb8324243a3bb",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "c8517126-9c75-58a2-a1ca-28d653d67abd": {
+    "sha256": "aeda0c15f07a99e520b51e484c60a6f7fc8badc70e4cd3bb9c7d3609b86dce56",
+    "recorte_sha256": "24826eae29a15b651431de314de8e4f2cf7e55c13a9ea24f8a32ad07f6e39159"
+  },
+  "637bf209-c478-594f-9a94-99381444ce4c": {
+    "sha256": "7fc9d4bdcd04e4d0256aa1622ea929b73bfe9bc0b55cb36e235ceb62f2696f88",
+    "recorte_sha256": "0efc6762a25a1a3ada76a024ce92a30d9a5a49ea2c90235e81ebd0a172c37205",
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "b01855a0bdfd689516a9220dc2d48990ef6405f1c4aa81710d5aa706a714b2ab",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "54c23452-abaf-5417-bfaa-9db683d72f10": {
+    "sha256": "2b292b4b0f294779ea6a2625a844cf8d334512eb18b0072b6b14aa502c90013a",
+    "recorte_sha256": "0798ee0c5c1e8e8131f14e5e63855623139e3ba9d88a45e6b118cf908a80f6c9",
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "1dc31cf7d546d5c46882979c03467cad0ae13f970236c6f9f3b14f64041a0a4e",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "80b92a8c-10f8-5a27-82eb-8fd0fc72cebd": {
+    "sha256": "43ff8eb859b19377de3fa5fe7062d988d337c49eab5a64df49e3447365bb31bf",
+    "recorte_sha256": "8f641f052b971383b185f7627e81dbec45b696789e669402fc6c4425756e70a2",
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "b2680a3ab1b099b00664f0c4b132301ae01fa8c41c9214e1fd497414cadae757",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "6927ae62-1cb1-51eb-848e-58e952ea70dd": {
+    "sha256": "21b14232ceb19392cf1e78705535deacc87d097c1811a146bbdcb7682c8ce982",
+    "recorte_sha256": "527f288f581ae8424879f42353c5d654119d59dcd672ce5556417035e2ac8a2d",
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "89d1c2f95b82bd3afc017e8d5971d828d22a10a8a814b89e39fec63aafff367a",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "65790e6c-ac8d-551b-a647-5bafc6c9e6e3": {
+    "sha256": "1e2f2da786a38d5aa6d90fbe93cef409833bee20d0639aab248e41b6d736d68c",
+    "recorte_sha256": "0181d52098eb032f602ddeb6ac89aeebd1d1e5fe335274b0898762f53f0d67fc",
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "ce379a73e6426aeb7e8c66c3d674c2be7d6288d2796d7f0a8df9a80bd6ffa040",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "f7053f20-7cc1-5357-a766-152e2220eac5": {
+    "sha256": "ef72fd2730acd8957a1f787d73388c3110d5c2df7c4efcb2bcbaa94670a112cb",
+    "recorte_sha256": "23c63427e4bda9530ae6c3fbf3a611de092325e466d795a2f78dd8e0edf935bb",
+    "segmentacion": {
+      "original_sha256": "ef72fd2730acd8957a1f787d73388c3110d5c2df7c4efcb2bcbaa94670a112cb",
+      "imagen_sha256": "56f1901a8f4d9c006ee8a6071acad971f15eb099659e8b6ebf88c44cae359e27",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "6564a169afe8234540e84b01ae9b3695cf4f93a635f015b529d11ed774c0174d",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "f85df456-798e-5792-8c1c-0b0205742c9b": {
+    "sha256": "dbf166004120f8f6b824b875750369a4d8e279db090612e7adc070c8658e5ded",
+    "recorte_sha256": "57bed5584a32fc40d7103876c18e77bd2f73932f1fd9dd72d7779133881cab16",
+    "afiche_recortado": {
+      "original_sha256": "dbf166004120f8f6b824b875750369a4d8e279db090612e7adc070c8658e5ded",
+      "encuadre": [
+        0,
+        0.0,
+        1,
+        0.88
+      ],
+      "motivo": "Comparación visual de máscara y original: se conserva foto real con encuadre cercano sin sello; máscara descartada por cortes o fondo residual."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "b929db60e8fd7439162c9585b8b1eb800bf3e93668b061000563eb46443dd4fb",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "345181e3-b236-5f27-9194-00a5f2eec7a1": {
+    "sha256": "605783d2f16c2814949505695b0717343c188f91ac80d47af82f33f04e3795e4",
+    "recorte_sha256": "b5fb03c724c210135cdb8090b9ae610060e814b93ebdcfc68183a2705dd99609",
+    "segmentacion": {
+      "original_sha256": "605783d2f16c2814949505695b0717343c188f91ac80d47af82f33f04e3795e4",
+      "imagen_sha256": "19aa7c15352f439ec4fdfd911fca4f497d40a3375a9976e4c137ea7b0754497a",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
+  },
+  "41b96fc9-6f4d-57b6-b9f1-4db60ef557c6": {
+    "sha256": "25ec207c676754add43a572a1c245b93bd0df5b912a3b31cf71efab74b79760c",
+    "recorte_sha256": "51c8b0c77e714e9eee70a69dcbc80e52c4a8cb7f05b251d9378b3164e02d8b1f",
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "916f33014386bfbe267e7085a00ffc8c10a49144293b133076a4ff1e4d29f7da",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "4f3084f4-0159-5377-bbb6-101af4547799": {
+    "sha256": "97471150cefb6163893b42a76f1dda7d4aabb0e9d6c64cbe5a073e3f1501b718",
+    "recorte_sha256": "9c9bb4f1d3f930ca9de68c32b5c5cbf4c3bbe8318f3f98e0a3c768a01a28f9b6",
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "39f51169743c47cd0fdc55e2083f337c5687ccc387545c581f841010ee861110",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "8f3bc974-01b6-58d4-82f4-fa040057318c": {
+    "sha256": "c31e377baa43a830c2922643f596cce18462559bbdfddd4be2c68919b6d1ecaa",
+    "recorte_sha256": "9bf2b0e30827f55952c79fb278d9d7a56b62f4a23365a0fffd7bcefd3da533b0",
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "cc42bb07999b174e9d717bfc1adf82f8d921b4a2ccd52b211ca6a7633174fc72",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "c23f8168-c8a1-5290-adfb-92ee618d4025": {
+    "sha256": "16404d8522b4d463d450bec7743f9d0e6be71f19c2a49e87805f0269dfe4b33d",
+    "recorte_sha256": "107a61fcfba8cbf201af778ab4937d0cee47daed483cb89cbca778e60d1cac87",
+    "segmentacion": {
+      "original_sha256": "16404d8522b4d463d450bec7743f9d0e6be71f19c2a49e87805f0269dfe4b33d",
+      "imagen_sha256": "59be4f298c02fe0daf76b85d5f9637ba917b77944d70839cf064cc684f5f932c",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "16404d8522b4d463d450bec7743f9d0e6be71f19c2a49e87805f0269dfe4b33d",
+      "encuadre": [
+        0.1,
+        0.0,
+        1,
+        0.7905
+      ],
+      "motivo": "Comparación visual de máscara y original: se conserva foto real con encuadre cercano sin sello; máscara descartada por cortes o fondo residual."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "0a6ef8a0c879462a4ad1356f4c889afd5d888f1919d7be6edd875138810302c3",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "0c363df5-09b5-50cf-85b1-e09aa2d59d7c": {
+    "sha256": "65bdecfe7ff68ad71c6dccfd7d02561c0989cb9c7f05a268dd9a6c07ae63759b",
+    "recorte_sha256": "a818d21779d50e9d68065e6a79c6f348dd43232eacff49860ce92876c8c6c6f5",
+    "segmentacion": {
+      "original_sha256": "65bdecfe7ff68ad71c6dccfd7d02561c0989cb9c7f05a268dd9a6c07ae63759b",
+      "imagen_sha256": "038dcc73974fb0b9de618003b847d9fd359f01159d0dfb16c5879853088a1472",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "65bdecfe7ff68ad71c6dccfd7d02561c0989cb9c7f05a268dd9a6c07ae63759b",
+      "encuadre": [
+        0.17,
+        0.2492,
+        0.85,
+        0.7832
+      ],
+      "motivo": "Comparación visual de máscara y original: se conserva foto real con encuadre cercano sin sello; máscara descartada por cortes o fondo residual."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "8c2a683bf35b70ce4184d8ace599e03ba7abc7b5ff83aeeadfedddd8150640e8",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "572d521f-d34d-5542-abd5-03a4336d2e62": {
+    "sha256": "40578cd724fd19dcb7dc2ef25e24e1d7a94af3035ccff9ca4c0165cec3bec151",
+    "recorte_sha256": "f1c5b13e8aa21840dea4b9e15e2013a0e77b91bcf350c9feba337dbd2400b1e3"
+  },
+  "15f1ec60-f74c-5e88-b652-b1b309c6a121": {
+    "sha256": "64d5d632bea5272dbbbcc78d29a14bd658f069ce90e9bcbf227a2f5977c6856c",
+    "recorte_sha256": "29f77ea4b2551fabbca53fb5c37911608b2c2ac1bb2fc78077d85525d76f3d8e",
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "a9b90df11f34f5e32d724d92ceca5fe045e2c6898df2782724ee3260c87ec2ef",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "3df42afa-94f0-56fc-b411-d524671e6de1": {
+    "sha256": "263cd4698143e82f0af2505c14d104248cd719d9982a9e25fa01fd83162e3129",
+    "recorte_sha256": "b066130dfe4028e96e16c8480f9906498ac9fa124d4519b4c53534ca6c7b28f3",
+    "segmentacion": {
+      "original_sha256": "263cd4698143e82f0af2505c14d104248cd719d9982a9e25fa01fd83162e3129",
+      "imagen_sha256": "820606bde50e418cdf5488e3d8fe1f5e4d29a6485ade565b6f28bebadbe8206e",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "6d58417a82e8cba01f556713735af80688b7699f054ec21492c2f15f6a855956",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "dd68c06b-89d5-58c5-af11-e149be913afb": {
+    "sha256": "145c532f49963937dad840f82a2a6ddf13560a690d573092f45b1b5152f8c1ef",
+    "recorte_sha256": "9fe86c886ac4196b8583bebda9576400905cd188118599e08641b735051831c3",
+    "segmentacion": {
+      "original_sha256": "145c532f49963937dad840f82a2a6ddf13560a690d573092f45b1b5152f8c1ef",
+      "imagen_sha256": "a6d367c495973cdd84bcf359169028574ba12fe6cb2205d19f075d518484f143",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "0f485e85d604531b1142299955b04336811b352525164302c9b3e714713c5412",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "e2189d68-da70-5b5d-a8a2-92f65caa1c8b": {
+    "sha256": "281e44283d54afcf73efe36c2950c1ad571003e469c983281c9ad47c1ae8a77b",
+    "recorte_sha256": "7bcf2975a243cb1bcb4d74b41cfa7a7e7162096cd9d909153439909da1c4b4ef",
+    "segmentacion": {
+      "original_sha256": "281e44283d54afcf73efe36c2950c1ad571003e469c983281c9ad47c1ae8a77b",
+      "imagen_sha256": "b75836bef920c2b5c995f2c909af377fd228720e718c265ed248f77a2118fd36",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    },
+    "tipo_aviso": {
+      "valor": "por_confirmar",
+      "descripcion_sha256": "1320b76576488b2e85c1e8d4be6fe6c3d9fc6d1f5a0a5ae6364d437fd33c65bf",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "781e37e7-e7f1-5ffa-9c34-2243a273b8e4": {
+    "sha256": "9c8aa5a33a99418c14ae188a7e421c9ad80c2ced9e9936c8a945fbe35e511c8b",
+    "recorte_sha256": "c6f973fe71e151f6741299a09582442d7581350b0f2527610094d77fd3289d51",
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "fb61d27c5244a01ecf15645f66f8cf9443c9155bebafd6b0055ecb24fc2ea88b",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "3bd2bbfd-6b8d-5f0e-8b2c-e964133b5bd1": {
+    "sha256": "820724d3224e40e6e42e3597eeb56c9bc24e574d2559154752fbf0aeced84d84",
+    "recorte_sha256": "7cc3090937d58a3fff5c3311bcaa75e7df4877e4b8c27e830807a382ae573c20",
+    "segmentacion": {
+      "original_sha256": "820724d3224e40e6e42e3597eeb56c9bc24e574d2559154752fbf0aeced84d84",
+      "imagen_sha256": "7bfc86948900ddd60fe38561b86acaab72bfbc0fba29be884582c8480bba6b00",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "e13e3f514dda8da8157267e4d05ec29dbf717f013d27081a70efbf29687a6a12",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "b9a35c56-d32b-552b-9b29-923288278a4e": {
+    "sha256": "69364ad3e70075caf156ad0f6294b0e2f17527a213f7f494cee43bdee24acc25",
+    "recorte_sha256": "bc3bff68a13bf6469c07b18a9e68ab40246dfa54e13b161c57fe34e2c5b75d66",
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "870b58d94be1314858e8dd2197ebf3e63ad0c32f93dfebd73f06f9798ae3e829",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "950298ac-ae73-5e36-9317-fe3ec76777a2": {
+    "sha256": "38feb4c966d917bd3ad31af7799408db1ee0381f69029a58917402ddede1fd46",
+    "recorte_sha256": "d0272882b00a71a7ef5a3c31d0b05887cbe6e8a3f16f74d108562e758d582ae7",
+    "tipo_aviso": {
+      "valor": "por_confirmar",
+      "descripcion_sha256": "311fa845f07316f680d37b723c3933fefb7cf5bdebb0fd3d3d7b133052f78342",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "ddf4233e-fb2b-5d46-9bd8-4cbffee5024c": {
+    "sha256": "79b3c0744106944d81915fae6bc9ee0c611c04f6042957b1534796a3916f8fcf",
+    "recorte_sha256": "3caba0351899b9cd6aa6b098a34bd325fa60ab83b8523470dc4d784a8815610e"
+  },
+  "9337a290-bdea-591f-9fdb-98954dd0d3d3": {
+    "sha256": "7fbe3c9b246ec9430e571f95cb6b622ff7f87e9a8c54b395c51555985d69d5d6",
+    "recorte_sha256": "372088b7545f7671a7adb5fe288f96bff3d9646c138d4ec0a9ae5f702869d45a",
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "0ece315749638d0d520bd86d69b9a4f582c23c851d34f93974f84889ebd3849a",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "c5a7c2c0-e894-5c08-8f27-7cf1f1ea1a57": {
+    "sha256": "93e4bccc2b8a9408ab45d539fccf39c24d4b2a412a81fecc13795e0609eaca2c",
+    "recorte_sha256": "092ee53a81dbe5fde7156189380ae6df992cc43cdaf7dce76346f4934cabf890",
+    "segmentacion": {
+      "original_sha256": "93e4bccc2b8a9408ab45d539fccf39c24d4b2a412a81fecc13795e0609eaca2c",
+      "imagen_sha256": "932985c41b3c455e77cef31769a13eb693d50604ded8402ff137a624f01deaae",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "93e4bccc2b8a9408ab45d539fccf39c24d4b2a412a81fecc13795e0609eaca2c",
+      "encuadre": [
+        0.45,
+        0.29,
+        0.65,
+        0.45
+      ],
+      "motivo": "Encuadre rectangular revisado: sello fuera del marco, sin reconstruir ni modificar rasgos."
+    },
+    "presentacion_revisada": {
+      "original_sha256": "93e4bccc2b8a9408ab45d539fccf39c24d4b2a412a81fecc13795e0609eaca2c",
+      "imagen_sha256": "3f2494453bfa353186d1e798513374b48bacf3de920294e33cfe4076d528af24",
+      "foto": "data/sosafe-fotos/3f2494453bfa353186d1e798.png",
+      "estado": "sin_fondo",
+      "motivo": "Silueta comparada visualmente con el original; conserva partes visibles y rasgos sin reconstrucción. Solo transparencia y recorte."
+    },
+    "tipo_aviso": {
+      "valor": "por_confirmar",
+      "descripcion_sha256": "55d54a7cdb83ec14d3c6bc1f11f42ab57c6097b32cdc2ec0543c759a391501f3",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "79b1f04e-675a-531f-a5bf-4354909e143b": {
+    "sha256": "268c2e577c9d41ab88231b14eed48f21a1057c318b5e58326740c03d7a2550ae",
+    "recorte_sha256": "9a7b9744df89b87d19f816eee36d2753f2c7ccdf4570715891f661c37b97d553",
+    "segmentacion": {
+      "original_sha256": "268c2e577c9d41ab88231b14eed48f21a1057c318b5e58326740c03d7a2550ae",
+      "imagen_sha256": "27cf297e623e032fe9018292d997e5568afaff7ff95d6e4f2b86a7cfaab1b756",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "268c2e577c9d41ab88231b14eed48f21a1057c318b5e58326740c03d7a2550ae",
+      "encuadre": [
+        0,
+        0.0,
+        1,
+        0.9
+      ],
+      "motivo": "Comparación visual de máscara y original: se conserva foto real con encuadre cercano sin sello; máscara descartada por cortes o fondo residual."
+    },
+    "tipo_aviso": {
+      "valor": "por_confirmar",
+      "descripcion_sha256": "034fcbd8302d60e4e97c8825fe83e0c9a0a68d053c122e81f92a722fbe2bc8c6",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "17d93426-eac2-5eb6-ab6e-47caa5be178a": {
+    "sha256": "034fe285fa1e3c79c3cf335340fbf70111e70935971d261fbb7ff11a0358c753",
+    "recorte_sha256": "99519db86f8771fa30987f5b6276b7f1d8ab26807eeed8434f0ed0e2ce0b369a",
+    "fecha_extravio": {
+      "fecha": "2026-11-06",
+      "original_sha256": "034fe285fa1e3c79c3cf335340fbf70111e70935971d261fbb7ff11a0358c753",
+      "evidencia": "Afiche: PERDIDO 06-11-2026."
+    }
+  },
+  "cdec6aa4-383f-509a-b508-d826f47a5ea8": {
+    "sha256": "e68f0c2e2aae7fd2ecb3f8a1be99326ee66bce403d8b2fd2f2d464b395a59a34",
+    "recorte_sha256": "f6a313b0e003e1f3f6fded9ed34109596a64a2b9c5ec8b288904026def13b523",
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "3130e77f3a5f9fa690987d690e9949ba86fa5a409af03b08e70990014f1cdb0d",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "3e3e59fb-abbb-5dd4-be6d-219487f04d47": {
+    "sha256": "d5f7bf56208f66c600adc531bdc2858461c285cec99062ae834d1bc9f0d498af",
+    "recorte_sha256": "a442f742e4ed1e84e43f637080f22fa2b995205dc7a5add83448f4e716d86536",
+    "segmentacion": {
+      "original_sha256": "d5f7bf56208f66c600adc531bdc2858461c285cec99062ae834d1bc9f0d498af",
+      "imagen_sha256": "7a7f72aff284348fa4eba17d05445d72871706a2e7aec172d2d1f3468b58411f",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
+  },
+  "44152f85-4f63-5fb0-8a9d-a6e44c3dbb13": {
+    "sha256": "d5f7bf56208f66c600adc531bdc2858461c285cec99062ae834d1bc9f0d498af",
+    "recorte_sha256": "a442f742e4ed1e84e43f637080f22fa2b995205dc7a5add83448f4e716d86536",
+    "segmentacion": {
+      "original_sha256": "d5f7bf56208f66c600adc531bdc2858461c285cec99062ae834d1bc9f0d498af",
+      "imagen_sha256": "7a7f72aff284348fa4eba17d05445d72871706a2e7aec172d2d1f3468b58411f",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "d5f7bf56208f66c600adc531bdc2858461c285cec99062ae834d1bc9f0d498af",
+      "encuadre": [
+        0,
+        0,
+        1,
+        0.9
+      ],
+      "motivo": "Encuadre rectangular revisado: sello fuera del marco, sin reconstruir ni modificar rasgos."
+    },
+    "presentacion_revisada": {
+      "original_sha256": "d5f7bf56208f66c600adc531bdc2858461c285cec99062ae834d1bc9f0d498af",
+      "imagen_sha256": "d5138175128ed53f5278c96c20b1c141b7a355031ffcf825a851ce29153afbca",
+      "foto": "data/sosafe-fotos/d5138175128ed53f5278c96c.png",
+      "estado": "sin_fondo",
+      "motivo": "Silueta comparada visualmente con el original; conserva partes visibles y rasgos sin reconstrucción. Solo transparencia y recorte."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "f496a181d810fb553ed90124c7b31814b730318273238ae2037908bb0de6c1fc",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "0e72efe0-dd4c-50f0-bc6a-05cd7294a8ab": {
+    "sha256": "54bc3d85449149e0c7ee76338107ad0f5928048ff75077303beb8adb5a732bbc",
+    "recorte_sha256": "cd71f993a20ac2f6aa3400aee4c83a6fe796ed2255c7fc197d5e3e14d62d1449",
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "611571c30a3b48ea212368933ed88c98643ebbc78bfd46fbfe15f923c439b74a",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "48188793-0a4d-575c-8f03-c21d3cb8043d": {
+    "sha256": "355d33964b77738957524d6486b77dda0135c134ae2d74fc20abaa2db2159d13",
+    "recorte_sha256": "d2566abc529ece5a4af833ec736a2a1020c27e834754a0092888122cad6c0056",
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "faa299030f184d061b3a0864f2b0b9103e0793e442f4a87e2b0ef5e31efd8bd3",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "e8f4af8e-b4a8-5bd8-9e27-69a50b7a80bd": {
+    "sha256": "43810b3786ee3dbfffef7d6cd1d0adcee6d68d42360aa483794a9899e85405db",
+    "recorte_sha256": "28d33ab93905f7d4c67b3c6f31d4391360dfc56a9f06c5659d9bd43a368d6f30",
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "16ea836ce83826ae50cf5f5e52d0ac278b9db629b92fe81a0813e78f2edecf47",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "a893cef9-aecc-5974-874e-41a17ec65986": {
+    "sha256": "be7333db8631582be995789098e6d69a76d17b2be3816ceb6cff4fe987a6b098",
+    "recorte_sha256": "3cda432cfb8c90bc7aca792085ae1a717eeb83c8011795b2a07d718a1558ea6e"
+  },
+  "5882da4f-5a74-582b-ad7a-2bbdf9098f28": {
+    "sha256": "ac446313c65ac823d682a66b4c6637afb27113d21636c2e42440cc85dd7ea8df",
+    "recorte_sha256": "c1cf8c9c78a6783d4154f36bec03ec04850a944d253a9e50e4635d2c5b11abb8"
+  },
+  "95c46ef6-f423-5f22-8695-39ff8ddc7148": {
+    "sha256": "8cefd32ca5c1dbfc17739ef879630911e9ad47bc001dbdc6897e49cadda8ab6f",
+    "recorte_sha256": "a8a9611162535e7f495b3d5ae30466388a3f9dab1b759ff84f7f2157d3b46276",
+    "tipo_aviso": {
+      "valor": "reencuentro",
+      "descripcion_sha256": "83e9a3bf288377f3ab996be4fef4bdd378653de5743ac8cd727eb96389505e89",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "969dea71-9a1a-55f0-ad4a-31b196d22524": {
+    "sha256": "1b644b75ebfd5405597304b228fe03919bcaeb4e74dade82b8928cca4d255969",
+    "recorte_sha256": "74b5e876d2eaed59efa94022dd4319e8f9a960e839565892a27557a396528337",
+    "segmentacion": {
+      "original_sha256": "1b644b75ebfd5405597304b228fe03919bcaeb4e74dade82b8928cca4d255969",
+      "imagen_sha256": "bc65104682762f437ea1ec741abaaa9702077a3c71249e8bea3f4f6e5ed7e70c",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "24e9c91267ca87a0e3891d0818a15de1a16bffd1c7dc5777050133d5e65790c1",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "5121d0c5-8ff4-57b6-aed1-c73b525dd4c8": {
+    "sha256": "40ffe5880cae8c853a86fca05c45a3a5f3d9cda075fe7ead0c88c69b2ab0ce79",
+    "recorte_sha256": "fe1e9fd5cfb267c24515f65a6091ba1e814c2b799de2cd13e21356541649c8d3"
+  },
+  "de5a33d4-2cc7-5a2e-ae49-3862db265c15": {
+    "sha256": "2cd75e2144612bfd394e327212360807bb58afae9ad21707f1a4773c8b689c15",
+    "recorte_sha256": "df2a3d8cf609ecc4cbd67919c7e5ef52748f13230ce6b62f3196017d7145b437"
+  },
+  "a5e0872f-5bc6-5f23-bc34-c8f768afb431": {
+    "sha256": "36406b523c435056b42edf62a28d7c4627669c171e6a42b1035e1069f34d6314",
+    "recorte_sha256": "cd6a94a9c3b81cb8f1944bdc9e7fec0a91a5c27770fa590a0f55c4a5df8e0c1e",
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "f249f5f784addb7b1729fe582fa91ca83600a87072296ffbb0f9132cf130ab71",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "62cee0ae-f1a1-5a86-851a-1cce82831ac3": {
+    "sha256": "bda5cf93b1d2cd7da51d5982cb28f907b7dfefa1ebfce38ae7d14a58a049e360",
+    "recorte_sha256": "8aff67a2702b274b6b455df4979a14438c2f8d3241a181578e443a1ee96b9ac6",
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "73f0bb59b1a3c669d8aeb2f2a9125fc2b19649e14eef5a8c051f76e973d2ae5c",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "b28b9ce0-9c5c-5b28-b128-cbcb17bb2bbf": {
+    "sha256": "f401d2379df0d7f04d505da2b18f3fdfdfd02e3e7aa62a467d5e6a8cbd361e42",
+    "recorte_sha256": "8926c4c123a84cd746c17c8ccd5aac40549afcfac7adbe3cf4e45b86ac248ad2",
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "0ab92956dfcb3c5986e3e9eb5bce64cecf4f74bb21ce4175de9fb2dbfe89d126",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "182309ae-0fc5-574e-9d5f-bae07b91de85": {
+    "sha256": "6d8c187675e7fdecf0046a6a7976181b03b63c322a7efe6d9f02d0b494b27b99",
+    "recorte_sha256": "4360e366fb5615a9c472456f84cadd9eb2e362985b8beddd24445327cf8b9c37",
+    "segmentacion": {
+      "original_sha256": "6d8c187675e7fdecf0046a6a7976181b03b63c322a7efe6d9f02d0b494b27b99",
+      "imagen_sha256": "bdf3b283b8838ee711418185c353df5604824877deaa0cdc59b6d7d380a19e05",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "6d8c187675e7fdecf0046a6a7976181b03b63c322a7efe6d9f02d0b494b27b99",
+      "encuadre": [
+        0.64,
+        0.35,
+        0.78,
+        0.66
+      ],
+      "motivo": "Comparación visual de máscara y original: se conserva foto real con encuadre cercano sin sello; máscara descartada por cortes o fondo residual."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "7c14857d5e4fbe2e4a7f927916cf5f521d34fdcebee95b35534366c7826a89f1",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "df7906d3-4a44-5167-a369-5872eab413d9": {
+    "sha256": "03051c8a23bd338bd414052a7b2bcca7ecb63525ffce8a06a227b4dce4753f43",
+    "recorte_sha256": "ad16269ef62a5cf72d1ccba5ae796fa33fc507e82df0a7b1dfe597a913e2f1a0",
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "0da8a4e848ab39699c4e9a66bad553a0c996803a6a5889081832ddc7ad8f23cb",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "fbfa36f7-5c37-5233-aebc-21d209742a22": {
+    "sha256": "f3dce9ddd4010a80cce17407511b7ebaf4277989045d6a419b4ab317c97be295",
+    "recorte_sha256": "03c28d4479605546d2388d0a8fc9832fd0aab357b2bac48e6eedb1e3db17dcd8",
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "76399435918b52a0ec0e95e8bebfd8bb2e68f816d3661b4d2b7c63634ee175a1",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "35ec49f8-3518-5738-baff-a807347433e8": {
+    "sha256": "16245530e8ffcefe565fb24b67f9bfd3ef4773247acbb9cfc5ee8842093704a9",
+    "recorte_sha256": "0d2a74116bf8cdbe0944c697acaf9befd9119fd97025f86ce47a7de12815706a",
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "5f95ca65fd5620caef299c688a19fa887181de5cf35c096862d61121369434d8",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "e5c3a8af-e5c4-5f07-a56a-44e58472bc7f": {
+    "sha256": "4a9242d8378edbba5a008e7b8823abb18da81bdb9c9f264fa0d36275332b7b43",
+    "recorte_sha256": "089d7d5ddff34c408c5ca1976aaa2dd5b1ae59c3f6235d34dae074861130c841",
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "fd8a09451a7b52a08fdbec6c0810e8991ba798d35aa27c92b554501723d7dd62",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "b156820b-5965-5255-9c5c-005f07c954fa": {
+    "sha256": "2d65c3b88f96f7be881e6df29a017b91d789895f43f1cf36f9580c072803bfaf",
+    "recorte_sha256": "9793eeff8fa4f9e8426c3412489d599430a74fe3d7ce875accba44f48a8d0cd4",
+    "segmentacion": {
+      "original_sha256": "2d65c3b88f96f7be881e6df29a017b91d789895f43f1cf36f9580c072803bfaf",
+      "imagen_sha256": "e04cd339836b9d173a13c3b3407cd8dea4da8977e55715964831cdf8b707b2c3",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "2d65c3b88f96f7be881e6df29a017b91d789895f43f1cf36f9580c072803bfaf",
+      "encuadre": [
+        0,
+        0.0,
+        1,
+        0.9
+      ],
+      "motivo": "Comparación visual de máscara y original: se conserva foto real con encuadre cercano sin sello; máscara descartada por cortes o fondo residual."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "c57021a0bafe30ad563e9c0c72b3cd5fabfb6b30de3e8fd584b920c8fb1af53e",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "1045705b-d7a2-596f-a8f6-0574cf2ea3fc": {
+    "segmentacion": {
+      "original_sha256": "6c967f0febff242fd57219f916307938dad0ddcac3fab9e554c38d665f8a4c5f",
+      "imagen_sha256": "56e435358bc871a194131479cd3ad6d0785cd423512bb406d2fd82307b6186e5",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
+  },
+  "73c813cd-5822-513d-a9a8-9604727c94d7": {
+    "segmentacion": {
+      "original_sha256": "6fdea4682480ce8eed8f87b8ae39b6a2578f6f5070a243815e64a07094a5dc3f",
+      "imagen_sha256": "a26aabef83776e0d51793c33317c245b1466caae4c652aefbc84015931999090",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "6fdea4682480ce8eed8f87b8ae39b6a2578f6f5070a243815e64a07094a5dc3f",
+      "encuadre": [
+        0.33,
+        0.3,
+        0.49,
+        0.46
+      ],
+      "motivo": "Comparación visual de máscara y original: se conserva foto real con encuadre cercano sin sello; máscara descartada por cortes o fondo residual."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "7838dfe76a074e2fc6c8ce04cbbf21c6f7bfbdd29293c0edb8c679a7a9358262",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "642cf763-bdb8-510e-8433-f23d87281f02": {
+    "segmentacion": {
+      "original_sha256": "497f587cffb07e3806476196558c7de2fbb2e62a239bc03b08fe9c98f569f5b6",
+      "imagen_sha256": "526b15e1d68d50e41d44e33d0e03b27e34554ff2c3b3c6063e8fa92118fe7576",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
+  },
+  "d23aa0bd-d109-593c-92b1-f3e82a93f7a4": {
+    "segmentacion": {
+      "original_sha256": "497f587cffb07e3806476196558c7de2fbb2e62a239bc03b08fe9c98f569f5b6",
+      "imagen_sha256": "526b15e1d68d50e41d44e33d0e03b27e34554ff2c3b3c6063e8fa92118fe7576",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
+  },
+  "9f6a2d4e-bc15-5559-b3ca-19e0f421a47e": {
+    "segmentacion": {
+      "original_sha256": "3d1f26ec8fbab6b9c6fc2df9f8eeea9cf2af6eca3dc82cea200a5d9ba6af2174",
+      "imagen_sha256": "911f0b239d6c22e37dd131a6622c83ba636fdd9ab004c72131dc5ff9202002b1",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
+  },
+  "0df92049-2498-52a5-955c-170a0af03ba5": {
+    "segmentacion": {
+      "original_sha256": "71de631183dd7b70888622c80c37918bc1185e0a97a15eb6fbfc564521407d33",
+      "imagen_sha256": "d8c4431865586fb027d1b8a8f789dcc207318af28b1dff884abedbbd2d9874ca",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "71de631183dd7b70888622c80c37918bc1185e0a97a15eb6fbfc564521407d33",
+      "encuadre": [
+        0,
+        0.044,
+        1,
+        0.88
+      ],
+      "motivo": "Comparación visual de máscara y original: se conserva foto real con encuadre cercano sin sello; máscara descartada por cortes o fondo residual."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "c91162eb87a5fb0eece5da746f2ae948232028fa8c528fa5fccd47372e44f098",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "460595ed-1d65-5e37-9b74-21fd4b6f0e5c": {
+    "segmentacion": {
+      "original_sha256": "3d1f26ec8fbab6b9c6fc2df9f8eeea9cf2af6eca3dc82cea200a5d9ba6af2174",
+      "imagen_sha256": "911f0b239d6c22e37dd131a6622c83ba636fdd9ab004c72131dc5ff9202002b1",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "3d1f26ec8fbab6b9c6fc2df9f8eeea9cf2af6eca3dc82cea200a5d9ba6af2174",
+      "encuadre": [
+        0.1,
+        0.2225,
+        0.57,
+        0.712
+      ],
+      "motivo": "Comparación visual de máscara y original: se conserva foto real con encuadre cercano sin sello; máscara descartada por cortes o fondo residual."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "72d33f9337f02e9f4232c4d348832f098fb071f151d3ee721b68ffd2a89d551a",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "df60f528-a913-5dee-98bb-de09ecb235ba": {
+    "segmentacion": {
+      "original_sha256": "4d2d33d31fb9018f90327bfa7adab744cb767ad8a6f1781f6f1fe608c6885e87",
+      "imagen_sha256": "57f9ebd728eba30a59e433ab1aeaa935454ac705452dddcbbf76bc845c43d991",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "01517d9ad6287ade609404352d85462a60f2e447c496cf6d7b97f60cc3bb5b46",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "438dbbc4-4f7f-5667-a4ed-c155db29e23d": {
+    "segmentacion": {
+      "original_sha256": "ec72e56ec3c7dc5188b7a2c9d3833b31a6aae78ed4ae99407d104e94d41016b2",
+      "imagen_sha256": "2262154c54bfc0c46a4a35e576fc9513a562d27c006b858c4ae2a9ddb1d59180",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    }
+  },
+  "649385ca-9e10-53c8-9b97-c6358c09244d": {
+    "segmentacion": {
+      "original_sha256": "ec72e56ec3c7dc5188b7a2c9d3833b31a6aae78ed4ae99407d104e94d41016b2",
+      "imagen_sha256": "2262154c54bfc0c46a4a35e576fc9513a562d27c006b858c4ae2a9ddb1d59180",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "7b5570d7f5de6a5c6497b793e0faf355d5a19c9e2e68724aad320705492be4ca",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "d4f32268-ce3e-5c3a-ab46-a54b4268da70": {
+    "segmentacion": {
+      "original_sha256": "ca5ff158f1a113f05cc859f6b377777cabcf4f3e8651f8b504a9207b25f4f34c",
+      "imagen_sha256": "a8f86d873a41ba17da4a574df98e3616c3813d2a2a8ffbac90d91d44cc3345f9",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "2045aa071093df322630a0fa5d3ad015780334391fdf7b889feb39ec41294e73",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "aaaff875-7d7f-5036-a32b-ef6220bc66ff": {
+    "segmentacion": {
+      "original_sha256": "8373e7b92548bc038b9ff57c0dc566cab84b4ccfaf5d93c81eda3b3b23423f3d",
+      "imagen_sha256": "56ff6eb8fb9b61d348f4be3c9a1c87346da50784536ba910aa061a12e64f1497",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "d615faef2c67d4b5386377358cdee941219a5e523a8736af4fe084df927e8d43",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "15871b90-92eb-5d70-9a4c-80e404b3cd15": {
+    "segmentacion": {
+      "original_sha256": "a8a8c6eeaee5e2701cbea45db9bc96961eadf58b481f587c7647693940165d5b",
+      "imagen_sha256": "b1d6527077abc28ba3953da70ceb8edca4eede594b9958a799985381cff7f081",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "95b4fda9462039117ec5f8dcbc5cdcacf5d2fb8f5be36bc8291bb6325cd8c758",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "4ea5f77e-36b8-5543-9278-70d41f9e80ec": {
+    "segmentacion": {
+      "original_sha256": "226b0cba4c4b5634ffc02f4b9e8255fac14091d1591ca707dff4749ca6abf3dd",
+      "imagen_sha256": "988374363ab0beebc1a70c448706622e9eacff538a58906b2c412635c37f6374",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "767ca882c6c978db29b40debe712bd14a802bdbd2ef5987158b39bb8d315f510",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "5026a7b9-f9d3-578f-8501-2ab880c5be5e": {
+    "segmentacion": {
+      "original_sha256": "c83683581e502e200c16efa14f3de576ac128ba5252288247d51f7836d465ebf",
+      "imagen_sha256": "122bf5138a03a222888ebfdfcce31ee2d48d6b0c9b117b866d37db2d0a9ae97d",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "c83683581e502e200c16efa14f3de576ac128ba5252288247d51f7836d465ebf",
+      "encuadre": [
+        0.08,
+        0.2275,
+        0.98,
+        0.91
+      ],
+      "motivo": "Comparación visual de máscara y original: se conserva foto real con encuadre cercano sin sello; máscara descartada por cortes o fondo residual."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "a63b7226364baaf8be964cd3d7057fbb5f63f04f7597cdc59ef7bfe39ecd9558",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "41523987-9120-5f16-97c3-456f3ae866c3": {
+    "segmentacion": {
+      "original_sha256": "a0f5e8b11398db1b732b13b7a29e1270837dfbbae20ffc7992066eb708eb2206",
+      "imagen_sha256": "1efa8b9baa5372a75857666259611074e15c097bc9eeb8961095c3c7404a1b83",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "a0f5e8b11398db1b732b13b7a29e1270837dfbbae20ffc7992066eb708eb2206",
+      "encuadre": [
+        0,
+        0,
+        1,
+        0.91
+      ],
+      "motivo": "Encuadre rectangular revisado: sello fuera del marco, sin reconstruir ni modificar rasgos."
+    },
+    "presentacion_revisada": {
+      "original_sha256": "a0f5e8b11398db1b732b13b7a29e1270837dfbbae20ffc7992066eb708eb2206",
+      "imagen_sha256": "3f9b0a4d260fab6daf7f7673fe1413976cebd49084ac78b2b959f8c9db7b3157",
+      "foto": "data/sosafe-fotos/3f9b0a4d260fab6daf7f7673.png",
+      "estado": "sin_fondo",
+      "motivo": "Silueta comparada visualmente con el original; conserva partes visibles y rasgos sin reconstrucción. Solo transparencia y recorte."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "b98fd1657f7090a53d6f65be8f94578adc306ca752cd8e93d60a3953817fab39",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "8c829621-05b3-51fa-b30c-115a11ad8de2": {
+    "segmentacion": {
+      "original_sha256": "c83683581e502e200c16efa14f3de576ac128ba5252288247d51f7836d465ebf",
+      "imagen_sha256": "122bf5138a03a222888ebfdfcce31ee2d48d6b0c9b117b866d37db2d0a9ae97d",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
+  },
+  "be04edaf-f03b-54b1-a957-3ec3867c6372": {
+    "segmentacion": {
+      "original_sha256": "b3b63883f08139dbb1225fff0008f35081c28c235a44de5c4e2ffd10c2ebf4ff",
+      "imagen_sha256": "31438409dbe38cb610e446f8fa4449ab7ffa6a43cb572c7979c63113523f9e2e",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
+  },
+  "7642788a-e406-5e26-ae97-7a6e3a4a6adb": {
+    "segmentacion": {
+      "original_sha256": "b093dea4e2bc6b4984f61cd89dedcabc93062ae4fcf69a60a32a22c0db39679e",
+      "imagen_sha256": "97e56723184d631cfe638ca4f1e9364c001e761cbf4ac9da0a004930c22f6021",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "b093dea4e2bc6b4984f61cd89dedcabc93062ae4fcf69a60a32a22c0db39679e",
+      "encuadre": [
+        0.2,
+        0.18,
+        1,
+        0.9
+      ],
+      "motivo": "Comparación visual de máscara y original: se conserva foto real con encuadre cercano sin sello; máscara descartada por cortes o fondo residual."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "f1a3b958b8b77fb47a101900f2680b3146f94ae060a68f953413b6347a81c947",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "ae9c4432-41db-5e05-979e-8cc376171c87": {
+    "segmentacion": {
+      "original_sha256": "9a419541a9b2928c623df4a6b415ff2781ffb52927bb43ea184d7bc58bc0845b",
+      "imagen_sha256": "bab0dc98b46c5aea319fdd880ebb9db0d37c3c791178d6945271a5b7453a5621",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "9a419541a9b2928c623df4a6b415ff2781ffb52927bb43ea184d7bc58bc0845b",
+      "encuadre": [
+        0,
+        0.1092,
+        1,
+        0.91
+      ],
+      "motivo": "Comparación visual de máscara y original: se conserva foto real con encuadre cercano sin sello; máscara descartada por cortes o fondo residual."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "d0b2de94cf53d0a377e2efc9f851c9fa3bf279cc12b2af07ef13d87780957fdf",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "bac2de9f-1bc9-5bf4-9d47-79ecb294de07": {
+    "segmentacion": {
+      "original_sha256": "fee86a7b3e382746e5ed4950c56f3bb23dad395ad4fc54b048b9ab2839f5bcc7",
+      "imagen_sha256": "cab55a8ead52b9245325c29e778eeaf17ec7f16f59018f7ead35f80a44e2c4eb",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    }
+  },
+  "985cf71a-34e4-5f23-9a26-7c7df2f1203d": {
+    "segmentacion": {
+      "original_sha256": "fee86a7b3e382746e5ed4950c56f3bb23dad395ad4fc54b048b9ab2839f5bcc7",
+      "imagen_sha256": "cab55a8ead52b9245325c29e778eeaf17ec7f16f59018f7ead35f80a44e2c4eb",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    }
+  },
+  "a3843bcc-409e-55cc-a6a7-e89ec8365b9a": {
+    "segmentacion": {
+      "original_sha256": "94f78c5da88c008ee696ec0b6860a8289842abd6f35416613ea27e4d036940d2",
+      "imagen_sha256": "5b908eb3db81663a272acaacadd66594a19dc3d31b159d4c6dbf7e074260f0d6",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "a514b996a57b40866586e04b8606441cf01545a2ae09ae95de6bf1642529ae9f",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "0501c668-63d4-5d33-85e4-8c17a7ddfa62": {
+    "segmentacion": {
+      "original_sha256": "95759032b85de84747a12faa900ea0d20bed9bfeec0a1e323a6af7bcf974ec3d",
+      "imagen_sha256": "2af35bcd9f9accb8345a34ea64417af40b20cd5313a9680bc76ece623785753a",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    }
+  },
+  "2755d4c2-842a-50a4-9709-2d36b2e6dd4b": {
+    "segmentacion": {
+      "original_sha256": "f0a948a474cdedac9619f1cd3f5aa9b08e95c76f29e6702ca714fdcc2f89cc0e",
+      "imagen_sha256": "7de347c872ce2763a9dc1026036767e20b146ccff761cce8d555ca709c28b681",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    }
+  },
+  "42467f82-6218-5e2b-93db-a57b42a3833b": {
+    "segmentacion": {
+      "original_sha256": "f0a948a474cdedac9619f1cd3f5aa9b08e95c76f29e6702ca714fdcc2f89cc0e",
+      "imagen_sha256": "7de347c872ce2763a9dc1026036767e20b146ccff761cce8d555ca709c28b681",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    }
+  },
+  "94c19985-ce0f-5688-9d91-344631984c2d": {
+    "segmentacion": {
+      "original_sha256": "87c6232039ca6662e1eddd791d1ec4188f5966e6019e6887fcb5e1b2c5b944e2",
+      "imagen_sha256": "1f773d25e0fca18f8cec20521ebf62069234cbc8efe94428af27df3a5d83eb24",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "2c6f4c4ad0be40b995830ed367b3b7270de85caf37f5e9f58038dbdccdeb6d22",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "5dbc080d-351a-5cd9-9fc3-d6bc41a7eb96": {
+    "segmentacion": {
+      "original_sha256": "b3b63883f08139dbb1225fff0008f35081c28c235a44de5c4e2ffd10c2ebf4ff",
+      "imagen_sha256": "31438409dbe38cb610e446f8fa4449ab7ffa6a43cb572c7979c63113523f9e2e",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
+  },
+  "048d05c7-a262-5a3d-a79c-ac8c3d552e54": {
+    "segmentacion": {
+      "original_sha256": "b3b63883f08139dbb1225fff0008f35081c28c235a44de5c4e2ffd10c2ebf4ff",
+      "imagen_sha256": "31438409dbe38cb610e446f8fa4449ab7ffa6a43cb572c7979c63113523f9e2e",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "fecha_extravio": {
+      "fecha": "2026-11-02",
+      "original_sha256": "b3b63883f08139dbb1225fff0008f35081c28c235a44de5c4e2ffd10c2ebf4ff",
+      "evidencia": "Afiche: No la vemos desde el lunes 02/11."
+    },
+    "afiche_recortado": {
+      "original_sha256": "b3b63883f08139dbb1225fff0008f35081c28c235a44de5c4e2ffd10c2ebf4ff",
+      "encuadre": [
+        0.22,
+        0.153,
+        0.83,
+        0.765
+      ],
+      "motivo": "Comparación visual de máscara y original: se conserva foto real con encuadre cercano sin sello; máscara descartada por cortes o fondo residual."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "91158fcb58bdf90a2f466d15ed8ca6c2c6280cd3c97619160f01f8b6ca97dab0",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "0637ec04-30f6-52e0-b75f-2f1a9ceb5f67": {
+    "segmentacion": {
+      "original_sha256": "a0d9ab3859bb0b01c304ed7913794f1082eac6a04e852cd5ff19619da3654581",
+      "imagen_sha256": "75bcabab78eeb08194acc8188c91e79f3a8fee44af74e0eb4716a2ebabad1005",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
+  },
+  "686c8312-d233-54b2-8a01-adb3268a8591": {
+    "segmentacion": {
+      "original_sha256": "a0d9ab3859bb0b01c304ed7913794f1082eac6a04e852cd5ff19619da3654581",
+      "imagen_sha256": "75bcabab78eeb08194acc8188c91e79f3a8fee44af74e0eb4716a2ebabad1005",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
+  },
+  "2df5269f-3d48-5d5d-bbc3-b9289c720aad": {
+    "segmentacion": {
+      "original_sha256": "a0d9ab3859bb0b01c304ed7913794f1082eac6a04e852cd5ff19619da3654581",
+      "imagen_sha256": "75bcabab78eeb08194acc8188c91e79f3a8fee44af74e0eb4716a2ebabad1005",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "a0d9ab3859bb0b01c304ed7913794f1082eac6a04e852cd5ff19619da3654581",
+      "encuadre": [
+        0,
+        0.0,
+        1,
+        0.9
+      ],
+      "motivo": "Comparación visual de máscara y original: se conserva foto real con encuadre cercano sin sello; máscara descartada por cortes o fondo residual."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "0e943e52d711857631823136dcbc3202678b47cea7fe54d1dd374bdc555b51ed",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "f02e6208-d7c3-5d17-aeef-ef5b7bf71609": {
+    "segmentacion": {
+      "original_sha256": "8fa8a87f1489f0dbf550a9e16d25e6fa32ddcb00066a519b145d4489fdc9da1a",
+      "imagen_sha256": "4dba8b6d141f2944c707bb7067e3d17a066e6ab9dc99cda8f6ebc9c156b13346",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "029721d576773ce1c2022394b12f14ed6b95f9ea993e289ebe6dc313661bef8f",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "f7d24f15-e8e1-529c-b1c8-e50a6dee3b71": {
+    "segmentacion": {
+      "original_sha256": "f262ed08eba75d1fae118bc3834a51e8b84b29fa84003036fdde0895b4dccf5e",
+      "imagen_sha256": "b05cdd0d4ce633319db1bdfbb77792c584a044d020e110c9e106a5fecf8a11ff",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "f262ed08eba75d1fae118bc3834a51e8b84b29fa84003036fdde0895b4dccf5e",
+      "encuadre": [
+        0.13,
+        0.225,
+        1,
+        0.873
+      ],
+      "motivo": "Comparación visual de máscara y original: se conserva foto real con encuadre cercano sin sello; máscara descartada por cortes o fondo residual."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "afb050f2bf99a4be2eeda1c434040bd37af988d4d7b43ced2f4189f314aaf09f",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "a9498102-93a0-597c-9682-ae2708c72c12": {
+    "segmentacion": {
+      "original_sha256": "f8456d29a10512c98d1192dc1f4160e3fe7944a1cd69bf6197dc68094fed9f41",
+      "imagen_sha256": "5c1e6d180180cacc1a6a9bb5eb0ef5bc25c3bbe2c4aaa18945704e041873257a",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "8050981d5f8b71c3633668cfca94ce8082440c00092755af1d1c5d92ec11808b",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "7922fb1e-09ea-53e2-8bd4-179bc155bd3d": {
+    "segmentacion": {
+      "original_sha256": "54fd5d907e5047ee9bab7a1fb2a387bafe9eaf31726f7bc3cd6e9265295952b5",
+      "imagen_sha256": "083219eb2cff55269a1bcce480eb42730e7382b1449262a9233b3e505795822a",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "54fd5d907e5047ee9bab7a1fb2a387bafe9eaf31726f7bc3cd6e9265295952b5",
+      "encuadre": [
+        0.15,
+        0.1602,
+        0.98,
+        0.7298
+      ],
+      "motivo": "Comparación visual de máscara y original: se conserva foto real con encuadre cercano sin sello; máscara descartada por cortes o fondo residual."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "f428291f55013e4757904df10c8be002dc739dd8a5640bac06a8d5b3d88b63ad",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "7cdeb933-5f39-51c0-9fe7-8baf39fa832b": {
+    "segmentacion": {
+      "original_sha256": "5f28c64465035ba138ed9de2c6bad63491e12926e14d24d9e4c9eaf56b174490",
+      "imagen_sha256": "bb06d603f52c197a479ae3f79ab6dca56199e1bcc78317027e39a10edd36baf2",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "5f28c64465035ba138ed9de2c6bad63491e12926e14d24d9e4c9eaf56b174490",
+      "encuadre": [
+        0.0,
+        0.0,
+        0.5,
+        0.97
+      ],
+      "motivo": "Comparación visual de máscara y original: se conserva foto real con encuadre cercano sin sello; máscara descartada por cortes o fondo residual."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "363019c9a4f1856a807ba8913bc3c865d02c9d38660c3653c6ff1bbe4e838527",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "58fefb7b-2e30-5740-8a1f-004310018f0e": {
+    "segmentacion": {
+      "original_sha256": "828374ca7b032be7dd3e2bbc38b40befca63c06de624a3363edaeda971c5f6b2",
+      "imagen_sha256": "1b54d5209e84244f5516c1af80b86787ef4650c095609287da2a80c1ecd16ea4",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "cb6d57bf3b9d1647ca2ca72be70cacabe0504634e187e722f48fea9b49847e3a",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "dcd01313-bd71-560e-becd-36d9499ba811": {
+    "segmentacion": {
+      "original_sha256": "a0da18deab9c62274010d4fb7dbe62a862f37c6c5e916511c9e214f28598e5a9",
+      "imagen_sha256": "b302a1fcd852655ae658616c70587bed8c3175a1927529cf3a354261d0a1b807",
+      "estado": "aprobada",
+      "motivo": "Revisión visual: silueta fiel sin sello; color propio de mascota o accesorios."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "4e8ca63a14cd75e3b77c950693912556d98c4345132bc4903bd715a6c8380541",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "d2448296-26f9-5a11-87ec-042fb2a4e316": {
+    "segmentacion": {
+      "original_sha256": "68ee032cdb88975a1a3e875c0803550e2f7ede9f5082d96f91a8af987796bdcd",
+      "imagen_sha256": "559ee4d5028bd03f43c63ab658fb66a71824c8701c2f64b9ea96ddae13a70742",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
+  },
+  "cdc70484-9d35-5569-9995-fc7deb6dfdda": {
+    "segmentacion": {
+      "original_sha256": "68ee032cdb88975a1a3e875c0803550e2f7ede9f5082d96f91a8af987796bdcd",
+      "imagen_sha256": "559ee4d5028bd03f43c63ab658fb66a71824c8701c2f64b9ea96ddae13a70742",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
+  },
+  "6dc12ed4-cfde-59ed-88e4-0046cb8fc5b2": {
+    "segmentacion": {
+      "original_sha256": "61ddba313e4087702ac9bd511a65752c7189f00ac06c028c32202b6e34b3acc9",
+      "imagen_sha256": "665eaa37107c038ee7877c175a15cdf58afb527e41009042fdfc53d29168eeb0",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    }
+  },
+  "5f8993e1-df26-5f49-8488-bd173155cf57": {
+    "segmentacion": {
+      "original_sha256": "68ee032cdb88975a1a3e875c0803550e2f7ede9f5082d96f91a8af987796bdcd",
+      "imagen_sha256": "559ee4d5028bd03f43c63ab658fb66a71824c8701c2f64b9ea96ddae13a70742",
+      "estado": "rechazada",
+      "motivo": "Texto, fondo residual, baja definición o partes ausentes; mostrar afiche original."
+    },
+    "afiche_recortado": {
+      "original_sha256": "68ee032cdb88975a1a3e875c0803550e2f7ede9f5082d96f91a8af987796bdcd",
+      "encuadre": [
+        0,
+        0.0,
+        1,
+        0.79
+      ],
+      "motivo": "Comparación visual de máscara y original: se conserva foto real con encuadre cercano sin sello; máscara descartada por cortes o fondo residual."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "115700e0405eb03c6485a5acf928aabf9ce41bee5d8d978fb98c979a4bbd6a86",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "6d302696-1517-591c-abf9-f8fc050b1d69": {
+    "afiche_recortado": {
+      "original_sha256": "ed1c97f778a4462f721585c5e29c9632a2f31e3efdf0e2740c9aff75af6e7d7f",
+      "encuadre": [
+        0.12,
+        0.0,
+        1,
+        0.637
+      ],
+      "motivo": "Comparación visual de máscara y original: se conserva foto real con encuadre cercano sin sello; máscara descartada por cortes o fondo residual."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "c52d0dd2e0e7e15c9cd61614e3647332fc0b20795b3a2c35a4ec072003cf501d",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "292f3ec4-74d8-5aa1-b61b-f7673d24e945": {
+    "afiche_recortado": {
+      "original_sha256": "79cde938496ecc3ba3b816549b639005640b84fc5fc567c2e14a9315cf5653e8",
+      "encuadre": [
+        0.2,
+        0.3112,
+        1,
+        0.692
+      ],
+      "motivo": "Comparación visual de máscara y original: se conserva foto real con encuadre cercano sin sello; máscara descartada por cortes o fondo residual."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "c233532827e966f6a928cb3696c3521f4b53cdb71bcb88715db8e629968c95c7",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "19d58c4e-eb44-5f3b-8646-4ad2f67e3c8d": {
+    "afiche_recortado": {
+      "original_sha256": "7c0837e345bd2e11b275ea59294f74c6d9c4af24b046c9ca51a5c7641d6d4f6c",
+      "encuadre": [
+        0.43,
+        0.4566,
+        0.72,
+        0.6488
+      ],
+      "motivo": "Comparación visual de máscara y original: se conserva foto real con encuadre cercano sin sello; máscara descartada por cortes o fondo residual."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "dd14732d962ba961e50270a2d398c6c2ce3dd9e858bfdd86ce634da9f3567260",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "b1a0913a-ec42-5ba2-ad99-14874193be61": {
+    "afiche_recortado": {
+      "original_sha256": "dbb657a5c152146194caa282040fa4d7be1714321e5a6c6cf650db26b673cecd",
+      "encuadre": [
+        0,
+        0,
+        1,
+        0.91
+      ],
+      "motivo": "Encuadre rectangular revisado: sello fuera del marco, sin reconstruir ni modificar rasgos."
+    },
+    "presentacion_revisada": {
+      "original_sha256": "dbb657a5c152146194caa282040fa4d7be1714321e5a6c6cf650db26b673cecd",
+      "imagen_sha256": "6c8127d760953ba2c8cd553fac0c7eb3d2078603865283a81b8e326bd3ecc4d5",
+      "foto": "data/sosafe-fotos/6c8127d760953ba2c8cd553f.png",
+      "estado": "sin_fondo",
+      "motivo": "Silueta comparada visualmente con el original; conserva partes visibles y rasgos sin reconstrucción. Solo transparencia y recorte."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "5da29d60e7db44761890ba9e7e5aa76f42036bba70e0f7be79ff658ec7ce979b",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "d918d722-6e67-5bba-96c5-d3eab16018ee": {
+    "afiche_recortado": {
+      "original_sha256": "b0dcf8b1440480f9aef6db5ad8aed3309c153fde4e16ae390d190c1345e88fb4",
+      "encuadre": [
+        0.1,
+        0.153,
+        0.85,
+        0.765
+      ],
+      "motivo": "Comparación visual de máscara y original: se conserva foto real con encuadre cercano sin sello; máscara descartada por cortes o fondo residual."
+    },
+    "tipo_aviso": {
+      "valor": "fallecida",
+      "descripcion_sha256": "2f4858cce56a9d34ef024a36df6fe6520c5f8e18093b14ac09fae517b33f103d",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "d650c145-30c8-57a7-b688-73338a910178": {
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "b5ec1e7a88215584a4de120b1d57d3401462dd8abf30cb11598b9964db4b3557",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "e1580aa3-612a-5656-9f93-47f931ce4487": {
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "c223518b0c2083465a054c0f9f745c9f52ff5406585888e22724ee31960a31b6",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "5b0b8daa-b0cc-5112-8091-6d4508929282": {
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "8d92751d80155acf211e987e40e5d9f88a745cbe0fe681fd03def0fa6569bff0",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "5eef044b-b093-5153-9332-4d9d9baad92b": {
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "64b515222ffaa4adfe0d8649e0512ccc24b299a3961ae59a0363dfec4bf74e9f",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "131413c1-4dd5-55b0-8feb-d34961fb21b6": {
+    "tipo_aviso": {
+      "valor": "por_confirmar",
+      "descripcion_sha256": "8343ccf222aea06ea64004112cba20b105ee96e3394d2039196b7b7596fe0b60",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "d681c9bb-87ef-58ab-a26d-4b1e17347112": {
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "d5f503c43b08bb6b7deac345ef9778c53c9df5eecd9daf06ef42e538637f3f26",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "850f51b6-35f7-5d4b-ad01-4183656d0f64": {
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "9482b4160849682d8f3f5671c922377ed0351015d07ffd751c2d8a2d82b66ca7",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "31a20de1-a438-5b6f-86e7-bd6d55870428": {
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "62b98a5de1c805f6edc916a3e953a3c4fb0788236d6ea9ee7e92c256d410be5d",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "f4febc3d-39b7-5c54-8b6d-593f68f59cdc": {
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "f3de68c959be0863272c25aa0740a4141c4a253abe1d7040664b7e248a00924a",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "71d0cb7b-1e68-5e64-bf6c-7daef1f5dd4f": {
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "14cd2abdc105c3322b425ad67c990ce9ad3eb8120227523170c538d6782aa123",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "dbd830b9-6152-5544-90e0-24258245b66c": {
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "60b2f821dbd7c36a0d144891fc39466507275502359f70c88760a4068cf13d43",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "7f858af6-3154-59d7-b6ae-32227a472755": {
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "aeda5b5b60d09a1111b98ffe730c3272af89f2247ad7c90246975a7d5c3d29f6",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "9b187d35-9c0d-5ce0-a53e-ff6c10e82e0d": {
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "25a3e156da0a8ea066529e53605a0da2f2ff08fb9b1619d35fa1df24e901c979",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "126f95bc-52b7-5b3d-a873-1b4493c6187c": {
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "2ccf512388abd0146026a886ce987dd7a61caedbd5b282ae903516f7ff17adb2",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "ef39ab32-b687-5e43-aa8f-2b729115c241": {
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "12c9c54d297085e16d43a2e6f388d73406e0bb10c32e2b3aa3c4344c14fc4f11",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "1983ad53-ac8a-5e0d-9e88-c0d0532d32d2": {
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "edaadf04287084192faa1c5ec5bf00465542f436fc6d26cf7bb0fe8e1658ad6c",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "31aad4ab-8fec-5d16-b487-a04e865f5e09": {
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "d29895f56ba518212b25391facd99a36bf9a3621783c6cf634533469466f0050",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "51b6a9f9-ff00-588c-8de3-1123ca0ff166": {
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "587ff02108325bb816eb108864bc853ff1a2a81a5132e74fb125007df94f6461",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "62211edc-ece9-5ed6-a49c-d26bf30d6602": {
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "a3f39da596c1363018108b4bc4b701c99deed843057d98fb90e13503ff656711",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "18c1f5ea-989f-5a8c-9fc9-e779eb58994e": {
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "1dab41719ddb5383a03450060ec9df8e88250255c65142d3994ecec16e347685",
+      "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    }
+  },
+  "90ab129f-e666-5e05-b7f8-8fd93dbb2429": {
+    "segmentacion": {
+      "original_sha256": "598e0ae2254cea0ade768fda3c11f6451368fb28f5bb264cd12012fcc2af89e0",
+      "imagen_sha256": "176103db09c0fb36ac009a70b5e96fd45fb9a32c63fa102b0a35b28f87ef7d89",
+      "estado": "rechazada",
+      "motivo": "Silueta rechazada: conserva el borde rosa de la cama y el recorte no separa de forma limpia a la mascota. Se usa un encuadre rectangular cercano que excluye el sello."
+    },
+    "afiche_recortado": {
+      "original_sha256": "598e0ae2254cea0ade768fda3c11f6451368fb28f5bb264cd12012fcc2af89e0",
+      "encuadre": [
+        0.04,
+        0.07,
+        0.98,
+        0.82
+      ],
+      "motivo": "Encuadre revisado visualmente para mostrar la mascota sin el sello y preservar la fotografía real."
+    }
+  },
+  "03d8cacb-fc1c-595f-b947-6295b50786b2": {
+    "segmentacion": {
+      "original_sha256": "8b63a20805f57732a56ce9327e6aed9606febd74f05651fcce14121bb3e2ce93",
+      "imagen_sha256": "74d8e71be810973da74fb5fdb656ed3c6411e8c75ada88b01ca58b69dfbd79f4",
+      "estado": "rechazada",
+      "motivo": "Silueta rechazada: omite gran parte del cuerpo visible en la foto. Se usa un encuadre rectangular cercano que excluye el sello."
+    },
+    "afiche_recortado": {
+      "original_sha256": "8b63a20805f57732a56ce9327e6aed9606febd74f05651fcce14121bb3e2ce93",
+      "encuadre": [
+        0.03,
+        0.05,
+        0.97,
+        0.78
+      ],
+      "motivo": "Encuadre revisado visualmente para mostrar la mascota sin el sello y preservar la fotografía real."
+    }
+  }
+}
