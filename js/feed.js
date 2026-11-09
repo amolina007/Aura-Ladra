@@ -72,6 +72,9 @@
     const limite = Date.now() - HORAS_HISTORIA * 3600000;
     return [...compartidos, ...remotos, ...estado.posts.filter(p => sesion && mias.some(m => m.id === p.mascota?.id) && !remotos.some(r => r.id === p.id))].filter((p) => !estado.extra.denuncias.includes(p.id) && (p.tipo !== 'historia' || new Date(p.creado).getTime() > limite));
   };
+  const destinoComentarios = p => p.compartido
+    ? { medioId: String(p.id).replace(/^medio-/, '') }
+    : p.remoto ? { publicacionId: p.id } : null;
 
   // ---------- Avatares y medios ----------
   const fotoMascota = (m) => https(m.foto_url) || mias.find((x) => x.id === m.id)?.foto_url || '';
@@ -187,6 +190,81 @@
   });
 
   // ---------- Publicaciones ----------
+  const bloqueComentarios = (post, boton) => {
+    const destino = destinoComentarios(post);
+    if (!destino) return null;
+    const panel = el('section', 'fd-comentarios');
+    panel.hidden = true;
+    panel.setAttribute('aria-label', `Comentarios de ${limpiar(post.mascota.nombre)}`);
+    const lista = el('div', 'fd-comentarios-lista');
+    const estadoComentarios = el('p', 'fd-comentarios-estado', 'Cargando comentarios…');
+    const campo = el('textarea', 'fd-comentarios-campo');
+    campo.rows = 2; campo.maxLength = 500;
+    campo.placeholder = 'Escribe un comentario';
+    campo.setAttribute('aria-label', 'Escribe un comentario');
+    const enviar = el('button', 'fd-btn fd-comentarios-enviar', 'Comentar');
+    enviar.type = 'button';
+    const formulario = el('div', 'fd-comentarios-form');
+    const avisoLogin = el('div', 'fd-comentarios-login');
+    const entrar = el('button', 'fd-btn', 'Iniciar sesión para comentar');
+    entrar.type = 'button';
+    entrar.addEventListener('click', () => document.querySelector('[data-session-chip]')?.click());
+    formulario.append(campo, enviar, estadoComentarios);
+    avisoLogin.append(el('span', '', 'Inicia sesión para participar en la conversación.'), entrar);
+    const actualizarAcceso = () => { formulario.hidden = !sesion; avisoLogin.hidden = Boolean(sesion); };
+    actualizarAcceso();
+    let cargado = false;
+    const cargar = async () => {
+      estadoComentarios.textContent = 'Cargando comentarios…';
+      estadoComentarios.hidden = false;
+      try {
+        const filas = await datos.cargarComentarios(destino, Boolean(sesion));
+        lista.replaceChildren(...filas.slice().reverse().map(fila => {
+          const comentario = el('article', 'fd-comentario');
+          const autoria = el('strong', '', fila.autor_id === sesion?.user.id ? 'Tú' : 'Comunidad');
+          const fecha = el('time', '', hace(fila.creado_en)); fecha.dateTime = fila.creado_en;
+          const encabezado = el('header', 'fd-comentario-cab'); encabezado.append(autoria, fecha);
+          comentario.append(encabezado, el('p', '', fila.texto));
+          if (fila.autor_id === sesion?.user.id) {
+            const borrar = el('button', 'fd-comentario-borrar', 'Eliminar comentario'); borrar.type = 'button';
+            borrar.addEventListener('click', async () => {
+              borrar.disabled = true; estadoComentarios.hidden = false; estadoComentarios.textContent = 'Eliminando…';
+              try { await datos.eliminarComentario(fila.id); await cargar(); }
+              catch { borrar.disabled = false; estadoComentarios.textContent = 'No se pudo eliminar. Intenta otra vez.'; }
+            });
+            comentario.append(borrar);
+          }
+          return comentario;
+        }));
+        estadoComentarios.textContent = filas.length ? '' : 'Todavía no hay comentarios. Sé la primera persona en comentar.';
+        estadoComentarios.hidden = filas.length > 0;
+        boton.textContent = `Comentar · ${filas.length}`;
+        cargado = true;
+      } catch {
+        estadoComentarios.textContent = 'No pudimos cargar los comentarios. Pulsa para reintentar.';
+        cargado = false;
+      }
+    };
+    boton.setAttribute('aria-expanded', 'false');
+    boton.addEventListener('click', async () => {
+      panel.hidden = !panel.hidden;
+      boton.setAttribute('aria-expanded', String(!panel.hidden));
+      if (!panel.hidden && !cargado) await cargar();
+    });
+    enviar.addEventListener('click', async () => {
+      if (!sesion) { actualizarAcceso(); return; }
+      enviar.disabled = true; estadoComentarios.hidden = false; estadoComentarios.textContent = 'Publicando…';
+      try { await datos.comentar(destino, campo.value); campo.value = ''; await cargar(); }
+      catch (error) { estadoComentarios.textContent = error instanceof Error ? error.message : 'No se pudo publicar. Intenta otra vez.'; }
+      finally { enviar.disabled = false; }
+    });
+    campo.addEventListener('keydown', event => {
+      if (event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); enviar.click(); }
+    });
+    panel.append(lista, estadoComentarios, formulario, avisoLogin);
+    return { panel, actualizarAcceso };
+  };
+
   const tarjeta = (p, personal = false) => {
     const art = el('article', 'fd-post');
     art.dataset.postId = p.id;
@@ -205,13 +283,20 @@
     den.type = 'button'; den.dataset.feedDenunciar = p.id;
     den.setAttribute('aria-label', 'Denunciar esta publicación');
     den.textContent = 'Denunciar';
-    acciones.append(like, den);
+    let comentarios = null;
+    if (!personal && destinoComentarios(p)) {
+      const botonComentarios = el('button', 'fd-btn fd-comentarios-toggle', 'Comentarios');
+      botonComentarios.type = 'button';
+      comentarios = bloqueComentarios(p, botonComentarios);
+      acciones.append(like, botonComentarios, den);
+    } else acciones.append(like, den);
     art.append(cab, medio(p));
     if (p.titulo) {
       art.append(el('h3', 'fd-texto', p.titulo), el('p', 'fd-texto', p.estado === 'aprendido' ? 'Aprendido' : 'En práctica'));
     }
     if (p.texto) art.append(el('p', 'fd-texto', p.texto));
     if (!personal) art.append(acciones);
+    if (!personal && comentarios) art.append(comentarios.panel);
     if (p.remoto && p.autorId === sesion?.user.id) art.append(controlesPropios(p));
     else if (!p.remoto && !p.compartido) {
       art.append(el('p', 'fd-local', 'Guardada solo en este navegador.'));
@@ -234,7 +319,7 @@
   const render = () => {
     publicarBtn.hidden = !(sesion && mias.length);
     demoEl.hidden = false;
-    demoEl.textContent = errorMedios ? 'No pudimos cargar todas las publicaciones. Vuelve a Inicio para reintentar.' : 'Publicaciones e historias compartidas entre dispositivos. Los me gusta y las ocultaciones se guardan en este navegador.';
+    demoEl.textContent = errorMedios ? 'No pudimos cargar todas las publicaciones. Vuelve a Inicio para reintentar.' : 'Publicaciones e historias compartidas entre dispositivos. Me gusta y ocultaciones son locales; los comentarios se comparten en las publicaciones públicas.';
     renderHistorias();
     renderLista();
   };

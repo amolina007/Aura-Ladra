@@ -1391,7 +1391,21 @@ button.circ-cell:hover, button.circ-cell:focus-visible, .circ-item-fila:hover { 
 .fd-medio > img { display: block; width: 100%; height: auto; object-fit: contain; }
 .fd-glifo { font-size: 5rem; opacity: .85; }
 .fd-texto { margin: 0; padding: 12px 14px 4px; line-height: 1.5; overflow-wrap: anywhere; }
-.fd-acciones { display: flex; align-items: center; gap: 8px; padding: 8px 12px 12px; }
+.fd-acciones { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 8px 12px 12px; }
+.fd-comentarios { padding: 0 14px 14px; }
+.fd-comentarios-lista { display: grid; gap: 10px; margin-bottom: 10px; }
+.fd-comentario { padding: 10px 12px; border-radius: 12px; background: #f2f6f0; }
+.fd-comentario-cab { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; color: var(--logo-verde); font-size: .82rem; }
+.fd-comentario-cab time { color: rgba(6, 61, 36, .62); font-size: .72rem; }
+.fd-comentario > p { margin: 5px 0 0; line-height: 1.45; overflow-wrap: anywhere; white-space: pre-wrap; }
+.fd-comentario-borrar { margin-top: 5px; padding: 3px 0; border: 0; background: none; color: #7b3429; font: inherit; font-size: .75rem; text-decoration: underline; cursor: pointer; }
+.fd-comentarios-form { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: start; }
+.fd-comentarios-campo { width: 100%; min-height: 44px; max-height: 120px; box-sizing: border-box; resize: vertical; padding: 10px 12px; border: 1px solid rgba(6, 61, 36, .22); border-radius: 12px; color: var(--logo-verde); font: inherit; }
+.fd-comentarios-enviar { min-height: 44px; }
+.fd-comentarios-estado { margin: 4px 0 10px; color: rgba(6, 61, 36, .72); font-size: .84rem; }
+.fd-comentarios-login { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding-top: 4px; font-size: .84rem; }
+.fd-comentarios-login[hidden], .fd-comentarios-form[hidden] { display: none; }
+.fd-comentarios-campo:focus-visible, .fd-comentario-borrar:focus-visible { outline: 3px solid var(--logo-naranja); outline-offset: 2px; }
 .fd-btn { display: inline-flex; align-items: center; gap: 6px; background: transparent; border: 1px solid rgba(6, 61, 36, .2); color: var(--logo-verde); border-radius: 999px; padding: 7px 14px; font: inherit; font-weight: 700; cursor: pointer; }
 .fd-btn.on { background: #fdebd0; border-color: var(--logo-naranja); }
 .fd-denunciar { margin-left: auto; background: none; border: 0; color: rgba(6, 61, 36, .6); font: inherit; font-size: .82rem; text-decoration: underline; cursor: pointer; }
