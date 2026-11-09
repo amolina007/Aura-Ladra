@@ -869,10 +869,6 @@
     placeSearch = normalizePlaceSearch(event.target.value);
     renderPlaces();
   });
-  document.querySelectorAll('[data-home-action]').forEach((link) => link.addEventListener('click', () => {
-    document.querySelector(`[data-action="${link.dataset.homeAction}"]`)?.click();
-  }));
-
   const fillSelect = (select, rows, placeholder) => {
     if (!select) return;
     const first = document.createElement('option');

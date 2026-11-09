@@ -1,10 +1,5 @@
 /* Servicios comparte la paleta, tipografía y controles de Ladra. */
 .services-section { padding:32px 0 80px; }
-.services-home { display:flex; align-items:center; gap:12px; padding:16px; margin:0 0 20px; border:1px solid var(--line); border-radius:18px; background:#fffdf9; text-decoration:none; }
-.services-home-icon { display:grid; place-items:center; width:44px; height:44px; border-radius:14px; background:var(--cream); color:var(--navy); font-size:1.6rem; }
-.services-home > span:nth-child(2) { flex:1; }
-.services-home strong,.services-home small { display:block; }
-.services-home small { margin-top:4px; color:var(--muted); font-size:.8rem; }
 .services-shell { max-width:1060px; }
 .services-heading { display:flex; justify-content:space-between; align-items:center; gap:20px; margin-bottom:24px; }
 .services-heading h2 { margin:0 0 10px; font:800 clamp(1.8rem,5vw,2.6rem)/1.15 'Nunito',sans-serif; letter-spacing:-.04em; }
