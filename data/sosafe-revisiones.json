@@ -1920,5 +1920,41 @@
       "descripcion_sha256": "1dab41719ddb5383a03450060ec9df8e88250255c65142d3994ecec16e347685",
       "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
     }
+  },
+  "90ab129f-e666-5e05-b7f8-8fd93dbb2429": {
+    "segmentacion": {
+      "original_sha256": "598e0ae2254cea0ade768fda3c11f6451368fb28f5bb264cd12012fcc2af89e0",
+      "imagen_sha256": "176103db09c0fb36ac009a70b5e96fd45fb9a32c63fa102b0a35b28f87ef7d89",
+      "estado": "rechazada",
+      "motivo": "Silueta rechazada: conserva el borde rosa de la cama y el recorte no separa de forma limpia a la mascota. Se usa un encuadre rectangular cercano que excluye el sello."
+    },
+    "afiche_recortado": {
+      "original_sha256": "598e0ae2254cea0ade768fda3c11f6451368fb28f5bb264cd12012fcc2af89e0",
+      "encuadre": [
+        0.04,
+        0.07,
+        0.98,
+        0.82
+      ],
+      "motivo": "Encuadre revisado visualmente para mostrar la mascota sin el sello y preservar la fotografía real."
+    }
+  },
+  "03d8cacb-fc1c-595f-b947-6295b50786b2": {
+    "segmentacion": {
+      "original_sha256": "8b63a20805f57732a56ce9327e6aed9606febd74f05651fcce14121bb3e2ce93",
+      "imagen_sha256": "74d8e71be810973da74fb5fdb656ed3c6411e8c75ada88b01ca58b69dfbd79f4",
+      "estado": "rechazada",
+      "motivo": "Silueta rechazada: omite gran parte del cuerpo visible en la foto. Se usa un encuadre rectangular cercano que excluye el sello."
+    },
+    "afiche_recortado": {
+      "original_sha256": "8b63a20805f57732a56ce9327e6aed9606febd74f05651fcce14121bb3e2ce93",
+      "encuadre": [
+        0.03,
+        0.05,
+        0.97,
+        0.78
+      ],
+      "motivo": "Encuadre revisado visualmente para mostrar la mascota sin el sello y preservar la fotografía real."
+    }
   }
 }
