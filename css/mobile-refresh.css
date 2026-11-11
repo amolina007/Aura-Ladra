@@ -30,6 +30,9 @@ body { --navy: #063d24; --navy-deep: #042c1a; --ink: #173d2c; --muted: #596d60; 
 .animal-tile { display: flex; flex-direction: column; aspect-ratio: auto; border: 1px solid var(--line); border-radius: 20px; background: #fff; color: var(--logo-verde); }
 .animal-tile-photo { position: relative; inset: auto; width: 100%; aspect-ratio: 4 / 3; overflow: hidden; background: #e7eee5; color: var(--logo-verde); }
 .animal-tile-photo img { display: block; }
+.animal-owner-avatar { position: absolute; top: 10px; right: 10px; z-index: 2; display: grid; place-items: center; width: 42px; height: 42px; overflow: hidden; border: 2px solid #fff; border-radius: 50%; background: var(--logo-verde); color: #fff; box-shadow: 0 2px 8px rgba(0,0,0,.28); font-size: .9rem; font-weight: 800; }
+.animal-owner-avatar[hidden] { display: none; }
+.animal-owner-avatar img { display: block; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
 .animal-tile-name { position: static; padding: 14px 16px 4px; background: none; color: inherit; font: 800 1.3rem/1.25 'Nunito', sans-serif; white-space: normal; overflow-wrap: anywhere; }
 .animal-tile-meta { display: block; padding: 0 16px 14px; color: var(--muted); font-size: .82rem; overflow-wrap: anywhere; }
 .animal-tile-cta { display: block; align-self: stretch; margin: auto 16px 16px; padding: 11px 14px; text-align: center; border-radius: 11px; background: var(--logo-verde); color: #fff; font-size: .85rem; font-weight: 800; }

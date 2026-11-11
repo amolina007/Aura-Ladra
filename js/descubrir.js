@@ -15,6 +15,57 @@
   let estado = new Map();      // animal_id -> { seguido, guardado }
   let disponible = true;       // false si el servidor aún no tiene las funciones
   let cargaEstado = 0;
+  const perfilesDueno = new Map();
+
+  // Solo obtenemos el avatar del perfil Core cuando el dueño principal vinculó
+  // y compartió esa identidad en Ladra (visibilidad ampliada).
+  const perfilDueno = (animalId) => {
+    if (perfilesDueno.has(animalId)) return perfilesDueno.get(animalId);
+    const carga = (async () => {
+      if (!db || !animalId) return null;
+      const { data: humanos, error } = await db.rpc('humanos_visibles_de_animal', { p_animal_id: animalId });
+      if (error) return null;
+      const dueno = (humanos || []).find((persona) => persona.rol === 'dueno_principal');
+      if (!dueno?.perfil_publico_id || !dueno.alias) return null;
+
+      let foto = '';
+      const { data: vinculados, error: errorVinculo } = await db.rpc('alias_core_de_humanos_visibles', { p_animal_id: animalId });
+      const aliasCore = errorVinculo ? '' : (vinculados || []).find((persona) => persona.perfil_publico_id === dueno.perfil_publico_id)?.alias_core;
+      if (aliasCore && db.schema && db.storage) {
+        try {
+          const { data: perfil } = await db.schema('core').from('perfiles').select('avatar_path').eq('alias', aliasCore).maybeSingle();
+          if (perfil?.avatar_path) {
+            const url = db.storage.from('core-avatars').getPublicUrl(perfil.avatar_path)?.data?.publicUrl || '';
+            if (url.startsWith('https://')) foto = url;
+          }
+        } catch { foto = ''; }
+      }
+      return { alias: dueno.alias, foto };
+    })().catch(() => null);
+    perfilesDueno.set(animalId, carga);
+    return carga;
+  };
+
+  const agregarAvatarDueno = (tile, animal) => {
+    const badge = el('span', 'animal-owner-avatar');
+    badge.hidden = true;
+    badge.setAttribute('aria-hidden', 'true');
+    perfilDueno(animal.id).then((perfil) => {
+      if (!perfil || !badge.isConnected) return;
+      badge.textContent = perfil.alias.trim().charAt(0).toUpperCase();
+      badge.title = `Perfil público de ${perfil.alias}`;
+      badge.hidden = false;
+      if (perfil.foto) {
+        const image = el('img');
+        image.src = perfil.foto;
+        image.alt = '';
+        image.loading = 'lazy';
+        badge.replaceChildren(image);
+      }
+      tile.setAttribute('aria-label', `Conocer a ${animal.nombre}, mascota de ${perfil.alias}`);
+    });
+    tile.append(badge);
+  };
 
   const faltaBackend = (e) => /PGRST20[25]|PGRST106|schema cache|Could not find|does not exist|404/i.test(`${e?.code || ''} ${e?.message || ''} ${e?.status || ''}`);
 
@@ -99,7 +150,11 @@
       grid.replaceChildren(el('p', 'empty-state', disponible ? 'Aún no sigues a ningún animal. Abre un perfil en Descubrir y toca «Seguir».' : 'Cuando esté disponible, aquí verás los animales que sigues.'));
       return;
     }
-    grid.replaceChildren(...animales.map((a) => R().tarjeta(a)));
+    grid.replaceChildren(...animales.map((animal) => {
+      const tile = R().tarjeta(animal);
+      agregarAvatarDueno(tile, animal);
+      return tile;
+    }));
   }
 
   // ---------- Botones en la ficha del animal ----------
@@ -178,7 +233,7 @@
     if (hayCuenta()) mostrar('mi-red');
   };
   document.addEventListener('red:cambio', () => { if (R() && !R().filtro) R().filtro = predicado; redibujarSeguidos(); insertarBarra(); });
-  document.addEventListener('sesion:cambio', () => { insertarBarra(); vigilarSesion(); });
+  document.addEventListener('sesion:cambio', () => { perfilesDueno.clear(); insertarBarra(); vigilarSesion(); });
   document.addEventListener('mascota:perfil', insertarBarra);
   // La sesión llega de forma asíncrona: cuando cambia, recargamos el estado y elegimos la pestaña.
   let sesionPrevia = null;
