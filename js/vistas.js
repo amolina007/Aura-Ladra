@@ -9,6 +9,7 @@
   const VISTA_DE_ID = {
     inicio: 'inicio',
     feed: 'feed',
+    'feed-ladra': 'feed',
     'como-funciona': 'inicio',
     recursos: 'inicio',
     principios: 'inicio',
