@@ -28,7 +28,7 @@
     'mi-espacio': 'cuenta',
   };
   // Botón de la barra de abajo → vista
-  const VISTA_DE_TABBAR = { inicio: 'inicio', mapa: 'mapa', feed: 'feed', ayudar: 'ayudar', perfil: 'cuenta' };
+  const VISTA_DE_TABBAR = { inicio: 'inicio', mapa: 'mapa', 'ladra-feed': 'feed', ayudar: 'ayudar', perfil: 'cuenta' };
 
   let actual = null;
   let mercado = window.location.hash === '#tienda' ? 'tienda' : 'causas';
