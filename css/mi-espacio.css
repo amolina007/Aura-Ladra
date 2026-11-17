@@ -47,6 +47,6 @@ body[data-vista="cuenta"] .reports { padding: 24px 0 100px; min-height: 80vh; ba
 .space-signed-out { padding: 30px 0; color: #063d24; }
 .space-signed-out p { color: #687573; }
 .space-signed-out h3 { margin-top: 0; }
-.tabbar [data-tabbar-link="perfil"] span { white-space: nowrap; font-size: .65rem; }
+.ladra-tabbar [data-ladra-tabbar-link="perfil"] span { white-space: nowrap; font-size: .65rem; }
 .my-profile button:focus-visible { outline: 3px solid #ec8f1c; outline-offset: 3px; }
 @media (min-width: 700px) { .my-profile { padding: 20px 8px 32px; } .space-home .mp-pet-photo { height: 240px; } .space-content-card { padding: 18px; } .space-content-label { font-size: 1rem; } }

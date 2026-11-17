@@ -67,10 +67,10 @@ body { --navy: #063d24; --navy-deep: #042c1a; --ink: #173d2c; --muted: #596d60; 
   .fd-historia { width: 66px; }
   .fd-aro { width: 62px; height: 62px; }
   .fd-medio { max-height: 430px; aspect-ratio: 4 / 3; }
-  .tabbar { background: #fffdf9; padding-top: 8px; box-shadow: 0 -4px 20px rgba(6,61,36,.05); }
-  .tabbar a { position: relative; gap: 5px; min-height: 49px; border-bottom: 0; font-size: .68rem; }
-  .tabbar a[aria-current="true"] { color: var(--logo-verde); border-bottom: 0; }
-  .tabbar a[aria-current="true"] svg { box-sizing: content-box; margin-top: -4px; margin-bottom: -4px; padding: 4px 14px; border-radius: 999px; background: var(--logo-verde); color: #fff; }
+  .ladra-tabbar { background: #fffdf9; padding-top: 8px; box-shadow: 0 -4px 20px rgba(6,61,36,.05); }
+  .ladra-tabbar a { position: relative; gap: 5px; min-height: 49px; border-bottom: 0; font-size: .68rem; }
+  .ladra-tabbar a[aria-current="true"] { color: var(--logo-verde); border-bottom: 0; }
+  .ladra-tabbar a[aria-current="true"] svg { box-sizing: content-box; margin-top: -4px; margin-bottom: -4px; padding: 4px 14px; border-radius: 999px; background: var(--logo-verde); color: #fff; }
   .map-section, .animal-network { padding: 22px 0; }
   .map-section .section-heading { display: block; margin-bottom: 18px; }
   .map-section .section-heading h2, .animal-network .section-heading h2 { font-size: 2rem; }

@@ -28,7 +28,7 @@
     'mi-espacio': 'cuenta',
   };
   // Botón de la barra de abajo → vista
-  const VISTA_DE_TABBAR = { inicio: 'inicio', mapa: 'mapa', 'ladra-feed': 'feed', ayudar: 'ayudar', perfil: 'cuenta' };
+  const VISTA_DE_TABBAR = { inicio: 'inicio', mapa: 'mapa', feed: 'feed', ayudar: 'ayudar', perfil: 'cuenta' };
 
   let actual = null;
   let mercado = window.location.hash === '#tienda' ? 'tienda' : 'causas';
@@ -55,8 +55,8 @@
       if (vistaDeId(id) === vista || (id === 'ayudar' && vista === 'comida-agua')) link.setAttribute('aria-current', 'page');
       else link.removeAttribute('aria-current');
     });
-    document.querySelectorAll('[data-tabbar-link]').forEach((link) => {
-      link.setAttribute('aria-current', String(VISTA_DE_TABBAR[link.dataset.tabbarLink] === vista || (link.dataset.tabbarLink === 'ayudar' && vista === 'comida-agua')));
+    document.querySelectorAll('[data-ladra-tabbar-link]').forEach((link) => {
+      link.setAttribute('aria-current', String(VISTA_DE_TABBAR[link.dataset.ladraTabbarLink] === vista || (link.dataset.ladraTabbarLink === 'ayudar' && vista === 'comida-agua')));
     });
   };
 
