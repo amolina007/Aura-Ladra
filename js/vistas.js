@@ -3,6 +3,12 @@
 (() => {
   'use strict';
 
+  // Ladra tiene su propio Feed. El hub compartido puede añadir un acceso flotante
+  // al Feed de Core cuando no reconoce la barra local; quítalo sin afectar el hub.
+  const quitarFeedCore = () => document.querySelectorAll('body > [data-aura-feed-central]').forEach((nodo) => nodo.remove());
+  quitarFeedCore();
+  new MutationObserver(quitarFeedCore).observe(document.body, { childList: true });
+
   const VISTA_INICIAL = 'inicio';
   const VISTAS = ['inicio', 'feed', 'acciones', 'most-wanted', 'mapa', 'red', 'trucos', 'servicios', 'ayudar', 'market', 'comida-agua', 'cuenta'];
   // A qué vista lleva cada ancla (#id) de la página.
