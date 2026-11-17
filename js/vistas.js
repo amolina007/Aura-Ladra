@@ -4,10 +4,11 @@
   'use strict';
 
   const VISTA_INICIAL = 'inicio';
-  const VISTAS = ['inicio', 'acciones', 'most-wanted', 'mapa', 'red', 'trucos', 'servicios', 'ayudar', 'market', 'comida-agua', 'cuenta'];
+  const VISTAS = ['inicio', 'feed', 'acciones', 'most-wanted', 'mapa', 'red', 'trucos', 'servicios', 'ayudar', 'market', 'comida-agua', 'cuenta'];
   // A qué vista lleva cada ancla (#id) de la página.
   const VISTA_DE_ID = {
     inicio: 'inicio',
+    feed: 'feed',
     'como-funciona': 'inicio',
     recursos: 'inicio',
     principios: 'inicio',
@@ -26,7 +27,7 @@
     'mi-espacio': 'cuenta',
   };
   // Botón de la barra de abajo → vista
-  const VISTA_DE_TABBAR = { inicio: 'inicio', mapa: 'mapa', red: 'red', ayudar: 'ayudar', perfil: 'cuenta' };
+  const VISTA_DE_TABBAR = { inicio: 'inicio', mapa: 'mapa', feed: 'feed', ayudar: 'ayudar', perfil: 'cuenta' };
 
   let actual = null;
   let mercado = window.location.hash === '#tienda' ? 'tienda' : 'causas';

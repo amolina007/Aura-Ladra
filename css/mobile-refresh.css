@@ -44,6 +44,12 @@ body { --navy: #063d24; --navy-deep: #042c1a; --ink: #173d2c; --muted: #596d60; 
 .mis-boton { width: 40px; height: 40px; box-shadow: none; background: #fff; border: 1px solid var(--line); }
 .mis-panel { position: fixed; top: 86px; bottom: auto; right: 16px; max-height: calc(100dvh - 180px); overflow-y: auto; }
 .home-community a:focus-visible, .map-search input:focus-visible { outline: 3px solid #b96a09; outline-offset: 3px; }
+.home-landing { min-height: min(68vh, 620px); display: grid; align-items: center; padding: clamp(36px, 7vw, 86px) 22px; background: radial-gradient(ellipse at 85% 15%, #f1ebd7 0, transparent 42%), linear-gradient(135deg, #fffdf8, #f5f7ef); }
+.home-landing-shell { width: min(100%, 920px); margin-inline: auto; }
+.home-landing h1 { max-width: 780px; margin: 8px 0 14px; color: #173a2e; font: 750 clamp(2.5rem, 7vw, 5.1rem)/1.02 'Fraunces', Georgia, serif; letter-spacing: -.035em; }
+.home-landing-shell > p:not(.home-location) { max-width: 620px; color: #617168; font-size: clamp(1rem, 2vw, 1.2rem); line-height: 1.65; }
+.home-landing-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+.home-landing-actions .button { min-height: 48px; display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 12px 20px; border-radius: 12px; text-decoration: none; }
 @media (max-width: 760px) {
   .paw-backdrop { opacity: .25; }
   .nav-shell { height: 68px; gap: 12px; }
@@ -52,6 +58,9 @@ body { --navy: #063d24; --navy-deep: #042c1a; --ink: #173d2c; --muted: #596d60; 
   .brand-palabra { height: 20px; }
   .menu-button { width: 40px; height: 40px; padding: 9px; flex: none; }
   .feed { padding: 20px 0 24px; }
+  .home-landing { min-height: 62vh; padding: 44px 22px; }
+  .home-landing-actions { flex-direction: column; align-items: stretch; max-width: 360px; }
+  .home-landing-actions .button { width: 100%; }
   .feed-historias { gap: 12px; }
   .fd-historia { width: 66px; }
   .fd-aro { width: 62px; height: 62px; }

@@ -358,7 +358,7 @@
   };
   document.addEventListener('trucos:actualizados', cargarCompartidos);
   document.addEventListener('vista:cambio', (event) => {
-    if (event.detail?.vista === 'inicio') cargarCompartidos();
+    if (event.detail?.vista === 'feed') cargarCompartidos();
   });
 
   // ---------- Publicar, editar y encuadrar ----------
@@ -424,7 +424,7 @@
     if (post?.imagen) actual.src = https(post.imagen); else actual.removeAttribute('src');
     $('[id="feed-dialog-title"]', dialog).textContent = post ? (post.remoto ? 'Editar publicación' : 'Compartir publicación guardada') : 'Publicar';
     form.querySelector('[type="submit"]').textContent = post ? (post.remoto ? 'Guardar cambios' : 'Compartir entre dispositivos') : 'Publicar';
-    $('[data-feed-publico]', form).textContent = post?.imagen ? 'Puedes conservar la foto actual o elegir otra para encuadrarla y reemplazarla.' : 'Visible en Inicio desde cualquier dispositivo. La mascota debe tener un perfil público.';
+      $('[data-feed-publico]', form).textContent = post?.imagen ? 'Puedes conservar la foto actual o elegir otra para encuadrarla y reemplazarla.' : 'Visible en Feed desde cualquier dispositivo. La mascota debe tener un perfil público.';
     dialog.showModal();
   };
   const controlesPropios = post => {
