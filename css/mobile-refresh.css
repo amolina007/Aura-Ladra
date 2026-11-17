@@ -50,6 +50,8 @@ body { --navy: #063d24; --navy-deep: #042c1a; --ink: #173d2c; --muted: #596d60; 
 .home-landing-shell > p:not(.home-location) { max-width: 620px; color: #617168; font-size: clamp(1rem, 2vw, 1.2rem); line-height: 1.65; }
 .home-landing-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
 .home-landing-actions .button { min-height: 48px; display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 12px 20px; border-radius: 12px; text-decoration: none; }
+.home-landing-actions .button-ghost { border: 1px solid #d4ddd4; color: #254a38; background: #fff; }
+.home-landing-actions .button-ghost:hover { background: #f2f6f0; }
 @media (max-width: 760px) {
   .paw-backdrop { opacity: .25; }
   .nav-shell { height: 68px; gap: 12px; }
