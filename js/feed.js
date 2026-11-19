@@ -318,8 +318,8 @@
 
   const render = () => {
     publicarBtn.hidden = !(sesion && mias.length);
-    demoEl.hidden = false;
-    demoEl.textContent = errorMedios ? 'No pudimos cargar todas las publicaciones. Vuelve a Inicio para reintentar.' : 'Publicaciones e historias compartidas entre dispositivos. Me gusta y ocultaciones son locales; los comentarios se comparten en las publicaciones públicas.';
+    demoEl.hidden = !errorMedios;
+    demoEl.textContent = errorMedios ? 'No pudimos cargar todas las publicaciones. Vuelve a Inicio para reintentar.' : '';
     renderHistorias();
     renderLista();
   };
