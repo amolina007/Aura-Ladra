@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="js/vendor/leaflet-markercluster/MarkerCluster.css">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23f2a93b'/%3E%3Cpath d='M20 30c-5-1-7 5-4 8 3 3 7 0 7-3 0-2-1-4-3-5Zm24 0c5-1 7 5 4 8-3 3-7 0-7-3 0-2 1-4 3-5ZM27 21c-4-3-8 2-6 6 2 4 7 2 8-1 1-2 0-4-2-5Zm10 0c4-3 8 2 6 6-2 4-7 2-8-1-1-2 0-4 2-5Zm-5 9c-7 0-13 8-10 14 2 5 8 3 10 1 2 2 8 4 10-1 3-6-3-14-10-14Z' fill='%23102a43'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="css/styles.css?v=mobile-nav-clean-3">
+  <link rel="stylesheet" href="css/styles.css?v=inicio-dashboard-1">
   <link rel="stylesheet" href="css/mobile-refresh.css?v=avatar-dueno-1">
   <link rel="stylesheet" href="css/mi-espacio.css">
   <link rel="stylesheet" href="css/servicios.css?v=4">
@@ -69,15 +69,23 @@
 </div>
 
   <main id="contenido">
-    <section class="home-landing section" id="inicio" data-vista-de="inicio" aria-labelledby="home-title">
-      <div class="home-landing-shell">
-        <p class="home-location">Comunidad de Maipú</p>
-        <h1 id="home-title">Bienvenido a Ladra</h1>
-        <p>Un espacio para encontrarnos, compartir y cuidar a nuestras mascotas.</p>
-        <div class="home-landing-actions">
-          <a class="button button-dark" href="#feed-ladra">Ir al Feed <span aria-hidden="true">→</span></a>
-          <a class="button button-ghost" href="#mapa">Explorar el mapa</a>
-        </div>
+    <section class="home-dashboard section" id="inicio" data-vista-de="inicio" data-home-dashboard aria-labelledby="home-title">
+      <div class="home-dashboard-shell">
+        <header class="home-dashboard-heading">
+          <div><p class="home-kicker">INICIO · MAIPÚ</p><h1 id="home-title">Hola, ¿cómo están?</h1><p>Un lugar para llevar el día a día con tus mascotas.</p></div>
+        </header>
+        <section class="home-panel home-pets-panel" aria-labelledby="home-pets-title">
+          <div class="home-section-heading"><h2 id="home-pets-title">Mis mascotas</h2><span data-home-pet-count></span></div>
+          <div class="home-pets-list" data-home-pets aria-live="polite"><p class="home-muted">Cargando tus mascotas…</p></div>
+        </section>
+        <section class="home-day-card" aria-labelledby="home-day-title">
+          <div class="home-day-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18M8 14h3M8 17h6"/></svg></div>
+          <div><h2 id="home-day-title">Hoy con ellos</h2><p data-home-day-summary>Registra un paseo, juego o cuidado para ver tu resumen aquí.</p></div>
+        </section>
+        <section class="home-panel home-activity-panel" aria-labelledby="home-activity-title">
+          <div class="home-section-heading home-activity-heading"><h2 id="home-activity-title">Actividad reciente</h2><button class="home-register-button" type="button" data-home-open-activity>＋ Registrar actividad</button></div>
+          <div class="home-activity-list" data-home-activity-list aria-live="polite"><p class="home-muted">Tus paseos y cuidados aparecerán aquí.</p></div>
+        </section>
       </div>
     </section>
 
@@ -490,13 +498,13 @@
                 <section class="space-section"><h4>Mis avisos</h4><p>Consulta y administra tus anuncios en Most Wanted.</p><a class="button button-ghost" href="#most-wanted">Ir a Most Wanted</a></section>
                 <section class="space-section" aria-labelledby="mp-mascotas-title">
                   <div class="mp-card-head"><h4 id="mp-mascotas-title">Mis mascotas</h4><button type="button" class="mp-link" data-my-profile-tab="animales">Ver todas <span aria-hidden="true">›</span></button></div>
-                  <div class="mp-pets" data-my-profile-pets></div><p class="form-message" data-account-animal-message aria-live="polite"></p>
+                  <div class="mp-pets" data-my-profile-pets></div><p class="form-mge" data-account-animal-message aria-live="polite"></p>
                 </section>
                 <section class="space-section" aria-labelledby="space-content-title">
                   <div class="mp-card-head"><h4 id="space-content-title">Mi contenido</h4><button type="button" class="space-create" data-space-crear="post">＋ Crear</button></div>
                   <div class="space-content-grid">
                     <button type="button" class="space-content-card" data-my-profile-tab="publicaciones"><span class="space-content-label"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><strong>Publicaciones</strong><span aria-hidden="true">›</span></span><span class="space-content-hint">Ver, editar y eliminar</span><span class="space-thumbs" data-space-miniaturas="post"></span></button>
-                    <button type="button" class="space-content-card" data-my-profile-tab="historias"><span class="space-contlabel"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></svg><strong>Historias</strong><span aria-hidden="true">›</span></span><span class="space-content-hint">Tus historias de 24 horas</span><span class="space-thumbs space-thumbs-round" data-space-miniaturas="historia"></span></button>
+                    <button type="button" class="space-content-card" data-my-profile-tab="historias"><span class="space-content-label"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></svg><strong>Historias</strong><span aria-hidden="true">›</span></span><span class="space-content-hint">Tus historias de 24 horas</span><span class="space-thumbs space-thumbs-round" data-space-miniaturas="historia"></span></button>
                   </div>
                 </section>
                 <section class="space-section" aria-labelledby="space-handy-title"><h4 id="space-handy-title">A mano</h4>
@@ -669,6 +677,29 @@
     </section>
 
   </main>
+
+  <dialog class="home-activity-dialog" data-home-activity-dialog aria-labelledby="home-activity-dialog-title">
+    <form class="home-activity-form" data-home-activity-form>
+      <header class="home-dialog-heading"><div><p class="home-kicker">TU REGISTRO PRIVADO</p><h2 id="home-activity-dialog-title">Registrar actividad</h2></div><button type="button" class="home-dialog-close" data-home-activity-close aria-label="Cerrar">×</button></header>
+      <label class="home-field"><span>¿Con quién estuviste?</span><select name="animal_id" required data-home-activity-pets></select></label>
+      <div class="home-form-row">
+        <label class="home-field"><span>Actividad</span><select name="tipo" required data-home-activity-type><option value="paseo">Paseo</option><option value="juego">Juego</option><option value="cuidado">Cuidado</option><option value="encuentro">Encuentro</option><option value="recuerdo">Otro momento</option></select></label>
+        <label class="home-field"><span>Fecha</span><input name="fecha" type="date" required data-home-activity-date></label>
+      </div>
+      <fieldset class="home-walk-fields" data-home-walk-fields>
+        <legend>Detalles del paseo</legend>
+        <div class="home-form-row">
+          <label class="home-field"><span>Duración (minutos)</span><input name="duracion" type="number" min="1" max="600" inputmode="numeric" placeholder="30" required></label>
+          <label class="home-field"><span>¿Socializó con otros perros?</span><select name="socializo" required><option value="no">No</option><option value="si">Sí</option></select></label>
+        </div>
+        <label class="home-field"><span>Lugar o sector</span><input name="lugar" type="text" maxlength="160" placeholder="Ej.: Parque o plaza" autocomplete="off" required><small>Escribe el parque o sector; evita anotar tu domicilio.</small></label>
+      </fieldset>
+      <label class="home-field"><span>Nota (opcional)</span><textarea name="nota" rows="3" maxlength="300" placeholder="Algo que quieras recordar"></textarea></label>
+      <p class="home-private-note">Este registro queda privado en tu cuenta.</p>
+      <p class="home-form-message" data-home-activity-message role="status" aria-live="polite"></p>
+      <button class="home-register-submit" type="submit">Guardar actividad</button>
+    </form>
+  </dialog>
 
   <footer class="site-footer">
     <div class="shell footer-inner">
@@ -854,7 +885,7 @@
                       <div class="pet-profile-fields">
                         <label class="field"><span>Altura a la cruz (cm)</span><input name="altura_cm" type="number" min="1" max="250" step="0.1" inputmode="decimal"></label>
                         <label class="field"><span>Condición corporal</span><select name="condicion_corporal"><option value="">Sin evaluar</option><option value="1">1 · Muy delgada</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5 · Ideal</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9 · Obesidad marcada</option></select></label>
-                        <label class="field pet-profile-wide"><span>Diagnóstico nutricional</span><input name="diagnostico_nutricional" maxlength="120" placeholder="Ej.: condición corporal ideal"></label>
+                        <label class="field pet-profile-wide"><span>Diagnóstico nutricional</span><input name="diagnoico_nutricional" maxlength="120" placeholder="Ej.: condición corporal ideal"></label>
                         <label class="field pet-profile-wide"><span>Vacunación</span><textarea name="vacunacion" maxlength="1200" rows="3" placeholder="Vacuna, fecha, próxima dosis y centro veterinario."></textarea></label>
                         <label class="field pet-profile-wide"><span>Antecedentes mórbidos</span><textarea name="antecedentes_morbidos" maxlength="1200" rows="3" placeholder="Diagnósticos, tratamientos o condiciones relevantes."></textarea></label>
                         <label class="field pet-profile-wide"><span>Antecedentes familiares</span><textarea name="antecedentes_familiares" maxlength="1200" rows="3" placeholder="Enfermedades conocidas en madre, padre o camada."></textarea></label>
@@ -873,7 +904,7 @@
                       </div>
                     </section>
                     <section class="pet-edit-section" data-pet-edit-group="caracter" aria-labelledby="pet-character-edit-title">
-                      <div class="pet-section-heading"><div><p class="kicker">Cuestionario</p>5 id="pet-character-edit-title">Indicador de carácter</h5></div></div>
+                      <div class="pet-section-heading"><div><p class="kicker">Cuestionario</p><h5 id="pet-character-edit-title">Indicador de carácter</h5></div></div>
                       <p class="pet-section-help">Responde según su conducta habitual: 1 significa muy reactiva o temerosa y 5 muy tranquila y confiada. No predice por sí solo el riesgo de mordedura.</p>
                       <div class="pet-character-questions">
                         <label class="field"><span>Con personas desconocidas</span><select name="caracter_personas"><option value="">Selecciona</option><option value="1">1 · Muy reactiva</option><option value="2">2</option><option value="3">3 · Variable</option><option value="4">4</option><option value="5">5 · Muy tranquila</option></select></label>
@@ -1052,6 +1083,7 @@
 <script src="js/encuentros.js"></script>
 <script src="js/arbol.js"></script>
 <script src="js/vistas.js?v=ladra-feed-local-2"></script>
+<script src="js/inicio.js?v=inicio-actividad-1"></script>
 <script src="js/login-google.js?v=1"></script>
 <script src="js/tienda-transferencia.js?v=entregas-2"></script>
 <script src="js/tienda.js?v=stock-vendedor-1"></script>
