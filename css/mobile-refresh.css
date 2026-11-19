@@ -53,7 +53,7 @@ body { --navy: #063d24; --navy-deep: #042c1a; --ink: #173d2c; --muted: #596d60; 
   .nav-shell > .brand-group { margin-right: auto; }
   .nav-shell > [aria-label="Avisos"],
   .nav-shell > :has([aria-label="Avisos"]) { order: 2; }
-  .nav-shell > [data-menu-button] { order: 3; }
+  .nav-shell > [data-menu-button] { order: 3; margin-left: 0; }
 }
 .home-landing { min-height: min(68vh, 620px); display: grid; align-items: center; padding: clamp(36px, 7vw, 86px) 22px; background: radial-gradient(ellipse at 85% 15%, #f1ebd7 0, transparent 42%), linear-gradient(135deg, #fffdf8, #f5f7ef); }
 .home-landing-shell { width: min(100%, 920px); margin-inline: auto; }
