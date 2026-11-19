@@ -1830,3 +1830,73 @@ dialog.feed-historia-dialog::backdrop { background: #000; }
   }
   .menu-button span:not(.sr-only) { background: var(--logo-verde); }
 }
+
+/* Inicio personal: mascotas, resumen del día y registro de actividad. */
+.home-dashboard { padding: clamp(28px, 5vw, 64px) 20px 44px; background: #fbf9f3; color: #123b27; }
+.home-dashboard-shell { width: min(100%, 1040px); margin: 0 auto; display: grid; gap: 22px; }
+.home-dashboard-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.home-kicker { margin: 0 0 8px; color: #c65a41; font-size: .75rem; font-weight: 800; letter-spacing: .14em; }
+.home-dashboard-heading h1 { margin: 0; color: #123b27; font-size: clamp(1.8rem, 4vw, 2.55rem); line-height: 1.1; }
+.home-dashboard-heading > div > p:last-child { margin: 8px 0 0; color: #64736a; }
+.home-panel { padding: clamp(16px, 3vw, 24px); border: 1px solid rgba(18, 59, 39, .09); border-radius: 22px; background: #fff; box-shadow: 0 8px 22px rgba(18, 59, 39, .04); }
+.home-section-heading { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 16px; }
+.home-section-heading h2, .home-day-card h2 { margin: 0; color: #123b27; font-size: 1.25rem; }
+.home-section-heading > span { color: #64736a; font-size: .85rem; }
+.home-pets-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; }
+.home-pet-card { min-width: 0; overflow: hidden; border: 1px solid rgba(18, 59, 39, .1); border-radius: 18px; background: #fffdfa; }
+.home-pet-photo { display: block; width: 100%; aspect-ratio: 1.55 / 1; object-fit: cover; background: #e9efe7; }
+.home-pet-fallback { display: grid; place-items: center; aspect-ratio: 1.55 / 1; background: #e8f1e6; color: #1e5a38; font-size: 2rem; font-weight: 800; }
+.home-pet-name { display: block; padding: 12px 14px; color: #123b27; font-size: 1.05rem; font-weight: 800; }
+.home-muted { margin: 0; color: #64736a; line-height: 1.5; }
+.home-empty-action { display: inline-flex; width: fit-content; margin-top: 12px; color: #1e5a38; font-weight: 800; text-decoration: underline; text-underline-offset: 3px; }
+.home-retry { padding: 0; border: 0; background: transparent; font: inherit; cursor: pointer; }
+.home-day-card { display: flex; align-items: center; gap: 18px; min-height: 116px; padding: 20px 24px; border-radius: 22px; background: #e8f2e5; }
+.home-day-icon { display: grid; flex: 0 0 68px; place-items: center; width: 68px; height: 68px; border-right: 1px solid rgba(18, 59, 39, .18); padding-right: 18px; }
+.home-day-icon svg { width: 42px; height: 42px; fill: none; stroke: #1e5a38; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.home-day-card p { margin: 7px 0 0; color: #52655a; line-height: 1.45; }
+.home-activity-heading { align-items: flex-start; }
+.home-register-button, .home-register-submit { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 10px 16px; border: 1px solid #1e5a38; border-radius: 999px; background: #1e5a38; color: #fff; font: inherit; font-weight: 800; text-decoration: none; cursor: pointer; }
+.home-register-button:hover, .home-register-submit:hover { background: #123b27; }
+.home-activity-list { display: grid; }
+.home-activity-item { display: grid; grid-template-columns: 46px minmax(0, 1fr); align-items: start; gap: 12px; padding: 14px 0; border-top: 1px solid rgba(18, 59, 39, .1); }
+.home-activity-item:first-child { border-top: 0; padding-top: 0; }
+.home-activity-symbol { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 14px; background: #fff0e2; color: #c65a18; font-size: 1.25rem; }
+.home-activity-title { display: block; color: #123b27; font-weight: 800; }
+.home-activity-meta, .home-activity-details { display: block; margin-top: 3px; color: #64736a; font-size: .9rem; line-height: 1.4; overflow-wrap: anywhere; }
+.home-activity-dialog { width: min(100% - 28px, 560px); max-width: 560px; max-height: min(90dvh, 820px); padding: 0; overflow: auto; border: 0; border-radius: 22px; background: #fbf9f3; color: #123b27; box-shadow: 0 24px 70px rgba(8, 26, 43, .28); }
+.home-activity-dialog::backdrop { background: rgba(8, 26, 43, .56); backdrop-filter: blur(3px); }
+.home-activity-form { display: grid; gap: 15px; padding: clamp(18px, 4vw, 28px); }
+.home-dialog-heading { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.home-dialog-heading h2 { margin: 0; font-size: 1.5rem; }
+.home-dialog-close { flex: 0 0 40px; width: 40px; height: 40px; border: 0; border-radius: 50%; background: #e8f1e6; color: #123b27; font-size: 1.5rem; cursor: pointer; }
+.home-form-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.home-field { display: grid; min-width: 0; gap: 6px; color: #344d3b; font-size: .9rem; font-weight: 700; }
+.home-field input, .home-field select, .home-field textarea { width: 100%; min-width: 0; min-height: 46px; padding: 10px 12px; border: 1px solid rgba(18, 59, 39, .2); border-radius: 12px; background: #fff; color: #173b29; font: inherit; font-weight: 500; }
+.home-field textarea { min-height: 84px; resize: vertical; }
+.home-field small { color: #64736a; font-size: .78rem; font-weight: 500; line-height: 1.4; }
+.home-walk-fields { display: grid; gap: 12px; margin: 0; padding: 14px; border: 1px solid rgba(30, 90, 56, .2); border-radius: 16px; background: #f0f5ed; }
+.home-walk-fields legend { padding: 0 6px; color: #1e5a38; font-weight: 800; }
+.home-private-note, .home-form-message { margin: 0; color: #64736a; font-size: .84rem; line-height: 1.45; }
+.home-form-message:empty { display: none; }
+.home-form-message.is-error { color: #9b332d; }
+.home-form-message.is-success { color: #1e5a38; }
+.home-register-submit { width: 100%; }
+@media (max-width: 560px) {
+  .home-dashboard { padding: 26px 14px 28px; }
+  .home-dashboard-shell { gap: 16px; }
+  .home-dashboard-heading h1 { font-size: 1.85rem; }
+  .home-dashboard-heading > div > p:last-child { font-size: .92rem; }
+  .home-panel { padding: 16px; border-radius: 18px; }
+  .home-pets-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+  .home-pet-photo, .home-pet-fallback { aspect-ratio: 1.25 / 1; }
+  .home-pet-name { padding: 10px 11px; font-size: .98rem; }
+  .home-day-card { gap: 12px; min-height: 98px; padding: 16px; border-radius: 18px; }
+  .home-day-icon { flex-basis: 52px; width: 52px; height: 56px; padding-right: 12px; }
+  .home-day-icon svg { width: 36px; height: 36px; }
+  .home-day-card h2 { font-size: 1.1rem; }
+  .home-day-card p { font-size: .9rem; }
+  .home-activity-heading { align-items: center; flex-wrap: wrap; }
+  .home-register-button { width: 100%; }
+  .home-form-row { grid-template-columns: 1fr; }
+  .home-activity-dialog { max-height: calc(100dvh - 24px); border-radius: 18px; }
+}
