@@ -22,6 +22,8 @@
   };
   const render = () => {
     const filtered = rows.filter(row => !select.value || row.grupo === select.value);
+    const groups = [...new Set(rows.map(row => row.grupo))];
+    filtered.sort((a, b) => groups.indexOf(a.grupo) - groups.indexOf(b.grupo));
     const nodes = [];
     let group = '';
     for (const row of filtered) {
