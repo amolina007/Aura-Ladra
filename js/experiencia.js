@@ -1,29 +1,139 @@
-===
-.exp-home-badge { display: inline-flex; align-items: center; justify-content: center; padding: 2px 6px; border-radius: 999px; background: #e9f2e7; color: #245536; font-size: .63rem; font-weight: 800; line-height: 1.25; white-space: nowrap; }
-.site-nav .exp-home-badge { margin-left: 5px; vertical-align: middle; }
-.ladra-tabbar a[data-ladra-tabbar-link="inicio"] { position: relative; }
-.ladra-tabbar .exp-home-badge { position: absolute; top: 1px; right: 5px; max-width: 50px; padding: 2px 4px; overflow: hidden; font-size: .52rem; text-overflow: ellipsis; }
-.exp-card { display: grid; gap: 12px; padding: 18px; border: 1px solid rgba(22, 75, 45, .12); border-radius: 18px; background: linear-gradient(145deg, #fffdf7, #f1f6ec); }
-.exp-card-heading, .exp-total-row, .exp-board-heading { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-.exp-card-heading h4, .exp-board-heading h5 { margin: 0; color: #123b27; }
-.exp-eyebrow { margin: 0 0 3px; color: #b45a36; font-size: .63rem; font-weight: 800; letter-spacing: .1em; }
-.exp-level { padding: 5px 9px; border-radius: 999px; background: #e8efdc; color: #245536; font-size: .72rem; font-weight: 800; }
-.exp-total-row { justify-content: flex-start; align-items: baseline; }
-.exp-total-row strong { color: #123b27; font: 800 2rem/1 'Nunito', sans-serif; }
-.exp-total-row span, .exp-board-heading > span, .exp-next-level { color: #64736a; font-size: .78rem; }
-.exp-progress-track { height: 7px; overflow: hidden; border-radius: 999px; background: #dfe8dc; }
-.exp-progress-track span { display: block; width: 0; height: 100%; border-radius: inherit; background: #ec8f1c; transition: width .25s ease; }
-.exp-next-level { margin: -5px 0 0; }
-.exp-board-heading { margin-top: 3px; padding-top: 11px; border-top: 1px solid rgba(22, 75, 45, .1); }
-.exp-board-heading h5 { font-size: .92rem; }
-.exp-board-heading > span { font-size: .65rem; text-align: right; }
-.exp-board { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
-.exp-board-row { display: grid; grid-template-columns: 34px minmax(0, 1fr) auto; align-items: center; gap: 8px; padding: 8px 10px; border: 1px solid rgba(22, 75, 45, .08); border-radius: 12px; background: #fff; color: #253d2d; font-size: .8rem; }
-.exp-board-row.is-me { border-color: rgba(236, 143, 28, .55); background: #fff9ed; }
-.exp-rank { color: #6a786e; font-weight: 800; }
-.exp-alias { min-width: 0; overflow-wrap: anywhere; }
-.exp-me-tag { color: #ae5c1b; font-size: .65rem; }
-.exp-row-points { color: #245536; font-size: .72rem; font-weight: 800; white-space: nowrap; }
-.exp-loading { padding: 10px 2px; color: #64736a; font-size: .8rem; }
-.exp-status { margin: 0; color: #9d382b; font-size: .78rem; }
-@media (max-width: 380px) { .ladra-tabbar .exp-home-badge { right: 0; max-width: 43px; font-size: .48rem; } .exp-board-row { grid-template-columns: 28px minmax(0, 1fr) auto; gap: 6px; padding-inline: 8px; } }
+(() => {
+  'use strict';
+  const db = () => window.auraLadraDb || null;
+  const format = new Intl.NumberFormat('es-CL');
+  const homeLinks = [
+    ...document.querySelectorAll('[data-ladra-tabbar-link="inicio"]'),
+    ...document.querySelectorAll('[data-nav] > a[href="#inicio"]'),
+  ];
+  const badges = homeLinks.map(link => {
+    let badge = link.querySelector('[data-exp-home-badge]');
+    if (!badge) {
+      badge = document.createElement('small');
+      badge.className = 'exp-home-badge';
+      badge.dataset.expHomeBadge = '';
+      badge.textContent = 'EXP 0';
+      link.append(badge);
+    }
+    return { link, badge };
+  });
+
+  const profile = document.querySelector('[data-my-profile-panel="perfil"]');
+  let card = profile?.querySelector('[data-exp-ranking]');
+  if (profile && !card) {
+    card = document.createElement('section');
+    card.className = 'exp-card space-section';
+    card.dataset.expRanking = '';
+    card.setAttribute('aria-labelledby', 'exp-ranking-title');
+    card.innerHTML = `
+      <header class="exp-card-heading"><div><p class="exp-eyebrow">PROGRESO EN LADRA</p><h4 id="exp-ranking-title">Clasificación</h4></div><span class="exp-level" data-exp-level>Huella nueva</span></header>
+      <div class="exp-total-row"><strong data-exp-total>0</strong><span>EXP acumulada</span></div>
+      <div class="exp-progress-track" role="progressbar" aria-label="Avance al siguiente nivel" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span data-exp-progress></span></div>
+      <p class="exp-next-level" data-exp-next>Registra acciones de cuidado para avanzar.</p>
+      <div class="exp-board-heading"><h5>Ranking global</h5><span>Solo se muestran alias y EXP</span></div>
+      <ol class="exp-board" data-exp-board aria-live="polite"><li class="exp-loading">Cargando clasificación…</li></ol>
+      <p class="exp-status" data-exp-status role="status"></p>
+    `;
+    const firstSection = profile.querySelector('.space-section');
+    profile.insertBefore(card, firstSection || profile.firstChild);
+  }
+
+  let turn = 0;
+  const currentUserId = session => session?.user?.id || null;
+  const formatBadge = points => `EXP ${format.format(points)}`;
+  const makeRow = row => {
+    const li = document.createElement('li');
+    li.className = `exp-board-row${row.es_mi_posicion ? ' is-me' : ''}`;
+    const rank = document.createElement('span'); rank.className = 'exp-rank'; rank.textContent = `#${row.posicion}`;
+    const alias = document.createElement('strong'); alias.className = 'exp-alias'; alias.textContent = row.alias || 'Ladra';
+    if (row.es_mi_posicion) { const me = document.createElement('small'); me.className = 'exp-me-tag'; me.textContent = 'Tú'; alias.append(' ', me); }
+    const points = document.createElement('span'); points.className = 'exp-row-points'; points.textContent = `${format.format(Number(row.puntos_exp) || 0)} EXP`;
+    li.append(rank, alias, points);
+    return li;
+  };
+  const renderFailure = message => {
+    if (card) {
+      const board = card.querySelector('[data-exp-board]');
+      board.replaceChildren();
+      const li = document.createElement('li'); li.className = 'exp-loading'; li.textContent = message;
+      board.append(li);
+    }
+  };
+  const load = async () => {
+    const client = db();
+    const request = ++turn;
+    if (!client) { renderFailure('El puntaje aparecerá cuando Ladra esté disponible.'); return; }
+    try {
+      const { data: auth, error: authError } = await client.auth.getSession();
+      if (authError) throw authError;
+      const userId = currentUserId(auth?.session);
+      if (!userId) {
+        badges.forEach(({ link, badge }) => { badge.textContent = 'EXP 0'; link.setAttribute('aria-label', 'Inicio. Inicia sesión para ver tu EXP.'); });
+        if (card) {
+          card.querySelector('[data-exp-total]').textContent = '0';
+          card.querySelector('[data-exp-level]').textContent = 'Huella nueva';
+          card.querySelector('[data-exp-board]').replaceChildren();
+          const li = document.createElement('li'); li.className = 'exp-loading'; li.textContent = 'Inicia sesión para ver tu puntaje y la clasificación.';
+          card.querySelector('[data-exp-board]').append(li);
+        }
+        return;
+      }
+      const [mineResult, boardResult] = await Promise.all([
+        client.rpc('mi_experiencia'),
+        client.rpc('clasificacion_experiencia', { p_limite: 20 }),
+      ]);
+      if (mineResult.error) throw mineResult.error;
+      if (boardResult.error) throw boardResult.error;
+      if (request !== turn) return;
+      const mine = Array.isArray(mineResult.data) ? mineResult.data[0] : mineResult.data;
+      const points = Number(mine?.puntos_exp) || 0;
+      badges.forEach(({ link, badge }) => {
+        badge.textContent = formatBadge(points);
+        link.setAttribute('aria-label', `Inicio. Tu puntaje: ${format.format(points)} EXP.`);
+      });
+      if (!card) return;
+      card.querySelector('[data-exp-total]').textContent = format.format(points);
+      card.querySelector('[data-exp-level]').textContent = mine?.nivel || 'Huella nueva';
+      const levels = [
+        { name: 'Buen compañero', start: 100 },
+        { name: 'Guardián del barrio', start: 500 },
+        { name: 'Referente animalista', start: 1200 },
+      ];
+      const next = levels.find(level => points < level.start);
+      const previous = next ? (levels[levels.indexOf(next) - 1]?.start || 0) : 1200;
+      const progress = next ? Math.max(0, Math.min(100, Math.round(((points - previous) / (next.start - previous)) * 100))) : 100;
+      card.querySelector('[data-exp-progress]').style.width = `${progress}%`;
+      const track = card.querySelector('[role="progressbar"]');
+      track.setAttribute('aria-valuenow', String(progress));
+      card.querySelector('[data-exp-next]').textContent = next
+        ? `Te faltan ${format.format(next.start - points)} EXP para ${next.name}.`
+        : 'Alcanzaste el nivel más alto de Ladra.';
+      const board = card.querySelector('[data-exp-board]');
+      const rows = Array.isArray(boardResult.data) ? boardResult.data : [];
+      board.replaceChildren(...rows.map(makeRow));
+      if (!rows.length) {
+        const li = document.createElement('li'); li.className = 'exp-loading';
+        li.textContent = mine?.aparece_en_clasificacion
+          ? 'Todavía no hay puntajes para comparar. ¡Puedes iniciar la clasificación!'
+          : 'Publica tu alias en Mi red para aparecer en el ranking. Tu puntaje personal se conserva.';
+        board.append(li);
+      }
+      card.querySelector('[data-exp-status]').textContent = '';
+    } catch (error) {
+      if (request !== turn) return;
+      console.warn('No se pudo cargar la clasificación de Ladra:', error);
+      renderFailure('No pudimos cargar el ranking. Intenta de nuevo más tarde.');
+    }
+  };
+
+  card?.addEventListener('click', event => {
+    if (event.target.closest('[data-exp-retry]')) load();
+  });
+  document.addEventListener('sesion:cambio', load);
+  document.addEventListener('mascotas:cambio', load);
+  document.addEventListener('experiencia:actualizada', load);
+  document.addEventListener('vista:cambio', event => { if (['inicio', 'cuenta'].includes(event.detail?.vista)) load(); });
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) load(); });
+  window.addEventListener('focus', load);
+  load();
+})();
