@@ -1,0 +1,28 @@
+gn-items: center; justify-content: center; padding: 2px 6px; border-radius: 999px; background: #e9f2e7; color: #245536; font-size: .63rem; font-weight: 800; line-height: 1.25; white-space: nowrap; }
+.site-nav .exp-home-badge { margin-left: 5px; vertical-align: middle; }
+.ladra-tabbar a[data-ladra-tabbar-link="inicio"] { position: relative; }
+.ladra-tabbar .exp-home-badge { position: absolute; top: 1px; right: 5px; max-width: 50px; padding: 2px 4px; overflow: hidden; font-size: .52rem; text-overflow: ellipsis; }
+.exp-card { display: grid; gap: 12px; padding: 18px; border: 1px solid rgba(22, 75, 45, .12); border-radius: 18px; background: linear-gradient(145deg, #fffdf7, #f1f6ec); }
+.exp-card-heading, .exp-total-row, .exp-board-heading { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.exp-card-heading h4, .exp-board-heading h5 { margin: 0; color: #123b27; }
+.exp-eyebrow { margin: 0 0 3px; color: #b45a36; font-size: .63rem; font-weight: 800; letter-spacing: .1em; }
+.exp-level { padding: 5px 9px; border-radius: 999px; background: #e8efdc; color: #245536; font-size: .72rem; font-weight: 800; }
+.exp-total-row { justify-content: flex-start; align-items: baseline; }
+.exp-total-row strong { color: #123b27; font: 800 2rem/1 'Nunito', sans-serif; }
+.exp-total-row span, .exp-board-heading > span, .exp-next-level { color: #64736a; font-size: .78rem; }
+.exp-progress-track { height: 7px; overflow: hidden; border-radius: 999px; background: #dfe8dc; }
+.exp-progress-track span { display: block; width: 0; height: 100%; border-radius: inherit; background: #ec8f1c; transition: width .25s ease; }
+.exp-next-level { margin: -5px 0 0; }
+.exp-board-heading { margin-top: 3px; padding-top: 11px; border-top: 1px solid rgba(22, 75, 45, .1); }
+.exp-board-heading h5 { font-size: .92rem; }
+.exp-board-heading > span { font-size: .65rem; text-align: right; }
+.exp-board { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.exp-board-row { display: grid; grid-template-columns: 34px minmax(0, 1fr) auto; align-items: center; gap: 8px; padding: 8px 10px; border: 1px solid rgba(22, 75, 45, .08); border-radius: 12px; background: #fff; color: #253d2d; font-size: .8rem; }
+.exp-board-row.is-me { border-color: rgba(236, 143, 28, .55); background: #fff9ed; }
+.exp-rank { color: #6a786e; font-weight: 800; }
+.exp-alias { min-width: 0; overflow-wrap: anywhere; }
+.exp-me-tag { color: #ae5c1b; font-size: .65rem; }
+.exp-row-points { color: #245536; font-size: .72rem; font-weight: 800; white-space: nowrap; }
+.exp-loading { padding: 10px 2px; color: #64736a; font-size: .8rem; }
+.exp-status { margin: 0; color: #9d382b; font-size: .78rem; }
+@media (max-width: 380px) { .ladra-tabbar .exp-home-badge { right: 0; max-width: 43px; font-size: .48rem; } .exp-board-row { grid-template-columns: 28px minmax(0, 1fr) auto; gap: 6px; padding-inline: 8px; } }

@@ -202,6 +202,7 @@
       });
       if (error) throw error;
       dialog.close();
+      document.dispatchEvent(new CustomEvent('experiencia:actualizada'));
       await load();
     } catch (error) {
       console.warn('No se pudo guardar la actividad privada:', error);
