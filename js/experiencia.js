@@ -132,6 +132,9 @@
   document.addEventListener('sesion:cambio', load);
   document.addEventListener('mascotas:cambio', load);
   document.addEventListener('experiencia:actualizada', load);
+  document.addEventListener('feed:cambio', load);
+  document.addEventListener('trucos:actualizados', load);
+  document.addEventListener('misiones:actualizadas', load);
   document.addEventListener('vista:cambio', event => { if (['inicio', 'cuenta'].includes(event.detail?.vista)) load(); });
   document.addEventListener('visibilitychange', () => { if (!document.hidden) load(); });
   window.addEventListener('focus', load);

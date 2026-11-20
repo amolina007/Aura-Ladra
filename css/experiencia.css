@@ -25,4 +25,26 @@
 .exp-row-points { color: #245536; font-size: .72rem; font-weight: 800; white-space: nowrap; }
 .exp-loading { padding: 10px 2px; color: #64736a; font-size: .8rem; }
 .exp-status { margin: 0; color: #9d382b; font-size: .78rem; }
+.exp-missions-open { padding: 11px 16px; border: 0; border-radius: 999px; background: #164b32; color: #fff; font: inherit; font-size: .85rem; font-weight: 750; cursor: pointer; }
+.exp-missions-dialog { box-sizing: border-box; width: min(680px, calc(100% - 24px)); max-height: min(90dvh, 900px); padding: 24px; border: 1px solid #d7e3d6; border-radius: 22px; background: #faf9f4; color: #23452e; overflow-y: auto; }
+.exp-missions-dialog::backdrop { background: rgba(10, 30, 22, .55); }
+.exp-missions-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.exp-missions-top h2 { margin: 0; font-size: 1.45rem; }
+.exp-missions-close { flex: none; width: 40px; height: 40px; border: 0; border-radius: 50%; background: #e8eddf; color: #23452e; font-size: 1.6rem; cursor: pointer; }
+.exp-missions-intro, .exp-missions-footnote { font-size: .85rem; line-height: 1.5; color: #637267; }
+.exp-missions-summary { margin: 16px 0; padding: 12px; border-radius: 12px; background: #e6efdf; font-size: .85rem; font-weight: 750; }
+.exp-missions-filter { display: grid; gap: 6px; font-size: .8rem; font-weight: 700; }
+.exp-missions-filter select { padding: 10px; border: 1px solid #cdd9ca; border-radius: 10px; background: #fff; color: #23452e; font: inherit; }
+.exp-missions-list { display: grid; gap: 10px; }
+.exp-missions-group { margin: 20px 0 0; font-size: 1rem; }
+.exp-mission { padding: 14px; border: 1px solid #e0e6da; border-radius: 14px; background: #fff; }
+.exp-mission.is-complete { border-color: #b4cda7; background: #f2f7ed; }
+.exp-mission-heading, .exp-mission-footer { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.exp-mission h4 { margin: 0; font-size: .9rem; }
+.exp-mission-prize { flex: none; color: #985514; background: #fff3d9; padding: 4px 7px; border-radius: 999px; font-size: .73rem; }
+.exp-mission p { margin: 8px 0 12px; color: #637267; font-size: .8rem; line-height: 1.5; }
+.exp-mission-status { color: #637267; font-size: .7rem; }
+.exp-mission-go, .exp-ac-link { color: #245536; font-size: .75rem; font-weight: 750; }
+.exp-mission-go { flex: none; }
+@media(max-width:480px) { .exp-missions-dialog { padding: 16px; } .exp-mission-footer { align-items: flex-start; flex-direction: column; } }
 @media (max-width: 380px) { .ladra-tabbar .exp-home-badge { right: 0; max-width: 43px; font-size: .48rem; } .exp-board-row { grid-template-columns: 28px minmax(0, 1fr) auto; gap: 6px; padding-inline: 8px; } }
