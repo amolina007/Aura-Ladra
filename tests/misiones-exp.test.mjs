@@ -4,7 +4,7 @@ import {readFileSync} from 'node:fs';
 import {PGlite} from '@electric-sql/pglite';
 import {JSDOM} from 'jsdom';
 
-const migration = readFileSync(new URL('../supabase/migrations/20261120145941_ladra_misiones_experiencia.sql', import.meta.url), 'utf8');
+const migration = readFileSync(new URL('../supabase/migrations/20261120145833_ladra_misiones_experiencia.sql', import.meta.url), 'utf8');
 const script = readFileSync(new URL('../js/misiones-exp.js', import.meta.url), 'utf8');
 
 test('server awards persisted actions, enforces caps and idempotency, and waits for validation', async () => {
