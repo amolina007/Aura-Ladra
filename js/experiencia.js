@@ -12,7 +12,7 @@
       badge = document.createElement('small');
       badge.className = 'exp-home-badge';
       badge.dataset.expHomeBadge = '';
-      badge.textContent = 'EXP 0';
+      badge.hidden = true;
       link.append(badge);
     }
     return { link, badge };
@@ -27,9 +27,10 @@
     card.setAttribute('aria-labelledby', 'exp-ranking-title');
     card.innerHTML = `
       <header class="exp-card-heading"><div><p class="exp-eyebrow">PROGRESO EN LADRA</p><h4 id="exp-ranking-title">Clasificación</h4></div><span class="exp-level" data-exp-level>Huella nueva</span></header>
-      <div class="exp-total-row"><strong data-exp-total>0</strong><span>EXP acumulada</span></div>
+      <div class="exp-total-row"><strong data-exp-total>—</strong><span>Experiencia en Ladra</span></div>
       <div class="exp-progress-track" role="progressbar" aria-label="Avance al siguiente nivel" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span data-exp-progress></span></div>
       <p class="exp-next-level" data-exp-next>Registra acciones de cuidado para avanzar.</p>
+      <p class="exp-history-note">Incluye las acciones anteriores que cumplen las misiones. Cada registro se premia una sola vez y respeta su límite diario.</p>
       <div class="exp-board-heading"><h5>Ranking global</h5><span>Solo se muestran alias y EXP</span></div>
       <ol class="exp-board" data-exp-board aria-live="polite"><li class="exp-loading">Cargando clasificación…</li></ol>
       <p class="exp-status" data-exp-status role="status"></p>
@@ -40,7 +41,22 @@
 
   let turn = 0;
   const currentUserId = session => session?.user?.id || null;
-  const formatBadge = points => `EXP ${format.format(points)}`;
+  const formatBadge = points => `${format.format(points)} EXP`;
+  const clearScore = () => {
+    badges.forEach(({ link, badge }) => {
+      badge.hidden = true;
+      badge.textContent = '';
+      badge.removeAttribute('title');
+      link.setAttribute('aria-label', 'Inicio');
+    });
+    if (card) {
+      card.querySelector('[data-exp-total]').textContent = '—';
+      card.querySelector('[data-exp-level]').textContent = 'Tu experiencia';
+      card.querySelector('[data-exp-progress]').style.width = '0%';
+      card.querySelector('[role="progressbar"]').setAttribute('aria-valuenow', '0');
+      card.querySelector('[data-exp-next]').textContent = 'Tu puntaje reúne las acciones que realizas en Ladra.';
+    }
+  };
   const makeRow = row => {
     const li = document.createElement('li');
     li.className = `exp-board-row${row.es_mi_posicion ? ' is-me' : ''}`;
@@ -52,6 +68,7 @@
     return li;
   };
   const renderFailure = message => {
+    clearScore();
     if (card) {
       const board = card.querySelector('[data-exp-board]');
       board.replaceChildren();
@@ -66,12 +83,12 @@
     try {
       const { data: auth, error: authError } = await client.auth.getSession();
       if (authError) throw authError;
+      if (request !== turn) return;
       const userId = currentUserId(auth?.session);
       if (!userId) {
-        badges.forEach(({ link, badge }) => { badge.textContent = 'EXP 0'; link.setAttribute('aria-label', 'Inicio. Inicia sesión para ver tu EXP.'); });
+        clearScore();
         if (card) {
-          card.querySelector('[data-exp-total]').textContent = '0';
-          card.querySelector('[data-exp-level]').textContent = 'Huella nueva';
+          card.querySelector('[data-exp-level]').textContent = 'Inicia sesión';
           card.querySelector('[data-exp-board]').replaceChildren();
           const li = document.createElement('li'); li.className = 'exp-loading'; li.textContent = 'Inicia sesión para ver tu puntaje y la clasificación.';
           card.querySelector('[data-exp-board]').append(li);
@@ -86,10 +103,13 @@
       if (boardResult.error) throw boardResult.error;
       if (request !== turn) return;
       const mine = Array.isArray(mineResult.data) ? mineResult.data[0] : mineResult.data;
-      const points = Number(mine?.puntos_exp) || 0;
+      if (!mine || mine.puntos_exp === null || mine.puntos_exp === undefined || !Number.isFinite(Number(mine.puntos_exp)) || Number(mine.puntos_exp) < 0) throw new Error('PUNTAJE_NO_DISPONIBLE');
+      const points = Number(mine.puntos_exp);
       badges.forEach(({ link, badge }) => {
         badge.textContent = formatBadge(points);
-        link.setAttribute('aria-label', `Inicio. Tu puntaje: ${format.format(points)} EXP.`);
+        badge.hidden = false;
+        badge.title = `Experiencia en Ladra: ${format.format(points)} puntos`;
+        link.setAttribute('aria-label', `Inicio. Experiencia en Ladra: ${format.format(points)} puntos.`);
       });
       if (!card) return;
       card.querySelector('[data-exp-total]').textContent = format.format(points);
