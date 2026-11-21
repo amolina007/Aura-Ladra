@@ -305,6 +305,11 @@
       "valor": "perdida",
       "descripcion_sha256": "8c897eb60222bcc41f6960109f7be42909e452b53551d20bbeedeb8d9b0afeee",
       "motivo": "Descripción revisada: distingue búsqueda de mascota, hallazgo o avistamiento y avisos de cierre; no atribuye propiedad al autor."
+    },
+    "exclusion": {
+      "motivo": "Descripción explícita: perdido en Pudahuel sur, Teniente Cruz; corresponde a otra comuna aunque el punto público del reporte indique Maipú.",
+      "descripcion_sha256": "8c897eb60222bcc41f6960109f7be42909e452b53551d20bbeedeb8d9b0afeee",
+      "original_sha256": "9b55945d6a02208e5c67f638c77716f22872f84f9ac05f3a22452e6fc21b4bb7"
     }
   },
   "4e0d1a6b-a24b-5125-9da5-440266087b53": {
@@ -1955,6 +1960,241 @@
         0.78
       ],
       "motivo": "Encuadre revisado visualmente para mostrar la mascota sin el sello y preservar la fotografía real."
+    }
+  },
+  "c120ace2-e8cc-5bc1-8747-83787456749d": {
+    "segmentacion": {
+      "original_sha256": "d6de92c0aa937d21f82a94b2579db9e34319ca59bfb1b5ee0587889369ee9814",
+      "imagen_sha256": "eca148e6fc4423408c8c1f96d33a64aabf2ac30a864d024ce70d6035dd9e637a",
+      "estado": "aprobada",
+      "motivo": "Comparación visual con el original: silueta conserva los rasgos visibles y no contiene texto, sello ni fondo residual."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "4b5d6abda54da0ec7d012a498555caf1c5bb549ba4d8ede06cd4baa16635e6bc",
+      "motivo": "Revisión de descripción y afiche: búsqueda por familia, hallazgo o avistamiento; los casos ambiguos quedan por confirmar, sin atribuir propiedad al autor."
+    },
+    "sha256": "d6de92c0aa937d21f82a94b2579db9e34319ca59bfb1b5ee0587889369ee9814",
+    "nombres": [
+      {
+        "etiqueta": "Nombre de la mascota",
+        "nombre": "León",
+        "evidencia": "Nombre León visible en afiche; mismas fotos y teléfono +56 9 9812 1632 en ambas publicaciones."
+      }
+    ]
+  },
+  "0ee9f297-5c5c-53f7-9100-f1e36147eb10": {
+    "segmentacion": {
+      "original_sha256": "1e74b5b0c714ffbfd6af10245771638e5655bb040a5d66bc0704d2fe61fec973",
+      "imagen_sha256": "ee03516077056044450cb9a96a1bf95522b13725874249c5c6c0a8e52094c8f7",
+      "estado": "aprobada",
+      "motivo": "Comparación visual con el original: silueta conserva los rasgos visibles y no contiene texto, sello ni fondo residual."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "3b4528ab70a8a0f4f9894fc6f143c369b3e69fd0b488bcebd1746caf881774a5",
+      "motivo": "Revisión de descripción y afiche: búsqueda por familia, hallazgo o avistamiento; los casos ambiguos quedan por confirmar, sin atribuir propiedad al autor."
+    }
+  },
+  "f028b92d-f3a9-5837-98e0-67b0ff5e8ce0": {
+    "segmentacion": {
+      "original_sha256": "e74440711c017535455a1a0aa00898bb6d4fd06f28b5ccd122a91c450ae60e73",
+      "imagen_sha256": "44c9f6f566c8bfc6bf121c18c899949164a7ada724203efbc494ac544be4b5e7",
+      "estado": "rechazada",
+      "motivo": "La máscara separaba una pata del resto del cuerpo; encuadre real conserva patas y rasgos."
+    },
+    "afiche_recortado": {
+      "original_sha256": "e74440711c017535455a1a0aa00898bb6d4fd06f28b5ccd122a91c450ae60e73",
+      "encuadre": [
+        0.23,
+        0.13,
+        0.86,
+        0.84
+      ],
+      "motivo": "La máscara separaba una pata del resto del cuerpo; encuadre real conserva patas y rasgos. Se deja fuera el sello inferior."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "d04ec1914ef5bd69e7e34fdb74aad79df71fe8efa8a518df2a56f4c798dc09d6",
+      "motivo": "Revisión de descripción y afiche: búsqueda por familia, hallazgo o avistamiento; los casos ambiguos quedan por confirmar, sin atribuir propiedad al autor."
+    }
+  },
+  "df9c3bce-d538-51dd-95a7-5aa2186875b2": {
+    "segmentacion": {
+      "original_sha256": "24f0ab3dc368329a34140426e7337a4b2411cbb85c10108e56c8b84fa69f52a4",
+      "imagen_sha256": "c63880e5c739650ac993e99ca1c76cc6c9797ae906e9cda1093f0be69ca8269e",
+      "estado": "rechazada",
+      "motivo": "La mascota está sostenida y la máscara no separa con fiabilidad el pelo del brazo; conservar foto cercana."
+    },
+    "afiche_recortado": {
+      "original_sha256": "24f0ab3dc368329a34140426e7337a4b2411cbb85c10108e56c8b84fa69f52a4",
+      "encuadre": [
+        0.2,
+        0.08,
+        0.82,
+        0.73
+      ],
+      "motivo": "La mascota está sostenida y la máscara no separa con fiabilidad el pelo del brazo; conservar foto cercana. Se deja fuera el sello inferior."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "637247047c83878245192a652901823cde49dc69a49026d07125f1c16bb30036",
+      "motivo": "Revisión de descripción y afiche: búsqueda por familia, hallazgo o avistamiento; los casos ambiguos quedan por confirmar, sin atribuir propiedad al autor."
+    }
+  },
+  "5b0ea94b-d71a-51a9-85e5-575951289977": {
+    "segmentacion": {
+      "original_sha256": "1f096ddae981a1862937b0a8e99664e74024f90fa68c2078680e48a6f2470fd7",
+      "imagen_sha256": "e89a5fc31e16d7edabe9db4a5dce6f3973c5f3b2425ec2a6bb65cfa1c04cf8a4",
+      "estado": "aprobada",
+      "motivo": "Comparación visual con el original: silueta conserva los rasgos visibles y no contiene texto, sello ni fondo residual."
+    },
+    "tipo_aviso": {
+      "valor": "por_confirmar",
+      "descripcion_sha256": "59c5b675abfea86d78bfd4476bd0b8107fdadd024dd31ef35b47e40c9b90cc43",
+      "motivo": "Revisión de descripción y afiche: búsqueda por familia, hallazgo o avistamiento; los casos ambiguos quedan por confirmar, sin atribuir propiedad al autor."
+    }
+  },
+  "0f1fcb02-2c57-5af3-9950-278f3a97d660": {
+    "segmentacion": {
+      "original_sha256": "4db5a6ea75df0eba3939c257421341849e26032dd54eb57fa9216cdf7adc09bb",
+      "imagen_sha256": "6ed1f4a033b8085c90fb7908e3366dd507c543e80776faa347b682848bc8171d",
+      "estado": "aprobada",
+      "motivo": "Comparación visual con el original: silueta conserva los rasgos visibles y no contiene texto, sello ni fondo residual."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "36ad91671c6c18f0cbb8f71caff97b29515bde5321df37da71acc096a0fc9a84",
+      "motivo": "Revisión de descripción y afiche: búsqueda por familia, hallazgo o avistamiento; los casos ambiguos quedan por confirmar, sin atribuir propiedad al autor."
+    }
+  },
+  "0fee88e1-55b1-5a35-b361-a088dae38501": {
+    "segmentacion": {
+      "original_sha256": "97514a489b3958bac17e72907ce4b81c8446c420a58af25a49cf2dd43027b16c",
+      "imagen_sha256": "d4eb62c789501d626c203c14c0a297a1eba54024297b7d55c31155becc4b02fe",
+      "estado": "aprobada",
+      "motivo": "Comparación visual con el original: silueta conserva los rasgos visibles y no contiene texto, sello ni fondo residual."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "894dc9502b7342aedbf53ed4b8d0f44422596d5e2de236ed1783c0e7b403921b",
+      "motivo": "Revisión de descripción y afiche: búsqueda por familia, hallazgo o avistamiento; los casos ambiguos quedan por confirmar, sin atribuir propiedad al autor."
+    }
+  },
+  "d1b5a814-af5e-59aa-9ee3-cca2b93bc759": {
+    "segmentacion": {
+      "original_sha256": "f2874bf4dfa3719c264de9cff35afc1515c2923e1016bd809e845afe778e5d39",
+      "imagen_sha256": "c7c7c38c931fdb9180124cedd2ea81938eb4009c5a44acefcc782693e6140d1a",
+      "estado": "aprobada",
+      "motivo": "Comparación visual con el original: silueta conserva los rasgos visibles y no contiene texto, sello ni fondo residual."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "d9a73f04d541a3062caf44394962e3539db3c120a9b413a1c9776567e78e10fb",
+      "motivo": "Revisión de descripción y afiche: búsqueda por familia, hallazgo o avistamiento; los casos ambiguos quedan por confirmar, sin atribuir propiedad al autor."
+    }
+  },
+  "3e76c872-5a92-5862-96d6-549f00f551d6": {
+    "segmentacion": {
+      "original_sha256": "ec51ce772eff3db7e4f86466e39104486a15496827f61855eda447ce1be4fd7e",
+      "imagen_sha256": "028e796489ef8284e567fad283904fbafe21653c96b1d2ebb14a8545657aab2e",
+      "estado": "aprobada",
+      "motivo": "Comparación visual con el original: silueta conserva los rasgos visibles y no contiene texto, sello ni fondo residual."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "3dabfc6488479fe81161669b3ad4eb0488d9158d3b79f5e5f46b6b0c858532ef",
+      "motivo": "Revisión de descripción y afiche: búsqueda por familia, hallazgo o avistamiento; los casos ambiguos quedan por confirmar, sin atribuir propiedad al autor."
+    }
+  },
+  "b79fa893-c98c-5506-9378-c315cd0ba6a6": {
+    "segmentacion": {
+      "original_sha256": "e7e52aa18492f3f949891bbbac9d16afb8a03c945f592af1ec2fb5feae08ea8b",
+      "imagen_sha256": "613775d815675574cb8d7c3b2c072998bc95492c9a661161dd3434bd386ad0f6",
+      "estado": "rechazada",
+      "motivo": "La máscara conserva una parte de la mano; se usa foto real cercana sin sello."
+    },
+    "afiche_recortado": {
+      "original_sha256": "e7e52aa18492f3f949891bbbac9d16afb8a03c945f592af1ec2fb5feae08ea8b",
+      "encuadre": [
+        0.2,
+        0.1,
+        0.96,
+        0.88
+      ],
+      "motivo": "La máscara conserva una parte de la mano; se usa foto real cercana sin sello. Se deja fuera el sello inferior."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "0c023aa855f9a4ae36115f7cd678befa0a152baff3a7809094f49a2314ebe43e",
+      "motivo": "Revisión de descripción y afiche: búsqueda por familia, hallazgo o avistamiento; los casos ambiguos quedan por confirmar, sin atribuir propiedad al autor."
+    }
+  },
+  "be6e4a30-5688-5f3c-85fd-71ef488b73f4": {
+    "segmentacion": {
+      "original_sha256": "cd95d53aac358d07e7cf3d6f58f36ffb57fa235a526915bc04895498517b8084",
+      "imagen_sha256": "d668b09c4615a4d4e318cf2fa58994744535e7410be32de189868fcbe396d52b",
+      "estado": "rechazada",
+      "motivo": "La máscara eligió una fotografía girada y conservaba texto Layout; se usa el retrato inferior izquierdo."
+    },
+    "afiche_recortado": {
+      "original_sha256": "cd95d53aac358d07e7cf3d6f58f36ffb57fa235a526915bc04895498517b8084",
+      "encuadre": [
+        0,
+        0.56,
+        0.5,
+        0.88
+      ],
+      "motivo": "La máscara eligió una fotografía girada y conservaba texto Layout; se usa el retrato inferior izquierdo. Se deja fuera el sello inferior."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "12c8ed6b1a6fa0826f9717f01b1d9f089a2e08ed85da71f4c487a3e3b317e8e6",
+      "motivo": "Revisión de descripción y afiche: búsqueda por familia, hallazgo o avistamiento; los casos ambiguos quedan por confirmar, sin atribuir propiedad al autor."
+    },
+    "sha256": "cd95d53aac358d07e7cf3d6f58f36ffb57fa235a526915bc04895498517b8084",
+    "nombres": [
+      {
+        "etiqueta": "Nombre de la mascota",
+        "nombre": "León",
+        "evidencia": "Nombre León visible en afiche; mismas fotos y teléfono +56 9 9812 1632 en ambas publicaciones."
+      }
+    ]
+  },
+  "8fab5dfe-3db0-5db9-a5f8-d9597923f7b0": {
+    "segmentacion": {
+      "original_sha256": "62c1077dc601ee8d2645b68fa92492ca5db97666dae2b3c079147cb6a85367d6",
+      "imagen_sha256": "6184b2fdad6025fd5d17633f9650c69341edf8242f43bada85200dd8756d2f5e",
+      "estado": "rechazada",
+      "motivo": "La máscara recorta el hocico y hay una reja sobre la mascota; conservar rasgos y reja reales sin reconstruir."
+    },
+    "afiche_recortado": {
+      "original_sha256": "62c1077dc601ee8d2645b68fa92492ca5db97666dae2b3c079147cb6a85367d6",
+      "encuadre": [
+        0.19,
+        0.27,
+        0.88,
+        0.9
+      ],
+      "motivo": "La máscara recorta el hocico y hay una reja sobre la mascota; conservar rasgos y reja reales sin reconstruir. Se deja fuera el sello inferior."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "039b860386a2d231dd08cd9ccd206bd7528717f43b665338bac0d5d97f7d9a84",
+      "motivo": "Revisión de descripción y afiche: búsqueda por familia, hallazgo o avistamiento; los casos ambiguos quedan por confirmar, sin atribuir propiedad al autor."
+    }
+  },
+  "e53e497f-4fec-5c44-af13-0abdf336b245": {
+    "segmentacion": {
+      "original_sha256": "0e1734f60d10406853a8c0502df9eab6ef63dee33de8acb5c88e3c24bb59d05a",
+      "imagen_sha256": "016755e05cc9af49cbfb5ce3bb4849ace381e7d79b155615641de9acd15c1602",
+      "estado": "aprobada",
+      "motivo": "Comparación visual con el original: silueta conserva los rasgos visibles y no contiene texto, sello ni fondo residual."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "5098df9109fa00d4f3d3f4f4e20a759b8f8c4f944849a4884e0d1e099025b112",
+      "motivo": "Revisión de descripción y afiche: búsqueda por familia, hallazgo o avistamiento; los casos ambiguos quedan por confirmar, sin atribuir propiedad al autor."
     }
   }
 }
