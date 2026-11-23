@@ -141,5 +141,22 @@
       "be6e4a30-5688-5f3c-85fd-71ef488b73f4"
     ],
     "evidencia": "Comparación visual: el retrato principal del afiche y la foto inferior izquierda de la captura son la misma fotografía. Coinciden el nombre León, sector Las Torres y teléfono +56 9 9812 1632 leído del afiche completo."
+  },
+  {
+    "nombre": "Snoopy",
+    "ids": [
+      "fe877af5-8d1b-52f7-a0c5-50f69e9bcd20",
+      "f7e44e95-12cc-54ec-881a-d5afe7a4051c",
+      "de824eff-f8bf-5f98-951a-2dda77353017"
+    ],
+    "evidencia": "Comparación visual: misma fotografía del bullterrier blanco y negro recostado, misma mancha frontal, nombre Snoopy y contacto 969089096; afiches indican 14 de noviembre y Pajaritos/Las Parcelas, concordante con texto del aviso original."
+  },
+  {
+    "nombre": "Gatita encontrada en Campanario",
+    "ids": [
+      "492fa21d-6582-545a-a82e-a7a96dd165fd",
+      "9ac4d5e9-601a-5aa7-a49a-ce75d3b65088"
+    ],
+    "evidencia": "Comparación visual: misma gata atigrada naranja, pecho y patas claros y collar rojo; dos ángulos en la misma silla. Descripciones coinciden en cola cortada, Campanario con Barros Luco y retención en Campanario 1665."
   }
 ]

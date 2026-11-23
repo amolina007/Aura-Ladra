@@ -2196,5 +2196,764 @@
       "descripcion_sha256": "5098df9109fa00d4f3d3f4f4e20a759b8f8c4f944849a4884e0d1e099025b112",
       "motivo": "Revisión de descripción y afiche: búsqueda por familia, hallazgo o avistamiento; los casos ambiguos quedan por confirmar, sin atribuir propiedad al autor."
     }
+  },
+  "0f865d71-c98b-532a-8806-549b7b95b258": {
+    "segmentacion": {
+      "original_sha256": "48de4aed4c4a87cecf895e23707754843f4a7a6161f2bcbecc5ad87c6055b3cb",
+      "imagen_sha256": "27128924d20d08f5c5ba9bcf9ec861c774bfee1dfbbaf7a3095781e52ad28bf0",
+      "estado": "rechazada",
+      "motivo": "Comparación visual: máscara conserva fragmentos ajenos o corta rasgos; se utiliza encuadre rectangular real sin sello."
+    },
+    "afiche_recortado": {
+      "original_sha256": "48de4aed4c4a87cecf895e23707754843f4a7a6161f2bcbecc5ad87c6055b3cb",
+      "encuadre": [
+        0,
+        0.12,
+        1,
+        0.83
+      ],
+      "motivo": "Encuadre visual del animal o animales, conservando píxeles reales y dejando fuera el sello inferior."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "4b90a90db27e92d68fc554e462e4165ecbd6dc6c5b2e85064ebc5173f686260c",
+      "motivo": "Descripción y fotografía revisadas: distingue avistamiento/hallazgo de búsqueda por familia, sin atribuir propiedad al autor."
+    }
+  },
+  "8ed780d5-b559-50c8-b98c-e198c7ccaf63": {
+    "segmentacion": {
+      "original_sha256": "719071216fd78d9953fb13008167f27e97ca7d7c372b1081d4313c26964315fc",
+      "imagen_sha256": "57f33e73e1958eb22b800b3081ebe20c59a668edaa53a464ad094a15de68f8c0",
+      "estado": "rechazada",
+      "motivo": "Comparación visual: máscara conserva fragmentos ajenos o corta rasgos; se utiliza encuadre rectangular real sin sello."
+    },
+    "afiche_recortado": {
+      "original_sha256": "719071216fd78d9953fb13008167f27e97ca7d7c372b1081d4313c26964315fc",
+      "encuadre": [
+        0,
+        0.36,
+        1,
+        0.93
+      ],
+      "motivo": "Encuadre visual del animal o animales, conservando píxeles reales y dejando fuera el sello inferior."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "5945e4194b7dcec46bbfda8a0a8efe2161904b64ffa1fcca990fe8cbff3b7b6b",
+      "motivo": "Descripción y fotografía revisadas: distingue avistamiento/hallazgo de búsqueda por familia, sin atribuir propiedad al autor."
+    }
+  },
+  "23921429-1c12-5323-94c1-993f8b12c272": {
+    "segmentacion": {
+      "original_sha256": "29920b2e404ab1ae73394745e425a5dd41728699beadf457253b42620042130e",
+      "imagen_sha256": "b6e63a202885127d51bc9cef2967bac2f06e91354302fd87dc8ca026a419e8f0",
+      "estado": "rechazada",
+      "motivo": "Comparación visual: máscara conserva fragmentos ajenos o corta rasgos; se utiliza encuadre rectangular real sin sello."
+    },
+    "afiche_recortado": {
+      "original_sha256": "29920b2e404ab1ae73394745e425a5dd41728699beadf457253b42620042130e",
+      "encuadre": [
+        0,
+        0.36,
+        0.83,
+        0.64
+      ],
+      "motivo": "Encuadre visual del animal o animales, conservando píxeles reales y dejando fuera el sello inferior."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "c37ef415a71814ac0c44ea903db2088253f70b78c6b2981a724c8132c601514f",
+      "motivo": "Descripción y fotografía revisadas: distingue avistamiento/hallazgo de búsqueda por familia, sin atribuir propiedad al autor."
+    }
+  },
+  "e7d27cd0-0b59-53b7-9b10-2bee9d057aea": {
+    "segmentacion": {
+      "original_sha256": "b691afb9fd57d757a4fdce05c34ebad780afa378b92342e2c2f146cad834ef2d",
+      "imagen_sha256": "a23834d33c76db7b65e2718973e24cb87282cc8bf059d0299e91936756520ef1",
+      "estado": "rechazada",
+      "motivo": "Comparación visual: máscara conserva fragmentos ajenos o corta rasgos; se utiliza encuadre rectangular real sin sello."
+    },
+    "afiche_recortado": {
+      "original_sha256": "b691afb9fd57d757a4fdce05c34ebad780afa378b92342e2c2f146cad834ef2d",
+      "encuadre": [
+        0,
+        0.18,
+        0.84,
+        0.77
+      ],
+      "motivo": "Encuadre visual del animal o animales, conservando píxeles reales y dejando fuera el sello inferior."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "ab7b0d9b09eb42965b87f5d16e919c3c9862d94e8f0d0746444771c19f51fb6c",
+      "motivo": "Descripción y fotografía revisadas: distingue avistamiento/hallazgo de búsqueda por familia, sin atribuir propiedad al autor."
+    }
+  },
+  "82768a90-720a-5381-942e-2d0aab8a1547": {
+    "segmentacion": {
+      "original_sha256": "06305b8bedd1954cfcff5f5d0fd917f647ae6582f94e5340afb0980a4f9ac566",
+      "imagen_sha256": "693cb46a607d24ee2da7d0c34c9c5a93f07d45a9de398fb63fe34a17d07355d1",
+      "estado": "aprobada",
+      "motivo": "Comparación visual con original: conserva rasgos visibles y no muestra sello."
+    },
+    "presentacion_revisada": {
+      "original_sha256": "06305b8bedd1954cfcff5f5d0fd917f647ae6582f94e5340afb0980a4f9ac566",
+      "imagen_sha256": "693cb46a607d24ee2da7d0c34c9c5a93f07d45a9de398fb63fe34a17d07355d1",
+      "foto": "data/sosafe-fotos/9edf20cb70e74c52f1dce294.png"
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "c37a5d8d6e14805e2557f42af309555b9d4888f340a77acabd47989e754e9cfa",
+      "motivo": "Descripción y fotografía revisadas: distingue avistamiento/hallazgo de búsqueda por familia, sin atribuir propiedad al autor."
+    },
+    "sha256": "06305b8bedd1954cfcff5f5d0fd917f647ae6582f94e5340afb0980a4f9ac566",
+    "nombres": [
+      {
+        "etiqueta": "Nombre de la mascota",
+        "nombre": "Moshi",
+        "evidencia": "Descripción explícita: responde al nombre de moshi."
+      }
+    ]
+  },
+  "d09b3981-9ff7-5702-89c1-889d9e64f104": {
+    "segmentacion": {
+      "original_sha256": "b64111e2329c2bc9089a5162b169ceaf23e32b1fdf85e7cb4a6ac1a9e8469ef8",
+      "imagen_sha256": "ce3c4dee10920e597f25c9defb5ca1d6fa36d5dff87404a5b93f80854a8f20cf",
+      "estado": "aprobada",
+      "motivo": "Comparación visual con original: conserva rasgos visibles y no muestra sello."
+    },
+    "presentacion_revisada": {
+      "original_sha256": "b64111e2329c2bc9089a5162b169ceaf23e32b1fdf85e7cb4a6ac1a9e8469ef8",
+      "imagen_sha256": "ce3c4dee10920e597f25c9defb5ca1d6fa36d5dff87404a5b93f80854a8f20cf",
+      "foto": "data/sosafe-fotos/43767757b4b6405cb3d4e2d5.png"
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "941b0f287a4cdb1f3e7574c769cd1d1ebab42c9ae5004c9a7db35c46ed5feffe",
+      "motivo": "Descripción y fotografía revisadas: distingue avistamiento/hallazgo de búsqueda por familia, sin atribuir propiedad al autor."
+    }
+  },
+  "439700d1-ad49-58e0-87fc-153e701c5614": {
+    "segmentacion": {
+      "original_sha256": "abec81914a8a2efc60304b47cfb1d42cf1cffede83a785267cb5c5685c8bd95b",
+      "imagen_sha256": "e5becdf2c9b5560d8cc30244232dd8696ba31ded04f3504626d1373320e0c23a",
+      "estado": "rechazada",
+      "motivo": "Revisión final detecta fondo residual o fragmento de texto; se conserva recorte real sin sello."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "aaa38e299ad9d071f0a89204074a6e9f475cc249041bd33fd2eedbfd549f187a",
+      "motivo": "Descripción y fotografía revisadas: distingue avistamiento/hallazgo de búsqueda por familia, sin atribuir propiedad al autor."
+    },
+    "afiche_recortado": {
+      "original_sha256": "abec81914a8a2efc60304b47cfb1d42cf1cffede83a785267cb5c5685c8bd95b",
+      "encuadre": [
+        0.28,
+        0.28,
+        0.66,
+        0.63
+      ],
+      "motivo": "Encuadre más cercano al animal, sin texto ni sello y conservando píxeles reales."
+    }
+  },
+  "052d03cd-1307-526b-9927-cced943c1f1e": {
+    "segmentacion": {
+      "original_sha256": "909f29ca3d62bd7cc8cfabe481df8bdc08147eeaff0f0af21ac1b0eac2c673bc",
+      "imagen_sha256": "af4556da185d8d9056f51e0afbc5cdf5310e3f4614cf3aa94e4bddd61b4eeebb",
+      "estado": "aprobada",
+      "motivo": "Comparación visual con original: conserva rasgos visibles y no muestra sello."
+    },
+    "presentacion_revisada": {
+      "original_sha256": "909f29ca3d62bd7cc8cfabe481df8bdc08147eeaff0f0af21ac1b0eac2c673bc",
+      "imagen_sha256": "af4556da185d8d9056f51e0afbc5cdf5310e3f4614cf3aa94e4bddd61b4eeebb",
+      "foto": "data/sosafe-fotos/1d64558b2c5b8e39e6880e66.png"
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "12da99260a6309a3d67094a4117f53c4d908d57206a7eabb4c6fe214489bfd89",
+      "motivo": "Descripción y fotografía revisadas: distingue avistamiento/hallazgo de búsqueda por familia, sin atribuir propiedad al autor."
+    }
+  },
+  "d27ed5b0-9b04-5d9e-841b-2292a04a2db5": {
+    "segmentacion": {
+      "original_sha256": "bee02b0730e35f659893df0158c0a7dec5c068bd1fc0b6f7c0bf1fd376ddf629",
+      "imagen_sha256": "e3a021301e2503270f319fd8978000cc386951c34e384ce7d25ee3200d4e624a",
+      "estado": "rechazada",
+      "motivo": "Comparación visual: máscara conserva fragmentos ajenos o corta rasgos; se utiliza encuadre rectangular real sin sello."
+    },
+    "afiche_recortado": {
+      "original_sha256": "bee02b0730e35f659893df0158c0a7dec5c068bd1fc0b6f7c0bf1fd376ddf629",
+      "encuadre": [
+        0,
+        0.21,
+        1,
+        0.61
+      ],
+      "motivo": "Encuadre visual del animal o animales, conservando píxeles reales y dejando fuera el sello inferior."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "2111db6ed29c4e5a76e49f869c887699639f44e0519cb374be35aba4e6b5396f",
+      "motivo": "Descripción y fotografía revisadas: distingue avistamiento/hallazgo de búsqueda por familia, sin atribuir propiedad al autor."
+    }
+  },
+  "123172e2-3501-5cb1-96e6-25e3a28346c4": {
+    "segmentacion": {
+      "original_sha256": "193d7c22c4f12dcf34cd9e6b1bd2fbd57fda070deb2927b6529591cc5f960f49",
+      "imagen_sha256": "03e45ea547e4959a33b01f4cdf235c0dde63e45bbf0d89a809c92bf2bf9199ae",
+      "estado": "aprobada",
+      "motivo": "Comparación visual con original: conserva rasgos visibles y no muestra sello."
+    },
+    "presentacion_revisada": {
+      "original_sha256": "193d7c22c4f12dcf34cd9e6b1bd2fbd57fda070deb2927b6529591cc5f960f49",
+      "imagen_sha256": "03e45ea547e4959a33b01f4cdf235c0dde63e45bbf0d89a809c92bf2bf9199ae",
+      "foto": "data/sosafe-fotos/3ee3e752bc22d1aed2d9ce6f.png"
+    },
+    "tipo_aviso": {
+      "valor": "reencuentro",
+      "descripcion_sha256": "d81f895c4ee366812ac51e4646b4a435e3a859ca226e5b31863cb875692b43a1",
+      "motivo": "Descripción revisada: avistamiento/hallazgo frente a búsqueda por familia. ENCONTRADA al inicio actualiza la búsqueda de Mía como reencuentro."
+    }
+  },
+  "6829602b-7b3b-5752-845c-c81c07835389": {
+    "segmentacion": {
+      "original_sha256": "a8dd50adf8a5a55d02a0e0fd990cfb01e47c4baa1596e72c58b7190e4b0b9b1b",
+      "imagen_sha256": "584d1fc3d9837d4462fc1ef88ac0716bde631c62bc8242bf57f7ac25992f286a",
+      "estado": "rechazada",
+      "motivo": "Revisión final detecta fondo residual o fragmento de texto; se conserva recorte real sin sello."
+    },
+    "afiche_recortado": {
+      "original_sha256": "a8dd50adf8a5a55d02a0e0fd990cfb01e47c4baa1596e72c58b7190e4b0b9b1b",
+      "encuadre": [
+        0.44,
+        0.76,
+        0.72,
+        0.88
+      ],
+      "motivo": "Encuadre más cercano al animal, sin texto ni sello y conservando píxeles reales."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "b89a59b4526e07316dbe27092921314bd86ba46cb9c8c7502bdfb94eb1ec1f24",
+      "motivo": "Descripción y fotografía revisadas: distingue avistamiento/hallazgo de búsqueda por familia, sin atribuir propiedad al autor."
+    }
+  },
+  "5d2b9b5d-b68f-53af-8d46-4bc67b0d2a99": {
+    "segmentacion": {
+      "original_sha256": "067394f5b77844be4b0ce493490c1963e1d4c5912807b9bc02960eda78493d8f",
+      "imagen_sha256": "311b7b11ff5a0d1b6fffe13f66b9514aaedd89e5d0269091cd6209c7900fc4ae",
+      "estado": "rechazada",
+      "motivo": "Revisión final detecta fondo residual o fragmento de texto; se conserva recorte real sin sello."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "db0e41b96fe90daed7505076babc7f1acd43be855f5525db4f0f6dd59b8a75c2",
+      "motivo": "Descripción y fotografía revisadas: distingue avistamiento/hallazgo de búsqueda por familia, sin atribuir propiedad al autor."
+    },
+    "afiche_recortado": {
+      "original_sha256": "067394f5b77844be4b0ce493490c1963e1d4c5912807b9bc02960eda78493d8f",
+      "encuadre": [
+        0.28,
+        0.38,
+        0.81,
+        0.9
+      ],
+      "motivo": "Encuadre más cercano al animal, sin texto ni sello y conservando píxeles reales."
+    }
+  },
+  "fe877af5-8d1b-52f7-a0c5-50f69e9bcd20": {
+    "segmentacion": {
+      "original_sha256": "09215a223716cf766cb8aa3be7aa738f60c5210fa5acfe058f0e2f27b18736d8",
+      "imagen_sha256": "d08d92c8dd5c0325296e8e334392cea3302f97c7a51fe7b659121a7e7eeec2c4",
+      "estado": "rechazada",
+      "motivo": "Comparación visual: máscara conserva fragmentos ajenos o corta rasgos; se utiliza encuadre rectangular real sin sello."
+    },
+    "afiche_recortado": {
+      "original_sha256": "09215a223716cf766cb8aa3be7aa738f60c5210fa5acfe058f0e2f27b18736d8",
+      "encuadre": [
+        0,
+        0.3,
+        1,
+        0.61
+      ],
+      "motivo": "Encuadre visual del animal o animales, conservando píxeles reales y dejando fuera el sello inferior."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "647e65435cef93f95b8b7a5f3d9b7feb25328140feaadb73fbc04be774d8be1d",
+      "motivo": "Descripción y fotografía revisadas: distingue avistamiento/hallazgo de búsqueda por familia, sin atribuir propiedad al autor."
+    },
+    "sha256": "09215a223716cf766cb8aa3be7aa738f60c5210fa5acfe058f0e2f27b18736d8",
+    "nombres": [
+      {
+        "etiqueta": "Nombre de la mascota",
+        "nombre": "Snoopy",
+        "evidencia": "Afiches muestran Snoopy, misma fotografía de bullterrier blanco y negro y teléfono 969089096; texto del tercer reporte coincide."
+      }
+    ]
+  },
+  "81b21287-0de9-5a2d-90dc-e444482df25a": {
+    "segmentacion": {
+      "original_sha256": "d423de9f0a5e6222b5d2985359670afb62085c6396d7e54b86e7cbf449e26fe1",
+      "imagen_sha256": "a5cc77d87eaba920c3205d01498ecb44afc2bd19ec5ff9fbed742d070bb1ac8f",
+      "estado": "aprobada",
+      "motivo": "Comparación visual con original: conserva rasgos visibles y no muestra sello."
+    },
+    "presentacion_revisada": {
+      "original_sha256": "d423de9f0a5e6222b5d2985359670afb62085c6396d7e54b86e7cbf449e26fe1",
+      "imagen_sha256": "a5cc77d87eaba920c3205d01498ecb44afc2bd19ec5ff9fbed742d070bb1ac8f",
+      "foto": "data/sosafe-fotos/11d21e54d986cedcb8c7b8e9.png"
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "61e4159eedf66db2956e348ce5074652e02fd938cbabbba267e28f90fc075171",
+      "motivo": "Descripción y fotografía revisadas: distingue avistamiento/hallazgo de búsqueda por familia, sin atribuir propiedad al autor."
+    }
+  },
+  "f7e44e95-12cc-54ec-881a-d5afe7a4051c": {
+    "segmentacion": {
+      "original_sha256": "c0e567b5f15983744cca301a36d6517e7747868409d51c8182aa5718ef55d193",
+      "imagen_sha256": "aa0b2e3892d46256d32df9792c916da660e42d2f4e0337abcf0200a566a339c3",
+      "estado": "rechazada",
+      "motivo": "Comparación visual: máscara conserva fragmentos ajenos o corta rasgos; se utiliza encuadre rectangular real sin sello."
+    },
+    "afiche_recortado": {
+      "original_sha256": "c0e567b5f15983744cca301a36d6517e7747868409d51c8182aa5718ef55d193",
+      "encuadre": [
+        0,
+        0.3,
+        1,
+        0.61
+      ],
+      "motivo": "Encuadre visual del animal o animales, conservando píxeles reales y dejando fuera el sello inferior."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "318df49b09660d337bdeb6ea3b656f279024662f88917878d946ba6e182af495",
+      "motivo": "Descripción y fotografía revisadas: distingue avistamiento/hallazgo de búsqueda por familia, sin atribuir propiedad al autor."
+    },
+    "sha256": "c0e567b5f15983744cca301a36d6517e7747868409d51c8182aa5718ef55d193",
+    "nombres": [
+      {
+        "etiqueta": "Nombre de la mascota",
+        "nombre": "Snoopy",
+        "evidencia": "Afiches muestran Snoopy, misma fotografía de bullterrier blanco y negro y teléfono 969089096; texto del tercer reporte coincide."
+      }
+    ]
+  },
+  "de824eff-f8bf-5f98-951a-2dda77353017": {
+    "segmentacion": {
+      "original_sha256": "13b45639756039564903bbc2a4d114352982e9ad582be8874e29eab7a89d19c8",
+      "imagen_sha256": "a40f79d0aa4a9f8979007897636c6b251ba84a4ef4e86ec69d795a385c0d8a77",
+      "estado": "aprobada",
+      "motivo": "Comparación visual con original: conserva rasgos visibles y no muestra sello."
+    },
+    "presentacion_revisada": {
+      "original_sha256": "13b45639756039564903bbc2a4d114352982e9ad582be8874e29eab7a89d19c8",
+      "imagen_sha256": "a40f79d0aa4a9f8979007897636c6b251ba84a4ef4e86ec69d795a385c0d8a77",
+      "foto": "data/sosafe-fotos/28829ae163ea0cbe6e8d7985.png"
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "902126cc562a78dc1fefab3f4b41595005328e18573dac1f003a53c8aae4a1f9",
+      "motivo": "Descripción y fotografía revisadas: distingue avistamiento/hallazgo de búsqueda por familia, sin atribuir propiedad al autor."
+    },
+    "sha256": "13b45639756039564903bbc2a4d114352982e9ad582be8874e29eab7a89d19c8",
+    "nombres": [
+      {
+        "etiqueta": "Nombre de la mascota",
+        "nombre": "Snoopy",
+        "evidencia": "Afiches muestran Snoopy, misma fotografía de bullterrier blanco y negro y teléfono 969089096; texto del tercer reporte coincide."
+      }
+    ]
+  },
+  "4fc0ebee-ce9a-59ea-978e-250508bfc468": {
+    "segmentacion": {
+      "original_sha256": "5f1d6bb96ac2d441d28f867c298eb0c8321f208f66be6f5744244ef46ccee157",
+      "imagen_sha256": "fc6937b83a68d0bb3dd85d8f75228d6205ad0ded58404e2cae16552a1069dcb7",
+      "estado": "aprobada",
+      "motivo": "Comparación visual con original: conserva rasgos visibles y no muestra sello."
+    },
+    "presentacion_revisada": {
+      "original_sha256": "5f1d6bb96ac2d441d28f867c298eb0c8321f208f66be6f5744244ef46ccee157",
+      "imagen_sha256": "fc6937b83a68d0bb3dd85d8f75228d6205ad0ded58404e2cae16552a1069dcb7",
+      "foto": "data/sosafe-fotos/f659f99d61b2d426de38cadc.png"
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "d07ed4f60a9612ba8b7b68b5ba9b92c8402bcb4676dfcec1eae59bc87fee45c0",
+      "motivo": "Descripción y fotografía revisadas: distingue avistamiento/hallazgo de búsqueda por familia, sin atribuir propiedad al autor."
+    }
+  },
+  "b80eabce-1821-5930-99fb-bb410c413ade": {
+    "segmentacion": {
+      "original_sha256": "4951adabd133032e129817770355bd7caacbb9a61c46e24f9e484419d2d8da32",
+      "imagen_sha256": "ff5399f2a98a7f03c9415b4b2eda69ec885650e661cf68ceb59a005916423689",
+      "estado": "rechazada",
+      "motivo": "Comparación visual: máscara conserva fragmentos ajenos o corta rasgos; se utiliza encuadre rectangular real sin sello."
+    },
+    "afiche_recortado": {
+      "original_sha256": "4951adabd133032e129817770355bd7caacbb9a61c46e24f9e484419d2d8da32",
+      "encuadre": [
+        0.12,
+        0.1,
+        0.86,
+        0.79
+      ],
+      "motivo": "Encuadre visual del animal o animales, conservando píxeles reales y dejando fuera el sello inferior."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "1fdf1a6f4f77b3c9b3a8b70df79daea5ee4666cf06499557c8db0c2a0b14a4a3",
+      "motivo": "Descripción y fotografía revisadas: distingue avistamiento/hallazgo de búsqueda por familia, sin atribuir propiedad al autor."
+    }
+  },
+  "2acfe9d5-51d8-5c2e-a4c2-a31526278550": {
+    "segmentacion": {
+      "original_sha256": "94c79e9d829375bf607ae637a28f4d0333bf030b5d624f2813d367a04e354f2c",
+      "imagen_sha256": "12fa1f1d27a67061418c3e0673c069b2f5b7e2d28ce1ca0323ab1fb83a124310",
+      "estado": "aprobada",
+      "motivo": "Comparación visual con original: conserva rasgos visibles y no muestra sello."
+    },
+    "presentacion_revisada": {
+      "original_sha256": "94c79e9d829375bf607ae637a28f4d0333bf030b5d624f2813d367a04e354f2c",
+      "imagen_sha256": "12fa1f1d27a67061418c3e0673c069b2f5b7e2d28ce1ca0323ab1fb83a124310",
+      "foto": "data/sosafe-fotos/14aaa3c8b2f1089d7ad4aa26.png"
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "e8158543f6539ffaee65d21c9e2d1f9b5f5b4eb0ec1537454aca195b375e8e9f",
+      "motivo": "Descripción y fotografía revisadas: distingue avistamiento/hallazgo de búsqueda por familia, sin atribuir propiedad al autor."
+    }
+  },
+  "df1333ea-8d0f-58f7-9ce7-540940840251": {
+    "segmentacion": {
+      "original_sha256": "9c05ea9efa53190000037e6e1dbe3fd6cdef47b22945a4f869caaa068830b15b",
+      "imagen_sha256": "8f424448c064d4c77e4e0b57fcbbc8963f92eb82ce3fddc891f3963c678b5eec",
+      "estado": "rechazada",
+      "motivo": "Comparación visual: máscara conserva fragmentos ajenos o corta rasgos; se utiliza encuadre rectangular real sin sello."
+    },
+    "afiche_recortado": {
+      "original_sha256": "9c05ea9efa53190000037e6e1dbe3fd6cdef47b22945a4f869caaa068830b15b",
+      "encuadre": [
+        0.24,
+        0.23,
+        0.98,
+        0.82
+      ],
+      "motivo": "Encuadre visual del animal o animales, conservando píxeles reales y dejando fuera el sello inferior."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "5b6fe1f46307e432ce07874a3f67d5555ae6beac32b42a319ef89378145cb309",
+      "motivo": "Descripción y fotografía revisadas: distingue avistamiento/hallazgo de búsqueda por familia, sin atribuir propiedad al autor."
+    }
+  },
+  "4ccaab88-8bd3-52ae-85b3-f48355384589": {
+    "segmentacion": {
+      "original_sha256": "200cb84f5d4b5c2d664201653186a9b2e920c88f9044ca0b6595b0be7e0db462",
+      "imagen_sha256": "fe5a5e17b36ff74b11ebc722238e84f2b511da478bbac547d1689f43c2bbe1e5",
+      "estado": "aprobada",
+      "motivo": "Comparación visual con original: conserva rasgos visibles y no muestra sello."
+    },
+    "presentacion_revisada": {
+      "original_sha256": "200cb84f5d4b5c2d664201653186a9b2e920c88f9044ca0b6595b0be7e0db462",
+      "imagen_sha256": "fe5a5e17b36ff74b11ebc722238e84f2b511da478bbac547d1689f43c2bbe1e5",
+      "foto": "data/sosafe-fotos/5b0a373bd1f2e000147ae577.png"
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "0cd24b0cf04489ceebf778b2b2580c28af849a66869fdaece01357ca59d5a2d1",
+      "motivo": "Descripción y fotografía revisadas: distingue avistamiento/hallazgo de búsqueda por familia, sin atribuir propiedad al autor."
+    },
+    "exclusion": {
+      "descripcion_sha256": "0cd24b0cf04489ceebf778b2b2580c28af849a66869fdaece01357ca59d5a2d1",
+      "original_sha256": "200cb84f5d4b5c2d664201653186a9b2e920c88f9044ca0b6595b0be7e0db462",
+      "motivo": "Descripción ubica el extravío en Santiago centro y avistamientos en San Bernardo, Catemito y Lonquén; no acredita Maipú."
+    }
+  },
+  "1aa0b22d-ad11-54a8-a9ad-11bcd8aabc82": {
+    "segmentacion": {
+      "original_sha256": "5c9ed2e010375a6ef5f4de35c1b683b63abd5adfdbcf4e495dd27640a0625ee6",
+      "imagen_sha256": "031f6989836e1a29af34f19145c6a38fcf0958bf47ae5d59d49589ab528bbb11",
+      "estado": "rechazada",
+      "motivo": "Comparación visual: máscara conserva fragmentos ajenos o corta rasgos; se utiliza encuadre rectangular real sin sello."
+    },
+    "afiche_recortado": {
+      "original_sha256": "5c9ed2e010375a6ef5f4de35c1b683b63abd5adfdbcf4e495dd27640a0625ee6",
+      "encuadre": [
+        0,
+        0,
+        0.9,
+        0.85
+      ],
+      "motivo": "Encuadre visual del animal o animales, conservando píxeles reales y dejando fuera el sello inferior."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "02d2270686a8b11144c2e93124b04e9893feeea616c4e014ad084f8d9b7056e9",
+      "motivo": "Descripción y fotografía revisadas: distingue avistamiento/hallazgo de búsqueda por familia, sin atribuir propiedad al autor."
+    }
+  },
+  "36a774cc-fe7f-5c78-8b83-1874022248b0": {
+    "segmentacion": {
+      "original_sha256": "e0dd9ebacfbd70175c7fa029ee9bbc5588bef25e7d34d4d06010ac6e5ac5be14",
+      "imagen_sha256": "aa2d2f6313448e417246ccd430911c6a963d40f606ea97b2433a0a6ba9db4bfc",
+      "estado": "aprobada",
+      "motivo": "Comparación visual con original: conserva rasgos visibles y no muestra sello."
+    },
+    "presentacion_revisada": {
+      "original_sha256": "e0dd9ebacfbd70175c7fa029ee9bbc5588bef25e7d34d4d06010ac6e5ac5be14",
+      "imagen_sha256": "aa2d2f6313448e417246ccd430911c6a963d40f606ea97b2433a0a6ba9db4bfc",
+      "foto": "data/sosafe-fotos/d722bb1266e0d9ec45949e68.png"
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "01e8799967cf0e3f8740cd1e451b3a8d404075d46e7d73f14688d402e8c57a91",
+      "motivo": "Descripción y fotografía revisadas: distingue avistamiento/hallazgo de búsqueda por familia, sin atribuir propiedad al autor."
+    }
+  },
+  "49bfde75-5379-53ac-9ab9-3a6a046404a1": {
+    "afiche_recortado": {
+      "original_sha256": "68bab987dd4084561d98d785b2deebbab483d5676b24e1aaea1cf52b669466f5",
+      "encuadre": [
+        0,
+        0.36,
+        1,
+        0.6
+      ],
+      "motivo": "Revisión visual del original: fotografía real de la mascota, sin sello, sin reconstruir rasgos."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "8f7ca094c5df10080929f1130d7f6fa668f2c8c3125c2c8235385b64e68dc2de",
+      "motivo": "Texto y foto revisados: búsqueda o hallazgo/avistamiento; sin atribuir propiedad al autor."
+    }
+  },
+  "07e49a62-9a5c-55c7-b7f5-48d1d7ba9e5d": {
+    "afiche_recortado": {
+      "original_sha256": "ecc8bb4528c99b66d9847a0c43d5cb44db2881b4c68816beb1d8b412b07c245b",
+      "encuadre": [
+        0,
+        0,
+        1,
+        0.9
+      ],
+      "motivo": "Revisión visual del original: fotografía real de la mascota, sin sello, sin reconstruir rasgos."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "c98ce1dee3112a351fe947655397e58965b0250f4c163394f65cfa5f1d57392e",
+      "motivo": "Texto y foto revisados: búsqueda o hallazgo/avistamiento; sin atribuir propiedad al autor."
+    },
+    "sha256": "ecc8bb4528c99b66d9847a0c43d5cb44db2881b4c68816beb1d8b412b07c245b",
+    "nombres": [
+      {
+        "etiqueta": "Nombre de la mascota",
+        "nombre": "Cloid",
+        "evidencia": "Nombre explícito en descripción o afiche, revisado visualmente."
+      }
+    ]
+  },
+  "492fa21d-6582-545a-a82e-a7a96dd165fd": {
+    "afiche_recortado": {
+      "original_sha256": "4d293b1a464553f3b1716b5aaf8bd42193b0dfc60861502770a77a0450b9f9a5",
+      "encuadre": [
+        0.14,
+        0.2,
+        0.98,
+        0.89
+      ],
+      "motivo": "Revisión visual del original: fotografía real de la mascota, sin sello, sin reconstruir rasgos."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "a31cbe848443c1b2d03ae5b72556b07c2b8c4ce201a0434e527ce8d94c25968d",
+      "motivo": "Texto y foto revisados: búsqueda o hallazgo/avistamiento; sin atribuir propiedad al autor."
+    }
+  },
+  "9ac4d5e9-601a-5aa7-a49a-ce75d3b65088": {
+    "afiche_recortado": {
+      "original_sha256": "50db11113adea843fefb0b88bf9a17539874c48595ab585a62f407ab0988158e",
+      "encuadre": [
+        0.12,
+        0.02,
+        1,
+        0.7
+      ],
+      "motivo": "Revisión visual del original: fotografía real de la mascota, sin sello, sin reconstruir rasgos."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "70df43173ebd41d16e9da1f3e8797b5eaef997d3a0367f9690e7913664ebba71",
+      "motivo": "Texto y foto revisados: búsqueda o hallazgo/avistamiento; sin atribuir propiedad al autor."
+    }
+  },
+  "7c4a835e-7ef6-5744-9895-71f743266a13": {
+    "afiche_recortado": {
+      "original_sha256": "3ae5499202289b8593783fd6c698b06c5b6bb335d04d4e8bd2217331bdafe5c5",
+      "encuadre": [
+        0.02,
+        0.12,
+        0.97,
+        0.9
+      ],
+      "motivo": "Revisión visual del original: fotografía real de la mascota, sin sello, sin reconstruir rasgos."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "f78686593b47333b3e538f6add9e54f64accaedcfb211afb7e47ef5778ecac4f",
+      "motivo": "Texto y foto revisados: búsqueda o hallazgo/avistamiento; sin atribuir propiedad al autor."
+    }
+  },
+  "2c5b57d0-6e6d-5e84-94e1-3808fb9ea860": {
+    "afiche_recortado": {
+      "original_sha256": "bbf45fc1c49a8f8ae91aeaa788cb7c9f2529875d36091b5f0701ba0fa8757601",
+      "encuadre": [
+        0.25,
+        0.16,
+        0.68,
+        0.66
+      ],
+      "motivo": "Revisión visual del original: fotografía real de la mascota, sin sello, sin reconstruir rasgos."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "d17a6ae96cc82ab5ccecd89b5772a7b9b0d5e6e67df0f5e7e4f3886af633ffd9",
+      "motivo": "Texto y foto revisados: búsqueda o hallazgo/avistamiento; sin atribuir propiedad al autor."
+    }
+  },
+  "26109b52-ddd5-54af-8876-b59d72b0d729": {
+    "afiche_recortado": {
+      "original_sha256": "905a413131f5f95ae791350048534477c0112e166d48148e584e2dd01d62e3cc",
+      "encuadre": [
+        0,
+        0,
+        1,
+        0.88
+      ],
+      "motivo": "Revisión visual del original: fotografía real de la mascota, sin sello, sin reconstruir rasgos."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "11fac2d221dc8f8db261a6a6d022f26bdf13f4e93f77a326a0344d32a22e3afa",
+      "motivo": "Texto y foto revisados: búsqueda o hallazgo/avistamiento; sin atribuir propiedad al autor."
+    }
+  },
+  "ae6d5f1c-31a2-53ee-802a-bd025a91fdaf": {
+    "afiche_recortado": {
+      "original_sha256": "0f2795627f679962e10bccf9fc3205b5d4a77a0bc63c07c6dcd4da84ea93b228",
+      "encuadre": [
+        0.01,
+        0.22,
+        0.36,
+        0.68
+      ],
+      "motivo": "Revisión visual del original: fotografía real de la mascota, sin sello, sin reconstruir rasgos."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "0a302e4d7c311e16b2d851686ec022a9645973c505c0516a2949eeaa3d400667",
+      "motivo": "Texto y foto revisados: búsqueda o hallazgo/avistamiento; sin atribuir propiedad al autor."
+    },
+    "sha256": "0f2795627f679962e10bccf9fc3205b5d4a77a0bc63c07c6dcd4da84ea93b228",
+    "nombres": [
+      {
+        "etiqueta": "Nombre de la mascota",
+        "nombre": "Michu",
+        "evidencia": "Nombre explícito en descripción o afiche, revisado visualmente."
+      }
+    ]
+  },
+  "a9fcb524-7f47-55f2-b31d-fc380c1364a5": {
+    "afiche_recortado": {
+      "original_sha256": "3325391d5597930aadf229e3a76779c4c257a6a0ff804f39622b5dc10271bdfd",
+      "encuadre": [
+        0.05,
+        0.37,
+        0.98,
+        0.8
+      ],
+      "motivo": "Revisión visual del original: fotografía real de la mascota, sin sello, sin reconstruir rasgos."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "872bd6521f812c9a536803c6ae829443e4a42c73fc6c6ae1aba8d952c7e4c9b4",
+      "motivo": "Texto y foto revisados: búsqueda o hallazgo/avistamiento; sin atribuir propiedad al autor."
+    }
+  },
+  "fcdbb12e-7599-5861-bb32-5a9ad3b03531": {
+    "afiche_recortado": {
+      "original_sha256": "931529bf5c17164249f5ebc8a870b6a8d74b5ea2491d79a43876ccb5cc9aa08d",
+      "encuadre": [
+        0,
+        0,
+        1,
+        0.9
+      ],
+      "motivo": "Revisión visual del original: fotografía real de la mascota, sin sello, sin reconstruir rasgos."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "9072a94d2c334b3d9d798c3d251dcd04846b17c54fc38d99c289d5091a0f668d",
+      "motivo": "Texto y foto revisados: búsqueda o hallazgo/avistamiento; sin atribuir propiedad al autor."
+    },
+    "sha256": "931529bf5c17164249f5ebc8a870b6a8d74b5ea2491d79a43876ccb5cc9aa08d",
+    "nombres": [
+      {
+        "etiqueta": "Nombre de la mascota",
+        "nombre": "Cloid",
+        "evidencia": "Nombre explícito en descripción o afiche, revisado visualmente."
+      }
+    ]
+  },
+  "6d20f0f1-d8e2-5251-9a1d-a6bd8e5f4033": {
+    "afiche_recortado": {
+      "original_sha256": "d34aa37846547df44730a1de1ea9d19afb87aece2791fa7daf50a7f5c15a81f7",
+      "encuadre": [
+        0.33,
+        0.34,
+        0.6,
+        0.57
+      ],
+      "motivo": "Revisión visual del original: fotografía real de la mascota, sin sello, sin reconstruir rasgos."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "0b6138e3a48a5f4d8514788b3db9ae522c709bacc6dc79d19eac7793520bfa4c",
+      "motivo": "Texto y foto revisados: búsqueda o hallazgo/avistamiento; sin atribuir propiedad al autor."
+    }
+  },
+  "9033b298-2f8e-5179-a8c2-2ee25ba2cd92": {
+    "afiche_recortado": {
+      "original_sha256": "2e90627db7a16a9f0def5df569c3dd6a61b5442124663ae0e3a5e3f9eba52c25",
+      "encuadre": [
+        0,
+        0.21,
+        1,
+        0.79
+      ],
+      "motivo": "Revisión visual del original: fotografía real de la mascota, sin sello, sin reconstruir rasgos."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "efe77935774c7c033a1bf7dac30f32d83f61ccba0628ca67f7f638f4d036913b",
+      "motivo": "Texto y foto revisados: búsqueda o hallazgo/avistamiento; sin atribuir propiedad al autor."
+    },
+    "sha256": "2e90627db7a16a9f0def5df569c3dd6a61b5442124663ae0e3a5e3f9eba52c25",
+    "nombres": [
+      {
+        "etiqueta": "Nombre de la mascota",
+        "nombre": "Tarzan",
+        "evidencia": "Nombre explícito en descripción o afiche, revisado visualmente."
+      }
+    ]
+  },
+  "f7bd528e-9924-5efd-8bc3-3f6e4baf19ec": {
+    "exclusion": {
+      "descripcion_sha256": "185d03de5a88a98602d79ffa4d76b1dbc27ef563a87aadc1ffb1a042012b479e",
+      "original_sha256": "da1794b0474c0f7bd00ae54a4a69a79d5411abcad983d103dfae3b44e973585f",
+      "motivo": "Af iche y descripción indican Noviciado con Ruta 68, Pudahuel; fuera de la comuna requerida."
+    }
   }
 }
