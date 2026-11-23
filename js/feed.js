@@ -6,6 +6,7 @@
   const root = document.querySelector('[data-feed]');
   if (!root) return;
 
+  const interacciones=import('./feed-interacciones-ui.mjs');
   const KEY = 'auraladra.demo.feed.v1';
   const KEY_VISTAS = 'auraladra.demo.feed.vistas.v1';
   const HORAS_HISTORIA = 24;
@@ -295,6 +296,12 @@
       art.append(el('h3', 'fd-texto', p.titulo), el('p', 'fd-texto', p.estado === 'aprendido' ? 'Aprendido' : 'En práctica'));
     }
     if (p.texto) art.append(el('p', 'fd-texto', p.texto));
+    if (!personal && (p.remoto || p.compartido)) {
+      like.remove();
+      const social=el('div','');acciones.prepend(social);
+      const item={sitio:'ladra',publicacion_id:String(p.id).replace(/^medio-/,''),tipo:p.compartido?'foto':'post',origen_medio:!!p.compartido,soloMeGusta:true};
+      setTimeout(()=>interacciones.then(m=>m.montarInteracciones(social,item,window.auraLadraDb)).catch(()=>{social.textContent='Me gusta no disponible.';}),0);
+    }
     if (!personal) art.append(acciones);
     if (!personal && comentarios) art.append(comentarios.panel);
     if (p.remoto && p.autorId === sesion?.user.id) art.append(controlesPropios(p));
