@@ -24,7 +24,7 @@
   const message = (node, text, error = false) => { if (node) { node.textContent = text || ''; node.classList.toggle('is-error', error); } };
   let editingProduct = null;
   let products = [], ownProducts = [], consultations = [], active = null, busy = false, chosenPhoto = null, previewUrl = null;
-  const available = p => p.estado === 'publicado';
+  const available = p => p.estado === 'publicado' && p.stock > 0;
   const price = p => Number(p.precio_clp) === 0 ? 'Gratis' : `$${money.format(Number(p.precio_clp))}`;
   const photoUrl = async (path) => {
     if (!path) return '';
@@ -56,16 +56,16 @@
     const q = norm(filters.elements.q.value), comuna = norm(filters.elements.comuna.value), category = filters.elements.categoria.value;
     const rows = products.filter(p => available(p) && (!category || p.categoria === category) && norm(`${p.titulo} ${p.descripcion} ${p.vendedor_alias}`).includes(q) && norm(p.comuna).includes(comuna));
     status.textContent = `${rows.length} ${rows.length === 1 ? 'producto disponible' : 'productos disponibles'}`;
-    list.innerHTML = rows.length ? (await Promise.all(rows.map(card))).join('') : '<p class="market-empty">No encontramos productos con esos filtros. Prueba otra búsqueda o publica el primero.</p>';
+    list.innerHTML = rows.length ? (await Promise.all(rows.map(card))).join('') : '<p class="market-empty">No encontramos productos con esos filtros. Prueba otra búsqueda. Los negocios publicarán aquí sus productos.</p>';
     list.querySelectorAll('img').forEach(img => img.addEventListener('error', () => img.closest('.market-card-photo')?.classList.add('has-image-error'), {once:true}));
   };
   const loadProducts = async () => {
     const user = await currentUser().catch(() => null);
     status.textContent = 'Cargando productos…';
     const {data,error} = await db.schema('ladra').from('market_productos')
-      .select('id,vendedor_alias,titulo,descripcion,categoria,condicion,precio_clp,comuna,entrega,foto_path,estado,creado_en')
+      .select('id,vendedor_alias,titulo,descripcion,categoria,condicion,precio_clp,comuna,entrega,foto_path,fotos,stock,variantes,estado,creado_en')
       .eq('estado','publicado').order('creado_en',{ascending:false}).limit(120);
-    if (error) { products=[]; status.textContent = 'No pudimos cargar Market. Vuelve a intentarlo.'; list.innerHTML = '<button class="button button-ghost" type="button" data-market-retry>Actualizar</button>'; return; }
+    if (error) { products=[]; status.textContent = 'No pudimos cargar los productos. Vuelve a intentarlo.'; list.innerHTML = '<button class="button button-ghost" type="button" data-market-retry>Actualizar</button>'; return; }
     products = data || [];
     await renderProducts();
   };
@@ -85,7 +85,8 @@
     const {data,error} = await db.schema('ladra').rpc('market_mis_consultas');
     if (error) { box.innerHTML='<p class="market-empty">No pudimos cargar tus consultas.</p>'; return; }
     consultations=(data||[]).filter(c=>!c.soy_vendedor);
-    box.innerHTML = consultations.length ? consultations.map(c => `<article class="market-query"><p class="market-query-meta">${c.soy_vendedor ? 'Consulta recibida' : 'Tu consulta'} · ${esc(c.producto_titulo)} · ${esc(c.contraparte)}</p><p>${esc(c.mensaje)}</p>${c.respuesta ? `<div class="market-answer"><strong>Respuesta del vendedor</strong><p>${esc(c.respuesta)}</p></div>` : c.soy_vendedor ? `<form class="market-reply" data-market-reply="${esc(c.id)}"><label><span>Responder en Ladra</span><textarea name="respuesta" required minlength="2" maxlength="800" rows="2"></textarea></label><button type="submit">Enviar respuesta</button><p role="status"></p></form>` : '<p class="market-muted">El vendedor aún no responde.</p>'}</article>`).join('') : '<p class="market-empty">Todavía no tienes consultas.</p>';
+    box.innerHTML = consultations.length ? consultations.map(c => `<article class="market-query"><p class="market-query-meta">${c.soy_vendedor ? 'Consulta recibida' : 'Tu consulta'} · ${esc(c.producto_titulo)} · ${esc(c.contraparte)}</p><p>${esc(c.mensaje)}</p>${c.respuesta ? `<div class="market-answer"><strong>Respuesta del vendedor</strong><p>${esc(c.respuesta)}</p></div>` : c.soy_vendedor ? `<form class="market-reply" data-market-reply="${esc(c.id)}"><label><span>Responder en Ladra</span><textarea name="respuesta" required minlength="2" maxlength="800" rows="2"></textarea></label><button type="submit">Enviar respuesta</button><p role="status"></p></form>` : '<p class="market-muted">El vendedor aún no responde.</p>'}<div data-sales-thread="${esc(c.id)}"></div></article>`).join('') : '<p class="market-empty">Todavía no tienes consultas.</p>';
+    for(const c of consultations)await window.auraLadraVentasChat?.montar(box.querySelector(`[data-sales-thread="${c.id}"]`),c);
   };
   const showMode = (mode) => {
     const mine = mode === 'mio';
@@ -97,9 +98,10 @@
     const p = products.find(x=>x.id===id) || ownProducts.find(x=>x.id===id);
     if (!p || !detail) return;
     active=p;
+    let gallery=[];for(const path of (p.fotos?.length?p.fotos:[p.foto_path]).filter(Boolean)){try{gallery.push(await photoUrl(path));}catch{}}
     const isOwn = ownProducts.some(x=>x.id===id);
     let image=''; try { image=await photoUrl(p.foto_path); } catch {}
-    detail.innerHTML = `<div class="market-detail"><img class="market-detail-photo" src="${esc(image)}" alt="${esc(p.titulo)}"><div class="market-detail-body"><span class="market-card-category">${esc(categories[p.categoria]||'Producto')} · ${esc(p.condicion==='nuevo'?'Nuevo':'Usado')}</span><h2 id="market-product-title">${esc(p.titulo)}</h2><strong class="market-price">${esc(price(p))}</strong><p class="market-detail-seller">Publicado por <strong>${esc(p.vendedor_alias)}</strong></p><p>${esc(p.descripcion)}</p><p><strong>Comuna:</strong> ${esc(p.comuna)}</p><p><strong>Entrega:</strong> ${esc(p.entrega)}</p><p class="market-muted">Coordina el pago y la entrega directamente con el vendedor. Ladra no procesa pagos ni comparte teléfonos.</p>${!isOwn && available(p) ? `<form class="market-contact-form" data-market-contact="${esc(p.id)}"><label><span>Consulta al vendedor</span><textarea name="mensaje" required minlength="10" maxlength="800" rows="3" placeholder="Hola, ¿sigue disponible?"></textarea></label><button class="button button-dark" type="submit">Contactar por Ladra</button><p role="status"></p></form>` : isOwn ? '<p class="market-muted">Este producto es tuyo. Administra su estado desde Mi Market.</p>' : '<p class="market-muted">Este producto ya no está disponible.</p>'}</div></div>`;
+    detail.innerHTML = `<div class="market-detail"><div class="sales-detail-gallery">${gallery.map(url=>`<img src="${esc(url)}" alt="${esc(p.titulo)}">`).join('')}</div><div class="market-detail-body"><span class="market-card-category">${esc(categories[p.categoria]||'Producto')} · ${esc(p.condicion==='nuevo'?'Nuevo':'Usado')}</span><h2 id="market-product-title">${esc(p.titulo)}</h2><strong class="market-price">${esc(price(p))}</strong><p class="market-detail-seller">Publicado por <strong>${esc(p.vendedor_alias)}</strong></p><p>${esc(p.descripcion)}</p><p>Stock: ${Number(p.stock)||0} · ${esc(p.variantes)}</p><p><strong>Comuna:</strong> ${esc(p.comuna)}</p><p><strong>Entrega:</strong> ${esc(p.entrega)}</p><p class="market-muted">Coordina el pago y la entrega directamente con el vendedor. Ladra no procesa pagos ni comparte teléfonos.</p>${!isOwn && available(p) ? `<form class="market-contact-form" data-market-contact="${esc(p.id)}"><label><span>Consulta al vendedor</span><textarea name="mensaje" required minlength="10" maxlength="800" rows="3" placeholder="Hola, ¿sigue disponible?"></textarea></label><button class="button button-dark" type="submit">Contactar por Ladra</button><p role="status"></p></form>` : isOwn ? '<p class="market-muted">Este producto es tuyo. Administra su estado desde Mi negocio → Ventas.</p>' : '<p class="market-muted">Este producto ya no está disponible.</p>'}</div></div>`;
     if (!productDialog.open) productDialog.showModal();
     if (!isOwn && available(p)) {
       const user=await currentUser().catch(()=>null);
@@ -107,18 +109,10 @@
       if (!user) { form.innerHTML='<p>Inicia sesión para enviar una consulta.</p><a class="button button-dark" href="#cuenta">Ir a Mi espacio</a>'; return; }
       const {data}=await db.schema('ladra').rpc('market_mis_consultas');
       const previous=(data||[]).find(c=>c.producto_id===id && !c.soy_vendedor);
-      if(previous) form.innerHTML=`<p class="market-muted">Ya consultaste por este producto.</p><p>${esc(previous.mensaje)}</p>${previous.respuesta?`<div class="market-answer"><strong>Respuesta</strong><p>${esc(previous.respuesta)}</p></div>`:'<p>El vendedor aún no responde. Revisa tus consultas en Mi Market.</p>'}`;
+      if(previous) form.innerHTML=`<p class="market-muted">Ya consultaste por este producto.</p><p>${esc(previous.mensaje)}</p>${previous.respuesta?`<div class="market-answer"><strong>Respuesta</strong><p>${esc(previous.respuesta)}</p></div>`:'<p>El vendedor aún no responde. Revisa tus consultas en Mis consultas.</p>'}`;
+      if(previous){const host=document.createElement('div');host.innerHTML=form.innerHTML;form.replaceWith(host);await window.auraLadraVentasChat?.montar(host,previous);}
     }
   };
-  const uploadPhoto = async (user) => {
-    const blob=await window.auraLadraServiciosFotos.prepare(chosenPhoto);
-    const path=`${user.id}/${crypto.randomUUID()}.webp`;
-    const {error}=await db.storage.from(bucket).upload(path,blob,{contentType:'image/webp',cacheControl:'3600',upsert:false});
-    if(error) throw error;
-    return path;
-  };
-  const resetPublish = () => { editingProduct=null; publishForm.querySelector('[data-market-file]').required=true;publishForm.querySelector('[data-market-file]').closest('.service-photo-field').hidden=false; publishForm.reset(); chosenPhoto=null; cleanPreview(); updatePhotoPreview(); message(publishMessage,''); };
-
   root.addEventListener('click', async e => {
     const mode=e.target.closest('[data-market-view]');
     if(mode){showMode(mode.dataset.marketView);return;}
@@ -135,31 +129,7 @@
     }
   });
   productDialog?.addEventListener('click',e=>{if(e.target===productDialog||e.target.closest('[data-market-cerrar]'))productDialog.close();});
-  publishDialog?.addEventListener('click',e=>{if(e.target===publishDialog||e.target.closest('[data-market-publicar-cerrar]'))publishDialog.close();});
-  publishDialog?.addEventListener('close',resetPublish);
-  filters.addEventListener('input',renderProducts); filters.addEventListener('change',renderProducts); filters.addEventListener('submit',e=>e.preventDefault());
-  publishForm.querySelector('[data-market-file]').addEventListener('change',e=>{chosenPhoto=e.target.files?.[0]||null;updatePhotoPreview();});
-  publishForm.addEventListener('submit',async e=>{
-    e.preventDefault(); if(busy||!publishForm.reportValidity())return;
-    busy=true;const button=publishForm.querySelector('[type=submit]');button.disabled=true;message(publishMessage,'Preparando foto…');
-    let path='';
-    try{
-      const user=await currentUser();
-      if(!await window.auraLadraNegocio?.permitir())throw Error('Activa Mi negocio.');
-      if(!editingProduct && !chosenPhoto)throw Error('Elige una foto del producto.');
-      if(!editingProduct)path=await uploadPhoto(user); message(publishMessage,'Publicando…');
-      const f=new FormData(publishForm);
-      const payload={titulo:String(f.get('titulo')).trim(),descripcion:String(f.get('descripcion')).trim(),categoria:f.get('categoria'),condicion:f.get('condicion'),precio_clp:Number(f.get('precio_clp')),comuna:String(f.get('comuna')).trim(),entrega:String(f.get('entrega')).trim()};
-      const {error}=editingProduct ? await db.from('market_productos').update(payload).eq('id',editingProduct.id).select('id').single() : await db.from('market_productos').insert({...payload,foto_path:path});
-      if(error)throw error;
-      message(publishMessage,'Producto publicado. Ya aparece en Market.');
-      await loadProducts();publishDialog.close();document.dispatchEvent(new Event('negocio:actualizar'));
-    }catch(err){
-      if(path) await db.storage.from(bucket).remove([path]).catch(()=>{});
-      const copy=/perfil de Ladra/.test(err?.message||'')?'Primero publica tu perfil de Ladra en Mi espacio.':/42501/.test(err?.code||'')?'Inicia sesión y vuelve a intentarlo.':'No pudimos publicar el producto. Revisa la foto y vuelve a intentarlo.';
-      message(publishMessage,copy,true);
-    }finally{busy=false;button.disabled=false;}
-  });
+  filters.addEventListener('input',renderProducts);filters.addEventListener('change',renderProducts);filters.addEventListener('submit',e=>e.preventDefault());
   detail?.addEventListener('submit',async e=>{
     const form=e.target.closest('[data-market-contact]'); if(!form)return;
     e.preventDefault();if(busy||!form.reportValidity())return;
@@ -168,8 +138,8 @@
     const {data,error}=await db.schema('ladra').rpc('market_contactar_producto',{p_producto_id:form.dataset.marketContact,p_mensaje:form.elements.mensaje.value.trim()});
     busy=false;button.disabled=false;
     if(error){message(statusNode,'No pudimos enviar tu consulta. Inicia sesión y vuelve a intentarlo.',true);return;}
-    form.innerHTML='<p class="market-success" role="status">Consulta enviada. El vendedor podrá responderte por Ladra; revisa Mi Market.</p>';
-    if(data) renderMine();
+    form.innerHTML='<p class="market-success" role="status">Consulta enviada. El vendedor podrá responderte por Ladra; revisa Mis consultas.</p>';
+    if(data){const host=document.createElement('div');host.innerHTML=form.innerHTML;form.replaceWith(host);await window.auraLadraVentasChat?.montar(host,{id:data});}
   });
   mineBox.addEventListener('submit',async e=>{
     const form=e.target.closest('[data-market-reply]');if(!form)return;
@@ -179,20 +149,11 @@
     if(error){message(form.querySelector('[role=status]'),'No pudimos enviar la respuesta.',true);button.disabled=false;return;}
     await renderConsultations();
   });
-  db.auth.onAuthStateChange(()=>{window.setTimeout(()=>{loadProducts();if(!mineBox.hidden)renderMine();},0);});
+  db.auth.onAuthStateChange(()=>{ownProducts=[];consultations=[];detail?.replaceChildren();if(productDialog?.open)productDialog.close();root.querySelector('[data-market-consultas]')?.replaceChildren();window.setTimeout(()=>{loadProducts();if(!mineBox.hidden)renderMine();},0);});
   document.addEventListener('vista:cambio',e=>{if(e.detail?.vista!=='productos'&&productDialog?.open)productDialog.close();});
   window.auraLadraMarket = {
     actualizar: loadProducts,
-    async editar(p=null) {
-      if (!await window.auraLadraNegocio?.permitir()) return;
-      resetPublish();editingProduct=p;
-      document.querySelector('#market-publish-title').textContent=p?'Editar producto':'Publicar producto';
-      if(p) for(const key of ['titulo','descripcion','categoria','condicion','precio_clp','comuna','entrega'])publishForm.elements[key].value=p[key]??'';
-      publishForm.querySelector('[data-market-file]').required=!p;
-      publishForm.querySelector('[data-market-file]').closest('.service-photo-field').hidden=Boolean(p);
-      publishForm.querySelector('[type=submit]').textContent=p?'Guardar cambios':'Publicar producto';
-      publishDialog.showModal();
-    }
+    editar: p=>window.auraLadraVentasEditor?.abrir(p)
   };
   loadProducts();
 })();
