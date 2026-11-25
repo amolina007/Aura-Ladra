@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="css/market.css?v=1">
   <link rel="stylesheet" href="css/login.css?v=1">
   <link rel="stylesheet" href="css/experiencia.css?v=ladra-historial-3">
+<link rel="stylesheet" href="css/mi-negocio.css?v=1">
 </head>
 <body>
 <div class="paw-backdrop" aria-hidden="true">
@@ -50,7 +51,7 @@
         <a href="#feed-ladra">Feed</a>
         <a href="#mapa">Mapa</a>
         <a href="#red">Mi red</a>
-        <a href="#market">Mercado</a>
+        <a href="#servicios">Servicios</a><a href="#mi-negocio">Mi negocio</a>
         <a href="#mi-espacio">Mi espacio</a>
         <details class="nav-mas">
           <summary>Servicios y más</summary>
@@ -103,11 +104,10 @@
       </div>
     </section>
 
-    <section class="services-section section" id="servicios" data-vista-de="market" aria-labelledby="services-title">
-      <div class="shell services-shell">
-        <div class="services-heading"><div><p class="kicker">Mercado para mascotas</p><h2 id="services-title">Servicios</h2><p>Encuentra, ofrece o contrata servicios para mascotas cerca de ti.</p></div><button class="button button-dark" type="button" data-service-publish>Ofrecer un servicio</button></div>
-        <div class="services-community-actions" aria-label="Ofrecer ayuda"><button type="button" data-service-offer="refugio"><strong>⌂ Ofrecer refugio</strong><small>Recibir temporalmente a una mascota</small></button><button type="button" data-service-offer="transporte"><strong>↗ Ofrecer transporte</strong><small>Ayudar con un traslado</small></button></div>
-        <div class="services-switch" role="group" aria-label="Ver servicios o consultas"><button type="button" data-services-panel="catalogo" aria-pressed="true">Explorar</button><button type="button" data-services-panel="consultas" aria-pressed="false">Mis consultas y servicios</button></div>
+    <section class="services-section section" id="servicios" data-vista-de="servicios" aria-labelledby="services-title">
+      <div class="shell services-shell"><nav class="business-vitrine-tabs" aria-label="Servicios y productos"><a href="#servicios">Servicios</a><a href="#market">Productos</a><a href="#mi-negocio">Mi negocio →</a></nav>
+        <div class="services-heading"><div><p class="kicker">Cuidados y emprendimientos del barrio</p><h1 id="services-title">Servicios</h1></div><a class="button button-dark" href="#mi-negocio">Mi negocio</a></div>
+        <div class="services-switch" role="group" aria-label="Ver servicios o consultas"><button type="button" data-services-panel="catalogo" aria-pressed="true">Explorar</button><button type="button" data-services-panel="consultas" aria-pressed="false">Mis consultas</button></div>
         <div data-services-catalog>
           <form class="services-filters" data-services-filters role="search" aria-label="Buscar servicios">
             <label class="field services-search"><span>¿Qué necesita tu mascota?</span><input type="search" name="busqueda" placeholder="Servicio o profesional" maxlength="100"></label>
@@ -117,12 +117,12 @@
             <label class="field"><span>Costo</span><select name="costo"><option value="">Todos</option><option value="gratis">Solo gratis</option><option value="pagado">Con valor definido</option><option value="acordar">A convenir</option></select></label><label class="field"><span>Precio desde, hasta (CLP)</span><input type="number" name="precio" min="0" step="1" placeholder="Sin límite"></label>
             </div></details>
           </form>
-          <div class="services-categories" role="group" aria-label="Categoría de servicio"><button type="button" data-service-category="" aria-pressed="true">Todos</button><button type="button" data-service-category="refugio" aria-pressed="false">⌂ Refugio temporal</button><button type="button" data-service-category="transporte" aria-pressed="false">↗ Transporte</button><button type="button" data-service-category="estetica" aria-pressed="false">✂ Estética</button><button type="button" data-service-category="entrenamiento" aria-pressed="false">◇ Entrenamiento</button><button type="button" data-service-category="paseos" aria-pressed="false">🐾 Paseos</button><button type="button" data-service-category="cuidado" aria-pressed="false">♡ Cuidado</button><button type="button" data-service-category="otros" aria-pressed="false">Más prestaciones</button></div>
+          <div class="services-categories" role="group" aria-label="Categoría de servicio"><button type="button" data-service-category="" aria-pressed="true">Todos</button><button type="button" data-service-category="veterinaria" aria-pressed="false">✚ Veterinaria</button><button type="button" data-service-category="refugio" aria-pressed="false">⌂ Refugio temporal</button><button type="button" data-service-category="transporte" aria-pressed="false">↗ Transporte</button><button type="button" data-service-category="estetica" aria-pressed="false">✂ Peluquería</button><button type="button" data-service-category="entrenamiento" aria-pressed="false">◇ Entrenamiento</button><button type="button" data-service-category="paseos" aria-pressed="false">🐾 Paseos</button><button type="button" data-service-category="cuidado" aria-pressed="false">♡ Cuidado</button><button type="button" data-service-category="otros" aria-pressed="false">Más prestaciones</button></div>
           <div class="services-status" role="status" data-services-status>Cargando servicios…</div>
           <div class="services-tools"><button type="button" class="service-text-button" data-services-retry>Actualizar servicios</button></div>
-          <div class="services-grid" data-services-list></div>
+          <div class="services-grid" data-services-list></div><h2 class="business-directory-title">Emprendimientos y empresas</h2><div class="business-directory" data-business-directory></div>
         </div>
-        <div data-services-account hidden><h3>Mis consultas y servicios</h3><p class="service-muted">Aquí puedes revisar tus solicitudes, responder las que recibes y retirar tus prestaciones del catálogo.</p><div data-services-account-list aria-live="polite"></div></div>
+        <div data-services-account hidden><h3>Mis consultas</h3><p class="service-muted">Revisa tus solicitudes y las respuestas de los prestadores.</p><div data-services-account-list aria-live="polite"></div></div>
       </div>
     </section>
 
@@ -386,19 +386,42 @@
       </div>
     </section>
 
-    <section class="market-section section" id="market" data-vista-de="market" aria-labelledby="market-title">
-      <div class="shell">
+
+    <section id="mi-negocio" class="section business-section" data-vista-de="negocio" aria-labelledby="business-title">
+      <div class="shell"><header class="business-heading"><div><p class="kicker">Espacio de trabajadores</p><h1 id="business-title">Mi negocio</h1></div><a href="#servicios" class="button button-outline">Ver vitrina</a></header>
+        <p data-business-status role="status">Comprobando acceso…</p>
+        <div data-business-onboard hidden><div class="business-card"><h2>Tu emprendimiento tiene un lugar aquí</h2><p>Registra tu negocio para activar tu perfil de trabajador y gestionar tus productos, servicios, pedidos y agenda.</p><p>Solo tú podrás administrar tu negocio. Los clientes verán únicamente lo que publiques.</p><button class="button button-dark" data-business-register type="button">Crear perfil de trabajador</button></div></div>
+        <div data-business-login hidden class="business-card"><h2>Ingresa para gestionar tu negocio</h2><p>La vitrina está abierta a clientes. Para administrar un negocio necesitas iniciar sesión y registrar tu actividad como trabajador.</p><a href="#cuenta" class="button button-dark">Iniciar sesión</a></div>
+        <div class="business-layout" data-business-panel hidden>
+          <aside class="business-sidebar"><div data-business-identity></div><nav aria-label="Gestión del negocio"><button data-business-tab="resumen" aria-pressed="true">⌂ Resumen</button><button data-business-tab="productos">◇ Productos</button><button data-business-tab="servicios">✂ Servicios</button><button data-business-tab="pedidos">▣ Pedidos</button><button data-business-tab="agenda">▦ Agenda</button><button data-business-tab="empresa">▤ Mi empresa</button></nav></aside>
+          <div class="business-workspace"><div class="business-toolbar"><h2 data-business-panel-title>Resumen</h2><div><button type="button" class="button button-outline" data-business-add="producto">＋ Producto</button><button type="button" class="button button-dark" data-business-add="servicio">＋ Servicio</button></div></div><div data-business-content></div></div>
+        </div>
+      </div>
+    </section>
+    <dialog class="service-dialog" data-business-dialog aria-labelledby="business-edit-title"><button type="button" class="service-close" data-business-close aria-label="Cerrar perfil de negocio">×</button><div class="service-dialog-content"><h2 id="business-edit-title">Mi empresa</h2><form class="service-form" data-business-form>
+      <label class="field"><span>Nombre del negocio</span><input name="nombre" required minlength="2" maxlength="100"></label>
+      <label class="field"><span>Actividad</span><select name="categoria"><option value="veterinaria">Veterinaria</option><option value="peluqueria">Peluquería</option><option value="tienda">Tienda</option><option value="cuidados">Cuidados y paseos</option><option value="otros">Otros</option></select></label>
+      <label class="field"><span>Comuna o zona</span><input name="comuna" required minlength="2" maxlength="100" placeholder="Maipú"></label>
+      <label class="field"><span>Presenta tu emprendimiento</span><textarea name="descripcion" required minlength="20" maxlength="2000" rows="4"></textarea></label>
+      <label class="field"><span>Foto del negocio (opcional)</span><input type="file" name="foto" accept="image/jpeg,image/png,image/webp"></label>
+      <label class="service-consent"><input type="checkbox" name="publicado" checked><span>Mostrar mi empresa en la vitrina pública</span></label>
+      <button type="submit" class="button button-dark">Guardar mi negocio</button><p role="status" data-business-form-status></p>
+    </form></div></dialog>
+    <dialog class="service-dialog" data-business-public-dialog aria-labelledby="business-public-title"><button type="button" class="service-close" data-business-public-close aria-label="Cerrar negocio">×</button><div class="service-dialog-content" data-business-public-detail></div></dialog>
+
+    <section class="market-section section" id="market" data-vista-de="productos" aria-labelledby="market-title">
+      <div class="shell"><nav class="business-vitrine-tabs" aria-label="Servicios y productos"><a href="#servicios">Servicios</a><a href="#market">Productos</a><a href="#mi-negocio">Mi negocio →</a></nav>
         <header class="market-heading">
           <p class="kicker">Intercambio entre personas</p>
-          <h1 id="market-title">Productos para mascotas</h1>
+          <h1 id="market-title">Productos</h1>
           <p>Compra y vende productos para perros y gatos en tu comunidad. Coordina por mensajes de Ladra; el pago y la entrega se acuerdan entre ustedes.</p>
         </header>
         <div class="market-actions">
           <div class="market-switch" role="group" aria-label="Market">
             <button type="button" data-market-view="explorar" aria-pressed="true">Explorar productos</button>
-            <button type="button" data-market-view="mio" aria-pressed="false">Mi Market</button>
+            <button type="button" data-market-view="mio" aria-pressed="false">Mis consultas</button>
           </div>
-          <button class="button button-dark" type="button" data-market-publicar>＋ Vender un producto</button>
+          <button class="button button-dark" type="button" data-market-publicar>＋ Publicar en Mi negocio</button>
         </div>
         <div data-market-explorar>
           <form class="market-filters" data-market-filters role="search" aria-label="Buscar productos de mascotas">
@@ -410,8 +433,8 @@
           <div class="market-grid" data-market-list aria-live="polite"></div>
         </div>
         <section class="market-mine" data-market-mine hidden aria-labelledby="market-mine-title">
-          <h2 id="market-mine-title">Mis publicaciones y consultas</h2>
-          <p class="market-muted">Administra tus productos y responde las consultas que recibas.</p>
+          <h2 id="market-mine-title">Mis consultas de productos</h2>
+          <p class="market-muted">Revisa tus consultas y las respuestas de los negocios.</p>
           <div data-market-mine-list></div>
           <h3>Consultas</h3>
           <div data-market-consultas aria-live="polite"></div>
@@ -1006,7 +1029,7 @@
       <form class="service-form" data-service-publish-form>
         <label class="field"><span>Nombre del servicio</span><input name="titulo" required minlength="3" maxlength="100" placeholder="Por ejemplo, baño y cepillado"></label>
         <p class="service-category-help" data-service-category-help hidden></p><label class="field"><span>Tu nombre o negocio</span><input name="prestador" required minlength="2" maxlength="100" autocomplete="organization"></label>
-        <label class="field"><span>Categoría</span><select name="categoria" required><option value="refugio">Refugio temporal</option><option value="transporte">Transporte</option><option value="estetica">Estética</option><option value="entrenamiento">Entrenamiento</option><option value="paseos">Paseos</option><option value="cuidado">Cuidado</option><option value="otros">Otras prestaciones</option></select></label>
+        <label class="field"><span>Categoría</span><select name="categoria" required><option value="refugio">Refugio temporal</option><option value="transporte">Transporte</option><option value="veterinaria">Veterinaria</option><option value="estetica">Peluquería</option><option value="entrenamiento">Entrenamiento</option><option value="paseos">Paseos</option><option value="cuidado">Cuidado</option><option value="otros">Otras prestaciones</option></select></label>
         <label class="field"><span>Comuna o zona de cobertura</span><input name="zona" required minlength="2" maxlength="100" placeholder="Por ejemplo, Maipú"></label>
         <label class="field"><span>Modalidad</span><select name="modalidad" required><option value="local">En local</option><option value="domicilio">A domicilio</option><option value="aire_libre">Al aire libre</option><option value="online">En línea</option><option value="traslado">Traslado acordado</option></select></label>
         <label class="field"><span>¿Cómo lo ofreces?</span><select name="precio_tipo" required><option value="">Elige una opción</option><option value="gratis">Gratis</option><option value="fijo">Por un valor fijo</option><option value="desde">Desde un valor</option><option value="acordar">Valor a convenir</option></select></label><label class="field" data-service-amount hidden><span>Monto en pesos (CLP)</span><input type="number" name="precio_clp" min="1" max="10000000" step="1" placeholder="Por ejemplo, 10000" disabled></label>
@@ -1014,7 +1037,7 @@
         <label class="field"><span>Qué incluye y condiciones</span><textarea name="descripcion" required minlength="20" maxlength="2000" rows="4" placeholder="Qué ofreces, para qué mascotas y de qué depende el precio. En entrenamiento, explica tus métodos."></textarea></label>
         <div class="service-photo-field"><span class="service-label">Foto del servicio (opcional)</span><div class="service-photo-preview" data-service-photo-preview hidden><img alt="Vista previa de la foto del servicio" data-service-photo-image></div><label class="service-photo-picker"><span>Tomar o elegir foto</span><input type="file" name="foto_file" accept="image/jpeg,image/png,image/webp" data-service-photo-input></label><button class="service-text-button" type="button" data-service-photo-remove hidden>Quitar foto</button><p class="service-muted" data-service-photo-note>JPG, PNG o WebP · hasta 20 MB. La optimizamos antes de subirla. Las fotos guardadas son públicas.</p></div>
         <label class="service-consent"><input type="checkbox" name="consentimiento" required><span>La información es real y tengo autorización para publicar la foto. No incluyo datos privados de clientes.</span></label>
-        <p class="service-muted">La publicación será visible en el catálogo. Puedes retirarla desde “Mis consultas y servicios”.</p>
+        <p class="service-muted">La publicación será visible en el catálogo. Puedes retirarla desde “Mis consultas”.</p>
         <button class="button button-dark" type="submit">Publicar servicio</button><p class="form-message" role="status" data-service-publish-message></p>
       </form>
     </div>
@@ -1034,7 +1057,7 @@
     <button type="button" class="service-close" data-market-publicar-cerrar aria-label="Cerrar formulario">×</button>
     <div class="service-dialog-content">
       <p class="kicker">Vende en tu comunidad</p><h2 id="market-publish-title">Publicar producto</h2>
-      <p>Tu perfil público de Ladra aparecerá como vendedor. No publiques teléfonos, direcciones particulares ni datos de pago.</p>
+      <p>El nombre de tu negocio aparecerá como vendedor. No publiques teléfonos, direcciones particulares ni datos de pago.</p>
       <form class="service-form" data-market-publish-form>
         <label class="field"><span>Nombre del producto</span><input name="titulo" required minlength="3" maxlength="100" placeholder="Ej.: Cama para perro mediano"></label>
         <div class="market-form-row">
@@ -1057,7 +1080,7 @@
     <a href="#inicio" data-ladra-tabbar-link="inicio"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span>Inicio</span></a>
     <a href="#mapa" data-ladra-tabbar-link="mapa"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg><span>Mapa</span></a>
     <a href="#feed-ladra" data-ladra-tabbar-link="feed"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 5.5h16v11H9l-5 3v-14z"/><path d="M8 9h8M8 13h5"/></svg><span>Feed</span></a>
-    <a href="#market" data-ladra-tabbar-link="market"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 9h18l-1.5-5h-15z"/><path d="M5 9v11h14V9M9 20v-6h6v6M3 9c0 2 3 2 3 0 0 2 3 2 3 0 0 2 3 2 3 0 0 2 3 2 3 0 0 2 3 2 3 0"/></svg><span>Mercado</span></a>
+    <a href="#servicios" data-ladra-tabbar-link="market"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 9h18l-1.5-5h-15z"/><path d="M5 9v11h14V9M9 20v-6h6v6M3 9c0 2 3 2 3 0 0 2 3 2 3 0 0 2 3 2 3 0 0 2 3 2 3 0 0 2 3 2 3 0"/></svg><span>Servicios</span></a>
     <a href="#mi-espacio" data-ladra-tabbar-link="perfil"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg><span>Mi perfil</span></a>
   </nav>
 
@@ -1083,14 +1106,15 @@
 <script src="js/trucos.js?v=galeria-trucos-1"></script>
 <script src="js/encuentros.js"></script>
 <script src="js/arbol.js"></script>
-<script src="js/vistas.js?v=ladra-feed-local-2"></script>
+<script src="js/vistas.js?v=negocios-ladra-feed-local-2"></script>
 <script src="js/inicio.js?v=inicio-actividad-1"></script>
 <script src="js/login-google.js?v=1"></script>
 <script src="js/tienda-transferencia.js?v=entregas-2"></script>
 <script src="js/tienda.js?v=stock-vendedor-1"></script>
 <script src="js/servicios-fotos.js?v=1"></script>
-<script src="js/servicios.js?v=3"></script>
-<script src="js/market.js?v=1"></script>
+<script src="js/servicios.js?v=4"></script>
+<script src="js/market.js?v=2"></script>
+<script src="js/mi-negocio.js?v=1"></script>
 <script src="js/afiche-lector.js?v=2"></script>
 <script src="js/avisos-externos.js?v=7"></script>
 <script src="js/antiguedad-avisos.js?v=1"></script>

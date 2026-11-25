@@ -42,6 +42,7 @@ async function app({actor='buyer',missing=false,commitThenFail=false,serviceComm
   }).then(resolve,reject);}};return q;
  }};
  w.auraLadraDb.storage={from:()=>({getPublicUrl:path=>({data:{publicUrl:'https://utilbunuziotzumuiayu.supabase.co/storage/v1/object/public/servicios-ladra/'+path}}),upload:async(path,blob)=>{calls.push({op:'upload',path});if(uploadFail)return {error:{message:'No conexión'}};files.set(path,blob);return {data:{path}}},download:async path=>files.has(path)?{data:files.get(path)}:{error:{message:'No existe'}},remove:async paths=>{calls.push({op:'remove',paths});for(const path of paths)if(!store.servicios.some(s=>s.foto_path===path))files.delete(path);return {data:[]}}})};
+ w.auraLadraNegocio={permitir:async()=>actor==='provider'};
  w.eval(photos);w.auraLadraServiciosFotos.prepare=async()=>new w.Blob(['webp'],{type:'image/webp'});
  w.eval(views);w.eval(code);await flush();
  return {w,doc,store,calls,files,close:()=>w.close(),setUser:async id=>{actor=id;callback('SIGNED_OUT',id?{user:{id}}:null);await flush();}};
@@ -89,21 +90,20 @@ test('Reintentar tras respuesta de red perdida conserva clave y no duplica',asyn
  const inserts=a.calls.filter(c=>c.table==='servicio_consultas'&&c.op==='insert');assert.equal(inserts[0].payload.solicitud_clave,inserts[1].payload.solicitud_clave);
  }finally{a.close();}
 });
-test('Publicar servicio, retirarlo y volver a publicarlo',async()=>{
+test('Publicar desde Mi negocio conserva validación y el catálogo se actualiza',async()=>{
  const a=await app({actor:'provider'});try{
- a.doc.querySelector('[data-service-publish]').click();const f=a.doc.querySelector('[data-service-publish-form]');
+ await a.w.auraLadraServicios.editar();const f=a.doc.querySelector('[data-service-publish-form]');
  for(const [key,value] of Object.entries({titulo:'Paseos del barrio',prestador:'Persona responsable',zona:'Maipú',descripcion:'Paseo individual con condiciones acordadas.'}))f.elements[key].value=value;
  f.elements.precio_tipo.value='acordar';f.elements.precio_tipo.dispatchEvent(new a.w.Event('change'));f.elements.consentimiento.checked=true;submit(a,f);await flush();
  assert.equal(a.store.servicios.length,3);assert.equal(a.doc.querySelector('[data-service-publish-dialog]').open,false);
- const btn=a.doc.querySelector('[data-service-toggle=new2]');assert.ok(btn);btn.click();await flush();assert.equal(a.store.servicios[2].publicado,false);
- a.doc.querySelector('[data-service-toggle=new2]').click();await flush();assert.equal(a.store.servicios[2].publicado,true);
+ assert.match(a.doc.querySelector('[data-services-list]').textContent,/Paseos del barrio/);
  }finally{a.close();}
 });
-test('Prestador responde en bandeja, tutor revisa su respuesta',async()=>{
+test('La bandeja de cliente no muestra las solicitudes recibidas del trabajador',async()=>{
  const a=await app();try{
  submit(a,inquiry(a));await flush();await a.setUser('provider');a.doc.querySelector('[data-services-panel=consultas]').click();await flush();
- const f=a.doc.querySelector('[data-service-response]');assert.ok(f);f.elements.respuesta.value='Tengo disponibilidad el día solicitado por $25.000.';submit(a,f);await flush();
- assert.equal(a.store.servicio_consultas[0].estado,'respondida');await a.setUser('buyer');await flush();assert.match(a.doc.querySelector('[data-services-account-list]').textContent,/Tengo disponibilidad/);
+ assert.equal(a.doc.querySelector('[data-service-response]'),null);
+ await a.setUser('buyer');assert.match(a.doc.querySelector('[data-services-account-list]').textContent,/Luna/);
  }finally{a.close();}
 });
 test('Texto ajeno se escapa y foto insegura no se inserta',async()=>{
@@ -120,8 +120,7 @@ test('Acceso a entrenamiento desde trucos y servicios desde ficha propia',async(
 });
 
 async function edit(a,id='s1'){
- a.doc.querySelector('[data-services-panel=consultas]').click();await flush();
- a.doc.querySelector(`[data-service-edit="${id}"]`).click();
+ await a.w.auraLadraServicios.editar(a.store.servicios.find(s=>s.id===id));
  const form=a.doc.querySelector('[data-service-publish-form]');form.elements.consentimiento.checked=true;return form;
 }
 function choosePhoto(a,form,type='image/jpeg'){
@@ -165,22 +164,22 @@ test('Una edición desactualizada no sobrescribe los cambios de otra pestaña',a
 });
 test('Respuesta de publicación perdida no duplica el servicio al reintentar',async()=>{
  const a=await app({actor:'provider',serviceCommitThenFail:true});try{
- a.doc.querySelector('[data-service-publish]').click();const f=a.doc.querySelector('[data-service-publish-form]');
+ await a.w.auraLadraServicios.editar();const f=a.doc.querySelector('[data-service-publish-form]');
  for(const [key,value]of Object.entries({titulo:'Nuevo servicio',prestador:'Prestador',zona:'Maipú',descripcion:'Descripción del servicio suficientemente larga.'}))f.elements[key].value=value;
  f.elements.precio_tipo.value='acordar';f.elements.precio_tipo.dispatchEvent(new a.w.Event('change'));f.elements.consentimiento.checked=true;submit(a,f);await flush();assert.equal(a.store.servicios.length,3);submit(a,f);await flush();assert.equal(a.store.servicios.length,3);assert.equal(a.doc.querySelector('[data-service-publish-dialog]').open,false);
  }finally{a.close();}
 });
 
-test('Refugio y transporte tienen accesos directos y precio explícito gratis o pagado',async()=>{
+test('Mi negocio ofrece refugio y transporte con precio explícito gratis o pagado',async()=>{
  const a=await app({actor:'provider'});try{
- a.doc.querySelector('[data-service-offer=refugio]').click();let f=a.doc.querySelector('[data-service-publish-form]');
+ await a.w.auraLadraServicios.editar();let f=a.doc.querySelector('[data-service-publish-form]');f.elements.categoria.value='refugio';f.elements.titulo.value='Refugio temporal';
  assert.equal(f.elements.categoria.value,'refugio');assert.equal(f.elements.titulo.value,'Refugio temporal');assert.equal(f.elements.precio_tipo.value,'');
  f.elements.prestador.value='Persona del barrio';f.elements.zona.value='Maipú';f.elements.descripcion.value='Puedo recibir mascotas temporalmente, previa coordinación.';f.elements.consentimiento.checked=true;
  assert.equal(f.reportValidity(),false);
  f.elements.precio_tipo.value='gratis';f.elements.precio_tipo.dispatchEvent(new a.w.Event('change'));assert.equal(f.elements.precio_clp.disabled,true);
  submit(a,f);await flush();assert.equal(a.store.servicios.at(-1).precio_clp,0);assert.equal(a.store.servicios.at(-1).precio_tipo,'fijo');
  a.doc.querySelector('[data-services-panel=catalogo]').click();assert.match(a.doc.querySelector('[data-services-list]').textContent,/Gratis/);assert.doesNotMatch(a.doc.querySelector('[data-services-list]').textContent,/Desde \$0/);
- a.doc.querySelector('[data-service-offer=transporte]').click();f=a.doc.querySelector('[data-service-publish-form]');assert.equal(f.elements.modalidad.value,'traslado');assert.equal(f.elements.categoria.value,'transporte');
+ await a.w.auraLadraServicios.editar();f=a.doc.querySelector('[data-service-publish-form]');f.elements.categoria.value='transporte';f.elements.modalidad.value='traslado';f.elements.titulo.value='Transporte de mascotas';assert.equal(f.elements.modalidad.value,'traslado');assert.equal(f.elements.categoria.value,'transporte');
  f.elements.prestador.value='Persona del barrio';f.elements.zona.value='Maipú';f.elements.descripcion.value='Traslados coordinados para mascotas dentro de la comuna.';f.elements.consentimiento.checked=true;
  f.elements.precio_tipo.value='fijo';f.elements.precio_tipo.dispatchEvent(new a.w.Event('change'));assert.equal(f.elements.precio_clp.required,true);assert.equal(f.reportValidity(),false);
  f.elements.precio_clp.value='10000';submit(a,f);await flush();assert.equal(a.store.servicios.at(-1).precio_clp,10000);assert.equal(a.store.servicios.at(-1).modalidad,'traslado');

@@ -12,11 +12,11 @@
   const detail = $('[data-service-detail]');
   const publishDialog = $('[data-service-publish-dialog]');
   const publishForm = $('[data-service-publish-form]');
-  const categories = { refugio: ['Refugio temporal', '⌂'], transporte: ['Transporte', '↗'], estetica: ['Estética', '✂'], entrenamiento: ['Entrenamiento', '◇'], paseos: ['Paseos', '🐾'], cuidado: ['Cuidado', '♡'], otros: ['Otras prestaciones', '＋'] };
+  const categories = { veterinaria: ['Veterinaria', '✚'], refugio: ['Refugio temporal', '⌂'], transporte: ['Transporte', '↗'], estetica: ['Peluquería', '✂'], entrenamiento: ['Entrenamiento', '◇'], paseos: ['Paseos', '🐾'], cuidado: ['Cuidado', '♡'], otros: ['Otras prestaciones', '＋'] };
   const modalities = { local: 'En local', domicilio: 'A domicilio', aire_libre: 'Al aire libre', online: 'En línea', traslado: 'Traslado acordado' };
   const states = { pendiente: 'Pendiente de respuesta', respondida: 'Respondida', no_disponible: 'Sin disponibilidad' };
   const times = { manana: 'Mañana', tarde: 'Tarde', a_convenir: 'A convenir' };
-  let services = [], category = '', ready = false, epoch = 0;
+  let services = [], businessOwner = null, category = '', ready = false, epoch = 0;
   let selected = null, opener = null, panel = 'catalogo', submitting = false;
   let retryRequest = null, preferredPet = null, authEvents = 0, authUser = window.auraLadraRed?.sesion?.()?.user?.id || null;
   let petsReady = Boolean(authUser);
@@ -69,7 +69,8 @@
     publishForm.reset(); renderPhotoPreview();
     if (unused) removeUnusedPhoto(unused);
   }
-  function openEditor(service, from) {
+  async function openEditor(service, from) {
+    if (!await window.auraLadraNegocio?.permitir()) return;
     if (submitting || (service && service.propietario_id !== userId())) return;
     resetEditor(); editingService = service ? { ...service } : null;
     $('#service-publish-title').textContent = service ? 'Editar servicio' : 'Ofrecer un servicio';
@@ -126,7 +127,7 @@
 
   function renderCatalog() {
     const data = new FormData(filters);
-    const rows = services.filter(s => s.publicado).filter(s =>
+    const rows = services.filter(s => s.publicado && (!businessOwner || s.propietario_id === businessOwner)).filter(s =>
       (!category || s.categoria === category) &&
       norm(`${s.titulo} ${s.prestador} ${s.descripcion}`).includes(norm(data.get('busqueda'))) &&
       norm(s.zona).includes(norm(data.get('zona'))) &&
@@ -225,7 +226,7 @@
       if (actor !== userId() || version !== epoch) return;
       if (offers.error || inquiries.error) throw offers.error || inquiries.error;
       ownedServices = offers.data || [];
-      box.innerHTML = '<h3>Mis servicios</h3>' + ((offers.data || []).map(s => `<article class="service-account-card"><h4>${escape(s.titulo)}</h4><p class="service-muted">${escape(price(s))} · ${escape(s.zona)}</p><span class="service-state">${s.publicado ? 'Publicado' : 'Retirado'}</span> <div class="service-own-actions"><button class="service-text-button" type="button" data-service-edit="${escape(s.id)}">Editar servicio</button><button class="service-text-button" type="button" data-service-toggle="${escape(s.id)}" data-next-published="${!s.publicado}">${s.publicado ? 'Retirar del catálogo' : 'Volver a publicar'}</button></div></article>`).join('') || '<p class="service-muted">Todavía no ofreces servicios.</p>') + '<h3>Consultas enviadas y recibidas</h3>' + ((inquiries.data || []).map(q => {
+      box.innerHTML = '<h3>Mis solicitudes de atención</h3>' + ((inquiries.data || []).filter(q => q.solicitante_id === actor).map(q => {
         const received = q.prestador_id === actor;
         return `<article class="service-account-card"><span class="service-label">${received ? 'Recibida' : 'Enviada'}</span><h4>${escape(q.servicio_titulo)}</h4><span class="service-state">${escape(states[q.estado] || q.estado)}</span><p>${escape(q.mascota_nombre)} · ${escape(dateLabel(q.dia_preferido))} · ${escape(times[q.horario])}</p><p class="service-description">${escape(q.mensaje)}</p>${q.respuesta ? `<p class="service-description"><strong>Respuesta del prestador:</strong><br>${escape(q.respuesta)}</p>` : ''}${received && q.estado === 'pendiente' ? `<form class="service-response" data-service-response="${escape(q.id)}"><label><span>Tu respuesta: disponibilidad y valor</span><textarea name="respuesta" rows="3" required minlength="10" maxlength="800"></textarea></label><div><button class="button button-dark" type="submit" name="estado" value="respondida">Responder</button><button class="button button-outline" type="submit" name="estado" value="no_disponible">Sin disponibilidad</button></div><p role="status"></p></form>` : ''}</article>`;
       }).join('') || '<p class="service-muted">Aún no tienes consultas. Las respuestas aparecerán aquí.</p>') + '<p class="service-muted">Se muestran hasta 100 servicios propios y las 100 consultas más recientes. Una respuesta no equivale a una reserva confirmada.</p><p role="status" data-services-account-message></p>';
@@ -324,7 +325,7 @@
     const target = event.target.closest('button');
     if (!target) return;
     if (target.hasAttribute('data-service-category')) {
-      category = target.dataset.serviceCategory;
+      category = target.dataset.serviceCategory;if(!category)businessOwner=null;
       root.querySelectorAll('[data-service-category]').forEach(b => b.setAttribute('aria-pressed', String(b === target)));
       renderCatalog();
     }
@@ -430,5 +431,7 @@
   db?.auth?.onAuthStateChange((_event, session) => { authEvents++; queueMicrotask(() => refreshAuth(session?.user?.id || null)); });
   const initialAuthEvents = authEvents;
   if (db?.auth?.getSession) db.auth.getSession().then(({ data }) => { if (authEvents === initialAuthEvents) return refreshAuth(data?.session?.user?.id || null); }).catch(() => {});
+  window.auraLadraServicios = { editar: openEditor, actualizar: load, ver: openService, porNegocio: (id) => {businessOwner=id;category='';filters.reset();setPanel('catalogo');renderCatalog();} };
+  publishDialog.addEventListener('close', () => document.dispatchEvent(new Event('negocio:actualizar')));
   load();
 })();

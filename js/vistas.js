@@ -10,7 +10,7 @@
   new MutationObserver(quitarFeedCore).observe(document.body, { childList: true });
 
   const VISTA_INICIAL = 'inicio';
-  const VISTAS = ['inicio', 'feed', 'acciones', 'most-wanted', 'mapa', 'red', 'trucos', 'ayudar', 'market', 'comida-agua', 'cuenta'];
+  const VISTAS = ['inicio', 'feed', 'acciones', 'most-wanted', 'mapa', 'red', 'trucos', 'ayudar', 'market', 'servicios', 'productos', 'negocio', 'comida-agua', 'cuenta'];
   // A qué vista lleva cada ancla (#id) de la página.
   const VISTA_DE_ID = {
     inicio: 'inicio',
@@ -24,11 +24,12 @@
     mapa: 'mapa',
     red: 'red',
     repertorio: 'trucos',
-    servicios: 'market',
+    servicios: 'servicios',
     ayudar: 'ayudar',
     causas: 'ayudar',
     tienda: 'ayudar',
-    market: 'market',
+    market: 'productos',
+    'mi-negocio': 'negocio',
     cuenta: 'cuenta',
     'mi-perfil': 'cuenta',
     'mi-espacio': 'cuenta',
@@ -62,7 +63,7 @@
       else link.removeAttribute('aria-current');
     });
     document.querySelectorAll('[data-ladra-tabbar-link]').forEach((link) => {
-      link.setAttribute('aria-current', String(VISTA_DE_TABBAR[link.dataset.ladraTabbarLink] === vista || (link.dataset.ladraTabbarLink === 'ayudar' && vista === 'comida-agua')));
+      link.setAttribute('aria-current', String(VISTA_DE_TABBAR[link.dataset.ladraTabbarLink] === vista || (link.dataset.ladraTabbarLink === 'market' && ['servicios','productos','negocio'].includes(vista)) || (link.dataset.ladraTabbarLink === 'ayudar' && vista === 'comida-agua')));
     });
   };
 
