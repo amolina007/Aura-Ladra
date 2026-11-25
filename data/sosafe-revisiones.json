@@ -3155,9 +3155,9 @@
   "4efa54c8-5065-5d1c-8e51-3a3cac9b7358": {
     "segmentacion": {
       "original_sha256": "ebbeecb1f7ea50b3a91711f4a1516b74bb07afe45ecee6cfdfb12d8007579090",
-      "imagen_sha256": "d5b5860c38dec1c2529aee22a0638ccc05a43a9d928af8209b84dd1df79595c5",
+      "imagen_sha256": "27224029b4b4c4450b2f185996a6b4f794f987d7925d348caf12de2db4782e96",
       "estado": "rechazada",
-      "motivo": "Máscara incompleta, omite otra mascota o conserva objetos/fragmentos; se utiliza encuadre real sin sello."
+      "motivo": "Máscara conserva objetos, fragmentos o pierde partes visibles; se utiliza recorte rectangular real sin sello."
     },
     "afiche_recortado": {
       "original_sha256": "ebbeecb1f7ea50b3a91711f4a1516b74bb07afe45ecee6cfdfb12d8007579090",
@@ -3165,21 +3165,21 @@
         0,
         0,
         1,
-        0.89
+        0.78
       ],
-      "motivo": "Recorte rectangular revisado del original, sin reconstruir rasgos ni mostrar el sello; incluye las mascotas visibles del aviso."
+      "motivo": "Encuadre real comparado con el original, sin sello ni reconstrucción de rasgos."
     },
     "tipo_aviso": {
       "valor": "perdida",
       "descripcion_sha256": "cd09f220a8986a1efaffb88506ec427348b827c83be927a0d84f22d5fcfcaba2",
-      "motivo": "Descripción y fotografía revisadas: búsqueda de mascota frente a hallazgo o avistamiento; no se atribuye propiedad al autor."
+      "motivo": "Descripción y foto revisadas: distingue búsqueda de hallazgo/avistamiento sin atribuir propiedad al autor."
     },
     "sha256": "ebbeecb1f7ea50b3a91711f4a1516b74bb07afe45ecee6cfdfb12d8007579090",
     "nombres": [
       {
         "etiqueta": "Nombre de la mascota",
         "nombre": "Cloid",
-        "evidencia": "Nombre explícito en descripción o afiche, cotejado visualmente."
+        "evidencia": "Nombre explícito en texto o afiche comparado visualmente."
       }
     ]
   },
@@ -3498,6 +3498,509 @@
         "etiqueta": "Nombre de la mascota",
         "nombre": "Cloid",
         "evidencia": "Nombre explícito en descripción."
+      }
+    ]
+  },
+  "1a8e371b-7c65-563a-8d52-78131b07f574": {
+    "segmentacion": {
+      "original_sha256": "371440f6a05acdad22e43c16cc13285654dc68655d6531f6fd731b56ea45f38a",
+      "imagen_sha256": "176e8e8198445da53b7558eddbfc124c9c1ed2df8d889727cffff7928d11d83d",
+      "estado": "rechazada",
+      "motivo": "Máscara conserva objetos, fragmentos o pierde partes visibles; se utiliza recorte rectangular real sin sello."
+    },
+    "afiche_recortado": {
+      "original_sha256": "371440f6a05acdad22e43c16cc13285654dc68655d6531f6fd731b56ea45f38a",
+      "encuadre": [
+        0,
+        0,
+        1,
+        0.87
+      ],
+      "motivo": "Encuadre real comparado con el original, sin sello ni reconstrucción de rasgos."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "9b62add1ce813b597147748aca26d30516fe5dc2495b2c818130593c58245dd8",
+      "motivo": "Descripción y foto revisadas: distingue búsqueda de hallazgo/avistamiento sin atribuir propiedad al autor."
+    },
+    "sha256": "371440f6a05acdad22e43c16cc13285654dc68655d6531f6fd731b56ea45f38a",
+    "nombres": [
+      {
+        "etiqueta": "Nombre de la mascota",
+        "nombre": "Nami",
+        "evidencia": "Nombre explícito en texto o afiche comparado visualmente."
+      }
+    ]
+  },
+  "ec549342-678b-5576-a4cb-c7d1629713fa": {
+    "segmentacion": {
+      "original_sha256": "c5358d965e2866ab888a4145e76acc2f299145ea64a26d90aba6d3c94274ab7c",
+      "imagen_sha256": "fa47bbedccb1c59c03c9ea6f99ca1427b92f2a412aba551680939598179e6120",
+      "estado": "rechazada",
+      "motivo": "Máscara conserva objetos, fragmentos o pierde partes visibles; se utiliza recorte rectangular real sin sello."
+    },
+    "afiche_recortado": {
+      "original_sha256": "c5358d965e2866ab888a4145e76acc2f299145ea64a26d90aba6d3c94274ab7c",
+      "encuadre": [
+        0,
+        0.28,
+        1,
+        0.78
+      ],
+      "motivo": "Encuadre real comparado con el original, sin sello ni reconstrucción de rasgos."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "8e1a187c599cbba532ee66c883c60f4ce488a8a85c8365a23eac266955868b77",
+      "motivo": "Descripción y foto revisadas: distingue búsqueda de hallazgo/avistamiento sin atribuir propiedad al autor."
+    }
+  },
+  "b97f6786-aca2-59a3-b80f-f0811cd24728": {
+    "segmentacion": {
+      "original_sha256": "dbb016ab29b054cbf710e1b87f55364ae3670dc0aa9e82a050f84af09295fb04",
+      "imagen_sha256": "f51f7ca549fc2b4b8e3bafd733b46934bf85fe0f44ab55b0adb89b759eeeeef8",
+      "estado": "rechazada",
+      "motivo": "Máscara conserva objetos, fragmentos o pierde partes visibles; se utiliza recorte rectangular real sin sello."
+    },
+    "afiche_recortado": {
+      "original_sha256": "dbb016ab29b054cbf710e1b87f55364ae3670dc0aa9e82a050f84af09295fb04",
+      "encuadre": [
+        0.05,
+        0,
+        1,
+        0.88
+      ],
+      "motivo": "Encuadre real comparado con el original, sin sello ni reconstrucción de rasgos."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "d48b71eff357ece6560a880d71c1134b3d7ba148a569c3a1e3c6d3fb639ca4e4",
+      "motivo": "Descripción y foto revisadas: distingue búsqueda de hallazgo/avistamiento sin atribuir propiedad al autor."
+    }
+  },
+  "e91cbf1f-fb41-527a-8a52-fa0a85207329": {
+    "segmentacion": {
+      "original_sha256": "2211a1d2a80b7bd4ebf8ff7fa9b875b0915b90cad8ef901c60971a9def2c55ed",
+      "imagen_sha256": "83bd8be59ac502d06239df28735ae5e3cc1c9da11f40fd4b75e3c10a8712f0eb",
+      "estado": "aprobada",
+      "motivo": "Comparación visual: rasgos conservados, sin texto, sello ni fondo residual."
+    },
+    "presentacion_revisada": {
+      "original_sha256": "2211a1d2a80b7bd4ebf8ff7fa9b875b0915b90cad8ef901c60971a9def2c55ed",
+      "imagen_sha256": "83bd8be59ac502d06239df28735ae5e3cc1c9da11f40fd4b75e3c10a8712f0eb",
+      "foto": "data/sosafe-fotos/7329c2a59909b1d28f4374df.png"
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "17e5375f61e642a0d13125b4bdaf12fe7280a366646a92944f674f9dadaff3b3",
+      "motivo": "Descripción y foto revisadas: distingue búsqueda de hallazgo/avistamiento sin atribuir propiedad al autor."
+    },
+    "sha256": "2211a1d2a80b7bd4ebf8ff7fa9b875b0915b90cad8ef901c60971a9def2c55ed",
+    "nombres": [
+      {
+        "etiqueta": "Nombre de la mascota",
+        "nombre": "Angela",
+        "evidencia": "Nombre explícito en texto o afiche comparado visualmente."
+      }
+    ]
+  },
+  "33a8e3ad-336a-5183-b390-f4f280653e30": {
+    "segmentacion": {
+      "original_sha256": "b80ac55ced6b06ab77070318baf8ae039b1096a54a7a8756e9367400fb4f1cb1",
+      "imagen_sha256": "7cc4975f900bad2a53b75274740714e9f153b9a21faa6cc9d232cd4c5d3b0e7a",
+      "estado": "rechazada",
+      "motivo": "Máscara conserva objetos, fragmentos o pierde partes visibles; se utiliza recorte rectangular real sin sello."
+    },
+    "afiche_recortado": {
+      "original_sha256": "b80ac55ced6b06ab77070318baf8ae039b1096a54a7a8756e9367400fb4f1cb1",
+      "encuadre": [
+        0,
+        0.14,
+        0.95,
+        0.9
+      ],
+      "motivo": "Encuadre real comparado con el original, sin sello ni reconstrucción de rasgos."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "32df7bb4f7e3e36713e98f755803934a629796e9471de0d9598460f607f00d90",
+      "motivo": "Descripción y foto revisadas: distingue búsqueda de hallazgo/avistamiento sin atribuir propiedad al autor."
+    }
+  },
+  "0a37c03d-4a44-5058-ab7d-ad601f47ccdd": {
+    "segmentacion": {
+      "original_sha256": "472d0d833f093c4f4bbe74a06db0562b60a28429fcc6c66569081fdbffd21ca3",
+      "imagen_sha256": "071a1de9a86184bfd55cf3c98adeb4052de479b821785217b230ee5934e451ea",
+      "estado": "aprobada",
+      "motivo": "Comparación visual: rasgos conservados, sin texto, sello ni fondo residual."
+    },
+    "presentacion_revisada": {
+      "original_sha256": "472d0d833f093c4f4bbe74a06db0562b60a28429fcc6c66569081fdbffd21ca3",
+      "imagen_sha256": "071a1de9a86184bfd55cf3c98adeb4052de479b821785217b230ee5934e451ea",
+      "foto": "data/sosafe-fotos/b861aaad75e7e38d0e5d1348.png"
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "56ddedb309aa5de281ef605279531d02032095a0e18026d50fa7b668484101b7",
+      "motivo": "Descripción y foto revisadas: distingue búsqueda de hallazgo/avistamiento sin atribuir propiedad al autor."
+    }
+  },
+  "c1cd15b2-388e-58fa-95e1-73a5c0254b42": {
+    "segmentacion": {
+      "original_sha256": "895d324725353214399f9970eff3fe3c2dcc22584fa5cba37b2930acabdd198c",
+      "imagen_sha256": "5774b97dc8a0b66fb0ef56f90a5c3e0b6c89069346c33012ab9192cfe6d78cee",
+      "estado": "rechazada",
+      "motivo": "Máscara conserva objetos, fragmentos o pierde partes visibles; se utiliza recorte rectangular real sin sello."
+    },
+    "afiche_recortado": {
+      "original_sha256": "895d324725353214399f9970eff3fe3c2dcc22584fa5cba37b2930acabdd198c",
+      "encuadre": [
+        0,
+        0.12,
+        1,
+        0.88
+      ],
+      "motivo": "Encuadre real comparado con el original, sin sello ni reconstrucción de rasgos."
+    },
+    "tipo_aviso": {
+      "valor": "por_confirmar",
+      "descripcion_sha256": "ad466909f56328e55e4b61b96639523b40b0d2982821647905b3c4cd25daf984",
+      "motivo": "Descripción y foto revisadas: distingue búsqueda de hallazgo/avistamiento sin atribuir propiedad al autor."
+    }
+  },
+  "86940a59-41d8-50de-bd3d-76143c4ae6f7": {
+    "segmentacion": {
+      "original_sha256": "7ff1448b1b994b8a194bf868d0c2a700c38fde24c7ea40d930794b53c6db93a1",
+      "imagen_sha256": "aba6156fea9e913bb9b5dacbc8857766572801b6a89714687ff283c13c36c86b",
+      "estado": "rechazada",
+      "motivo": "Revisión final: bordes, posibles fragmentos de fondo o rasgos poco definidos; se conserva recorte real cercano."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "9da3ab8cc78287d01356e1944bad8b5f6a452f587b055551be04da37531ca896",
+      "motivo": "Descripción y foto revisadas: distingue búsqueda de hallazgo/avistamiento sin atribuir propiedad al autor."
+    },
+    "afiche_recortado": {
+      "original_sha256": "7ff1448b1b994b8a194bf868d0c2a700c38fde24c7ea40d930794b53c6db93a1",
+      "encuadre": [
+        0.43,
+        0.34,
+        0.78,
+        0.56
+      ],
+      "motivo": "Recorte real sin sello, con los rasgos originales; no se eliminan píxeles internos del animal."
+    }
+  },
+  "011341b0-57b2-532c-b8d2-68c196598ee9": {
+    "segmentacion": {
+      "original_sha256": "a2ad7d4d29b45c4391bd34fe7fedb9f4b42853751f613cfab7bb607ac38247a2",
+      "imagen_sha256": "351b7cf54b5932303104ce26bcd6eb9bee7fb75d69d7f594ca80e7bbc147822c",
+      "estado": "rechazada",
+      "motivo": "Máscara conserva objetos, fragmentos o pierde partes visibles; se utiliza recorte rectangular real sin sello."
+    },
+    "afiche_recortado": {
+      "original_sha256": "a2ad7d4d29b45c4391bd34fe7fedb9f4b42853751f613cfab7bb607ac38247a2",
+      "encuadre": [
+        0.4,
+        0.35,
+        0.75,
+        0.65
+      ],
+      "motivo": "Encuadre real comparado con el original, sin sello ni reconstrucción de rasgos."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "1c77d688baa7bc0cecfc8954aa3390be2702fdc93c374a78a44f1a68d3a21fff",
+      "motivo": "Descripción y foto revisadas: distingue búsqueda de hallazgo/avistamiento sin atribuir propiedad al autor."
+    }
+  },
+  "c611a2f5-4884-5b10-a0ed-323817adb425": {
+    "segmentacion": {
+      "original_sha256": "0d06a01bb82643118b94a62374b954e29c0f3873fb00980061381df2d3f750ae",
+      "imagen_sha256": "613800c9df73ff62788d26f1b3cea319e237b2fd0e7bad25ade509732e9aed7f",
+      "estado": "rechazada",
+      "motivo": "Máscara conserva objetos, fragmentos o pierde partes visibles; se utiliza recorte rectangular real sin sello."
+    },
+    "afiche_recortado": {
+      "original_sha256": "0d06a01bb82643118b94a62374b954e29c0f3873fb00980061381df2d3f750ae",
+      "encuadre": [
+        0.02,
+        0.2,
+        0.6,
+        0.58
+      ],
+      "motivo": "Encuadre real comparado con el original, sin sello ni reconstrucción de rasgos."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "bd655507d9d7ab7495328beca4510b2744ad87319f889da50959b1575af815ec",
+      "motivo": "Descripción y foto revisadas: distingue búsqueda de hallazgo/avistamiento sin atribuir propiedad al autor."
+    },
+    "sha256": "0d06a01bb82643118b94a62374b954e29c0f3873fb00980061381df2d3f750ae",
+    "nombres": [
+      {
+        "etiqueta": "Nombre de la mascota",
+        "nombre": "Charol",
+        "evidencia": "Nombre explícito en texto o afiche comparado visualmente."
+      }
+    ]
+  },
+  "8d9655b5-e059-594c-ba25-41cb1766a460": {
+    "segmentacion": {
+      "original_sha256": "5b48255fee876e24844240591868dd62ea7d2541e8697607b0ff209fdcff1be2",
+      "imagen_sha256": "4ca29477ad823a0d13003a5dddf611e3fbdddbe4c8c98dda16e92afd1bcfc2c9",
+      "estado": "rechazada",
+      "motivo": "Revisión final: bordes, posibles fragmentos de fondo o rasgos poco definidos; se conserva recorte real cercano."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "267d13c45f6ea4678c5bdfd4fedca698a44bcee29347bdb38bf0883d0dce9811",
+      "motivo": "Descripción y foto revisadas: distingue búsqueda de hallazgo/avistamiento sin atribuir propiedad al autor."
+    },
+    "afiche_recortado": {
+      "original_sha256": "5b48255fee876e24844240591868dd62ea7d2541e8697607b0ff209fdcff1be2",
+      "encuadre": [
+        0.23,
+        0.3,
+        0.8,
+        0.86
+      ],
+      "motivo": "Recorte real sin sello, con los rasgos originales; no se eliminan píxeles internos del animal."
+    }
+  },
+  "f64fd0a1-7281-52ed-8a26-9c526f375f57": {
+    "segmentacion": {
+      "original_sha256": "dc1792fe361643b03d98ac5bcde202372f5632f38b7492e46b1af62670a96bcc",
+      "imagen_sha256": "ba118cefc6d0fc704e4be693ec6fcfeedcbb401c254c150b4b0a91739cc8f547",
+      "estado": "rechazada",
+      "motivo": "Revisión final: bordes, posibles fragmentos de fondo o rasgos poco definidos; se conserva recorte real cercano."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "ac635e69e17c77684af94aacab6528400a22d9bec28dcb9119da224fe8c66105",
+      "motivo": "Descripción y foto revisadas: distingue búsqueda de hallazgo/avistamiento sin atribuir propiedad al autor."
+    },
+    "sha256": "dc1792fe361643b03d98ac5bcde202372f5632f38b7492e46b1af62670a96bcc",
+    "nombres": [
+      {
+        "etiqueta": "Nombre de la mascota",
+        "nombre": "Luna",
+        "evidencia": "Nombre explícito en texto o afiche comparado visualmente."
+      }
+    ],
+    "afiche_recortado": {
+      "original_sha256": "dc1792fe361643b03d98ac5bcde202372f5632f38b7492e46b1af62670a96bcc",
+      "encuadre": [
+        0.02,
+        0.03,
+        0.97,
+        0.87
+      ],
+      "motivo": "Recorte real sin sello, con los rasgos originales; no se eliminan píxeles internos del animal."
+    }
+  },
+  "c5162d94-0dac-5eb3-ae1e-3c4846b64f3f": {
+    "segmentacion": {
+      "original_sha256": "fc622bff3dd6e3b84583c97721bc3570d14868417b1c976afd6a62ff66f20b16",
+      "imagen_sha256": "46ff827dc45ff8d5864a53b7371a2657a32628ef9db1bf27aaf7fa8fa4edf55a",
+      "estado": "aprobada",
+      "motivo": "Comparación visual: rasgos conservados, sin texto, sello ni fondo residual."
+    },
+    "presentacion_revisada": {
+      "original_sha256": "fc622bff3dd6e3b84583c97721bc3570d14868417b1c976afd6a62ff66f20b16",
+      "imagen_sha256": "46ff827dc45ff8d5864a53b7371a2657a32628ef9db1bf27aaf7fa8fa4edf55a",
+      "foto": "data/sosafe-fotos/d8c160e0ae9851dfcb7c23d0.png"
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "a56cfebaf9e0fbeed79e89bc6c82875538702ea054d501c685875556534b70c9",
+      "motivo": "Descripción y foto revisadas: distingue búsqueda de hallazgo/avistamiento sin atribuir propiedad al autor."
+    }
+  },
+  "435935ed-e208-5ac2-b94e-f7991ed2181a": {
+    "segmentacion": {
+      "original_sha256": "59ed5b8eb1fd46b8b29e44b7bbf5d863eb6b3d8a88b13158a6e964737ed6ba35",
+      "imagen_sha256": "1b1f4af22db0e257ca655647890e91022b5c26be394e1c0b1f38de5e72900c63",
+      "estado": "rechazada",
+      "motivo": "Máscara conserva objetos, fragmentos o pierde partes visibles; se utiliza recorte rectangular real sin sello."
+    },
+    "afiche_recortado": {
+      "original_sha256": "59ed5b8eb1fd46b8b29e44b7bbf5d863eb6b3d8a88b13158a6e964737ed6ba35",
+      "encuadre": [
+        0.2,
+        0.16,
+        0.84,
+        0.87
+      ],
+      "motivo": "Encuadre real comparado con el original, sin sello ni reconstrucción de rasgos."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "cec17788cec1bb119009b355828e7a631632c2d90df1a553f99dc5e825f26ee0",
+      "motivo": "Descripción y foto revisadas: distingue búsqueda de hallazgo/avistamiento sin atribuir propiedad al autor."
+    }
+  },
+  "6e31ae2f-d373-520e-a0b5-82fa031bced4": {
+    "segmentacion": {
+      "original_sha256": "59ef5dab6b3f9e5fd50a1e4cd299e2939c3c3b9fd9b5667fe268ff0fc8590f4f",
+      "imagen_sha256": "02aefee0daa0876e5784282e6a295d6e49341265e28c25deef73092626cfe964",
+      "estado": "rechazada",
+      "motivo": "Máscara conserva objetos, fragmentos o pierde partes visibles; se utiliza recorte rectangular real sin sello."
+    },
+    "afiche_recortado": {
+      "original_sha256": "59ef5dab6b3f9e5fd50a1e4cd299e2939c3c3b9fd9b5667fe268ff0fc8590f4f",
+      "encuadre": [
+        0,
+        0,
+        1,
+        0.91
+      ],
+      "motivo": "Encuadre real comparado con el original, sin sello ni reconstrucción de rasgos."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "3ce00b22102ed31c9bb33a9baab99f6f855c388bedf72d44357f4c60eca680a7",
+      "motivo": "El texto busca al gato desaparecido y solo supone un posible fallecimiento; no existe confirmación de muerte."
+    }
+  },
+  "b81c7e70-bd15-5349-bb56-d150d7189b68": {
+    "segmentacion": {
+      "original_sha256": "00a2e1101eb711e519c82e603284b5d141eb0006393d1c5af29a4706d3be3b1c",
+      "imagen_sha256": "159da5b70096730257cb198dd82b7294c97e9c55ff0cc3ce1101361b4b59d2b3",
+      "estado": "rechazada",
+      "motivo": "Máscara conserva objetos, fragmentos o pierde partes visibles; se utiliza recorte rectangular real sin sello."
+    },
+    "afiche_recortado": {
+      "original_sha256": "00a2e1101eb711e519c82e603284b5d141eb0006393d1c5af29a4706d3be3b1c",
+      "encuadre": [
+        0.06,
+        0.12,
+        0.92,
+        0.78
+      ],
+      "motivo": "Encuadre real comparado con el original, sin sello ni reconstrucción de rasgos."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "2e3c5cce2a3a9414156f794391d6126bfb653894cfed417d14cdf4b2116aabf4",
+      "motivo": "Descripción y foto revisadas: distingue búsqueda de hallazgo/avistamiento sin atribuir propiedad al autor."
+    },
+    "sha256": "00a2e1101eb711e519c82e603284b5d141eb0006393d1c5af29a4706d3be3b1c",
+    "nombres": [
+      {
+        "etiqueta": "Nombre de la mascota",
+        "nombre": "Cloid",
+        "evidencia": "Nombre explícito en texto o afiche comparado visualmente."
+      }
+    ]
+  },
+  "6444d2eb-d156-5fc5-9816-61d47baff8a4": {
+    "segmentacion": {
+      "original_sha256": "e758dc77bbaee5c971c728bdedffaf8ba0452163b03a3a6d4fe31242d0a52988",
+      "imagen_sha256": "438800549a0d18ea3b0c226de4650dfc196e7ed40275a5c5c5423985c228c30d",
+      "estado": "rechazada",
+      "motivo": "Máscara conserva objetos, fragmentos o pierde partes visibles; se utiliza recorte rectangular real sin sello."
+    },
+    "afiche_recortado": {
+      "original_sha256": "e758dc77bbaee5c971c728bdedffaf8ba0452163b03a3a6d4fe31242d0a52988",
+      "encuadre": [
+        0,
+        0.12,
+        1,
+        0.86
+      ],
+      "motivo": "Encuadre real comparado con el original, sin sello ni reconstrucción de rasgos."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "efd71ce81f3f20d1877f3729322ad9c279ab3af97d45a9e385adbeb75f687a50",
+      "motivo": "Descripción y foto revisadas: distingue búsqueda de hallazgo/avistamiento sin atribuir propiedad al autor."
+    },
+    "sha256": "e758dc77bbaee5c971c728bdedffaf8ba0452163b03a3a6d4fe31242d0a52988",
+    "nombres": [
+      {
+        "etiqueta": "Nombre de la mascota",
+        "nombre": "Cloid",
+        "evidencia": "Nombre explícito en texto o afiche comparado visualmente."
+      }
+    ]
+  },
+  "7aa030ae-c03f-5980-8c0a-3df583bc2617": {
+    "afiche_recortado": {
+      "original_sha256": "18b4f724a7e535fcacc3761cb4bd6742eb8e752d45883d7c0d703d3b54001c6d",
+      "encuadre": [
+        0,
+        0,
+        1,
+        0.88
+      ],
+      "motivo": "Revisión visual del afiche: foto real del ave o mascota, sin el sello inferior."
+    },
+    "tipo_aviso": {
+      "valor": "encontrada",
+      "descripcion_sha256": "5b76d88f40de48ad3b4fce6bb64cff56673b6a5b5cffc5c42dbd88e812b3cdc0",
+      "motivo": "Ave encontrada o búsqueda explícita según el texto y afiche."
+    }
+  },
+  "8078d935-b682-5638-b26c-0778b092fce3": {
+    "afiche_recortado": {
+      "original_sha256": "134ea88a37fac08ccdaa5e4ea72632a0cb234f8eb6f48d5e9aa5f3d587b87f62",
+      "encuadre": [
+        0.01,
+        0.2,
+        0.55,
+        0.65
+      ],
+      "motivo": "Revisión visual del afiche: foto real del ave o mascota, sin el sello inferior."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "9df0dc398522c86a1352c85103ae0b29ac0f305855b07cf9f8ffd3bc5f1c9b4f",
+      "motivo": "Ave encontrada o búsqueda explícita según el texto y afiche."
+    },
+    "sha256": "134ea88a37fac08ccdaa5e4ea72632a0cb234f8eb6f48d5e9aa5f3d587b87f62",
+    "nombres": [
+      {
+        "etiqueta": "Nombre de la mascota",
+        "nombre": "Waffle",
+        "evidencia": "Nombre leído en el afiche o descripción original."
+      }
+    ],
+    "fecha_extravio": {
+      "original_sha256": "134ea88a37fac08ccdaa5e4ea72632a0cb234f8eb6f48d5e9aa5f3d587b87f62",
+      "fecha": "2026-11-23",
+      "evidencia": "Afiche Waffle: Perdida el lunes 23 de noviembre (~20:00 hrs), Villa Los Héroes, Maipú."
+    },
+    "contactos_afiche": {
+      "original_sha256": "134ea88a37fac08ccdaa5e4ea72632a0cb234f8eb6f48d5e9aa5f3d587b87f62",
+      "celulares": [
+        "+56937194435"
+      ],
+      "evidencia": "Lectura visual del contacto 937194435 en el afiche completo. Se conserva como contacto de afiche, sin atribuir identidad ni propiedad."
+    }
+  },
+  "2251c422-ed7d-57e9-b333-cc380e315d60": {
+    "afiche_recortado": {
+      "original_sha256": "621b823b454ae03ccae36d6e60a16644d32baa0368cee8f402c6c7e13c3cd78f",
+      "encuadre": [
+        0.18,
+        0.08,
+        0.95,
+        0.94
+      ],
+      "motivo": "Revisión visual del afiche: foto real del ave o mascota, sin el sello inferior."
+    },
+    "tipo_aviso": {
+      "valor": "perdida",
+      "descripcion_sha256": "6e623ce709775def107eee9897107fdc0f969eb45fae9c2de3404c86615a4279",
+      "motivo": "Ave encontrada o búsqueda explícita según el texto y afiche."
+    },
+    "sha256": "621b823b454ae03ccae36d6e60a16644d32baa0368cee8f402c6c7e13c3cd78f",
+    "nombres": [
+      {
+        "etiqueta": "Nombre de la mascota",
+        "nombre": "Dulcita",
+        "evidencia": "Nombre leído en el afiche o descripción original."
       }
     ]
   }
