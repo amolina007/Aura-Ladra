@@ -58,3 +58,17 @@ test('En el alias de Netlify continúa usando el almacenamiento normal del naveg
  dom.window.supabase={createClient:(_u,_k,o)=>{options=o;return {}}};dom.window.eval(compact);dom.window.eval(client);
  assert.equal(options.auth.storage,undefined);assert.equal(options.auth.persistSession,true);dom.window.close();
 });
+test('En /ladra/ carga recursos locales, conserva feed propio y vuelve de Google al mismo sitio',async()=>{
+ for(const route of ['/ladra/','/ladra']){
+  const a=await app({url:'https://dev.convergenciaaura.cl'+route+'#cuenta'});
+  try{
+   assert.equal(a.doc.querySelector('script[src^="js/supabase-client.js"]').src,'https://dev.convergenciaaura.cl/ladra/js/supabase-client.js?v=fragmentos-3');
+   const feed=[...a.doc.querySelectorAll('a')].find(n=>n.getAttribute('href')==='#feed-ladra');
+   assert.equal(feed.href,'https://dev.convergenciaaura.cl/ladra/#feed-ladra');
+   a.doc.querySelector('[data-login-google]').click();await flush();
+   assert.equal(a.calls[0].options.redirectTo,'https://dev.convergenciaaura.cl'+route+'?auth=google');
+  }finally{a.close()}
+ }
+ const a=await app({url:'https://dev.convergenciaaura.cl/ladra/?auth=google',session:{user:{id:'persona'}},stored:'servicios'});
+ try{assert.equal(a.w.location.href,'https://dev.convergenciaaura.cl/ladra/#servicios')}finally{a.close()}
+});

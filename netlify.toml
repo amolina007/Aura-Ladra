@@ -1,3 +1,5 @@
+"$schema" = "https://open-api.netlify.com/netlify.schema.json"
+
 [build]
   publish = "."
 
@@ -9,6 +11,16 @@
     X-Content-Type-Options = "nosniff"
     X-Frame-Options = "DENY"
     Permissions-Policy = "camera=(), microphone=(), geolocation=(self)"
+
+[[redirects]]
+  from = "/ladra"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/ladra/*"
+  to = "/:splat"
+  status = 200
 
 [[redirects]]
   from = "/*"
