@@ -1178,11 +1178,13 @@
 
   // Foto de la persona: se lee de Convergencia Aura (core.perfiles.avatar_path, bucket público core-avatars). Solo lectura.
   let coreAvatarUrl = '';
+  let coreAvatarTurn = 0;
   const announceProfile = () => {
     const alias = ownPublicProfile?.alias || '';
     document.dispatchEvent(new CustomEvent('perfil:cambio', { detail: { alias, foto: coreAvatarUrl } }));
   };
   const loadCoreAvatar = async () => {
+    const request = ++coreAvatarTurn;
     const userId = currentSession?.user?.id;
     let url = '';
     if (userId) {
@@ -1191,6 +1193,7 @@
         if (data?.avatar_path) url = db.storage.from('core-avatars').getPublicUrl(data.avatar_path)?.data?.publicUrl || '';
       } catch { url = ''; }
     }
+    if (request !== coreAvatarTurn || currentSession?.user?.id !== userId) return;
     if (!url.startsWith('https://')) url = '';
     coreAvatarUrl = url;
     renderMyProfile();
@@ -1218,7 +1221,7 @@
       const name = document.createElement('strong');
       name.textContent = animal.nombre;
       const hint = document.createElement('small');
-      hint.textContent = 'Ficha y cuidados  ›';
+      hint.textContent = 'Ver perfil  ›';
       tile.append(photo, name, hint);
       return tile;
     });
@@ -1231,7 +1234,7 @@
     plus.setAttribute('aria-hidden', 'true');
     plus.textContent = '+';
     const label = document.createElement('strong');
-    label.textContent = 'Añadir mascota';
+    label.textContent = 'Agregar mascota';
     add.append(plus, label);
     container.replaceChildren(...tiles, add);
   };
@@ -1265,8 +1268,8 @@
     } }));
     if (!hasUser) return;
     const alias = ownPublicProfile?.alias;
-    if(!section.querySelector('[data-site-profile-open]')){const edit=document.createElement('button');edit.type='button';edit.dataset.siteProfileOpen='';edit.textContent='Mi foto y nick en Ladra';section.querySelector('[data-my-profile-alias]').after(edit);}
-    section.querySelector('[data-my-profile-alias]').textContent = alias || 'Sin alias todavía';
+
+    section.querySelector('[data-my-profile-alias]').textContent = alias || currentSession.user.user_metadata?.full_name || currentSession.user.user_metadata?.name || 'Mi perfil';
     const avatarEl = section.querySelector('[data-my-profile-initials]');
     if (coreAvatarUrl) {
       const photo = document.createElement('img');

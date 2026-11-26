@@ -81,7 +81,7 @@
   const profileCard = document.querySelector('[data-exp-ranking]');
   if (profileCard && !profileCard.querySelector('[data-exp-open-missions]')) {
     const button = text('button', 'exp-missions-open', 'Ver misiones y ganar EXP'); button.type = 'button'; button.dataset.expOpenMissions = '';
-    button.addEventListener('click', () => open(button)); profileCard.append(button);
+    button.addEventListener('click', () => open(button)); (profileCard.querySelector('[data-exp-details]') || profileCard).append(button);
   }
   // El control flotante sigue perteneciendo a Core. Su panel enlaza al catálogo local.
   const watched = new WeakSet();

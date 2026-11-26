@@ -50,3 +50,85 @@ body[data-vista="cuenta"] .reports { padding: 24px 0 100px; min-height: 80vh; ba
 .ladra-tabbar [data-ladra-tabbar-link="perfil"] span { white-space: nowrap; font-size: .65rem; }
 .my-profile button:focus-visible { outline: 3px solid #ec8f1c; outline-offset: 3px; }
 @media (min-width: 700px) { .my-profile { padding: 20px 8px 32px; } .space-home .mp-pet-photo { height: 240px; } .space-content-card { padding: 18px; } .space-content-label { font-size: 1rem; } }
+
+/* Mi perfil: identidad, mascotas y contenido reales en una sola pantalla. */
+.my-profile { width:100%; max-width:none; box-sizing:border-box; background:#fffdf9; }
+.my-profile .space-home { gap:22px; }
+.profile-layout { display:flex; flex-direction:column; gap:22px; min-width:0; }
+.profile-sidebar,.profile-main { display:grid; gap:22px; min-width:0; align-content:start; }
+.profile-identity { padding:20px; border:1px solid #e5e5dc; border-radius:20px; background:#fff; grid-template-columns:76px minmax(0,1fr); gap:12px 16px; }
+.profile-identity .mp-avatar { width:76px; height:76px; grid-row:1; border:0; box-shadow:none; background:#e7eddf; color:#164b32; }
+.profile-identity .mp-identity-text strong { font-size:1.3rem; color:#083e2a; }
+.profile-identity .mp-place { margin-top:3px; color:#68756e; font-size:.78rem; }
+.profile-identity .mp-tagline { margin-top:5px; font-size:.85rem; line-height:1.5; }
+.profile-edit { grid-column:2; justify-self:start; padding:8px 15px; min-height:38px; border:1px solid #1d6547; border-radius:999px; color:#164b32; background:white; font:800 .82rem 'Nunito',sans-serif; cursor:pointer; }
+.profile-sidebar .exp-card { position:relative; padding:18px; gap:10px; border:0; border-radius:16px; background:#e9eedb; }
+.profile-sidebar .exp-card-heading h4 { font-size:.95rem; }
+.profile-sidebar .exp-level { font-size:.63rem; padding:3px 6px; background:#fff8; }
+.profile-sidebar .exp-total-row strong { font-size:2rem; }
+.profile-sidebar .exp-total-row span { font-size:1.2rem; color:#164b32; font-weight:900; }
+.profile-ranking-toggle { padding:0; border:0; background:none; color:#164b32; text-align:left; font:800 .82rem 'Nunito',sans-serif; cursor:pointer; justify-self:start; min-height:32px; }
+[data-exp-details] { display:grid; gap:14px; padding-top:10px; }
+[data-exp-details][hidden],[data-profile-content-panel][hidden],[data-profile-moderation-link][hidden] { display:none!important; }
+.profile-private { padding:18px 20px; border:1px solid #e5e5dc; border-radius:18px; background:#fff; min-width:0; align-self:start; }
+.profile-private h4 { margin:0 0 8px; font-size:1.1rem; }
+.profile-private h4 span { margin-right:7px; }
+.profile-private .space-rows button { min-height:48px; gap:10px; font-size:.85rem; }
+.profile-private .space-rows button>span:first-child { font-size:1.1rem; width:22px; }
+.profile-private .space-rows button:last-child { border-bottom:0; }
+.profile-private>p { margin:12px 0 0; font-size:.72rem; color:#68756e; line-height:1.5; }
+.space-home .profile-pets .mp-pets,.space-home .profile-pets .mp-pets:has(.mp-pet:nth-child(2)) { display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:12px; }
+.space-home .mp-pet { display:grid; grid-template-columns:72px minmax(0,1fr); grid-template-rows:1fr 1fr; align-items:center; column-gap:12px; padding:10px; border:1px solid #e5e5dc; background:white; border-radius:16px; min-height:92px; color:#093e2a; }
+.space-home .mp-pet::after { display:none; }
+.space-home .mp-pet .mp-pet-photo { grid-column:1; grid-row:1/3; width:72px; height:72px; border-radius:12px; overflow:hidden; font-size:1.7rem; }
+.space-home .mp-pet strong,.space-home .mp-pet small { position:static; color:#093e2a; min-width:0; }
+.space-home .mp-pet strong { grid-column:2; font-size:1.02rem; align-self:end; overflow-wrap:anywhere; }
+.space-home .mp-pet small { grid-column:2; font-size:.76rem; align-self:start; padding-top:4px; }
+.space-home .mp-pet-add { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px; min-height:92px; padding:10px; border-radius:16px; }
+.space-home .mp-pet-add .mp-pet-photo { display:grid; place-items:center; width:30px; height:30px; border:0; color:#164b32; font-size:1.6rem; }
+.profile-content { padding:0; min-width:0; }
+.profile-content-heading { display:flex; align-items:center; gap:6px; border-bottom:1px solid #e2e5dd; margin-bottom:16px; }
+.profile-tabs { display:flex; flex:1; min-width:0; gap:clamp(4px,2vw,22px); }
+.profile-tabs button { flex:1; position:relative; padding:14px 3px; border:0; background:none; color:#6b726e; font:800 clamp(.75rem,2.8vw,.95rem) 'Nunito',sans-serif; cursor:pointer; min-height:48px; }
+.profile-tabs button[aria-selected=true] { color:#075335; }
+.profile-tabs button[aria-selected=true]::after { content:''; position:absolute; height:4px; border-radius:4px; background:#075335; bottom:-1px; left:0; right:0; }
+.profile-content-heading .space-create { width:34px; min-height:34px; padding:0; flex:none; background:#e9eedb; color:#075335; font-size:1.3rem; }
+.profile-gallery { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; }
+.profile-gallery-item { display:block; position:relative; aspect-ratio:1; padding:0; border:0; border-radius:12px; background:#eef1e6; overflow:hidden; color:#164b32; text-align:left; font:800 .9rem 'Nunito',sans-serif; cursor:pointer; }
+.profile-gallery-item img,.profile-gallery-item video { width:100%; height:100%; object-fit:cover; }
+.profile-gallery-item>span:not(.profile-gallery-video) { display:block; padding:12px; overflow-wrap:anywhere; max-height:100%; overflow:hidden; }
+.profile-gallery-video { position:absolute; bottom:8px; left:8px; background:#133b2ddd; color:white; padding:3px 6px; border-radius:5px; font-size:.7rem; }
+.profile-gallery>.empty-state { grid-column:1/-1; font-size:.88rem; padding:22px 0; color:#68756e; line-height:1.6; }
+.profile-content [data-profile-content-panel=aportes] { display:grid; gap:15px; padding:12px 0; }
+.profile-settings-intro { display:grid; gap:14px; padding:20px; border:1px solid #e5e5dc; border-radius:16px; background:white; }
+.profile-settings-intro p { margin:0; color:#68756e; }
+.profile-post-dialog { box-sizing:border-box; width:min(620px,calc(100% - 24px)); max-height:90dvh; padding:52px 18px 18px; border:1px solid #e5e5dc; border-radius:20px; background:#fffdf9; overflow:auto; }
+.profile-post-dialog::backdrop { background:#092b20a6; }
+.profile-post-close { position:absolute; right:12px; top:8px; width:38px; height:38px; border:0; border-radius:50%; background:#edf1e8; color:#164b32; font-size:1.6rem; cursor:pointer; }
+@media(min-width:900px) {
+ .my-profile { padding:24px 0 40px; }
+ .profile-layout { display:grid; grid-template-columns:minmax(255px,300px) minmax(0,1fr); grid-template-rows:auto 1fr; column-gap:30px; row-gap:22px; align-items:start; }
+ .profile-sidebar { grid-column:1; grid-row:1; }
+ .profile-main { grid-column:2; grid-row:1/3; gap:30px; }
+ .profile-private { grid-column:1; grid-row:2; }
+ .profile-identity { padding:22px 18px; grid-template-columns:72px minmax(0,1fr); gap:14px 12px; }
+ .profile-identity .mp-avatar { width:72px; height:72px; }
+ .profile-identity .mp-identity-text strong { font-size:1.2rem; }
+ .profile-gallery { gap:12px; }
+ .profile-gallery-item { border-radius:15px; }
+ .profile-tabs { gap:25px; }
+ .profile-tabs button { flex:none; padding:16px 7px; }
+}
+@media(max-width:420px) {
+ .profile-identity { padding:16px; grid-template-columns:62px minmax(0,1fr); gap:10px; }
+ .profile-identity .mp-avatar { width:62px; height:62px; }
+ .space-home .profile-pets .mp-pets,.space-home .profile-pets .mp-pets:has(.mp-pet:nth-child(2)) { grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+ .space-home .mp-pet { grid-template-columns:48px minmax(0,1fr); gap:7px; padding:8px; min-height:80px; }
+ .space-home .mp-pet .mp-pet-photo { width:48px; height:60px; }
+ .space-home .mp-pet strong { font-size:.9rem; }
+ .space-home .mp-pet small { font-size:.67rem; }
+ .space-home .mp-pet-add { min-height:72px; }
+}
+body[data-vista="cuenta"] .report-grid { grid-template-columns:minmax(0,1120px); }
+.profile-private h4 svg { width:19px; height:19px; vertical-align:-3px; margin-right:6px; fill:none; stroke:currentColor; stroke-width:1.7; }
+.profile-private .space-rows svg { width:20px; height:20px; }

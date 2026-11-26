@@ -26,17 +26,21 @@
     card.dataset.expRanking = '';
     card.setAttribute('aria-labelledby', 'exp-ranking-title');
     card.innerHTML = `
-      <header class="exp-card-heading"><div><p class="exp-eyebrow">PROGRESO EN LADRA</p><h4 id="exp-ranking-title">Clasificación</h4></div><span class="exp-level" data-exp-level>Huella nueva</span></header>
-      <div class="exp-total-row"><strong data-exp-total>—</strong><span>Experiencia en Ladra</span></div>
+      <header class="exp-card-heading"><div><h4 id="exp-ranking-title">Mi experiencia</h4></div><span class="exp-level" data-exp-level>Huella nueva</span></header>
+      <div class="exp-total-row"><strong data-exp-total>—</strong><span>EXP</span></div>
+      <button type="button" class="profile-ranking-toggle" data-exp-toggle aria-expanded="false" aria-controls="profile-ranking-details">Ver clasificación →</button>
+      <div id="profile-ranking-details" data-exp-details hidden>
       <div class="exp-progress-track" role="progressbar" aria-label="Avance al siguiente nivel" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span data-exp-progress></span></div>
       <p class="exp-next-level" data-exp-next>Registra acciones de cuidado para avanzar.</p>
       <p class="exp-history-note">Incluye las acciones anteriores que cumplen las misiones. Cada registro se premia una sola vez y respeta su límite diario.</p>
       <div class="exp-board-heading"><h5>Ranking global</h5><span>Solo se muestran alias y EXP</span></div>
       <ol class="exp-board" data-exp-board aria-live="polite"><li class="exp-loading">Cargando clasificación…</li></ol>
       <p class="exp-status" data-exp-status role="status"></p>
+      </div>
     `;
-    const firstSection = profile.querySelector('.space-section');
-    profile.insertBefore(card, firstSection || profile.firstChild);
+    const slot = profile.querySelector('[data-profile-experience]');
+    if (slot) slot.append(card);
+    else { const firstSection = profile.querySelector('.space-section'); profile.insertBefore(card, firstSection || profile.firstChild); }
   }
 
   let turn = 0;
@@ -147,6 +151,8 @@
   };
 
   card?.addEventListener('click', event => {
+    const toggle = event.target.closest('[data-exp-toggle]');
+    if (toggle) { const details = card.querySelector('[data-exp-details]'); details.hidden = !details.hidden; toggle.setAttribute('aria-expanded', String(!details.hidden)); toggle.textContent = details.hidden ? 'Ver clasificación →' : 'Ocultar clasificación ↑'; }
     if (event.target.closest('[data-exp-retry]')) load();
   });
   document.addEventListener('sesion:cambio', load);
