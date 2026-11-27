@@ -22,8 +22,9 @@
   }
   const sesion = () => {
     $('[data-space-signed-out]').hidden = Boolean(usuario());
+    root.hidden = !usuario();
     if (!usuario() || usuarioAnterior !== usuario()) {
-      root.hidden = true; carga++; publicaciones = []; cerrarPublicacion();
+      carga++; publicaciones = []; cerrarPublicacion();
       root.querySelectorAll('[data-space-contenido], [data-space-miniaturas], [data-profile-gallery]').forEach(n => n.replaceChildren());
       root.querySelector('[data-my-profile-initials]')?.replaceChildren();
       root.querySelector('[data-my-profile-alias]').textContent = 'Mi perfil';

@@ -105,3 +105,16 @@ test('Una respuesta de la foto Aura anterior no sustituye la identidad de la ses
 test('El visor existe antes de que el navegador inicialice su controlador',()=>{
  assert.ok(html.indexOf('data-profile-post-dialog') < html.indexOf('src="js/mi-espacio.js'));
 });
+
+test('Al recuperar sesión muestra el perfil sin esperar otro clic, y limpia la identidad anterior',async()=>{
+ const a=await app({actor:null});
+ try{
+  assert.equal(a.doc.querySelector('[data-my-profile]').hidden,true);
+  await a.user('persona');
+  assert.equal(a.doc.querySelector('[data-my-profile]').hidden,false);
+  a.doc.querySelector('[data-my-profile-initials]').innerHTML='<img src="https://photos.example/old.jpg">';
+  await a.user('otra');
+  assert.equal(a.doc.querySelector('[data-my-profile-initials] img'),null);
+  assert.equal(a.doc.querySelector('[data-my-profile]').hidden,false);
+ }finally{a.close()}
+});
