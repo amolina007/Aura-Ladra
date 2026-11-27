@@ -183,5 +183,24 @@
       "5c5b8027-9c0b-5f76-b62b-11e357189164"
     ],
     "evidencia": "Comparación visual de ambos originales: misma foto nocturna, perro atigrado con orejas erguidas, terreno seco y otra mascota parcial en esquina inferior izquierda. Compresión y sello distintos; las descripciones son hallazgos compatibles."
+  },
+  {
+    "nombre": "Roma",
+    "ids": [
+      "3398828d-61b8-51dd-a5e2-98b36c980958",
+      "b6a3b70f-3f01-5140-84ec-8794e4f5e018",
+      "bffa74e9-37df-5fad-aa4a-da575b573638",
+      "efdfc886-d86e-5dce-bd67-826e046f121c",
+      "f9190380-bf3f-54a4-bfa4-1855e9615ea2"
+    ],
+    "evidencia": "Fotos originales comparadas: misma perrita negra de pelo largo delante del mismo bus rojo y blanco, aunque una es captura de galería. Coinciden nombre, collar de colores, chip, calle Judea/terminal 115 y teléfonos."
+  },
+  {
+    "nombre": "Perrita blanca de Cuatro Poniente",
+    "ids": [
+      "622bcb85-87e0-56a7-b966-e7664ad35f40",
+      "81a4fe55-4ae5-5220-8213-24bb6bda9045"
+    ],
+    "evidencia": "Comparación visual: misma foto de la poodle blanca con arnés negro sobre vereda, reja verde y pierna al lado; la segunda fuente es captura de una publicación que menciona Cuatro Poniente, Silva Carvallo y Montalva."
   }
 ]
