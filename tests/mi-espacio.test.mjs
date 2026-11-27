@@ -101,3 +101,7 @@ test('Una respuesta de la foto Aura anterior no sustituye la identidad de la ses
   assert.equal(w.fotoActual(),'https://photos.example/nueva.jpg');
  }finally{w.close()}
 });
+
+test('El visor existe antes de que el navegador inicialice su controlador',()=>{
+ assert.ok(html.indexOf('data-profile-post-dialog') < html.indexOf('src="js/mi-espacio.js'));
+});
